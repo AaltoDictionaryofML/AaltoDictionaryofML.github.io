@@ -17,9 +17,10 @@
 \newglossaryentry{discrepancy}
 {name=discrepancy,
 	description={
-		Consider\index{discrepancy} an \gls{fl} application with \gls{netdata} represented by a \gls{empgraph}. 
-		\gls{fl} methods use a discrepancy measure to compare \gls{hypothesis} maps from 
-	local models at nodes $\nodeidx,\nodeidx'$ connected by an edge in the \gls{empgraph}.},
+		Consider\index{discrepancy} an \gls{fl} application with \gls{netdata} 
+		represented by an \gls{empgraph}. \gls{fl} methods use a discrepancy measure 
+		to compare \gls{hypothesis} maps from local models at nodes $\nodeidx,\nodeidx'$ 
+		connected by an edge in the \gls{empgraph}.},
 	first={discrepancy},text={discrepancy}
 }
 
@@ -27,23 +28,25 @@
 
 \newglossaryentry{hfl}
 {name={horizontal \gls{fl}},description=
-	{Horizontal \gls{fl}\index{horizontal FL} uses \gls{localdataset}s that are 
-		constituted by different \gls{datapoint}s but using the same \gls{feature}s 
-		to characterize them \cite{HFLChapter2020}. For example, weather 
-		forecasting uses a network of spatially distributed weather (observation) 
-		stations. Each weather station measures the same quantities such as daily 
-		temperature, air pressure and precipitation. However, different weather 
-		stations measure the characteristics or \gls{feature}s of different spatio-temporal regions 
-		(each such region being a separate \gls{datapoint}).},
+	{Horizontal \gls{fl}\index{horizontal FL} uses \gls{localdataset}s constituted by different
+	   \gls{datapoint}s but uses the same \gls{feature}s to characterize them \cite{HFLChapter2020}.
+		For example, weather forecasting uses a network of spatially distributed
+		weather (observation) stations. Each weather station measures the
+		same quantities such as daily temperature, air pressure and precipitation.
+		However, different weather stations measure the characteristics or
+		\gls{feature}s of different spatiotemporal regions. Each spatio-temporal region 
+		represents an individual \gls{datapoint}, are characterized by the same \gls{feature}s 
+		(e.g., daily temperature or air pressure).},
 	first={horizontal \gls{fl}},text={horizontal \gls{fl}}
 } 
 
 \newglossaryentry{dimred}
 {name={dimensionality reduction},
 	description={Dimensionality reduction\index{dimensionality reduction} methods 
-		map (typically many) raw \gls{feature}s to a (relatively small) set of new \gls{feature}s. 
-		These methods can be used to visualize \gls{datapoint}s by learning two \gls{feature}s 
-		that can be used as the coordinates of a depiction in a \gls{scatterplot}.}, first={dimensionality reduction},text={dimensionality reduction}
+		map (typically many) raw \gls{feature}s to a (relatively small) set of 
+		new \gls{feature}s. These methods can be used to visualize \gls{datapoint}s 
+		by learning two \gls{feature}s that can be used as the coordinates of a 
+		depiction in a \gls{scatterplot}.}, first={dimensionality reduction},text={dimensionality reduction}
 } 
 
 \newglossaryentry{featlearn}
@@ -56,7 +59,7 @@
 		\gls{feature}s $\featurevec' \in \featurespace'$ from a new \gls{featurespace} $\featurespace'$. 
 		Different \gls{feature} learning methods are obtained for different design 
 		choices of $\featurespace,\featurespace'$, a \gls{hypospace} $\hypospace$ 
-		of potential maps $\featuremapvec$ and quantitative measure for the usefulness of 
+		of potential maps $\featuremapvec$ and quantitative measure of the usefulness of 
 		a specific $\featuremapvec \in \hypospace$. For example, \gls{pca} 
 		uses $\featurespace \defeq \mathbb{R}^{\dimlocalmodel}$, $\featurespace' \defeq \mathbb{R}^{\dimlocalmodel'}$ 
 		with $\dimlocalmodel' < \dimlocalmodel$ and \gls{hypospace} 
@@ -90,7 +93,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 \newglossaryentry{interpretability}
 {name={interpretability},description=
 		{An ML method is interpretable\index{interpretability} for a specific user if 
-			they can well anticipate the \gls{prediction}s delivered by the method. 
+			they can anticipate the \gls{prediction}s delivered by the method well. 
 			The notion of interpretability can be made precise using quantitative 
 			measures of the uncertainty about the \gls{prediction}s \cite{JunXML2020}.},
 		first={interpretability},text={interpretability}
@@ -159,7 +162,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		real-valued function $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
 		 and a vector $\weights \in \mathbb{R}^{\nrfeatures}$, the \gls{gradient} step\index{gradient step} 
 		 updates $\weights$ by adding the scaled negative \gls{gradient} $\nabla f(\weights)$ to obtain 
-		 the new vector 
+		 the new vector (see Fig.\ \ref{fig_basic_GD_step_single})
 		 \begin{equation}
 		 \label{equ_def_gd_basic} 
 		\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
@@ -191,13 +194,13 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		Note that the gradient step \eqref{equ_def_gd_basic} optimizes locally - 
 		in a neighbourhood whose size is determined by the \gls{stepsize} $\lrate$ - a linear approximation 
 		to the function $f(\cdot)$. A natural generalization of \eqref{equ_def_gd_basic} is to locally 
-		optimize the function itself (instead of its linear approximation), 
+		optimize the function itself - instead of its linear approximation - 
 		\begin{align} 
 		\label{equ_approx_gd_step}
 		\widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!(1/\lrate)\normgeneric{\weights-\weights'}{2}^2. 
 		\end{align}
 		We intentionally use the same symbol $\lrate$ for the parameter in \eqref{equ_approx_gd_step} 
-		as we used for the step-size in \eqref{equ_def_gd_basic}. The larger we choose $\lrate$ in 
+		as we used for the step size in \eqref{equ_def_gd_basic}. The larger we choose $\lrate$ in 
 		\eqref{equ_approx_gd_step}, the more progress the update will make towards reducing the 
 		function value $f(\widehat{\weights})$. Note that, much like the gradient step \eqref{equ_def_gd_basic}, 
 		also the update \eqref{equ_approx_gd_step} defines a (typically non-linear) operator 
@@ -212,8 +215,8 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		As illustrated in Figure \ref{fig_proxoperator_opt}, evaluating the proximal operator 
 		amounts to minimizing a penalized variant of $f(\weights')$. The penalty term is the 
 		scaled squared Euclidean distance to a given vector $\weights$ (which is the input to the proximal operator). 
-		\Gls{convex} functions for which the proximal operator can be computed efficiently 
-		are sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}. 
+		%\Gls{convex} functions for which the proximal operator can be computed efficiently 
+		%is sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}. 
 		The proximal operator can be interpreted as a generalization of the \gls{gradstep}, which is defined 
 		for a \gls{smooth} \gls{convex} function $f(\weights')$. Indeed, taking a 
 		\gls{gradstep} with \gls{stepsize} $\lrate$ at current vector $\weights$ 
@@ -239,7 +242,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		},first={proximal operator},text={proximal operator}}
 
 \newglossaryentry{proximable}{name={proximable},description={A\index{proximable} 
-		\gls{convex} function for which the \gls{proxop} can be computed efficiently are 
+		\gls{convex} function for which the \gls{proxop} can be computed efficiently is 
 		sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}.},first={proximable},text={proximable}}
 
 
@@ -284,16 +287,16 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		interval $[0,1]$, to each event that might occur in a random experiment \cite{KallenbergBook,BertsekasProb,BillingsleyProbMeasure,HalmosMeasure}.},first={probability},text={probability}}
 	
 \newglossaryentry{underfitting}{name={underfitting},description={Consider\index{underfitting} 
-		an ML method that uses \gls{erm} to learn a \gls{hypothesis} with minimum \gls{emprisk} 
+		an ML method that uses \gls{erm} to learn a \gls{hypothesis} with the minimum \gls{emprisk} 
 		on a given \gls{trainset}. Such a method is \emph{underfitting} the \gls{trainset} if it is 
 		not able to learn a \gls{hypothesis} with sufficiently small \gls{emprisk} on the \gls{trainset}. 
 		If a method is underfitting it will typically also not be able to learn a \gls{hypothesis} with 
 		a small \gls{risk}.},first={underfitting},text={underfitting}}
 
 \newglossaryentry{overfitting}{name={overfitting},description={Consider\index{overfitting} an 
-		ML method that uses \gls{erm} to learn a \gls{hypothesis} with minimum \gls{emprisk} on 
+		ML method that uses \gls{erm} to learn a \gls{hypothesis} with the minimum \gls{emprisk} on 
 		a given \gls{trainset}. Such a method is \emph{overfitting} the \gls{trainset} if it learns 
-		\gls{hypothesis} with small \gls{emprisk} on the \gls{trainset} but significantly larger \gls{loss} outside the \gls{trainset}.},first={overfitting},text={overfitting}}
+		a \gls{hypothesis} with small \gls{emprisk} on the \gls{trainset} but a significantly larger \gls{loss} outside the \gls{trainset}.},first={overfitting},text={overfitting}}
 
 \newglossaryentry{gdpr}{name={General Data Protection Regulation},description={
 			The\index{GDPR} General Data Protection Regulation (GDPR) was enacted by the European Union (EU), 
@@ -301,8 +304,8 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 			The GDPR has significant implications for how data is collected, stored, and used in ML 
 			applications. Key provisions include:
 			\begin{itemize}
-				\item \Gls{dataminprinc}: ML systems should only use necessary amount of personal 
-				data for their purpose.
+				\item \Gls{dataminprinc}: ML systems should only use the necessary amount of personal 
+				\gls{data} for their purpose.
 				\item Transparency and \Gls{explainability}: ML systems should enable their users to 
 				understand how they make decisions that impact them.
 				\item Data Subject Rights: Including the rights to access, rectify, and delete 
@@ -328,22 +331,22 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		$\featurevec \defeq \mathbf{A} \big( \vz + {\bm \mu} \big)$. Here, $\mA$ 
 		is any matrix that satisfies $\mA\mA^{T} = \mC$ and $\vz \defeq \big( z_{1},\ldots,z_{\featuredim} \big)^{T}$
 		is a vector whose entries are \gls{iid} standard Gaussian \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. Gaussian 
-		random processes generalize Gaussian random vectors by applying linear transformations to infinite sequences 
-		of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.\\
+		random processes generalize Gaussian random vectors by applying linear 
+		transformations to infinite sequences of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.\\
 		Gaussian \gls{rv}s are widely used \gls{probmodel}s for the statistical analysis of 
 		machine learning methods. Their significance arises partly from the central limit theorem 
-		which states that the sum of many independent \gls{rv}s (not necessarily Gaussian themselves) 
-		tends to a Gaussian \gls{rv} \cite{ross2013first}. 
+		which states that the average of an increasing number of independent \gls{rv}s (not necessarily Gaussian themselves) 
+		converges to a Gaussian \gls{rv} \cite{ross2013first}. 
 },first={Gaussian RV},text={Gaussian RV}}
 
 \newglossaryentry{trustworthiness}{name={trustworthiness},description=
-	{Beside the \gls{compasp} and \gls{statasp}, a third main design aspect for ML methods 
-		is their trustworthiness\index{trustworthy AI} \cite{pfau2024engineeringtrustworthyaideveloper}. 
+	{Besides the \gls{compasp} and \gls{statasp}, a third main design aspect of 
+	ML methods is their trustworthiness\index{trustworthy AI} \cite{pfau2024engineeringtrustworthyaideveloper}. 
 		The European Union has put forward seven key requirements (KRs) for trustworthy 
 		AI (that typically build on ML methods)
 	\cite{ALTAIEU}: {\bf KR1 - Human Agency and Oversight}, {\bf KR2 - Technical Robustness and Safety}, 
 	{\bf KR3 - Privacy and Data Governance}, {\bf KR4 - Transparency}, {\bf KR5 - Diversity Non-Discrimination and Fairness}, 
-	{\bf KR6 Societal and Environmental Well-Being}, {\bf KR7 - Accountability}. 
+	{\bf KR6 Societal and Environmental Well-Being}, and {\bf KR7 - Accountability}. 
 	},first={trustworthiness},text={trustworthiness}}
 
 \newglossaryentry{sqerrloss}{name={squared error loss},description={The squared 
@@ -420,10 +423,11 @@ and then projecting the result back into the \gls{paramspace}.
 
 \newglossaryentry{privprot}
 {name=privacy protection,
-     description={Consider\index{privacy protection} some ML method $\algomap$ that reads in a $\dataset$ 
-     	and delivers some output $\algomap(\dataset)$. The output could be the learnt \gls{modelparams} 
-     	$\widehat{\weights}$ or the \gls{prediction} $\learnthypothesis(\featurevec)$ obtained for a specific \gls{datapoint} 
-		with \gls{feature}s $\featurevec$. Many important ML applications involve \gls{datapoint}s 
+     description={Consider\index{privacy protection} some ML method $\algomap$ that reads 
+	 in a \gls{dataset} $\dataset$ and delivers some output $\algomap(\dataset)$. The output 
+	 could be the learnt \gls{modelparams} $\widehat{\weights}$ or the \gls{prediction} 
+	 $\learnthypothesis(\featurevec)$ obtained for a specific \gls{datapoint} with \gls{feature}s 
+	 $\featurevec$. Many important ML applications involve \gls{datapoint}s 
 		representing humans. Each \gls{datapoint} is characterized by \gls{feature}s $\featurevec$, 
 		potentially a \gls{label} $\truelabel$ and a \gls{sensattr} $\sensattr$ (e.g., a recent medical diagnosis). 
 		Roughly speaking, \gls{privprot} means that it should be impossible to infer, from the output $\algomap(\dataset)$, 
@@ -437,13 +441,15 @@ and then projecting the result back into the \gls{paramspace}.
 \newglossaryentry{privleakage}
 {
 	name=privacy leakage,
-	description={Consider\index{privacy leakage} a (ML or \gls{fl}) system that processes a \gls{localdataset} $\localdataset{\nodeidx}$ 
-		and shares data, such as the predictions obtained for new \gls{datapoint}s, with 
-		other parties. Privacy leakage arises if the shared data carries information about a 
-		private (sensitive) \gls{feature} of a \gls{datapoint} (which might be a human) of $\localdataset{\nodeidx}$.  
-		The amount of privacy leakage can be measured via \gls{mutualinformation} using a 
-		\gls{probmodel} for the local \gls{dataset}. Another quantitative measure for privacy 
-		leakage is \gls{diffpriv}. 
+	description={Consider\index{privacy leakage} an ML application that processes a 
+	\gls{dataset} $\dataset$ and delivers some output, such as the predictions 
+	obtained for new \gls{datapoint}s. Privacy leakage arises 
+	if the output carries information about a private (sensitive) \gls{feature} of 
+	a \gls{datapoint} (which might be a human) of $\dataset$. Based on a \gls{probmodel} 
+	for the data generation, we can measure the privacy leakage via the \gls{mutualinformation} 
+	between the output and the senstive \gls{feature}. Another quantitative measure of privacy leakage 
+	is \gls{diffpriv}. The relations between different measures of privacy leakage have been 
+	studied in \cite{InfThDiffPriv}. 
 	}, 
 	first = {privacy leakage}, text={privacy leakage} 
 }
@@ -502,8 +508,8 @@ and then projecting the result back into the \gls{paramspace}.
 \newglossaryentry{neighbours}
 {
 	name={neighbours},
-	description={The\index{neighbours} neighbours of a node $\nodeidx \in \nodes$ within a \gls{empgraph} are 
-	those nodes $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ that are connected (via an edge) to node $\nodeidx$.},
+	description={The\index{neighbours} neighbours of a node $\nodeidx \in \nodes$ 
+	within an \gls{empgraph} are those nodes $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ that are connected (via an edge) to node $\nodeidx$.},
 	first={neighbours},text={neighbours} 
 }
 
@@ -621,7 +627,7 @@ first={bias},text={bias}
 		a confidence interval 
 	$\big[ l^{(\weights)},  u^{(\weights)} \big]$ for each choice $\weights$ for the \gls{modelparams}.
 	One simple construction is $l^{(\weights)} \defeq f(\weights) - \sigma/2$, $u^{(\weights)} \defeq f(\weights)+ \sigma/2$ 
-	with $\sigma$ being a measure for the (expected) deviation of $f(\weights)$ from $\bar{f}(\weights)$. 
+	with $\sigma$ being a measure of the (expected) deviation of $f(\weights)$ from $\bar{f}(\weights)$. 
 	We can also use other constructions for this interval as long as they ensure that $\bar{f}(\weights) \in\big[ l^{(\weights)},  u^{(\weights)} \big]$ 
 	with sufficiently high probability. As an optimist, we choose the \gls{modelparams} 
 	according to the most favourable - yet still plausible - value $\tilde{f}(\weights) \defeq  l^{(\weights)}$ of the performance criterion. 
@@ -711,7 +717,7 @@ first={activation function},text={activation function}
 		such as \gls{erm}-based methods, transparency is mainly used synonymously for \gls{explainability} \cite{gallese2023ai,JunXML2020}. 
 		However, in the wide context of AI systems, transparency also includes providing information 
 		about limitations and reliability of the AI system. As a point in case, \gls{logreg} provides a 
-		quantitative measure for the reliability of a \gls{classification} in the form of the value $|\hypothesis(\featurevec)|$. 
+		quantitative measure of the reliability of a \gls{classification} in the form of the value $|\hypothesis(\featurevec)|$. 
 		Transparency also includes the user interface, by requiring to clearly indicate when a user is 
 		interaction with an AI system. Another component of transparency is the documentation 
 		of the system’s purpose, design choices and intended use cases \cite{Shahriari2017,DatasheetData2021,10.1145/3287560.3287596}. },
@@ -723,10 +729,10 @@ first={activation function},text={activation function}
 {name={sensitive attribute},
 	description={ML\index{sensitive attribute} revolves around learning a \gls{hypothesis} map that allows 
 		to predict the \gls{label} of a \gls{datapoint} from its \gls{feature}s. In some 
-		applications we must ensure that the output delivered by an ML system does 
-		not allow to infer sensitive attributes of a \gls{datapoint}. Which parts of a \gls{datapoint} 
-		is considered as a sensitive attribute is a design choice that varies across 
-		different application domains.},
+		applications, we must ensure that the output delivered by an ML system does 
+		not allow to infer sensitive attributes of a \gls{datapoint}. Which part 
+		of a \gls{datapoint} is considered as a sensitive attribute is a design 
+		choice that varies across different application domains.},
 	first={sensitive attribute},text={sensitive attribute} 
 }
 
@@ -975,7 +981,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
 
 \newglossaryentry{dob}
 {name={degree of belonging},
-	description={A\index{degree of belonging} number that indicates the extent by which a \gls{datapoint} 
+	description={A\index{degree of belonging} number that indicates the extent to which a \gls{datapoint} 
 		belongs to a \gls{cluster} \cite[Ch. 8]{MLBasics}. The degree of belonging can be 
 		interpreted as a soft \gls{cluster} assignment. \Gls{softclustering} methods can 
 		encode the degree of belonging by a real number in the interval $[0,1]$. 
@@ -1091,12 +1097,20 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{fedavg}
 {name={federated averaging (FedAvg)},
-	description={Federated\index{federated averaging (FedAvg)} averaging is an iterative \gls{fl} 
-		algorithm that alternates between local model trainings and averaging the resulting local \gls{modelparams}. 
-		Different variants of this algorithm are obtained by different techniques for the model training. 
-		The authors of \cite{pmlr-v54-mcmahan17a} consider federated averaging methods where  
-		local model training amounts to executing several \gls{gd} steps.}, 
+	description={An\index{federated averaging (FedAvg)} iterative \gls{fl} 
+		algorithm that alternates between the separate training of \gls{localmodel}s, followed by 
+		combining the updated local \gls{modelparams}. The training of \gls{localmodel}s 
+		is implemented via several \gls{stochGD} steps \cite{pmlr-v54-mcmahan17a}.}, 
 		first = {federated averaging (FedAvg)}, text={FedAvg} 
+}
+
+\newglossaryentry{fedprox}
+{name={FedProx},
+	description={An\index{FedProx} iterative \gls{fl} 
+		algorithm that alternates between the separate training of \gls{localmodel}s, followed by 
+		combining the updated local \gls{modelparams}. In contrast to \gls{fedavg}, which uses 
+		\gls{stochGD} to train \gls{localmodel}s, FedProx uses a \gls{proxop} for the training \cite{FedProx2020}.}, 
+	first = {FedProx}, text={FedProx} 
 }
 
 \newglossaryentry{relu}
@@ -1207,14 +1221,16 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{psd}
 {name={positive semi-definite},
-	description={A\index{positive semi-definite} (real-valued) symmetric matrix $\mQ = \mQ^{T} \in \mathbb{R}^{\featuredim \times \featuredim}$ 
-	                      is referred to as positive semi-definite if $\featurevec^{T} \mQ \featurevec \geq 0$ for every vector $\featurevec \in \mathbb{R}^{\featuredim}$. 
-	                      The property of being psd can be extended from matrices to (real-valued) symmetric \gls{kernel} maps 
-	                     $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ (with $\kernel(\featurevec,\featurevec') = \kernel(\featurevec',\featurevec)$ 
-	                      as follows: For any finite 
-	                      set of \gls{feature} vectors $\featurevec^{(1)},\dots,\featurevec^{(\samplesize)}$, 
-	                      the resulting matrix $\mQ \in \mathbb{R}^{\samplesize \times \samplesize}$ with 
-	                      entries $Q_{\sampleidx,\sampleidx'} = \kernelmap{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}}$ is psd \cite{LearningKernelsBook}.},
+	description=
+	{A\index{positive semi-definite} (real-valued) symmetric matrix $\mQ = \mQ^{T} \in \mathbb{R}^{\featuredim \times \featuredim}$ 
+	 is referred to as positive semi-definite if $\featurevec^{T} \mQ \featurevec \geq 0$ for every vector $\featurevec \in \mathbb{R}^{\featuredim}$. 
+	 The property of being psd can be extended from matrices to (real-valued) 
+	 symmetric \gls{kernel} maps $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
+	 (with $\kernel(\featurevec,\featurevec') = \kernel(\featurevec',\featurevec)$)
+	 as follows: for any finite set of \gls{feature} vectors $\featurevec^{(1)},\dots,\featurevec^{(\samplesize)}$, 
+	 the resulting matrix $\mQ \in \mathbb{R}^{\samplesize \times \samplesize}$ with 
+	entries $Q_{\sampleidx,\sampleidx'} = \kernelmap{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}}$ 
+	is psd \cite{LearningKernelsBook}.},
 	first={positive semi-definite (psd)},text={psd}  
 }
 
@@ -1233,8 +1249,8 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 	description={A\index{feature vector} vector $\vx = \big(x_{1},\ldots,x_{\nrfeatures}\big)^{T}$ 
 	whose entries are individual \gls{feature}s $x_{1},\ldots,x_{\nrfeatures}$. Many ML methods 
 	use feature vectors that belong to some finite-dimensional \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
-	However, for some ML methods it is more convenient to work with feature vectors that 
-	belong to an infinite-dimensional vector space (see, e.g., \gls{kernelmethod}). 
+	For some ML methods, it can be more convenient to work with feature 
+	vectors that belong to an infinite-dimensional vector space (see, e.g., \gls{kernelmethod}). 
 		}, first={feature vector},text={feature vector}  
 }
 
@@ -1325,10 +1341,11 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 	
 \newglossaryentry{realization}
 {name={realization},
-	description={Consider\index{realization} a \gls{rv} $x$ which maps each element (outcome, or elementary event) $\omega \in \mathcal{P}$ of a 
-		probability space $\mathcal{P}$ to an element $a$ of a measurable space $\mathcal{N}$ \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
-		A realization of $x$ is any element $a' \in \mathcal{N}$ such that there is 
-		an element $\omega' \in \mathcal{P}$ with $x(\omega') = a'$.  }, first={realization},text={realization}  }
+	description={Consider\index{realization} a \gls{rv} $x$ which maps each element 
+	(outcome or elementary event) $\omega \in \mathcal{P}$ of a probability space $\mathcal{P}$ 
+	to an element $a$ of a measurable space $\mathcal{N}$ \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
+	A realization of $x$ is any element $a' \in \mathcal{N}$ such that there is 
+	an element $\omega' \in \mathcal{P}$ with $x(\omega') = a'$.}, first={realization},text={realization}  }
 
 \newglossaryentry{trainset}
 {name={training set},
@@ -1341,7 +1358,7 @@ description={A\index{training set} \gls{dataset} $\dataset$, constituted by some
 
 \newglossaryentry{netmodel}
 {name={networked model},
-  description={A\index{networked model} networked model over a \gls{empgraph} $\graph = \pair{\nodes}{\edges}$ assigns 
+  description={A\index{networked model} networked model over an \gls{empgraph} $\graph = \pair{\nodes}{\edges}$ assigns 
    a \gls{localmodel} (\gls{hypospace}) to each node $\nodeidx \in \nodes$ of the \gls{empgraph} $\graph$.}, 
    first={networked model},text={networked model}  
 }
@@ -1361,7 +1378,7 @@ description={A\index{training set} \gls{dataset} $\dataset$, constituted by some
 	description={Networked\index{networked data} data consists of \gls{localdataset}s 
 	that are related by some notion of pair-wise similarity. We can represent networked 
 	data using a \gls{graph} whose nodes carry \gls{localdataset}s and edges encode 
-	pairwise similarities. One example for \gls{netdata} arises in \gls{fl} applications 
+	pairwise similarities. One example of \gls{netdata} arises in \gls{fl} applications 
 	where \gls{localdataset}s are generated by spatially distributed devices.}, 
 	first={networked data},text={networked data}  
 }
@@ -1370,9 +1387,9 @@ description={A\index{training set} \gls{dataset} $\dataset$, constituted by some
 {
 	name={training error},
 	description={The\index{training error} average \gls{loss} of a \gls{hypothesis} when 
-		predicting the \gls{label}s of \gls{datapoint}s in a \gls{trainset}. We sometimes refer 
-		by training error also the minimum average \gls{loss} incurred on the \gls{trainset} 
-		by the optimal \gls{hypothesis} from a \gls{hypospace}.},first={training error},text={training error}  
+		predicting the \gls{label}s of the \gls{datapoint}s in a \gls{trainset}. 
+		We sometimes refer by training error also to minimal average \gls{loss} 
+		which is achieved by a solution of \gls{erm}.},first={training error},text={training error}  
 }
 
 \newglossaryentry{datapoint}
@@ -1409,9 +1426,10 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 
 \newglossaryentry{quadfunc}
 {name={quadratic function},
-	description={A\index{quadratic function} quadratic function $f(\weights)$, reading in a 
-		vector $\weights \in \mathbb{R}^{\nrfeatures}$ as its argument, is such that $$f(\weights) =  \weights^{T} \mathbf{Q} \mathbf{w} + \mathbf{q}^{T} \weights+a,$$ with some matrix $\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$, 
-		vector $\vq \in \mathbb{R}^{\nrfeatures}$ and scalar $a \in \mathbb{R}$.  },first={quadratic function},text={quadratic function}  
+	description={A\index{quadratic function} function $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ of the form 
+	$$f(\weights) =  \weights^{T} \mathbf{Q} \mathbf{w} + \mathbf{q}^{T} \weights+a,$$ with 
+	some matrix $\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$, vector $\vq \in \mathbb{R}^{\nrfeatures}$ 
+	and scalar $a \in \mathbb{R}$.  },first={quadratic function},text={quadratic function}  
 }
 
 \newglossaryentry{valset}
@@ -1449,8 +1467,8 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 \newglossaryentry{linclass}{name={linear classifier}, description={
 	    Consider\index{linear classifier} \gls{datapoint}s characterized by numeric \gls{feature}s $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
 	    and a \gls{label} $\truelabel \in \labelspace$ from some finite \gls{labelspace} $\labelspace$. 
-		A linear \gls{classifier} characterized by having \gls{decisionregion}s separated 
-		by hyperplanes in the \gls{euclidspace} $\mathbb{R}^{\featuredim}$ \cite[Ch. 2]{MLBasics}.},first={linear classifier},text={linear classifier} }
+		A linear \gls{classifier} is characterized by having \gls{decisionregion}s that are 
+		separated by hyperplanes in $\mathbb{R}^{\featuredim}$ \cite[Ch. 2]{MLBasics}.},first={linear classifier},text={linear classifier} }
 
 \newglossaryentry{erm}{name={empirical risk minimization}, description={Empirical risk 
 		minimization\index{empirical risk minimization} is the optimization problem of finding 
@@ -1486,7 +1504,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 		measure $\regularizer{\hypothesis}$ for how much its prediction error on a \gls{trainset} might 
 		differ from its prediction errors on \gls{datapoint}s outside the \gls{trainset}. \Gls{ridgeregression} 
 		uses the regularizer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{2}^{2}$ for linear \gls{hypothesis} maps $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. 
-		The \gls{lasso} uses the regularizer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
+		\Gls{lasso} uses the regularizer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
 		for linear \gls{hypothesis} maps $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. },first={regularizer},text={regularizer} }
 
 
@@ -1494,15 +1512,15 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 		A\index{regularization} key challenge of modern ML applications is that they often 
 		use large \gls{model}s, having an \gls{effdim} in the order of billions. 
 		Using basic \gls{erm}-based methods to train a high-dimensional \gls{model} 
-		is prone to \gls{overfitting}: the learn \gls{hypothesis} performs well on the \gls{trainset} 
+		is prone to \gls{overfitting}: the learnt \gls{hypothesis} performs well on the \gls{trainset} 
 		but poorly outside the \gls{trainset}. Regularization refers to modifications of a given instance 
 		of \gls{erm} in order to avoid \gls{overfitting}, i.e., to ensure the learnt \gls{hypothesis} performs 
 		not much worse outside the \gls{trainset}. There are three routes for implementing 
 		regularization: 
 		\begin{itemize} 
 			\item {\bf \Gls{model} pruning.} We prune the original \gls{model} $\hypospace$ to obtain a 
-			smaller \gls{model} $\hypospace'$. For a parametrized \gls{model}, the pruning can be 
-			implemented by including constraints on the \gls{modelparams} (such as $w_{1} \in [0.4,0.6]$ for 
+			smaller \gls{model} $\hypospace'$. For a parametric \gls{model}, the pruning can be 
+			implemented via constraints on the \gls{modelparams} (such as $w_{1} \in [0.4,0.6]$ for 
 			the weight of \gls{feature} $x_{1}$ in \gls{linreg}).
 			\item {\bf \Gls{loss} penalization.} We modify the \gls{objfunc} of \gls{erm} by adding a 
 			penalty term to the \gls{trainerr}. The penalty term estimates how much larger the expected \gls{loss} (\gls{risk}) 
@@ -1576,7 +1594,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$};
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\hypothesis}$};
 				\end{tikzpicture}
-				\caption{Three approaches to regularization: \gls{dataaug}, \gls{loss} penalization and \gls{model} 
+				\caption{Three approaches to regularization: \gls{dataaug}, \gls{loss} penalization, and \gls{model} 
 				pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal} }
 			\end{center}
 		\end{figure} 
@@ -1647,9 +1665,18 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 	first={generalization},text={generalization} }
 
 	
-\newglossaryentry{gtv}{name={generalized total variation}, description={Generalized\index{generalized total variation} 
-		total variation measures the changes of vector-valued node attributes over a 
-		weighted undirected \gls{graph}.},first={generalized total variation (GTV)},text={GTV} }
+\newglossaryentry{gtv}{name={generalized total variation (GTV)}, description={A\index{generalized total variation} 
+		measure of the variation of trained \gls{localmodel}s $\localhypothesis{\nodeidx}$ 
+		(or their \gls{modelparams} $\localparams{\nodeidx}$) assigned to the nodes $\nodeidx=1,\ldots,\nrnodes$ 
+		of an undirected weighted graph $\graph$ with edges $\edges$. Given a measure $\discrepancy{\hypothesis}{\hypothesis'}$ 
+		for the \gls{discrepancy} between hypothesis maps $\hypothesis,\hypothesis'$, the GTV is 
+		\begin{equation} 
+			\nonumber
+			\sum_{\edge{\nodeidx}{\nodeidx'}\in \edges} \edgeweight_{\nodeidx,\nodeidx'} 
+			\discrepancy{\localhypothesis{\nodeidx}}{\localhypothesis{\nodeidx'}}.
+		\end{equation}
+		Here, $\edgeweight_{\nodeidx,\nodeidx'}>0$ denotes the weight of the undirected edge $\edge{\nodeidx}{\nodeidx'}\in \edges$
+		},first={generalized total variation (GTV)},text={GTV} }
 	
 \newglossaryentry{srm}{name={structural risk minimization}, description={Structural\index{structural risk minimization} 
 		risk minimization is the problem of finding the \gls{hypothesis} that optimally 
@@ -1688,13 +1715,14 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 
 \newglossaryentry{netexpfam}{name={networked exponential families}, 
 	description={A\index{networked exponential families} collection of exponential 
-		families, each of them assigned to a node of a \gls{empgraph}. The \gls{modelparams} are coupled 
+		families, each of them assigned to a node of an \gls{empgraph}. The \gls{modelparams} are coupled 
 	   via the network structure by requiring them to have a small \gls{gtv} \cite{JungNetExp2020}. },first={networked exponential family (nExpFam)},text={nExpFam} }
 	 
 
 
 \newglossaryentry{scatterplot}{name={scatterplot}, description={A\index{scatterplot} 
 		visualization technique that depicts \gls{datapoint}s by markers in a two-dimensional plane. 
+		Fig.\ \ref{fig_scatterplot_temp_FMI} depicts an example of a scatterplot.  
 		\begin{figure}[htbp]
 			\begin{center}
 				\begin{tikzpicture}[scale=1]
@@ -1714,11 +1742,11 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 						\draw[->] (axis cs:0,-5) -- (axis cs:0,30);
 					\end{axis}
 				\end{tikzpicture}
-				\vspace*{-14mm}
+				\vspace*{-10mm}
 			\end{center}
-			\caption{A scatterplot of \gls{datapoint}s that represent daily weather conditions in Finland. 
+			\caption{A scatterplot of some \gls{datapoint}s representing daily weather conditions in Finland. 
 				Each \gls{datapoint} is characterized by its minimum daytime temperature $\feature$ 
-				as \gls{feature} and its maximum daytime temperature $\truelabel$ as the \gls{label}. 
+				as the \gls{feature} and its maximum daytime temperature $\truelabel$ as the \gls{label}. 
 				The temperatures have been measured at the \gls{fmi} weather station \emph{Helsinki Kaisaniemi} 
 				during 1.9.2024 - 28.10.2024.}
 			\label{fig_scatterplot_temp_FMI}
@@ -1734,22 +1762,22 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 \newglossaryentry{learnrate}{name={learning rate}, description={Consider\index{learning rate} 
 		an iterative method for finding or learning a useful \gls{hypothesis} $\hypothesis \in \hypospace$. 
 		Such an iterative method repeats similar computational (update) steps that adjust or 
-		modify the current \gls{hypothesis} to obtain an improved \gls{hypothesis}. A prime example of 
-		such an iterative learning method is \gls{gd} and its variants such as \gls{stochGD} or \gls{projgd}. 
-		We refer by learning rate to a parameter of an iterative learning 
-		method that controls the extent by which the current \gls{hypothesis} 
-		can be modified during a single iteration. A prime example of such a parameter is the 
-				step size used in \gls{gd} \cite[Ch. 5]{MLBasics}.},
+		modify the current \gls{hypothesis} to obtain an improved \gls{hypothesis}. One 
+		well-known example of such an iterative learning method is \gls{gd} and its variants \gls{stochGD} and 
+		\gls{projgd}. A key parameter of an iterative learning methods is the learning rate. 
+		The learning rate controls the extent to which the current \gls{hypothesis} 
+		can be modified during a single iteration. A well-known example of such a parameter 
+		is the \gls{stepsize} used in \gls{gd} \cite[Ch. 5]{MLBasics}.},
 	first={learning rate},text={learning rate} }
 
 \newglossaryentry{featuremap}{name={feature map}, description={A\index{feature map} map 
 		that transforms the original \gls{feature}s of a \gls{datapoint} into new \gls{feature}s. The 
 		so-obtained new \gls{feature}s might be preferable over the original \gls{feature}s for 
-		several reasons. For example, the arrangement of \gls{datapoint}s 
-		 might become simpler (of \emph{more linear}) in the new \gls{featurespace}, allowing to use linear models 
-		 in the new \gls{feature}s. This idea is a main driver for the development of \gls{kernel} methods \cite{LearningKernelsBook}. 
-		 Moreover, the hidden layers of a \gls{deepnet} can be interpreted as a trainable feature map followed 
-		 by a \gls{linmodel} in the form of the output layer. Another reason for learning a \gls{featuremap} 
+		several reasons. For example, the arrangement of \gls{datapoint}s might become 
+		simpler (or \emph{more linear}) in the new \gls{featurespace}, allowing to use \gls{linmodel}s 
+		in the new \gls{feature}s. This idea is a main driver for the development of \gls{kernel} methods \cite{LearningKernelsBook}. 
+		Moreover, the hidden layers of a \gls{deepnet} can be interpreted as a trainable feature map 
+		followed by a \gls{linmodel} in the form of the output layer. Another reason for learning a \gls{featuremap} 
 		 could be that learning a small number of new \gls{feature}s helps to avoid \gls{overfitting} and 
 		 ensure interpretability \cite{Ribeiro2016}. The special case of a \gls{feature} map delivering 
 		 two numeric \gls{feature}s is particularly useful for data visualization. Indeed, we can depict 
@@ -1761,7 +1789,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 	description={The\index{Lasso} least absolute shrinkage and selection operator (Lasso) is an 
 		instance of \gls{srm} to learn the weights $\weights$ of a linear map 
 		$\hypothesis(\featurevec) = \weights^{T} \featurevec$ based on a \gls{trainset}. 
-		The Lasso is obtained from \gls{linreg} by adding the scaled $\ell_{1}$-norm 
+		Lasso is obtained from \gls{linreg} by adding the scaled $\ell_{1}$-norm 
 		$\regparam \normgeneric{\weights}{1}$ to the average \gls{sqerrloss} incurred on the \gls{trainset}. 
 	},
 	first={ least absolute shrinkage and selection operator (Lasso)},text={Lasso} }
@@ -1779,7 +1807,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
  \newglossaryentry{kld}{name={Kullback-Leibler divergence}, 
  	description={
  		 The\index{KL divergence} Kullback–Leibler divergence is a quantitative 
- 		 measure for how much one \gls{probdist} is different from another \gls{probdist} \cite{coverthomas}.  
+ 		 measure of how much one \gls{probdist} is different from another \gls{probdist} \cite{coverthomas}.  
  	},
  	first={Kullback-Leibler divergence},text={KL divergence} }
 
@@ -1792,8 +1820,8 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 		which is defined for an undirected and weighted \gls{graph} \cite{Luxburg2007,Ng2001}. 
 		It is defined element-wise as (see Fig.\ \ref{fig_lap_mtx})
 	\begin{equation}
-		\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} - \edgeweight_{\nodeidx,\nodeidx'} & \mbox{ for } \nodeidx\neq \nodeidx', \edge{\nodeidx}{\nodeidx'} \in \edges \\ 
-			\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ for } \nodeidx = \nodeidx' \\ 
+		\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} - \edgeweight_{\nodeidx,\nodeidx'} & \mbox{ for } \nodeidx\neq \nodeidx', \edge{\nodeidx}{\nodeidx'}\!\in\!\edges, \\ 
+			\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ for } \nodeidx = \nodeidx', \\ 
 							0 & \mbox{ else.} \end{cases}
 	 \end{equation}
   Here, $\edgeweight_{\nodeidx,\nodeidx'}$ denotes the \gls{edgeweight} of an edge $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
@@ -1847,7 +1875,7 @@ first = {Courant–Fischer–Weyl min-max characterization (CFW)}, text={CFW}}
 	with a generic \gls{featurespace} $\featurespace$. A (real-valued) kernel $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
 	assigns each pair of \gls{featurevec}s $\featurevec, \featurevec' \in \featurespace$ a real number $\kernelmap{\featurevec}{\featurevec'}$. 
 	The value $\kernelmap{\featurevec}{\featurevec'}$ is often interpreted as a measure for the similarity between $\featurevec$ 
-	and $\featurevec'$. \Gls{kernelmethod}s us a kernel to transform the \gls{featurevec} $\featurevec$ to a new \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$. 
+	and $\featurevec'$. \Gls{kernelmethod}s use a kernel to transform the \gls{featurevec} $\featurevec$ to a new \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$. 
          This new \gls{featurevec} belongs to a linear \gls{featurespace} $\featurespace'$ which is (in general)  
           different from the original \gls{featurespace} $\featurespace$. The \gls{featurespace} $\featurespace'$ has 
           a specific mathematical structure, i.e., it is a reproducing kernel Hilbert space \cite{LampertNowKernel,LearningKernelsBook}.
@@ -1858,7 +1886,7 @@ first = {Courant–Fischer–Weyl min-max characterization (CFW)}, text={CFW}}
 	description={A\index{kernel method} kernel method is an ML method that uses a 
 	\gls{kernel} $\kernel$ to map the original (raw) \gls{featurevec} $\featurevec$ of a 
 	\gls{datapoint} to a new (transformed) \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$ \cite{LampertNowKernel,LearningKernelsBook}.
-	The motivation for transforming the \gls{featurevec}s is that, using a suitable \gls{kernel}, 
+	The motivation for transforming the \gls{featurevec}s is that, by using a suitable \gls{kernel}, 
 	the \gls{datapoint}s have a \emph{more pleasant} geometry in the transformed \gls{featurespace}. 
 	For example, in a binary \gls{classification} problem, using transformed \gls{featurevec}s $\vz$ might 
 	allow to use \gls{linmodel}s, even if the \gls{datapoint}s are not linearly 
@@ -2001,9 +2029,9 @@ allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linse
 
 
 \newglossaryentry{xml}{name={explainable ML}, description={Explainable\index{explainable AI} 
-		ML methods aim at complementing each \gls{prediction} with an \gls{explanation} for how the \gls{prediction} 
-		has been obtained. The construction of an explicit \gls{explanation} might not be necessary 
-		if the ML method uses a sufficiently simple (or interpretable) \gls{model} \cite{rudin2019stop}.},first={explainable ML},text={explainable ML} }
+		ML methods aim at complementing each \gls{prediction} with an \gls{explanation} for 
+		how the \gls{prediction} has been obtained. The construction of an explicit \gls{explanation} 
+		might not be necessary if the ML method uses a sufficiently simple (or interpretable) \gls{model} \cite{rudin2019stop}.},first={explainable ML},text={explainable ML} }
 
 \newglossaryentry{fmi}{name={Finnish Meteorological Institute}, description={The\index{Finnish Meteorological Institute}
 		Finnish Meteorological Institute is a government agency responsible for gathering 
@@ -2041,7 +2069,7 @@ allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linse
    first={high-dimensional regime},text={high-dimensional regime} }
 
 \newglossaryentry{gmm}{name={Gaussian mixture model}, description={A Gaussian\index{Gaussian mixture model} 
-		mixture model (GMM) is particular type of \gls{probmodel}s for a numeric vector $\featurevec$ (e.g., 
+		mixture model (GMM) is a particular type of a \gls{probmodel} for a numeric vector $\featurevec$ (e.g., 
 		the \gls{feature}s of a \gls{datapoint}). Within a GMM, the vector $\featurevec$ is drawn from a randomly 
 		selected \gls{mvndist} $p^{(\clusteridx)} = \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ with 
 		$\clusteridx = I$. The index $I \in \{1,\ldots,\nrcluster\}$ is a \gls{rv} with probabilities $\prob{I=\clusteridx} = p_{\clusteridx}$.
@@ -2056,7 +2084,7 @@ allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linse
 		depends on the \gls{modelparams} $\weights \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		Maximum likelihood methods learn \gls{modelparams} $\weights$ by maximizing 
 		the probability (density) $\prob{\dataset; \weights} = \prod_{\sampleidx=1}^{\samplesize} \prob{\datapoint^{(\sampleidx)}; \weights}$ 
-		of observing the \gls{dataset} is maximized. Thus, the maximum likelihood estimator is a 
+		of observing the \gls{dataset}. Thus, the maximum likelihood estimator is a 
 		solution to the optimization problem $\max_{\weights \in \mathcal{W}} \prob{\dataset; \weights}$.
 	},first={maximum likelihood},text={maximum likelihood}}
 
@@ -2086,15 +2114,16 @@ allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linse
 	
 \newglossaryentry{polyreg}{name={polynomial regression}, description={Polynomial\index{polynomial regression} 
 		regression aims at learning a polynomial \gls{hypothesis} map to predict a numeric \gls{label} based
-		 on numeric \gls{feature}s of a \gls{datapoint}. For \gls{datapoint}s characterized by a single 
+		 on the numeric \gls{feature}s of a \gls{datapoint}. For \gls{datapoint}s characterized by a single 
 		 numeric \gls{feature}, polynomial regression uses the \gls{hypospace} 
 			$\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \}.$
 			The quality of a polynomial \gls{hypothesis} map is measured using the average \gls{sqerrloss} 
-			incurred on a set of labeled \gls{datapoint}s (which we refer to as \gls{trainset}).},first={polynomial regression},text={polynomial regression}}
+			incurred on a set of labeled \gls{datapoint}s (which we refer to as the 
+			\gls{trainset}).},first={polynomial regression},text={polynomial regression}}
 
 \newglossaryentry{linreg}{name={linear regression}, description={Linear\index{linear regression} 
 		regression aims to learn a linear \gls{hypothesis} map to predict a numeric \gls{label} based 
-		on numeric \gls{feature}s of a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is 
+		on the numeric \gls{feature}s of a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is 
 		measured using the average \gls{sqerrloss} incurred on a set of labeled \gls{datapoint}s, 
 		which we refer to as the \gls{trainset}.},first={linear regression},text={linear regression}}
         
@@ -2104,7 +2133,7 @@ allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linse
 		of two components. The first component is the average \gls{sqerrloss} incurred by $\hypothesis^{(\weights)}$ on a set of 
 		labeled \gls{datapoint}s (the \gls{trainset}). The second component is the scaled squared 
 		Euclidean norm $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} parameter 
-		$\regparam > 0$. It can be shown that the effect of adding to $\regparam \| \weights \|^{2}_{2}$ to 
+		$\regparam > 0$. It can be shown that the effect of adding $\regparam \| \weights \|^{2}_{2}$ to 
 	the average \gls{sqerrloss} is equivalent to replacing the original \gls{datapoint}s by an ensemble of 
 realizations of a \gls{rv} centered around these \gls{datapoint}s.},first={ridge regression},text={ridge regression}}
 
@@ -2117,9 +2146,9 @@ realizations of a \gls{rv} centered around these \gls{datapoint}s.},first={ridge
 
 \newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} regression learns a 
 		linear \gls{hypothesis} map (\gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
-		to predict a binary \gls{label} $\truelabel$ based on numeric \gls{feature} vector 
-		$\featurevec$ of a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is 
-		measured by the average \gls{logloss} on some labeled \gls{datapoint}s (the \gls{trainset}).},
+		to predict a binary \gls{label} $\truelabel$ based on the numeric \gls{featurevec} $\featurevec$ of 
+		a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is measured by the average \gls{logloss} 
+		on some labeled \gls{datapoint}s (the \gls{trainset}).},
 		first={logistic regression},text={logistic regression}}
 	
 \newglossaryentry{logloss}{name={logistic loss}, description={Consider\index{logistic loss} 
@@ -2177,9 +2206,9 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 		as the realizations of \gls{iid} \gls{rv}s.},first={i.i.d.\ assumption},text={i.i.d.\ assumption} }
 
 \newglossaryentry{hypospace}{name={hypothesis space}, description={Every\index{hypothesis space} 
-		practical ML method uses a hypothesis space (or \gls{model}) $\hypospace$. The hypothesis space of an ML 
-		method is a subset of all possible maps from the \gls{featurespace} to \gls{labelspace}. The design 
-		choice of the hypothesis space should take into account available computational resources and 
+		practical ML method uses a hypothesis space (or \gls{model}) $\hypospace$. The hypothesis space 
+		of an ML method is a subset of all possible maps from the \gls{featurespace} to the \gls{labelspace}. 
+		The design choice of the hypothesis space should take into account available computational resources and 
 		statistical aspects. If the computational infrastructure allows for efficient matrix operations, and there 
 		is a (approximately) linear relation between \gls{feature}s and \gls{label}, a useful choice for the 
 		hypothesis space might be the \gls{linmodel}.},first={hypothesis space},text={hypothesis space} }
@@ -2213,11 +2242,11 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 	first={reward}, text={reward}} 
 
 \newglossaryentry{hardclustering}{name={hard clustering}, description={Hard clustering\index{hard clustering} 
-		refers to the task of partitioning a given set of \gls{datapoint}s into (few) non-overlapping \gls{cluster}s. 
+		refers to the task of partitioning a given set of \gls{datapoint}s into (a few) non-overlapping \gls{cluster}s. 
 		The most widely used hard clustering method is \gls{kmeans}.},first={hard clustering},text={hard clustering} }
 	
 \newglossaryentry{softclustering}{name={soft clustering}, description={Soft clustering\index{soft clustering} 
-		refers to the task of partitioning a given set of \gls{datapoint}s into (few) overlapping clusters. 
+		refers to the task of partitioning a given set of \gls{datapoint}s into (a few) overlapping clusters. 
 		Each \gls{datapoint} is assigned to several different \gls{cluster}s with varying \gls{dob}. Soft clustering 
 		methods determine the \gls{dob} (or soft \gls{cluster} assignment) for each \gls{datapoint} and each \gls{cluster}.
 		A principled approach to soft \gls{clustering} is by interpreting \gls{datapoint}s as \gls{iid} \gls{realization}s 
@@ -2344,7 +2373,7 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 		\gls{modelparams} that results in a minimum (or maximum) value of the \gls{objfunc}. 
 		As their name indicates, gradient-based methods use the \gls{gradient}s of the \gls{objfunc} 
 		evaluated during previous iterations to construct new (hopefully) improved \gls{modelparams}. 
-		One important example for a gradient-based method is \gls{gd}.},
+		One important example of a gradient-based method is \gls{gd}.},
 		first={gradient-based methods},text={gradient-based methods} }
 
 \newglossaryentry{sgd}{name={subgradient descent}, description={Subgradient\index{subgradient descent} 
@@ -2459,22 +2488,23 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 first={online gradient descent (online GD)},text={online GD}}
 
 \newglossaryentry{pca}{name={principal component analysis (PCA)}, description={Principal\index{principal component analysis} 
-		component analysis determines a linear \gls{featuremap} such that the new \gls{feature}s allow to reconstruct 
-		the original \gls{feature}s with minimum reconstruction error \cite{MLBasics}.},first={principal component analysis (PCA)},text={PCA} }
+		component analysis determines a linear \gls{featuremap} such that the new \gls{feature}s 
+		allow to reconstruct the original \gls{feature}s with the minimum reconstruction error \cite{MLBasics}.},first={principal component analysis (PCA)},text={PCA} }
 	
 \newglossaryentry{loss}{name={loss}, description={ML\index{loss} methods use a 
 		\gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ to measure the error incurred 
 		by applying a specific \gls{hypothesis} to a specific \gls{datapoint}. With 
 		slight abuse of notation, we use the term \emph{loss} for both, the \gls{lossfunc} $\loss$ 
-		itself and for its value $\lossfunc{\datapoint}{\hypothesis}$ for a specific \gls{datapoint} $\datapoint$ 
+		itself and the specific value $\lossfunc{\datapoint}{\hypothesis}$ for a \gls{datapoint} $\datapoint$ 
 		and \gls{hypothesis} $\hypothesis$.},first={loss},text={loss} }
 
 \newglossaryentry{lossfunc}{name={loss function}, description={A\index{loss function} loss function is a map 
-		$$\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big), \hypothesis\big) \mapsto  \lossfunc{(\featurevec,\truelabel)}{\hypothesis}$$ which assigns a pair 
-		of a \gls{datapoint}, with features $\featurevec$ 
-		and label $\truelabel$, and a \gls{hypothesis} $\hypothesis \in \hypospace$ the 
-		non-negative real number $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$. The 
-		loss value $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ quantifies the discrepancy 
+		$$\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
+		 \hypothesis\big) \mapsto  \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.$$
+		It assigns a pair, consisting of a \gls{datapoint}, with features $\featurevec$ 
+		and label $\truelabel$, and a \gls{hypothesis} $\hypothesis \in \hypospace$, a 
+		non-negative real number (the \emph{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$. The 
+		value $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ quantifies the discrepancy 
 		between the true \gls{label} $\truelabel$ and the \gls{prediction} $\hypothesis(\featurevec)$. 
 		Lower (closer to zero) values $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indicate a smaller 
 		discrepancy between \gls{prediction} $\hypothesis(\featurevec)$ and label $\truelabel$. 
@@ -2511,7 +2541,7 @@ first={online gradient descent (online GD)},text={online GD}}
 			\vspace*{-7mm}
 			\caption{Some \gls{lossfunc} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ for a fixed \gls{datapoint}, with 
 				\gls{feature} vector $\featurevec$ and \gls{label} $\truelabel$, and varying \gls{hypothesis} $\hypothesis$. 
-				ML methods try to find (learn) a \gls{hypothesis} that incurs minimum \gls{loss}.}
+				ML methods try to find (learn) a \gls{hypothesis} that incurs minimal \gls{loss}.}
 			\label{fig_loss_function_gls}
 	\end{figure}
  },first={loss function},text={loss function} }
@@ -2588,7 +2618,7 @@ first={online gradient descent (online GD)},text={online GD}}
 		descent is an iterative method for finding the minimum of a \gls{differentiable} function $f(\weights)$ 
 		of a vector-valued argument $\weights \in \mathbb{R}^{\featurelen}$. Consider a current guess or 
 		approximation $\weights^{(\itercntr)}$ for minimum. We would like to find a new (better) vector $\weights^{(\itercntr+1)}$ 
-		that has smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
+		that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
 		the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a gradient step
 		\begin{equation} 
 			\label{equ_def_GD_step}
@@ -2651,7 +2681,7 @@ first={online gradient descent (online GD)},text={online GD}}
 
 \newglossaryentry{huberreg}{name={Huber regression},description={
 			Huber regression\index{Huber regression} refers \gls{erm}-based methods 
-			that use the \gls{huberloss} as measure for the \gls{prediction} error. 
+			that use the \gls{huberloss} as measure of the \gls{prediction} error. 
 			Two important special cases of Huber regression are \gls{ladregression} and 
 			\gls{linreg}. Tuning the threshold parameter of the \gls{huberloss} allows 
 			to trade the robustness against outliers of abserr 
@@ -2739,7 +2769,7 @@ first={probability density function (pdf)},text={pdf}}
 		sequence of model parameters (such as the weights of a linear map or 
 		the weights of an \gls{ann}) that (hopefully) converge to an optimal choice 
 		for the model parameters. In practice, given finite computational 
-		resources, we need to stop iterating after a finite number of times. 
+		resources, we need to stop iterating after a finite number of repetitions. 
 		A stopping criterion is any well-defined condition required for stopping 
 		iterating.},first={stopping criterion},text={stopping criterion}}
 
@@ -2915,25 +2945,28 @@ first={probability density function (pdf)},text={pdf}}
 	
 \newglossaryentry{localdataset}{name={local dataset},description={The\index{local dataset} concept of a local dataset is 
 		in-between the concept of a \gls{datapoint} and a \gls{dataset}. A local dataset consists of several 
-		individual \gls{datapoint}s which are characterized by \gls{feature}s and \gls{label}s. In contrast to a 
-		single \gls{dataset} used in basic ML methods, a local dataset is also related to other local datasets via different notions 
-		of similarities. These similarities might arise from \gls{probmodel}s or communication infrastructure and 
-		are encoded in the edges of a \gls{empgraph}.},first={local dataset},text={local dataset}}
+		individual \gls{datapoint}s which are characterized by \gls{feature}s and \gls{label}s. 
+		In contrast to a single \gls{dataset} used in basic ML methods, a local dataset is also 
+		related to other local datasets via different notions of similarities. These similarities 
+		might arise from \gls{probmodel}s or communication infrastructure and 
+		are encoded in the edges of an \gls{empgraph}.},first={local dataset},text={local dataset}}
 	
-\newglossaryentry{localmodel}{name={local model},description={Consider\index{local model} a collections 
-		of \gls{localdataset}s that are assigned to the nodes of a \gls{empgraph}. A local model $\localmodel{\nodeidx}$ 
+\newglossaryentry{localmodel}{name={local model},description={Consider\index{local model} a collection 
+		of \gls{localdataset}s that are assigned to the nodes of an \gls{empgraph}. A local model $\localmodel{\nodeidx}$ 
 		is a \gls{hypospace} assigned to a node $\nodeidx \in \nodes$. Different nodes might be assigned 
 		different \gls{hypospace}s, i.e., in general $\localmodel{\nodeidx} \neq \localmodel{\nodeidx'}$ for different 
 		nodes $\nodeidx, \nodeidx' \in \nodes$.  },first={local model},text={local model}}
 	
 \newglossaryentry{mutualinformation}
-{name={mutual information},
+{name={mutual information (MI)},
  description={The\index{mutual information} mutual information $\mutualinformation{\featurevec}{\truelabel}$ 
  	between two \gls{rv}s $\featurevec$, $\truelabel$ defined on the same probability 
- 	space is given by \cite{coverthomas} $$\mutualinformation{\featurevec}{\truelabel} \defeq \expect \left\{ \log \frac{p (\featurevec,\truelabel)}{p(\featurevec)p(\truelabel)} \right\}.$$ It is a measure for how well we can estimate $\truelabel$ based 
-	solely from $\featurevec$. A large value of $\mutualinformation{\featurevec}{\truelabel}$ indicates that 
+ 	space is given by \cite{coverthomas} $$\mutualinformation{\featurevec}{\truelabel} \defeq 
+	\expect \left\{ \log \frac{p (\featurevec,\truelabel)}{p(\featurevec)p(\truelabel)} \right\}.$$ 
+	It is a measure of how well we can estimate $\truelabel$ based 
+	solely on $\featurevec$. A large value of $\mutualinformation{\featurevec}{\truelabel}$ indicates that 
 	$\truelabel$ can be well predicted solely from $\featurevec$. This \gls{prediction} could be obtained by a 
-		\gls{hypothesis} learnt by a \gls{erm}-based ML method. 
+		\gls{hypothesis} learnt by an \gls{erm}-based ML method. 
 	 }, first = {mutual information (MI)}, text={MI} 
 }
 
@@ -2942,13 +2975,14 @@ first={probability density function (pdf)},text={pdf}}
 		optimization problem $\min_{\weights \in \mathbb{R}^{\dimlocalmodel}} f(\weights)$  with 
 			a \gls{smooth} and \gls{convex} \gls{objfunc} $f(\weights)$. A necessary and 
 			sufficient condition for a vector $\widehat{\weights} \in \mathbb{R}^{\dimlocalmodel}$ 
-			to solve this problem is that the \gls{gradient} $\nabla f \big( \widehat{\weights} \big)$ is the zero-vector, 
+			to solve this problem is that the \gls{gradient} $\nabla f \big( \widehat{\weights} \big)$ 
+			is the zero vector, 
 			$$ \nabla f \big( \widehat{\weights} \big) = \mathbf{0} \Leftrightarrow  f \big( \widehat{\weights} \big) = \min_{\weights \in \mathbb{R}^{\dimlocalmodel}} f(\weights) .$$ }, 
 			first={zero-gradient condition},text={zero-gradient condition}}
 
 
 \newglossaryentry{edgeweight}{name={edge weight},
-	description={Each\index{edge weight} edge $\edge{\nodeidx}{\nodeidx'}$ of a \gls{empgraph} is 
+	description={Each\index{edge weight} edge $\edge{\nodeidx}{\nodeidx'}$ of an \gls{empgraph} is 
 		assigned a non-negative \gls{edgeweight}  $\edgeweight_{\nodeidx,\nodeidx'}\geq0$. 
 		A zero \gls{edgeweight} $\edgeweight_{\nodeidx,\nodeidx'}=0$ indicates the absence 
 		of an edge between nodes $\nodeidx, \nodeidx' \in \nodes$.}, 
