@@ -10,8 +10,22 @@
 
 \newglossaryentry{maximum}
 {name=maximum,
- description={Given a set of real numbers, the maximum\index{maximum} is the largest of those numbers.},
+ %description={Given a set of real numbers, the maximum\index{maximum} is the largest of those numbers.},
+     description={The maximum\index{maximum} of a set $\mathcal{A} \subseteq \mathbb{R}$ 
+     	of real numbers is the greatest element in that set, if such an element exists. A set $\mathcal{A}$ 
+     	has a maximum if it is bounded above and attains its \gls{supremum} \cite[Sec.~1.4, pp.~11--13]{RudinBookPrinciplesMatheAnalysis}.},
  first={maximum},text={maximum}
+}
+
+\newglossaryentry{supremum}
+{name=supremum,
+	description={The supremum\index{supremum} (or least upper bound) of a set of real numbers is 
+		the smallest number that is greater than or equal to every element in the set. More formally, a 
+		real number $a$ is the supremum of a set $\mathcal{A} \subseteq \mathbb{R}$ if (i) $a$ 
+		is an upper bound of $\mathcal{A}$, and (ii) no number smaller than $a$ is an upper bound of $\mathcal{A}$. 
+		Every nonempty set of real numbers that is bounded above has a supremum, even if it does 
+		not contain its supremum as an element \cite[Sec.~1.4, pp.~11--13]{RudinBookPrinciplesMatheAnalysis}.},
+	first={supremum (least upper bound)},text={supremum}
 }
 
 \newglossaryentry{discrepancy}
@@ -48,6 +62,21 @@
 		by learning two \gls{feature}s that can be used as the coordinates of a 
 		depiction in a \gls{scatterplot}.}, first={dimensionality reduction},text={dimensionality reduction}
 } 
+
+
+
+\newglossaryentry{machinelearning}
+{name={machine learning (ML)},
+		 description={Machine learning\index{machine learning (ML)} (ML) aims to predict 
+	 a \gls{label} from the \gls{feature}s of a \gls{datapoint}. ML methods achieve 
+	 this by learning a \gls{hypothesis} from a \gls{hypospace} (or \gls{model}) 
+	 through the minimization of a \gls{loss} function \cite{MLBasics,HastieWainwrightBook}. 
+	 One precise formulation of this principle is \gls{erm}. Different ML methods are 
+	 obtained from different design choices for \gls{datapoint}s (their \gls{feature}s and \gls{label}), 
+	 \gls{model} and \gls{lossfunc} \cite[Ch. 3]{MLBasics}.},
+	first={machine learning (ML)},text={ML}
+} 
+
 
 \newglossaryentry{featlearn}
 {name={feature learning},
@@ -146,10 +175,10 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		vector $\featurevec \in \mathbb{R}^{\featuredim}$. A linear \gls{model} is 
 		a \gls{hypospace} which consists of all linear maps, 
 	\begin{equation} 
-		\label{equ_def_lin_model_hypspace}
+		\label{equ_def_lin_model_hypspace_dict}
 		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
 	\end{equation} 
-	Note that \eqref{equ_def_lin_model_hypspace} defines an entire family of \gls{hypospace}s, which is 
+	Note that \eqref{equ_def_lin_model_hypspace_dict} defines an entire family of \gls{hypospace}s, which is 
 	parameterized by the number $\nrfeatures$ of \gls{feature}s that are linearly combined to form the 
 	\gls{prediction} $\hypothesis(\featurevec)$. The design choice of $\nrfeatures$ is guided by \gls{compasp} 
 	(smaller $\nrfeatures$ means less computation), \gls{statasp} (increasing $\nrfeatures$ might 
@@ -162,9 +191,9 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		real-valued function $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
 		 and a vector $\weights \in \mathbb{R}^{\nrfeatures}$, the \gls{gradient} step\index{gradient step} 
 		 updates $\weights$ by adding the scaled negative \gls{gradient} $\nabla f(\weights)$ to obtain 
-		 the new vector (see Fig.\ \ref{fig_basic_GD_step_single})
+		 the new vector (see Fig.\ \ref{fig_basic_GD_step_single_dict})
 		 \begin{equation}
-		 \label{equ_def_gd_basic} 
+		 \label{equ_def_gd_basic_dict} 
 		\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
 		\end{equation} 
 		Mathematically, the gradient step is a (typically non-linear) operator $\mathcal{T}^{(f,\lrate)}$ 
@@ -189,21 +218,21 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 			to the updated vector $\weights'$. It defines an operator 
 			$\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
 			 \weights \mapsto \widehat{\weights}$.}
-			\label{fig_basic_GD_step_single}
+			\label{fig_basic_GD_step_single_dict}
 		\end{figure}
-		Note that the gradient step \eqref{equ_def_gd_basic} optimizes locally - 
+		Note that the gradient step \eqref{equ_def_gd_basic_dict} optimizes locally - 
 		in a neighbourhood whose size is determined by the \gls{stepsize} $\lrate$ - a linear approximation 
-		to the function $f(\cdot)$. A natural generalization of \eqref{equ_def_gd_basic} is to locally 
+		to the function $f(\cdot)$. A natural generalization of \eqref{equ_def_gd_basic_dict} is to locally 
 		optimize the function itself - instead of its linear approximation - 
 		\begin{align} 
-		\label{equ_approx_gd_step}
+		\label{equ_approx_gd_step_dict}
 		\widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!(1/\lrate)\normgeneric{\weights-\weights'}{2}^2. 
 		\end{align}
-		We intentionally use the same symbol $\lrate$ for the parameter in \eqref{equ_approx_gd_step} 
-		as we used for the step size in \eqref{equ_def_gd_basic}. The larger we choose $\lrate$ in 
-		\eqref{equ_approx_gd_step}, the more progress the update will make towards reducing the 
-		function value $f(\widehat{\weights})$. Note that, much like the gradient step \eqref{equ_def_gd_basic}, 
-		also the update \eqref{equ_approx_gd_step} defines a (typically non-linear) operator 
+		We intentionally use the same symbol $\lrate$ for the parameter in \eqref{equ_approx_gd_step_dict} 
+		as we used for the step size in \eqref{equ_def_gd_basic_dict}. The larger we choose $\lrate$ in 
+		\eqref{equ_approx_gd_step_dict}, the more progress the update will make towards reducing the 
+		function value $f(\widehat{\weights})$. Note that, much like the gradient step \eqref{equ_def_gd_basic_dict}, 
+		also the update \eqref{equ_approx_gd_step_dict} defines a (typically non-linear) operator 
 		that is parametrized by the function $f(\cdot)$ and the parameter $\lrate$. For a \gls{convex} function 
 		$f(\cdot)$, this operator is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
 		},first={gradient step},text={gradient step}}
@@ -212,7 +241,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 \newglossaryentry{proxop}{name={proximal operator},description={Given\index{proximal operator} a \gls{convex} 
 		function $f(\weights')$, we define its proximal operator as \cite{ProximalMethods,Bauschke:2017} 
 		$$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(\rho/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
-		As illustrated in Figure \ref{fig_proxoperator_opt}, evaluating the proximal operator 
+		As illustrated in Figure \ref{fig_proxoperator_opt_dict}, evaluating the proximal operator 
 		amounts to minimizing a penalized variant of $f(\weights')$. The penalty term is the 
 		scaled squared Euclidean distance to a given vector $\weights$ (which is the input to the proximal operator). 
 		%\Gls{convex} functions for which the proximal operator can be computed efficiently 
@@ -237,7 +266,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 			\end{center}
 			\caption{A generalized gradient step updates a vector $\weights$ by minimizing a penalized version 
 				of the function $f(\cdot)$. The penalty term is the squared Euclidean distance between the optimization 
-				variable $\weights'$ and the given vector $\weights$.	\label{fig_proxoperator_opt}}
+				variable $\weights'$ and the given vector $\weights$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
 		},first={proximal operator},text={proximal operator}}
 
@@ -271,13 +300,13 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		example of an iterative optimization technique is \gls{gd}.}, first={computational aspects},text={computational aspects}}
 
 \newglossaryentry{zerooneloss}{name={$0/1$ \gls{loss}},
-	description={The $0/1$ \gls{loss}\index{$0/1$ loss} $\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}$ 
-		measures the quality of a \gls{classifier} $\hypothesis(\featurevec)$ that delivers a \gls{prediction} $\predictedlabel$ (e.g., 
-	via thresholding \eqref{equ_def_threshold_bin_classifier}) for the \gls{label} $\truelabel$ of a \gls{datapoint} with \gls{feature}s 
-	$\featurevec$. 
-	It is equal to $0$ if the \gls{prediction} is correct, i.e., 
-	$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}=0$ when $\predictedlabel=\truelabel$. It is 
-	equal to $1$ if the \gls{prediction} is wrong, $\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}=1$ 
+	description={The $0/1$ \gls{loss}\index{$0/1$ loss} $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}$ 
+		measures the quality of a \gls{classifier} $\hypothesis(\featurevec)$ that delivers a 
+		\gls{prediction} $\predictedlabel$ (e.g., via thresholding \eqref{equ_def_threshold_bin_classifier_dict}) 
+		for the \gls{label} $\truelabel$ of a \gls{datapoint} with \gls{feature}s $\featurevec$. It is equal to $0$ if 
+		the \gls{prediction} is correct, i.e., 
+	$\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}=0$ when $\predictedlabel=\truelabel$. It is 
+	equal to $1$ if the \gls{prediction} is wrong, $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}=1$ 
 	when $\predictedlabel\neq\truelabel$.},
 	sort=zerooneloss, 
     first={$0/1$ \gls{loss}},text={$0/1$ \gls{loss}}}
@@ -367,7 +396,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	   the $\dimlocalmodel$-dimensional \gls{euclidspace}. We define the projection $\projection{\paramspace}{\weights}$
 	   of a vector $\weights \in \mathbb{R}^{\dimlocalmodel}$ onto $\paramspace$ as
 		\begin{equation} 
-   	    \label{equ_def_proj_generic}
+   	    \label{equ_def_proj_generic_dict}
   	     \projection{\paramspace}{\weights} = \argmin_{\weights' \in \paramspace} \normgeneric{\weights - \weights'}{2}. 
          \end{equation}
 		 In other words, $\projection{\paramspace}{\weights}$ is the vector in $\paramspace$ which is closest to $\weights$. 
@@ -401,7 +430,7 @@ and then projecting the result back into the \gls{paramspace}.
 	\end{center}
 	\caption{\Gls{projgd} augments a basic \gls{gradstep} with a projection back 
 	onto the constraint set $\paramspace$.}
-	\label{fig_projected_GD}
+	\label{fig_projected_GD_dict}
 \end{figure}},first={projected \gls{gd}},text={projected \gls{gd}}}
 
 \newglossaryentry{diffpriv}
@@ -574,7 +603,7 @@ first={bias},text={bias}
 		we might use a real-valued \gls{hypothesis} map $\hypothesis(\featurevec) \in \mathbb{R}$ 
 		as a classifier. A \gls{prediction} $\predictedlabel$ can then be obtained via thresholding,  
 		 \begin{equation} 
-		 	\label{equ_def_threshold_bin_classifier}
+		 	\label{equ_def_threshold_bin_classifier_dict}
 		 	\predictedlabel =1   \mbox{ for } \hypothesis(\featurevec)\!\geq\!0 \mbox{ and } 	\predictedlabel =-1  \mbox{ otherwise.}
 	 		\end{equation}
  		We can characterize a classifier by its \gls{decisionregion}s $\decreg{a}$, for 
@@ -700,9 +729,9 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{actfun}
 {name={activation function},
 	description={Each\index{activation function} artificial neuron within an \gls{ann} is 
-		assigned an activation function $g(\cdot)$ that maps a weighted combination of 
+		assigned an activation function $\actfun(\cdot)$ that maps a weighted combination of 
 		the neuron inputs $\feature_{1},\ldots,\feature_{\nrfeatures}$ to a single output 
-		value $a = g\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
+		value $a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
 		Note that each neuron is parameterized by the weights $\weight_{1},\ldots,\weight_{\nrfeatures}$.},
 first={activation function},text={activation function} 
 }
@@ -816,7 +845,7 @@ first={activation function},text={activation function}
 		can achieve minimum \gls{risk} (under \gls{sqerrloss}) by using the \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
 		to predict the \gls{label} $\truelabel$ of a \gls{datapoint} with \gls{feature}s $\featurevec$. The corresponding 
 		minimum \gls{risk} is given by the posterior \gls{variance} $\sigma^{2}_{\truelabel|\featurevec}$. We can use 
-		this quantity as a baseline for the average \gls{loss} of a trained \gls{model} $\learnthypothesis$. \label{fig_post_baseline}}
+		this quantity as a baseline for the average \gls{loss} of a trained \gls{model} $\learnthypothesis$. \label{fig_post_baseline_dict}}
 	\end{figure}
 A widely used \gls{probmodel} is the \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 for \gls{datapoint}s characterised by numeric \gls{feature}s and \gls{label}s.
@@ -824,7 +853,7 @@ Here, for the \gls{sqerrloss}, the \gls{bayesestimator} is given by the posterio
 mean $\mu_{\truelabel|\featurevec}$ of the \gls{label} $\truelabel$ given the 
 \gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. The corresponding \gls{bayesrisk} 
 is given by the posterior \gls{variance} 
-$\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
+$\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).},
     first={baseline},text={baseline}
 }
 
@@ -836,13 +865,13 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
 		$[t_{1},t_{2}] \subseteq \mathbb{R}$ and frequency interval $[f_{1},f_{2}]\subseteq \mathbb{R}$. 
 		Formally, the spectrogram of a signal is defined as the squared magnitude of its 
 		short-time Fourier transform (STFT) \cite{cohen1995time}.
-        Figure \ref{fig:spectrogram} depicts a time signal along with its spectrogram. 
+        Figure \ref{fig:spectrogram_dict} depicts a time signal along with its spectrogram. 
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.8\textwidth]{assets/spectrogram.png}
 		\caption{Left: A time signal consisting of two modulated Gaussian pulses. Right: Intensity 
 		plot of the spectrogram.
-		\label{fig:spectrogram}}
+		\label{fig:spectrogram_dict}}
 	\end{figure}
         The intensity plot of its spectrogram can serve as an image of a signal. A 
 		simple recipe for audio signal classification is to feed this \emph{signal image} 
@@ -874,7 +903,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
 		into \gls{euclidspace}-based \gls{clustering} methods such as \gls{kmeans} 
 		or \gls{softclustering} via \gls{gmm}. Roughly speaking, the \gls{featurevec}s of nodes 
 		belonging to a well-connected subset (or \gls{cluster}) of nodes in $\graph$, are located 
-		nearby in the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ (see Figure \ref{fig_lap_mtx_specclustering}). 
+		nearby in the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ (see Figure \ref{fig_lap_mtx_specclustering_dict}). 
 		\begin{figure}
 			\begin{center}
 				\begin{minipage}{0.4\textwidth}
@@ -939,7 +968,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
 												\mathbf{v}^{(2)}\!=\!\begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} \nonumber 
 												\end{align}
 				\end{minipage} 
-				\caption{\label{fig_lap_mtx_specclustering} {\bf Top.} Left: An undirected \gls{graph} 
+				\caption{\label{fig_lap_mtx_specclustering_dict} {\bf Top.} Left: An undirected \gls{graph} 
 					$\graph$ with four nodes $\nodeidx=1,2,3,4$, each representing a \gls{datapoint}. Right: Laplacian matrix 
 					$\LapMat{\graph}  \in \mathbb{R}^{4 \times 4}$ and its \gls{evd}. 
 					{\bf Bottom.} Left: \Gls{scatterplot} of \gls{datapoint}s using the \gls{featurevec}s 
@@ -1021,10 +1050,12 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline}).},
 	description={Consider\index{accuracy} \gls{datapoint}s characterized by \gls{feature}s $\featurevec \in \featurespace$ and 
 		a categorical label $\truelabel$ which takes on values from a finite \gls{labelspace} $\labelspace$. The 
 		accuracy of a \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \labelspace$, when applied 
-		to the \gls{datapoint}s in a \gls{dataset} $\dataset = \big\{ \big(\featurevec^{(1)}, \truelabel^{(1)} \big), \ldots, \big(\featurevec^{(\samplesize)},\truelabel^{(\samplesize)}\big) \big\}$ 
-		is then defined as $1 - (1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \lossfunc{\big(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)}\big)}{\hypothesis}$ using the \gls{zerooneloss}.},
+		to the \gls{datapoint}s in a \gls{dataset} $\dataset = \big\{ \big(\featurevec^{(1)}, \truelabel^{(1)} \big), \ldots, \big(\featurevec^{(\samplesize)},\truelabel^{(\samplesize)}\big) \big\}$, 
+		is then defined as $1 - (1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \lossfunczo{\big(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)}\big)}{\hypothesis}$ using the \gls{zerooneloss} $\lossfunczo{\cdot}{\cdot}$.},
 	first={accuracy},text={accuracy} 
 }
+
+
 
 
 
@@ -1117,7 +1148,8 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 {name={rectified linear unit (ReLU)},
 	description={The\index{rectified linear unit (ReLU)} rectified linear unit (ReLU) is 
 		a popular choice for the \gls{actfun} of a neuron within an \gls{ann}. It is defined 
-		as $g(z) = \max\{0,z\}$ with $z$ being the weighted input of the artificial neuron.}, first = {rectified linear unit (ReLU)}, text={ReLU} 
+		as $\actfun(z) = \max\{0,z\}$ with $z$ being the weighted input of the artificial 
+		neuron.}, first = {rectified linear unit (ReLU)}, text={ReLU} 
 }
 
 \newglossaryentry{hypothesis}
@@ -1285,7 +1317,7 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		\item Each row of the table represents a single \gls{datapoint}.
 		\item Each column of the table corresponds to a specific attribute of the \gls{datapoint}, including its \gls{feature}s and \gls{label}s.
 		\end{itemize}
-		For example, Table \ref{tab:temperature} shows a dataset containing weather observations. 
+		For example, Table \ref{tab:temperature_dict} shows a dataset containing weather observations. 
 		In the relational model, the order of rows is irrelevant, and each attribute (column) must be 
 		precisely defined with a domain, which specifies the set of possible values. These attribute 
 		domains correspond to the \gls{featurespace} and \gls{labelspace} of the \gls{datapoint}s.
@@ -1302,7 +1334,7 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		Kustavi Isokari & 2023 & 4 & 5 & 00:00 & 0.9 \\ \hline
 	\end{tabular}
 	\caption{Temperature observations at FMI station Kustavi Isokari.}
-	\label{tab:temperature}
+	\label{tab:temperature_dict}
 \end{table}
  While the relational model is useful for the study of many ML applications, it may be 
  insufficient regarding the requirements for trustworthy AI. Modern 
@@ -1394,15 +1426,15 @@ description={A\index{training set} \gls{dataset} $\dataset$, constituted by some
 
 \newglossaryentry{datapoint}
 {name={data point},
-description={A\index{data point} \gls{datapoint} is any object that conveys information \cite{coverthomas}. Data points might be 
+description={A\index{data point}data point is any object that conveys information \cite{coverthomas}. Data points might be 
 		students, radio signals, trees, forests, images, \gls{rv}s, real numbers or proteins. We characterize data points 
 		using two types of properties. One type of property is referred to as a \gls{feature}. \Gls{feature}s are properties of a 
-		\gls{datapoint} that can be measured or computed in an automated fashion. 
+		data point that can be measured or computed in an automated fashion. 
 		A different kind of property is referred to as \gls{label}s. The \gls{label} of 
-		a \gls{datapoint} represents some higher-level fact (or quantity of interest). In 
-		contrast to \gls{feature}s, determining the \gls{label} of a \gls{datapoint} typically 
+		a data point represents some higher-level fact (or quantity of interest). In 
+		contrast to \gls{feature}s, determining the \gls{label} of a data point typically 
 		requires human experts (domain experts). Roughly speaking, ML aims to predict 
-		the \gls{label} of a \gls{datapoint} based solely on its \gls{feature}s. 
+		the \gls{label} of a data point based solely on its \gls{feature}s. 
 		}, first={data point},text={data point}  
 }
 
@@ -1530,7 +1562,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 			a perturbation is to add the \gls{realization} of a \gls{rv} to the \gls{featurevec} 
 			of a \gls{datapoint}. 
 		\end{itemize} 
-		Figure \ref{fig_equiv_dataaug_penal} illustrates the above three routes to regularization. 
+		Figure \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
 		These routes are closely related and sometimes fully equivalent: \gls{dataaug} using \gls{gaussrv}s 
 		to perturb the \gls{featurevec}s in the \gls{trainset} of \gls{linreg} 
 		has the same effect as adding the penalty 
@@ -1595,7 +1627,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\hypothesis}$};
 				\end{tikzpicture}
 				\caption{Three approaches to regularization: \gls{dataaug}, \gls{loss} penalization, and \gls{model} 
-				pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal} }
+				pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
 			\end{center}
 		\end{figure} 
 		\newpage
@@ -1658,7 +1690,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 		                   		to learn a \gls{hypothesis} $\learnthypothesis$ via \gls{erm}. We can evaluate $\learnthypothesis$ 
 		                   		\emph{outside} $\trainset$ either by an \gls{iidasspt} with underlying \gls{probdist} $p(\datapoint)$ 
 		                   		or by perturbing the \gls{datapoint}s.}
-		                   	\label{fig:polynomial_fit}
+		                   	\label{fig:polynomial_fit_dict}
 		                   \end{figure}
 		                   \newpage
 		},
@@ -1722,7 +1754,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 
 \newglossaryentry{scatterplot}{name={scatterplot}, description={A\index{scatterplot} 
 		visualization technique that depicts \gls{datapoint}s by markers in a two-dimensional plane. 
-		Fig.\ \ref{fig_scatterplot_temp_FMI} depicts an example of a scatterplot.  
+		Fig.\ \ref{fig_scatterplot_temp_FMI_dict} depicts an example of a scatterplot.  
 		\begin{figure}[htbp]
 			\begin{center}
 				\begin{tikzpicture}[scale=1]
@@ -1749,7 +1781,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 				as the \gls{feature} and its maximum daytime temperature $\truelabel$ as the \gls{label}. 
 				The temperatures have been measured at the \gls{fmi} weather station \emph{Helsinki Kaisaniemi} 
 				during 1.9.2024 - 28.10.2024.}
-			\label{fig_scatterplot_temp_FMI}
+			\label{fig_scatterplot_temp_FMI_dict}
 			\vspace*{-3mm}
 			\end{figure}
 		},first={scatterplot},text={scatterplot} }
@@ -1818,7 +1850,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 		special matrices that are associated with $\graph$. One such matrix is the 
 		graph Laplacian matrix $\mL^{(\graph)} \in \mathbb{R}^{\nrnodes \times \nrnodes}$ 
 		which is defined for an undirected and weighted \gls{graph} \cite{Luxburg2007,Ng2001}. 
-		It is defined element-wise as (see Fig.\ \ref{fig_lap_mtx})
+		It is defined element-wise as (see Fig.\ \ref{fig_lap_mtx_dict})
 	\begin{equation}
 		\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} - \edgeweight_{\nodeidx,\nodeidx'} & \mbox{ for } \nodeidx\neq \nodeidx', \edge{\nodeidx}{\nodeidx'}\!\in\!\edges, \\ 
 			\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ for } \nodeidx = \nodeidx', \\ 
@@ -1846,7 +1878,7 @@ description={A\index{data point} \gls{datapoint} is any object that conveys info
 	 				 		 \nonumber
 	 				 		 \end{equation} 
 	 			 \end{minipage}
-	 	 \caption{\label{fig_lap_mtx} Left: Some undirected graph $\graph$ with three nodes $\nodeidx=1,2,3$. 
+	 	 \caption{\label{fig_lap_mtx_dict} Left: Some undirected graph $\graph$ with three nodes $\nodeidx=1,2,3$. 
 	 		 	Right: Laplacian matrix $\LapMat{\graph}  \in \mathbb{R}^{3 \times 3}$ of $\graph$.} 
 	 		 	\end{center}
 	 		\end{figure}
@@ -1890,7 +1922,7 @@ first = {Courant–Fischer–Weyl min-max characterization (CFW)}, text={CFW}}
 	the \gls{datapoint}s have a \emph{more pleasant} geometry in the transformed \gls{featurespace}. 
 	For example, in a binary \gls{classification} problem, using transformed \gls{featurevec}s $\vz$ might 
 	allow to use \gls{linmodel}s, even if the \gls{datapoint}s are not linearly 
-	separable in the original \gls{featurespace} (see Figure \ref{fig_linsep_kernel}). 
+	separable in the original \gls{featurespace} (see Figure \ref{fig_linsep_kernel_dict}). 
 	\begin{figure}[htbp]
 \begin{center}
  \begin{tikzpicture}[auto,scale=0.6]
@@ -1920,7 +1952,7 @@ and \gls{label}s $\truelabel^{(\sampleidx)} \in \{ \circ, \square \}$, for $\sam
 With these \gls{featurevec}s, there is no way to separate the two classes 
 by a straight line (representing the \gls{decisionboundary} of a \gls{linclass}). 
 In contrast, the transformed \gls{featurevec}s $\vz^{(\sampleidx)} = \kernelmap{\featurevec^{(\sampleidx)}}{\cdot}$ 
-allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linsep_kernel}}
+allow to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_linsep_kernel_dict}}
 \end{figure}
 },first={kernel method},text={kernel method} }
 	
@@ -2157,19 +2189,19 @@ realizations of a \gls{rv} centered around these \gls{datapoint}s.},first={ridge
 		from the features $\featurevec$. The logistic loss incurred by this \gls{prediction} is 
 		defined as 
 	\begin{equation} 
-		\label{equ_log_loss_gls}
+		\label{equ_log_loss_gls_dict}
 		\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log ( 1 + \exp(- \truelabel \hypothesis(\featurevec))).
 \end{equation}
-Carefully note that the expression \eqref{equ_log_loss_gls} 
+Carefully note that the expression \eqref{equ_log_loss_gls_dict} 
 for the logistic loss applies only if for the \gls{labelspace} $\labelspace = \{ -1,1\}$ and using 
-the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logistic loss},text={logistic loss}}
+the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={logistic loss},text={logistic loss}}
 	
 \newglossaryentry{hingeloss}{name={hinge loss}, description={Consider\index{hinge loss} a \gls{datapoint}, 
 		characterized by a \gls{feature} vector $\featurevec \in \mathbb{R}^{\featuredim}$ and a 
 		binary \gls{label} $\truelabel \in \{-1,1\}$. The hinge loss incurred by a real-valued 
 		\gls{hypothesis} map $\hypothesis(\featurevec)$ is defined as 
 		\begin{equation} 
-			\label{equ_hinge_loss_gls}
+			\label{equ_hinge_loss_gls_dict}
 				\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \max \{ 0 , 1 - \truelabel \hypothesis(\featurevec) \}. 
 			\end{equation}
 			\begin{center}
@@ -2226,19 +2258,21 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 
 \newglossaryentry{ai}{name={artificial intelligence}, description={
 		Artificial intelligence \index{artificial intelligence} refers to systems that behave rationally in the sense of 
-		maximizing a long-term \gls{reward}. The ML-based approach to AI is to train a \gls{model} that allows 
-		the predict optimal actionsfor a given observed state of the environment. The choice of \gls{lossfunc}
-		sets AI applications apart from more basic ML applications. AI systems rarely have access to a labelled 
-		\gls{trainset} that allows the average \gls{loss} to be measured for any possible choice of \gls{modelparams}. 
+		maximizing a long-term \gls{reward}. The ML-based approach to AI is to train a \gls{model} for  
+		predicing optimal actions. These predictions are computed from observations about the state of the 
+		environment. The choice of \gls{lossfunc}sets AI applications apart from more basic ML applications. 
+		AI systems rarely have access to a labelled \gls{trainset} that allows the average \gls{loss} to be measured for any possible choice of \gls{modelparams}. 
 		Instead, AI systems use observed reward signals to obtain an (point-wise) estimate for the 
 		\gls{loss} incurred by the current choice of \gls{modelparams}.},first={artificial intelligence (AI)},text={AI} }
 
-\newglossaryentry{reward}{name={reward}, description={Some\index{reward} observed (or measured) quantity that allows to estimate the \gls{loss} 
-	incurred by the \gls{prediction} (or decision) of a \gls{hypothesis} $h(\featurevec)$. For example, 
-	in a ML application to self-driving vehicles, $h(\featurevec)$ could represent the current steering 
-	direction of vehicle. We could construct a reward from the measurements of a collision sensor that 
-	indicate if the vehicle is moving towards an obstacle. We define a low reward for the steering direction 
-	$h(\featurevec)$ if the vehicle moves dangerously towards an obstacle.},
+\newglossaryentry{reward}{name={reward}, description={Some\index{reward} observed 
+		(or measured) quantity that allows to estimate the \gls{loss} incurred by the \gls{prediction} 
+		(or decision) of a \gls{hypothesis} $\hypothesis(\featurevec)$. For example, in an 
+		ML application to self-driving vehicles, $\hypothesis(\featurevec)$ could represent 
+		the current steering direction of vehicle. We could construct a reward from the 
+		measurements of a collision sensor that indicate if the vehicle is moving towards 
+		an obstacle. We define a low reward for the steering direction 
+	$\hypothesis(\featurevec)$ if the vehicle moves dangerously towards an obstacle.},
 	first={reward}, text={reward}} 
 
 \newglossaryentry{hardclustering}{name={hard clustering}, description={Hard clustering\index{hard clustering} 
@@ -2280,10 +2314,10 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 \newglossaryentry{svm}{name={support vector machine}, description={The\index{support vector machine} 
 		support vector machine (SVM) is a binary \gls{classification} method that learns a linear \gls{hypothesis} map. 
 		Thus, like \gls{linreg} and \gls{logreg}, it is also an instance of \gls{erm} for the \gls{linmodel}. However, 
-		the support vector machine uses a different \gls{lossfunc} than those methods. As illustrated in Figure \ref{fig_svm_gls}, 
+		the support vector machine uses a different \gls{lossfunc} than those methods. As illustrated in Figure \ref{fig_svm_gls_dict}, 
 		it aims to maximally separate \gls{datapoint}s from the two different classes in the \gls{feature} space 
 		(\emph{maximum margin principle}). Maximizing this separation is equivalent to minimizing a regularised 
-		variant of the \gls{hingeloss} \eqref{equ_hinge_loss_gls} \cite{LampertNowKernel,Cristianini_Shawe-Taylor_2000,BishopBook}
+		variant of the \gls{hingeloss} \eqref{equ_hinge_loss_gls_dict} \cite{LampertNowKernel,Cristianini_Shawe-Taylor_2000,BishopBook}
 		\begin{figure}[htbp]
 			\begin{center}
 				\begin{tikzpicture}[auto,scale=0.8]
@@ -2303,7 +2337,7 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 					minimum average soft-margin \gls{hingeloss}. Minimizing this \gls{loss} is equivalent 
 					to maximizing the margin $\xi$ between the \gls{decisionboundary} of $\hypothesis^{(\weights)}$ 
 					and each class of the \gls{trainset}.}
-				\label{fig_svm_gls}
+				\label{fig_svm_gls_dict}
 			\end{center}
 		\end{figure}
 		The above basic variant of SVM is only useful if the \gls{datapoint}s from different categories can be  
@@ -2395,7 +2429,7 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 		over all \gls{datapoint}s in the \gls{trainset}. We obtain a stochastic 
 		approximation to the \gls{gradient} by replacing the sum $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
 		with a sum $\sum_{\sampleidx \in \batch} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
-		over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Figure \ref{fig_sgd_approx}). 
+		over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Figure \ref{fig_sgd_approx_dict}). 
 		We often refer to these randomly chosen \gls{datapoint}s as a \emph{batch}. 
 		The batch size $|\batch|$ is an important parameter of stochastic \gls{gd}. 
 		Stochastic \gls{gd} with $|\batch|> 1$ is referred to as mini-batch stochastic \gls{gd} \cite{Bottou99}. 		
@@ -2417,7 +2451,7 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier}. },first={logisti
 		$\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
 		by replacing the 
 		sum over all \gls{datapoint}s in the \gls{trainset} (indexed by $\sampleidx=1,\ldots,\samplesize$) 
-		with a sum over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$.\label{fig_sgd_approx}}
+		with a sum over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$.\label{fig_sgd_approx_dict}}
 		\end{figure}
 },first={stochastic gradient descent (SGD)},text={SGD} }
 
@@ -2437,11 +2471,11 @@ arrives at time $\timeidx$, we update the current \gls{modelparams} $\weights^{(
 the new \gls{datapoint} $\datapoint^{(\timeidx)}$ contributes the component $\lossfunc{\datapoint^{(\timeidx)}}{\weights}$ 
 to the \gls{risk}. As it name suggests, online GD updates $\weights^{(\timeidx)}$ via a (projected) \gls{gradstep}
 \begin{equation} 
-\label{equ_def_ogd}
+\label{equ_def_ogd_dict}
  \weights^{(\timeidx+1)} \defeq \projection{\paramspace}{\weights^{(\timeidx)} - \lrate_{\timeidx} \nabla_{\weights} \lossfunc{\datapoint^{(\timeidx)}}{\weights}}. 
 \end{equation} 
-Note that \eqref{equ_def_ogd} is a \gls{gradstep} for the current component $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
-of the \gls{risk}. The update \eqref{equ_def_ogd} ignores all the previous components $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$, 
+Note that \eqref{equ_def_ogd_dict} is a \gls{gradstep} for the current component $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
+of the \gls{risk}. The update \eqref{equ_def_ogd_dict} ignores all the previous components $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$, 
 for $\timeidx' < \timeidx$. It might therefore happen that, compared to $\weights^{(\timeidx)}$, the updated \gls{modelparams} 
 $\weights^{(\timeidx+1)}$ increase the retrospective average \gls{loss} $\sum_{\timeidx'=1}^{\timeidx-1} \lossfunc{\datapoint^{(\timeidx')}}{\cdot}$. 
 However, for a suitably chosen \gls{learnrate} $\lrate_{\timeidx}$, online GD can be shown 
@@ -2508,7 +2542,7 @@ first={online gradient descent (online GD)},text={online GD}}
 		between the true \gls{label} $\truelabel$ and the \gls{prediction} $\hypothesis(\featurevec)$. 
 		Lower (closer to zero) values $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indicate a smaller 
 		discrepancy between \gls{prediction} $\hypothesis(\featurevec)$ and label $\truelabel$. 
-		Figure \ref{fig_loss_function_gls} depicts a \gls{lossfunc} for a given \gls{datapoint}, 
+		Figure \ref{fig_loss_function_gls_dict} depicts a \gls{lossfunc} for a given \gls{datapoint}, 
 		with \gls{feature}s $\featurevec$ and label $\truelabel$, as a function of the \gls{hypothesis} $\hypothesis \in \hypospace$. 
 		\begin{figure}[htbp]
 			\begin{center}
@@ -2542,7 +2576,7 @@ first={online gradient descent (online GD)},text={online GD}}
 			\caption{Some \gls{lossfunc} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ for a fixed \gls{datapoint}, with 
 				\gls{feature} vector $\featurevec$ and \gls{label} $\truelabel$, and varying \gls{hypothesis} $\hypothesis$. 
 				ML methods try to find (learn) a \gls{hypothesis} that incurs minimal \gls{loss}.}
-			\label{fig_loss_function_gls}
+			\label{fig_loss_function_gls_dict}
 	\end{figure}
  },first={loss function},text={loss function} }
 
@@ -2560,15 +2594,42 @@ first={online gradient descent (online GD)},text={online GD}}
 	  }
 	  ,first={decision tree},text={decision tree} }
 
+%\newglossaryentry{API} 
+%{
+%	name={application programming interface (API)},
+%	description={An\index{application programming interface} application programming 
+%		interface (API) is a precise specification of the services and resources 
+%		offered by software or hardware implementing that API.},
+%	first={application programming interface (API)},
+%	text={API}
+%}
+
+
 \newglossaryentry{API} 
-{
-	name={Application Programming Interface (API)},
+{name={application programming interface (API)},
 	description={An\index{application programming interface} application programming 
-		interface (API) is a precise specification of the services and resources 
-		offered by software or hardware implementing that API.},
+		interface (API) defines a precise specification of the functionalities, services, 
+		and resources provided by a software or hardware system. It establishes a 
+		structured way for different components or external programs to interact with 
+		the system \cite{RestfulBook2013}. For example, a \gls{machinelearning} service 
+		providing a \gls{prediction} based on input \gls{feature}s could expose an 
+		API endpoint as follows:
+		\begin{quote}
+		\texttt{POST /predict}\\
+		\texttt{Content-Type: application/json}\\
+		\texttt{\{ "features": [5.1, 3.5, 1.4, 0.2] \}}
+		\end{quote}
+		The service responds with:
+		\begin{quote} 
+		\texttt{\{ "prediction": "setosa", "confidence": 0.98 \}}
+		\end{quote}
+		This API allows users to send a feature vector and receive a predicted 
+		label along with a confidence score.
+	},
 	first={application programming interface (API)},
 	text={API}
 }
+
 
 \newglossaryentry{hilbertspace}{name={Hilbert space},description={A\index{Hilbert space} 
 		Hilbert space is a linear vector space equipped with an inner product between 
@@ -2592,13 +2653,19 @@ first={online gradient descent (online GD)},text={online GD}}
 		common \gls{probdist}.},first={sample size},text={sample size}
 }
 
-\newglossaryentry{ann}
-{name=artificial neural network,
-	description={An\index{artificial neural network} artificial neural network is a 
-		graphical (signal-flow) representation of a map from \gls{feature}s of 
-		a \gls{datapoint} at its input to a \gls{prediction} for the \gls{label} 
-		as its output.},first={artificial neural network (ANN)},text={ANN}
+\newglossaryentry{ann}{
+	name={artificial neural network},
+	description={An\index{artificial neural network} artificial neural network (ANN) 
+		is a graphical (signal-flow) representation of a function that maps 
+		\gls{feature}s of a \gls{datapoint} at its input to a \gls{prediction} 
+		for the corresponding \gls{label} at its output. The fundamental unit of an 
+		ANN is the artificial neuron, which applies an \gls{actfun} to its 
+		weighted inputs. The outputs of these neurons serve as inputs for other neurons, 
+		forming interconnected layers.},
+	first={artificial neural network (ANN)},
+	text={ANN}
 }
+
 
 \newglossaryentry{randomforest}
 {name=random forest,
@@ -2621,11 +2688,11 @@ first={online gradient descent (online GD)},text={online GD}}
 		that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
 		the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a gradient step
 		\begin{equation} 
-			\label{equ_def_GD_step}
+			\label{equ_def_GD_step_dict}
 			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
 		\end{equation} 
-		with a sufficiently small \gls{stepsize} $\lrate>0$. Figure \ref{fig_basic_GD_step} illustrates the effect of 
-		a single \gls{gd} step \eqref{equ_def_GD_step}.
+		with a sufficiently small \gls{stepsize} $\lrate\!>\!0$. Figure \ref{fig_basic_GD_step_dict} illustrates the effect of 
+		a single \gls{gd} step \eqref{equ_def_GD_step_dict}.
 		\begin{figure}[htbp]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -2644,18 +2711,23 @@ first={online gradient descent (online GD)},text={online GD}}
 					\draw[shift={(0,\y)}] (2pt,0pt) -- (-2pt,0pt) node[left] {$\ytext$};  
 				\end{tikzpicture}
 			\end{center}
-			\caption{A single gradient step \eqref{equ_def_GD_step} towards the minimizer $\overline{\weights}$ of $f(\weights)$.}
-			\label{fig_basic_GD_step}
+			\caption{A single gradient step \eqref{equ_def_GD_step_dict} towards the minimizer $\overline{\weights}$ of $f(\weights)$.}
+			\label{fig_basic_GD_step_dict}
 		\end{figure}
 %		
 		},first={gradient descent (GD)},text={GD}}
 
 \newglossaryentry{abserr}{name={absolute error loss},description={
-			Consider a \gls{datapoint} with \gls{feature}s $\featurevec \in \featurespace$ and 
-			numeric \gls{label} $\truelabel \in \mathbb{R}$. 
-			The absolute error loss \index{absolute error loss} incurred by 
-			a \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
-			is defined as $|\truelabel - \hypothesis(\featurevec)|$.},
+			Consider a \gls{datapoint} with \gls{feature}s $\featurevec \in \featurespace$ and numeric 
+			\gls{label} $\truelabel \in \mathbb{R}$. The absolute error loss \index{absolute error loss} 
+			incurred by a \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
+			is defined as $|\truelabel - \hypothesis(\featurevec)|$, i.e., the absolute difference between 
+			the \gls{prediction} $\hypothesis(\featurevec)$ and the true \gls{label} $\truelabel$.},
+	%		{\bf Example.} Imagine you are predicting the temperature for tomorrow. If the actual 
+	%		temperature is 20 (measured in degree Celsius), but your model predicts 18, the absolute 
+	%		error is $20−18=2$. This means your prediction was off by $2$ (degrees Celius). 
+	%		The absolute error loss always gives a positive number, so it doesn't matter if the \gls{prediction} 
+	%		is too high or too low - only the size of the difference matters.}
 			first={absolute error loss},text={absolute error loss}}
 
 \newglossaryentry{device}{name={device},description={
@@ -2809,7 +2881,7 @@ first={probability density function (pdf)},text={pdf}}
 	    Indeed, \gls{gdmethods} approximate the \gls{objfunc} locally around a current choice $\weights$ 
 	    using its \gls{gradient}. This approximation works well if the \gls{gradient} does 
 	    not change too rapidly. We can make this informal claim precise by studying the effect of a single 
-	    \gls{gradstep} with \gls{stepsize} $\lrate=1/\beta$ (see Figure \ref{fig_gd_smooth}). 
+	    \gls{gradstep} with \gls{stepsize} $\lrate=1/\beta$ (see Figure \ref{fig_gd_smooth_dict}). 
 	    \begin{figure} 
 	    	\begin{center} 
 	    	\begin{tikzpicture}[scale=0.8, x=0.7cm,y=0.05cm]
@@ -2842,14 +2914,14 @@ first={probability density function (pdf)},text={pdf}}
 	    		objective by at least $\frac{1}{2\beta}\normgeneric{\nabla f(\weights^{(\iteridx)})}{2}^{2}$ \cite{nesterov04,CvxAlgBertsekas,CvxBubeck2015}. 
 	    		Note that the \gls{stepsize} $\lrate = 1/\beta$ becomes larger for smaller $\beta$. Thus, 
 	    		for smoother \gls{objfunc}s (those who are $\beta$-smooth with smaller $\beta$), 
-				we can take larger steps. \label{fig_gd_smooth}}
+				we can take larger steps. \label{fig_gd_smooth_dict}}
 	    	\end{figure}
 	    },first={smooth},text={smooth}}
 
 \newglossaryentry{paramspace}{name={parameter space},
 		description={The\index{parameter space} parameter space $\paramspace$ of 
 		an ML \gls{model} $\hypospace$ is the set of all feasible choices for the 
-		\gls{modelparams} (see Figure \ref{fig_param_space}). Many important ML methods 
+		\gls{modelparams} (see Figure \ref{fig_param_space_dict}). Many important ML methods 
 		use a \gls{model} that is parametrized by vectors of the \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$. 
 		Two widely used examples of parametrized \gls{model}s are the \gls{linmodel} 
 		and \gls{deepnet}s. The parameter space is then often a subset $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$, 
@@ -2888,7 +2960,7 @@ first={probability density function (pdf)},text={pdf}}
 			\caption{The parameter space $\paramspace$ of an ML \gls{model} $\hypospace$ consists of all 
 			feasible choices for the \gls{modelparams}. Each choice $\weights$ for the \gls{modelparams} 
 			selects a \gls{hypothesis} map $\hypothesis^{(\weights)} \in \hypospace$.
-				 \label{fig_param_space}} 
+				 \label{fig_param_space_dict}} 
 \end{figure}},
 			first={parameter space},text={parameter space}}
 
@@ -2912,7 +2984,7 @@ first={probability density function (pdf)},text={pdf}}
 		transformations are such that the resulting synthetic \gls{datapoint}s should 
 		still have the same \gls{label}. As a case in point, a rotated cat image is still 
 		a cat image even if their \gls{featurevec}s (obtained by stacking pixel color intensities) 
-		are very different (see Figure \ref{fig_symmetry_dataaug}). Data augmentation can be an 
+		are very different (see Figure \ref{fig_symmetry_dataaug_dict}). Data augmentation can be an 
 		efficient form of \gls{regularization}.
 		\begin{figure}[h]
 		\begin{center}
@@ -2939,7 +3011,7 @@ first={probability density function (pdf)},text={pdf}}
 		    might represent the effect of rotating a cat image by $\eta$ degrees. A \gls{datapoint} 
 		    with \gls{featurevec} $\featurevec^{(2)} = \mathcal{T}^{(\eta)} \big(\featurevec^{(1)} \big)$ must 
 		    have the same \gls{label} $\truelabel^{(2)}=\truelabel^{(1)}$ as a \gls{datapoint} 
-		     with \gls{featurevec} $\featurevec^{(1)}$.\label{fig_symmetry_dataaug}}
+		     with \gls{featurevec} $\featurevec^{(1)}$.\label{fig_symmetry_dataaug_dict}}
 		 \end{figure} },first={data augmentation},text={data augmentation}}
 	
 	
