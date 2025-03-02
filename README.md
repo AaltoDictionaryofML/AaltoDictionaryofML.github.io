@@ -30,7 +30,7 @@ We welcome contributions to translate the dictionary into other languages to mak
 
 If you use content from this repository in your materials, please include a citation to **The Aalto Dictionary of Machine Learning**:
 
-> Jung, A. (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/ADictML_English.pdf]
+> Jung, A. (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://aaltodictionaryofml.github.io/]
 
 For LaTeX users, you can cite it as follows:
 
@@ -39,7 +39,7 @@ For LaTeX users, you can cite it as follows:
   author    = {Alexander Jung},
   title     = {The Aalto Dictionary of Machine Learning},
   year      = {2024},
-  url       = {https://aaltodictionaryofml.github.io/ADictML.pdf}
+  url       = {https://aaltodictionaryofml.github.io/}
 }
 ```
 
