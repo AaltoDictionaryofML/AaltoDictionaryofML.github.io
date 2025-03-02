@@ -30,7 +30,7 @@ We welcome contributions to translate the dictionary into other languages to mak
 
 If you use content from this repository in your materials, please include a citation to **The Aalto Dictionary of Machine Learning**:
 
-> Jung, A. (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://aaltodictionaryofml.github.io/ADictML.pdf]
+> Jung, A. (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/ADictML_English.pdf]
 
 For LaTeX users, you can cite it as follows:
 
@@ -58,7 +58,15 @@ We welcome contributions to improve and expand the dictionary! If you find error
 
 ## 🏛 License
 
-This repository is released under the **Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**. This means you are free to use, share, and adapt the content, provided that you give appropriate credit and distribute any derivative work under the same license.
+This repository is released under the **Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**. This means you are free to use, 
+share, and adapt the content, provided that you give appropriate credit and distribute any derivative work under the same license.
+
+## Acknowledgment 🙌  
+
+Our work is supported by the Research Council of Finland (under grants 363624, 349966), by the Jane and Aatos Erkko Foundation (under grant A835), 
+and by Business Finland within the co-research project **FORWARD-LOOKING AI GOVERNANCE IN BANKING AND INSURANCE (FLAIG)**.  
+
+We sincerely acknowledge their support in making this course possible. 🎓✨  
 
 ---
 
