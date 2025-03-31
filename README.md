@@ -1,14 +1,17 @@
 # The Aalto Dictionary of Machine Learning
 
-Welcome to the official repository for **The Aalto Dictionary of Machine Learning**! This repository contains the source files used to compile the dictionary, providing definitions, explanations, and mathematical formulations of key machine learning concepts.
+Welcome to the official repository for **The Aalto Dictionary of Machine Learning**! This repository contains the source 
+files used to compile the dictionary, providing definitions, explanations, and mathematical formulations of key machine learning concepts.
 
 ## 📖 About the Dictionary
 
-**The Aalto Dictionary of Machine Learning** is designed to be a comprehensive reference for students, researchers, and practitioners in the field of machine learning. It provides clear and concise definitions of fundamental concepts, supplemented with mathematical rigor and illustrative examples.
+**The Aalto Dictionary of Machine Learning** is designed to be a comprehensive reference for students, researchers, 
+and practitioners in the field of machine learning. It provides clear and concise definitions of fundamental concepts, supplemented with mathematical rigor and illustrative examples.
 
 ## 🔄 Reuse and Adaptation
 
-We encourage teachers and professors to reuse and adapt content from this repository for their own teaching materials, lecture notes, or research documentation. The modular structure of the source makes it easy to extract individual definitions or sections for educational use.
+We encourage teachers and professors to reuse and adapt content from this repository for their own teaching materials, lecture notes, 
+or research documentation. The modular structure of the source makes it easy to extract individual definitions or sections for educational use.
 
 ### ✅ How to Reuse
 
@@ -30,7 +33,7 @@ We welcome contributions to translate the dictionary into other languages to mak
 
 If you use content from this repository in your materials, please include a citation to **The Aalto Dictionary of Machine Learning**:
 
-> Jung, A. (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://aaltodictionaryofml.github.io/]
+> A. Jung and K. Olum (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://aaltodictionaryofml.github.io/]
 
 For LaTeX users, you can cite it as follows:
 
