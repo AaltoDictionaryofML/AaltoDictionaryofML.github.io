@@ -1,78 +1,85 @@
-# The Aalto Dictionary of Machine Learning
+# 📗 The Aalto Dictionary of Machine Learning
 
-Welcome to the official repository for **The Aalto Dictionary of Machine Learning**! This repository contains the source 
-files used to compile the dictionary, providing definitions, explanations, and mathematical formulations of key machine learning concepts.
+Welcome to the official repository for **[The Aalto Dictionary of Machine Learning](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)**! 
+This repository contains the source files used to compile the dictionary, offering clear 
+definitions, comprehensive explanations, and mathematical formulations of 
+key machine learning concepts.
 
 ## 📖 About the Dictionary
 
-**The Aalto Dictionary of Machine Learning** is designed to be a comprehensive reference for students, researchers, 
-and practitioners in the field of machine learning. It provides clear and concise definitions of fundamental concepts, supplemented with mathematical rigor and illustrative examples.
+**The Aalto Dictionary of Machine Learning** serves as an essential reference guide 
+tailored for students, researchers, and practitioners. It provides concise, rigorous definitions 
+and illustrative examples, facilitating deeper understanding and practical application of 
+fundamental machine learning concepts.
 
 ## 🔄 Reuse and Adaptation
 
-We encourage teachers and professors to reuse and adapt content from this repository for their own teaching materials, lecture notes, 
-or research documentation. The modular structure of the source makes it easy to extract individual definitions or sections for educational use.
+We actively encourage educators and researchers to reuse and adapt the contents of this 
+dictionary for educational materials, lecture notes, presentations, or academic publications. 
+The modular design of the content simplifies extraction and adaptation.
 
-### ✅ How to Reuse
+### ✅ Steps to Reuse
 
 1. Clone or download this repository.
-2. Locate the relevant files containing the content you want to use.
-3. Copy and adapt the material as needed for your coursework, presentations, or research papers.
-4. Ensure proper attribution (see below).
+2. Identify relevant files containing the desired content.
+3. Copy and modify the material as needed for your coursework or research.
+4. Ensure proper citation and attribution (see below).
 
 ## 🌐 Translations
 
-We welcome contributions to translate the dictionary into other languages to make it accessible to a broader audience. If you're interested in starting a new translation:
+Translations help broaden the accessibility of machine learning knowledge globally. If you're interested in contributing:
 
 1. Fork this repository.
-2. Create a new directory named after the language code (e.g., `es` for Spanish) within the `translations` folder.
-3. Translate the content and place it in the newly created directory.
-4. Submit a pull request with your translation.
+2. Create a new directory using the language code (e.g., `es` for Spanish) in the `translations` folder.
+3. Translate and add the content to your new directory.
+4. Submit a pull request for review.
 
 ## 📌 Citation and Attribution
 
-If you use content from this repository in your materials, please include a citation to **The Aalto Dictionary of Machine Learning**:
+When using content from this dictionary, please cite as:
 
-> A. Jung and K. Olum (2024). *The Aalto Dictionary of Machine Learning*. [Online: https://aaltodictionaryofml.github.io/]
+> A. Jung and K. Olioumtsevits (2025). *The Aalto Dictionary of Machine Learning*. [Online]. Available: https://aaltodictionaryofml.github.io/
 
-For LaTeX users, you can cite it as follows:
-
+For LaTeX citation:
 ```bibtex
-@book{jung2024dictionary,
-  author    = {Alexander Jung},
-  title     = {The Aalto Dictionary of Machine Learning},
-  year      = {2024},
-  url       = {https://aaltodictionaryofml.github.io/}
+@book{jung2025dictionary,
+author    = {Alexander Jung and Konstantina Olioumtsevits},
+title     = {The Aalto Dictionary of Machine Learning},
+year      = {2025},
+url       = {https://aaltodictionaryofml.github.io/}
 }
 ```
 
 ## 📂 Repository Structure
 
-```
-📦 AaltoDictionaryofML.github.io
- ├── 📁 assets/          # support files (data,..)
- ├── 📁 translations/    # Translations of the dictionary
- ├── 📄 README.md        # This file
-```
+- [📦 **AaltoDictionaryofML.github.io**](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)
+- [📁 **assets/**](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/assets) — Supporting files (datasets, figures, etc.)
+- [📁 **translations/**](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/translations) — Translations into various languages
+- [📄 **README.md**](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/README.md) — This document
 
-## 💡 Contributing
+## 💡 How to Contribute
 
-We welcome contributions to improve and expand the dictionary! If you find errors, wish to add new terms, or start a translation, feel free to open an issue or submit a pull request.
+Your contributions are greatly appreciated! If you spot errors, have suggestions for new terms, or wish to begin a translation, please:
+- Open an issue for discussions.
+- Submit a pull request with your changes.
 
 ## 🏛 License
 
-This repository is released under the **Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**. This means you are free to use, 
-share, and adapt the content, provided that you give appropriate credit and distribute any derivative work under the same license.
+This work is licensed under the **Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**. You may freely use, adapt, and distribute content with proper attribution, provided derivative works share the same license.
 
-## Acknowledgment 🙌  
+## 🙌 Acknowledgments
 
-Our work is supported by the Research Council of Finland (under grants 363624, 349966), by the Jane and Aatos Erkko Foundation (under grant A835), 
-and by Business Finland within the co-research project **FORWARD-LOOKING AI GOVERNANCE IN BANKING AND INSURANCE (FLAIG)**.  
+This project is supported by:
 
-We sincerely acknowledge their support in making this course possible. 🎓✨  
+- Research Council of Finland (grants 363624, 349966)
+- Jane and Aatos Erkko Foundation (grant A835)
+- Business Finland through **FORWARD-LOOKING AI GOVERNANCE IN BANKING AND INSURANCE (FLAIG)**
+
+We gratefully acknowledge their contributions in making this dictionary available.
 
 ---
 
-📢 Help spread knowledge! If you find this resource useful, share it with your students and colleagues.
+📢 If you find this dictionary valuable, please share it with colleagues and students to enhance learning and research.
 
 🚀 Happy teaching and learning!
+
