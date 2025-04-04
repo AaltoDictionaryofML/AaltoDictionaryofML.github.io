@@ -59,7 +59,8 @@ url       = {https://aaltodictionaryofml.github.io/}
 
 ## 💡 How to Contribute
 
-Your contributions are greatly appreciated! If you spot errors, have suggestions for new terms, or wish to begin a translation, please:
+Your contributions are greatly appreciated! If you spot errors, have suggestions 
+for new terms, or wish to begin a translation, please:
 - Open an issue for discussions.
 - Submit a pull request with your changes.
 
