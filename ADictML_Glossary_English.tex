@@ -739,6 +739,77 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 first={activation function},text={activation function} 
 }
 
+\newglossaryentry{distributedalgorithm}
+{name={distributed algorithm},
+	description={A\index{distributed algorithm} distributed \gls{algorithm} is an \gls{algorithm} designed for 
+		a special type of computer: a collection of interconnected computing devices (or nodes). 
+		These devices communicate and coordinate their local computations by exchanging 
+		messages over a network \cite{IntroDistAlg,ParallelDistrBook}. Unlike a classical \gls{algorithm}, 
+		which is implemented on a single \gls{device}, a distributed \gls{algorithm} is 
+		executed concurrently on multiple \gls{device}s with computational capabilities. 
+		Similar to a classical \gls{algorithm}, a distributed \gls{algorithm} can be modeled as a 
+		set of potential executions. However, each execution in the distributed setting involves 
+		both local computations and message-passing events. A generic execution might look as 
+		follows:
+		\[
+		\begin{array}{l}
+			\text{Node 1: } {\rm input}_1, s_1^{(1)}, s_2^{(1)}, \ldots, s_{T_1}^{(1)}, {\rm output}_1 \\
+			\text{Node 2: } {\rm input}_2, s_1^{(2)}, s_2^{(2)}, \ldots, s_{T_2}^{(2)}, {\rm output}_2 \\
+			\quad \vdots \\
+			\text{Node } N: {\rm input}_N, s_1^{(N)}, s_2^{(N)}, \ldots, s_{T_N}^{(N)}, {\rm output}_N.
+		\end{array}
+		\]
+		Each \gls{device} $\nodeidx$ starts from its own local input and performs a sequence of 
+		intermediate computations $s_{\iteridx}^{(\nodeidx)}$ at discrete time instants $\iteridx = 1, \dots, T_\nodeidx$. 
+		These computations may depend on both: the previous local computations at the \gls{device} 
+		and messages received from other \gls{device}s. One important application of distributed 
+		\gls{algorithm}s is in \gls{fl} where a network of \gls{device}s collaboratively train a personal \gls{model} 
+		for each \gls{device}. 
+		},
+	first={distributed algorithm}, text={distributed algorithm}
+}
+
+
+\newglossaryentry{algorithm}
+{name={algorithm},
+  description={An\index{algorithm} algorithm is a precise, step-by-step specification for 
+  	how to produce an output from a given input within a finite number of computational steps \cite{Cormen:2022aa}. 
+    For example, an algorithm for training a \gls{linmodel} explicitly describes how to 
+	transform a given \gls{trainset} into \gls{modelparams} though a sequence of \gls{gradstep}s. 
+    This informal characterization can be formalized rigorously via different mathematical models \cite{Sipser2013}. 
+    One very simple \gls{model} of an algorithm is a collection of possible executions. Each execution is a sequence:
+    $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$ 
+    that respects the constraints inherent to the computer that executes the algorithm.
+	Algorithms may be deterministic—where each input results uniquely in a single execution—
+	or randomized, where executions can vary probabilistically. Randomized algorithms 
+	can thus be analyzed by modeling execution sequences as outcomes of random experiments, 
+	viewing the algorithm as a stochastic process \cite{RandomizedAlgos,BertsekasProb,Gallager13}.
+	Crucially, an algorithm encompasses more than just a mapping from input to output; it also includes 
+	the intermediate computational steps $s_1,\ldots,s_T$. 
+	%. In \textbf{online algorithms}, these intermediate computational steps  can dynamically incorporate additional input data as the execution progresses.
+	},
+	first={algorithm},text={algorithm} 
+}
+
+\newglossaryentry{onlinealgorithm}
+{name={online algorithm},
+	description={An\index{online algorithm} online \gls{algorithm} processes input data incrementally, 
+		receiving \gls{data} items sequentially and making decisions or producing outputs (or decisions) immediately 
+		without having access to the entire input in advance \cite{HazanOCO,PredictionLearningGames}. 
+		Unlike an offline \gls{algorithm}, which has the entire input available from the start, an online \gls{algorithm} 
+		must handle uncertainty about future inputs and cannot revise past decisions. Similar to an 
+		offline \gls{algorithm}, an online \gls{algorithm} can be modeled formally as a collection of possible 
+		executions. However, the execution sequence for an online \gls{algorithm} has a distinct structure:
+		$${\rm init},s_1,{\rm out}_{1},{\rm in}_{2},s_2,{\rm out}_{2},\ldots,{\rm in}_{T},s_T,{\rm out}_{T}.$$ 
+		Each execution begins from an initial state (\(\text{init}\)) and proceeds through alternating computational steps, 
+		outputs (or decisions), and inputs. Specifically, at step \(\iteridx\), the \gls{algorithm} performs a computational step 
+		\(s_{\iteridx}\), generates an output \(\text{out}_{\iteridx}\), and then subsequently 
+		receives the next input \(\text{in}_{\iteridx+1}\). A notable example of an online \gls{algorithm} in \gls{ml} is 
+		\gls{onlineGD} (online gradient descent), which incrementally updates \gls{modelparams} as new \gls{datapoint}s 
+		arrive.
+	},
+	first={online algorithm},text={online algorithm} 
+}
 
 
 
@@ -2707,26 +2778,27 @@ first={online gradient descent (online GD)},text={online GD}}
 
 \newglossaryentry{API} 
 {name={application programming interface (API)},
-	description={An\index{application programming interface (API)} API defines a precise specification of the functionalities, services, 
-		and resources provided by a software or hardware system. It establishes a 
-		structured way for different components or external programs to interact with 
-		the system \cite{RestfulBook2013}. For example, an \gls{ml} service 
-		providing a \gls{prediction} based on input \gls{feature}s could expose an 
-		API endpoint as follows:
-		\begin{quote}
-		\texttt{POST /predict}\\
-		\texttt{Content-Type: application/json}\\
-		\texttt{\{ "features": [5.1, 3.5, 1.4, 0.2] \}}
-		\end{quote}
-		The service responds with:
-		\begin{quote} 
-		\texttt{\{ "prediction": "setosa", "confidence": 0.98 \}}
-		\end{quote}
-		This API allows users to send a \gls{featurevec} and receive a predicted 
-		\gls{label} along with a confidence score.
-	},
-	first={application programming interface (API)},
-	text={API}
+		description={
+			An \index{application programming interface (API)} API is a formal mechanism for enabling 
+			software components to interact in a structured manner \cite{RestfulBook2013}. In the 
+			context of \gls{ml}, APIs are frequently used to make a trained \gls{ml} \gls{model} 
+			accessible to different types of users. These users, which can be other computers 
+			or humans, can request a \gls{prediction} for the \gls{label} of a \gls{datapoint} by 
+			providing its \gls{feature}s. The internal structure of the \gls{ml} 
+			\gls{model} remains hidden from the user. For instance, consider a trained \gls{ml} \gls{model}  
+			$\widehat{\hypothesis}(\feature) \defeq  2 \feature+1$. An API enables a user to 
+			submit the \gls{feature} value $\feature=3$ and obtain the response $\widehat{\hypothesis}(3)=7$ 
+			without knowledge of the detailed structure of the \gls{ml} \gls{model} or its training. 
+			In practice, the \gls{ml} \gls{model} is typically hosted on a computer (i.e., a server) connected to the internet. 
+			Another computer (i.e., a client) sends the \gls{feature}s of a \gls{datapoint} to the 
+			server, which then computes $\widehat{\hypothesis}(\featurevec)$ and returns the 
+			result to the external system. APIs help to modularize the development of 
+			\gls{ml} applications by decoupling specific tasks. For instance, one team can 
+			focus on developing and training the \gls{model}, while another team handles 
+			user interaction and integration of the \gls{model} into applications.
+			},
+		first={application programming interface (API)},
+		text={API}
 }
 
 
