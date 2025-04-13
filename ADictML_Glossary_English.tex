@@ -169,6 +169,56 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		},
 		first={explainability},text={explainability}
 	}
+	
+\newglossaryentry{lime}
+{name={Local Interpretable Model-agnostic Explanations (LIME)},description={
+		Consider\index{Local Interpretable Model-agnostic Explanations (LIME)} 
+		a trained \gls{model} (or learnt \gls{hypothesis}) $\widehat{\hypothesis} \in \hypospace$, 
+		which maps the \gls{featurevec} of a \gls{datapoint} to the \gls{prediction} $\widehat{\truelabel}= \widehat{\hypothesis}$. 
+		Local Interpretable Model-agnostic Explanations (LIME) is a technique for explaining 
+		the behavior of $\widehat{\hypothesis}$, locally around a \gls{datapoint} with \gls{featurevec} $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
+		The explanation is given in the form of a local approximation $g \in \hypospace'$ of $\widehat{\hypothesis}$ (see Fig.\ \ref{fig_lime}). 
+		This approximation can be obtained by an instance of \gls{erm} with carefully designed 
+		\gls{trainset}. In particular, the \gls{trainset} consists of \gls{datapoint}s with 
+		\gls{featurevec} $\featurevec$ close to $\featurevec^{(0)}$ and the (pseudo-)label $\widehat{\hypothesis}(\featurevec)$. 
+		Note that we can use a different \gls{model} $\hypospace'$ for the approximation than 
+		the original \gls{model} $\hypospace$. For example, we can use a \gls{decisiontree} 
+		to approximate (locally) a \gls{deepnet}. Another widely-used choice for $\hypospace'$ is 
+		the \gls{linmodel}. 
+		\begin{figure}[htbp]
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines=middle,
+				xlabel={$\featurevec$},
+				ylabel={$\truelabel$},
+				xtick=\empty,
+				ytick=\empty,
+				xmin=0, xmax=6,
+				ymin=0, ymax=6,
+				domain=0:6,
+				samples=100,
+				width=10cm,
+				height=6cm,
+				clip=false
+			]
+			  % Non-linear model h(x)
+  			\addplot[blue, thick, domain=0:6] {2 + sin(deg(x))} node[pos=0.85, above right,yshift=3pt] {$\widehat{\hypothesis}(\featurevec)$};
+			 % Feature value x0
+  			\addplot[dashed, gray] coordinates {(3,0) (3,6)};
+			% Piecewise constant local approximation g(x)
+  			\addplot[red, thick, domain=2.5:3.5] {2 + sin(deg(3))} node[pos=0.9, above] {$g(\featurevec)$};
+			% Optional: mark the point of approximation
+  			\addplot[mark=*] coordinates {(3, {2 + sin(deg(3))})};
+			\node at (axis cs:3,-0.3) {$\featurevec^{(0)}$};
+			\end{axis}
+		  \end{tikzpicture}
+		\end{center}
+		\caption{To explain a trained \gls{model} $\widehat{\hypothesis} \in \hypospace$, around a 
+		given \gls{featurevec} $\featurevec^{(0)}$, we can use a local approximation $g \in \hypospace'$. }
+		\end{figure}\label{fig_lime}},
+	first={LIME},text={LIME}
+}
 
 \newglossaryentry{linmodel}{name={linear model},
 	description={Consider\index{linear model}  \gls{datapoint}s, each characterized by a numeric \gls{featurevec} 
