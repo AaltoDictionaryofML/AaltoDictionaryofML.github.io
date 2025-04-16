@@ -1449,42 +1449,62 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{data}
 {name={data},
-	 description={See\index{data} \gls{dataset}.},
+	 description={Data \index{data} refers to objects that carry information. These 
+	 	objects can be either concrete physical objects (such as persons or animals) 
+	 	or abstract concepts (such as numbers). We often use representations (or 
+	 	approximations) of the original data that are more convenient for data processing. 
+	 	These approximations are based on different data models, with the relational data 
+	 	model being one of the most widely used \cite{codd1970relational}}, 
 	text={data}
 }
 
 \newglossaryentry{dataset}
 {name={dataset},
-	description={A\index{dataset} dataset consists of one or more \gls{datapoint}s and is 
-		the main component of most \gls{ml} methods. These methods use datasets to train and 
-		validate \gls{ml} \gls{model}s. Different mathematical models and formal languages are 
-		used to describe datasets and the \gls{ml} methods that operate on them \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
-		One of the most widely adopted data model is the relational model, 
-		which organizes data as a table (or relation) \cite{silberschatz2019database}.
+	description={A\index{dataset} dataset refers to a collection of \gls{datapoint}s. These 
+		\gls{datapoint}s carry information about some quantity of interest (or \gls{label} within 
+		a \gls{ml} application. \gls{ml}  methods use datasets for \gls{model} training (e.g., via \gls{erm})
+		and \gls{model} \gls{validation}. Note that our notion of a \gls{dataset} is very flexible as 
+		it allows for very different types of \gls{datapoint}s. Indeed, \gls{datapoint}s can be concrete 
+		physical objects (such as humans or animals) or abstract objects (such as numbers). 
+		As a case in point, Fig.\ \ref{fig_cows_dataset} depicts a \gls{dataset} that consists of cows as 
+		\gls{datapoint}s. 
+		\begin{figure}[htbp]
+				\begin{center}
+		\label{fig:cowsintheswissalps}
+		\includegraphics[width=0.5\textwidth]{assets/Cows_in_the_Swiss_Alps}
+		  \end{center}
+		\caption{\label{fig_cows_dataset}“Cows in the Swiss Alps” by User:Huhu Uet is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)}
+	  \end{figure}
+       Quite often, a \gls{ml} engineer does not have direct access to a dataset. Indeed, accessing the 
+       dataset in Fig.\ \ref{fig:cowsintheswissalps} would require to visit the cow herd in the Alps. Instead, 
+       we need to use an approximation (or representation) of the \gls{dataset} which is more convenient 
+       to work with. Different mathematical models have been developed for the representation (or approximation) 
+       of datasets \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
+       One of the most widely adopted data model is the relational model, which organizes data as a table (or relation) \cite{codd1970relational,silberschatz2019database}.
 		A table consists of rows and columns:
 		\begin{itemize} 
 		\item Each row of the table represents a single \gls{datapoint}.
-		\item Each column of the table corresponds to a specific attribute of the \gls{datapoint}, including its \gls{feature}s and \gls{label}s.
+		\item Each column of the table corresponds to a specific attribute of the \gls{datapoint}. 
+		\gls{ml} methods can use  attributes as \gls{feature}s and \gls{label}s of the \gls{datapoint}.
 		\end{itemize}
-		For example, Table \ref{tab:temperature_dict} shows a dataset containing weather observations. 
+		For example, Table \ref{tab:cowdata} shows a representation of the dataset in Fig.\ \ref{fig_cows_dataset}. 
 		In the relational model, the order of rows is irrelevant, and each attribute (column) must be 
-		precisely defined with a domain, which specifies the set of possible values. These attribute 
-		domains correspond to the \gls{featurespace} and \gls{labelspace} of the \gls{datapoint}s.
-		\begin{table}[ht]
-	\centering
-	\begin{tabular}{|l|c|c|c|c|c|}
-		\hline
-		\textbf{FMI Station} & \textbf{Year} & \textbf{Month} & \textbf{Day} & \textbf{Time} & \textbf{Temp. [°C]} \\ 
-		\hline
-		Kustavi Isokari & 2023 & 4 & 1 & 00:00 & -0.2 \\ \hline
-		Kustavi Isokari & 2023 & 4 & 2 & 00:00 & -0.1 \\ \hline
-		Kustavi Isokari & 2023 & 4 & 3 & 00:00 & -1.0 \\ \hline
-		Kustavi Isokari & 2023 & 4 & 4 & 00:00 & -0.4 \\ \hline
-		Kustavi Isokari & 2023 & 4 & 5 & 00:00 & 0.9 \\ \hline
-	\end{tabular}
-	\caption{Temperature observations at \gls{fmi} station Kustavi Isokari.}
-	\label{tab:temperature_dict}
-\end{table}
+		precisely defined with a domain, which specifies the set of possible values. In \gls{ml} applications, 
+		these attribute domains become the \gls{featurespace} and the \gls{labelspace}.
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{lcccc}
+				\hline
+				\textbf{Name} & \textbf{Weight} & \textbf{Age} & \textbf{Height} & \textbf{Stomach temp} \\
+				\hline
+				Zenzi & 100 & 4 & 100 & 25 \\
+				Berta & 140 & 3 & 130 & 23 \\
+				Resi  & 120 & 4 & 120 & 31 \\
+				\hline
+			\end{tabular}
+			\caption{A relation (or table) that represents the dataset in Fig.\ \ref{fig:cowsintheswissalps}.}
+			\label{tab:cowdata}
+		\end{table}
  While the relational model is useful for the study of many \gls{ml} applications, it may be 
  insufficient regarding the requirements for \gls{trustAI}. Modern 
  approaches like datasheets for datasets provide more comprehensive 
