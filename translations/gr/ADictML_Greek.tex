@@ -1,14 +1,9 @@
 % !TeX spellcheck = en_GB, gr_GR
 \documentclass[journal,12pt,onecolumn]{article}
-\usepackage[utf8]{inputenc} % allow utf-8 input
-\usepackage[T1, LGR]{fontenc}    % Ensure Latin and Greek encoding
 \usepackage[english,greek]{babel} 
-
 \usepackage{csvsimple}
 \usepackage{filecontents} 
 \usepackage{qrcode}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric}
 \usepackage{assets/pdfplots}
 \usepackage{amsthm}
 \usepackage{amsmath,graphicx}
@@ -16,8 +11,20 @@
 \usepackage{algorithm, algpseudocode}
 \usepackage{imakeidx}
 \newcommand\Square[1]{+(-#1,-#1) rectangle +(#1,#1)}
+\usepackage{hyperref}       % hyperlinks
+%\usepackage[automake,stylemods={tree}]{glossaries-extra}
+
 \usepackage[automake,stylemods={tree}]{glossaries-extra}
-\usepackage{hyperref}      % hyperlinks
+
+% Define explicitly named glossaries
+%\newglossary*{main}{Main Glossary}
+\newglossary*{basic}{Basic Terms}
+\newglossary*{systems}{ML Systems}
+\newglossary*{advanced}{Advanced Terms}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1, LGR]{fontenc}    % use 8-bit T1 fonts
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols   
@@ -27,16 +34,89 @@
 \usepackage{xcolor}         % colors
 \usepackage{tikz}
 \usepackage{cite}
+\usepackage{IEEEtrantools}
 \usepackage{pgfkeys,pgfcalendar}
 \usetikzlibrary{shapes}
 \usetikzlibrary{shadows}
 \usepackage{helvet}
+\usepackage{float}
+\usepackage{enumitem}
+
+
 
 \usepackage{xspace}
 \renewcommand{\baselinestretch}{1.5}
 \usepackage{tikz}
+\usetikzlibrary{positioning,trees}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows.meta}
 \usetikzlibrary{calc}
 \usetikzlibrary{shapes.misc}
+\usetikzlibrary{trees, arrows.meta}
+\tikzstyle{mybox} = [draw=red,very thick,
+rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=red, text=black]
+
+%\tikzset{
+	% >=stealth',
+	% punktchain/.style={
+		% rectangle, 
+		% rounded corners, 
+		%% fill=black!10,
+		%draw=black, very thick,
+		%text width=10em, 
+		%minimum height=3em, 
+		%text centered, 
+		%on chain},
+	% line/.style={draw, thick, <-},
+	%  element/.style={
+		%    tape,
+		%    top color=white,
+		%    bottom color=blue!50!black!60!,
+		%    minimum width=8em,
+		%      draw=blue!40!black!90, very thick,
+		%      text width=10em, 
+		%      minimum height=3.5em, 
+		%      text centered, 
+		%      on chain},
+	%      every join/.style={->, thick,shorten >=1pt},
+	%      decoration={brace},
+	%      tuborg/.style={decorate},
+	%      tubnode/.style={midway, right=2pt},
+	%      every rectangle node/.style={color=black,thick}
+	%     treenode/.style = {shape=rectangle, rounded corners,
+		%                     draw, align=center,
+		%                     top color=white, bottom color=blue!20},
+	%  root/.style     = {treenode, font=\Large, bottom color=red!30},
+	%  env/.style      = {treenode, font=\ttfamily\normalsize},
+	%  dummy/.style    = {circle,draw}
+	%    }
+
+\tikzset{
+	treenode/.style = {shape=rectangle, rounded corners,
+		draw, align=center,
+		top color=white, bottom color=blue!20},
+	root/.style     = {treenode, font=\Large, bottom color=red!30},
+	env/.style      = {treenode, font=\ttfamily\normalsize},
+	dummy/.style    = {circle,draw}
+}
+
+
+%\begin{filecontents*}{data.csv}
+%a,b
+%-3,0
+%-1,0
+%0,1
+%1,0
+%3,0
+%\end{filecontents*}
+
+
+
+%%% bold or non bold glossary terms 
+%\renewcommand*{\glstextformat}{\textbf}
+
+
 \definecolor{aaltoBlue}{RGB}{0, 51, 102} % Example color, adjust to match Aalto's brand
 
 
@@ -83,15 +163,37 @@
 \font\myfontb=cmr12 at 17pt
 \font\myfontc=cmr12 at 15pt
 
+
+
+
 \input{assets/ml_macros.tex}
 
 \makeindex
+
+\glsenablehyper
 
 \input{ADictML_Glossary_Greek.tex}
 
 \makeglossaries
 
+% References formatting fix
+\makeatletter
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname}
+      \begin{list}{[\arabic{enumi}]}
+        {\settowidth\labelwidth{[99]}
+         \setlength{\labelsep}{1em}  % Space between number and text
+         \setlength{\leftmargin}{2em}  % Align numbers with section title
+         \setlength{\itemindent}{0pt}
+         \setlength{\listparindent}{0pt}
+         \usecounter{enumi}}
+         \sloppy\clubpenalty4000\widowpenalty4000
+         \sfcode`\.=1000\relax}
+     {\end{list}}
+\makeatother
+
 \begin{document}
+\bstctlcite{bstctl:nodash}
 
 \selectlanguage{english}  %Force English as the default
 
@@ -100,27 +202,32 @@
 	% \small Comments are warmly welcome at \url{alex.jung@aalto.fi}.
 }
 
-\author{Dipl.-Ing.\ Dr.techn.\ Alexander Jung \\[-6mm]% <-this % stops a space
+\author{\hspace{-2mm}Alexander Jung \ and \ Konstantina Olioumtsevits \\[-2mm]% <-this % stops a space
 %\thanks{}
 }
 
 \maketitle
 	\begin{center}
-	\qrcode{https://github.com/aaltodictionaryofml/aaltodictionaryofml.github.io/}\\[3mm]
-	\foreignlanguage{greek}{αναφορά ως}: A. Jung, ``\foreignlanguage{greek}{Το} Aalto \foreignlanguage{greek}{Λεξικό της Μηχανικής Μάθησης} [The Aalto Dictionary of Machine Learning],'' Aalto University, 2024.
+		\resizebox{4cm}{!}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/translations/gr}}\\[10mm]
+%	\resizebox{4cm}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}}\\[10mm]
+{\large	\foreignlanguage{greek}{αναφορά ως}: A.\ Jung and K.\ Olioumtsevits, \textit{\foreignlanguage{greek}{Το} Aalto \foreignlanguage{greek}{Λεξικό της Μηχανικής Μάθησης}} [The Aalto Dictionary of Machine Learning]. Espoo, Finland: Aalto University, 2025.}
 \end{center}
 
 \newpage 
-\noindent{\bf\Large \foreignlanguage{greek}{Ευχαριστίες}}\\ 
+\noindent{\bf\Large \foreignlanguage{greek}{Ευχαριστίες}}\
 
-\noindent \foreignlanguage{greek}{Αυτό το λεξικό της μηχανικής μάθησης αναπτύχθηκε κατά τον σχεδιασμό και την υλοποίηση των μαθημάτων} CS-E3210 {\bf Machine Learning: Basic Principles}, CS-C3240 {\bf Machine Learning}, CS-E4800 {\bf Artificial Intelligence}, CS-EJ3211 {\bf Machine Learning with Python}, CS-EJ3311 {\bf Deep Learning with Python}, CS-E4740 {\bf Federated Learning}
-\foreignlanguage{greek}{και} CS-E407507 {\bf Human-Centered Machine Learning}. \foreignlanguage{greek}{Αυτά τα μαθήματα προσφέρονται σε φοιτητές/φοιτήτριες που φοιτούν σε φινλανδικά πανεπιστήμια μέσω του} {\bf Aalto University} \url{https://www.aalto.fi/en}, \foreignlanguage{greek}{σε ενήλικους/ες σπουδαστές/σπουδάστριες στη Φινλανδία μέσω του} {\bf The Finnish Institute of Technology (FITech)} \url{fitech.io} \foreignlanguage{greek}{και σε διεθνείς φοιτητές/φοιτήτριες μέσω της} {\bf European University Alliance Unite!} \url{https://www.aalto.fi/en/unite}. \foreignlanguage{greek}{Ο συγγραφέας είναι υπόχρεος στους/στις σπουδαστές/σπουδάστριες στο πλαίσιο των παραπάνω μαθημάτων για τα πολύτιμα σχόλια που ήταν καθοριστικά για το συγκεκριμένο λεξικό. Ιδιαίτερες ευχαριστίες στον} Mikko Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρθωση προσχεδίων}. 
+\noindent \foreignlanguage{greek}{Αυτό το λεξικό της μηχανικής μάθησης αναπτύχθηκε κατά τον σχεδιασμό
+και την υλοποίηση διαφορετικών μαθημάτων, συμπεριλαμβανομένων των} CS-E3210 Machine Learning: 
+Basic Principles, CS-C3240 Machine Learning, CS-E4800 Artificial Intelligence, CS-EJ3211 Machine Learning with 
+Python, CS-EJ3311 Deep Learning with Python, CS-E4740 Federated Learning,
+\foreignlanguage{greek}{και} CS-E407507 Human-Centered Machine Learning. \foreignlanguage{greek}{Αυτά τα 
+μαθήματα προσφέρονται στο} Aalto University \url{https://www.aalto.fi/en}, \foreignlanguage{greek}{σε 
+ενήλικους/ες σπουδαστές/σπουδάστριες μέσω του} The Finnish Institute of Technology (FITech) 
+\url{https://fitech.io/en/}, \foreignlanguage{greek}{και σε διεθνείς φοιτητές/φοιτήτριες μέσω της} European University Alliance Unite! \url{https://www.aalto.fi/en/unite}.
 
-This work is supported by Research Council of 
-Finland (under grants 363624, 349966), by the Jane and Aatos Erkko Foundation (under grant A835), and by Business 
-Finland within the co-research project FORWARD-LOOKING AI GOVERNANCE IN BANKING and INSURANCE (FLAIG). 
-We acknowledge their support in making this course possible.
-
+\noindent \foreignlanguage{greek}{Είμαστε ευγνώμονες στους/στις σπουδαστές/σπουδάστριες που παρείχαν 
+πολύτιμα σχόλια που ήταν καθοριστικά για το συγκεκριμένο λεξικό. Ιδιαίτερες ευχαριστίες στον} Mikko 
+Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρθωση προσχεδίων}.
 
 
 
@@ -128,10 +235,16 @@ We acknowledge their support in making this course possible.
 \input{assets/ListSymbols.tex}
 
 \newpage
+
 % Set up alphabetical headers for each letter section
 %\printglossaries[nonumberlist]
 \glsaddallunused
-\printglossary[nonumberlist]
+
+
+
+\printglossary[title={Machine Learning Concepts}, nonumberlist]
+
+\printglossary[type=systems, title={Machine Learning Systems}, nonumberlist]
 
 
 % Suppress page numbers on index pages
