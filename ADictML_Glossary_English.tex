@@ -696,17 +696,53 @@ first={bias},text={bias}
 		edge $\edgeidx \in \edges$.},first={graph},text={graph} 
 }
 
+\newglossaryentry{uncertainty}
+{name={uncertainty},
+	description={Uncertainty\index{uncertainty} refers to the degree of confidence—or 
+		lack thereof—associated with a quantity such as a model prediction, parameter estimate, or 
+		observed data point. In \gls{ml}, uncertainty arises from various sources, including 
+		noisy data, limited training samples, or ambiguity in model assumptions. Probability theory 
+		offers a principled framework for representing and quantifying such uncertainty.},
+	first={uncertainty},text={uncertainty}
+}
 
 \newglossaryentry{ucb}
 {name={upper confidence bound (UCB)},
-	description={Consider\index{upper confidence bound (UCB)} an \gls{ml} 
-		application which predicts, for each new time instant,
-		 the optimal action out of a finite set of different actions. We measure the usefulness 
-		 of a \gls{prediction} (taking a specific action) by some numeric \gls{reward}. 
-		 One popular \gls{probmodel} for such a sequential decision making problem 
-		 is a multi-armed bandit $\ldots$. can be modeled as a \gls{realization} of an \gls{rv} 
-		 with some \gls{mean} and \gls{variance}.},first={upper confidence bound (UCB)},text={UCB} 
+	description={Consider\index{upper confidence bound (UCB)} a \gls{ml} 
+		application that requires selecting, at each time step $\iteridx$, an action $\action_{\iteridx}$ 
+		from a finite set of alternatives $\actionset$. The utility of selecting action $\action_{\iteridx}$ 
+		is quantified by a numeric \gls{reward} signal $\reward^{(\action_{\iteridx})}$. 
+		A widely used \gls{probmodel} for this type of sequential decision-making problem 
+		is the stochastic multi-armed bandit setting \cite{Bubeck2012}. In this model, 
+		the reward $\reward^{(\action)}$ is viewed as the \gls{realization} of a \gls{rv} 
+		with unknown \gls{mean} $\mu^{(\action)}$. Ideally, we would always choose the 
+		action with the largest expected \gls{reward} $\mu^{(\action)}$, but these 
+		means are unknown and must be estimated from observed \gls{data}. Simply 
+		choosing the action with the largest estimate $\widehat{\mu}^{(\action)}$ can 
+		lead to suboptimal outcomes due to estimation uncertainty. The UCB strategy 
+		addresses this by selecting actions not only based on their estimated means but 
+		also by incorporating a term that reflects the uncertainty in these estimates—favouring 
+		actions with high potential reward and high uncertainty. Theoretical guarantees 
+		for the performance of UCB strategies,including logarithmic regret bounds, are established in \cite{Bubeck2012}.},
+	first={upper confidence bound (UCB)},text={UCB} 
 }
+\newglossaryentry{mab}
+{name={multi-armed bandit},
+	description={A multi-armed bandit (MAB)\index{multi-armed bandit (MAB)} problem models 
+		a repeated decision-making scenario in which, at each time step $\iteridx$, a learner must 
+		choose one out of several possible actions, often referred to as arms, from a finite 
+		set $\actionset$. Each arm $\action \in \actionset$ yields a stochastic \gls{reward} $\reward^{(\action)}$ 
+		drawn from an unknown \gls{probdist} with \gls{mean} $\mu^{(\action)}$. 
+		The learner’s goal is to maximize the cumulative \gls{reward} over time by 
+		strategically balancing exploration (gathering information about 
+		uncertain arms) and exploitation (selecting arms known to perform well). 
+		This balance is quantified by the notion of \gls{regret}, which measures the performance 
+		gap between the learner's strategy and the optimal strategy that always selects the best arm. 
+		MAB problems form a foundational model in online learning, reinforcement learning, 
+		and sequential experimental design \cite{Bubeck2012}.},
+	first={multi-armed bandit},text={MAB}
+}
+
 
 
 \newglossaryentry{optimism in the face of uncertainty}
