@@ -1874,9 +1874,36 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 		},first={regularization},text={regularization} }
 	
 
-\newglossaryentry{rerm}{name={regularized empirical risk minimization (RERM)}, 
-	description={Synonym\index{regularized empirical risk minimization (RERM)} for \gls{srm}.},
-	first={regularized empirical risk minimization (RERM)},text={RERM} }
+\newglossaryentry{rerm}{
+	name={regularized empirical risk minimization (RERM)}, 
+	description={Basic \gls{erm} learns a \gls{hypothesis} (or trains a \gls{model}) $\hypothesis \in \hypospace$ 
+		based solely on the \gls{emprisk} $\emprisk{\hypothesis}{\dataset}$ incurred on a \gls{trainset} $\dataset$. 
+		To make \gls{erm} less prone to \gls{overfitting}, we can implement \gls{regularization} by 
+		including a (scaled) \gls{regularizer} $\regularizer{\hypothesis}$ in the learning objective. 
+		This leads to regularized empirical risk minimization (RERM)\index{regularized empirical risk minimization (RERM)}, 
+		\begin{equation}
+			\label{equ_def_rerm}
+			\learnthypothesis \in \argmin_{\hypothesis \in \hypospace} \emprisk{\hypothesis}{\dataset} + \regparam \regularizer{\hypothesis}.
+		\end{equation}
+		The parameter $\regparam \geq 0$ controls the \gls{regularization} strength. 
+		For $\regparam = 0$, we recover standard \gls{erm} without \gls{regularization}. As $\regparam$ increases, the 
+		learned \gls{hypothesis} is increasingly biased toward small values of $\regularizer{\hypothesis}$. 
+		The component $\regparam \regularizer{\hypothesis}$ in the \gls{objfunc} of \eqref{equ_def_rerm} 
+		can be intuitively understood as a surrogate for the increased average \gls{loss} that may 
+		occur when predicting \gls{label}s for \gls{datapoint}s outside the \gls{trainset}. This intuition  
+		can be made precise in various ways. For example, consider a \gls{linmodel} trained using \gls{sqerrloss} 
+		and the \gls{regularizer} $\regularizer{\hypothesis} = \normgeneric{\weights}{2}^{2}$. 
+		In this setting, $\regparam \regularizer{\hypothesis}$ corresponds to the expected increase in \gls{loss} 
+		caused by adding \gls{gaussrv}s to the \gls{featurevec}s in the \gls{trainset} 
+		\cite[Ch. 3]{MLBasics}.
+		A principled construction for the \gls{regularizer} $\regularizer{\hypothesis}$ 
+		arises from approximate upper bounds on the generalization error. The resulting 
+		RERM instance is known as \gls{srm} \cite[Sec. 7.2]{ShalevShwartz2009}.
+	}, 
+	first={regularized empirical risk minimization (RERM)},
+	text={RERM} 
+}
+
 
 \newglossaryentry{generalization}{name={generalization}, 
 	description={Many\index{generalization} current \gls{ml} (and \gls{ai}) systems 
@@ -1950,11 +1977,26 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 		Here, $\edgeweight_{\nodeidx,\nodeidx'}>0$ denotes the weight of the undirected edge $\edge{\nodeidx}{\nodeidx'}\in \edges$.
 		},first={GTV},text={GTV} }
 	
-\newglossaryentry{srm}{name={structural risk minimization (SRM)}, description={Structural\index{structural risk minimization (SRM)} 
-		\gls{risk} minimization is the problem of finding the \gls{hypothesis} that optimally 
-		balances the average \gls{loss} (or \gls{emprisk}) on a \gls{trainset} with a 
-		\gls{regularization} term. The \gls{regularization} term penalizes a \gls{hypothesis}
-		that is not robust against (small) perturbations of the \gls{datapoint}s in the \gls{trainset}.},first={structural risk minimization (SRM)},text={SRM} }
+\newglossaryentry{srm}{
+	name={structural risk minimization (SRM)},
+	description={Structural\index{structural risk minimization (SRM)} risk minimization (SRM) is an 
+		instance of \gls{rerm}, which which the \gls{model} $\hypospace$ can be expressed 
+		as a countable union of  sub-models: $\hypospace = \bigcup_{n=1}^{\infty} \hypospace^{(n)}$. 
+		Each sub-model $\hypospace^{(n)}$ permits the derivation of an approximate upper bound 
+		on the generalization error incurred when applying \gls{erm} to train $\hypospace^{(n)}$. 
+		These individual bounds—one for each sub-model—are then combined to form a \gls{regularizer} 
+		used in the \gls{rerm} objective. 
+        These approximate upper bounds (one for each $\hypospace^{(n)}$) are then combined 
+		to construct a \gls{regularizer} for \gls{rerm} \cite[Sec.\ 7.2]{ShalevMLBook}.},
+		text={SRM}
+ }
+ 
+ \newglossaryentry{rlm}{
+ 	name={regularized loss minimization (RLM)},
+ 	description={See\index{regularized loss minimization (RLM)} \gls{rerm}.},
+ 	text={RLM}
+ }
+ 
 
 \newglossaryentry{datapoisoning}{name={data poisoning}, description={\Gls{data}\index{data poisoning} 
 		poisoning refers to the intentional manipulation (or fabrication) of \gls{datapoint}s to 

@@ -1839,7 +1839,31 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 	
 
 \newglossaryentry{rerm}{name={regularized empirical risk minimization (RERM)}, 
-	description={Synonym\index{regularized empirical risk minimization (RERM)} for \gls{srm}.},
+	description={Instead\index{regularized empirical risk minimization (RERM)} of 
+	learning a \gls{hypothesis} (or training a \gls{model} based solely on the \gls{emprisk} 
+	incurred on a \gls{trainset}, it is often useful to add a (scaled) \gls{regularizer} $\regularizer{\hypothesis}$ 
+	to the \gls{emprisk}. In particular, regularized \gls{erm} learns a \gls{hypothesis} 
+	(or trains a \gls{model}) by solving 
+	\begin{equation} 
+	 \label{equ_def_rerm} 
+	 \learnthypothesis \in \argmin_{\hypothesis \in \hypospace} \emprisk{\hypothesis}{\trainset} + \regparam \regularizer{\hypothesis}. 
+	\end{equation} 
+	The parameter $\regparam \geq 0$ controls the \gls{regularization} strength of \eqref{equ_def_rerm}. 
+	For the extreme case $\regparam=0$, we obtain no regularization at all. Choosing 
+	a large value for $\regparam$ in \eqref{equ_def_rerm} leads to learnt \gls{hypothesis} 
+	(or trained \gls{model}) with small value $\regularizer{\hypothesis}$. We can 
+	interpret the penalty term $\regparam \regularizer{\hypothesis}$ as a measure of 
+	the increase in the average \gls{loss} when the \gls{hypothesis} $\hypothesis$ is 
+	used to predict the \gls{label}s of\gls{datapoint}s outside the \gls{trainset}. This 
+	informal interpretation can be made precise in different ways. As a point in case, 
+	consider training a \gls{linmodel} with \gls{sqerrloss} and using the \gls{ridge} 
+	regularizer $\regularizer{\hypothesis} = \normgeneric{\weights}{2}^{2}$. Here, the 
+	penalty term $\regparam \regularizer{\hypothesis}$ is exactly the average \gls{loss} 
+	incurred by $\hypothesis$ on random perturbations of the \gls{datapoint}s in the \gls{trainset}. 
+	These perturbations are obtained by adding \gls{gaussrv}s to the \gls{featurevec}s of the
+	\gls{datapoint}s in the \gls{trainset} \cite[Ch. 3]{MLBasics}. Another principled approach 
+	to choosing the \gls{regularizer} is to use approximate upper bounds on the generlaization error. 
+	The resulting instance of \gls{rerm} is then referred to as \gls{srm}.}, 
 	first={regularized empirical risk minimization (RERM)},text={RERM} }
 
 \newglossaryentry{generalization}{name={generalization}, 
