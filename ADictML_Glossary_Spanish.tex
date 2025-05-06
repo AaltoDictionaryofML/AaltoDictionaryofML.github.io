@@ -972,41 +972,32 @@ first={función de activación},text={función de activación}
 \newcommand{\gaussiancenter}{3}
 
 \newglossaryentry{baseline}
-{name={baseline},
-    description={Consider\index{baseline} some \gls{ml} method that produces a learned 
-    	\gls{hypothesis} (or trained \gls{model}) $\learnthypothesis \in \hypospace$. We evaluate the quality of a trained \gls{model} 
-    by computing the average \gls{loss} on a \gls{testset}. But how can we assess 
-    whether the resulting \gls{testset} performance is sufficiently good? How can we 
-    determine if the trained \gls{model} performs close to optimal and there is little point 
-    in investing more resources (for \gls{data} collection or computation) to improve it? 
-    To this end, it is useful to have a reference (or baseline) level against which 
-    we can compare the performance of the trained \gls{model}. Such a reference value 
-    might be obtained from human performance, e.g., the misclassification rate of dermatologists 
-    who diagnose cancer from visual inspection of skin \cite{SkinHumanAI}. Another source for a baseline is an existing, 
-    but for some reason unsuitable, \gls{ml} method. For example, the existing \gls{ml} method 
-    might be computationally too expensive for the intended \gls{ml} application. 
-    Nevertheless, its \gls{testset} error can still serve as a baseline. Another, somewhat more principled, 
-    approach to constructing a baseline is via a \gls{probmodel}. In many cases, given a \gls{probmodel} $p(\featurevec,\truelabel)$,  
-    we can precisely determine the \gls{minimum} achievable \gls{risk} among any hypotheses
-    (not even required to belong to the \gls{hypospace} $\hypospace$) \cite{LC}. 
-    This \gls{minimum} achievable \gls{risk} (referred to as the \gls{bayesrisk}) is the \gls{risk} 
-    of the \gls{bayesestimator} for the \gls{label} $\truelabel$ of a \gls{datapoint}, given
-    its \gls{feature}s $\featurevec$. Note that, for a given choice of \gls{lossfunc}, the 
-    \gls{bayesestimator} (if it exists) is completely determined by the \gls{probdist} $p(\featurevec,\truelabel)$ \cite[Ch. 4]{LC}. 
-    However, computing the \gls{bayesestimator} and \gls{bayesrisk} presents two 
-    main challenges:
-    \begin{enumerate}[label=\arabic*)]
-    	\item The \gls{probdist} $p(\featurevec,\truelabel)$ is unknown and 
-    needs to be estimated.
-    	\item Even if $p(\featurevec,\truelabel)$ is known, 
-    it can be computationally too expensive to compute the \gls{bayesrisk} exactly \cite{cooper1990computational}. 
-   \end{enumerate}
-A widely used \gls{probmodel} is the \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
-for \gls{datapoint}s characterized by numeric \gls{feature}s and \gls{label}s.
-Here, for the \gls{sqerrloss}, the \gls{bayesestimator} is given by the posterior 
-\gls{mean} $\mu_{\truelabel|\featurevec}$ of the \gls{label} $\truelabel$, given the 
-\gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. The corresponding \gls{bayesrisk} 
-is given by the posterior \gls{variance} 
+{name={referencia (baseline)},
+    description={Consideremos\index{referencia (baseline)} un método de \gls{ml} que produce una 
+    \gls{hypothesis} aprendida (o un \gls{model} entrenado) $\learnthypothesis \in \hypospace$.
+	Evaluamos la calidad del \gls{model} entrenado  
+	mediante el cálculo de la \gls{loss} promedio en un \gls{testset}.Pero, ¿cómo saber si ese rendimiento es lo suficientemente bueno?
+	¿Cómo saber si el \gls{model} entrenado se acerca al óptimo y si tiene sentido o no invertir más recursos (como recopilación de \gls{data} o potencia computacional) para mejorarlo? 
+    Para ello, es útil contar con un valor de referencia (o *baseline*) con el cual comparar el rendimiento  
+    del modelo \gls{model} entrenado. Este valor puede provenir del rendimiento humano,
+    como la tasa de error de dermatólogos que diagnostican cáncer mediante inspección visual de la piel \cite{SkinHumanAI}.
+	Otra fuente de referencia puede ser un método de \gls{ml} ya existente que, por alguna razón, no sea adecuado para la aplicación (por ejemplo, por ser computacionalmente costoso), pero cuya tasa de error en el \gls{testset} puede servir como baseline.
+	Un enfoque más fundamentado para construir una baseline es utilizar un \gls{probmodel}. En muchos casos, dado un \gls{probmodel} \gls{probmodel} $p(\featurevec,\truelabel)$,  
+    podemos determinar con precisión el \gls{minimum} \gls{risk} alcanzable entre todas las hipótesis (incluso aquellas que no pertenecen al \gls{hypospace} $\hypospace$) \cite{LC}. 
+    Este \gls{minimum} alcanzable se conoce como \gls{bayesrisk} y corresponde al \gls{risk} del \gls{bayesestimator} para la \gls{label} $\truelabel$ de un \gls{datapoint}, dados sus \gls{feature}s $\featurevec$.
+	Dado un \gls{lossfunc} específico, el \gls{bayesestimator} (si existe) está completamente determinado por la \gls{probdist} $p(\featurevec,\truelabel)$ \cite[Cap. 4]{LC}. 
+    Calcular el \gls{bayesestimator} y el \gls{bayesrisk} presenta dos desafíos principales:
+    \begin{enumerate}[[label=\arabic*)]
+    	\item La \gls{probdist} $p(\featurevec,\truelabel)$ desconocida y debe estimarse.
+    	\item Incluso si se conoce $p(\featurevec,\truelabel)$ calcular el 
+		\gls{bayesrisk} puede ser computacionalmente muy costoso \cite{cooper1990computational}.
+	\end{enumerate}
+	Un \gls{probmodel} ampliamente utilizado es la \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
+para \gls{datapoint}s caracterizados por \gls{feature}s y \gls{label}s numéricos.
+En este caso, bajo la \gls{sqerrloss}, el \gls{bayesestimator} corresponde a la \gls{mean} posterior
+$\mu_{\truelabel|\featurevec}$ de la \gls{label} $\truelabel$, dado  
+\gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. El \gls{bayesrisk} asociado es la 
+\gls{variance} posterior
 $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	\begin{figure}[H]
 		\begin{center}
@@ -1033,13 +1024,13 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
   			\node[anchor=north] at (0.5,-0.2) {\small $\learnthypothesis(\featurevec)$};
 		  \end{tikzpicture}
 		\end{center}
-		\caption{If the \gls{feature}s and the \gls{label} of a \gls{datapoint} are drawn from a \gls{mvndist}, we 
-		can achieve the \gls{minimum} \gls{risk} (under \gls{sqerrloss}) by using the \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
-		to predict the \gls{label} $\truelabel$ of a \gls{datapoint} with \gls{feature}s $\featurevec$. The corresponding 
-		\gls{minimum} \gls{risk} is given by the posterior \gls{variance} $\sigma^{2}_{\truelabel|\featurevec}$. We can use 
-		this quantity as a baseline for the average \gls{loss} of a trained \gls{model} $\learnthypothesis$. \label{fig_post_baseline_dict}}
+		\caption{Si los \gls{feature}s y la  \gls{label} de un \gls{datapoint} siguen una \gls{mvndist}, we 
+		podemos alcanzar el \gls{minimum} \gls{risk} (bajo \gls{sqerrloss}) usando el \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
+		para predecir el \gls{label} $\truelabel$ de un \gls{datapoint} con \gls{feature}s $\featurevec$. El
+		\gls{minimum} \gls{risk} es dada por la \gls{variance} posterior $\sigma^{2}_{\truelabel|\featurevec}$. Podemos 
+		usar esta cantidad como baseline para evaluar la \gls{loss} promedio del \gls{model} $\learnthypothesis$ entrenado. \label{fig_post_baseline_dict}}
 	\end{figure}},
-    first={baseline},text={baseline}
+    first={referencia (baseline)},text={referencia (baseline)}
 }
 
 \newglossaryentry{spectrogram}
