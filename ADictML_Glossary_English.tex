@@ -511,8 +511,63 @@ and then projecting the result back onto the \gls{paramspace}.
 	first = {DP}, text={DP} 
 }
 
+\newglossaryentry{stability}
+{name={stability},
+	description={
+		Stability\index{stability} is a desirable property of a \gls{ml} method $\algomap$ that maps a 
+		\gls{dataset} $\dataset$ (e.g., a \gls{trainset}) to an output $\algomap(\dataset)$, such as learned 
+		\gls{modelparams} or the \gls{prediction} for a specific \gls{datapoint}. Intuitively, $\algomap$ is 
+		stable if small changes in the input \gls{dataset} $\dataset$ lead to small changes in the 
+		output $\algomap(\dataset)$. Several formal notions of stability exist that enable bounds 
+		on the \gls{generalization} error or \gls{risk} of the method; see \cite[Ch.~13]{ShalevMLBook}.
+		To build intuition, consider the three datasets depicted in Fig.~\ref{fig_three_data_stability}, each 
+		of which is equally likely under the same \gls{data}-generating \gls{probdist}. Since the 
+		optimal \gls{modelparams} are determined by this underlying \gls{probdist}, an accurate 
+		\gls{ml} method $\algomap$ should return the same (or very similar) output $\algomap(\dataset)$ 
+		for all three \gls{dataset}. In other words, any useful $\algomap$ must be robust to 
+		variability in sample \gls{realization}s from the same \gls{probdist}, i.e., it must be stable. 
+		\begin{figure}[htbp]
+			\centering
+			\begin{tikzpicture}
+				\begin{axis}[
+				%title={Stem Plots of 3 Datasets},
+				    axis lines=none,
+					xlabel={$\sampleidx$},
+					ylabel={},
+					legend pos=north west,
+					ymin=0, ymax=10,
+					xtick={1,2,3,4,5},
+				%	ymajorgrids=true,
+					grid style=dashed,
+					every axis plot/.append style={very thick}
+					]
+					% Dataset 1
+					\addplot+[only marks,mark=*] coordinates {
+						(1,2) (2,4) (3,3) (4,5) (5,7)
+					};
+				%	\addlegendentry{$\dataset^{(*)}$}
+					% Dataset 2
+					\addplot+[only marks,mark=square*] coordinates {
+						(1,3) (2,2) (3,6) (4,4) (5,5)
+					};
+				%	\addlegendentry{$\dataset^{(\square)}$}
+					% Dataset 3
+					\addplot+[only marks,mark=triangle*] coordinates {
+						(1,5) (2,7) (3,4) (4,6) (5,3)
+					};
+				%	\addlegendentry{$\dataset^{(\triangle)}$}
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Three \gls{dataset}s $\dataset^{(*)}$, $\dataset^{(\square)}$, and $\dataset^{(\triangle)}$, 
+				each sampled independently from the same \gls{data}-generating \gls{probdist}. A stable \gls{ml} 
+				method should return similar outputs when trained on any of these \gls{dataset}s. \label{fig_three_data_stability}}
+		\end{figure}
+		}, 
+	first = {stability}, text={stability} 
+}
+
 \newglossaryentry{privprot}
-{name=privacy protection,
+{name={privacy protection},
      description={Consider\index{privacy protection} some \gls{ml} method $\algomap$ that reads 
 	 in a \gls{dataset} $\dataset$ and delivers some output $\algomap(\dataset)$. The output 
 	 could be the learned \gls{modelparams} $\widehat{\weights}$ or the \gls{prediction} 
