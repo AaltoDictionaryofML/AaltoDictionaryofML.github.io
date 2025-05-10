@@ -1,3 +1,28 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Aalto Dictionary of Machine Learning">
+  <meta name="twitter:description" content="Concise, multilingual glossary of ML terms for students and researchers.">
+  <meta name="twitter:image" content="https://aaltodictionaryofml.github.io/assets/preview.png">
+
+  <title>Aalto Dictionary of Machine Learning | ML Glossary</title>
+
+  <meta name="description" content="A concise, accessible glossary of machine learning concepts developed at Aalto University.">
+  <meta name="keywords" content="machine learning glossary, AI dictionary, ML terms explained, Aalto ML dictionary, data science terms, AI glossary">
+  <meta name="author" content="Alexander Jung, Aalto University">
+
+  <meta property="og:title" content="Aalto Dictionary of Machine Learning">
+  <meta property="og:description" content="Understand key machine learning concepts with this clear, multilingual glossary developed at Aalto University.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aaltodictionaryofml.github.io/">
+  <meta property="og:image" content="https://aaltodictionaryofml.github.io/assets/preview.png"> <!-- Optional -->
+
+  <link rel="canonical" href="https://aaltodictionaryofml.github.io/">
+</head>
+
 # 📗 The Aalto Dictionary of Machine Learning
 
 Welcome to the official repository for **[The Aalto Dictionary of Machine Learning](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)**! 
