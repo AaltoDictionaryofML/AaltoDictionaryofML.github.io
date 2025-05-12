@@ -618,13 +618,27 @@ and then projecting the result back onto the \gls{paramspace}.
 }
 
 
-
 \newglossaryentry{mean}
-{
-	name=mean,
-	description={The\index{mean} \gls{expectation} $\expect \{ \featurevec \}$ of a numeric \gls{rv} $\featurevec$.}, 
-		first = {mean}, text={mean} 
+{name={mean},
+ description={The \index{mean} mean of a \gls{rv} $\featurevec$, taking 
+ values in a Euclidean space $\mathbb{R}^{\dimlocalmodel}$, is its 
+ \gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
+ integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$,
+\[
+\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx),
+\]
+see, e.g., \cite{BillingsleyProbMeasure} or \cite{RudinBookPrinciplesMatheAnalysis}. 
+We also use the term to refer to the average of a finite sequence 
+$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
+these two definitions are essentially the same. Indeed, we can use the sequence 
+$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
+discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$ with the index $I$ chosen uniformly 
+at random from the set $\{1,\ldots,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
+precisely the average $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.},
+first={mean}, text={mean}
 }
+
+
 
 \newglossaryentry{variance}
 {
@@ -1883,11 +1897,12 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 	    first={multi-label classification},text={multi-label classification} }
 
 
-\newglossaryentry{ssl}{name={semi-supervised learning (SSL)}, description={SSL\index{semi-supervised learning (SSL)} 
-		methods use unlabeled datapoints to support the learning of a \gls{hypothesis} 
-		from \gls{labeled datapoint}s \cite{SemiSupervisedBook}. This approach is particularly useful 
-		for \gls{ml} applications that offer a large amount of unlabeled datapoints, but only a limited 
-		number of \gls{labeled datapoint}s.}, 
+\newglossaryentry{ssl}{
+	name={semi-supervised learning (SSL)}, 
+	description={SSL\index{semi-supervised learning (SSL)} methods use unlabeled \gls{datapoint}s 
+    to support the learning of a \gls{hypothesis} from \gls{labeled datapoint}s \cite{SemiSupervisedBook}. 
+    This approach is particularly useful for \gls{ml} applications that offer a large amount of 
+    unlabeled \gls{datapoint}s, but only a limited number of \gls{labeled datapoint}s.}, 
 		first={semi-supervised learning (SSL)},text={SSL} }
 	
 	
@@ -3111,14 +3126,18 @@ first={online gradient descent (online GD)},text={online GD}}
 
 \newglossaryentry{modelinversion}{name={model inversion},description={TBD.},first={model inversion},text={model inversion}}
 
-
-\newglossaryentry{hilbertspace}{name={Hilbert space},description={A\index{Hilbert space} 
-		Hilbert space is a linear vector space equipped with an inner product between 
-		pairs of vectors. One important example of a Hilbert space is the \gls{euclidspace} 
-		$\mathbb{R}^{\featuredim}$, for some dimension $\featuredim$, which consists of 
-		Euclidean vectors $\vu = \big(u_{1},\ldots,u_{\featurelen}\big)^{T}$ along with the inner 
-		product $\vu^{T} \vv$.},first={Hilbert space},text={Hilbert space}}
-
+\newglossaryentry{hilbertspace}{
+	name={Hilbert space},
+	description={A\index{Hilbert space} Hilbert space is a complete inner 
+		product space \cite{introhilbertbook}. That is, it is a linear vector space equipped 
+		with an inner product between pairs of vectors, and it satisfies the additional requirement 
+		of completeness: every Cauchy sequence of vectors converges to a limit within the space. 
+		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
+		for some dimension $\featuredim$, consisting of vectors $\vu = \big(u_1, \ldots, u_{\featuredim}\big)^T$ 
+		and the standard inner product $\vu^T \vv$.},
+	first={Hilbert space},
+	text={Hilbert space}
+}
 
 
 \newglossaryentry{sample}{name={sample},description={A\index{sample} 
@@ -3148,25 +3167,34 @@ first={online gradient descent (online GD)},text={online GD}}
 
 
 \newglossaryentry{randomforest}
-{name=random forest,
-	description={A\index{random forest} random forest is a set (or ensemble) of different \gls{decisiontree}s. 
+{name={random forest},
+  description={A\index{random forest} random forest is a set of different \gls{decisiontree}s. 
 		Each of these \gls{decisiontree}s is obtained by fitting a perturbed copy of 
 		the original \gls{dataset}.},first = {random forest}, text={random forest}
 }
 
-\newglossaryentry{bagging}{name={bagging},description={Bagging\index{bagging} (or bootstrap aggregation) 
-		is a generic technique to improve (the robustness of) a given \gls{ml} method. The idea is to use the \gls{bootstrap} 
-		to generate perturbed copies of a given \gls{dataset} and then to learn a separate \gls{hypothesis} for 
-		each copy. We then predict the \gls{label} of a \gls{datapoint} by combining or aggregating the individual 
-		\gls{prediction}s of each separate \gls{hypothesis}. For \gls{hypothesis} maps delivering numeric \gls{label} 
-		values, this aggregation could be implemented by computing the average of individual \gls{prediction}s.},first={bootstrap aggregation (bagging)},text={bagging}}
+\newglossaryentry{bagging}
+{name={bagging},
+ description={Bagging\index{bagging} (or bootstrap aggregation) 
+		is a generic technique to improve (the robustness of) a given \gls{ml} method. 
+		The idea is to use the \gls{bootstrap} to generate perturbed copies of a given \gls{dataset} 
+		and then to learn a separate \gls{hypothesis} for each copy. We then predict the 
+		\gls{label} of a \gls{datapoint} by combining or aggregating the individual \gls{prediction}s 
+		of each separate \gls{hypothesis}. For \gls{hypothesis} maps delivering numeric \gls{label} 
+		values, this aggregation could be implemented by computing the average of individual 
+		\gls{prediction}s.},
+		first={bootstrap aggregation (bagging)},
+		text={bagging}}
 
-\newglossaryentry{gd}{name={gradient descent (GD)},description={\Gls{gradient}\index{gradient descent (GD)} 
-		descent is an iterative method for finding the \gls{minimum} of a \gls{differentiable} function $f(\weights)$ 
-		of a vector-valued argument $\weights \in \mathbb{R}^{\featurelen}$. Consider a current guess or 
-		approximation $\weights^{(\itercntr)}$ for the \gls{minimum} of the function $f(\weights)$. We would like to find a new (better) vector $\weights^{(\itercntr+1)}$ 
-		that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
-		the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a \gls{gradstep}
+\newglossaryentry{gd}
+{name={gradient descent (GD)},
+ description={\Gls{gradient}\index{gradient descent (GD)} 
+ descent is an iterative method for finding the \gls{minimum} of a \gls{differentiable} 
+ function $f(\weights)$ of a vector-valued argument $\weights \in \mathbb{R}^{\featurelen}$. 
+ Consider a current guess or approximation $\weights^{(\itercntr)}$ for the \gls{minimum} of 
+ the function $f(\weights)$. We would like to find a new (better) vector $\weights^{(\itercntr+1)}$ 
+ that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
+ the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a \gls{gradstep}
 		\begin{equation} 
 			\label{equ_def_GD_step_dict}
 			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
