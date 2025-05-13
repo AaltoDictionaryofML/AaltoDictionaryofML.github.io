@@ -618,13 +618,27 @@ and then projecting the result back onto the \gls{paramspace}.
 }
 
 
-
 \newglossaryentry{mean}
-{
-	name=mean,
-	description={The\index{mean} \gls{expectation} $\expect \{ \featurevec \}$ of a numeric \gls{rv} $\featurevec$.}, 
-		first = {mean}, text={mean} 
+{name={mean},
+ description={The \index{mean} mean of a \gls{rv} $\featurevec$, taking 
+ values in a Euclidean space $\mathbb{R}^{\dimlocalmodel}$, is its 
+ \gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
+ integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$,
+\[
+\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx),
+\]
+see, e.g., \cite{BillingsleyProbMeasure} or \cite{RudinBookPrinciplesMatheAnalysis}. 
+We also use the term to refer to the average of a finite sequence 
+$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
+these two definitions are essentially the same. Indeed, we can use the sequence 
+$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
+discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$ with the index $I$ chosen uniformly 
+at random from the set $\{1,\ldots,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
+precisely the average $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.},
+first={mean}, text={mean}
 }
+
+
 
 \newglossaryentry{variance}
 {
@@ -811,18 +825,20 @@ first={bias},text={bias}
 {name={optimism in the face of uncertainty},
 	description={\gls{ml}\index{optimism in the face of uncertainty} methods learn \gls{modelparams} $\weights$ 
 		according to some performance criterion $\bar{f}(\weights)$. However, they usually 
-		cannot access $\bar{f}(\weights)$ directly but rely on an estimate (or approximation) of $f(\weights)$. 
-		As a case in point, \gls{erm}-based methods use the average \gls{loss} on a given \gls{dataset} (i.e., the \gls{trainset}) 
-		as an estimate for the \gls{risk} of a \gls{hypothesis}. Using a \gls{probmodel}, one can construct 
+		cannot access $\bar{f}(\weights)$ directly but rely on an estimate (or approximation) 
+		$f(\weights)$ of $\bar{f}(\weights)$. As a case in point, \gls{erm}-based methods use 
+		the average \gls{loss} on a given \gls{dataset} (i.e., the \gls{trainset}) as an estimate 
+		for the \gls{risk} of a \gls{hypothesis}. Using a \gls{probmodel}, one can construct 
 		a confidence interval 
 	$\big[ l^{(\weights)},  u^{(\weights)} \big]$ for each choice $\weights$ for the \gls{modelparams}.
-	One simple construction is $l^{(\weights)} \defeq f(\weights) - \sigma/2$, $u^{(\weights)} \defeq f(\weights)+ \sigma/2$, 
-	with $\sigma$ being a measure of the (expected) deviation of $f(\weights)$ from $\bar{f}(\weights)$. 
+	    One simple construction is $l^{(\weights)} \defeq f(\weights) - \sigma/2$, $u^{(\weights)} \defeq f(\weights)+ \sigma/2$, 
+	    with $\sigma$ being a measure of the (expected) deviation of $f(\weights)$ from $\bar{f}(\weights)$. 
 	We can also use other constructions for this interval as long as they ensure that $\bar{f}(\weights) \in\big[ l^{(\weights)},  u^{(\weights)} \big]$ 
-	with a sufficiently high probability. As optimists, we choose the \gls{modelparams} 
-	according to the most favorable - yet still plausible - value $\tilde{f}(\weights) \defeq  l^{(\weights)}$ of the performance criterion. 
-	Two examples of \gls{ml} methods that use such an optimistic construction of an \gls{objfunc} 
-	are \gls{srm} \cite[Ch. 11]{ShalevMLBook} and \gls{ucb} methods for sequential decision making \cite[Sec. 2.2]{Bubeck2012}. 
+	with a sufficiently high probability. An optimist chooses the \gls{modelparams} 
+	according to the most favourable - yet still plausible - value $\tilde{f}(\weights) \defeq  l^{(\weights)}$ 
+	of the performance criterion. Two examples of \gls{ml} methods that use such an optimistic 
+	construction of an \gls{objfunc} are \gls{srm} \cite[Ch. 11]{ShalevMLBook} and \gls{ucb} methods 
+	for sequential decision making \cite[Sec. 2.2]{Bubeck2012}. 
 		\begin{figure}[H]
 				\begin{center}
 \begin{tikzpicture}[x=3cm, y=1cm]
@@ -846,11 +862,11 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{empgraph}
 {name={federated learning network (FL network)},
-	description={A federated network\index{federated learning network (FL network)} is an undirected weighted \gls{graph} whose 
-		nodes represent \gls{data} generators that aim to train a local (or personalized) \gls{model}. 
-		Each node in a federated network represents some \gls{device} capable of collecting a \gls{localdataset} 
-		and, in turn, train a \gls{localmodel}. 
-	    \Gls{fl} methods learn a local \gls{hypothesis} $\localhypothesis{\nodeidx}$, for 
+	description={A FL network\index{federated learning network (FL network)} is an 
+		undirected weighted \gls{graph} whose nodes represent \gls{data} generators that 
+		aim to train a local (or personalized) \gls{model}. Each node in a FL network 
+		represents some \gls{device} capable of collecting a \gls{localdataset} 
+		and, in turn, train a \gls{localmodel}. \Gls{fl} methods learn a local \gls{hypothesis} $\localhypothesis{\nodeidx}$, for 
 	    each node $\nodeidx \in \nodes$, such that it incurs small \gls{loss} on the \gls{localdataset}s.},first={federated learning network (FL network)},text={FL network} 
 }
 
@@ -874,16 +890,53 @@ description={Every \gls{norm} $\normgeneric{\cdot}{}$ defined on an \gls{euclids
 	text={dual norm}
 }
 
-\newglossaryentry{geometricmedian}{
-	name={geometric median},
-	description={The geometric median\index{geometric median} of a set of vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
-		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
-		minimizes the sum of distances to the vectors \cite{BoydConvexBook}, 
-		$$\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{}.$$
-		Here, $\normgeneric{\cdot}{}$ can be any \gls{norm} defined on the \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$.},
-	first={geometric median},
-	text={geometric median}
-}
+%\newglossaryentry{geometricmedian}{
+%	name={geometric median (GM)},
+%	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
+%		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
+%		minimizes the sum of distances to the vectors \cite{BoydConvexBook}, 
+%		\begin{equation} 
+%			\label{equ_geometric_median}
+%		\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+%		\end{equation} 
+%		\begin{figure}[H]
+%			\begin{tikzpicture}[scale=2, thick, >=stealth]
+%				% Central model w
+%				\coordinate (w) at (3,0);
+%				\fill (w) circle (1.2pt) node[below right] {$\vz$};
+%				% Good nodes
+%				\coordinate (w2) at (0.5,0.3);
+%				\coordinate (w3) at (0.7,0.7);
+%				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
+%				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
+%				%	\fill (wk) circle (1pt) node[above left] {$\mathbf{w}^{(k)}$};
+%				% Dashed lines from w to good nodes
+%				\draw[dashed] (w) -- (w2);
+%				\draw[dashed] (w) -- (w3);
+%				% Draw unit vectors (scaled to 1cm)
+%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
+%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
+%				\node at (-0.2,1.4) {\textbf{Clean}};
+%				\coordinate (w4) at (5,0.2);
+%				\node at (5,0.4) {\textbf{Perturbed}};
+%				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
+%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
+%		% Optional dotted line from w to bad
+%		\end{tikzpicture}
+%		\caption{\label{opt_cond_GM}
+%			The optimality condition for \eqref{equ_geometric_median} states that the unit vectors from the 
+%			geometric median $\vz$ to the input vectors must sum to zero. This balance breaks if too many 
+%			vectors are perturbed, but remains robust as long as a majority are clean (i.e., not perturbed).
+%	\end{figure}
+%	
+%	Figure~\ref{opt_cond_GM} illustrates a fundamental property of the GM:
+%	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
+%	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero - this is the zero-\gls{subgradient}  
+%	(optimality) condition of \eqref{equ_geometric_median}.
+%},
+%	first={geometric median},
+%	text={GM}
+%}
 
 
 \newglossaryentry{explanation}
@@ -1844,11 +1897,12 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 	    first={multi-label classification},text={multi-label classification} }
 
 
-\newglossaryentry{ssl}{name={semi-supervised learning (SSL)}, description={SSL\index{semi-supervised learning (SSL)} 
-		methods use unlabeled datapoints to support the learning of a \gls{hypothesis} 
-		from \gls{labeled datapoint}s \cite{SemiSupervisedBook}. This approach is particularly useful 
-		for \gls{ml} applications that offer a large amount of unlabeled datapoints, but only a limited 
-		number of \gls{labeled datapoint}s.}, 
+\newglossaryentry{ssl}{
+	name={semi-supervised learning (SSL)}, 
+	description={SSL\index{semi-supervised learning (SSL)} methods use unlabeled \gls{datapoint}s 
+    to support the learning of a \gls{hypothesis} from \gls{labeled datapoint}s \cite{SemiSupervisedBook}. 
+    This approach is particularly useful for \gls{ml} applications that offer a large amount of 
+    unlabeled \gls{datapoint}s, but only a limited number of \gls{labeled datapoint}s.}, 
 		first={semi-supervised learning (SSL)},text={SSL} }
 	
 	
@@ -2374,14 +2428,18 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 		is an umbrella term for \gls{ml} methods that train \gls{model}s in a collaborative 
 		fashion using decentralized \gls{data} and computation.},first={federated learning (FL)},text={FL} }
 	
-\newglossaryentry{cfl}{name={clustered federated learning (CFL)}, description={
-		Clustered\index{clustered federated learning (CFL)} \gls{fl} assumes that \gls{localdataset}s 
-		are naturally grouped into \gls{cluster}s. The \gls{localdataset}s belonging to the 
-		same \gls{cluster} have similar statistical properties. Clustered \gls{fl} aggregates \gls{localdataset}s 
-		in the same \gls{cluster} to obtain a \gls{trainset} for the training of a \gls{cluster}-specific 
-		\gls{model}. \Gls{gtvmin} facilitates this clustering implicitly by enforcing approximate 
-		similarity of \gls{modelparams} across well-connected subsets of the \gls{empgraph}.},
-	first={clustered federated learning (CFL)},text={CFL} }
+\newglossaryentry{cfl}
+{name={clustered federated learning (CFL)}, 
+ description={CFL\index{clustered federated learning (CFL)} trains \gls{localmodel}s for the 
+ 	\gls{device}s in an \gls{fl} application by using a \gls{clustering} assumption: The \gls{device}s 
+ 	of a \gls{empgraph} form \gls{cluster}s. Two \gls{device}s in the same \gls{cluster} generate 
+ 	\gls{localdataset}s with similar statistical properties. CFL pools the \gls{localdataset}s of \gls{device}s 
+ 	in the same \gls{cluster} to obtain a \gls{trainset} for a \gls{cluster}-specific \gls{model}. 
+ 	\Gls{gtvmin} clusters \gls{device}s implicitly by enforcing approximate similarity of \gls{modelparams} 
+ 	across well-connected nodes of the \gls{empgraph}. 
+ 	See also: \gls{fl}, \gls{clustering}, \gls{gtvmin}.},
+	first={clustered federated learning (CFL)},
+	text={CFL} }
 
 \newglossaryentry{iid}{name={independent and identically distributed (i.i.d.)}, description={It\index{independent and identically distributed (i.i.d.)} can be useful to 
 		interpret \gls{datapoint}s $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$ 
@@ -3068,14 +3126,18 @@ first={online gradient descent (online GD)},text={online GD}}
 
 \newglossaryentry{modelinversion}{name={model inversion},description={TBD.},first={model inversion},text={model inversion}}
 
-
-\newglossaryentry{hilbertspace}{name={Hilbert space},description={A\index{Hilbert space} 
-		Hilbert space is a linear vector space equipped with an inner product between 
-		pairs of vectors. One important example of a Hilbert space is the \gls{euclidspace} 
-		$\mathbb{R}^{\featuredim}$, for some dimension $\featuredim$, which consists of 
-		Euclidean vectors $\vu = \big(u_{1},\ldots,u_{\featurelen}\big)^{T}$ along with the inner 
-		product $\vu^{T} \vv$.},first={Hilbert space},text={Hilbert space}}
-
+\newglossaryentry{hilbertspace}{
+	name={Hilbert space},
+	description={A\index{Hilbert space} Hilbert space is a complete inner 
+		product space \cite{introhilbertbook}. That is, it is a linear vector space equipped 
+		with an inner product between pairs of vectors, and it satisfies the additional requirement 
+		of completeness: every Cauchy sequence of vectors converges to a limit within the space. 
+		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
+		for some dimension $\featuredim$, consisting of vectors $\vu = \big(u_1, \ldots, u_{\featuredim}\big)^T$ 
+		and the standard inner product $\vu^T \vv$.},
+	first={Hilbert space},
+	text={Hilbert space}
+}
 
 
 \newglossaryentry{sample}{name={sample},description={A\index{sample} 
@@ -3105,25 +3167,34 @@ first={online gradient descent (online GD)},text={online GD}}
 
 
 \newglossaryentry{randomforest}
-{name=random forest,
-	description={A\index{random forest} random forest is a set (or ensemble) of different \gls{decisiontree}s. 
+{name={random forest},
+  description={A\index{random forest} random forest is a set of different \gls{decisiontree}s. 
 		Each of these \gls{decisiontree}s is obtained by fitting a perturbed copy of 
 		the original \gls{dataset}.},first = {random forest}, text={random forest}
 }
 
-\newglossaryentry{bagging}{name={bagging},description={Bagging\index{bagging} (or bootstrap aggregation) 
-		is a generic technique to improve (the robustness of) a given \gls{ml} method. The idea is to use the \gls{bootstrap} 
-		to generate perturbed copies of a given \gls{dataset} and then to learn a separate \gls{hypothesis} for 
-		each copy. We then predict the \gls{label} of a \gls{datapoint} by combining or aggregating the individual 
-		\gls{prediction}s of each separate \gls{hypothesis}. For \gls{hypothesis} maps delivering numeric \gls{label} 
-		values, this aggregation could be implemented by computing the average of individual \gls{prediction}s.},first={bootstrap aggregation (bagging)},text={bagging}}
+\newglossaryentry{bagging}
+{name={bagging},
+ description={Bagging\index{bagging} (or bootstrap aggregation) 
+		is a generic technique to improve (the robustness of) a given \gls{ml} method. 
+		The idea is to use the \gls{bootstrap} to generate perturbed copies of a given \gls{dataset} 
+		and then to learn a separate \gls{hypothesis} for each copy. We then predict the 
+		\gls{label} of a \gls{datapoint} by combining or aggregating the individual \gls{prediction}s 
+		of each separate \gls{hypothesis}. For \gls{hypothesis} maps delivering numeric \gls{label} 
+		values, this aggregation could be implemented by computing the average of individual 
+		\gls{prediction}s.},
+		first={bootstrap aggregation (bagging)},
+		text={bagging}}
 
-\newglossaryentry{gd}{name={gradient descent (GD)},description={\Gls{gradient}\index{gradient descent (GD)} 
-		descent is an iterative method for finding the \gls{minimum} of a \gls{differentiable} function $f(\weights)$ 
-		of a vector-valued argument $\weights \in \mathbb{R}^{\featurelen}$. Consider a current guess or 
-		approximation $\weights^{(\itercntr)}$ for the \gls{minimum} of the function $f(\weights)$. We would like to find a new (better) vector $\weights^{(\itercntr+1)}$ 
-		that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
-		the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a \gls{gradstep}
+\newglossaryentry{gd}
+{name={gradient descent (GD)},
+ description={\Gls{gradient}\index{gradient descent (GD)} 
+ descent is an iterative method for finding the \gls{minimum} of a \gls{differentiable} 
+ function $f(\weights)$ of a vector-valued argument $\weights \in \mathbb{R}^{\featurelen}$. 
+ Consider a current guess or approximation $\weights^{(\itercntr)}$ for the \gls{minimum} of 
+ the function $f(\weights)$. We would like to find a new (better) vector $\weights^{(\itercntr+1)}$ 
+ that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
+ the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a \gls{gradstep}
 		\begin{equation} 
 			\label{equ_def_GD_step_dict}
 			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
