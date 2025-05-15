@@ -1586,7 +1586,27 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		length $U$. We partition this cell evenly into smaller elementary cells with side 
 		length $\Delta$. The histogram of $\dataset$ assigns each elementary cell to 
 		the corresponding fraction of \gls{datapoint}s in $\dataset$ that fall into this 
-		elementary cell. 
+		elementary cell. \\		
+		\begin{tikzpicture}
+		\pgfplotsset{compat=1.18}
+		\begin{axis}[
+		    ybar,
+		    ymin=0,
+		    ymax=6,
+		    bar width=22pt,
+		    width=10cm,
+		    height=6cm,
+		    xlabel={Value},
+		    ylabel={Frequency},
+		    ytick={1,2,3,4,5,6},
+		    xtick={1,2,3,4,5},
+		    xticklabels={{[0,1)}, {[1,2)}, {[2,3)}, {[3,4)}, {[4,5)}},
+		    enlarge x limits=0.15,
+		    title={Histogram of Sample Data}
+			]
+		\addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
+		\end{axis}
+		\end{tikzpicture}
 	},
 	first={histogram},text={histogram}  
 }
@@ -2781,7 +2801,37 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		The quantitative measure of similarity between \gls{datapoint}s is a design choice. If \gls{datapoint}s 
 		are characterized by Euclidean \gls{featurevec}s $\featurevec \in \mathbb{R}^{\nrfeatures}$, 
 		we can define the similarity between two \gls{datapoint}s via the Euclidean distance between 
-		their \gls{featurevec}s.},first={cluster},text={cluster} }
+		their \gls{featurevec}s.\\
+		\begin{tikzpicture}
+		\pgfplotsset{compat=1.18}
+		\begin{axis}[
+		    width=10cm,
+		    height=8cm,
+		    xlabel={$x_1$},
+		    ylabel={$x_2$},
+		    title={Clusters of Data Points},
+		    xmin=0, xmax=10,
+		    ymin=0, ymax=10,
+		    axis lines=left,
+		    legend style={at={(0.5,-0.25)}, anchor=north, legend columns=3}
+		]
+		% Cluster 1 
+		\addplot[only marks, color=blue, mark=*, mark size=3pt] coordinates {
+		    (1,1) (2,1.2) (1.8,2) (2.2,1.5) (1.5,2.5)
+		};
+		% Cluster 2 
+		\addplot[only marks, color=red, mark=square*, mark size=3pt] coordinates {
+		    (7,8) (8,7.5) (7.5,8.5) (8.2,7.8) (7.7,7)
+		};
+		% Cluster 3 
+		\addplot[only marks, color=green!60!black, mark=triangle*, mark size=3pt] coordinates {
+		    (5,3) (5.5,3.2) (5.2,2.8) (4.8,3.5) (5.1,3.1)
+		};
+		\legend{Cluster 1, Cluster 2, Cluster 3}
+		\end{axis}
+		\end{tikzpicture}
+		},
+		first={cluster},text={cluster} }
 
 %\newglossaryentry{softclustering}{name={soft clustering}, description={Soft clustering methods determine, for each \gls{datapoint} within a dataset, 
 %		a soft cluster assignment or the degree of belonging to a particular cluster.},first={soft clustering},text={soft clustering} }
