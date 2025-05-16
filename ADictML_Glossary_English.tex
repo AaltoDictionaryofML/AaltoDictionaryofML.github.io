@@ -143,13 +143,68 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 } 
 
 \newglossaryentry{vfl}
-{name={vertical federated learning (VFL)},description=
-	{VFL\index{vertical federated learning (VFL)} uses \gls{localdataset}s that are constituted 
-	 by the same \gls{datapoint}s but characterizing them with different \gls{feature}s \cite{VFLChapter}. 
-     For example, different healthcare providers might all contain information 
-     about the same population of patients. However, different healthcare providers 
-     collect different measurements (e.g., blood values, electrocardiography, lung X-ray) 
-     for the same patients.},
+{name={vertical federated learning (VFL)},
+	description={
+		VFL\index{vertical federated learning (VFL)} refer to \gls{fl} applications where  
+		\gls{device}s have access to different \gls{feature}s of the same set of \gls{datapoint}s \cite{VFLChapter}. 
+		Formally, the underlying global \gls{dataset} is
+		\[
+		\dataset^{(\mathrm{global})} \defeq \left\{ \left(\featurevec^{(1)}, \truelabel^{(1)}\right), \ldots, \left(\featurevec^{(\samplesize)}, \truelabel^{(\samplesize)}\right) \right\}.
+		\]
+		We denote by $\featurevec^{(\sampleidx)} = \big( \feature^{(\sampleidx)}_{1}, \ldots, \feature^{(\sampleidx)}_{\nrfeatures'} \big)^{T}$, for $\sampleidx=1,\ldots,\samplesize$, 
+	     the complete \gls{featurevec}s for the \gls{datapoint}s. Each \gls{device} $\nodeidx \in \nodes$ 
+		observes only a subset $\mathcal{F}^{(\nodeidx)} \subseteq \{1,\ldots,\nrfeatures'\}$ of \gls{feature}s, resulting 
+		in a \gls{localdataset} $\localdataset{\nodeidx}$ with \gls{featurevec}s
+		\[
+		\featurevec^{(\nodeidx,\sampleidx)} = \big( \feature^{(\sampleidx)}_{\featureidx_{1}}, \ldots, \feature^{(\sampleidx)}_{\featureidx_{\nrfeatures}} \big)^{T}.
+		\]
+		Some of the \gls{device}s might also have access to the \gls{label}s $\truelabel^{(\sampleidx)}$, for $\sampleidx=1,\ldots,\samplesize$, 
+		of the global \gls{dataset}. One potential application of \gls{vfl} is to enable collaboration between 
+		different healthcare providers. Each provider collects distinct types of measurements—such as blood 
+		values, electrocardiography, and lung X-rays—for the same patients. Another application is a 
+		national social insurance system, where health records, financial indicators, consumer behaviour, 
+		and mobility \gls{data} are collected by different institutions. \gls{vfl} enables joint learning across 
+		these parties while allowing well-defined levels of \gls{privprot}.
+		\begin{figure}[htbp]
+			\begin{center}
+			\begin{tikzpicture}[every node/.style={anchor=base}]
+				  % --- Coordinate definitions ---
+				\def\colX{0}
+				\def\colY{1.6}
+				\def\colZ{3.2}
+				\def\colD{4.8}
+				\def\colLabel{6.4} 
+				\def\rowOne{0}
+				\def\rowTwo{-1.2}
+				\def\rowThree{-2.4}
+				\def\rowFour{-3.6}
+				% Manually place matrix entries
+				\foreach \i/\label in {1/1, 2/2, 4/\samplesize} {
+					\pgfmathsetmacro{\y}{-1.2*(\i-1)}
+					\node (x\i1) at (0,\y) {$x^{(\label)}_{1}$};
+					\node (x\i2) at (1.6,\y) {$x^{(\label)}_{2}$};
+					\node (dots\i) at (3.2,\y) {$\cdots$};
+					\node (x\i3) at (4.8,\y) {$x^{(\label)}_{\dimlocalmodel}$};
+					\node (y\i) at (6.4,\y) {$\truelabel^{(\label)}$};
+				}
+				  % Outer rectangle for the full dataset
+				\draw[dashed, rounded corners, thick]
+				(-0.6,0.6) rectangle (6.9,-4.2);
+				\node at (3.1,0.9) {$\dataset^{(\mathrm{global})} $};
+			% Rectangle for local dataset 1 (e.g., first two features)
+			\draw[dashed, rounded corners, thick]
+			(-0.9,0.9) rectangle (2.1,-4.0);
+			\node at (0.25,1.0) {$\localdataset{1}$};
+		  % --- Local dataset k (columns 2–3, rows 1–3) ---
+		\draw[dashed, rounded corners, thick]
+			($( \colZ + 1,,0.9 )$) rectangle
+			($( \colLabel + 0.4, -4.5)$);
+				\node at ($( \colZ + 0.9,-5 )$) {$\localdataset{\nodeidx}$};
+			\end{tikzpicture}
+			\end{center}
+			\caption{VFL uses \gls{localdataset}s that are derived from the \gls{datapoint}s of a common global \gls{dataset}. 
+				The \gls{localdataset}s differ in the choice of \gls{feature}s used to characterize the \gls{datapoint}s.\label{fig_vertical_FL}}
+		\end{figure}},
 	first={vertical federated learning (VFL)},text={VFL}
 } 
 
