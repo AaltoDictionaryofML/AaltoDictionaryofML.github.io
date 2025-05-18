@@ -1,10 +1,64 @@
 % !TeX spellcheck = en_GB
 
 \newglossaryentry{minimum}
-{
-	name=minimum,
-	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers.},
-	first={minimum},text={minimum}
+{name=minimum,
+ description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers.},
+ first={minimum},text={minimum}
+}
+
+\newglossaryentry{epigraph}
+{name={epigraph},
+  description={The epigraph\index{epigraph} of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+  	is the set of points lying on or above its graph:
+		\[
+		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+		\]
+		A function is \gls{convex} if and only if its epigraph is a \gls{convex} set \cite{BoydConvexBook,BertCvxAnalOpt}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				\begin{axis}[
+					axis lines = middle,
+					xlabel = $x$,
+					ylabel = {$$},
+					xmin=-2, xmax=2,
+					ymin=0, ymax=4.5,
+					samples=100,
+					domain=-1.5:1.5,
+					thick,
+					width=8cm,
+					height=6cm,
+					grid=none,
+					axis on top,
+					]
+					% Function
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					% Epigraph shading
+					\addplot [
+					name path=f,
+					draw=none,
+					ytick=\empty,
+					domain=-1.5:1.5,
+					] {x^2};
+					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+					\addplot [
+					blue!20,
+					opacity=0.6,
+					draw=none,
+					] fill between [
+					of=f and top,
+					soft clip={domain=-1.5:1.5},
+					];
+					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
+				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Epigraph of the function $f(x) = x^2$ (shaded area).}
+		\end{figure}
+	},
+	first={epigraph},
+	text={epigraph},
+	plural={epigraphs}
 }
 
 
