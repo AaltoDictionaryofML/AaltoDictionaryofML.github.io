@@ -557,18 +557,86 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\gls{covmtx} $\mathbf{C}$ and \gls{mean} ${\bm \mu}$ can be constructed via 
 		$\featurevec \defeq \mathbf{A} \big( \vz + {\bm \mu} \big)$. Here, $\mA$ 
 		is any matrix that satisfies $\mA\mA^{T} = \mC$ and $\vz \defeq \big( z_{1},\ldots,z_{\featuredim} \big)^{T}$
-		is a vector whose entries are \gls{iid} standard Gaussian \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. Gaussian 
-		random processes generalize Gaussian random vectors by applying linear 
-		transformations to infinite sequences of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.\\
+		is a vector whose entries are \gls{iid} standard Gaussian \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. 
+	    Gaussian random vectors are a special case of Gaussian processes which are  
+	    linear transformations of infinite sequences of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.
 		Gaussian \gls{rv}s are widely used \gls{probmodel}s for the statistical analysis of 
 		\gls{ml} methods. Their significance arises partly from the central limit theorem, 
 		which states that the average of an increasing number of independent \gls{rv}s (not necessarily Gaussian themselves) 
-		converges to a Gaussian \gls{rv} \cite{ross2013first}. 
-},first={Gaussian random variable (Gaussian RV)},text={Gaussian RV}}
+		converges to a Gaussian \gls{rv} \cite{ross2013first}. \\ 
+		See also: \gls{probdist}, \gls{probdist}, \gls{probspace}.
+},
+first={Gaussian random variable (Gaussian RV)},
+text={Gaussian RV}
+}
 
-\newglossaryentry{trustAI}{name={trustworthy artificial intelligence (trustworthy AI)},description=
-	{Besides the \gls{compasp} and \gls{statasp}, a third main design aspect of 
-	\gls{ml} methods is their trustworthiness\index{trustworthy artificial intelligence (trustworthy AI)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
+\newglossaryentry{GaussProc}
+{name={Gaussian process (GP)},
+  description={A \index{Gaussian Process (GP)}GP is a collection of \gls{rv}s 
+  	$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
+  	from some input space $\featurespace$, such that for any finite subset 
+  	$\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \in \featurespace$, 
+  	the corresponding \gls{rv}s $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)}$ have a joint 
+  	multivariate Gaussian distribution:
+  	\[
+  	\left( f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  	\]
+  	For a fixed input space $\featurespace$, a GP is fully specified (or parametrized) by 
+  	\begin{itemize}
+  		\item a \gls{mean} function $\mu(\featurevec) = \expect\{ f(\featurevec)\}$,
+  		\item and a covariance function $\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.
+  	\end{itemize}
+  	\textbf{Example.} We can interpret the temperature distribution across Finland (at a specific 
+  	point in time) as the \gls{realization} of a GP $f(\featurevec)$, where each input $\featurevec = (\text{lat}, \text{lon})$ 
+  	denotes a geographic location. Temperature observations from \gls{fmi} weather stations provide 
+  	samples of $f(\featurevec)$ at specific locations (see Fig.\ \ref{fig_gp_FMI}). A GP allows to 
+  	predict the temperature nearby \gls{fmi} weather stations and to quantify the uncertainty 
+  	of these predictions. 
+  	\begin{figure}[H]
+  	\begin{center}
+  \begin{tikzpicture}
+\begin{axis}[
+	axis equal,
+	hide axis,
+	scale=1.2,
+	xmin=17, xmax=32,
+	ymin=55, ymax=71,
+%	width=15cm,
+%	height=20cm,
+	clip=true
+	]
+	% --- Finland border (polyline) ---
+	\addplot[
+	color=black,
+	thick
+	] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+	% --- FMI sample stations ---
+	\addplot[
+	only marks,
+	mark=*,
+	mark options={fill=blue},
+	color=black
+	] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+	% Draw manual axes
+	\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {lon};
+	\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
+\end{axis}
+\end{tikzpicture}
+\vspace*{-15mm}
+\end{center}
+\caption{We can interpret the temperature distribution over Finland as a \gls{realization} 
+	of a GP indexed by geographic coordinates and sampled at \gls{fmi} weather stations (indicated by 
+	blue dots). \label{fig_gp_FMI}}
+\end{figure}}, 
+first = {Gaussian process}, 
+text = {GP}
+}
+
+\newglossaryentry{trustAI}
+{name={trustworthy artificial intelligence (trustworthy AI)},
+	description={Besides the \gls{compasp} and \gls{statasp}, a third main 
+		design aspect of \gls{ml} methods is their trustworthiness\index{trustworthy AI} 
+		\cite{pfau2024engineeringtrustworthyaideveloper}. 
 		The EU has put forward seven key requirements (KRs) for trustworthy 
 		\gls{ai} (that typically build on \gls{ml} methods)
 	\cite{ALTAIEU}: 
@@ -581,37 +649,49 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\item KR6 - Societal and environmental well-being;
 		\item KR7 - Accountability. 
 	\end{enumerate}
-	},first={trustworthy artificial intelligence (trustworthy AI)},text={trustworthy AI}}
+	},
+	first={trustworthy artificial intelligence (trustworthy AI)},
+	text={trustworthy AI}
+}
 
-\newglossaryentry{sqerrloss}{name={squared error loss},description={The squared 
-		error\index{squared error loss} \gls{loss} measures the \gls{prediction} error of a 
-		\gls{hypothesis} $\hypothesis$ when predicting a numeric \gls{label} $\truelabel \in \mathbb{R}$ 
-		from the \gls{feature}s $\featurevec$ of a \gls{datapoint}. It is 
-	defined as 
+\newglossaryentry{sqerrloss}
+{name={squared error loss},
+ description={The squared error\index{squared error loss} \gls{loss} 
+ 	measures the \gls{prediction} error of a \gls{hypothesis} $\hypothesis$ 
+ 	when predicting a numeric \gls{label} $\truelabel \in \mathbb{R}$ from 
+ 	the \gls{feature}s $\featurevec$ of a \gls{datapoint}. It is defined as 
 \begin{equation} 
 	\nonumber
 %	\label{equ_squared_loss_gls}
 	\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \big(\truelabel - \underbrace{\hypothesis(\featurevec)}_{=\predictedlabel} \big)^{2}. 
 \end{equation} 
-},first={squared error loss},text={squared error loss}}
+},
+ first={squared error loss},
+ text={squared error loss}
+ }
 
 
- \newglossaryentry{projection}{name={projection}, 
-       description={Consider\index{projection} a subset $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$ of 
+ \newglossaryentry{projection}
+ {name={projection}, 
+   description={Consider\index{projection} a subset $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$ of 
 	   the $\dimlocalmodel$-dimensional \gls{euclidspace}. We define the projection $\projection{\paramspace}{\weights}$
 	   of a vector $\weights \in \mathbb{R}^{\dimlocalmodel}$ onto $\paramspace$ as
 		\begin{equation} 
    	    \label{equ_def_proj_generic_dict}
   	     \projection{\paramspace}{\weights} = \argmin_{\weights' \in \paramspace} \normgeneric{\weights - \weights'}{2}. 
          \end{equation}
-		 In other words, $\projection{\paramspace}{\weights}$ is the vector in $\paramspace$ which is closest to $\weights$. 
-		 The projection is only well-defined for subsets $\paramspace$ for which the above \gls{minimum} exists \cite{BoydConvexBook}.},
-		 first={projection},text={projection}}
+		 In other words, $\projection{\paramspace}{\weights}$ is the vector in $\paramspace$ 
+		 which is closest to $\weights$. The projection is only well-defined for subsets $\paramspace$ 
+		 for which the above \gls{minimum} exists \cite{BoydConvexBook}.},
+		 first={projection},
+		 text={projection}
+}
 
 
-\newglossaryentry{projgd}{name={projected gradient descent (projected GD)},
-description={Consider an \gls{erm}-based method that uses a parametrized \gls{model} with  
-\gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. Even if 
+\newglossaryentry{projgd}
+{name={projected gradient descent (projected GD)},
+ description={Consider an \gls{erm}-based method that uses a parametrized \gls{model} 
+  with \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. Even if 
 the \gls{objfunc} of \gls{erm} is \gls{smooth}, we cannot use basic \gls{gd}, as 
 it does not take into account contraints on the optimization variable (i.e., the \gls{modelparams}). 
 Projected\index{projected gradient descent (projected GD)} \gls{gd} 
@@ -636,23 +716,26 @@ and then projecting the result back onto the \gls{paramspace}.
 	\caption{Projected \gls{gd} augments a basic \gls{gradstep} with a \gls{projection} back 
 	onto the constraint set $\paramspace$.}
 	\label{fig_projected_GD_dict}
-\end{figure}},first={projected gradient descent (projected GD)},text={projected GD}}
+\end{figure}},
+first={projected gradient descent (projected GD)},
+text={projected GD}
+}
 
 \newglossaryentry{diffpriv}
 {name=differential privacy (DP),
-  description={
-  	Consider\index{differential privacy (DP)} some \gls{ml} method $\algomap$ that reads in a \gls{dataset} (e.g., the \gls{trainset} 
-  	used for \gls{erm}) and delivers some output $\algomap(\dataset)$. The output 
-  	could be either the learned \gls{modelparams} or the \gls{prediction}s for specific \gls{datapoint}s. 
-  	DP is a precise measure of \gls{privleakage} incurred by revealing the 
-  	output. Roughly speaking, an \gls{ml} method is differentially private if the \gls{probdist} 
-  	of the output $\algomap(\dataset)$ does not change too much if the \gls{sensattr} 
-  	of one \gls{datapoint} in the \gls{trainset} is changed. Note that DP 
-  	builds on a \gls{probmodel} for an \gls{ml} method, i.e., we interpret its output $\algomap(\dataset)$ 
-  	as the \gls{realization} of an \gls{rv}. The randomness in the output can be ensured 
-  	by intentionally adding the \gls{realization} of an auxiliary \gls{rv} (i.e., adding noise) to 
-  	the output of the \gls{ml} method.}, 
-	first = {DP}, text={DP} 
+  description={Consider\index{differential privacy (DP)} some \gls{ml} method $\algomap$ 
+  	that reads in a \gls{dataset} (e.g., the \gls{trainset} used for \gls{erm}) and delivers some 
+  	output $\algomap(\dataset)$. The output could be either the learned \gls{modelparams} 
+  	or the \gls{prediction}s for specific \gls{datapoint}s. DP is a precise measure of \gls{privleakage} 
+  	incurred by revealing the output. Roughly speaking, an \gls{ml} method is differentially 
+  	private if the \gls{probdist} of the output $\algomap(\dataset)$ does not change too 
+  	much if the \gls{sensattr} of one \gls{datapoint} in the \gls{trainset} is changed. 
+  	Note that DP builds on a \gls{probmodel} for an \gls{ml} method, i.e., we interpret its 
+  	output $\algomap(\dataset)$ as the \gls{realization} of an \gls{rv}. The randomness in 
+  	the output can be ensured by intentionally adding the \gls{realization} of an auxiliary \gls{rv} 
+  	(i.e., adding noise) to the output of the \gls{ml} method.}, 
+	first = {DP}, 
+	text={DP} 
 }
 
 \newglossaryentry{stability}
