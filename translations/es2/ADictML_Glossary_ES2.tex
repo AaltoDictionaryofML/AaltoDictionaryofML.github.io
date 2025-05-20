@@ -2773,21 +2773,20 @@ la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}. },firs
 	como una función de los \gls{modelparams} $\weights$ que seleccionan una \gls{hypothesis} $\hypothesis^{(\weights)} \in \hypospace$.}
 		,first={descenso por subgradiente},text={descenso por subgradiente} }
 	
-\newglossaryentry{stochGD}{name={stochastic gradient descent (SGD)}, description={Stochastic\index{stochastic gradient descent (SGD)} 
-		\gls{gd} is obtained from \gls{gd} by replacing the \gls{gradient} of the \gls{objfunc} 
-		with a stochastic approximation. A main application of stochastic \gls{gd} 
-		is to train a parametrized \gls{model} via \gls{erm} on a \gls{trainset} $\dataset$ that 
-		is either very large or not readily available (e.g., when \gls{datapoint}s are stored 
-		in a database distributed all over the planet). To evaluate the \gls{gradient} of the 
-		\gls{emprisk} (as a function of the \gls{modelparams} $\weights$), 
-		we need to compute a sum $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$  
-		over all \gls{datapoint}s in the \gls{trainset}. We obtain a stochastic 
-		approximation to the \gls{gradient} by replacing the sum $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
-		with a sum $\sum_{\sampleidx \in \batch} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
-		over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Figure \ref{fig_sgd_approx_dict}). 
-		We often refer to these randomly chosen \gls{datapoint}s as a \gls{batch}. 
-		The \gls{batch} size $|\batch|$ is an important parameter of stochastic \gls{gd}. 
-		Stochastic \gls{gd} with $|\batch|> 1$ is referred to as mini-\gls{batch} stochastic \gls{gd} \cite{Bottou99}. 		
+\newglossaryentry{stochGD}{name={descenso de gradiente estocástico (SGD)}, description={El\index{descenso de gradiente estocástico (SGD)} 
+		descenso de gradiente estocástico es una variante del \gls{gd} en la que se reemplaza el \gls{gradient} de la \gls{objfunc} 
+		por una aproximación estocástica. Una aplicación principal del descenso por gradiente estocástico  es entrenar un
+		\gls{model} parametrizado mediante \gls{erm} sobre un \gls{trainset} $\dataset$ que es muy grande o no está fácilmente disponible 
+		(por ejemplo, cuando los \gls{datapoint}s están almacenados en bases de datos distribuidas por todo el mundo). Para evaluar el \gls{gradient} del
+		\gls{emprisk} (como función de los \gls{modelparams} $\weights$), 
+		se requiere calcular una suma $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$  
+		sobre todos los \gls{datapoint}s del \gls{trainset}. Una aproximación estocástica se obtiene al reemplazar esta suma 
+		$\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
+		por una suma parcial $\sum_{\sampleidx \in \batch} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
+		considerando un subconjunto aleatorio $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Figure \ref{fig_sgd_approx_dict}). 
+		A estos \gls{datapoint}s seleccionados aleatoriamente se les denomina a menudo \gls{batch}. 
+		El tamaño del \gls{batch}, denotado $|\batch|$ es un parámetro importante del descenso por gradiente estocástico. \gls{gd}. 
+		El descenso por gradiente estocástico con $|\batch|> 1$ se conoce como mini-\gls{batch} SGD \cite{Bottou99}. 		
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=1.5, >=stealth]
@@ -2802,41 +2801,41 @@ la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}. },firs
 				\node[red] at (3.3, 1.5) {$\sum_{\sampleidx \in \batch}$};
 % Labels
 			\end{tikzpicture}
-		\caption{Stochastic \gls{gd} for \gls{erm} approximates the \gls{gradient} 
+		\caption{El descenso por gradiente estocástico (\gls{gd}) para \gls{erm} aproxima el \gls{gradient} 
 		$\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
-		by replacing the 
-		sum over all \gls{datapoint}s in the \gls{trainset} (indexed by $\sampleidx=1,\ldots,\samplesize$) 
-		with a sum over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$.\label{fig_sgd_approx_dict}}
+		reemplazando la suma sobre todos los 
+		\gls{datapoint}s del \gls{trainset} (indexados por $\sampleidx=1,\ldots,\samplesize$) 
+		con una suma sobre un subconjunto aleatorio $\batch \subseteq \{1,\ldots,\samplesize\}$.\label{fig_sgd_approx_dict}}
 		\end{figure}
-},first={stochastic gradient descent (SGD)},text={SGD} }
+},first={descenso de gradiente estocástico (SGD)},text={SGD} }
 
 
-\newglossaryentry{onlineGD}{name={online gradient descent (online GD)}, description={
-Consider \index{online gradient descent (online GD)} an \gls{ml} method that learns \gls{modelparams} 
-$\weights$ from some \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. 
-The learning process uses \gls{datapoint}s $\datapoint^{(\timeidx)}$ that arrive at consecutive time-instants $\timeidx=1,2,\ldots$. 
-Let us interpret the \gls{datapoint}s $\datapoint^{(\timeidx)}$ as \gls{iid} copies 
-of an \gls{rv} $\datapoint$. The \gls{risk} $\expect\{ \lossfunc{\datapoint}{\weights} \}$ of a 
-\gls{hypothesis} $\hypothesis^{(\weights)}$ can then (under mild conditions) be obtained as the limit 
+\newglossaryentry{onlineGD}{name={descenso por gradiente en línea (online GD)}, description={
+Considere \index{descenso por gradiente en línea (online GD)} un método de \gls{ml} que aprende los \gls{modelparams} 
+$\weights$ a partir de un \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. 
+El proceso de aprendizaje utiliza \gls{datapoint}s $\datapoint^{(\timeidx)}$ que llegan en instantes de tiempo consecutivos $\timeidx=1,2,\ldots$. 
+Interpretamos los \gls{datapoint}s $\datapoint^{(\timeidx)}$ como copias \gls{iid} de una \gls{rv} $\datapoint$. 
+El \gls{risk} $\expect\{ \lossfunc{\datapoint}{\weights} \}$ de una \gls{hypothesis} $\hypothesis^{(\weights)}$ 
+puede entonces (bajo condiciones suaves) obtenerse como el límite 
 $\lim_{T\rightarrow \infty} (1/T)\sum_{\timeidx=1}^{T} \lossfunc{\datapoint^{(\timeidx)}}{\weights}$. 
-We might use this limit as the \gls{objfunc} for learning the \gls{modelparams} $\weights$. 
-Unfortunately, this limit can only be evaluated if we wait infinitely long in order to collect all \gls{datapoint}s. 
-Some \gls{ml} applications require methods that learn online: as soon as a new \gls{datapoint} $\datapoint^{(\timeidx)}$ 
-arrives at time $\timeidx$, we update the current \gls{modelparams} $\weights^{(\timeidx)}$. Note that 
-the new \gls{datapoint} $\datapoint^{(\timeidx)}$ contributes the component $\lossfunc{\datapoint^{(\timeidx)}}{\weights}$ 
-to the \gls{risk}. As its name suggests, online \gls{gd} updates $\weights^{(\timeidx)}$ via a (projected) \gls{gradstep}
+Podríamos usar este límite como la \gls{objfunc} para aprender los \gls{modelparams} $\weights$. 
+Sin embargo, este límite solo puede evaluarse si esperamos un tiempo infinito para recolectar todos los \gls{datapoint}s. 
+Algunas aplicaciones de \gls{ml} requieren métodos que aprendan en línea: tan pronto como llega un nuevo \gls{datapoint} $\datapoint^{(\timeidx)}$ 
+en el tiempo $\timeidx$, actualizamos los \gls{modelparams} actuales $\weights^{(\timeidx)}$. 
+Nótese que el nuevo \gls{datapoint} $\datapoint^{(\timeidx)}$ contribuye con el componente $\lossfunc{\datapoint^{(\timeidx)}}{\weights}$ 
+al \gls{risk}. Como sugiere el nombre, el descenso por gradiente en línea actualiza $\weights^{(\timeidx)}$ mediante un (proyectado) \gls{gradstep}:
 \begin{equation} 
 \label{equ_def_ogd_dict}
  \weights^{(\timeidx+1)} \defeq \projection{\paramspace}{\weights^{(\timeidx)} - \lrate_{\timeidx} \nabla_{\weights} \lossfunc{\datapoint^{(\timeidx)}}{\weights}}. 
 \end{equation} 
-Note that \eqref{equ_def_ogd_dict} is a \gls{gradstep} for the current component $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
-of the \gls{risk}. The update \eqref{equ_def_ogd_dict} ignores all the previous components $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$, 
-for $\timeidx' < \timeidx$. It might therefore happen that, compared to $\weights^{(\timeidx)}$, the updated \gls{modelparams} 
-$\weights^{(\timeidx+1)}$ increase the retrospective average \gls{loss} $\sum_{\timeidx'=1}^{\timeidx-1} \lossfunc{\datapoint^{(\timeidx')}}{\cdot}$. 
-However, for a suitably chosen \gls{learnrate} $\lrate_{\timeidx}$, online \gls{gd} can be shown 
-to be optimal in practically relevant settings. By optimal, we mean that the \gls{modelparams} 
-$\weights^{(T+1)}$ delivered by online \gls{gd} after observing $T$ \gls{datapoint}s $\datapoint^{(1)},\ldots, \datapoint^{(T)}$ 
-are at least as good as those delivered by any other learning method \cite{HazanOCO,GDOptimalRakhlin2012}. 
+Nótese que \eqref{equ_def_ogd_dict} es un \gls{gradstep} para el componente actual $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
+del \gls{risk}. La actualización \eqref{equ_def_ogd_dict} ignora todos los componentes anteriores $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$ 
+para $\timeidx' < \timeidx$. Por tanto, podría suceder que, comparado con $\weights^{(\timeidx)}$, los \gls{modelparams} actualizados 
+$\weights^{(\timeidx+1)}$ aumenten el \gls{loss} promedio retrospectivo $\sum_{\timeidx'=1}^{\timeidx-1} \lossfunc{\datapoint^{(\timeidx')}}{\cdot}$. 
+Sin embargo, para un \gls{learnrate} $\lrate_{\timeidx}$ elegido apropiadamente, se puede demostrar que el descenso por gradiente en línea 
+es óptimo en escenarios de interés práctico. Por óptimo, entendemos que los \gls{modelparams} 
+$\weights^{(T+1)}$ entregados por el descenso por gradiente en línea tras observar $T$ \gls{datapoint}s $\datapoint^{(1)},\ldots, \datapoint^{(T)}$ 
+son al menos tan buenos como los entregados por cualquier otro método de aprendizaje \cite{HazanOCO,GDOptimalRakhlin2012}. 
 \begin{figure}[H]
 	\begin{center}
 \begin{tikzpicture}[x=1.5cm,scale=1.5, every node/.style={font=\footnotesize}]
@@ -2869,36 +2868,34 @@ are at least as good as those delivered by any other learning method \cite{Hazan
 	%};
 	\end{tikzpicture}
 \end{center} 
-\caption{An instance of online \gls{gd} that updates the \gls{modelparams} $\weights^{(\timeidx)}$ 
-using the \gls{datapoint} $\datapoint^{(\timeidx)} = \feature^{(\timeidx)}$ arriving at time $\timeidx$. 
-This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weight} = (\feature^{(\timeidx)} - \weight)^{2}$.
+\caption{Una instancia de descenso por \gls{gd}  en línea que actualiza los \gls{modelparams} $\weights^{(\timeidx)}$ 
+usando el \gls{datapoint} $\datapoint^{(\timeidx)} = \feature^{(\timeidx)}$ que llega en el tiempo $\timeidx$. 
+Esta instancia emplea la \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weight} = (\feature^{(\timeidx)} - \weight)^{2}$.
 }
 \end{figure}},
-first={online gradient descent (online GD)},text={online GD}}
+first={descenso por gradiente en línea (online GD)},text={GD en linea}}
 
-\newglossaryentry{pca}{name={principal component analysis (PCA)}, description={PCA\index{principal component analysis (PCA)} 
-		determines a linear \gls{featuremap} such that the new \gls{feature}s 
-		allow us to reconstruct the original \gls{feature}s with the \gls{minimum} reconstruction error \cite{MLBasics}.},first={principal component analysis (PCA)},text={PCA} }
+\newglossaryentry{pca}{name={análisis de componentes principales (PCA)}, description={El PCA\index{análisis de componentes principales (PCA)} 
+		determina una \gls{featuremap} lineal tales que las nuevos \gls{feature}s 
+		permiten reconstruir los \gls{feature}s originales con el \gls{minimum} error de reconstrucción \cite{MLBasics}.},first={análisis de componentes principales (PCA)},text={PCA} }
 	
-\newglossaryentry{loss}{name={loss}, description={\gls{ml}\index{loss} methods use a 
-		\gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ to measure the error incurred 
-		by applying a specific \gls{hypothesis} to a specific \gls{datapoint}. With a
-		slight abuse of notation, we use the term loss for both the \gls{lossfunc} $\loss$ 
-		itself and the specific value $\lossfunc{\datapoint}{\hypothesis}$, for a \gls{datapoint} $\datapoint$ 
-		and \gls{hypothesis} $\hypothesis$.},first={loss},text={loss} }
+\newglossaryentry{loss}{name={pérdida}, description={Los métodos de \gls{ml}\index{pérdida} usan una \gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ 
+para medir el error incurrido al aplicar una \gls{hypothesis} específica a un \gls{datapoint} específico. 
+Con un pequeño abuso de notación, usamos el término pérdida tanto para la función de \gls{lossfunc} $\loss$ en sí 
+como para el valor específico $\lossfunc{\datapoint}{\hypothesis}$, para un \gls{datapoint} $\datapoint$ 
+y una \gls{hypothesis} $\hypothesis$.},first={pérdida},text={pérdida} }
 
-\newglossaryentry{lossfunc}{name={loss function}, description={A\index{loss function} \gls{loss} function is a map 
+\newglossaryentry{lossfunc}{name={función de pérdida}, description={Una\index{función de pérdida} función de \gls{loss} es una aplicación
 		$$\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
 		 \hypothesis\big) \mapsto  \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.$$
-		It assigns a non-negative real number (i.e., the \gls{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$
-		to a pair that consists of a \gls{datapoint}, with \gls{feature}s $\featurevec$ 
-		and \gls{label} $\truelabel$, and a \gls{hypothesis} $\hypothesis \in \hypospace$. The 
-		value $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ quantifies the discrepancy 
-		between the true \gls{label} $\truelabel$ and the \gls{prediction} $\hypothesis(\featurevec)$. 
-		Lower (closer to zero) values $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indicate a smaller 
-		discrepancy between \gls{prediction} $\hypothesis(\featurevec)$ and \gls{label} $\truelabel$. 
-		Figure \ref{fig_loss_function_gls_dict} depicts a \gls{loss} function for a given \gls{datapoint}, 
-		with \gls{feature}s $\featurevec$ and \gls{label} $\truelabel$, as a function of the \gls{hypothesis} $\hypothesis \in \hypospace$. 
+		Asigna un número real no negativo (es decir, la \gls{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$
+		a un par que consiste en un \gls{datapoint}, con \gls{feature}s $\featurevec$ y una \gls{label} $\truelabel$, 
+		y una \gls{hypothesis} $\hypothesis \in \hypospace$. 
+		El valor $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ cuantifica la discrepancia entre la \gls{label} verdadera $\truelabel$ 
+		y la \gls{prediction} $\hypothesis(\featurevec)$. Valores bajos (cercanos a cero) de $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ 
+		indican una discrepancia menor entre la \gls{prediction} $\hypothesis(\featurevec)$ y la \gls{label} $\truelabel$. 
+		La Figura \ref{fig_loss_function_gls_dict} muestra una función de \gls{loss} para un \gls{datapoint} dado, 
+		con \gls{feature}s $\featurevec$ y \gls{label} $\truelabel$, como función de la \gls{hypothesis} $\hypothesis \in \hypospace$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale = 0.7]
@@ -2928,22 +2925,22 @@ first={online gradient descent (online GD)},text={online GD}}
 				\end{tikzpicture}
 			\end{center}
 			\vspace*{-7mm}
-			\caption{Some \gls{loss} function $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ for a fixed \gls{datapoint}, with 
-				\gls{featurevec} $\featurevec$ and \gls{label} $\truelabel$, and a varying \gls{hypothesis} $\hypothesis$. 
-				\gls{ml} methods try to find (or learn) a \gls{hypothesis} that incurs minimal \gls{loss}.}
+			\caption{Alguna funcion de \gls{loss} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ para un \gls{datapoint} fijado, con 
+				\gls{featurevec} $\featurevec$ y \gls{label} $\truelabel$, y una \gls{hypothesis} variable $\hypothesis$. 
+				Los métodos de \gls{ml} intentan encontrar (o aprender) una \gls{hypothesis} que incurra en una \gls{loss} mínima.}
 			\label{fig_loss_function_gls_dict}
 	\end{figure}
- },first={loss function},text={loss function} }
+ },first={función de pérdida},text={función de pérdida} }
 
-\newglossaryentry{decisiontree}{name={decision tree}, description={A\index{decision tree} 
-		decision tree is a flow-chart-like representation of a \gls{hypothesis} map $\hypothesis$. 
-		More formally, a decision tree is a directed \gls{graph} containing a root node that reads 
-		in the \gls{featurevec} $\featurevec$ of a \gls{datapoint}. The root node then forwards 
-		the \gls{datapoint} to one of its children nodes based on some elementary test on the \gls{feature}s $\featurevec$. 
-		If the receiving child node is not a leaf node, i.e., it has itself children nodes, 
-	  it represents another test. Based on the test result, the \gls{datapoint} is forwarded 
-	   to one of its descendants. This testing and forwarding of the \gls{datapoint} is continued 
-	  until the \gls{datapoint} ends up in a leaf node (having no children nodes). 
+\newglossaryentry{decisiontree}{name={árbol de decisión}, description={Un\index{árbol de decisión} 
+		árbol de decisión es una representación similar a un diagrama de flujo de un mapa de \gls{hypothesis} $\hypothesis$. 
+		Más formalmente, un árbol de decisión es un \gls{graph} dirigido que contiene un nodo raíz que lee
+		el \gls{featurevec} $\featurevec$ de un\gls{datapoint}. El nodo raíz luego transfiere 
+		el \gls{datapoint} a uno de sus nodos hijos basado en alguna prueba elemental sobre los \gls{feature}s $\featurevec$. 
+		Si el nodo hijo receptor no es un nodo hoja, es decir, tiene sus propios nodos hijos, 
+		representa otra prueba. Según el resultado de la prueba, el \gls{datapoint} se transfiere
+		a uno de sus descendientes. Esta prueba y transferencia del \gls{datapoint} continúa
+		hasta que el \gls{datapoint}termina en un nodo hoja (que no tiene nodos hijos). 
 \begin{figure}[H]
 \begin{minipage}{.45\textwidth}
 	\scalebox{1}{
@@ -2987,15 +2984,15 @@ first={online gradient descent (online GD)},text={online GD}}
 		\node [right] at (0.6,0) {$\mathbf{v}$};
 	\end{tikzpicture}
 \end{minipage}
-	\caption{Left: A decision tree is a flow-chart-like representation of a piece-wise constant \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \mathbb{R}$.  Each piece is a \gls{decisionregion} $\decreg{\predictedlabel} \defeq \big\{ \featurevec \in  \featurespace: \hypothesis(\featurevec) = \predictedlabel \big\}$. 
-		The depicted decision tree can be applied to numeric \gls{featurevec}s, i.e., $\featurespace \subseteq \mathbb{R}^{\dimlocalmodel}$. It is  parametrized by the threshold $\varepsilon>0$ and the vectors $\vu, \vv \in \mathbb{R}^{\dimlocalmodel}$. 
-		Right: A decision tree partitions  
-		the \gls{featurespace} $\featurespace$ into \gls{decisionregion}s. Each \gls{decisionregion}  
-		$\decreg{\hat{\truelabel}} \!\subseteq\!\featurespace$ corresponds to a specific leaf node in the decision tree.}
+	\caption{Izquierda: Un árbol de decisión es una representación similar a un diagrama de flujo de una \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \mathbb{R}$ constante por partes.  Cada parte es una \gls{decisionregion} $\decreg{\predictedlabel} \defeq \big\{ \featurevec \in  \featurespace: \hypothesis(\featurevec) = \predictedlabel \big\}$. 
+		TEl árbol de decisión mostrado puede aplicarse a \gls{featurevec}s numéricos, es decir, $\featurespace \subseteq \mathbb{R}^{\dimlocalmodel}$. Está parametrizado por el umbral $\varepsilon>0$ y los vectores $\vu, \vv \in \mathbb{R}^{\dimlocalmodel}$. 
+		Derecha: Un árbol de decisión particiona
+		el \gls{featurespace} $\featurespace$ en \gls{decisionregion}s. Cada \gls{decisionregion}  
+		$\decreg{\hat{\truelabel}} \!\subseteq\!\featurespace$ corresponde a un nodo hoja específico en el árbol de decisión.}
 	\label{fig_decision_tree}
 \end{figure} 
 	  }
-	  ,first={decision tree},text={decision tree} }
+	  ,first={árbol de decisión},text={árbol de decisión} }
 
 %\newglossaryentry{API} 
 %{
