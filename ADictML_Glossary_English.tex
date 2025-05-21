@@ -2376,10 +2376,59 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 		                   \end{figure}
 		                   \newpage
 		},
-	first={generalization},text={generalization} }
+	first={generalization},
+	text={generalization} 
+}
+	
+
+    
+\newglossaryentry{boosting}
+{name = {boosting}, 
+	description={Boosting\index{boosting} is an iterative optimization method to learn an accurate 
+		\gls{hypothesis} map (or strong learner) by sequentially combining less accurate 
+		\gls{hypothesis} maps (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
+		For example, weak learners are shallow \gls{decisiontree}s which are combined to 
+		obtain a deep \gls{decisiontree}. Boosting can be understood as a generalization 
+		of \gls{gdmethods} for \gls{erm} using parametric \gls{model}s and \gls{smooth} \gls{lossfunc}s 
+		\cite{Friedman2001}. Just like \gls{gd} iteratively updates \gls{modelparams} to reduce the \gls{emprisk}, 
+		boosting iteratively combines (e.g., by summation) \gls{hypothesis} maps to reduce the \gls{emprisk}. 
+		A widely-used instance of the generic boosting idea is referred to as \gls{gradient} boosting, which 
+		uses \gls{gradient}s of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
+		\begin{figure}
+			\begin{center}
+				\begin{tikzpicture}[scale=1.2]
+					% Axes
+					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
+					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
+%					% Loss curve
+					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
+				%	\node[blue] at (4.5,2.2) {\gls{loss}};
+%					% Points on the curve
+					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
+						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
+						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
+						\node[below] at (\x, -0.1) {\label};                             % label
+					}
+%					% Arrows for descent
+%					\foreach \x/\xnext in {0.7/1.5, 1.5/2.3, 2.3/3.0} {
+%						\draw[->,red,thick] (\x,{(4 - 1.3*\x + 0.15*\x*\x)}) -- (\xnext,{(4 - 1.3*\xnext + 0.15*\xnext*\xnext)});
+%					}
+%					% Gradient label
+%					\node[red] at (1.8,3.6) {Update direction $\approx -\nabla \text{Loss}$};
+				\end{tikzpicture}
+			\end{center} 
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} maps $\hypothesis^{(0)},\hypothesis^{(1)},\ldots$ 
+				            that are increasingly strong learners (i.e., incurring a smaller \gls{loss}).}
+     	\end{figure} 
+     	\\ See also: \gls{gradstep}, \gls{gdmethods}
+		}, 
+	first={boosting}, 
+	text={boosting}} 
 
 	
-\newglossaryentry{gtv}{name={generalized total variation (GTV)}, description={GTV is a\index{generalized total variation (GTV)} 
+\newglossaryentry{gtv}
+{name={generalized total variation (GTV)}, 
+ description={GTV is a\index{generalized total variation (GTV)} 
 		measure of the variation of trained \gls{localmodel}s $\localhypothesis{\nodeidx}$ 
 		(or their \gls{modelparams} $\localparams{\nodeidx}$) assigned to the nodes $\nodeidx=1,\ldots,\nrnodes$ 
 		of an undirected weighted \gls{graph} $\graph$ with edges $\edges$. Given a measure $\discrepancy{\hypothesis}{\hypothesis'}$ 
@@ -2390,7 +2439,10 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 			\discrepancy{\localhypothesis{\nodeidx}}{\localhypothesis{\nodeidx'}}.
 		\end{equation}
 		Here, $\edgeweight_{\nodeidx,\nodeidx'}>0$ denotes the weight of the undirected edge $\edge{\nodeidx}{\nodeidx'}\in \edges$.
-		},first={GTV},text={GTV} }
+		},
+ first={GTV},
+ text={GTV} 
+}
 	
 \newglossaryentry{srm}{
 	name={structural risk minimization (SRM)}, 
@@ -2669,13 +2721,13 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 	
 
 \newglossaryentry{cm}{name={confusion matrix}, 
-	description={Consider\index{confusion matrix} \gls{datapoint}s, which are characterized by \gls{feature}s $\featurevec$ 
-		and \gls{label} $\truelabel$, having values from the finite \gls{labelspace} $\labelspace = \{1,\ldots,\nrcluster\}$. 
-		The confusion matrix is a $\nrcluster \times \nrcluster$ matrix with rows representing different values $\clusteridx$ 
-		of the true label of a \gls{datapoint}. The columns of a confusion matrix correspond to different values 
-		$\clusteridx'$ delivered by a hypothesis $\hypothesis(\featurevec)$. The $(\clusteridx,\clusteridx')$-th entry of 
-		the confusion matrix is the fraction of \gls{datapoint}s with the \gls{label} $\truelabel\!=\! \clusteridx$ and the 
-		\gls{prediction} $\hat{\truelabel}\!=\!\clusteridx'$ assigned by the \gls{hypothesis} $\hypothesis$.},
+	description={Consider\index{confusion matrix} \gls{datapoint}s, which are characterized 
+		by \gls{feature}s $\featurevec$ and \gls{label} $\truelabel$, having values from the finite 
+		\gls{labelspace} $\labelspace = \{1,\ldots,\nrcluster\}$. For a given \gls{hypothesis} $\hypothesis$, 
+		the confusion matrix is a $\nrcluster \times \nrcluster$ matrix with rows representing the elements of 
+		$\labelspace$. The columns of a confusion matrix correspond to the \gls{prediction} $\hypothesis(\featurevec)$. 
+		The $(\clusteridx,\clusteridx')$-th entry of the confusion matrix is the fraction of 
+		\gls{datapoint}s with \gls{label} $\truelabel\!=\! \clusteridx$ and resulting in a \gls{prediction} $\hypothesis(\featurevec)\!=\!\clusteridx'$.},
 	first={confusion matrix},text={confusion matrix} }
 
 
