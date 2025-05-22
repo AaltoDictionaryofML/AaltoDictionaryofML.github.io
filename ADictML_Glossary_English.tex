@@ -100,14 +100,17 @@
 	first={FedRelax},text={FedRelax}
 } 
 
-\newglossaryentry{FedAvg}
+\newglossaryentry{fedavg}
 {name={FedAvg},
-	description={An\index{FedAvg} \gls{fl} \gls{algorithm} using a server-client 
-		setting. 
+	description={FedAvg\index{FedAvg} refers to a family of iterative \gls{fl} \glspl{algorithm}. 
+	It uses a server-client setting and alternatves between client-wise \glspl{localmodel} 
+	re-training, followed by the aggregation of updated \gls{modelparams} at the server 
+	\cite{pmlr-v54-mcmahan17a}.  
 		\\ 
 		See also: \gls{fl}, \gls{algorithm}.},
 	first={FedAvg},text={FedAvg}
 } 
+
 
 \newglossaryentry{FedGD}
 {name={FedGD},
@@ -144,12 +147,54 @@
 
 \newglossaryentry{dimred}
 {name={dimensionality reduction},
-	description={Dimensionality reduction\index{dimensionality reduction} methods 
-		map (typically many) raw \gls{feature}s to a (relatively small) set of 
-		new \gls{feature}s. These methods can be used to visualize \gls{datapoint}s 
-		by learning two \gls{feature}s that can be used as the coordinates of a 
-		depiction in a \gls{scatterplot}.}, first={dimensionality reduction},text={dimensionality reduction}
-} 
+	description={Dimensionality reduction\index{dimensionality reduction} refers 
+		to methods that learn a transformation 
+		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+		a (typically large) set of raw \glspl{feature} $\feature_{1},\ldots,\feature_{\nrfeatures}$ 
+		into a smaller set of informative \glspl{feature} $z_{1},\ldots,z_{\nrfeatures'}$. 
+		Using a smaller set of \glspl{feature} is beneficial in several ways: 
+		\begin{itemize} 
+			\item {\bf Statistical Benefit.} It typcially reduces the risk of \gls{overfitting} as 
+			reducing the number of \glspl{feature} often reduces the \gls{effdim} of a \gls{model}. 
+			\item {\bf Computational Benefit.} Using fewer \glspl{feature} means less computation 
+			for the training of \gls{ml} \glspl{model}. As a case in point, \gls{linreg} methods 
+			need to invert a matrix whose size is determined by the number of \glspl{feature}. 
+			\item Dimensionality reduction is also instrumental for \gls{data} visualization. 
+			For example, we can learn a transformation that delivers two \glspl{feature} $z_{1},z_{2}$ 
+			which we can use, in turn, as the coordinates of a \gls{scatterplot}. Fig.\ \ref{fig:dimred-scatter} 
+			depicts the \gls{scatterplot} of hand-written digits that are placed 
+			according transformed \glspl{feature}. Here, the \glspl{datapoint} are 
+			naturally represented by a large nubmer of greayscale values (one of for each pixel).
+		\end{itemize} 
+		 \begin{figure}[ht]
+		 \centering
+		 \begin{tikzpicture}[scale=1]	
+		% % Axes
+		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
+		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
+		% % Example points with mini-images (can replace adjustbox with \includegraphics)
+		 	\foreach \x/\y/\label in {
+  		 		1.2/0.5/3,
+  		 		0.8/2.0/8,
+  		 		2.5/1.8/1,
+  		 		3.8/3.5/6,
+  		 		4.2/0.7/9,
+  		 		2.8/3.0/7,
+  		 		1.5/3.8/2
+		 	}{
+  		 		\node[draw, minimum size=0.6cm, inner sep=0pt] at (\x,\y)
+    	 		{\label};
+		 	}
+		 	\end{tikzpicture}
+		 	\caption{Example of dimensionality reduction: High-dimensional image data 
+			(e.g.,high-resolution images of hand-written digits) embedded into 2D using 
+			learned \glspl{feature}s $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
+		 	\label{fig:dimred-scatter}
+		 \end{figure}
+		},
+	first={dimensionality reduction},
+	text={dimensionality reduction}
+}
 
 
 
@@ -374,7 +419,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\label{equ_def_lin_model_hypspace_dict}
 		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
 	\end{equation} 
-	Note that \eqref{equ_def_lin_model_hypspace_dict} defines an entire family of \gls{hypospace}s, which is 
+	Note that \eqref{equ_def_lin_model_hypspace_dict} defines an entire family of \glspl{hypospace}, which is 
 	parametrized by the number $\nrfeatures$ of \gls{feature}s that are linearly combined to form the 
 	\gls{prediction} $\hypothesis(\featurevec)$. The design choice of $\nrfeatures$ is guided by \gls{compasp} 
 	(e.g., reducing $\nrfeatures$ means less computation), \gls{statasp} (e.g., increasing $\nrfeatures$ might 
@@ -478,11 +523,14 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 	
 
-\newglossaryentry{mvndist}{name ={multivariate normal distribution}, description={The\index{multivariate normal distribution} 
-		multivariate normal distribution $\mvnormal{\vm}{\mC}$ is an 
-		important family of \gls{probdist}s for a continuous \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
-		This family is parametrized by the \gls{mean} $\vm$ and the \gls{covmtx} $\mC$ of $\featurevec$. 
-		If the \gls{covmtx} is invertible, the \gls{probdist} of $\featurevec$ is 
+\newglossaryentry{mvndist}{name ={multivariate normal distribution}, 
+	description={The\index{multivariate normal distribution} multivariate normal distribution 
+		$\mvnormal{\vm}{\mC}$ is an important \gls{probmodel} for numeric \glspl{featurevec}. 
+		It is a family of \glsps{probdist} for a vector-valued \gls{rv} 
+		$\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
+		Each member (i.e., a \gls{probdist}) of this family is specified by its \gls{mean} $\vm$ and  
+		\gls{covmtx} $\mC$. If the \gls{covmtx} is invertible, the \gls{probdist} of $\featurevec$ can 
+		be written as  
 		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$}, first={multivariate normal distribution},text={multivariate normal distribution}}
 
 \newglossaryentry{statasp}{name ={statistical aspects}, description={By statistical aspects\index{statistical aspects} 
@@ -1094,7 +1142,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{norm}
 {name={norm},
 	description={A norm\index{norm} is a function that maps each (vector) element 
-		of a linear vector space to a non-negative real number. This function must be homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}. },
+		of a vector space to a non-negative real number. This function must be 
+		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}. },
 	first={norm},text={norm} 
 }
 
@@ -1248,22 +1297,37 @@ first={activation function},text={activation function}
 	first={algorithm},text={algorithm} 
 }
 
+\newglossaryentry{onlinelearning}
+{name={online learning},
+	description={
+		Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
+		manner, updating their \gls{modelparams} as new \gls{datapoint}s become available—one at a time. 
+		A typical example is time series data, such as daily minimum and maximum temperatures 
+		recorded by a \gls{fmi} weather station. These values form a chronological sequence 
+		of observations. In online learning, the \gls{hypothesis} (or its \gls{modelparams}) is refined 
+		incrementally with each newly observed \gls{datapoint}, without revisiting past \gls{data}.  \\ 
+		See also \gls{onlineGD}, \gls{onlinealgorithm}. 
+	},
+	first={online learning},text={online learning} 
+}
+
 \newglossaryentry{onlinealgorithm}
 {name={online algorithm},
 	description={An\index{online algorithm} online \gls{algorithm} processes input \gls{data} incrementally, 
-		receiving \gls{data} items sequentially and making decisions or producing outputs (or decisions) immediately 
+		receiving \gls{datapoint}s sequentially and making decisions or producing outputs (or decisions) immediately 
 		without having access to the entire input in advance \cite{PredictionLearningGames}, \cite{HazanOCO}. 
 		Unlike an offline \gls{algorithm}, which has the entire input available from the start, an online \gls{algorithm} 
 		must handle \gls{uncertainty} about future inputs and cannot revise past decisions. Similar to an 
-		offline \gls{algorithm}, an online \gls{algorithm} can be modeled formally as a collection of possible 
-		executions. However, the execution sequence for an online \gls{algorithm} has a distinct structure such that
+		offline \gls{algorithm}, we also represent an online \gls{algorithm} formally as a collection of possible 
+		executions. However, the execution sequence for an online \gls{algorithm} has a distinct structure:
 		$${\rm in}_{1},s_1,{\rm out}_{1},{\rm in}_{2},s_2,{\rm out}_{2},\ldots,{\rm in}_{T},s_T,{\rm out}_{T}.$$ 
-		Each execution begins from an initial state (i.e., \(\text{in}_{1}\)) and proceeds through alternating computational steps, 
-		outputs (or decisions), and inputs. Specifically, at step \(\iteridx\), the \gls{algorithm} performs a computational step 
-		\(s_{\iteridx}\), generates an output \(\text{out}_{\iteridx}\), and then subsequently 
-		receives the next input \(\text{in}_{\iteridx+1}\). A notable example of an online \gls{algorithm} in \gls{ml} is 
-		\gls{onlineGD}, which incrementally updates \gls{modelparams} as new \gls{datapoint}s 
-		arrive.
+		Each execution begins from an initial state (i.e., \(\text{in}_{1}\)) and proceeds through alternating 
+		computational steps, outputs (or decisions), and inputs. Specifically, at step \(\iteridx\), 
+		the \gls{algorithm} performs a computational step \(s_{\iteridx}\), generates an output \(\text{out}_{\iteridx}\), 
+		and then subsequently receives the next input (\gls{datapoint}) \(\text{in}_{\iteridx+1}\). A 
+		notable example of an online \gls{algorithm} in \gls{ml} is \gls{onlineGD}, which incrementally 
+		updates \gls{modelparams} as new \gls{datapoint}s arrive. 
+		\\ See also: \gls{onlinelearning}, \gls{onlineGD}.
 	},
 	first={online algorithm},text={online algorithm} 
 }
@@ -1673,9 +1737,11 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Fig. \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{gradient}
 {name={gradient},
-	description={For\index{gradient} a real-valued function $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-	a vector $\vg$ such that $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
-	is referred to as the gradient of $f$ at $\weights'$. If such a vector exists, it is 
+	description={For\index{gradient} a real-valued function 
+	$f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
+	if a vector $\vg$ exists such that 
+	$\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
+	it is referred to as the gradient of $f$ at $\weights'$. If it exists, the \gls{gradient} is unique and 
 	denoted $\nabla f(\weights')$ or $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
 	first={gradient},text={gradient} 
 }
@@ -1686,13 +1752,6 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		a vector $\va$ such that $f(\weights) \geq  f(\weights') +\big(\weights-\weights' \big)^{T} \va$ is 
 		referred to as a subgradient of $f$ at $\weights'$ \cite{BertCvxAnalOpt}, \cite{BertsekasNonLinProgr}.},
 	first={subgradient},text={subgradient} 
-}
-
-\newglossaryentry{fedavg}
-{name={federated averaging (FedAvg)},
-	description={FedAvg\index{federated averaging (FedAvg)} refers to an iterative \gls{fl} \gls{algorithm} that alternates between separately training \gls{localmodel}s and combining the updated local \gls{modelparams}. The training of \gls{localmodel}s 
-		is implemented via several \gls{stochGD} steps \cite{pmlr-v54-mcmahan17a}.}, 
-		first = {FedAvg}, text={FedAvg} 
 }
 
 \newglossaryentry{fedprox}
@@ -1851,12 +1910,18 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{feature}
 {name={feature},
-	description={A\index{feature} feature of a \gls{datapoint} is one of its properties that can be 
-		measured or computed easily without the need for human supervision. For example, if a \gls{datapoint} 
-		is a digital image (e.g., stored as a \texttt{.jpeg} file), then we could use the red-green-blue intensities 
-		of its pixels as features. Domain-specific synonyms for the term feature are "covariate," "explanatory variable," 
-		"independent variable," "input (variable)," "predictor (variable)," or "regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
-		}, first={feature},text={feature}  
+	description={A\index{feature} feature of a \gls{datapoint} is one of 
+	its properties that can be measured or computed easily without the need 
+	for human supervision. For example, if a \gls{datapoint} is a digital 
+	image (e.g., stored as a \texttt{.jpeg} file), then we could use the 
+	red-green-blue intensities of its pixels as features. Domain-specific 
+	synonyms for the term feature are "covariate," "explanatory variable," 
+	"independent variable," "input (variable)," "predictor (variable)," or 
+	"regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
+	}, 
+	first={feature},
+	text={feature}, 
+	plural={features}
 }
 
 \newglossaryentry{featurevec}
@@ -1970,8 +2035,7 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
  	measure that assigns probabilities to subsets of $\mathcal{P}$. 
  	Different types of RVs include  
  	\begin{itemize} 
- 	\item {binary RVs}, which map elementary events to a set of two distinct values, such as 
- 	$\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$; 
+ 	\item {binary RVs}, which map each elementary event to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$; 
  	\item {real-valued RVs}, which take values in the real numbers $\mathbb{R}$;  
  	\item {vector-valued RVs}, which map elementary events to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
  	\end{itemize} 
@@ -2533,7 +2597,12 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 			\label{fig_scatterplot_temp_FMI_dict}
 			\vspace*{-3mm}
 			\end{figure}
-		},first={scatterplot},text={scatterplot} }
+			A scatterplot can enable the visual inspection of \glspl{datapoint} that are naturally 
+			represented by \glspl{featurevec} in high-dimensional spaces.
+			\\ 
+			See also: \gls{dimred}.},
+		first={scatterplot},
+		text={scatterplot} }
 
 
 \newglossaryentry{stepsize}{name={step size}, description={
@@ -2936,11 +3005,16 @@ description={CFL\index{clustered federated learning (CFL)} trains \gls{localmode
 	    of (infinitely many) \gls{iid} \gls{rv}s centered around these \gls{datapoint}s (see \gls{regularization}).},first={ridge regression},text={ridge regression}}
 
 
-\newglossaryentry{expectation}{name={expectation}, description={
+\newglossaryentry{expectation}{name={expectation}, 
+	description={
 		Consider\index{expectation} a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ 
 		which we interpret as the \gls{realization} of an \gls{rv} with a \gls{probdist} $p(\featurevec)$. 
-		The expectation of $\featurevec$ is defined as the integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{HalmosMeasure}, \cite{BillingsleyProbMeasure}. Note that 
-		the expectation is only defined if this integral exists, i.e., if the \gls{rv} is integrable.},first={expectation},text={expectation}}
+		The expectation of $\featurevec$ is defined as the integral 
+		$\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$. Note that 
+		the expectation is only defined if this integral exists, i.e., if the \gls{rv} 
+		is integrable \cite{RudinBookPrinciplesMatheAnalysis}, \cite{HalmosMeasure}, \cite{BillingsleyProbMeasure}.},
+		first={expectation},
+		text={expectation}}
 
 \newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} map (or \gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
@@ -3013,9 +3087,15 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		is an (approximately) linear relation between a set of \gls{feature}s and a \gls{label}, a useful choice for the 
 		\gls{hypothesis} space might be the \gls{linmodel}.},first={hypothesis space},text={hypothesis space} }
 	
-\newglossaryentry{model}{name={model}, description={In\index{model} the context of \gls{ml} methods, 
-		the term model typically refers to the \gls{hypospace} employed by an 
-		\gls{ml} method \cite{MLBasics}, \cite{ShalevMLBook}.},first={model},text={model} }
+\newglossaryentry{model}{name={model}, description={In\index{model} the context of \gls{ml}, 
+		the term model typically refers to the \gls{hypospace} underlying an 
+		\gls{ml} method \cite{MLBasics}, \cite{ShalevMLBook}. However, the term is also used in other 
+		fields but with different menaing. For example, a \gls{probmodel} refers to a parametrized 
+		set of \glspl{probdist}.},
+		first={model},
+		plural={models},
+		text={model} 
+		}
 
 \newglossaryentry{modelparams}{name={model parameters}, 
 	description={\Gls{model} \gls{parameters}\index{model parameters} are quantities that 
@@ -3492,7 +3572,7 @@ first={online gradient descent (online GD)},text={online GD}}
 \newglossaryentry{hilbertspace}{
 	name={Hilbert space},
 	description={A\index{Hilbert space} Hilbert space is a complete inner 
-		product space \cite{introhilbertbook}. That is, it is a linear vector space equipped 
+		product space \cite{introhilbertbook}. That is, it is a vector space equipped 
 		with an inner product between pairs of vectors, and it satisfies the additional requirement 
 		of completeness, i.e., every Cauchy sequence of vectors converges to a limit within the space. 
 		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
@@ -3930,11 +4010,17 @@ first={probability density function (pdf)},text={pdf}}
 		might arise from \gls{probmodel}s or communication infrastructure and 
 		are encoded in the edges of an \gls{empgraph}.},first={local dataset},text={local dataset}}
 	
-\newglossaryentry{localmodel}{name={local model},description={Consider\index{local model} a collection 
-		of \gls{localdataset}s that are assigned to the nodes of an \gls{empgraph}. A local \gls{model} $\localmodel{\nodeidx}$ 
-		is a \gls{hypospace} assigned to a node $\nodeidx \in \nodes$. Different nodes might be assigned 
-		different \gls{hypospace}s, i.e., in general $\localmodel{\nodeidx} \neq \localmodel{\nodeidx'}$ for different 
-		nodes $\nodeidx, \nodeidx' \in \nodes$.  },first={local model},text={local model}}
+\newglossaryentry{localmodel}{
+	name={local model},
+	description={Consider\index{local model} a collection of \glspl{device} that are represented 
+		as nodes $\nodes$ of an \gls{empgraph}. A local \gls{model} $\localmodel{\nodeidx}$ 
+		is a \gls{hypospace} assigned to a node $\nodeidx \in \nodes$. Different nodes might be 
+		assigned different \gls{hypospace}s, i.e., in general $\localmodel{\nodeidx} \neq \localmodel{\nodeidx'}$ for different 
+		nodes $\nodeidx, \nodeidx' \in \nodes$.},
+		first={local model},
+		plural={local models},
+		text={local model}
+		}
 	
 \newglossaryentry{mutualinformation}
 {name={mutual information (MI)},
