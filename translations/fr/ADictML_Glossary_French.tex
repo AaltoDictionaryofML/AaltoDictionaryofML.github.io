@@ -37,20 +37,37 @@
 	first={discrepancy},text={discrepancy}
 }
 
+\newglossaryentry{FedGD}
+{name={FedGD},
+	description={An\index{FedGD} \gls{fl} \gls{distributedalgorithm} that 
+		can be implemented as message passing across an \gls{empgraph}. 
+		\\ 
+		See also: \gls{fl}, \gls{algorithm}, \gls{gradstep}, \gls{gdmethods}.},
+	first={FedGD},text={FedGD}
+} 
 
+\newglossaryentry{FedSGD}
+{name={FedSGD},
+	description={An\index{FedSGD} \gls{fl} \gls{distributedalgorithm} that 
+		can be implemented as message passing across an \gls{empgraph}. 
+		\\ 
+		See also: \gls{fl}, \gls{algorithm}, \gls{gradstep}, \gls{gdmethods}, \gls{stochGD}.},
+	first={FedSGD},text={FedSGD}
+} 
 
 \newglossaryentry{hfl}
-{name={horizontal federated learning (horizontal FL)},description=
-	{Horizontal \gls{fl}\index{horizontal federated learning (horizontal FL)} uses \gls{localdataset}s constituted by different
-	   \gls{datapoint}s but uses the same \gls{feature}s to characterize them \cite{HFLChapter2020}.
+{name={horizontal federated learning (HFL)},description=
+	{HFL\index{horizontal federated learning (HFL)} uses \gls{localdataset}s constituted by different
+		\gls{datapoint}s but uses the same \gls{feature}s to characterize them \cite{HFLChapter2020}.
 		For example, weather forecasting uses a network of spatially distributed
 		weather (observation) stations. Each weather station measures the
 		same quantities, such as daily temperature, air pressure, and precipitation.
 		However, different weather stations measure the characteristics or
 		\gls{feature}s of different spatiotemporal regions. Each spatiotemporal region 
 		represents an individual \gls{datapoint}, each characterized by the same \gls{feature}s 
-		(e.g., daily temperature or air pressure).},
-	first={horizontal FL},text={horizontal FL}
+		(e.g., daily temperature or air pressure).\\
+		See also: \gls{fl}, \gls{vfl}, \gls{cfl}. },
+	first={HFL},text={HFL}
 } 
 
 \newglossaryentry{dimred}
@@ -332,12 +349,14 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 	
 
-\newglossaryentry{mvndist}{name ={loi normale multivariée}, description={The\index{loi normale multivariée} 
-		multivariate normal distribution $\mvnormal{\vm}{\mC}$ is an 
-		important family of \gls{probdist}s for a continuous \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}. 
-		This family is parametrized by the \gls{mean} $\vm$ and the \gls{covmtx} $\mC$ of $\featurevec$. 
-		If the \gls{covmtx} is invertible, the \gls{probdist} of $\featurevec$ is 
-		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$}, first={loi normale multivariée},text={loi normale multivariée}}
+\newglossaryentry{mvndist}{name={loi normale multivariée}, 
+	description={La\index{loi normale multivariée} loi normale multivariée $\mvnormal{\vm}{\mC}$ est une 
+		famille importante de \glspl{probdist} pour une \gls{rv} continue $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}. 
+		Cette famille est paramétrée par la \gls{mean} $\vm$ et la \gls{covmtx} $\mC$ de $\featurevec$. 
+		Si la \gls{covmtx} est inversible, la \gls{probdist} de $\featurevec$ est donnée par 
+		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$}, 
+	first={loi normale multivariée},text={loi normale multivariée}}
+
 
 \newglossaryentry{statasp}{name ={statistical aspects}, description={By statistical aspects\index{statistical aspects} 
 		of an \gls{ml} method, we refer to (properties of) the \gls{probdist} of its output 
@@ -616,26 +635,25 @@ and then projecting the result back onto the \gls{paramspace}.
 }
 
 
-
 \newglossaryentry{mean}
-{name={mean},
-	description={The \index{moyenne} mean of a \gls{rv} $\featurevec$, taking 
-		values in a Euclidean space $\mathbb{R}^{\dimlocalmodel}$, is its 
-		\gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
-		integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$,
+{name={moyenne},
+	description={La \index{moyenne} moyenne d’une \gls{rv} $\featurevec$, à valeurs dans un espace euclidien $\mathbb{R}^{\dimlocalmodel}$, est son 
+		\gls{expectation} $\expect\{\featurevec\}$. Elle est définie comme l'intégrale de Lebesgue 
+		de $\featurevec$ par rapport à la \gls{probdist} sous-jacente $P$,
 		\[
 		\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx),
 		\]
-		see, e.g., \cite{BillingsleyProbMeasure} or \cite{RudinBookPrinciplesMatheAnalysis}. 
-		We also use the term to refer to the average of a finite sequence 
-		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
-		these two definitions are essentially the same. Indeed, we can use the sequence 
-		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
-		discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$ with the index $I$ chosen uniformly 
-		at random from the set $\{1,\ldots,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
-		precisely the average $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.},
+		voir par exemple \cite{BillingsleyProbMeasure} ou \cite{RudinBookPrinciplesMatheAnalysis}. 
+		Nous utilisons également ce terme pour désigner la moyenne d’une séquence finie 
+		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. Cependant, 
+		ces deux définitions sont essentiellement équivalentes. En effet, on peut utiliser la séquence 
+		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ pour construire une 
+		\gls{rv} discrète $\widetilde{\vx}=\vx^{(I)}$ où l’indice $I$ est choisi uniformément 
+		au hasard dans l’ensemble $\{1,\ldots,\samplesize\}$. La moyenne de $\widetilde{\vx}$ est 
+		précisément la moyenne empirique $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.},
 	first={moyenne}, text={moyenne}
 }
+
 
 \newglossaryentry{variance}
 {
@@ -868,11 +886,12 @@ first={biais},text={biais}
 
 \newglossaryentry{norm}
 {name={norme},
-	description={A norm\index{norme} is a function that maps each (vector) element 
-		of a linear vector space to a non-negative real number. This function must be 
-		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}. },
+	description={Une norme\index{norme} est une fonction qui associe à chaque élément (vecteur) 
+		d’un espace vectoriel un nombre réel positif ou nul. Cette fonction doit être 
+		homogène et définie, et elle doit satisfaire l'inégalité triangulaire \cite{HornMatAnalysis}. },
 	first={norme},text={norme} 
 }
+
 
 \newglossaryentry{dualnorm}
 {name={dual norm},
@@ -1437,21 +1456,22 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{differentiable}
 {name={dérivable},
-	description={A\index{dérivable} real-valued function $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
-		is differentiable if it can, at any point, be approximated locally by a linear 
-		function. The local linear approximation at the point $\mathbf{x}$ is determined 
-		by the \gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+	description={Une fonction\index{dérivable} à valeurs réelles $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
+		est dite dérivable si elle peut, en tout point, être approchée localement par une fonction 
+		linéaire. L’approximation linéaire locale au point $\mathbf{x}$ est déterminée 
+		par le \gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.}
 	first={dérivable},text={dérivable} 
 }
 
+
 \newglossaryentry{gradient}
 {name={gradient},
-	description={For\index{gradient} a real-valued function $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-	a vector $\vg$ such that $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
-	is referred to as the gradient of $f$ at $\weights'$. If such a vector exists, it is 
-	denoted $\nabla f(\weights')$ or $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+	description={Pour\index{gradient} une fonction à valeurs réelles $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
+		un vecteur $\vg$ tel que $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
+		est appelé le gradient de $f$ en $\weights'$. Si un tel vecteur existe, on le note $\nabla f(\weights')$ ou $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
 	first={gradient},text={gradient} 
 }
+
 
 \newglossaryentry{subgradient}
 {name={subgradient},
@@ -1460,6 +1480,14 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		referred to as a subgradient of $f$ at $\weights'$ \cite{BertCvxAnalOpt,BertsekasNonLinProgr}.},
 	first={subgradient},text={subgradient} 
 }
+
+\newglossaryentry{FedRelax}
+{name={FedRelax},
+	description={An\index{FedRelax} \gls{fl} \gls{distributedalgorithm}. 
+		\\ 
+		See also: \gls{fl}, \gls{algorithm}.},
+	first={FedRelax},text={FedRelax}
+} 
 
 \newglossaryentry{fedavg}
 {name={federated averaging (FedAvg)},
@@ -1543,7 +1571,32 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		length $U$. We partition this cell evenly into smaller elementary cells with side 
 		length $\Delta$. The histogram of $\dataset$ assigns each elementary cell to 
 		the corresponding fraction of \gls{datapoint}s in $\dataset$ that fall into this 
-		elementary cell. 
+		elementary cell. A visual example of such a histogram is provided in Figure~\ref{fig:histogram}.\\		
+		\begin{figure}
+			\centering
+			\begin{tikzpicture}
+				\pgfplotsset{compat=1.18}
+				\begin{axis}[
+					ybar,
+					ymin=0,
+					ymax=6,
+					bar width=22pt,
+					width=10cm,
+					height=6cm,
+					xlabel={Value},
+					ylabel={Frequency},
+					ytick={1,2,3,4,5,6},
+					xtick={1,2,3,4,5},
+					xticklabels={{[0,1)}, {[1,2)}, {[2,3)}, {[3,4)}, {[4,5)}},
+					enlarge x limits=0.15,
+					title={Histogram of Sample Data}
+					]
+					\addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{A histogram representing the frequency of data points falling within discrete value ranges (bins). Each bar height shows 		the count of samples in the corresponding interval.}
+			\label{fig:histogram}
+		\end{figure}
 	},
 	first={histogram},text={histogram}  
 }
@@ -1712,19 +1765,21 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{rv}
 {name={variable aléatoire (VA)},
- description={An RV\index{variable aléatoire (VA)} is a function that maps from 
- 	a \gls{probspace} $\mathcal{P}$ to a value space \cite{BillingsleyProbMeasure,GrayProbBook}. 
- 	The \gls{probspace} consists of elementary events and is equipped with a \gls{probability} 
- 	measure that assigns probabilities to subsets of $\mathcal{P}$. 
- 	Different types of RVs include  
- 	\begin{itemize} 
- 	\item {binary RVs}, which map elementary events to a set of two distinct values, such as 
- 	$\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$; 
- 	\item {real-valued RVs}, which take values in the real numbers $\mathbb{R}$;  
- 	\item {vector-valued RVs}, which map elementary events to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
- 	\end{itemize} 
- 	\Gls{probability} theory uses the concept of measurable spaces to rigorously define 
- 	and study the properties of (large) collections of RVs \cite{BillingsleyProbMeasure}.}, first={variable aléatoire (VA)},text={VA}  }
+	description={Une variable aléatoire\index{variable aléatoire (VA)} est une fonction qui associe à chaque élément 
+		d’un \gls{probspace} $\mathcal{P}$ une valeur dans un espace cible \cite{BillingsleyProbMeasure,GrayProbBook}. 
+		L'\gls{probspace} est composé d’événements élémentaires et est muni d’une mesure de \gls{probability} 
+		qui associe des probabilités à des sous-ensembles de $\mathcal{P}$. 
+		On distingue différents types de VA : 
+		\begin{itemize} 
+			\item les {VA binaires}, qui associent des événements élémentaires à un ensemble de deux valeurs distinctes, telles que 
+			$\{-1,1\}$ ou $\{\text{chat}, \text{pas chat}\}$ ; 
+			\item les {VA à valeurs réelles}, qui prennent des valeurs réelles ( dans $\mathbb{R}$) ;  
+			\item les {VA vectorielles}, qui associent des événements élémentaires à l’\gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
+		\end{itemize} 
+		La théorie des \glspl{probability} utilise le concept d’espaces mesurables pour définir rigoureusement 
+		et étudier les propriétés de (grandes) collections de VA \cite{BillingsleyProbMeasure}.}, 
+	first={variable aléatoire (VA)},text={VA}  }
+
  
  \newglossaryentry{probspace}{
  	name={espace probabilisé}, 
@@ -2508,9 +2563,10 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 	first={sample covariance matrix},text={sample covariance matrix} }
 
 \newglossaryentry{covmtx}{name={matrice de covariance}, 
-	description={The\index{matrice de covariance} covariance matrix of an \gls{rv} $\vx \in \mathbb{R}^{\featuredim}$ 
-		is defined as $\expect \bigg \{ \big( \vx - \expect \big\{ \vx \big\} \big)  \big(\vx - \expect \big\{ \vx \big\} \big)^{T} \bigg\}$.},
+	description={La\index{matrice de covariance} matrice de covariance d’une \gls{rv} $\vx \in \mathbb{R}^{\featuredim}$ 
+		est définie comme $\expect \bigg \{ \big( \vx - \expect \big\{ \vx \big\} \big)  \big(\vx - \expect \big\{ \vx \big\} \big)^{T} \bigg\}$.},
 	first={matrice de covariance},text={matrice de covariance} }
+
 	
 \newglossaryentry{highdimregime}{name={high-dimensional regime}, description={The\index{high-dimensional regime} 
 		high-dimensional regime of \gls{erm} is characterized by the \gls{effdim} of the \gls{model} 
@@ -2603,10 +2659,11 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 
 
 \newglossaryentry{expectation}{name={espérance}, description={
-		Consider\index{espérance} a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ 
-		which we interpret as the \gls{realization} of an \gls{rv} with a \gls{probdist} $p(\featurevec)$. 
-		The expectation of $\featurevec$ is defined as the integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}. Note that 
-		the expectation is only defined if this integral exists, i.e., if the \gls{rv} is integrable.},first={espérance},text={espérance}}
+		Soit\index{espérance} un \gls{featurevec} numérique $\featurevec \in \mathbb{R}^{\featuredim}$ 
+		que l’on interprète comme la \gls{realization} d’une \gls{rv} suivant une \gls{probdist} $p(\featurevec)$. 
+		On définit l’espérance de $\featurevec$ comme l’intégrale $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}. 
+		Remarquons que l’espérance n’est définie que si cette intégrale existe, c’est-à-dire si la \gls{rv} est intégrable.},first={espérance},text={espérance}}
+
 
 \newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} map (or \gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
@@ -2735,7 +2792,42 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		The quantitative measure of similarity between \gls{datapoint}s is a design choice. If \gls{datapoint}s 
 		are characterized by Euclidean \gls{featurevec}s $\featurevec \in \mathbb{R}^{\nrfeatures}$, 
 		we can define the similarity between two \gls{datapoint}s via the Euclidean distance between 
-		their \gls{featurevec}s.},first={cluster},text={cluster} }
+		their \gls{featurevec}s. An example of such clusters is shown in Figure~\ref{fig:clusters}.\\
+		\begin{figure}
+			\centering
+			\begin{tikzpicture}
+				\pgfplotsset{compat=1.18}
+				\begin{axis}[
+					width=10cm,
+					height=8cm,
+					xlabel={$x_1$},
+					ylabel={$x_2$},
+					title={Clusters of Data Points},
+					xmin=0, xmax=10,
+					ymin=0, ymax=10,
+					axis lines=left,
+					legend style={at={(0.5,-0.25)}, anchor=north, legend columns=3}
+					]
+					% Cluster 1 
+					\addplot[only marks, color=blue, mark=*, mark size=3pt] coordinates {
+						(1,1) (2,1.2) (1.8,2) (2.2,1.5) (1.5,2.5)
+					};
+					% Cluster 2 
+					\addplot[only marks, color=red, mark=square*, mark size=3pt] coordinates {
+						(7,8) (8,7.5) (7.5,8.5) (8.2,7.8) (7.7,7)
+					};
+					% Cluster 3 
+					\addplot[only marks, color=green!60!black, mark=triangle*, mark size=3pt] coordinates {
+						(5,3) (5.5,3.2) (5.2,2.8) (4.8,3.5) (5.1,3.1)
+					};
+					\legend{Cluster 1, Cluster 2, Cluster 3}
+				\end{axis}
+			\end{tikzpicture} 
+			\caption{Illustration of three clusters in a two-dimensional feature space. Each cluster groups data points that are more similar to 		each other than to those in other clusters, based on Euclidean distance.}
+			\label{fig:clusters}
+		\end{figure}
+	},
+	first={cluster},text={cluster} }
 
 %\newglossaryentry{softclustering}{name={soft clustering}, description={Soft clustering methods determine, for each \gls{datapoint} within a dataset, 
 %		a soft cluster assignment or the degree of belonging to a particular cluster.},first={soft clustering},text={soft clustering} }
@@ -3291,15 +3383,17 @@ the underlying \gls{probdist} and the choice for the \gls{lossfunc} $\lossfunc{\
 		outputs of neurons in hidden layers.},first={poids},text={poids}}
 	
 \newglossaryentry{probdist}{name={loi de probabilité},
-	description={To\index{loi de probabilité} analyze \gls{ml} methods, it can be useful 
-		to interpret \gls{datapoint}s as \gls{iid} \gls{realization}s of an \gls{rv}. The typical 
-		properties of such \gls{datapoint}s are then governed by the \gls{probability} distribution 
-		of this \gls{rv}. The \gls{probability} distribution of a binary \gls{rv} $\truelabel \in \{0,1\}$ 
-		is fully specified by the probabilities $\prob{\truelabel = 0}$ and 
-		$\prob{\truelabel=1}\!=\!1\!-\!\prob{\truelabel=0}$. The \gls{probability} 
-		distribution of a real-valued \gls{rv} $\feature \in \mathbb{R}$ might be specified 
-		by a \gls{pdf} $p(\feature)$ such that $\prob{ \feature \in [a,b] } \approx  p(a) |b-a|$. 
-	    In the most general case, a \gls{probability} distribution is defined by a \gls{probability} measure \cite{GrayProbBook,BillingsleyProbMeasure}.},first={loi de probabilité},text={loi de probabilité}}
+	description={Pour\index{loi de probabilité} analyser les méthodes d'\gls{ml}, il peut être utile 
+		d’interpréter les \glspl{datapoint} comme des \glspl{realization} \gls{iid} d’une \gls{rv}. 
+		Les propriétés typiques de ces \glspl{datapoint} sont alors régies par la loi de \gls{probability} 
+		de cette \gls{rv}. La loi de \gls{probability} d’une \gls{rv} binaire $\truelabel \in \{0,1\}$ 
+		est entièrement déterminée par les probabilités $\prob{\truelabel = 0}$ et 
+		$\prob{\truelabel=1}\!=\!1\!-\!\prob{\truelabel=0}$. La loi de \gls{probability} 
+		d’une \gls{rv} à valeur réelle $\feature \in \mathbb{R}$ peut être spécifiée 
+		par une \gls{pdf} $p(\feature)$ telle que $\prob{ \feature \in [a,b] } \approx  p(a) |b-a|$. 
+		Dans le cas le plus général, une loi de \gls{probability} est définie par une mesure de \gls{probability} \cite{GrayProbBook,BillingsleyProbMeasure}.},
+	first={loi de probabilité},text={loi de probabilité}, plural= {lois de probabilité}}
+
     
     
 \newglossaryentry{pdf}{name={probability density function (pdf)},
@@ -3541,13 +3635,13 @@ first={probability density function (pdf)},text={pdf}}
 		 \end{figure} },first={data augmentation},text={data augmentation}}
 	
 	
-\newglossaryentry{localdataset}{name={ensemble de données locales},description={The\index{ensemble de données locales} concept of a local \gls{dataset} is 
+\newglossaryentry{localdataset}{name={jeu de données local},description={The\index{jeu de données local} concept of a local \gls{dataset} is 
 		in between the concept of a \gls{datapoint} and a \gls{dataset}. A local \gls{dataset} consists of several 
 		individual \gls{datapoint}s, which are characterized by \gls{feature}s and \gls{label}s. 
 		In contrast to a single \gls{dataset} used in basic \gls{ml} methods, a local \gls{dataset} is also 
 		related to other local \gls{dataset}s via different notions of similarity. These similarities 
 		might arise from \gls{probmodel}s or communication infrastructure and 
-		are encoded in the edges of an \gls{empgraph}.},first={jensemble de données locales},text={ensemble de données locales}}
+		are encoded in the edges of an \gls{empgraph}.},first={jeu de données local},text={jeu de données local}}
 	
 \newglossaryentry{localmodel}{name={local model},description={Consider\index{local model} a collection 
 		of \gls{localdataset}s that are assigned to the nodes of an \gls{empgraph}. A local \gls{model} $\localmodel{\nodeidx}$ 
