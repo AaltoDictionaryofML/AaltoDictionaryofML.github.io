@@ -7,6 +7,104 @@
 	first={minimum},text={minimum}
 }
 
+\newglossaryentry{epigraph}
+{name={epigraph},
+	description={The epigraph\index{epigraph} of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+		is the set of points lying on or above its graph:
+		\[
+		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+		\]
+		A function is \gls{convex} if and only if its epigraph is a \gls{convex} set \cite{BoydConvexBook,BertCvxAnalOpt}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				\begin{axis}[
+					axis lines = middle,
+					xlabel = $x$,
+					ylabel = {$$},
+					xmin=-2, xmax=2,
+					ymin=0, ymax=4.5,
+					samples=100,
+					domain=-1.5:1.5,
+					thick,
+					width=8cm,
+					height=6cm,
+					grid=none,
+					axis on top,
+					]
+					% Function
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					% Epigraph shading
+					\addplot [
+					name path=f,
+					draw=none,
+					ytick=\empty,
+					domain=-1.5:1.5,
+					] {x^2};
+					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+					\addplot [
+					blue!20,
+					opacity=0.6,
+					draw=none,
+					] fill between [
+					of=f and top,
+					soft clip={domain=-1.5:1.5},
+					];
+					\node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
+					%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Epigraph of the function $f(x) = x^2$ (shaded area).}
+		\end{figure}
+	},
+	first={epigraph},
+	text={epigraph},
+	plural={epigraphs}
+}
+
+\newglossaryentry{boosting}
+{name = {boosting}, 
+	description={Boosting\index{boosting} is an iterative optimization method to learn an accurate 
+		\gls{hypothesis} map (or strong learner) by sequentially combining less accurate 
+		\gls{hypothesis} maps (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
+		For example, weak learners are shallow \gls{decisiontree}s which are combined to 
+		obtain a deep \gls{decisiontree}. Boosting can be understood as a generalization 
+		of \gls{gdmethods} for \gls{erm} using parametric \gls{model}s and \gls{smooth} \gls{lossfunc}s 
+		\cite{Friedman2001}. Just like \gls{gd} iteratively updates \gls{modelparams} to reduce the \gls{emprisk}, 
+		boosting iteratively combines (e.g., by summation) \gls{hypothesis} maps to reduce the \gls{emprisk}. 
+		A widely-used instance of the generic boosting idea is referred to as \gls{gradient} boosting, which 
+		uses \gls{gradient}s of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
+		\begin{figure}
+			\begin{center}
+				\begin{tikzpicture}[scale=1.2]
+					% Axes
+					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
+					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
+					%					% Loss curve
+					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
+					%	\node[blue] at (4.5,2.2) {\gls{loss}};
+					%					% Points on the curve
+					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
+						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
+						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
+						\node[below] at (\x, -0.1) {\label};                             % label
+					}
+					%					% Arrows for descent
+					%					\foreach \x/\xnext in {0.7/1.5, 1.5/2.3, 2.3/3.0} {
+						%						\draw[->,red,thick] (\x,{(4 - 1.3*\x + 0.15*\x*\x)}) -- (\xnext,{(4 - 1.3*\xnext + 0.15*\xnext*\xnext)});
+						%					}
+					%					% Gradient label
+					%					\node[red] at (1.8,3.6) {Update direction $\approx -\nabla \text{Loss}$};
+				\end{tikzpicture}
+			\end{center} 
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} maps $\hypothesis^{(0)},\hypothesis^{(1)},\ldots$ 
+				that are increasingly strong learners (i.e., incurring a smaller \gls{loss}).}
+		\end{figure} 
+		\\ See also: \gls{gradstep}, \gls{gdmethods}
+	}, 
+	first={boosting}, 
+	text={boosting}} 
+
 
 \newglossaryentry{maximum}
 {name=maximum,
@@ -349,13 +447,15 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 	
 
-\newglossaryentry{mvndist}{name={loi normale multivariée}, 
-	description={La\index{loi normale multivariée} loi normale multivariée $\mvnormal{\vm}{\mC}$ est une 
-		famille importante de \glspl{probdist} pour une \gls{rv} continue $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}. 
-		Cette famille est paramétrée par la \gls{mean} $\vm$ et la \gls{covmtx} $\mC$ de $\featurevec$. 
-		Si la \gls{covmtx} est inversible, la \gls{probdist} de $\featurevec$ est donnée par 
-		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$}, 
-	first={loi normale multivariée},text={loi normale multivariée}}
+\newglossaryentry{mvndist}{name ={loi normale multivariée}, 
+	description={The\index{loi normale multivariée} multivariate normal distribution 
+		$\mvnormal{\vm}{\mC}$ is an important \gls{probmodel} for numeric \glspl{featurevec}. 
+		It is a family of \glsps{probdist} for a vector-valued \gls{rv} 
+		$\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
+		Each member (i.e., a \gls{probdist}) of this family is specified by its \gls{mean} $\vm$ and  
+		\gls{covmtx} $\mC$. If the \gls{covmtx} is invertible, the \gls{probdist} of $\featurevec$ can 
+		be written as  
+		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$}, first={loi normale multivariée},text={loi normale multivariée}}
 
 
 \newglossaryentry{statasp}{name ={statistical aspects}, description={By statistical aspects\index{statistical aspects} 
@@ -418,7 +518,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 \newglossaryentry{gaussrv}{name={variable aléatoire normale/gaussienne (VA normale)},description={
 		A \index{variable aléatoire normale/gaussienne (VA normale)} standard Gaussian \gls{rv} is a 
-		real-valued \gls{rv} $x$ with \gls{pdf} \cite{papoulis,BertsekasProb,GrayProbBook}
+		real-valued \gls{rv} $x$ with \gls{pdf} \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{papoulis}
 		\begin{equation}
 			\nonumber
 			p(x) = \frac{1}{\sqrt{2\pi}} \exp^{-x^2/2}. 
@@ -430,31 +530,100 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\gls{covmtx} $\mathbf{C}$ and \gls{mean} ${\bm \mu}$ can be constructed via 
 		$\featurevec \defeq \mathbf{A} \big( \vz + {\bm \mu} \big)$. Here, $\mA$ 
 		is any matrix that satisfies $\mA\mA^{T} = \mC$ and $\vz \defeq \big( z_{1},\ldots,z_{\featuredim} \big)^{T}$
-		is a vector whose entries are \gls{iid} standard Gaussian \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. Gaussian 
-		random processes generalize Gaussian random vectors by applying linear 
-		transformations to infinite sequences of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.\\
+		is a vector whose entries are \gls{iid} standard Gaussian \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. 
+		Gaussian random vectors are a special case of Gaussian processes which are  
+		linear transformations of infinite sequences of standard Gaussian \gls{rv}s \cite{Rasmussen2006Gaussian}.
 		Gaussian \gls{rv}s are widely used \gls{probmodel}s for the statistical analysis of 
 		\gls{ml} methods. Their significance arises partly from the central limit theorem, 
 		which states that the average of an increasing number of independent \gls{rv}s (not necessarily Gaussian themselves) 
-		converges to a Gaussian \gls{rv} \cite{ross2013first}. 
-},first={variable aléatoire normale (VA normale)},text={VA normale}}
+		converges to a Gaussian \gls{rv} \cite{ross2013first}. \\ 
+		See also: \gls{probdist}, \gls{probdist}, \gls{probspace}.
+	},first={variable aléatoire normale (VA normale)},text={VA normale}}
 
-\newglossaryentry{trustAI}{name={trustworthy artificial intelligence (trustworthy AI)},description=
-	{Besides the \gls{compasp} and \gls{statasp}, a third main design aspect of 
-	\gls{ml} methods is their trustworthiness\index{trustworthy artificial intelligence (trustworthy AI)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
+
+\newglossaryentry{GaussProc}
+{name={Gaussian process (GP)},
+	description={A \index{Gaussian Process (GP)}GP is a collection of \gls{rv}s 
+		$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
+		from some input space $\featurespace$, such that for any finite subset 
+		$\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \in \featurespace$, 
+		the corresponding \gls{rv}s $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)}$ have a joint 
+		multivariate Gaussian distribution:
+		\[
+		\left( f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+		\]
+		For a fixed input space $\featurespace$, a GP is fully specified (or parametrized) by 
+		\begin{itemize}
+			\item a \gls{mean} function $\mu(\featurevec) = \expect\{ f(\featurevec)\}$,
+			\item and a covariance function $\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.
+		\end{itemize}
+		\textbf{Example.} We can interpret the temperature distribution across Finland (at a specific 
+		point in time) as the \gls{realization} of a GP $f(\featurevec)$, where each input $\featurevec = (\text{lat}, \text{lon})$ 
+		denotes a geographic location. Temperature observations from \gls{fmi} weather stations provide 
+		samples of $f(\featurevec)$ at specific locations (see Fig.\ \ref{fig_gp_FMI}). A GP allows to 
+		predict the temperature nearby \gls{fmi} weather stations and to quantify the uncertainty 
+		of these predictions. 
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}
+					\begin{axis}[
+						axis equal,
+						hide axis,
+						scale=1.2,
+						xmin=17, xmax=32,
+						ymin=55, ymax=71,
+						%	width=15cm,
+						%	height=20cm,
+						clip=true
+						]
+						% --- Finland border (polyline) ---
+						\addplot[
+						color=black,
+						thick
+						] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+						% --- FMI sample stations ---
+						\addplot[
+						only marks,
+						mark=*,
+						mark options={fill=blue},
+						color=black
+						] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+						% Draw manual axes
+						\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {lon};
+						\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
+					\end{axis}
+				\end{tikzpicture}
+				\vspace*{-15mm}
+			\end{center}
+			\caption{We can interpret the temperature distribution over Finland as a \gls{realization} 
+				of a GP indexed by geographic coordinates and sampled at \gls{fmi} weather stations (indicated by 
+				blue dots). \label{fig_gp_FMI}}
+	\end{figure}}, 
+	first = {Gaussian process}, 
+	text = {GP}
+}
+
+\newglossaryentry{trustAI}
+{name={trustworthy artificial intelligence (trustworthy AI)},
+	description={Besides the \gls{compasp} and \gls{statasp}, a third main 
+		design aspect of \gls{ml} methods is their trustworthiness\index{trustworthy AI} 
+		\cite{pfau2024engineeringtrustworthyaideveloper}. 
 		The EU has put forward seven key requirements (KRs) for trustworthy 
 		\gls{ai} (that typically build on \gls{ml} methods)
-	\cite{ALTAIEU}: 
-	\begin{enumerate}[label=\arabic*)]
-		\item KR1 - Human agency and oversight;
-		\item KR2 - Technical robustness and safety;
-		\item KR3 - Privacy and data governance;
-		\item KR4 - Transparency;
-		\item KR5 - Diversity, non-discrimination and fairness; 
-		\item KR6 - Societal and environmental well-being;
-		\item KR7 - Accountability. 
-	\end{enumerate}
-	},first={trustworthy artificial intelligence (trustworthy AI)},text={trustworthy AI}}
+		\cite{ALTAIEU}: 
+		\begin{enumerate}[label=\arabic*)]
+			\item KR1 - Human agency and oversight;
+			\item KR2 - Technical robustness and safety;
+			\item KR3 - Privacy and data governance;
+			\item KR4 - Transparency;
+			\item KR5 - Diversity, non-discrimination and fairness; 
+			\item KR6 - Societal and environmental well-being;
+			\item KR7 - Accountability. 
+		\end{enumerate}
+	},
+	first={trustworthy artificial intelligence (trustworthy AI)},
+	text={trustworthy AI}
+}
 
 \newglossaryentry{robustness}
 {name=robustness,
@@ -886,9 +1055,9 @@ first={biais},text={biais}
 
 \newglossaryentry{norm}
 {name={norme},
-	description={Une norme\index{norme} est une fonction qui associe à chaque élément (vecteur) 
-		d’un espace vectoriel un nombre réel positif ou nul. Cette fonction doit être 
-		homogène et définie, et elle doit satisfaire l'inégalité triangulaire \cite{HornMatAnalysis}. },
+	description={A norm\index{norme} is a function that maps each (vector) element 
+		of a vector space to a non-negative real number. This function must be 
+		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}. },
 	first={norme},text={norme} 
 }
 
@@ -905,53 +1074,55 @@ first={biais},text={biais}
 	text={dual norm}
 }
 
-%\newglossaryentry{geometricmedian}{
-	%	name={geometric median (GM)},
-	%	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
-		%		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
-		%		minimizes the sum of distances to the vectors \cite{BoydConvexBook}, 
-		%		\begin{equation} 
-			%			\label{equ_geometric_median}
-			%		\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
-			%		\end{equation} 
-		%		\begin{figure}[H]
-			%			\begin{tikzpicture}[scale=2, thick, >=stealth]
-				%				% Central model w
-				%				\coordinate (w) at (3,0);
-				%				\fill (w) circle (1.2pt) node[below right] {$\vz$};
-				%				% Good nodes
-				%				\coordinate (w2) at (0.5,0.3);
-				%				\coordinate (w3) at (0.7,0.7);
-				%				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
-				%				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
-				%				%	\fill (wk) circle (1pt) node[above left] {$\mathbf{w}^{(k)}$};
-				%				% Dashed lines from w to good nodes
-				%				\draw[dashed] (w) -- (w2);
-				%				\draw[dashed] (w) -- (w3);
-				%				% Draw unit vectors (scaled to 1cm)
-				%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
-				%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
-				%				\node at (-0.2,1.4) {\textbf{Clean}};
-				%				\coordinate (w4) at (5,0.2);
-				%				\node at (5,0.4) {\textbf{Perturbed}};
-				%				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
-				%				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
-				%		% Optional dotted line from w to bad
-				%		\end{tikzpicture}
-			%		\caption{\label{opt_cond_GM}
-				%			The optimality condition for \eqref{equ_geometric_median} states that the unit vectors from the 
-				%			geometric median $\vz$ to the input vectors must sum to zero. This balance breaks if too many 
-				%			vectors are perturbed, but remains robust as long as a majority are clean (i.e., not perturbed).
-				%	\end{figure}
-			%	
-			%	Figure~\ref{opt_cond_GM} illustrates a fundamental property of the GM:
-			%	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
-			%	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero - this is the zero-\gls{subgradient}  
-			%	(optimality) condition of \eqref{equ_geometric_median}.
-			%},
-		%	first={geometric median},
-		%	text={GM}
-		%}
+\newglossaryentry{geometricmedian}{
+	name={geometric median (GM)},
+	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
+		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
+		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
+		\begin{equation} 
+			\label{equ_geometric_median}
+			\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+		\end{equation} 
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=2, thick, >=stealth]
+					%				% Central model w
+					\coordinate (w) at (3,0);
+					\fill (w) circle (1.2pt) node[below right] {$\vz$};
+					% Good nodes
+					\coordinate (w2) at (0.5,0.3);
+					\coordinate (w3) at (0.7,0.7);
+					\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
+					\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
+					%				%	\fill (wk) circle (1pt) node[above left] {$\mathbf{w}^{(k)}$};
+					%				% Dashed lines from w to good nodes
+					\draw[dashed] (w) -- (w2);
+					\draw[dashed] (w) -- (w3);
+					%				% Draw unit vectors (scaled to 1cm)
+					\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
+					\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
+					%				\node at (-0.2,1.4) {\textbf{Clean}};
+					\coordinate (w4) at (5,0.2);
+					\node at (5,0.4) {\textbf{Perturbed}};
+					\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
+					\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
+					%		% Optional dotted line from w to bad
+				\end{tikzpicture}
+				\caption{\label{opt_cond_GM}
+					Consider a solution $\vz$ of \eqref{equ_geometric_median} that does not coincide 
+					with any of the input vectors. The optimality condition for \eqref{equ_geometric_median} 
+					requires that the unit vectors from $\vz$ to the input vectors sum to zero.}
+			\end{center}
+		\end{figure}
+		Figure~\ref{opt_cond_GM} illustrates a fundamental property of the GM:
+		If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
+		from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero - this is the zero-\gls{subgradient}  
+		(optimality) condition of \eqref{equ_geometric_median}. It turns out that the solution to 
+		\eqref{equ_geometric_median} cannot be arbitrarily pulled away from trustworthy input vectors as long as they 
+		are the majority \cite[Th. 2.2]{Lopuhaae1991}.},
+	first={geometric median},
+	text={GM}
+}
 
 \newglossaryentry{explanation}
 {name={explanation},
@@ -1040,22 +1211,37 @@ first={fonction d'activation},text={fonction d'activation}
 	first={algorithme},text={algorithme} 
 }
 
+\newglossaryentry{onlinelearning}
+{name={online learning},
+	description={
+		Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
+		manner, updating their \gls{modelparams} as new \gls{datapoint}s become available—one at a time. 
+		A typical example is time series data, such as daily minimum and maximum temperatures 
+		recorded by a \gls{fmi} weather station. These values form a chronological sequence 
+		of observations. In online learning, the \gls{hypothesis} (or its \gls{modelparams}) is refined 
+		incrementally with each newly observed \gls{datapoint}, without revisiting past \gls{data}.  \\ 
+		See also \gls{onlineGD}, \gls{onlinealgorithm}. 
+	},
+	first={online learning},text={online learning} 
+}
+
 \newglossaryentry{onlinealgorithm}
 {name={online algorithm},
 	description={An\index{online algorithm} online \gls{algorithm} processes input \gls{data} incrementally, 
-		receiving \gls{data} items sequentially and making decisions or producing outputs (or decisions) immediately 
-		without having access to the entire input in advance \cite{HazanOCO,PredictionLearningGames}. 
+		receiving \gls{datapoint}s sequentially and making decisions or producing outputs (or decisions) immediately 
+		without having access to the entire input in advance \cite{PredictionLearningGames}, \cite{HazanOCO}. 
 		Unlike an offline \gls{algorithm}, which has the entire input available from the start, an online \gls{algorithm} 
-		must handle uncertainty about future inputs and cannot revise past decisions. Similar to an 
-		offline \gls{algorithm}, an online \gls{algorithm} can be modeled formally as a collection of possible 
+		must handle \gls{uncertainty} about future inputs and cannot revise past decisions. Similar to an 
+		offline \gls{algorithm}, we also represent an online \gls{algorithm} formally as a collection of possible 
 		executions. However, the execution sequence for an online \gls{algorithm} has a distinct structure:
-		$${\rm init},s_1,{\rm out}_{1},{\rm in}_{2},s_2,{\rm out}_{2},\ldots,{\rm in}_{T},s_T,{\rm out}_{T}.$$ 
-		Each execution begins from an initial state (\(\text{init}\)) and proceeds through alternating computational steps, 
-		outputs (or decisions), and inputs. Specifically, at step \(\iteridx\), the \gls{algorithm} performs a computational step 
-		\(s_{\iteridx}\), generates an output \(\text{out}_{\iteridx}\), and then subsequently 
-		receives the next input \(\text{in}_{\iteridx+1}\). A notable example of an online \gls{algorithm} in \gls{ml} is 
-		\gls{onlineGD} (online gradient descent), which incrementally updates \gls{modelparams} as new \gls{datapoint}s 
-		arrive.
+		$${\rm in}_{1},s_1,{\rm out}_{1},{\rm in}_{2},s_2,{\rm out}_{2},\ldots,{\rm in}_{T},s_T,{\rm out}_{T}.$$ 
+		Each execution begins from an initial state (i.e., \(\text{in}_{1}\)) and proceeds through alternating 
+		computational steps, outputs (or decisions), and inputs. Specifically, at step \(\iteridx\), 
+		the \gls{algorithm} performs a computational step \(s_{\iteridx}\), generates an output \(\text{out}_{\iteridx}\), 
+		and then subsequently receives the next input (\gls{datapoint}) \(\text{in}_{\iteridx+1}\). A 
+		notable example of an online \gls{algorithm} in \gls{ml} is \gls{onlineGD}, which incrementally 
+		updates \gls{modelparams} as new \gls{datapoint}s arrive. 
+		\\ See also: \gls{onlinelearning}, \gls{onlineGD}.
 	},
 	first={online algorithm},text={online algorithm} 
 }
@@ -1466,9 +1652,12 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{gradient}
 {name={gradient},
-	description={Pour\index{gradient} une fonction à valeurs réelles $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-		un vecteur $\vg$ tel que $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
-		est appelé le gradient de $f$ en $\weights'$. Si un tel vecteur existe, on le note $\nabla f(\weights')$ ou $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+	description={For\index{gradient} a real-valued function 
+		$f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
+		if a vector $\vg$ exists such that 
+		$\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
+		it is referred to as the gradient of $f$ at $\weights'$. If it exists, the \gls{gradient} is unique and 
+		denoted $\nabla f(\weights')$ or $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
 	first={gradient},text={gradient} 
 }
 
@@ -1490,11 +1679,15 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 } 
 
 \newglossaryentry{fedavg}
-{name={federated averaging (FedAvg)},
-	description={FedAvg\index{federated averaging (FedAvg)} refers to an iterative \gls{fl} \gls{algorithm} that alternates between separately training \gls{localmodel}s and combining the updated local \gls{modelparams}. The training of \gls{localmodel}s 
-		is implemented via several \gls{stochGD} steps \cite{pmlr-v54-mcmahan17a}.}, 
-		first = {FedAvg}, text={FedAvg} 
-}
+{name={FedAvg},
+	description={FedAvg\index{FedAvg} refers to a family of iterative \gls{fl} \glspl{algorithm}. 
+		It uses a server-client setting and alternatves between client-wise \glspl{localmodel} 
+		re-training, followed by the aggregation of updated \gls{modelparams} at the server 
+		\cite{pmlr-v54-mcmahan17a}.  
+		\\ 
+		See also: \gls{fl}, \gls{algorithm}.},
+	first={FedAvg},text={FedAvg}
+} 
 
 \newglossaryentry{fedprox}
 {name={FedProx},
@@ -1652,12 +1845,17 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{feature}
 {name={caractéristique},
-	description={A\index{caractéristique} feature of a \gls{datapoint} is one of its properties that can be 
-		measured or computed easily without the need for human supervision. For example, if a \gls{datapoint} 
-		is a digital image (e.g., stored as a \texttt{.jpeg} file), then we could use the red-green-blue intensities 
-		of its pixels as features. Domain-specific synonyms for the term feature are "covariate," "explanatory variable," 
-		"independent variable," "input (variable)," "predictor (variable)," or "regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
-		}, first={caractéristique},text={caractéristique}  
+	description={A\index{caractéristique} feature of a \gls{datapoint} is one of 
+		its properties that can be measured or computed easily without the need 
+		for human supervision. For example, if a \gls{datapoint} is a digital 
+		image (e.g., stored as a \texttt{.jpeg} file), then we could use the 
+		red-green-blue intensities of its pixels as features. Domain-specific 
+		synonyms for the term feature are "covariate," "explanatory variable," 
+		"independent variable," "input (variable)," "predictor (variable)," or 
+		"regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
+	}, 
+	first={caractéristique},
+	text={caractéristique}
 }
 
 \newglossaryentry{featurevec}
@@ -1764,21 +1962,19 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 }
 
 \newglossaryentry{rv}
-{name={variable aléatoire (VA)},
-	description={Une variable aléatoire\index{variable aléatoire (VA)} est une fonction qui associe à chaque élément 
-		d’un \gls{probspace} $\mathcal{P}$ une valeur dans un espace cible \cite{BillingsleyProbMeasure,GrayProbBook}. 
-		L'\gls{probspace} est composé d’événements élémentaires et est muni d’une mesure de \gls{probability} 
-		qui associe des probabilités à des sous-ensembles de $\mathcal{P}$. 
-		On distingue différents types de VA : 
+{name={variable aléatoire (RV)},
+	description={An RV\index{variable aléatoire (VA)} is a function that maps from 
+		a \gls{probspace} $\mathcal{P}$ to a value space \cite{GrayProbBook}, \cite{BillingsleyProbMeasure}. 
+		The \gls{probspace} consists of elementary events and is equipped with a \gls{probability} 
+		measure that assigns probabilities to subsets of $\mathcal{P}$. 
+		Different types of RVs include  
 		\begin{itemize} 
-			\item les {VA binaires}, qui associent des événements élémentaires à un ensemble de deux valeurs distinctes, telles que 
-			$\{-1,1\}$ ou $\{\text{chat}, \text{pas chat}\}$ ; 
-			\item les {VA à valeurs réelles}, qui prennent des valeurs réelles ( dans $\mathbb{R}$) ;  
-			\item les {VA vectorielles}, qui associent des événements élémentaires à l’\gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
+			\item {binary RVs}, which map each elementary event to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$; 
+			\item {real-valued RVs}, which take values in the real numbers $\mathbb{R}$;  
+			\item {vector-valued RVs}, which map elementary events to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
 		\end{itemize} 
-		La théorie des \glspl{probability} utilise le concept d’espaces mesurables pour définir rigoureusement 
-		et étudier les propriétés de (grandes) collections de VA \cite{BillingsleyProbMeasure}.}, 
-	first={variable aléatoire (VA)},text={VA}  }
+		\Gls{probability} theory uses the concept of measurable spaces to rigorously define 
+		and study the properties of (large) collections of RVs \cite{BillingsleyProbMeasure}.}, first={variable aléatoire (VA)},text={VA}  }
 
  
  \newglossaryentry{probspace}{
@@ -2227,7 +2423,7 @@ description={A\index{point de données} \gls{data} point is any object that conv
 
 \newglossaryentry{scatterplot}{name={scatterplot}, description={A\index{scatterplot} 
 		visualization technique that depicts \gls{datapoint}s by markers in a two-dimensional plane. 
-		Figure \ref{fig_scatterplot_temp_FMI_dict} depicts an example of a scatterplot.  
+		Fig. \ref{fig_scatterplot_temp_FMI_dict} depicts an example of a scatterplot.  
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1]
@@ -2240,7 +2436,7 @@ description={A\index{point de données} \gls{data} point is any object that conv
 						xmin=-5, xmax=30,
 						ymin=-5, ymax=30,
 						width=6cm, height=6cm ]
-						\addplot[only marks] table [x=mintmp, y=maxtmp, col sep = semicolon] {../../assets/FMIData1.csv};
+						\addplot[only marks] table [x=mintmp, y=maxtmp, col sep = semicolon] {assets/FMIData1.csv};
 						\node at (axis cs:26,2) [anchor=west] {$\feature$};
 						\node at (axis cs:0,30) [anchor=west] {$\truelabel$};
 						\draw[->] (axis cs:-5,0) -- (axis cs:30,0);
@@ -2249,15 +2445,20 @@ description={A\index{point de données} \gls{data} point is any object that conv
 				\end{tikzpicture}
 				\vspace*{-10mm}
 			\end{center}
-			\caption{A scatterplot of some \gls{datapoint}s representing daily weather conditions in Finland. 
+			\caption{A scatterplot with circle markers, where the \gls{datapoint}s represent daily weather conditions in Finland. 
 				Each \gls{datapoint} is characterized by its \gls{minimum} daytime temperature $\feature$ 
 				as the \gls{feature} and its \gls{maximum} daytime temperature $\truelabel$ as the \gls{label}. 
 				The temperatures have been measured at the \gls{fmi} weather station Helsinki Kaisaniemi 
 				during 1.9.2024 - 28.10.2024.}
 			\label{fig_scatterplot_temp_FMI_dict}
 			\vspace*{-3mm}
-			\end{figure}
-		},first={scatterplot},text={scatterplot} }
+		\end{figure}
+		A scatterplot can enable the visual inspection of \glspl{datapoint} that are naturally 
+		represented by \glspl{featurevec} in high-dimensional spaces.
+		\\ 
+		See also: \gls{dimred}.},
+	first={scatterplot},
+	text={scatterplot} }
 
 
 \newglossaryentry{stepsize}{name={taille de pas}, description={
@@ -2432,13 +2633,13 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 	
 
 \newglossaryentry{cm}{name={confusion matrix}, 
-	description={Consider\index{confusion matrix} \gls{datapoint}s characterized by \gls{feature}s $\featurevec$ 
-		and \gls{label} $\truelabel$ having values from the finite \gls{labelspace} $\labelspace = \{1,\ldots,\nrcluster\}$. 
-		The confusion matrix is a $\nrcluster \times \nrcluster$ matrix with rows representing different values $\clusteridx$ 
-		of the true label of a \gls{datapoint}. The columns of a confusion matrix correspond to different values 
-		$\clusteridx'$ delivered by a hypothesis $\hypothesis(\featurevec)$. The $(\clusteridx,\clusteridx')$-th entry of 
-		the confusion matrix is the fraction of \gls{datapoint}s with the \gls{label} $\truelabel\!=\! \clusteridx$ and the 
-		\gls{prediction} $\hat{\truelabel}\!=\!\clusteridx'$ assigned by the \gls{hypothesis} $\hypothesis$.},
+	description={Consider\index{confusion matrix} \gls{datapoint}s, which are characterized 
+		by \gls{feature}s $\featurevec$ and \gls{label} $\truelabel$, having values from the finite 
+		\gls{labelspace} $\labelspace = \{1,\ldots,\nrcluster\}$. For a given \gls{hypothesis} $\hypothesis$, 
+		the confusion matrix is a $\nrcluster \times \nrcluster$ matrix with rows representing the elements of 
+		$\labelspace$. The columns of a confusion matrix correspond to the \gls{prediction} $\hypothesis(\featurevec)$. 
+		The $(\clusteridx,\clusteridx')$-th entry of the confusion matrix is the fraction of 
+		\gls{datapoint}s with \gls{label} $\truelabel\!=\! \clusteridx$ and resulting in a \gls{prediction} $\hypothesis(\featurevec)\!=\!\clusteridx'$.},
 	first={confusion matrix},text={confusion matrix} }
 
 
@@ -2735,9 +2936,14 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		is an (approximately) linear relation between a set of \gls{feature}s and a \gls{label}, a useful choice for the 
 		\gls{hypothesis} space might be the \gls{linmodel}.},first={espace des hypothèses},text={espace des hypothèses} }
 	
-\newglossaryentry{model}{name={modèle}, description={In\index{modèle} the context of \gls{ml} methods, 
-		the term model typically refers to the \gls{hypospace} employed by an 
-		\gls{ml} method \cite{ShalevMLBook,MLBasics}.},first={modèle},text={modèle} }
+\newglossaryentry{model}{name={modèle}, description={In\index{modèle} the context of \gls{ml}, 
+		the term model typically refers to the \gls{hypospace} underlying an 
+		\gls{ml} method \cite{MLBasics}, \cite{ShalevMLBook}. However, the term is also used in other 
+		fields but with different menaing. For example, a \gls{probmodel} refers to a parametrized 
+		set of \glspl{probdist}.},
+	first={modèle},
+	text={modèle} 
+}
 
 \newglossaryentry{modelparams}{name={paramètres du modèle}, 
 	description={\Gls{model} \gls{parameters}\index{paramètres du modèle} are quantities that 
@@ -3213,7 +3419,7 @@ first={online gradient descent (online GD)},text={online GD}}
 \newglossaryentry{hilbertspace}{
 	name={Hilbert space},
 	description={A\index{Hilbert space} Hilbert space is a complete inner 
-		product space \cite{introhilbertbook}. That is, it is a linear vector space equipped 
+		product space \cite{introhilbertbook}. That is, it is a vector space equipped 
 		with an inner product between pairs of vectors, and it satisfies the additional requirement 
 		of completeness: every Cauchy sequence of vectors converges to a limit within the space. 
 		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
