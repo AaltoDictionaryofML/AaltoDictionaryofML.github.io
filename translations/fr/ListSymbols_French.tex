@@ -28,11 +28,12 @@
 	 &\hypothesis(\cdot)\!:\!\mathcal{A}\!\rightarrow\!\mathcal{B} :  a \!\mapsto\!h(a) &\quad &\parbox{.75\textwidth}{
 	 	Une fonction (ou application) qui accepte tout élément \( a \in \mathcal{A} \) d'un ensemble \( \mathcal{A} \) en entrée et fournit un élément bien défini \( h(a) \in \mathcal{B} \) d'un ensemble \( \mathcal{B} \). L'ensemble \( \mathcal{A} \) est le domaine de définition de la fonction \( h \) et l'ensemble \( \mathcal{B} \) est l'ensemble d'arrivée de \( \hypothesis \). L'\gls{ml} vise à trouver (ou apprendre en la construisant) une fonction \( \hypothesis \) (c'est-à-dire une \gls{hypothesis}) qui prend en entrée les \glspl{feature} \( \featurevec \) d'un \gls{datapoint} et renvoie une \gls{prediction} \( \hypothesis(\featurevec) \) pour son \gls{label} \( \truelabel \).
  	} \nonumber \\[2mm] \hline \nonumber\\[-5mm]
- 		&\operatorname{epi}(f)  & \quad & \parbox{.75\textwidth}{The \gls{epigraph} of a real-valued function 
- 			$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$.} \nonumber \\[2mm]  \hline \nonumber\\[-5mm]
- 		&  \frac{\partial f(\weight_{1},\ldots,\weight_{\nrfeatures})}{\partial \weight_{\featureidx}} & \quad & \parbox{.75\textwidth}{The partial derivative (if it exists) of 
- 			real-valued function 
- 			$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$ w.r.t.\ $\weight_{\featureidx}$\cite[Ch. 9]{RudinBookPrinciplesMatheAnalysis}.}    \nonumber \\[2mm]  	 \hline \nonumber\\[-5mm]
+ 		&\operatorname{epi}(f)  & \quad & \parbox{.75\textwidth}{L'\gls{epigraph} d'une fonction à valeurs réelles 
+ 			$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$.}
+ 		 \nonumber \\[2mm]  \hline \nonumber\\[-5mm]
+ 		&  \frac{\partial f(\weight_{1},\ldots,\weight_{\nrfeatures})}{\partial \weight_{\featureidx}} & \quad & \parbox{.75\textwidth}{La dérivée partielle (si elle existe) d'une fonction à valeurs réelles 
+ 			$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$ par rapport à $\weight_{\featureidx}$\cite[Ch. 9]{RudinBookPrinciplesMatheAnalysis}.}
+ 		    \nonumber \\[2mm]  	 \hline \nonumber\\[-5mm]
 	 	&\nabla f(\weights) & \quad & \parbox{.75\textwidth}{Le  \gls{gradient} d'une fonction \gls{differentiable} à valeurs réelles
 	 	$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$ est le vecteur
 	 	$\nabla f(\weights) = \big( \frac{\partial f}{\partial \weight_{1}},\ldots,\frac{\partial f}{\partial \weight_{\featuredim}}  \big)^{T} \in \mathbb{R}^{\featuredim}$ \cite[Ch. 9]{RudinBookPrinciplesMatheAnalysis}.}   \nonumber
@@ -62,12 +63,10 @@
 \newpage
 \section*{Théorie des probabilités} 
 \begin{align}
-	\featurevec \sim p(\vz)  \quad\quad & \parbox{.75\textwidth}{The \gls{rv} $\featurevec$ is distributed according to 
-	the \gls{probdist} $p(\vz)$ \cite{klenke2020probability,BillingsleyProbMeasure}. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]    
-\expect_{p} \{ f(\datapoint) \}  \quad\quad & \parbox{.75\textwidth}{The \gls{expectation} of a \gls{rv} $f(\datapoint)$ that 
-	is obtained by applying a deterministic function $f$ to a \gls{rv} 
-	$\datapoint$ whose \gls{probdist} is $\prob{\datapoint}$. If the \gls{probdist} is clear from context, 
-	we just write $\expect \{ f(\datapoint) \}$. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]     
+	\featurevec \sim p(\vz)  \quad\quad & \parbox{.75\textwidth}{La \gls{rv} $\featurevec$ suit la \gls{probdist} $p(\vz)$ \cite{klenke2020probability,BillingsleyProbMeasure}.}  \nonumber \\[2mm] \hline \nonumber\\[-5mm]    
+\expect_{p} \{ f(\datapoint) \}  \quad\quad & \parbox{.75\textwidth}{L'\gls{expectation} d'une \gls{rv} $f(\datapoint)$ obtenue en appliquant une fonction déterministe $f$ à une \gls{rv} 
+	$\datapoint$ dont la \gls{probdist} est $\prob{\datapoint}$. Si la \gls{probdist} est claire dans le contexte, 
+	on écrit simplement $\expect \{ f(\datapoint) \}$.}  \nonumber \\[2mm] \hline \nonumber\\[-5mm]     
 	\prob{\featurevec,\truelabel} \quad\quad & \parbox{.75\textwidth}{Une \gls{probdist} (conjointe) d'une \gls{rv} 
 		dont les \glspl{realization} sont des \glspl{datapoint} avec des \glspl{feature} $\featurevec$ et une \gls{label} $\truelabel$.} \nonumber        \nonumber \\[2mm] \hline \nonumber\\[-5mm]        
 	\prob{\featurevec|\truelabel} \quad\quad & \parbox{.75\textwidth}{Une \gls{probdist} conditionnelle d'une \gls{rv} 
@@ -75,16 +74,19 @@
 	\prob{\featurevec;\weights} \quad\quad & \parbox{.75\textwidth}{Une \gls{probdist} paramétrée d'une \gls{rv} $\featurevec$. 
 		La \gls{probdist} dépend d'un vecteur de paramètres $\weights$. Par exemple, $\prob{\featurevec;\weights}$ pourrait être une 
 		\gls{mvndist} avec un vecteur de paramètres $\weights$ donné par les composantes du vecteur de \gls{mean} $\expect \{ \featurevec \}$ 
-		et la \gls{covmtx} $\expect \bigg \{ \big( \featurevec - \expect \{ \featurevec \}\big) \big( \featurevec - \expect \{ \featurevec \}\big)^{T}  \bigg\}$.} \nonumber           \nonumber \\[2mm] \hline \nonumber\\[-5mm]
-	\mathcal{N}(\mu, \sigma^{2}) \quad\quad & \parbox{.75\textwidth}{La \gls{probdist} d'une 
+		et la \gls{covmtx} $\expect \bigg \{ \big( \featurevec - \expect \{ \featurevec \}\big) \big( \featurevec - \expect \{ \featurevec \}\big)^{T}  \bigg\}$.} \nonumber                                             
+\end{align}
+
+\newpage
+
+\begin{align}
+		\mathcal{N}(\mu, \sigma^{2}) \quad\quad & \parbox{.75\textwidth}{La \gls{probdist} d'une 
 		\gls{gaussrv} $\feature \in \mathbb{R}$ ayant comme \gls{mean} (ou \gls{expectation}) $\mu= \expect \{ \feature \}$ 
 		et comme \gls{variance} $\sigma^{2} =   \expect \big\{  (  \feature - \mu )^2 \big\}$.} \nonumber    \nonumber \\[2mm] \hline \nonumber\\[-5mm]
 	\mathcal{N}(\clustermean, \mathbf{C}) \quad\quad & \parbox{.75\textwidth}{La \gls{mvndist} d'une \gls{gaussrv} vectorielle 
 		$\featurevec \in \mathbb{R}^{\featuredim}$ ayant comme \gls{mean} (ou \gls{expectation}) $\clustermean= \expect \{ \featurevec \}$ 
-		et comme \gls{covmtx} $\mathbf{C} =  \expect \big\{ \big( \featurevec - \clustermean \big)\big( \featurevec - \clustermean \big)^{T} \big\}$.} \nonumber                                             
+		et comme \gls{covmtx} $\mathbf{C} =  \expect \big\{ \big( \featurevec - \clustermean \big)\big( \featurevec - \clustermean \big)^{T} \big\}$.} \nonumber
 \end{align}
-
-
 
 
 
