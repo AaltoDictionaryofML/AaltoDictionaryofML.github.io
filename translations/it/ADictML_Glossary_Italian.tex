@@ -53,11 +53,52 @@ description={\gls{fl} Orizzontale \index{federated learning orizzontale (FL oriz
 
 \newglossaryentry{dimred}
 {name={riduzione della dimensionalità},
-	description={Le tecniche di riduzione della dimensionalità\index{dimensionality reduction} methods 
-		mappano (tipicamente molte) \gls{feature} grezze in un insieme (relativamente piccolo) di  
-		nuove \gls{feature}. Questi metodi possono essere utilizzati per visualizzare 
-		i \gls{datapoint} apprendendo due \gls{feature} che possono essere impiegate come 
-		coordinate per una rappresentazione in uno \gls{scatterplot}.}, first={riduzione della dimensionalità},text={riduzione della dimensionalità}
+	description={Con riduzione della dimensionalità\index{riduzione della dimensionalità} ci si riferisce 
+		a metodi che apprendono una trasformazione
+		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+		di un insieme (tipicamente ampio) di \glspl{feature} grezze$\feature_{1},\ldots,\feature_{\nrfeatures}$ 
+		in un insieme più contenuto di \glspl{feature} significative $z_{1},\ldots,z_{\nrfeatures'}$. 
+		L’utilizzo di un numero ridotto di \glspl{feature} comporta molteplici vantaggi: 
+		\begin{itemize} 
+			\item {Vantaggio statistico:} in genere si riduce il rischio di \gls{overfitting}, poiché la riduzione 
+			del numero di \glspl{feature} comporta spesso una diminuzione della \gls{effdim} di un \gls{model}. 
+			\item {Vantaggio computazionale:} un numero inferiore di \glspl{feature} implica un minor carico 
+			computazionale durante l’addestramento dei \glspl{model} di \gls{ml}. Ad esempio, 
+			i metodi di \gls{linreg} richiedono l’inversione di una matrice la cui dimensione dipende dal numero di \glspl{feature}.
+			\item {\bf Visualizzazione:} la riduzione della dimensionalità riveste inoltre un ruolo essenziale nella visualizzazione 
+			dei \gls{data}. Si può, ad esempio, apprendere una trasformazione che restituisce due \glspl{feature}  $z_{1},z_{2}$ 
+			utilizzabili come coordinate in uno \gls{scatterplot}.La Fig.\ \ref{fig:dimred-scatter} 
+			mostra lo \gls{scatterplot} di cifre scritte a mano posizionate secondo le \glspl{feature} trasformate. 
+			In questo caso, i \glspl{datapoint} sono originariamente rappresentati da un ampio numero di valori in una scala di grigi (uno per ciascun pixel).
+		\end{itemize} 
+		 \begin{figure}[H]
+		 \centering
+		 \begin{tikzpicture}[scale=1]	
+		% % Axes
+		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
+		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
+		% % Example points with mini-images (can replace adjustbox with \includegraphics)
+		 	\foreach \x/\y/\label in {
+  		 		1.2/0.5/3,
+  		 		0.8/2.0/8,
+  		 		2.5/1.8/1,
+  		 		3.8/3.5/6,
+  		 		4.2/0.7/9,
+  		 		2.8/3.0/7,
+  		 		1.5/3.8/2
+		 	}{
+  		 		\node[draw, minimum size=0.6cm, inner sep=0pt] at (\x,\y)
+    	 		{\label};
+		 	}
+		 	\end{tikzpicture}
+		 	\caption{Esempio di riduzione della dimensionalità: dati di immagini ad alta dimensionalità
+			(ad esempio, immagini ad alta risoluzione di cifre scritte a mano) proiettati in 2D utilizzando
+			\glspl{feature} apprese $(z_1, z_2)$ e visualizzati in un \gls{scatterplot}
+			.}
+		 	\label{fig:dimred-scatter}
+		 \end{figure}
+		Si veda anche: \gls{feature}, \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{ml}, \gls{linreg}, \gls{data}, \gls{scatterplot}, \gls{datapoint}.},
+		 first={riduzione della dimensionalità},text={riduzione della dimensionalità}
 } 
 
 
@@ -1353,20 +1394,22 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 }
 
 \newglossaryentry{differentiable}
-{name={differentiable},
-	description={A\index{differentiable} real-valued function $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
-		is differentiable if it can, at any point, be approximated locally by a linear 
-		function. The local linear approximation at the point $\mathbf{x}$ is determined 
-		by the \gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.},
-	first={differentiable},text={differentiable} 
+{name={differenziabile},
+	description={Una\index{differenziabile} funzione a valori reali $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
+		si dice differenziabile se, ad ogni punto, può essere approssimata localmente da una funzione 
+		lineare. L'approssimazione lineare locale nel punto $\mathbf{x}$ è determinata  
+		dal \gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		\\ 
+		Si veda anche: \gls{gradient}.},
+	first={differenziabile},text={differenziabile} 
 }
 
 \newglossaryentry{gradient}
 {name={gradiente},
 	description={Per\index{gradiente} funzione a valori reali $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-	a vector $\vg$ such that $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
-	is referred to as the gradient of $f$ at $\weights'$. If such a vector exists, it is 
-	denoted $\nabla f(\weights')$ or $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+	se esiste un vettore $\vg$ tale che $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
+	esso viene detto gradiente di $f$ in $\weights'$. Se esiste, il gradiente è unico e viene 
+	denotato con $\nabla f(\weights')$ oppure con $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
 	first={gradiente},text={gradiente} 
 }
 
@@ -1454,13 +1497,39 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 
 \newglossaryentry{histogram}
 {name={histogram},
-	description={Consider\index{histogram} a \gls{dataset} $\dataset$ that consists of $\samplesize$ \gls{datapoint}s 
+	description={Consider\index{histogram} a \gls{dataset} $\dataset$ that consists of $\samplesize$ \glspl{datapoint} 
 		$\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$, each of them belonging to some 
 		cell $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ with side 
 		length $U$. We partition this cell evenly into smaller elementary cells with side 
 		length $\Delta$. The histogram of $\dataset$ assigns each elementary cell to 
-		the corresponding fraction of \gls{datapoint}s in $\dataset$ that fall into this 
-		elementary cell. 
+		the corresponding fraction of \glspl{datapoint} in $\dataset$ that fall into this 
+		elementary cell. A visual example of such a histogram is provided in Fig.~\ref{fig:histogram}.\\
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\pgfplotsset{compat=1.18}
+		\begin{axis}[
+		    ybar,
+		    ymin=0,
+		    ymax=6,
+		    bar width=22pt,
+		    width=10cm,
+		    height=6cm,
+		    xlabel={Value},
+		    ylabel={Frequency},
+		    ytick={1,2,3,4,5,6},
+		    xtick={1,2,3,4,5},
+		    xticklabels={{[0,1)}, {[1,2)}, {[2,3)}, {[3,4)}, {[4,5)}},
+		    enlarge x limits=0.15,
+		    title={Histogram of Sample Data}
+			]
+		\addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{A histogram representing the frequency of \glspl{datapoint} falling within discrete value ranges (i.e., bins). Each bar height shows the count of \gls{sample}s in the corresponding interval.}
+		\label{fig:histogram}
+		\end{figure}
+		See also: \gls{dataset}, \gls{datapoint}, \gls{sample}.
 	},
 	first={histogram},text={histogram}  
 }
@@ -1525,13 +1594,14 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 }
 
 \newglossaryentry{featurevec}
-{name={vettore delle caratteristiche}, plural = {vettori delle caratteristiche}
+{name={vettore delle caratteristiche}, plural = {vettori delle caratteristiche},
 	description={Il vettore delle \glspl{feature} si riferisce a\index{vettore delle caratteristiche} un vettore $\vx = \big(x_{1},\ldots,x_{\nrfeatures}\big)^{T}$ 
 	i cui elementi sono singole \glspl{feature} $x_{1},\ldots,x_{\nrfeatures}$. Molti metodi di \gls{ml}  
 	utilizzano vettori delle \glspl{feature} appartenenti ad uno \gls{euclidspace} di dimensione finita $\mathbb{R}^{\nrfeatures}$. 
 	Tuttavia, per alcuni metodi di \gls{ml}, risulta preferibile utilizzare vettori delle \glspl{feature} che risiedono
 	 in uno spazio vettoriale di dimensione infinita (si veda, ad esempio, \gls{kernelmethod}). 
-		}, first={vettore delle caratteristiche},text={vettore delle caratteristiche}  
+		}, 
+		first={vettore delle caratteristiche},text={vettore delle caratteristiche}  
 }
 
 
@@ -1665,12 +1735,14 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
  
 	
 \newglossaryentry{realization}
-{name={realization},
-	description={Consider\index{realization} an \gls{rv} $x$ which maps each element 
-	(i.e., outcome or elementary event) $\omega \in \mathcal{P}$ of a \gls{probspace} $\mathcal{P}$ 
-	to an element $a$ of a measurable space $\mathcal{N}$ \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
-	A realization of $x$ is any element $a' \in \mathcal{N}$ such that there is 
-	an element $\omega' \in \mathcal{P}$ with $x(\omega') = a'$.}, first={realization},text={realization}  }
+{name={realizzazione}, plural={realizzazioni},
+	description={Si consideri\index{realizzazione} una \gls{rv} $x$ che associa a 
+	ciascun elemento (ossia, esito o evento elementare) $\omega \in \mathcal{P}$ di uno \gls{probspace} $\mathcal{P}$ 
+	ad un elemento $a$ di uno spazio misurabile $\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{HalmosMeasure}, \cite{BillingsleyProbMeasure}. 
+	Una realizzazione di $x$ è un qualunque elemento $a' \in \mathcal{N}$ per il quale si ha 
+	$x(\omega') = a'$ per qualche $\omega' \in \mathcal{P}$.
+			\\
+		Si veda anche: \gls{rv}, \gls{probspace}.}, first={realizzazione},text={realizzazione}  }
 
 \newglossaryentry{trainset}
 {name={training set},
@@ -2504,11 +2576,12 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 	    of (infinitely many) \gls{iid} \gls{rv}s centered around these \gls{datapoint}s (see \gls{regularization}).},first={ridge regression},text={ridge regression}}
 
 
-\newglossaryentry{expectation}{name={expectation}, description={
-		Consider\index{expectation} a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ 
-		which we interpret as the \gls{realization} of an \gls{rv} with a \gls{probdist} $p(\featurevec)$. 
-		The expectation of $\featurevec$ is defined as the integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}. Note that 
-		the expectation is only defined if this integral exists, i.e., if the \gls{rv} is integrable.},first={expectation},text={expectation}}
+\newglossaryentry{expectation}{name={valore atteso}, plural={valori attesi}, description={
+		Si consideri\index{valore atteso} un \gls{featurevec} numeriche $\featurevec \in \mathbb{R}^{\featuredim}$ 
+		che interpretiamo come una \gls{realization} di una \gls{rv} con una \gls{probdist} $p(\featurevec)$. 
+		Il valore atteso di $\featurevec$ è definito come l'integrale $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$. Si noti che
+		il valore atteso è definito solo se tale integrale esiste, ovvero se la \gls{rv} è integrabile
+		\cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}},first={valore atteso},text={valore atteso}}
 
 \newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} map (or \gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
@@ -2580,9 +2653,11 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		is an (approximately) linear relation between a set of \gls{feature}s and a \gls{label}, a useful choice for the 
 		\gls{hypothesis} space might be the \gls{linmodel}.},first={hypothesis space},text={hypothesis space} }
 	
-\newglossaryentry{model}{name={model}, description={In\index{model} the context of \gls{ml} methods, 
-		the term model typically refers to the \gls{hypospace} employed by an 
-		\gls{ml} method \cite{ShalevMLBook,MLBasics}.},first={model},text={model} }
+\newglossaryentry{model}{name={modello}, plural={modelli}, description={Nel\index{modello} contesto dei metodi di \gls{ml}, 
+		il termine modello si riferisce tipicamente allo \gls{hypospace} alla base di un metodo di 
+		\gls{ml} \cite{ShalevMLBook,MLBasics}. Tuttavia, il termine è usato anche in altri ambiti, 
+		ma con un significato diverso. Per esempio, un \gls{probmodel} si riferisce ad un insieme parametrizzato di \glspl{probdist}.},
+		first={modello},text={modello} }
 
 \newglossaryentry{modelparams}{name={model parameters}, 
 	description={\Gls{model} \gls{parameters}\index{model parameters} are quantities that 
@@ -2632,12 +2707,49 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 		A popular \gls{softclustering} method based on \gls{gmm} represents 
 		a \gls{cluster} by a \gls{mvndist}.},first={clustering},text={clustering} }
 	
-\newglossaryentry{cluster}{name={cluster}, description={A\index{cluster} cluster is a subset of 
-		\gls{datapoint}s that are more similar to each other than to the \gls{datapoint}s outside the cluster. 
-		The quantitative measure of similarity between \gls{datapoint}s is a design choice. If \gls{datapoint}s 
-		are characterized by Euclidean \gls{featurevec}s $\featurevec \in \mathbb{R}^{\nrfeatures}$, 
-		we can define the similarity between two \gls{datapoint}s via the Euclidean distance between 
-		their \gls{featurevec}s.},first={cluster},text={cluster} }
+\newglossaryentry{cluster}{name={cluster}, 
+	description={A\index{cluster} cluster is a subset of 
+		\glspl{datapoint} that are more similar to each other than to the \glspl{datapoint} outside the cluster. 
+		The quantitative measure of similarity between \glspl{datapoint} is a design choice. If \glspl{datapoint} 
+		are characterized by Euclidean \glspl{featurevec} $\featurevec \in \mathbb{R}^{\nrfeatures}$, 
+		we can define the similarity between two \glspl{datapoint} via the Euclidean distance between 
+		their \glspl{featurevec}. An example of such clusters is shown in Fig.~\ref{fig:clusters}.\\
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\pgfplotsset{compat=1.18}
+		\begin{axis}[
+		    width=10cm,
+		    height=8cm,
+		    xlabel={$x_1$},
+		    ylabel={$x_2$},
+		    title={Clusters of Data Points},
+		    xmin=0, xmax=10,
+		    ymin=0, ymax=10,
+		    axis lines=left,
+		    legend style={at={(0.5,-0.25)}, anchor=north, legend columns=3}
+		]
+		% Cluster 1 
+		\addplot[only marks, color=blue, mark=*, mark size=3pt] coordinates {
+		    (1,1) (2,1.2) (1.8,2) (2.2,1.5) (1.5,2.5)
+		};
+		% Cluster 2 
+		\addplot[only marks, color=red, mark=square*, mark size=3pt] coordinates {
+		    (7,8) (8,7.5) (7.5,8.5) (8.2,7.8) (7.7,7)
+		};
+		% Cluster 3 
+		\addplot[only marks, color=green!60!black, mark=triangle*, mark size=3pt] coordinates {
+		    (5,3) (5.5,3.2) (5.2,2.8) (4.8,3.5) (5.1,3.1)
+		};
+		\legend{Cluster 1, Cluster 2, Cluster 3}
+		\end{axis}
+		\end{tikzpicture}
+		\caption{Illustration of three clusters in a two-dimensional \gls{featurespace}. Each cluster groups \glspl{datapoint} that are more similar to each other than to those in other clusters, based on the Euclidean distance.}
+		\label{fig:clusters}
+		\end{figure}
+		See also: \gls{datapoint}, \gls{featurevec}, \gls{featurespace}.
+		},
+		first={cluster},text={cluster} }
 
 %\newglossaryentry{softclustering}{name={soft clustering}, description={Soft clustering methods determine, for each \gls{datapoint} within a dataset, 
 %		a soft cluster assignment or the degree of belonging to a particular cluster.},first={soft clustering},text={soft clustering} }
@@ -3188,22 +3300,19 @@ the underlying \gls{probdist} and the choice for the \gls{lossfunc} $\lossfunc{\
 		Weights are also used in \gls{ann}s to form linear combinations of \gls{feature}s or the 
 		outputs of neurons in hidden layers.},first={weights},text={weights}}
 	
-\newglossaryentry{probdist}{name={probability distribution},
-	description={To\index{probability distribution} analyze \gls{ml} methods, it can be useful 
-		to interpret \gls{datapoint}s as \gls{iid} \gls{realization}s of an \gls{rv}. The typical 
-		properties of such \gls{datapoint}s are then governed by the \gls{probability} distribution 
-		of this \gls{rv}. The \gls{probability} distribution of a binary \gls{rv} $\truelabel \in \{0,1\}$ 
-		is fully specified by the probabilities $\prob{\truelabel = 0}$ and 
-		$\prob{\truelabel=1}\!=\!1\!-\!\prob{\truelabel=0}$. The \gls{probability} 
-		distribution of a real-valued \gls{rv} $\feature \in \mathbb{R}$ might be specified 
-		by a \gls{pdf} $p(\feature)$ such that $\prob{ \feature \in [a,b] } \approx  p(a) |b-a|$. 
-	    In the most general case, a \gls{probability} distribution is defined by a \gls{probability} 
-		measure \cite{GrayProbBook,BillingsleyProbMeasure}.},
-		first={probability distribution},
-		plural={probability distributions},
-		text={probability distribution}
-	}
-    
+\newglossaryentry{probdist}{name={distribuzione di probabilità}, plural={distribuzioni di probabilità},
+	description={Per\index{distribuzione di probabilità} analizzare i metodi di \gls{ml}, può essere utile 
+		interpretare i \glspl{datapoint} come \glspl{realization} \gls{iid} di una \gls{rv}. Le proprietà 
+		tipiche di tali \glspl{datapoint} sono quindi governate dalla distribuzione di \gls{probability}  
+		di questa \gls{rv}. La distribuzione di \gls{probability} di una \gls{rv} binaria $\truelabel \in \{0,1\}$ 
+		è determinata univocamente dalle probabilità $\prob{\truelabel = 0}$ e 
+		$\prob{\truelabel=1}\!=\!1\!-\!\prob{\truelabel=0}$. La distribuzione di \gls{probability} 
+		di una \gls{rv} a valori reali $\feature \in \mathbb{R}$ può essere definita tramite una 
+		\gls{pdf} $p(\feature)$ tale che $\prob{ \feature \in [a,b] } \approx  p(a) |b-a|$. 
+	    In generale, una distribuzione di \gls{probability} è definita da una misura di\cite{GrayProbBook}, \cite{BillingsleyProbMeasure}.
+	    		\\
+		Si veda anche: \gls{ml}, \gls{datapoint}, \gls{iid}, \gls{realization}, \gls{rv}, \gls{probability}, \gls{pdf}.},first={distribuzione di probabilità},text={distribuzione di probabilità}}
+        
     
 \newglossaryentry{pdf}{name={probability density function (pdf)},
 	description={The\index{probability density function (pdf)} \gls{probability} density function $p(\feature)$ 
