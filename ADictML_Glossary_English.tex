@@ -110,7 +110,50 @@
 	description={FedAvg\index{FedAvg} refers to a family of iterative \gls{fl} \glspl{algorithm}. 
 	It uses a server-client setting and alternates between client-wise \glspl{localmodel} 
 	re-training, followed by the aggregation of updated \gls{modelparams} at the server 
-	\cite{pmlr-v54-mcmahan17a}. 
+	\cite{pmlr-v54-mcmahan17a}. The local update at client $\nodeidx=1,\ldots,\nrnodes$ 
+	at time $\iteridx$ starts from the current \gls{modelparams} $\weights^{(\iteridx)}$ provided 
+	by the server and typically amounts to executing few iterations of \gls{stochGD}. After completing the local updates, they are aggregated 
+	by the server (e.g., by averaging them). Fig.\ \ref{fig_single_iteration_fedavg} illustrates the execution of a single 
+	iteration of FedAvg. 
+	\begin{figure} 
+		\begin{center}
+	\begin{tikzpicture}[>=Stealth, node distance=1cm and 1.5cm, every node/.style={font=\small}]
+		% Styles
+		\tikzstyle{server} = [circle, fill=black, minimum size=6pt, inner sep=0pt]
+		\tikzstyle{client} = [circle, draw=black, minimum size=6pt, inner sep=0pt]
+		% Time step labels
+		\node (label1) at (0,3.5) {broadcast};
+		\node[right=2.5cm of label1] (label2) {local update};
+		\node[right=2.5cm of label2] (label3) {aggregate};
+		% Time step k
+		\node[server] (s1) at (label1 |- 0,2.5) {};
+		\node[client] (c1l) at ($(s1) + (-1cm,-1cm)$) {};
+		\node[client] (c1r) at ($(s1) + (1cm,-1cm)$) {};
+		\node[] (dots1) at ($(s1) + (0cm,-1cm)$) {\ldots};
+		\draw[->] (s1) -- (c1l) node[midway,left] {$\weights^{(\iteridx)}$};
+		\draw[->] (s1) -- (c1r) node[midway,right] {$\weights^{(\iteridx)}$};
+		\draw[->] (s1) -- (dots1);
+		% Time step k+1 (local updates)
+		\node[server] (s2) at (label2 |- 0,2.5) {};
+		\node[client] (c2l) at ($(s2) + (-1cm,-1cm)$) {};
+		\node[client] (c2r) at ($(s2) + (1cm,-1cm)$) {};
+		\node[] (dots2) at ($(s2) + (0cm,-1cm)$) {\ldots};
+		\node[below=0.2cm of c2l] {$\localparamsiter{\iteridx}{1}$};
+		\node[below=0.2cm of c2r] {$\localparamsiter{\iteridx}{\nrnodes}$};
+		% Time step k+2 (aggregation)
+		\node[server] (s3) at (label3 |- 0,2.5) {};
+			\node[above=0.01cm of s3, yshift=-4pt] {$\weights^{(\iteridx+1)}$};
+		\node[client] (c3l) at ($(s3) + (-1cm,-1cm)$) {};
+		\node[client] (c3r) at ($(s3) + (1cm,-1cm)$) {};
+		\node[] (dots3) at ($(s3) + (0cm,-1cm)$) {\ldots};
+		\draw[->] (c3l) -- (s3) node[midway,left] {$\localparamsiter{\iteridx}{1}$};
+		\draw[->] (c3r) -- (s3)  node[midway,right] {$\localparamsiter{\iteridx}{\nrnodes}$};
+		\draw[->] (dots3) -- (s3);
+	\end{tikzpicture}
+	\end{center}
+		\caption{Illustration of a single iteration of FedAvg which consisting of broadcasting \gls{modelparams} by the 
+			server, local updates at clients and their aggregation by the server. \label{fig_single_iteration_fedavg}} 
+	\end{figure} 
 		\\ 
 		See also: \gls{fl}, \gls{algorithm}, \gls{localmodel}.},
 	first={FedAvg},text={FedAvg}
