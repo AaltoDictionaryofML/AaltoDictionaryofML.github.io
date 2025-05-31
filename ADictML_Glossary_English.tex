@@ -2636,51 +2636,49 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 
 
 \newglossaryentry{generalization}{name={generalization}, 
-	description={Many\index{generalization} current \gls{ml} (and \gls{ai}) systems 
-		are based on \gls{erm}. At their core, they train a \gls{model} (i.e., learn a \gls{hypothesis} 
-		$\learnthypothesis \in \hypospace$) by minimizing the average \gls{loss} (or \gls{emprisk}) on some 
-		\glspl{datapoint} $\vz^{(1)},\ldots,\vz^{(\samplesize)}$, which serve as a \gls{trainset} $\trainset$. 
-		Generalization refers to an \gls{ml} method's ability to perform well outside the \gls{trainset}. 
-		Any mathematical theory of generalization needs some mathematical concept for the 
-		"outside the \gls{trainset}." For example, statistical learning theory uses a 
-		\gls{probmodel} such as the \gls{iidasspt} for \gls{data} generation, based on which the \glspl{datapoint} in 
-		the \gls{trainset} are \gls{iid} \glspl{realization} of some underlying \gls{probdist} $p(\vz)$. 
-		A \gls{probmodel} allows us to explore the outside of the \gls{trainset} by 
-		drawing additional \gls{iid} \glspl{realization} from $p(\vz)$. Moreover, using the \gls{iidasspt} 
-		allows us to define the \gls{risk} of a trained \gls{model} $\learnthypothesis \in \hypospace$ as 
-		the expected \gls{loss} $\risk{\learnthypothesis}$. What is more, we can use concentration 
-		bounds or convergence results for sequences of \gls{iid} \glspl{rv} to bound the deviation 
-		between the \gls{emprisk} $\emprisk{\learnthypothesis}{\trainset}$ of a trained \gls{model} and 
-		its \gls{risk} \cite{ShalevMLBook}. It is possible to study generalization also without using 
-		\glspl{probmodel}. For example, we could use (deterministic) 
-	    perturbations of the \glspl{datapoint} in the \gls{trainset} to study its outside. 
-	    In general, we would like the trained \gls{model} to be robust, i.e., its \glspl{prediction} 
-	    should not change too much for small perturbations of a \gls{datapoint}. Consider a trained \gls{model} for detecting 
-	    an object in a smartphone snapshot. The detection result should not change if we mask a 
-	    small number of randomly chosen pixels in the image \cite{OnePixelAttack}. 
+	description={
+		Generalization\index{generalization} refers to the ability of a \gls{model} trained on a \gls{trainset} to make accurate 
+		\glspl{prediction} on new, unseen \glspl{datapoint}. This is a central goal of \gls{ml} and \gls{ai}: 
+		to learn patterns that extend beyond the \gls{trainset}. Most \gls{ml} systems 
+		use \gls{erm} to learn a \gls{hypothesis} $\learnthypothesis \in \hypospace$ by minimizing 
+		the average \gls{loss} over a \gls{trainset} of \glspl{datapoint} $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$, 
+		denoted as $\trainset$. However, success on the \gls{trainset} does not guarantee success on 
+		unseen \gls{data} - this discrepancy is the challenge of generalization. To study generalization 
+		mathematically, we need to formalize the notion of ``unseen'' \gls{data}. A widely used 
+		approach is to assume a \gls{probmodel} for \gls{data} generation, such as the \gls{iidasspt}. 
+		Here, we interpret \glspl{datapoint} as independent \glspl{rv} with an identical 
+		\gls{probdist} $p(\datapoint)$. This \gls{probdist}, which is assumed fixed but unknown, 
+		allows us to define \gls{risk} of a trained \gls{model} $\learnthypothesis$ as the expected \gls{loss}
+		\[
+		\risk{\learnthypothesis} \defeq \expect_{\datapoint \sim p(\datapoint)} \big\{ \loss(\learnthypothesis, \datapoint) \big\}.
+		\]
+		The difference between \gls{risk} $\risk{\learnthypothesis}$ and \gls{emprisk} $\emprisk{\learnthypothesis}{\trainset}$ 
+		is known as the \gls{gengap}. Tools from probability theory, such as \glspl{concentrationinequ} 
+		and uniform convergence, allow us to bound this gap under certain conditions \cite{ShalevMLBook}.\\
+		{\bf Generalization without \gls{probability}.} \Gls{probability} theory is one way to study how well a 
+		\gls{model} generalizes beyond the \gls{trainset}, but it is not the only way. Another option is to use 
+		simple, deterministic changes to the \glspl{datapoint} in the \gls{trainset}. The basic idea is that a 
+		good \gls{model} $\learnthypothesis$ should be robust: its \gls{prediction} $\learnthypothesis(\featurevec)$ 
+		should not change much if we slightly change the \glspl{feature} $\featurevec$ of a \gls{datapoint} $\datapoint$. 
+		For example, an object detector trained on smartphone photos should still detect the object if a few 
+		random pixels are masked \cite{OnePixelAttack}. Similarly, it should deliver the same result if we rotate 
+		the object in the image \cite{MallatUnderstandingDeepLearning}. 
 		  \begin{figure}[H]
 		                   	\centering
 		                   	\begin{tikzpicture}[scale=0.8]
- % Filled ellipsoid to represent p(z)
 							   \draw[lightblue, fill=lightblue, opacity=0.5] (3, 2) ellipse (6cm and 2cm);
-% Label for p(z)
-								\node[black] at (6, 3) {$p(z)$};
-		                   		% Data points
+								\node[black] at (6, 3) {$p(\datapoint)$};
 		                   		\fill[blue] (1, 3) circle (4pt) node[below, xshift=0pt, yshift=0pt] {$\datapoint^{(1)}$};
 		                   		\fill[blue] (5, 1) circle (4pt) node[below] {$\datapoint^{(2)}$};
-		                   		% Shifted copies for datapoint^{(1)}
 		                   		\fill[blue] (1.6, 3) circle (3pt);
 		                   		\fill[blue] (0.4, 3) circle (3pt);
 		                   		\draw[<->, thin] (1, 3) -- (1.6, 3);
 		                   		\draw[<->, thin] (1, 3) -- (0.4, 3);
-		                   		% Shifted copies for datapoint^{(2)}
 		                   		\fill[blue] (5.6, 1) circle (3pt);
 		                   		\fill[blue] (4.4, 1) circle (3pt);
 		                   		\draw[<->, thin] (5, 1) -- (5.6, 1);
 		                   		\draw[<->, thin] (5, 1) -- (4.4, 1);
-		                   		% Polynomial curve
 		                   		\draw[black, thick, domain=0:6, smooth] plot (\x, {- 1*\x + 5});
-		                   		% Label for polynomial
 		                   		\node[black] at (3, 2.5) [right] {$\learnthypothesis$};
 		                   	\end{tikzpicture}
 		                   	\caption{Two \glspl{datapoint} $\datapoint^{(1)},\datapoint^{(2)}$ that are used as a \gls{trainset} 
@@ -2690,11 +2688,28 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 		                   	\label{fig:polynomial_fit_dict}
 		                   \end{figure}
 		See also: \gls{ml}, \gls{ai}, \gls{erm}, \gls{model}, \gls{hypothesis}, \gls{loss}, \gls{emprisk}, \gls{datapoint}, \gls{trainset}, \gls{probmodel}, \gls{iidasspt}, \gls{data}, \gls{iid}, \gls{realization}, \gls{probdist}, \gls{risk}, \gls{rv}, \gls{prediction}.
-		                   \newpage
 		},
 	first={generalization},
 	text={generalization} 
 }
+
+\newglossaryentry{gengap}
+{name = {generalization gap}, 
+	description={The difference\index{generalization gap} between the performance of a trained \gls{model} on the 
+		\gls{trainset} and other \glspl{datapoint} (such as those in a \gls{valset}). 
+		\\
+		See also: \gls{hypothesis}, \gls{decisiontree}, \gls{generalization}, \gls{gdmethods}, \gls{erm}, \glspl{model}, \gls{smooth}, \glspl{lossfunc}, \gls{gd}, \gls{modelparams}, \gls{emprisk}, \gls{gradient}, \gls{loss}, \gls{gradstep}.
+	}, 
+	first={generalization gap}, 
+	text={generalization gap}} 
+	
+\newglossaryentry{concentrationinequ}
+{name = {concentration inequality}, 
+	description={The tendency\index{concentration inequality} of a \gls{rv} to be close to its \gls{expectation} with high \gls{probability} \cite{Wain2019}. 
+	}, 
+	first={concentration inequality},
+	plural={concentration inequalities},  
+	text={concentration inequality}} 
 
 
 
@@ -2716,21 +2731,12 @@ description={A\index{data point} \gls{data} point is any object that conveys inf
 					% Axes
 					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
 					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
-%					% Loss curve
 					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
-				%	\node[blue] at (4.5,2.2) {\gls{loss}};
-%					% Points on the curve
 					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
 						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
 						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
 						\node[below] at (\x, -0.1) {\label};                             % label
 					}
-%					% Arrows for descent
-%					\foreach \x/\xnext in {0.7/1.5, 1.5/2.3, 2.3/3.0} {
-%						\draw[->,red,thick] (\x,{(4 - 1.3*\x + 0.15*\x*\x)}) -- (\xnext,{(4 - 1.3*\xnext + 0.15*\xnext*\xnext)});
-%					}
-%					% Gradient label
-%					\node[red] at (1.8,3.6) {Update direction $\approx -\nabla \text{Loss}$};
 				\end{tikzpicture}
 			\end{center} 
 			\caption{Boosting methods construct a sequence of \gls{hypothesis} maps $\hypothesis^{(0)},\hypothesis^{(1)},\ldots$ 
