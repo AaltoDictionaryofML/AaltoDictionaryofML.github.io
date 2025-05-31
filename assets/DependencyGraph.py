@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 import json
 
 # --- Step 1: Load LaTeX glossary content ---
-with open("ADictML_Glossary_English.tex", "r", encoding="utf-8") as f:
+with open("../ADictML_Glossary_English.tex", "r", encoding="utf-8") as f:
     content = f.read()
 
 # --- Step 2: Match glossary entries ---

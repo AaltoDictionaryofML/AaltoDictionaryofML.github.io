@@ -50,8 +50,8 @@ def flatten_tex_macros(source_file, macros, output_file):
     print(f"✅ Flattened file written to: {output_file}")
 
 # === USAGE ===
-macros_file = "assets/ml_macros.tex"
-source_file = "ADictML_Glossary_English.tex"
+macros_file = "ml_macros.tex"
+source_file = "../ADictML_Glossary_English.tex"
 output_file = "ADictML_Glossary_Expanded.tex"
 
 macros = parse_macros_with_args(macros_file)
