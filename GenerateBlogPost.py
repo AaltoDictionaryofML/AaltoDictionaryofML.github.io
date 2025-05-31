@@ -1,19 +1,12 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat May 31 10:55:54 2025
-
-@author: junga1
-"""
-
 import os
 import re
 import subprocess
 from pathlib import Path
 from datetime import date
 
-# Configurations
-GLOSSARY_FILE = "glossary_entries.tex"
+# Configuration
+GLOSSARY_FILE = "ADictML_Glossary_English.tex"
+TARGET_LABEL = "generalization"  # <-- Change this to the desired glossary label
 BLOG_DIR = Path("blog_posts")
 IMG_DIR = BLOG_DIR / "images"
 
@@ -21,28 +14,81 @@ BLOG_TEMPLATE = """---
 title: "{title}"
 date: {date}
 tags: [machine learning, glossary]
-math: true
 ---
 
 {content}
 
-{img_section}
+![Figure]({img_path})
 """
 
 BLOG_DIR.mkdir(parents=True, exist_ok=True)
 IMG_DIR.mkdir(parents=True, exist_ok=True)
 
-def extract_all_entries(tex_file):
+
+
+def extract_glossary_entry(tex_file, label):
     with open(tex_file, "r", encoding="utf-8") as f:
         content = f.read()
 
-    pattern = r"\\newglossaryentry\{(.*?)\}\{.*?description=\{(.*?)\},\s*first="  # capture label and description
-    return re.findall(pattern, content, re.DOTALL)
+    # Step 1: Find start of \newglossaryentry{label}{
+    start_marker = f"\\newglossaryentry{{{label}}}{{"
+    start_idx = content.find(start_marker)
+    if start_idx == -1:
+        raise ValueError(f"No glossary entry found for label '{label}'")
+
+    # Step 2: Read from opening brace after marker
+    brace_idx = content.find("{", start_idx + len(start_marker))
+    if brace_idx == -1:
+        raise ValueError("Malformed glossary entry")
+
+    # Step 3: Find the matching closing brace
+    brace_count = 1
+    end_idx = brace_idx + 1
+    while brace_count > 0 and end_idx < len(content):
+        if content[end_idx] == "{":
+            brace_count += 1
+        elif content[end_idx] == "}":
+            brace_count -= 1
+        end_idx += 1
+
+    entry_body = content[brace_idx + 1:end_idx - 1]  # everything inside {...}
+
+    # Step 4: Parse description={...} at top level of entry_body
+    i = 0
+    while i < len(entry_body):
+        if entry_body[i:].startswith("description={"):
+            # Found start of description
+            i += len("description={")
+            desc_start = i
+            brace_count = 1
+            while brace_count > 0 and i < len(entry_body):
+                if entry_body[i] == "{":
+                    brace_count += 1
+                elif entry_body[i] == "}":
+                    brace_count -= 1
+                i += 1
+            description = entry_body[desc_start:i - 1]
+            return label, description.strip()
+        i += 1
+
+    raise ValueError(f"No description found in entry '{label}'")
+
+
 
 def extract_tikz_and_caption(description):
-    tikz_match = re.search(r"\\begin{tikzpicture}(.*?)\\end{tikzpicture}", description, re.DOTALL)
-    caption_match = re.search(r"\\caption\{(.*?)\}", description, re.DOTALL)
-    return tikz_match.group(1) if tikz_match else "", caption_match.group(1) if caption_match else ""
+    print(description)
+    figure_match = re.search(
+        r"\\begin\{figure\}.*?\\begin\{tikzpicture\}(.*?)\\end\{tikzpicture\}.*?\\caption\{(.*?)\}",
+        description,
+        re.DOTALL
+    )
+    if figure_match:
+        print(figure_match)
+        tikz_code = figure_match.group(1)
+        caption = figure_match.group(2)
+        return tikz_code, caption
+    return "", ""
+
 
 def compile_tikz(tikz_code, fig_name):
     tex_doc = f"""
@@ -67,43 +113,43 @@ def compile_tikz(tikz_code, fig_name):
 
     return png_path
 
-def sanitize_text_for_blog(text):
-    # Convert LaTeX math mode to MathJax-style `$...$`
-    text = re.sub(r"\$(.*?)\$", r"\\(\1\\)", text, flags=re.DOTALL)
-    # Clean glossary and citation commands
+def sanitize_latex_text(text):
     text = re.sub(r"\\gls(pl)?\{.*?\}", "", text)
     text = re.sub(r"\\index\{.*?\}", "", text)
     text = re.sub(r"\\cite\{.*?\}", "", text)
+    text = re.sub(r"\$.*?\$", "", text)
+    text = re.sub(r"\\begin\{figure\}.*?\\end\{figure\}", "", text, flags=re.DOTALL)
     text = re.sub(r"\\newpage", "", text)
-    text = re.sub(r"\\label\{.*?\}", "", text)
     return text.strip()
 
-def create_blog_post(term_name, description, image_path=None, caption=""):
-    clean_text = sanitize_text_for_blog(description)
-
+def create_blog_post(term_name, description, image_path):
+    clean_text = sanitize_latex_text(description)
+    today = date.today().isoformat()
+    title = term_name.capitalize()
     img_rel_path = f"./images/{image_path.name}" if image_path else ""
-    img_section = f"![{caption}]({img_rel_path})" if image_path else ""
 
-    post = BLOG_TEMPLATE.format(
-        title=term_name.capitalize(),
-        date=date.today().isoformat(),
+    blog_content = BLOG_TEMPLATE.format(
+        title=title,
+        date=today,
         content=clean_text,
-        img_section=img_section
+        img_path=img_rel_path
     )
 
     post_path = BLOG_DIR / f"{term_name}.md"
     with open(post_path, "w", encoding="utf-8") as f:
-        f.write(post)
+        f.write(blog_content)
 
 def main():
-    entries = extract_all_entries(GLOSSARY_FILE)
-    for term_name, description in entries:
-        print(f"Processing term: {term_name}")
-        tikz_code, caption = extract_tikz_and_caption(description)
-        fig_path = None
-        if tikz_code:
-            fig_path = compile_tikz(tikz_code, term_name)
-        create_blog_post(term_name, description, fig_path, caption)
+    term_name, description = extract_glossary_entry(GLOSSARY_FILE, TARGET_LABEL)
+    tikz_code, caption = extract_tikz_and_caption(description)
+
+    if tikz_code:
+        fig_path = compile_tikz(tikz_code, term_name)
+        create_blog_post(term_name, description, fig_path)
+        print(f"✅ Blog post for '{term_name}' created with image.")
+    else:
+        create_blog_post(term_name, description, None)
+        print(f"✅ Blog post for '{term_name}' created without image.")
 
 if __name__ == "__main__":
     main()
