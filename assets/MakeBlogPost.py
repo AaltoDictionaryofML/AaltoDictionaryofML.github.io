@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from networkx.algorithms.community import greedy_modularity_communities
 import tempfile
 import os
+from pathlib import Path
+from datetime import date
 import subprocess
 from pdf2image import convert_from_path
 
@@ -113,6 +115,83 @@ def generate_texfile_with_image(term, description, image_path, output_dir="blog_
 
         
 
+
+def generate_blog_post(
+    tex_file,
+    bib_file,
+    output_dir="blog_posts",
+    title="Dictionary of ML – Geometric Median",
+    seo_title="Geometric Median – A Robust Alternative to the Mean in Machine Learning",
+    seo_description="Understand the geometric median, a key concept in robust statistics and machine learning, minimizing total distance to data points and outperforming the mean under outliers.",
+    post_slug="geometric-median",
+    post_date=None
+):
+    """
+    Converts a LaTeX file to Markdown using Pandoc and adds Jekyll front matter.
+
+    Args:
+        tex_file (str): Path to LaTeX file.
+        bib_file (str): Path to BibTeX file.
+        output_dir (str): Directory to save generated .md post.
+        title (str): Title for the blog post.
+        seo_title (str): SEO title for the blog post.
+        seo_description (str): SEO description.
+        post_slug (str): Filename slug.
+        post_date (str): Publication date (YYYY-MM-DD), defaults to today.
+    """
+    post_date = post_date or date.today().isoformat()
+    filename = f"{post_date}-{post_slug}.md"
+    output_path = Path(output_dir) / filename
+
+    os.makedirs(output_path.parent, exist_ok=True)
+
+    # Temporary file for Pandoc output (without front matter)
+    temp_md_path = Path("temp_pandoc_output.md")
+
+    # Build and run Pandoc command
+    command = [
+        "pandoc",
+        tex_file,
+        "-o", str(temp_md_path),
+        "--from=latex",
+        "--to=markdown",
+        "--standalone",
+        "--citeproc",
+        f"--bibliography={bib_file}"
+    ]
+
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as e:
+        print("❌ Pandoc conversion failed:", e)
+        return
+
+    # Read and wrap with front matter
+    with open(temp_md_path, "r", encoding="utf-8") as f:
+        markdown_body = f.read()
+
+    front_matter = f"""---
+layout: post
+title: "{title}"
+date: {post_date}
+seo_title: "{seo_title}"
+seo_description: "{seo_description}"
+markdown: kramdown
+---
+
+"""
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(front_matter + markdown_body)
+
+    os.remove(temp_md_path)
+
+    print(f"✅ Blog post written to: {output_path}")
+
+
+
+
+
 # --- Step 1: Load LaTeX glossary content ---
 with open("ADictML_Glossary_Expanded.tex", "r", encoding="utf-8") as f:
     content = f.read()
@@ -163,14 +242,25 @@ for key, body in entries:
     glossary[key.strip()] = desc_text
 
 
-entry_text = glossary["generalization"]
+blog_sample_term= "generalization"
+entry_text = glossary[blog_sample_term]
 try:
     tikz_code = extract_tikz_from_entry(entry_text)
-    compile_tikz_to_png(tikz_code, "generalization_tikz")
+    compile_tikz_to_png(tikz_code, blog_sample_term+"_tikz")
     generate_texfile_with_image(
-        term="generalization",
+        term=blog_sample_term,
         description=entry_text,
-        image_path="blog_posts/images/generalization_tikz.png"
+        image_path="blog_posts/images/"+blog_sample_term+"_tikz.png"
     )
+    generate_blog_post(
+       tex_file="blog_posts/"+blog_sample_term+".tex" ,
+       bib_file="Literature.bib",
+       post_slug="generalization",
+       title="Aalto Dictionary of ML – "+blog_sample_term,
+       seo_title="Generalization – How Machine Learning Models Handle Unseen Data",
+       seo_description="Explore the concept of generalization in machine learning: how models trained on a dataset perform on new, unseen data.",
+       output_dir="blog_posts"
+   )
+
 except Exception as e:
     print("Error:", e)

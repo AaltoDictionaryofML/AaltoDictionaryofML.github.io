@@ -34,10 +34,4 @@ Explore how key concepts relate to one another:
 
 ## 📌 Citation
 
-```bibtex
-@book{jung2025dictionary,
-  author    = {Alexander Jung and Konstantina Olioumtsevits},
-  title     = {The Aalto Dictionary of Machine Learning},
-  year      = {2025},
-  url       = {https://aaltodictionaryofml.github.io/}
-}
+Jung, A., & Olioumtsevits, K. (2025). *The Aalto Dictionary of Machine Learning*. Retrieved from [https://aaltodictionaryofml.github.io](https://aaltodictionaryofml.github.io)

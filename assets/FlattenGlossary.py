@@ -24,21 +24,18 @@ def remove_index_commands(content):
     """
     return re.sub(r'\\index\{[^{}]*\}', '', content)
 
-def flatten_glossary_macros(content, glossary_names):
+def flatten_glossary_macros(content, glossary_data):
     """
-    Replaces \gls{key} with the corresponding name.
-    \glspl{key} appends 's' to the name (basic plural).
+    Replaces \gls{key} → name and \glspl{key} → firstplural.
     """
-    # Replace \glspl{key}
     content = re.sub(
         r'\\glspl\{([^\{\}]+)\}',
-        lambda m: glossary_names.get(m.group(1), m.group(1)) + 's',
+        lambda m: glossary_data.get(m.group(1), {}).get("firstplural", m.group(1) + "s"),
         content
     )
-    # Replace \gls{key}
     content = re.sub(
         r'\\gls\{([^\{\}]+)\}',
-        lambda m: glossary_names.get(m.group(1), m.group(1)),
+        lambda m: glossary_data.get(m.group(1), {}).get("name", m.group(1)),
         content
     )
     return content
@@ -104,16 +101,14 @@ def extract_balanced_braces(s, start):
     
 def parse_glossary_names(source_file):
     """
-    Parses glossary key → name from \newglossaryentry{key}{...} definitions.
-    Handles multiline, nested glossary bodies with spacing.
-    Returns a dictionary {key: name}.
+    Parses glossary key → {'name': ..., 'firstplural': ...} from \newglossaryentry definitions.
+    Handles multiline and nested braces.
     """
-    glossary_names = {}
+    glossary_data = {}
 
     with open(source_file, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Match \newglossaryentry{key} and find start of {body}
     entry_start_pattern = re.compile(r'\\newglossaryentry\{([^\}]+)\}\s*\{', re.MULTILINE)
     pos = 0
     while True:
@@ -122,7 +117,7 @@ def parse_glossary_names(source_file):
             break
 
         key = match.group(1)
-        brace_start = match.end() - 1  # the opening `{` of the body
+        brace_start = match.end() - 1
         try:
             body, next_pos = extract_balanced_braces(content, brace_start)
         except Exception as e:
@@ -130,19 +125,22 @@ def parse_glossary_names(source_file):
             pos = match.end()
             continue
 
-        # Remove LaTeX comments
         body_cleaned = re.sub(r'%.*', '', body)
 
-        # Find name={...}
         name_match = re.search(r'name\s*=\s*\{([^{}]*)\}', body_cleaned)
+        plural_match = re.search(r'firstplural\s*=\s*\{([^{}]*)\}', body_cleaned)
+
         if name_match:
-            glossary_names[key.strip()] = name_match.group(1).strip()
+            glossary_data[key.strip()] = {
+                'name': name_match.group(1).strip(),
+                'firstplural': plural_match.group(1).strip() if plural_match else name_match.group(1).strip() + 's'
+            }
         else:
             print(f"⚠️ No name=... found in entry '{key}'")
 
-        pos = next_pos  # continue search from end of current entry
+        pos = next_pos
 
-    return glossary_names
+    return glossary_data
 
 
 
