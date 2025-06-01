@@ -7,6 +7,9 @@ from networkx.algorithms.community import greedy_modularity_communities
 from jinja2 import Environment, FileSystemLoader
 import json
 
+# Change working directory to the directory of this script
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 # --- Step 1: Load LaTeX glossary content ---
 with open("../ADictML_Glossary_English.tex", "r", encoding="utf-8") as f:
     content = f.read()
