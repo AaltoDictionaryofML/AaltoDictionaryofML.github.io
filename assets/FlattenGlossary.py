@@ -48,6 +48,49 @@ def expand_macro(name, args, body):
         body = body.replace(f"#{i}", arg)
     return body
 
+def replace_macro_calls_with_nested_args(text, name, num_args, body):
+    pattern = re.compile(rf'\\{name}(?![a-zA-Z@])')
+    pos = 0
+    result = []
+
+    while pos < len(text):
+        match = pattern.search(text, pos)
+        if not match:
+            result.append(text[pos:])
+            break
+
+        start = match.start()
+        end = match.end()
+        args = []
+        current_pos = end
+
+        try:
+            for _ in range(num_args):
+                # Skip whitespace
+                while current_pos < len(text) and text[current_pos].isspace():
+                    current_pos += 1
+
+                if current_pos >= len(text) or text[current_pos] != '{':
+                    context = text[start:start+50].replace('\n', ' ')
+                    print(f"⚠️ Could not expand \\{name} at pos {start}: expected '{{' at pos {current_pos}")
+                    print(f"    ↪ Context: '{context.strip()}...'")
+                    raise ValueError("Expected '{'")
+
+                arg, current_pos = extract_balanced_braces(text, current_pos)
+                args.append(arg)
+
+            expansion = expand_macro(name, args, body)
+            result.append(text[pos:start])
+            result.append(expansion)
+            pos = current_pos
+
+        except Exception:
+            result.append(text[pos:end])
+            pos = end
+
+    return ''.join(result)
+
+
 def flatten_tex_macros(source_file, macros, output_file, glossary_names):
     """
     Replaces macro invocations in a LaTeX file with their expanded definitions.
@@ -69,14 +112,16 @@ def flatten_tex_macros(source_file, macros, output_file, glossary_names):
                 pattern1 = re.compile(rf'\\{name}\{{([^{{}}]*)\}}')
                 pattern2 = re.compile(rf'\\{name}_\{{([^{{}}]*)\}}')
 
-                content = pattern1.sub(lambda m: expand_macro(name, [m.group(1)], body), content)
-                content = pattern2.sub(lambda m: expand_macro(name, [m.group(1)], body), content)
+               # content = pattern1.sub(lambda m: expand_macro(name, [m.group(1)], body), content)
+                #content = pattern2.sub(lambda m: expand_macro(name, [m.group(1)], body), content)
+                content = replace_macro_calls_with_nested_args(content, name, num_args, body)
             else:
                 # Match \macro{a}{b}... (n args)
-                args_group = ''.join([r'\{([^{}]*)\}'] * num_args)
-                pattern = re.compile(rf'\\{name}{args_group}')
+               # args_group = ''.join([r'\{([^{}]*)\}'] * num_args)
+               # pattern = re.compile(rf'\\{name}{args_group}')
 
-                content = pattern.sub(lambda m: expand_macro(name, list(m.groups()), body), content)
+               # content = pattern.sub(lambda m: expand_macro(name, list(m.groups()), body), content)
+                content = replace_macro_calls_with_nested_args(content, name, num_args, body)
 
         changed = (content != previous_content)
     content = flatten_glossary_macros(content, glossary_names)

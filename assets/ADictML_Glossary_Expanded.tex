@@ -286,7 +286,7 @@
 		$$\mathcal{H}:= \big\{ {\bf \Phi}: \mathbb{R}^{d}
 		\!\rightarrow\! \mathbb{R}^{d'}\!:\!{\bf x}'\!:=\!\mathbf{F} {\bf x} \mbox{ with some } \mathbf{F} \!\in\! \mathbb{R}^{d' \times d} \big\}.$$ \Gls{pca} measures the usefulness of a specific map ${\bf \Phi}({\bf x})= \mathbf{F} {\bf x}$ 
 	by the minimum linear reconstruction error incurred on a dataset such that 
-$$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \normgeneric{\mathbf{G} \mathbf{F} {\bf x}^{(r)} - {\bf x}^{(r)}}{2}^{2}.$$ 
+$$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \left\Vert  {\mathbf{G} \mathbf{F} {\bf x}^{(r)} - {\bf x}^{(r)}} \right\Vert_{2}^{2}.$$ 
 			\\ 
 		See also: machine learning (ML), data point, feature, feature space, hypothesis space, principal component analysis (PCA), minimum, dataset.}, 
 	first={feature learning},text={feature learning}
@@ -596,7 +596,7 @@ $$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \normgeneric{\
 
 
 \newglossaryentry{connected}{name ={connected graph}, description={An 
-		undirected graph $\mathcal{G}=\pair{\mathcal{V}}{\mathcal{E}}$ is connected if every 
+		undirected graph $\mathcal{G}=\left( \mathcal{V},\mathcal{E} \right)$ is connected if every 
 		non-empty subset $\mathcal{V}' \subset \mathcal{V}$ has at least one edge connecting it to $\mathcal{V} \setminus \mathcal{V}'$.
 					\\ 
 		See also: graph.}, 
@@ -606,7 +606,7 @@ $$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \normgeneric{\
 
 \newglossaryentry{mvndist}{name ={multivariate normal distribution}, 
 	description={The multivariate normal distribution 
-		$\mvnormal{{\bf m}}{{\bf C}}$ is an important probabilistic model for numeric feature vectors. 
+		$\mathcal{N}\left({\bf m},{\bf C}\right)$ is an important probabilistic model for numeric feature vectors. 
 		It is a family of probability distributions for a vector-valued random variable (RV) 
 		${\bf x} \in \mathbb{R}^{d}$ \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
 		Each family member (i.e., a specific probability distribution) is specified by its mean ${\bf m}$ and  
@@ -633,13 +633,13 @@ $$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \normgeneric{\
 		See also: machine learning (ML), empirical risk minimization (ERM), gradient step, model parameters, gradient descent (GD).}, first={computational aspects},text={computational aspects}}
 
 \newglossaryentry{zerooneloss}{name={$\bf 0/1$ loss},
-	description={The $0/1$ loss $\lossfunczo{\left( {\bf x},y \right)}{h}$ 
+	description={The $0/1$ loss $L^{(0/1)}\left(\left( {\bf x},y \right),h \right)$ 
 		measures the quality of a classifier $h({\bf x})$ that delivers a 
 		prediction $\hat{y}$ (e.g., via thresholding \eqref{equ_def_threshold_bin_classifier_dict}) 
 		for the label $y$ of a data point with features ${\bf x}$. It is equal to $0$ if 
 		the prediction is correct, i.e., 
-	$\lossfunczo{\left( {\bf x},y \right)}{h}=0$ when $\hat{y}=y$. It is 
-	equal to $1$ if the prediction is wrong, i.e., $\lossfunczo{\left( {\bf x},y \right)}{h}=1$ 
+	$L^{(0/1)}\left(\left( {\bf x},y \right),h \right)=0$ when $\hat{y}=y$. It is 
+	equal to $1$ if the prediction is wrong, i.e., $L^{(0/1)}\left(\left( {\bf x},y \right),h \right)=1$ 
 	when $\hat{y}\neqy$.
 				\\ 
 		See also: loss, classifier, prediction, label, data point, feature.},
@@ -722,8 +722,8 @@ $$ \min_{\mathbf{G} \in \mathbb{R}^{d \times d'}} \sum_{r=1}^{m} \normgeneric{\
   	\]
   	For a fixed input space $\mathcal{X}$, a GP is fully specified (or parametrized) by 
   	\begin{itemize}
-  		\item a mean function $\mu({\bf x}) = \expect\{ f({\bf x})\}$
-  		\item and a covariance function $K\big({\bf x},{\bf x}'\big)= \expect\{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.
+  		\item a mean function $\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$
+  		\item and a covariance function $K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.
   	\end{itemize}
   	\text{Example:} We can interpret the temperature distribution across Finland (at a specific 
   	point in time) as the realization of a GP $f({\bf x})$, where each input ${\bf x} = (\text{lat}, \text{lon})$ 
@@ -815,13 +815,13 @@ text={squared error loss}
  \newglossaryentry{projection}
  {name={projection}, 
        description={Consider a subset $\mathcal{W} \subseteq \mathbb{R}^{d}$ of 
-	   the $d$-dimensional Euclidean space. We define the projection $\projection{\mathcal{W}}{{\bf w}}$
+	   the $d$-dimensional Euclidean space. We define the projection $P_{\mathcal{W}}\big( {\bf w}\big) $
 	   of a vector ${\bf w} \in \mathbb{R}^{d}$ onto $\mathcal{W}$ as
 		\begin{equation} 
    	    \label{equ_def_proj_generic_dict}
-  	     \projection{\mathcal{W}}{{\bf w}} = \argmin_{{\bf w}' \in \mathcal{W}} \left\Vert  {{\bf w} - {\bf w}'} \right\Vert_{2}. 
+  	     P_{\mathcal{W}}\big( {\bf w}\big)  = \argmin_{{\bf w}' \in \mathcal{W}} \left\Vert  {{\bf w} - {\bf w}'} \right\Vert_{2}. 
          \end{equation}
-		 In other words, $\projection{\mathcal{W}}{{\bf w}}$ is the vector in $\mathcal{W}$ 
+		 In other words, $P_{\mathcal{W}}\big( {\bf w}\big) $ is the vector in $\mathcal{W}$ 
 		 which is closest to ${\bf w}$. The projection is only well-defined for subsets $\mathcal{W}$ 
 		 for which the above minimum exists \cite{BoydConvexBook}.
 		 			\\ 
@@ -851,7 +851,7 @@ and then projecting the result back onto the parameter space.
 			\draw[line width =0.5mm,dashed,->] (2.83,1) -- node[midway,above] {grad. step} (-1.5,1);
 			\draw[line width =0.2mm,dashed] (-1.5,1) --(-1.5,-1.5)  node [below, left]{$\widehat{{\bf w}}={\bf w}\!-\!\eta \nabla f\big({\bf w}\big)$} ;
 			\draw[line width =0.5mm,dashed,->] (-1.5,-1.5)  -- node[midway,above] {} (1,-1.5) ; 
-			\draw [fill] (1,-1.5) circle [radius=0.1] node[below] {$\projection{\mathcal{W}}{\widehat{{\bf w}}}$};
+			\draw [fill] (1,-1.5) circle [radius=0.1] node[below] {$P_{\mathcal{W}}\big( \widehat{{\bf w}}\big) $};
 			\draw[line width=1mm] (1,-1.5) -- (3,-1.5) node[midway, above] {$\mathcal{W}$};
 		\end{tikzpicture}
 		\vspace*{-5mm}
@@ -1000,10 +1000,10 @@ and then projecting the result back onto the parameter space.
 	name={mean}, plural={means},
 	description={The  mean of an random variable (RV) ${\bf x}$, taking 
  values in an Euclidean space $\mathbb{R}^{d}$, is its 
- expectation $\expect\{{\bf x}\}$. It is defined as the Lebesgue 
+ expectation $\mathbb{E} \{{\bf x}\}$. It is defined as the Lebesgue 
  integral of ${\bf x}$ with respect to the underlying probability distribution $P$ (e.g., see \cite{BillingsleyProbMeasure} or \cite{RudinBookPrinciplesMatheAnalysis}), i.e.,
 \[
-\expect\{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x} \, \mathrm{d}P({\bf x}).
+\mathbb{E} \{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x} \, \mathrm{d}P({\bf x}).
 \] 
 We also use the term to refer to the average of a finite sequence 
 ${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$. However, 
@@ -1021,9 +1021,9 @@ precisely the average $\frac{1}{m} \sum_{r=1}^{m} {\bf x}^{(r)}$.
 {
 	name={variance},
 	description={The variance of a real-valued random variable (RV) $x$ is defined as the expectation 
-		$\expect\big\{ \big( x - \expect\{x \} \big)^{2} \big\}$ of the squared difference between $x$ 
-		and its expectation $\expect\{x \}$. We extend this definition to vector-valued random variable (RV)s ${\bf x}$ 
-		as $\expect\big\{ \big\| {\bf x} - \expect\{{\bf x} \} \big\|_{2}^{2} \big\}$.
+		$\mathbb{E} \big\{ \big( x - \mathbb{E} \{x \} \big)^{2} \big\}$ of the squared difference between $x$ 
+		and its expectation $\mathbb{E} \{x \}$. We extend this definition to vector-valued random variable (RV)s ${\bf x}$ 
+		as $\mathbb{E} \big\{ \big\| {\bf x} - \mathbb{E} \{{\bf x} \} \big\|_{2}^{2} \big\}$.
 					\\ 
 		See also: random variable (RV), expectation.} ,first={variance},text={variance} 
 }
@@ -1067,12 +1067,12 @@ precisely the average $\frac{1}{m} \sum_{r=1}^{m} {\bf x}^{(r)}$.
 {
 	name={bias},
 	description={Consider an machine learning (ML) method using a parametrized hypothesis space $\mathcal{H}$. 
-		It learns the model parameters ${\bf w} \in \mathbb{R}^{d}$ using the dataset $$ \mathcal{D}=\big\{ \pair{{\bf x}^{(r)}}{y^{(r)}} \big\}_{r=1}^{m}.$$ 
+		It learns the model parameters ${\bf w} \in \mathbb{R}^{d}$ using the dataset $$ \mathcal{D}=\big\{ \left( {\bf x}^{(r)},y^{(r)} \right) \big\}_{r=1}^{m}.$$ 
 		To analyze the properties of the machine learning (ML) method, we typically interpret the data points as realizations 
 		of independent and identically distributed (i.i.d.) random variable (RV)s, $$ y^{(r)} = h^{(\overline{{\bf w}})}\big( {\bf x}^{(r)} \big) + \bm{\varepsilon}^{(r)}, r=1,\ldots,m.$$ 
 		We can then interpret the machine learning (ML) method as an estimator $\widehat{{\bf w}}$ 
 		computed from $\mathcal{D}$ (e.g., by solving empirical risk minimization (ERM)). The (squared) bias incurred by the estimate $\widehat{{\bf w}}$ 
-		is then defined as $B^{2} := \big\| \expect \{ \widehat{{\bf w}}  \}- \overline{{\bf w}}\big\|_{2}^{2}$.
+		is then defined as $B^{2} := \big\| \mathbb{E}  \{ \widehat{{\bf w}}  \}- \overline{{\bf w}}\big\|_{2}^{2}$.
 					\\ 
 		See also: machine learning (ML), hypothesis space, model parameters, dataset, data point, realization, independent and identically distributed (i.i.d.), random variable (RV), empirical risk minimization (ERM).},
 first={bias},text={bias} 
@@ -1143,7 +1143,7 @@ first={bias},text={bias}
 
 \newglossaryentry{emprisk}
 {name={empirical risk},
-  description={The empirical risk $\emprisk{h}{\mathcal{D}}$ 
+  description={The empirical risk $\widehat{L}\big(h|\mathcal{D}\big)$ 
   	of a hypothesis on a dataset $\mathcal{D}$ is the average loss incurred 
   	by $h$ when applied to the data points in $\mathcal{D}$.
 				\\ 
@@ -1161,7 +1161,7 @@ first={bias},text={bias}
 
 \newglossaryentry{graph}
 {name={graph},
-	description={A graph $\mathcal{G} = \pair{\mathcal{V}}{\mathcal{E}}$ is a pair that consists of 
+	description={A graph $\mathcal{G} = \left( \mathcal{V},\mathcal{E} \right)$ is a pair that consists of 
 		a node set $\mathcal{V}$ and an edge set $\mathcal{E}$. In its most general form, a graph is 
 		specified by a map that assigns each edge $e \in \mathcal{E}$ a pair of nodes \cite{RockNetworks}. 
 		One important family of graphs is simple undirected graphs. A simple undirected graph 
@@ -1292,7 +1292,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={dual norm},
 description={Every norm $\left\Vert  {\cdot} \right\Vert_{}$ defined on an Euclidean space $\mathbb{R}^{d}$ 
 		has an associated dual norm, which is denoted $\left\Vert  {\cdot} \right\Vert_{*}$ and defined as 
-		$\normgeneric{{\bf y}}{*} := \sup_{\norm{{\bf x}}{} \le 1} {\bf y}^{T} {\bf x}$. 
+		$\left\Vert  {{\bf y}} \right\Vert_{*} := \sup_{\Vert  {{\bf x}} \Vert{} \le 1} {\bf y}^{T} {\bf x}$. 
 		The dual norm measures the largest possible inner product between ${\bf y}$ 
 		and any vector in the unit ball of the original norm. For further details, see 
 		\cite[Sec.~A.1.6]{BoydConvexBook}.
@@ -1309,7 +1309,7 @@ description={Every norm $\left\Vert  {\cdot} \right\Vert_{}$ defined on an Eucli
 		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
 		\begin{equation} 
 			\label{equ_geometric_median}
-		{\bf z} \in \argmin_{{\bf y} \in \mathbb{R}^{d}} \sum_{r=1}^{m} \normgeneric{{\bf y} - {\bf x}^{(r)}}{2}.
+		{\bf z} \in \argmin_{{\bf y} \in \mathbb{R}^{d}} \sum_{r=1}^{m} \left\Vert  {{\bf y} - {\bf x}^{(r)}} \right\Vert_{2}.
 		\end{equation} 
 	Figure~\ref{opt_cond_GM} illustrates a fundamental property of the GM:
 	If ${\bf z}$ does not coincide with any of the input vectors, then the unit vectors pointing 
@@ -1334,7 +1334,7 @@ description={Every norm $\left\Vert  {\cdot} \right\Vert_{}$ defined on an Eucli
 				\draw[dashed] (w) -- (w3);
 %				% Draw unit vectors (scaled to 1cm)
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
-				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{{\bf x}^{(2)}- {\bf z}}{\normgeneric{{\bf x}^{(2)}-{\bf z}}{2}}$};
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{{\bf x}^{(2)}- {\bf z}}{\left\Vert  {{\bf x}^{(2)}-{\bf z}} \right\Vert_{2}}$};
 %				\node at (-0.2,1.4) {\textbf{Clean}};
 				\coordinate (w4) at (5,0.2);
 				\node at (5,0.4) {\textbf{Perturbed}};
@@ -1376,7 +1376,7 @@ description={Every norm $\left\Vert  {\cdot} \right\Vert_{}$ defined on an Eucli
 		If we interpret data points as the realizations of independent and identically distributed (i.i.d.) random variable (RV)s, 
 		also the $L\left(({\bf x},y),h \right)$ becomes the realization 
 		of an random variable (RV). The independent and identically distributed assumption (i.i.d.\ assumption) allows us to define the risk of a hypothesis 
-		as the expected loss $\expect \big\{L\left(({\bf x},y),h \right) \big\}$. 
+		as the expected loss $\mathbb{E}  \big\{L\left(({\bf x},y),h \right) \big\}$. 
 		Note that the risk of $h$ depends on both the specific choice for the loss function and the 
 		probability distribution of the data points.
 					\\ 
@@ -1692,7 +1692,7 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 	description={Spectral clustering is a particular instance of 
 		graph clustering, i.e., it clusters data points 
 		represented as the nodes $i=1,\ldots,n$ of a graph $\mathcal{G}$. 
-		Spectral clustering uses the eigenvectors of the Laplacian matrix $\LapMat{\mathcal{G}}$ 
+		Spectral clustering uses the eigenvectors of the Laplacian matrix ${\bf L}^{(\mathcal{G})}$ 
 		to construct feature vectors ${\bf x}^{(i)} \in \mathbb{R}^{d}$ 
 		for each node (i.e., for each data point) $i=1,\ldots,n$. We can feed these feature vectors 
 		into Euclidean space-based clustering methods, such as $k$-means 
@@ -1724,7 +1724,7 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 				\hspace*{5mm}
 				\begin{minipage}{0.4\textwidth}
 					\begin{equation} 
-						\LapMat{\mathcal{G}}\!=\!
+						{\bf L}^{(\mathcal{G})}\!=\!
 						\begin{pmatrix} 
 							2 & -1 & -1 & 0 \\ 
 							-1 & 1 & 0 & 0 \\  
@@ -1765,11 +1765,11 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 				\end{minipage} 
 				\caption{\label{fig_lap_mtx_specclustering_dict} {\bf Top.} Left: An undirected graph 
 					$\mathcal{G}$ with four nodes $i=1,2,3,4$, each representing a data point. Right: The Laplacian matrix 
-					$\LapMat{\mathcal{G}}  \in \mathbb{R}^{4 \times 4}$ and its eigenvalue decomposition (EVD). 
+					${\bf L}^{(\mathcal{G})}  \in \mathbb{R}^{4 \times 4}$ and its eigenvalue decomposition (EVD). 
 					{\bf Bottom.} Left: A scatterplot of data points using the feature vectors 
 					${\bf x}^{(i)} = \big( v^{(1)}_{i},v^{(2)}_{i} \big)^{T}$. 
 					Right: Two eigenvectors ${\bf v}^{(1)},{\bf v}^{(2)} \in \mathbb{R}^{d}$ 
-					corresponding to the eigenvalue $\lambda=0$ of the Laplacian matrix $\LapMat{\mathcal{G}}$. 
+					corresponding to the eigenvalue $\lambda=0$ of the Laplacian matrix ${\bf L}^{(\mathcal{G})}$. 
 					} 
 			\end{center}
 		\end{figure}
@@ -1828,7 +1828,7 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 		we define the estimation error $\Delta {\bf w} := \widehat{w} - \overline{{\bf w}}$. 
 		Here, $\overline{{\bf w}}$ denotes the true model parameters of the probability distribution 
 		of ${\bf z}$. The MSEE is 
-		defined as the expectation $\expect \big\{ \big\| \Delta {\bf w} \big\|^{2} \big\}$ of the 
+		defined as the expectation $\mathbb{E}  \big\{ \big\| \Delta {\bf w} \big\|^{2} \big\}$ of the 
 		squared Euclidean norm of the estimation error \cite{LC}, \cite{kay}.
 					\\ 
 		See also: machine learning (ML), model parameters, dataset, data point, independent and identically distributed (i.i.d.), realization, random variable (RV), estimation error, probability distribution, expectation, norm, mean.},
@@ -1859,7 +1859,7 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 		a categorical label $y$ which takes on values from a finite label space $\mathcal{Y}$. The 
 		accuracy of a hypothesis $h: \mathcal{X} \rightarrow \mathcal{Y}$, when applied 
 		to the data points in a dataset $\mathcal{D} = \big\{ \big({\bf x}^{(1)}, y^{(1)} \big), \ldots, \big({\bf x}^{(m)},y^{(m)}\big) \big\}$, 
-		is then defined as $1 - (1/m)\sum_{r=1}^{m} \lossfunczo{\big({\bf x}^{(r)},y^{(r)}\big)}{h}$ using the $\bf 0/1$ loss $L^{(0/1)}\left(\cdot,\cdot \right)$.
+		is then defined as $1 - (1/m)\sum_{r=1}^{m} L^{(0/1)}\left(\big({\bf x}^{(r)},y^{(r)}\big),h \right)$ using the $\bf 0/1$ loss $L^{(0/1)}\left(\cdot,\cdot \right)$.
 					\\ 
 		See also: data point, feature, label space, hypothesis, dataset, $\bf 0/1$ loss.},
 	first={accuracy},text={accuracy} 
@@ -1912,7 +1912,7 @@ $\sigma^{2}_{y|{\bf x}}$ (see Fig. \ref{fig_post_baseline_dict}).
 \newglossaryentry{strcvx}
 {name={strongly convex},
 	description={A continuously differentiable real-valued 
-		function $f({\bf x})$ is strongly convex with coefficient $\sigma$ if $f({\bf y}) \geq f({\bf x}) + \nabla f({\bf x})^{T} ({\bf y} - {\bf x}) + (\sigma/2) \normgeneric{{\bf y} - {\bf x}}{2}^{2}$ \cite{nesterov04},\cite[Sec. B.1.1]{CvxAlgBertsekas}.
+		function $f({\bf x})$ is strongly convex with coefficient $\sigma$ if $f({\bf y}) \geq f({\bf x}) + \nabla f({\bf x})^{T} ({\bf y} - {\bf x}) + (\sigma/2) \left\Vert  {{\bf y} - {\bf x}} \right\Vert_{2}^{2}$ \cite{nesterov04},\cite[Sec. B.1.1]{CvxAlgBertsekas}.
 					\\ 
 		See also: differentiable, convex.},
 	first={strongly convex},text={strongly convex} 
@@ -2118,7 +2118,7 @@ description={For a real-valued function $f: \mathbb{R}^{d} \rightarrow \mathbb{R
 	 (with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
 	 as follows: For any finite set of feature vectors ${\bf x}^{(1)},\dots,{\bf x}^{(m)}$, 
 	 the resulting matrix $\mathbf{Q} \in \mathbb{R}^{m \times m}$ with 
-	entries $Q_{r,r'} = \kernelmap{{\bf x}^{(r)}}{{\bf x}^{(r')}}$ 
+	entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
 	is psd \cite{LearningKernelsBook}.
 			\\
 		See also: kernel, feature vector.},
@@ -2316,7 +2316,7 @@ description={A training set is a dataset $\mathcal{D}$ which consists of some da
 
 \newglossaryentry{netmodel}
 {name={networked model},
-  description={A networked model over an federated learning network (FL network) $\mathcal{G} = \pair{\mathcal{V}}{\mathcal{E}}$ assigns 
+  description={A networked model over an federated learning network (FL network) $\mathcal{G} = \left( \mathcal{V},\mathcal{E} \right)$ assigns 
    a local model (i.e., a hypothesis space) to each node $i \in \mathcal{V}$ of the federated learning network (FL network) $\mathcal{G}$.
    		\\
 		See also: model, federated learning network (FL network), local model, hypothesis space.}, 
@@ -2602,7 +2602,7 @@ description={A data point is any object that conveys information \cite{coverthom
 					\draw[<->, color=red, thick] (l9) -- (c9);  
 					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original training set $\mathcal{D}$};
 					\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {augmented};
-					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{m} \sum_{r=1}^m \lossfunc{\pair{{\bf x}^{(r)}}{ y^{(r)}}}{h}$};
+					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{m} \sum_{r=1}^m L\left(\left( {\bf x}^{(r)}, y^{(r)} \right),h \right)$};
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\alpha \mathcal{R}\big\{ h \big\}$};
 				\end{tikzpicture}
 				\caption{Three approaches to regularization: 1) data augmentation; 2) loss penalization; and 3) model 
@@ -2616,13 +2616,13 @@ description={A data point is any object that conveys information \cite{coverthom
 \newglossaryentry{rerm}{
 	name={regularized empirical risk minimization (RERM)}, 
 	description={Basic empirical risk minimization (ERM) learns a hypothesis (or trains a model) $h \in \mathcal{H}$ 
-		based solely on the empirical risk $\emprisk{h}{\mathcal{D}}$ incurred on a training set $\mathcal{D}$. 
+		based solely on the empirical risk $\widehat{L}\big(h|\mathcal{D}\big)$ incurred on a training set $\mathcal{D}$. 
 		To make empirical risk minimization (ERM) less prone to overfitting, we can implement regularization by 
 		including a (scaled) regularizer $\mathcal{R}\big\{ h \big\}$ in the learning objective. 
 		This leads to RERM such that
 		\begin{equation}
 			\label{equ_def_rerm}
-			\hat{h} \in \argmin_{h \in \mathcal{H}} \emprisk{h}{\mathcal{D}} + \alpha \mathcal{R}\big\{ h \big\}.
+			\hat{h} \in \argmin_{h \in \mathcal{H}} \widehat{L}\big(h|\mathcal{D}\big) + \alpha \mathcal{R}\big\{ h \big\}.
 		\end{equation}
 		The parameter $\alpha \geq 0$ controls the regularization strength. 
 		For $\alpha = 0$, we recover standard empirical risk minimization (ERM) without regularization. As $\alpha$ increases, the 
@@ -2661,9 +2661,9 @@ description={A data point is any object that conveys information \cite{coverthom
 		probability distribution $p({\bf z})$. This probability distribution, which is assumed fixed but unknown, 
 		allows us to define risk of a trained model $\hat{h}$ as the expected loss
 		\[
-		\risk{\hat{h}} := \expect_{{\bf z} \sim p({\bf z})} \big\{ L(\hat{h}, {\bf z}) \big\}.
+		\bar{L} \big( \hat{h} \big)  := \mathbb{E} _{{\bf z} \sim p({\bf z})} \big\{ L(\hat{h}, {\bf z}) \big\}.
 		\]
-		The difference between risk $\risk{\hat{h}}$ and empirical risk $\emprisk{\hat{h}}{\mathcal{D}^{(\rm train)}}$ 
+		The difference between risk $\bar{L} \big( \hat{h} \big) $ and empirical risk $\widehat{L}\big(\hat{h}|\mathcal{D}^{(\rm train)}\big)$ 
 		is known as the generalization gap. Tools from probability theory, such as concentration inequalities 
 		and uniform convergence, allow us to bound this gap under certain conditions \cite{ShalevMLBook}.\\
 		{\bf Generalization without probability.} \Gls{probability} theory is one way to study how well a 
@@ -2743,7 +2743,7 @@ description={A data point is any object that conveys information \cite{coverthom
 				\begin{tikzpicture}[scale=1.2]
 					% Axes
 					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$h$};
-					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{{\bf z}}{h}$};
+					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$L\left({\bf z},h \right)$};
 					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
 					\foreach \x/\label in {0.7/$h^{(0)}$, 1.5/$h^{(1)}$, 2.3/$h^{(2)}$, 3.0/$h^{(3)}$} {
 						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
@@ -2771,7 +2771,7 @@ description={GTV is a
 		\begin{equation} 
 			\nonumber
 			\sum_{\{i,i'\}\in \mathcal{E}} A_{i,i'} 
-			\discrepancy{h^{(i)}}{h^{(i')}}.
+			d^{(h^{(i)},h^{(i')})}.
 		\end{equation}
 		Here, $A_{i,i'}>0$ denotes the weight of the undirected edge $\{i,i'\}\in \mathcal{E}$.
 				\\
@@ -2963,7 +2963,7 @@ description={GTV is a
 		which is defined for an undirected and weighted graph \cite{Luxburg2007}, \cite{Ng2001}. 
 		It is defined element-wise as (see Fig. \ref{fig_lap_mtx_dict})
 	\begin{equation}
-		\LapMatEntry{\mathcal{G}}{i}{i'} := \begin{cases} - A_{i,i'} & \mbox{ for } i\neq i', \{i,i'\}\!\in\!\mathcal{E}, \\ 
+		L^{(\mathcal{G})}_{i,i'} := \begin{cases} - A_{i,i'} & \mbox{ for } i\neq i', \{i,i'\}\!\in\!\mathcal{E}, \\ 
 			\sum_{i'' \neq i} A_{i,i''} & \mbox{ for } i = i', \\ 
 							0 & \mbox{ else.} \end{cases}
 	 \end{equation}
@@ -2985,12 +2985,12 @@ description={GTV is a
 	 			 	\hspace*{-15mm}
  		 		\begin{minipage}{0.45\textwidth}
 	 			 	 \begin{equation} 
-	 				 		 \LapMat{\mathcal{G}} = \begin{pmatrix} 2 & -1& -1 \\ -1& 1 & 0 \\  -1 & 0 & 1 \end{pmatrix}  
+	 				 		 {\bf L}^{(\mathcal{G})} = \begin{pmatrix} 2 & -1& -1 \\ -1& 1 & 0 \\  -1 & 0 & 1 \end{pmatrix}  
 	 				 		 \nonumber
 	 				 		 \end{equation} 
 	 			 \end{minipage}
 	 	 \caption{\label{fig_lap_mtx_dict} Left: Some undirected graph $\mathcal{G}$ with three nodes $i=1,2,3$. 
-	 		 	Right: The Laplacian matrix $\LapMat{\mathcal{G}}  \in \mathbb{R}^{3 \times 3}$ of $\mathcal{G}$.} 
+	 		 	Right: The Laplacian matrix ${\bf L}^{(\mathcal{G})}  \in \mathbb{R}^{3 \times 3}$ of $\mathcal{G}$.} 
 	 		 	\end{center}
 	 		\end{figure}
 		See also: graph, edge weight.
@@ -3083,7 +3083,7 @@ Five data points characterized by feature vectors ${\bf x}^{(r)}$
 and labels $y^{(r)} \in \{ \circ, \square \}$, for $r=1,\ldots,5$. 
 With these feature vectors, there is no way to separate the two classes 
 by a straight line (representing the decision boundary of a linear classifier). 
-In contrast, the transformed feature vectors ${\bf z}^{(r)} = \kernelmap{{\bf x}^{(r)}}{\cdot}$ 
+In contrast, the transformed feature vectors ${\bf z}^{(r)} = K\big({\bf x}^{(r)},\cdot\big)$ 
 allow us to separate the data points using a linear classifier.  \label{fig_linsep_kernel_dict}}
 \end{figure}
 		See also: kernel, machine learning (ML), feature vector, data point, feature space, classification, linear model, label, decision boundary, linear classifier.
@@ -3251,7 +3251,7 @@ description={CFL trains local models for the
 
 \newglossaryentry{covmtx}{name={covariance matrix}, 
 	description={The covariance matrix of an random variable (RV) ${\bf x} \in \mathbb{R}^{d}$ 
-		is defined as $\expect \bigg \{ \big( {\bf x} - \expect \big\{ {\bf x} \big\} \big)  \big({\bf x} - \expect \big\{ {\bf x} \big\} \big)^{T} \bigg\}$.
+		is defined as $\mathbb{E}  \bigg \{ \big( {\bf x} - \mathbb{E}  \big\{ {\bf x} \big\} \big)  \big({\bf x} - \mathbb{E}  \big\{ {\bf x} \big\} \big)^{T} \bigg\}$.
 				\\
 		See also: random variable (RV).},
 	first={covariance matrix},text={covariance matrix} }
@@ -3272,7 +3272,7 @@ description={CFL trains local models for the
 \newglossaryentry{gmm}{name={Gaussian mixture model (GMM)}, description={A GMM 
 		is a particular type of probabilistic model for a numeric vector ${\bf x}$ (e.g., 
 		the features of a data point). Within a GMM, the vector ${\bf x}$ is drawn from a randomly 
-		selected multivariate normal distribution $p^{(c)} = \mvnormal{{\bm \mu}^{(c)}}{\mathbf{C}^{(c)}}$ with 
+		selected multivariate normal distribution $p^{(c)} = \mathcal{N}\left({\bm \mu}^{(c)},\mathbf{C}^{(c)}\right)$ with 
 		$c = I$. The index $I \in \{1,\ldots,k\}$ is an random variable (RV) with probabilities $p({I=c}) = p_{c}$.
 	     Note that a GMM is parametrized by the probability $p_{c}$, the 
 		mean vector ${\bm \mu}^{(c)}$, and the covariance matrix $\mathbf{C}^{(c)}$ for each $c=1,\ldots,k$. 
@@ -3286,7 +3286,7 @@ description={CFL trains local models for the
 		that are interpreted as the realizations of independent and identically distributed (i.i.d.) random variable (RV)s with a common probability distribution $p({{\bf z}; {\bf w}})$ which 
 		depends on the model parameters ${\bf w} \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		\Gls{maximum} likelihood methods learn model parameters ${\bf w}$ by maximizing 
-		the probability (density) $p({\mathcal{D}; {\bf w}}) = \prod_{r=1}^{m} \prob{{\bf z}^{(r)}; {\bf w}}$ 
+		the probability (density) $p({\mathcal{D}; {\bf w}}) = \prod_{r=1}^{m} p({{\bf z}^{(r)}; {\bf w}})$ 
 		of the observed dataset. Thus, the maximum likelihood estimator is a 
 		solution to the optimization problem $\max_{{\bf w} \in \mathcal{W}} p({\mathcal{D}; {\bf w}})$.
 				\\
@@ -3301,10 +3301,10 @@ description={CFL trains local models for the
 		machine learning (ML) application. The maximum likelihood estimator for the model parameters ${\bf w}$ is obtained by maximizing 
 		$p({\mathcal{D}; {\bf w}})$. However, the resulting optimization problem might be computationally 
 		challenging. EM approximates the maximum likelihood estimator by introducing a latent 
-		random variable (RV) ${\bf z}$ such that maximizing $\prob{\mathcal{D},{\bf z}; {\bf w}}$ would be easier \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. Since we 
+		random variable (RV) ${\bf z}$ such that maximizing $p({\mathcal{D},{\bf z}; {\bf w}})$ would be easier \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. Since we 
 		do not observe ${\bf z}$, we need to estimate it from the observed dataset $\mathcal{D}$ 
 		using a conditional expectation. The resulting estimate $\widehat{{\bf z}}$ is then used to 
-		compute a new estimate $\widehat{{\bf w}}$ by solving $\max_{{\bf w}} \prob{\mathcal{D}, \widehat{{\bf z}}; {\bf w}}$. 
+		compute a new estimate $\widehat{{\bf w}}$ by solving $\max_{{\bf w}} p({\mathcal{D}, \widehat{{\bf z}}; {\bf w}})$. 
 		The crux is that the conditional expectation $\widehat{{\bf z}}$ depends on the model parameters $\widehat{{\bf w}}$, 
 		which we have updated based on $\widehat{{\bf z}}$. Thus, we have to re-calculate $\widehat{{\bf z}}$, 
 		which, in turn, results in a new choice $\widehat{{\bf w}}$ for the model parameters. In practice, 
@@ -3356,7 +3356,7 @@ description={CFL trains local models for the
 		Consider a numeric feature vector ${\bf x} \in \mathbb{R}^{d}$ 
 		which we interpret as the realization of an random variable (RV) with a probability distribution $p({\bf x})$. 
 		The expectation of ${\bf x}$ is defined as the integral 
-		$\expect \{ {\bf x} \} := \int {\bf x} p({\bf x})$. Note that 
+		$\mathbb{E}  \{ {\bf x} \} := \int {\bf x} p({\bf x})$. Note that 
 		the expectation is only defined if this integral exists, i.e., if the random variable (RV) 
 		is integrable \cite{RudinBookPrinciplesMatheAnalysis}, \cite{HalmosMeasure}, \cite{BillingsleyProbMeasure}.
 				\\
@@ -3648,9 +3648,9 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
  	${\bf x}^{(1)},\ldots,{\bf x}^{(m)} \in \mathbb{R}^{d}$. 
  	\Gls{convex} clustering learns vectors ${\bf w}^{(1)},\ldots,{\bf w}^{(m)}$ by 
  	minimizing 
- 	$$ \sum_{r=1}^{m} \normgeneric{{\bf x}^{(r)} - {\bf w}^{(r)}}{2}^2 + 
- 	\alpha \sum_{i,i' \in \mathcal{V}} \normgeneric{{\bf w}^{(i)} - {\bf w}^{(i')}}{p}.$$ 
-	Here, $ \normgeneric{{\bf u}}{p} := \big( \sum_{j=1}^{d} |u_{j}|^{p} \big)^{1/p}$ 
+ 	$$ \sum_{r=1}^{m} \left\Vert  {{\bf x}^{(r)} - {\bf w}^{(r)}} \right\Vert_{2}^2 + 
+ 	\alpha \sum_{i,i' \in \mathcal{V}} \left\Vert  {{\bf w}^{(i)} - {\bf w}^{(i')}} \right\Vert_{p}.$$ 
+	Here, $ \left\Vert  {{\bf u}} \right\Vert_{p} := \big( \sum_{j=1}^{d} |u_{j}|^{p} \big)^{1/p}$ 
 	denotes the $p$-norm (for $p\geq1$).  
 	It turns out that many of the optimal vectors $\widehat{{\bf w}}^{(1)},\ldots,\widehat{{\bf w}}^{(m)}$ 
 	coincide. A cluster then consists of those data points $r \in \{1,\ldots,m\}$ 
@@ -3691,10 +3691,10 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
 		is either very large or not readily available (e.g., when data points are stored 
 		in a database distributed all over the planet). To evaluate the gradient of the 
 		empirical risk (as a function of the model parameters ${\bf w}$), 
-		we need to compute a sum $\sum_{r=1}^{m} \nabla_{{\bf w}} \lossfunc{{\bf z}^{(r)}}{{\bf w}}$  
+		we need to compute a sum $\sum_{r=1}^{m} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$  
 		over all data points in the training set. We obtain a stochastic 
-		approximation to the gradient by replacing the sum $\sum_{r=1}^{m} \nabla_{{\bf w}} \lossfunc{{\bf z}^{(r)}}{{\bf w}}$ 
-		with a sum $\sum_{r \in \mathcal{B}} \nabla_{{\bf w}} \lossfunc{{\bf z}^{(r)}}{{\bf w}}$ 
+		approximation to the gradient by replacing the sum $\sum_{r=1}^{m} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
+		with a sum $\sum_{r \in \mathcal{B}} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
 		over a randomly chosen subset $\mathcal{B} \subseteq \{1,\ldots,m\}$ (see Fig. \ref{fig_sgd_approx_dict}). 
 		We often refer to these randomly chosen data points as a batch. 
 		The batch size $|\mathcal{B}|$ is an important parameter of SGD. 
@@ -3714,7 +3714,7 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
 % Labels
 			\end{tikzpicture}
 		\caption{SGD for empirical risk minimization (ERM) approximates the gradient 
-		$\sum_{r=1}^{m} \nabla_{{\bf w}} \lossfunc{{\bf z}^{(r)}}{{\bf w}}$ 
+		$\sum_{r=1}^{m} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
 		by replacing the 
 		sum over all data points in the training set (indexed by $r=1,\ldots,m$) 
 		with a sum over a randomly chosen subset $\mathcal{B} \subseteq \{1,\ldots,m\}$.\label{fig_sgd_approx_dict}}
@@ -3728,23 +3728,23 @@ Consider  an machine learning (ML) method that learns model parameters
 ${\bf w}$ from some parameter space $\mathcal{W} \subseteq \mathbb{R}^{d}$. 
 The learning process uses data points ${\bf z}^{(t)}$ that arrive at consecutive time-instants $t=1,2,\ldots$. 
 Let us interpret the data points ${\bf z}^{(t)}$ as independent and identically distributed (i.i.d.) copies 
-of an random variable (RV) ${\bf z}$. The risk $\expect\{ L\left({\bf z},{\bf w} \right) \}$ of a 
+of an random variable (RV) ${\bf z}$. The risk $\mathbb{E} \{ L\left({\bf z},{\bf w} \right) \}$ of a 
 hypothesis $h^{({\bf w})}$ can then (under mild conditions) be obtained as the limit 
-$\lim_{T\rightarrow \infty} (1/T)\sum_{t=1}^{T} \lossfunc{{\bf z}^{(t)}}{{\bf w}}$. 
+$\lim_{T\rightarrow \infty} (1/T)\sum_{t=1}^{T} L\left({\bf z}^{(t)},{\bf w} \right)$. 
 We might use this limit as the objective function for learning the model parameters ${\bf w}$. 
 Unfortunately, this limit can only be evaluated if we wait infinitely long in order to collect all data points. 
 Some machine learning (ML) applications require methods that learn online, i.e., as soon as a new data point ${\bf z}^{(t)}$ 
 arrives at time $t$, we update the current model parameters ${\bf w}^{(t)}$. Note that 
-the new data point ${\bf z}^{(t)}$ contributes the component $\lossfunc{{\bf z}^{(t)}}{{\bf w}}$ 
+the new data point ${\bf z}^{(t)}$ contributes the component $L\left({\bf z}^{(t)},{\bf w} \right)$ 
 to the risk. As its name suggests, online gradient descent (GD) updates ${\bf w}^{(t)}$ via a (projected) gradient step such that
 \begin{equation} 
 \label{equ_def_ogd_dict}
- {\bf w}^{(t+1)} := \projection{\mathcal{W}}{{\bf w}^{(t)} - \eta_{t} \nabla_{{\bf w}} \lossfunc{{\bf z}^{(t)}}{{\bf w}}}. 
+ {\bf w}^{(t+1)} := P_{\mathcal{W}}\big( {\bf w}^{(t)} - \eta_{t} \nabla_{{\bf w}} L\left({\bf z}^{(t)},{\bf w} \right)\big) . 
 \end{equation} 
-Note that \eqref{equ_def_ogd_dict} is a gradient step for the current component $\lossfunc{{\bf z}^{(t)}}{\cdot}$ 
-of the risk. The update \eqref{equ_def_ogd_dict} ignores all the previous components $\lossfunc{{\bf z}^{(t')}}{\cdot}$, 
+Note that \eqref{equ_def_ogd_dict} is a gradient step for the current component $L\left({\bf z}^{(t)},\cdot \right)$ 
+of the risk. The update \eqref{equ_def_ogd_dict} ignores all the previous components $L\left({\bf z}^{(t')},\cdot \right)$, 
 for $t' < t$. It might therefore happen that, compared to ${\bf w}^{(t)}$, the updated model parameters 
-${\bf w}^{(t+1)}$ increase the retrospective average loss $\sum_{t'=1}^{t-1} \lossfunc{{\bf z}^{(t')}}{\cdot}$. 
+${\bf w}^{(t+1)}$ increase the retrospective average loss $\sum_{t'=1}^{t-1} L\left({\bf z}^{(t')},\cdot \right)$. 
 However, for a suitably chosen learning rate $\eta_{t}$, online gradient descent (GD) can be shown 
 to be optimal in practically relevant settings. By optimal, we mean that the model parameters 
 ${\bf w}^{(T+1)}$ delivered by online gradient descent (GD) after observing $T$ data points ${\bf z}^{(1)},\ldots, {\bf z}^{(T)}$ 
@@ -3783,7 +3783,7 @@ are at least as good as those delivered by any other learning method \cite{Hazan
 \end{center} 
 \caption{An instance of online gradient descent (GD) that updates the model parameters ${\bf w}^{(t)}$ 
 using the data point ${\bf z}^{(t)} = x^{(t)}$ arriving at time $t$. 
-This instance uses the squared error loss $\lossfunc{{\bf z}^{(t)}}{w} = (x^{(t)} - w)^{2}$.
+This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{(t)} - w)^{2}$.
 }
 \end{figure}
 		See also: machine learning (ML), model parameters, parameter space, data point, independent and identically distributed (i.i.d.), random variable (RV), risk, hypothesis, objective function, gradient descent (GD), gradient step, loss, learning rate, squared error loss.},
@@ -3905,11 +3905,11 @@ first={online gradient descent (online GD)},text={online GD}}
 		\node [right] at (0.6,0) {$\mathbf{v}$};
 	\end{tikzpicture}
 \end{minipage}
-	\caption{Left: A decision tree is a flow-chart-like representation of a piece-wise constant hypothesis $h: \mathcal{X} \rightarrow \mathbb{R}$.  Each piece is a decision region $\decreg{\hat{y}} := \big\{ {\bf x} \in  \mathcal{X}: h({\bf x}) = \hat{y} \big\}$. 
+	\caption{Left: A decision tree is a flow-chart-like representation of a piece-wise constant hypothesis $h: \mathcal{X} \rightarrow \mathbb{R}$.  Each piece is a decision region $\mathcal{R}_{\hat{y}} := \big\{ {\bf x} \in  \mathcal{X}: h({\bf x}) = \hat{y} \big\}$. 
 		The depicted decision tree can be applied to numeric feature vectors, i.e., $\mathcal{X} \subseteq \mathbb{R}^{d}$. It is  parametrized by the threshold $\varepsilon>0$ and the vectors ${\bf u}, {\bf v} \in \mathbb{R}^{d}$. 
 		Right: A decision tree partitions  
 		the feature space $\mathcal{X}$ into decision regions. Each decision region  
-		$\decreg{\hat{y}} \!\subseteq\!\mathcal{X}$ corresponds to a specific leaf node in the decision tree.}
+		$\mathcal{R}_{\hat{y}} \!\subseteq\!\mathcal{X}$ corresponds to a specific leaf node in the decision tree.}
 	\label{fig_decision_tree}
 \end{figure} 
 		See also: hypothesis, graph, feature vector, data point, feature, decision region, feature space.
@@ -4160,7 +4160,7 @@ the Bayes risk is referred to as a Bayes estimator \cite{LC}.
 \newglossaryentry{bayesestimator}{name={Bayes estimator},description={Consider 
 a probabilistic model with a joint probability distribution $p({\bf x},y)$ for the features ${\bf x}$ and label 
 $y$ of a data point. For a given loss function $L\left(\cdot,\cdot \right)$, we refer to a hypothesis 
-$h$ as a Bayes estimator if its risk $\expect\{\lossfunc{\left( {\bf x},y \right)}{h}\}$ is the 
+$h$ as a Bayes estimator if its risk $\mathbb{E} \{L\left(\left( {\bf x},y \right),h \right)\}$ is the 
 minimum \cite{LC}. Note that the property of a hypothesis being a Bayes estimator depends on 
 the underlying probability distribution and the choice for the loss function $L\left(\cdot,\cdot \right)$.
 		\\
@@ -4196,10 +4196,10 @@ the underlying probability distribution and the choice for the loss function $L\
 	description={The pdf $p(x)$ 
 		of a real-valued random variable (RV) $x \in \mathbb{R}$ is a particular representation of its probability distribution. 
 		If the pdf exists, it can be used to compute the probability that $x$ takes on a value 
-		from a (measurable) set $\mathcal{B} \subseteq \mathbb{R}$ via $\prob{x \in \mathcal{B}} = \int_{\mathcal{B}} p(x') d x'$ \cite[Ch. 3]{BertsekasProb}. 
+		from a (measurable) set $\mathcal{B} \subseteq \mathbb{R}$ via $p({x \in \mathcal{B}}) = \int_{\mathcal{B}} p(x') d x'$ \cite[Ch. 3]{BertsekasProb}. 
 		The pdf of a vector-valued random variable (RV) ${\bf x} \in \mathbb{R}^{d}$ (if it exists) 
         allows us to compute the probability of ${\bf x}$ belonging to a (measurable) region $\mathcal{R}$ via 
-        $\prob{{\bf x} \in \mathcal{R}} = \int_{\mathcal{R}} p({\bf x}') d x_{1}' \ldots d x_{d}' $ \cite[Ch. 3]{BertsekasProb}.
+        $p({{\bf x} \in \mathcal{R}}) = \int_{\mathcal{R}} p({\bf x}') d x_{1}' \ldots d x_{d}' $ \cite[Ch. 3]{BertsekasProb}.
         		\\
 		See also: random variable (RV), probability distribution, probability.},
 first={probability density function (pdf)},text={pdf}}
@@ -4338,14 +4338,14 @@ first={probability density function (pdf)},text={pdf}}
 	    		\draw[dashed] (wk) -- ($(8,0) + (wk)$) ; %node[left] {$f({\bf w}^{(k)})$};
 	    		\draw[dashed] (wkplus1) -- ($(12,0) + (wkplus1)$) ; %node[left] {$f({\bf w}^{(k+1)})$};
 	    		 \draw[<->, thick] ($(4,0) + (wk)$) -- ($(8,0) + (wkplus1)$) 
-	    		node[midway, right] {$ f\big({\bf w}^{(k)}\big)\!-\!f\big({\bf w}^{(k+1)}\big)\!\geq\!\frac{1}{2\beta}\normgeneric{\nabla f({\bf w}^{(k)})}{2}^{2}$};
+	    		node[midway, right] {$ f\big({\bf w}^{(k)}\big)\!-\!f\big({\bf w}^{(k+1)}\big)\!\geq\!\frac{1}{2\beta}\left\Vert  {\nabla f({\bf w}^{(k)})} \right\Vert_{2}^{2}$};
 %	    		% Label the curve
 %	    		\node at (2, 4) {};
 	    	\end{tikzpicture}
 	    	\end{center}
 	    	\caption{Consider an objective function $f({\bf w})$ that is $\beta$-smooth. 
 	    		Taking a gradient step, with step size $\eta = 1/\beta$, decreases the 
-	    		objective by at least $\frac{1}{2\beta}\normgeneric{\nabla f({\bf w}^{(k)})}{2}^{2}$ \cite{nesterov04}, \cite{CvxBubeck2015}, \cite{CvxAlgBertsekas}. 
+	    		objective by at least $\frac{1}{2\beta}\left\Vert  {\nabla f({\bf w}^{(k)})} \right\Vert_{2}^{2}$ \cite{nesterov04}, \cite{CvxBubeck2015}, \cite{CvxAlgBertsekas}. 
 	    		Note that the step size $\eta = 1/\beta$ becomes larger for smaller $\beta$. Thus, 
 	    		for smoother objective functions (i.e., those with smaller $\beta$), 
 				we can take larger steps. \label{fig_gd_smooth_dict}}
@@ -4478,7 +4478,7 @@ first={probability density function (pdf)},text={pdf}}
  description={The MI $I \left( {\bf x};y\right)$ 
  	between two random variable (RV)s ${\bf x}$, $y$ defined on the same probability space 
  	is given by \cite{coverthomas} $$I \left( {\bf x};y\right) := 
-	\expect \left\{ \log \frac{p ({\bf x},y)}{p({\bf x})p(y)} \right\}.$$ 
+	\mathbb{E}  \left\{ \log \frac{p ({\bf x},y)}{p({\bf x})p(y)} \right\}.$$ 
 	It is a measure of how well we can estimate $y$ based 
 	solely on ${\bf x}$. A large value of $I \left( {\bf x};y\right)$ indicates that 
 	$y$ can be well predicted solely from ${\bf x}$. This prediction could be obtained by a 
