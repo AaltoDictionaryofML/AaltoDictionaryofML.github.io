@@ -20,6 +20,27 @@ def extract_tikz_from_entry(entry_text):
             return f"\\begin{{tikzpicture}}\n{tikz_inner}\n\\end{{tikzpicture}}"
     raise ValueError("No tikzpicture found")
     
+def replace_tikz_with_includegraphics(description, image_path):
+    """
+    Replace the TikZ block in the description with a single \includegraphics command.
+    """
+    include_cmd = fr"\\includegraphics[width=0.8\\linewidth]{{{image_path}}}"
+    print(include_cmd)
+    print(re.sub(
+        r'\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}',
+        include_cmd,
+        description,
+        count=1,
+        flags=re.DOTALL
+    ))
+    return re.sub(
+        r'\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}',
+        include_cmd,
+        description,
+        count=1,
+        flags=re.DOTALL
+    )
+
 
 def compile_tikz_to_png(tikz_code, filename="tikz_figure", output_dir="blog_posts/images"):
     # Ensure the output directory exists
@@ -32,36 +53,68 @@ def compile_tikz_to_png(tikz_code, filename="tikz_figure", output_dir="blog_post
     latex_code = f"""
 \\documentclass[tikz]{{standalone}}
 \\usepackage{{tikz}}
+\\usepackage[dvipsnames]{{xcolor}}
 \\usetikzlibrary{{positioning, arrows.meta, calc, decorations.pathreplacing}}
+\\definecolor{{lightblue}}{{RGB}}{{173, 216, 230}}
 \\begin{{document}}
 {tikz_code}
 \\end{{document}}
 """
-
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tex_path = os.path.join(tmpdir, "figure.tex")
-        with open(tex_path, "w") as f:
-            f.write(latex_code)
+    tex_path ="figure.tex"
+    with open(tex_path, "w") as f:
+        f.write(latex_code)
+        print(latex_code)
 
         # Compile LaTeX to PDF
-        subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_path],
-                       cwd=tmpdir, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_path])
+    print(tex_path)
 
-        pdf_path = os.path.join(tmpdir, "figure.pdf")
+    pdf_path = "figure.pdf"
 
         # Convert PDF to PNG using ImageMagick
-        subprocess.run([
+    subprocess.run([
             "convert", "-density", "300", pdf_path, "-quality", "90", output_png_path
         ])
 
     print(f"✅ Saved PNG to: {output_png_path}")
     
     
+def generate_texfile_with_image(term, description, image_path, output_dir="blog_posts"):
+    """
+    Generate a LaTeX file containing the full glossary description with the TikZ replaced by image.
+    """
+    from pathlib import Path
+
+    tex_output_path = Path(output_dir) / f"{term}.tex"
+    os.makedirs(tex_output_path.parent, exist_ok=True)
+
+    # Replace TikZ block with includegraphics
+    description_with_image = replace_tikz_with_includegraphics(description, image_path)
+
+    # Generate LaTeX document
+    tex_code = f"""\\documentclass{{article}}
+\\usepackage{{graphicx}}
+\\usepackage{{caption}}
+\\usepackage{{amsmath, amssymb}}
+\\usepackage[margin=2.5cm]{{geometry}}
+
+\\begin{{document}}
+
+\\section*{{{term.capitalize()}}}
+
+{description_with_image}
+
+\\end{{document}}
+"""
+
+    with open(tex_output_path, "w", encoding="utf-8") as f:
+        f.write(tex_code)
+        print(f"✅ LaTeX file written to: {tex_output_path}")
 
         
 
 # --- Step 1: Load LaTeX glossary content ---
-with open("ADictML_Glossary_English.tex", "r", encoding="utf-8") as f:
+with open("ADictML_Glossary_Expanded.tex", "r", encoding="utf-8") as f:
     content = f.read()
 
 # --- Step 2: Match glossary entries ---
@@ -114,5 +167,10 @@ entry_text = glossary["generalization"]
 try:
     tikz_code = extract_tikz_from_entry(entry_text)
     compile_tikz_to_png(tikz_code, "generalization_tikz")
+    generate_texfile_with_image(
+        term="generalization",
+        description=entry_text,
+        image_path="blog_posts/images/generalization_tikz.png"
+    )
 except Exception as e:
     print("Error:", e)
