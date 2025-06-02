@@ -3392,15 +3392,61 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 		See also: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},first={ridge regression},text={ridge regression}}
 
 
-\newglossaryentry{expectation}{name={expectation}, description={
-		Consider\index{expectation} a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ 
-		which we interpret as the \gls{realization} of an \gls{rv} with a \gls{probdist} $p(\featurevec)$. 
-		The expectation of $\featurevec$ is defined as the integral 
-		$\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$. Note that 
-		the expectation is only defined if this integral exists, i.e., if the \gls{rv} 
-		is integrable \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}.
+\newglossaryentry{expectation}
+{name={expectation}, 
+  description={Consider\index{expectation} a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ 
+	which we interpret as the \gls{realization} of an \gls{rv} with a \gls{probdist} $p(\featurevec)$. 
+	The expectation of $\featurevec$ is defined as the integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$. 
+	Note that the expectation is only defined if this integral exists, i.e., if the \gls{rv} is integrable 
+	\cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
+	Figure \ref{fig_expect_discrete} illustrates the expectation of a scalar discrete \gls{rv} $x$ which takes on values 
+	from a finite set only. 
+   \begin{figure}
+   	\begin{center}
+   	\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	y=5cm,
+	x=2cm,                          % ⬅️ Controls spacing between bars
+	bar width=0.6cm,                   % ⬅️ Controls bar thickness
+%	bar shift=-0.5cm,                % ⬅️ Center bars (=-0.5 * bar width)
+	xlabel={$x_i$},
+	clip=false,
+	ylabel={$p(x_i)$},
+	y label style={rotate=-90, anchor=west, xshift=-1cm},
+	xtick={1,2,3,4,5},
+	ymin=0, ymax=0.6,
+	grid=both,
+	major grid style={gray!20},
+	tick align=outside,
+	axis line style={black!70},
+	]
+	\addplot+[ybar, fill=blue!50] coordinates {
+		(1,0.1) 
+		(2,0.2) 
+		(3,0.4) 
+		(4,0.2)
+		(5,0.1)
+	};
+	% Manual textboxes above bars
+	\node[font=\footnotesize,xshift=7pt] at (axis cs:1,0.13) {$p(x_i)\!\cdot\!x_i\!=\!0.1$};
+	\node[font=\footnotesize]at (axis cs:2,0.23) {$0.4$};
+	\node[font=\footnotesize]at (axis cs:3,0.43) {$1.2$};
+	\node[font=\footnotesize] at (axis cs:4,0.23) {$0.8$};
+	\node[font=\footnotesize]at (axis cs:5,0.13) {$0.5$};
+	\node[font=\footnotesize]at (axis cs:3.8,0.53) {$\expect\{x\}\!=\!0.1\!+\!0.4\!+\!1.2\!+\!0.8\!+\!0.5\!=\!3$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace*{-5mm}
+\caption{The expectation of a discrete \gls{rv} $x$ is obtained by summing up its possible values $x_{i}$, weighted 
+	by the corresponding probability $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
+ \end{figure}
 				\\
-		See also: \gls{featurevec}, \gls{realization}, \gls{rv}, \gls{probdist}.},first={expectation},text={expectation}}
+  See also: \gls{featurevec}, \gls{realization}, \gls{rv}, \gls{probdist}.},
+ first={expectation},
+ text={expectation}
+}
 
 \newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} map (or \gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
