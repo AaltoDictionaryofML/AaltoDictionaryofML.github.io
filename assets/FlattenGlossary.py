@@ -26,19 +26,42 @@ def remove_index_commands(content):
 
 def flatten_glossary_macros(content, glossary_data):
     """
-    Replaces \gls{key} → name and \glspl{key} → firstplural.
+    Replaces glossary macros with plain text:
+    - \gls{key}    → name
+    - \glspl{key}  → firstplural
+    - \Gls{key}    → Name (capitalized)
+    - \Glspl{key}  → Firstplural (capitalized)
     """
+
+    def capitalize_first(s):
+        return s[0].upper() + s[1:] if s else s
+
+    content = re.sub(
+        r'\\Glspl\{([^\{\}]+)\}',
+        lambda m: capitalize_first(glossary_data.get(m.group(1), {}).get("firstplural", m.group(1) + "s")),
+        content
+    )
+
+    content = re.sub(
+        r'\\Gls\{([^\{\}]+)\}',
+        lambda m: capitalize_first(glossary_data.get(m.group(1), {}).get("name", m.group(1))),
+        content
+    )
+
     content = re.sub(
         r'\\glspl\{([^\{\}]+)\}',
         lambda m: glossary_data.get(m.group(1), {}).get("firstplural", m.group(1) + "s"),
         content
     )
+
     content = re.sub(
         r'\\gls\{([^\{\}]+)\}',
         lambda m: glossary_data.get(m.group(1), {}).get("name", m.group(1)),
         content
     )
+
     return content
+
 
 def expand_macro(name, args, body):
     """
@@ -132,17 +155,27 @@ def flatten_tex_macros(source_file, macros, output_file, glossary_names):
     print(f"✅ Flattened file written to: {output_file}")
     
     
-def extract_balanced_braces(s, start):
-    assert s[start] == '{'
+def extract_balanced_braces(text, start_index):
+    """
+    Extracts a block enclosed in balanced braces starting at start_index.
+    Returns (block_content, index_after_block).
+    """
+    if text[start_index] != '{':
+        raise ValueError("Expected opening brace at start_index")
+
     depth = 0
-    for i in range(start, len(s)):
-        if s[i] == '{':
+    pos = start_index
+    while pos < len(text):
+        if text[pos] == '{':
             depth += 1
-        elif s[i] == '}':
+        elif text[pos] == '}':
             depth -= 1
             if depth == 0:
-                return s[start + 1:i], i + 1
-    raise ValueError("Unbalanced braces")
+                return text[start_index + 1:pos], pos + 1
+        pos += 1
+
+    raise ValueError("No matching closing brace found")
+
     
 def parse_glossary_names(source_file):
     """
@@ -172,8 +205,8 @@ def parse_glossary_names(source_file):
 
         body_cleaned = re.sub(r'%.*', '', body)
 
-        name_match = re.search(r'name\s*=\s*\{([^{}]*)\}', body_cleaned)
-        plural_match = re.search(r'firstplural\s*=\s*\{([^{}]*)\}', body_cleaned)
+        name_match = re.search(r'text\s*=\s*\{([^{}]*)\}', body_cleaned)
+        plural_match = re.search(r'plural\s*=\s*\{([^{}]*)\}', body_cleaned)
 
         if name_match:
             glossary_data[key.strip()] = {
@@ -181,6 +214,7 @@ def parse_glossary_names(source_file):
                 'firstplural': plural_match.group(1).strip() if plural_match else name_match.group(1).strip() + 's'
             }
         else:
+            print(body)
             print(f"⚠️ No name=... found in entry '{key}'")
 
         pos = next_pos
