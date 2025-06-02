@@ -1,5 +1,27 @@
 import re
 
+def remove_comments(text):
+    """
+    Removes LaTeX comments starting with %, including inline comments.
+    Skips escaped percent signs (\%).
+    """
+    lines = text.splitlines()
+    cleaned_lines = []
+    for line in lines:
+        # Remove everything after a % unless it’s escaped as \%
+        pos = 0
+        while True:
+            idx = line.find('%', pos)
+            if idx == -1:
+                cleaned_lines.append(line)
+                break
+            elif idx > 0 and line[idx-1] == '\\':
+                pos = idx + 1  # skip escaped %
+            else:
+                cleaned_lines.append(line[:idx])
+                break
+    return '\n'.join(cleaned_lines)
+
 def parse_macros_with_args(macros_file):
     """
     Parses \\newcommand macros from a LaTeX file into a dictionary.
@@ -119,7 +141,9 @@ def flatten_tex_macros(source_file, macros, output_file, glossary_names):
     Replaces macro invocations in a LaTeX file with their expanded definitions.
     """
     with open(source_file, "r", encoding="utf-8") as f:
-        content = f.read()
+        content = remove_comments(f.read())
+    
+        
 
     changed = True
     while changed:
@@ -185,7 +209,7 @@ def parse_glossary_names(source_file):
     glossary_data = {}
 
     with open(source_file, "r", encoding="utf-8") as f:
-        content = f.read()
+        content = remove_comments(f.read())
 
     entry_start_pattern = re.compile(r'\\newglossaryentry\{([^\}]+)\}\s*\{', re.MULTILINE)
     pos = 0
