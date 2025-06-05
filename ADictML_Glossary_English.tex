@@ -604,17 +604,65 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 	
 
-\newglossaryentry{mvndist}{name ={multivariate normal distribution}, 
-	description={The\index{multivariate normal distribution} multivariate normal distribution 
-		$\mvnormal{\vm}{\mC}$ is an important \gls{probmodel} for numeric \glspl{featurevec}. 
-		It is a family of \glspl{probdist} for a vector-valued \gls{rv} 
-		$\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
-		Each family member (i.e., each \gls{probdist}) is specified by its \gls{mean} $\vm$ and  
-		\gls{covmtx} $\mC$. If the \gls{covmtx} is invertible, the \gls{probdist} of $\featurevec$ can 
-		be written as 
-		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$
-					\\ 
-		See also: \gls{probdist}, \gls{featurevec}, \gls{rv}, \gls{mean}, \gls{covmtx}.}, first={multivariate normal distribution},text={multivariate normal distribution}}
+\newglossaryentry{mvndist}
+{name ={multivariate normal distribution}, 
+ description={
+ 	 The\index{multivariate normal distribution} multivariate normal distribution, 
+ 	denoted by $\mvnormal{\meanvecgeneric}{\covmtxgeneric}$, is a fundamental \gls{probmodel} 
+ 	for numerical \glspl{featurevec} of fixed dimension $\nrfeatures$. 
+ 	It defines a family of \glspl{probdist} over vector-valued \glspl{rv} 
+ 	$\featurevec \in \mathbb{R}^{\nrfeatures}$~\cite{BertsekasProb, GrayProbBook, Lapidoth09}. 
+ 	Each distribution in this family is fully specified by its \gls{mean} vector 
+ 	$\meanvecgeneric \in \mathbb{R}^{\nrfeatures}$ and \gls{covmtx} $\covmtxgeneric \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$. 
+ 	When the \gls{covmtx} $\covmtxgeneric$ is invertible, its \gls{probdist} is 
+ 	fully characterized by the following \gls{pdf}:
+ 	\[
+ 	p(\featurevec) = 
+ 	\frac{1}{\sqrt{(2\pi)^{\nrfeatures} \determinant{\covmtxgeneric}}} 
+ 	\exp\left( -\frac{1}{2} 
+ 	(\featurevec - \meanvecgeneric)^T \covmtxgeneric^{-1} 
+ 	(\featurevec - \meanvecgeneric) \right).
+ 	\]
+ 	\textbf{Note!} The \gls{pdf} is only defined when $\covmtxgeneric$ is invertible.
+     More generally, any \gls{rv} $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$ 
+     admits the following innovation representation:
+\[\featurevec \!=\! \mA \vz \!+\!\meanvecgeneric,
+\]
+where $\vz \sim \mvnormal{\mathbf{0}}{\mathbf{I}}$ is a \gls{stdnormvec} 
+and $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ satisfies $\mA \mA^T = \covmtxgeneric$. 
+This innovation representation is valid even when the \gls{covmtx} $\covmtxgeneric$ is singular, 
+in which case $\mA$ is not necessarily full-rank \cite[Ch. 23]{Lapidoth2017}.\\ 
+The family of multivariate normal distributions is exceptional among \glspl{probmodel} for numerical 
+quantities at least for the following reasons: First, the family is closed under affine transformations, i.e., 
+\[ 
+\featurevec \sim \mathcal{N}(\meanvecgeneric,\covmtxgeneric) \mbox{ implies } 
+\mB\featurevec\!+\!\vc \sim \mathcal{N}\big( \mB\meanvecgeneric+\vc,\mB \covmtxgeneric \mB^{T} \big). 
+\]
+Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the differential entropy 
+among all distributions with the same \gls{covmtx} $\covmtxgeneric$ \cite{coverthomas}. 
+\\ 
+		See also: \gls{gaussrv}, \gls{probdist}, \gls{featurevec}, \gls{rv}, \gls{mean}, \gls{covmtx}.}, 
+		first={multivariate normal distribution},
+		text={multivariate normal distribution}
+}
+
+
+
+\newglossaryentry{stdnormvec}
+{name ={standard normal vector}, 
+	description={
+		A\index{standard normal vector} standard normal vector is a random vector $\vx=\big(x_{1},\ldots,x_{\nrfeatures}\big)^{T}$ 
+		whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
+		It is a special case of a \gls{mvndist}, $\vx \sim \mathcal(\mathbf{0},\mathbf{I})$.
+		\\ 
+		See also: \gls{gaussrv}, \gls{mvndist}, \gls{rv}.}, 
+	first={standard normal vector},
+	text={standard normal vector}
+}
+
+
+
+
 
 \newglossaryentry{statasp}{name ={statistical aspects}, description={By statistical aspects\index{statistical aspects} 
 		of an \gls{ml} method, we refer to (properties of) the \gls{probdist} of its output 
