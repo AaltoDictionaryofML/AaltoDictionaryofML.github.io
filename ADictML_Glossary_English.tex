@@ -69,10 +69,78 @@
 
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
-	description={
-		 A\index{fixed-point iteration} fixed-point iteration constructs a sequence $\weights^{(0)}, \weights^{(1)},\ldots$, by 
+	description={A\index{fixed-point iteration} fixed-point iteration as an iterative method for solving 
+		a given \gls{optproblem}. It constructs a sequence $\weights^{(0)}, \weights^{(1)},\ldots$, by 
 		 repeatedly applying an operator $\fixedpointop$: 
-		 $$ \weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0,1,\ldots.$$
+		 \begin{equation} 
+		 	\label{equ_def_fixed_point_dict} 
+		 	\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0,1,\ldots.
+		 \end{equation} 
+		 The operator $\fixedpointop$ is chosen such that any fixed points is a solution 
+		 $\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
+		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the operator $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
+		 coincide with the minimizers of $f(\weights)$. In general, there are many different operators $\fixedpointop$ with the same 
+		 set of fixed points that are solutions to the same \gls{optproblem}. Clearly, we should use an operator 
+		 $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution, 
+		\begin{equation} 
+			\nonumber
+			\underbrace{\normgeneric{ \netparams^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point},\eqref{equ_def_gtvmin_fixed_point}}{=} \normgeneric{ \fixedpointop \netparams^{(\iteridx)} - \fixedpointop\widehat{\netparams}}{2}}  \leq 	\normgeneric{ \netparams^{(\iteridx)} - \widehat{\netparams}}{2}. 
+		\end{equation}
+		Thus, we require $\fixedpointop$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
+		should not result in worse \gls{modelparams} that have a larger distance to a solution $\widehat{\weights}$. 
+		What is more, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
+		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
+		the notion of a \gls{contractop} \cite{Bauschke:2017,fixedpoinIsta}. 
+%		The operator $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+%		\begin{equation} 
+%			\nonumber
+%			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel \nrnodes}.
+%		\end{equation}
+%		For a \gls{contractop} $\fixedpointop$, the \gls{fixedpointiter} \eqref{equ_def_fixed_point} generates 
+%		a sequence $\netparams^{(\iteridx)}$ that converges to a \gls{gtvmin} solution $\widehat{\netparams}$ 
+%		quite rapidly. In particular \cite[Theorem 9.23]{RudinBookPrinciplesMatheAnalysis}, 
+%		\begin{equation} 
+%			\nonumber
+%			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 	\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}. 
+%		\end{equation} 
+%		Here, $\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}$ is the distance between 
+%		the initialization $\netparams^{(0)}$ and the solution $\widehat{\netparams}$. 
+%		It turns out that a \gls{fixedpointiter} \eqref{equ_def_fixed_point} with a firmly non-expansive 
+%		operator $\fixedpointop$ is guaranteed to converge to a fixed-point of $\fixedpointop$ \cite[Cor. 5.16]{Bauschke:2017}. 
+%		Figure \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator 
+%		and a \gls{contractop}. All these operators are defined on the one-dimensional space $\mathbb{R}$. 
+%		Another example of a firmly non-expansive operator is the \gls{proxop} of a \gls{convex} function \cite{Bauschke:2017,ProximalMethods}. 
+%		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+%		\begin{figure} 
+%			\begin{center} 
+%				\begin{tikzpicture}[scale=1.5]
+%					% Axes
+%					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$\weight^{(\iteridx)}$};
+%					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$\weight^{(\iteridx+1)}$};
+%					% Labels
+%					\node at (2.1,2.2) {$\fixedpointop^{(3)}$};
+%					\node at (1.9,-1.5) {$\fixedpointop^{(1)}$};
+%					\node at (1.5,1.2) {$\fixedpointop^{(2)}$};
+%					% Dashed lines at x=1 and y=1
+%					\draw[dashed] (1,-2) -- (1,2); % Vertical line at x=1
+%					\draw[dashed] (-2,1) -- (2,1); % Horizontal line at y=1
+%					\draw[dashed] (-2,-1) -- (2,-1); % Horizontal line at y=1
+%					\draw[dashed] (-1,-2) -- (-1,2); % Vertical line at x=1
+%					\node[above,xshift=4pt,yshift=-1pt] at (1,0) {$1$};
+%					\node[above,xshift=8pt,yshift=-1pt] at (0,-1) {$-1$};
+%					% First curve: y = 1/2 x + 1
+%					\draw[line width=2,domain=-2:2,smooth,blue] plot(\x,{0.5*\x + 1});
+%					% Second curve: y = -x
+%					\draw[line width=2,domain=-2:2,smooth,red] plot(\x,{-\x});
+%					% Third curve: y = x / |x| * min(|x|, 1)
+%					\draw[line width=2, domain=-2:-1,smooth,darkgreen] plot(\x,{-1});
+%					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
+%					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
+%				\end{tikzpicture}
+%			\end{center} 
+%			\caption{Example of a non-expansive operator $\fixedpointop^{(1)}$, a firmly non-expansive operator $\fixedpointop^{(2)}$ and 
+%				a contractive operator $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
+%		\end{figure} 
 	},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
@@ -1698,13 +1766,9 @@ first={activation function},text={activation function}
     For example, an algorithm for training a \gls{linmodel} explicitly describes how to 
 	transform a given \gls{trainset} into \gls{modelparams} through a sequence of \glspl{gradstep}. 
     This informal characterization can be formalized rigorously via different mathematical \glspl{model} \cite{Sipser2013}. 
-    One very simple \gls{model} of an algorithm is a collection of possible executions. Each execution is a sequence in the form of
-    $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$ 
-    that respects the constraints inherent to the computer executing the algorithm.
-	Algorithms may be deterministic, where each input results in a single execution,
-	or randomized, where executions can vary probabilistically. Randomized algorithms 
-	can thus be analyzed by modeling execution sequences as outcomes of random experiments, 
-	viewing the algorithm as a stochastic process \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.
+    One very simple \gls{model} of an algorithm is a collection of possible executions. Each execution 
+    is a sequence in the form of $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$ that respects the 
+    constraints inherent to the computer executing the algorithm. 
 	Crucially, an algorithm encompasses more than just a mapping from input to output; it also includes 
 	the intermediate computational steps $s_1,\ldots,s_T$. 
 	%. In \textbf{online algorithms}, these intermediate computational steps  can dynamically incorporate additional input data as the execution progresses.
@@ -1713,6 +1777,24 @@ first={activation function},text={activation function}
 	},
 	first={algorithm},text={algorithm} 
 }
+
+
+\newglossaryentry{stochalgorithm}
+{name={stochastic algorithm}, 
+ plural={stochastic algorithms},
+	description={A\index{stochastic algorthm} stochastic algorithm uses a random mechanism 
+		during its execution. For example, \gls{stochGD} uses a randomly selected subset of \glspl{datapoint} 
+		to compute an approximation for the \gls{gradient} of an \gls{objfunc}. We can represent a 
+		stochastic algorithm by a stochastic process: The possible execution sequence are the possible outcomes of a random experiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
+		\\ 
+		See also: \gls{optmethod}, \gls{gdmethods}. 
+	},
+	first={algorithm},
+	text={algorithm} 
+}
+
+
+
 
 \newglossaryentry{onlinelearning}
 {name={online learning},
@@ -4646,9 +4728,9 @@ first={probability density function (pdf)},text={pdf}}
 
 \newglossaryentry{jacobimethod}
 {name={Jacobi method},
-	description={The Jacobi method\index{Jacobi method} is an iterative algorithm for 
-		solving systems of linear equations (a linear system) of the form $\mA\vx= \mathbf{b}$, where 
-		$\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
+	description={The Jacobi method\index{Jacobi method} is an \gls{algorithm} 
+		for solving systems of linear equations (a linear system) of the form $\mA\vx= \mathbf{b}$. 
+		Here, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
 		non-zero main diagonal entries. The method constructs a sequence $\vx^{(0)},\vx^{(1)},\ldots$ 
 		by updating each entry of $\mathbf{x}^{(\iteridx)}$ according to 
 		\[
