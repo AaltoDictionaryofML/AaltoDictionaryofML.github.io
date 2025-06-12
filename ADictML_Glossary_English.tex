@@ -1,5 +1,69 @@
 % !TeX spellcheck = en_GB
 
+\newglossaryentry{inverse}{
+	name={inverse matrix},
+	description={The\index{inverse matrix} inverse $\mA^{-1}$ of a square matrix $\mA \in \mathbb{R}^{n \times n}$ (if it exists, then $\mA$ is called invertible) is defined by $\mA \mA^{-1} = \mA^{-1} \mA = \mI$, where $\mI$ is the identity matrix. A matrix is invertible if and only if its \gls{det} is non-zero. Inverse matrices are used in solving systems of linear equations and in closed-form solutions of \gls{linreg}. Note that for non-square matrices, one may define one-sided inverses: a left inverse $\mB$ satisfies $\mB\mA = \mI$ and a right inverse $\mC$ satisfies $\mA\mC = \mI$.\\
+		See also: \gls{det}, \gls{linreg}.},
+	first={inverse matrix},
+	text={inverse matrix}
+}
+
+\newglossaryentry{det}{
+	name={determinant},
+	description={The\index{determinant} determinant $\det(\mA)$ of a square matrix $\mA \in \mathbb{R}^{n \times n}$ quantifies how the linear transformation defined by $\mA$ scales volumes in $\mathbb{R}^n$. A matrix $\mA$ is invertible if and only if $\det(\mA) \neq 0$. The determinant can also be expressed in terms of the product of the \glspl{eigenvalue} of $\mA$, i.e., $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}. Determinants are used in solving systems of linear equations, computing inverses, evaluating volumes, and in stability analysis.\\
+		See also: \gls{eigenvalue}, \gls{inverse}.},
+	first={determinant},
+	text={determinant}
+}
+
+\newglossaryentry{linearmap}{
+	name={linear map},
+	description={A\index{linear map} linear map $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a function that satisfies additivity :
+		$f(\vx + \vy) = f(\vx) + f(\vy)$, and homogeneity :
+		$f(c\vx) = c f(\vx)$ for all vectors $\vx, \vy \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear map can be represented as a matrix multiplication $f(\vx) = \mA \vx$ for some matrix $\mA \in \mathbb{R}^{m \times n}$. Linear maps are fundamental in \gls{linmodel}, \gls{linreg}, and \gls{pca}.\\
+		See also: \gls{linmodel}, \gls{linreg}, \gls{pca}, \gls{featurevec}.},
+	first={linear map},
+	text={linear map}
+}
+
+
+\newglossaryentry{vectorspace}{
+	name={vector space},
+	description={A\index{vector space} vector space (also called linear space) is a collection of elements (called vectors) closed under vector addition and scalar multiplication:
+		\begin{itemize}
+			\item If $\vx, \vy \in \mathcal{V}$, then $\vx + \vy \in \mathcal{V}$.
+			\item If $\vx \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vx \in \mathcal{V}$.
+			\item In particular, $\mathbf{0} \in \mathcal{V}$.
+		\end{itemize}
+		The \gls{euclidspace} space $\mathbb{R}^n$ is a vector space.
+		\Glspl{linmodel} and \glspl{linearmap} operate within such spaces.\\
+		See also: \gls{euclidspace}, \gls{linearmap}, \gls{linmodel}.},
+	first={vector space},
+	text={vector space}
+}
+
+
+\newglossaryentry{stochastic}{
+	name={stochastic},
+	description={A process\index{stochastic} or method is called stochastic if it involves
+		a random component or is governed by probabilistic laws. In \gls{ml}, stochastic
+		methods often incorporate randomness for reasons such as optimization (e.g., \gls{stochGD})
+		or uncertainty modeling (e.g., \glspl{probmodel}). A stochastic process is a collection
+		of \glspl{rv} indexed by time or space, used to model random phenomena
+		evolving over time (e.g., noise in sensors or financial time series).\\
+		See also: \gls{probmodel}, \gls{rv}, \gls{stochGD}, \gls{sbm}},
+	first={stochastic},
+	text={stochastic}
+}
+
+\newglossaryentry{entropy}{
+	name={entropy},
+	description={In the context of \gls{ml} and \gls{explainability}, entropy quantifies the uncertainty or randomness in a model’s \glspl{prediction}. Specifically, the conditional (or differential) entropy measures the unpredictability of the trained model’s outputs given another source of \glspl{prediction} (e.g., from a human user). Lower conditional entropy implies higher \gls{explainability}, as the model’s \glspl{prediction} are more aligned with the user’s understanding. However, the term entropy is also used in other fields with different meanings, such as measuring disorder in thermodynamics or complexity in dynamical systems. \\
+		See also: \gls{explainability}, \gls{probmodel}, \gls{prediction}, \gls{model}.},
+	first={entropy},
+	text={entropy}
+}
+
 \newglossaryentry{minimum}
 {name=minimum,
 	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers. 
@@ -69,10 +133,78 @@
 
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
-	description={
-		 A\index{fixed-point iteration} fixed-point iteration constructs a sequence $\weights^{(0)}, \weights^{(1)},\ldots$, by 
+	description={A\index{fixed-point iteration} fixed-point iteration as an iterative method for solving 
+		a given \gls{optproblem}. It constructs a sequence $\weights^{(0)}, \weights^{(1)},\ldots$, by 
 		 repeatedly applying an operator $\fixedpointop$: 
-		 $$ \weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0,1,\ldots.$$
+		 \begin{equation} 
+		 	\label{equ_def_fixed_point_dict} 
+		 	\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0,1,\ldots.
+		 \end{equation} 
+		 The operator $\fixedpointop$ is chosen such that any fixed points is a solution 
+		 $\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
+		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the operator $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
+		 coincide with the minimizers of $f(\weights)$. In general, there are many different operators $\fixedpointop$ with the same 
+		 set of fixed points that are solutions to the same \gls{optproblem}. Clearly, we should use an operator 
+		 $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution, 
+		\begin{equation} 
+			\nonumber
+			\underbrace{\normgeneric{ \netparams^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point},\eqref{equ_def_gtvmin_fixed_point}}{=} \normgeneric{ \fixedpointop \netparams^{(\iteridx)} - \fixedpointop\widehat{\netparams}}{2}}  \leq 	\normgeneric{ \netparams^{(\iteridx)} - \widehat{\netparams}}{2}. 
+		\end{equation}
+		Thus, we require $\fixedpointop$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
+		should not result in worse \gls{modelparams} that have a larger distance to a solution $\widehat{\weights}$. 
+		What is more, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
+		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
+		the notion of a \gls{contractop} \cite{Bauschke:2017,fixedpoinIsta}. 
+%		The operator $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+%		\begin{equation} 
+%			\nonumber
+%			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel \nrnodes}.
+%		\end{equation}
+%		For a \gls{contractop} $\fixedpointop$, the \gls{fixedpointiter} \eqref{equ_def_fixed_point} generates 
+%		a sequence $\netparams^{(\iteridx)}$ that converges to a \gls{gtvmin} solution $\widehat{\netparams}$ 
+%		quite rapidly. In particular \cite[Theorem 9.23]{RudinBookPrinciplesMatheAnalysis}, 
+%		\begin{equation} 
+%			\nonumber
+%			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 	\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}. 
+%		\end{equation} 
+%		Here, $\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}$ is the distance between 
+%		the initialization $\netparams^{(0)}$ and the solution $\widehat{\netparams}$. 
+%		It turns out that a \gls{fixedpointiter} \eqref{equ_def_fixed_point} with a firmly non-expansive 
+%		operator $\fixedpointop$ is guaranteed to converge to a fixed-point of $\fixedpointop$ \cite[Cor. 5.16]{Bauschke:2017}. 
+%		Figure \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator 
+%		and a \gls{contractop}. All these operators are defined on the one-dimensional space $\mathbb{R}$. 
+%		Another example of a firmly non-expansive operator is the \gls{proxop} of a \gls{convex} function \cite{Bauschke:2017,ProximalMethods}. 
+%		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+%		\begin{figure} 
+%			\begin{center} 
+%				\begin{tikzpicture}[scale=1.5]
+%					% Axes
+%					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$\weight^{(\iteridx)}$};
+%					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$\weight^{(\iteridx+1)}$};
+%					% Labels
+%					\node at (2.1,2.2) {$\fixedpointop^{(3)}$};
+%					\node at (1.9,-1.5) {$\fixedpointop^{(1)}$};
+%					\node at (1.5,1.2) {$\fixedpointop^{(2)}$};
+%					% Dashed lines at x=1 and y=1
+%					\draw[dashed] (1,-2) -- (1,2); % Vertical line at x=1
+%					\draw[dashed] (-2,1) -- (2,1); % Horizontal line at y=1
+%					\draw[dashed] (-2,-1) -- (2,-1); % Horizontal line at y=1
+%					\draw[dashed] (-1,-2) -- (-1,2); % Vertical line at x=1
+%					\node[above,xshift=4pt,yshift=-1pt] at (1,0) {$1$};
+%					\node[above,xshift=8pt,yshift=-1pt] at (0,-1) {$-1$};
+%					% First curve: y = 1/2 x + 1
+%					\draw[line width=2,domain=-2:2,smooth,blue] plot(\x,{0.5*\x + 1});
+%					% Second curve: y = -x
+%					\draw[line width=2,domain=-2:2,smooth,red] plot(\x,{-\x});
+%					% Third curve: y = x / |x| * min(|x|, 1)
+%					\draw[line width=2, domain=-2:-1,smooth,darkgreen] plot(\x,{-1});
+%					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
+%					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
+%				\end{tikzpicture}
+%			\end{center} 
+%			\caption{Example of a non-expansive operator $\fixedpointop^{(1)}$, a firmly non-expansive operator $\fixedpointop^{(2)}$ and 
+%				a contractive operator $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
+%		\end{figure} 
 	},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
@@ -551,7 +683,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 			comparing its \glspl{prediction} with the \glspl{prediction} provided by a user 
 			on a \gls{testset} \cite{Colin:2022aa}, \cite{Zhang:2024aa}. Alternatively, we can use 
 			\glspl{probmodel} for \gls{data} and measure the explainability of a trained \gls{ml} 
-			\gls{model} via the conditional (or differential) entropy of its \glspl{prediction}, given the user \glspl{prediction} \cite{JunXML2020}, \cite{Chen2018}.
+			\gls{model} via the conditional (or differential) \gls{entropy} of its \glspl{prediction}, given the user \glspl{prediction} \cite{JunXML2020}, \cite{Chen2018}.
 						\\ 
 		See also: \gls{ml}, \gls{prediction}, \gls{model}, \gls{testset}, \gls{probmodel}, \gls{data}.
 		},
@@ -618,7 +750,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 {name={linear model}, 
 	description={Consider\index{linear model} \glspl{datapoint}, each characterized by a numeric \gls{featurevec} 
 		$\featurevec \in \mathbb{R}^{\featuredim}$. A linear \gls{model} is 
-		a \gls{hypospace} which consists of all linear maps such that 
+		a \gls{hypospace} which consists of all \glspl{linearmap} such that 
 	\begin{equation} 
 		\label{equ_def_lin_model_hypspace_dict}
 		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
@@ -800,7 +932,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\featurevec \sim \mathcal{N}(\meanvecgeneric,\covmtxgeneric) \mbox{ implies } 
 		\mB\featurevec\!+\!\vc \sim \mathcal{N}\big( \mB\meanvecgeneric+\vc,\mB \covmtxgeneric \mB^{T} \big). 
 		\]
-		Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the differential entropy 
+		Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the differential \gls{entropy} 
 		among all distributions with the same \gls{covmtx} $\covmtxgeneric$ \cite{coverthomas}. 
 		\\ 
 		See also: \gls{probmodel}, \gls{featurevec}, \gls{probdist}, \gls{rv}, \gls{covmtx}, \gls{pdf}, \gls{stdnormvec}, \gls{gaussrv}, \gls{mean}.}, 
@@ -932,7 +1064,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		Compared to other \glspl{probdist}, the \gls{mvndist} is also distinct in that—in a mathematically 
 		precise sense—represents maximum uncertainty. Among all continuous random vectors with 
 		a given covariance matrix $\mC$, the Gaussian random vector $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
-		maximizes differential entropy \cite[Th. 8.6.5]{coverthomas}. This makes Gaussian distributions a 
+		maximizes differential \gls{entropy} \cite[Th. 8.6.5]{coverthomas}. This makes Gaussian distributions a 
 		natural choice for capturing uncertainty (or lack of knowledge) in the absence of additional 
 		structural information.
 		\\ 
@@ -1453,7 +1585,7 @@ first={bias},text={bias}
 		from a finite set of alternatives $\actionset$. The utility of selecting action $\action_{\iteridx}$ 
 		is quantified by a numeric \gls{reward} signal $\reward^{(\action_{\iteridx})}$. 
 		A widely used \gls{probmodel} for this type of sequential decision-making problem 
-		is the stochastic \gls{mab} setting \cite{Bubeck2012}. In this \gls{model}, 
+		is the \gls{stochastic} \gls{mab} setting \cite{Bubeck2012}. In this \gls{model}, 
 		the \gls{reward} $\reward^{(\action)}$ is viewed as the \gls{realization} of an \gls{rv} 
 		with unknown \gls{mean} $\mu^{(\action)}$. Ideally, we would always choose the 
 		action with the largest expected \gls{reward} $\mu^{(\action)}$, but these 
@@ -1474,7 +1606,7 @@ first={bias},text={bias}
 	description={A MAB\index{multi-armed bandit (MAB)} problem models 
 		a repeated decision-making scenario in which, at each time step $\iteridx$, a learner must 
 		choose one out of several possible actions, often referred to as arms, from a finite 
-		set $\actionset$. Each arm $\action \in \actionset$ yields a stochastic \gls{reward} $\reward^{(\action)}$ 
+		set $\actionset$. Each arm $\action \in \actionset$ yields a \gls{stochastic} \gls{reward} $\reward^{(\action)}$ 
 		drawn from an unknown \gls{probdist} with \gls{mean} $\mu^{(\action)}$. 
 		The learner’s goal is to maximize the cumulative \gls{reward} over time by 
 		strategically balancing exploration (i.e., gathering information about 
@@ -1545,7 +1677,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{norm}
 {name={norm},
 	description={A norm\index{norm} is a function that maps each (vector) element 
-		of a vector space to a non-negative real number. This function must be 
+		of a \gls{vectorspace} to a non-negative real number. This function must be 
 		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}.},
 	first={norm},text={norm} 
 }
@@ -1697,22 +1829,35 @@ first={activation function},text={activation function}
   	how to produce an output from a given input within a finite number of computational steps \cite{Cormen:2022aa}. 
     For example, an algorithm for training a \gls{linmodel} explicitly describes how to 
 	transform a given \gls{trainset} into \gls{modelparams} through a sequence of \glspl{gradstep}. 
-    This informal characterization can be formalized rigorously via different mathematical \glspl{model} \cite{Sipser2013}. 
-    One very simple \gls{model} of an algorithm is a collection of possible executions. Each execution is a sequence in the form of
-    $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$ 
-    that respects the constraints inherent to the computer executing the algorithm.
-	Algorithms may be deterministic, where each input results in a single execution,
-	or randomized, where executions can vary probabilistically. Randomized algorithms 
-	can thus be analyzed by modeling execution sequences as outcomes of random experiments, 
-	viewing the algorithm as a stochastic process \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.
-	Crucially, an algorithm encompasses more than just a mapping from input to output; it also includes 
-	the intermediate computational steps $s_1,\ldots,s_T$. 
-	%. In \textbf{online algorithms}, these intermediate computational steps  can dynamically incorporate additional input data as the execution progresses.
+    To study algorithms rigorously, we can represent (or approximate) them by different mathematical structures \cite{Sipser2013}. 
+     One approach is to represent an algorithm is a collection of possible executions. Each individual 
+     execution is a sequence of the form $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$. This sequence 
+     starts from an input and progresses via intermediate steps until an output is delivered. Crucially, an algorithm 
+     encompasses more than just a mapping from input to output; it also includes intermediate computational 
+     steps $s_1,\ldots,s_T$. 
 				\\ 
 		See also: \gls{linmodel}, \gls{trainset}, \gls{modelparams}, \gls{gradstep}, \gls{model}.
 	},
 	first={algorithm},text={algorithm} 
 }
+
+
+\newglossaryentry{stochalgorithm}
+{name={stochastic algorithm}, 
+ plural={stochastic algorithms},
+	description={A\index{stochastic algorthm} stochastic algorithm uses a random mechanism 
+		during its execution. For example, \gls{stochGD} uses a randomly selected subset of \glspl{datapoint} 
+		to compute an approximation for the \gls{gradient} of an \gls{objfunc}. We can represent a 
+		stochastic algorithm by a stochastic process: The possible execution sequence are the possible outcomes of a random experiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
+		\\ 
+		See also: \gls{optmethod}, \gls{gdmethods}. 
+	},
+	first={algorithm},
+	text={algorithm} 
+}
+
+
+
 
 \newglossaryentry{onlinelearning}
 {name={online learning},
@@ -1812,7 +1957,7 @@ first={activation function},text={activation function}
 
 \newglossaryentry{sbm}
 {name={stochastic block model (SBM)},
-	description={The\index{stochastic block model (SBM)} SBM is a 
+	description={The\index{stochastic block model (SBM)} \gls{stochastic} bloc model is a 
 		probabilistic generative \gls{model} for an undirected \gls{graph} $\graph = \big( \nodes, \edges \big)$ 
 		with a given set of nodes $\nodes$ \cite{AbbeSBM2018}. In its most basic variant, 
 		the SBM generates a \gls{graph} by first randomly assigning each node $\nodeidx \in \nodes$ to 
@@ -2260,7 +2405,7 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 	description={The\index{effective dimension} effective dimension $\effdim{\hypospace}$ of 
 		an infinite \gls{hypospace} $\hypospace$ is a measure of its size. Loosely speaking, the 
 		effective dimension is equal to the effective number of independent tunable \gls{modelparams}. 
-		These \glspl{parameter} might be the coefficients used in a linear map or the 
+		These \glspl{parameter} might be the coefficients used in a \gls{linearmap} or the 
 		\gls{weights} and bias terms of an \gls{ann}.
 					\\ 
 		See also: \gls{hypospace}, \gls{modelparams}, \gls{parameter}, \gls{weights}, \gls{ann}.},
@@ -2406,7 +2551,7 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 	whose entries are individual \glspl{feature} $x_{1},\ldots,x_{\nrfeatures}$. Many \gls{ml} methods 
 	use \gls{feature} vectors that belong to some finite-dimensional \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
 	For some \gls{ml} methods, however, it can be more convenient to work with \gls{feature} 
-	vectors that belong to an infinite-dimensional vector space (e.g., see \gls{kernelmethod}). 
+	vectors that belong to an infinite-dimensional \gls{vectorspace} (e.g., see \gls{kernelmethod}). 
 			\\
 		See also: \gls{feature}, \gls{ml}, \gls{euclidspace}, \gls{kernelmethod}.
 		}, first={feature vector},text={feature vector}  
@@ -3191,7 +3336,7 @@ description={GTV is a\index{generalized total variation (GTV)}
  
   \newglossaryentry{lasso}{name={least absolute shrinkage and selection operator (Lasso)}, 
 	description={The Lasso\index{least absolute shrinkage and selection operator (Lasso)} is an 
-		instance of \gls{srm}. It learns the \gls{weights} $\weights$ of a linear map 
+		instance of \gls{srm}. It learns the \gls{weights} $\weights$ of a \gls{linearmap} 
 		$\hypothesis(\featurevec) = \weights^{T} \featurevec$ based on a \gls{trainset}. 
 		Lasso is obtained from \gls{linreg} by adding the scaled $\ell_{1}$-\gls{norm} 
 		$\regparam \normgeneric{\weights}{1}$ to the average \gls{sqerrloss} incurred on the \gls{trainset}. 
@@ -4074,13 +4219,13 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A reguarlized 
 	
 \newglossaryentry{stochGD}{name={stochastic gradient descent (SGD)}, description={SGD\index{stochastic gradient descent (SGD)} 
 		is obtained from \gls{gd} by replacing the \gls{gradient} of the \gls{objfunc} 
-		with a stochastic approximation. A main application of SGD
+		with a \gls{stochastic} approximation. A main application of SGD
 		is to train a parametrized \gls{model} via \gls{erm} on a \gls{trainset} $\dataset$ that 
 		is either very large or not readily available (e.g., when \glspl{datapoint} are stored 
 		in a database distributed all over the planet). To evaluate the \gls{gradient} of the 
 		\gls{emprisk} (as a function of the \gls{modelparams} $\weights$), 
 		we need to compute a sum $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$  
-		over all \glspl{datapoint} in the \gls{trainset}. We obtain a stochastic 
+		over all \glspl{datapoint} in the \gls{trainset}. We obtain a \gls{stochastic} 
 		approximation to the \gls{gradient} by replacing the sum $\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
 		with a sum $\sum_{\sampleidx \in \batch} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
 		over a randomly chosen subset $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Fig. \ref{fig_sgd_approx_dict}). 
@@ -4354,7 +4499,7 @@ first={online gradient descent (online GD)},text={online GD}}
 \newglossaryentry{hilbertspace}{
 	name={Hilbert space},
 	description={A\index{Hilbert space} Hilbert space is a complete inner 
-		product space \cite{introhilbertbook}. That is, it is a vector space equipped 
+		product space \cite{introhilbertbook}. That is, it is a \gls{vectorspace} equipped 
 		with an inner product between pairs of vectors, and it satisfies the additional requirement 
 		of completeness, i.e., every Cauchy sequence of vectors converges to a limit within the space. 
 		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
@@ -4617,7 +4762,7 @@ first={probability density function (pdf)},text={pdf}}
     
 \newglossaryentry{stopcrit}{name={stopping criterion},
 	description={Many\index{stopping criterion} \gls{ml} methods use iterative \glspl{algorithm} that construct a 
-		sequence of \gls{modelparams} (such as the \gls{weights} of a linear map or 
+		sequence of \gls{modelparams} (such as the \gls{weights} of a \gls{linearmap} or 
 		the \gls{weights} of an \gls{ann}). These parameters (hopefully) converge to an optimal choice 
 		for the \gls{modelparams}. In practice, given finite computational 
 		resources, we need to stop iterating after a finite number of repetitions. 
@@ -4646,9 +4791,9 @@ first={probability density function (pdf)},text={pdf}}
 
 \newglossaryentry{jacobimethod}
 {name={Jacobi method},
-	description={The Jacobi method\index{Jacobi method} is an iterative algorithm for 
-		solving systems of linear equations (a linear system) of the form $\mA\vx= \mathbf{b}$, where 
-		$\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
+	description={The Jacobi method\index{Jacobi method} is an \gls{algorithm} 
+		for solving systems of linear equations (a linear system) of the form $\mA\vx= \mathbf{b}$. 
+		Here, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
 		non-zero main diagonal entries. The method constructs a sequence $\vx^{(0)},\vx^{(1)},\ldots$ 
 		by updating each entry of $\mathbf{x}^{(\iteridx)}$ according to 
 		\[
