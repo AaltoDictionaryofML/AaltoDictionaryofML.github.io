@@ -2,7 +2,8 @@
 
 \newglossaryentry{minimum}
 {name=minimum,
-	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers.},
+	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers. 
+	Note that for some sets, such as the set of negative real numbers, the minimum does not exist.},
 	firstplural={minima}, 
  	plural={minima},
 	first={minimum},
@@ -13,10 +14,10 @@
 {name={function},
 	description={
 		  A \textbf{function}\index{function} is a mathematical rule that assigns to each 
-		  element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}. We write 
-		  this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
+		  element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}. 
+		  We write this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
 		  and $\mathcal{V}$ the co-domain of $f$. That is, a function $f$ defines a unique 
-		  output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. For more details, 
+		  output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. 
 	},
 	first={function},
 	text={function}
@@ -98,13 +99,30 @@
 
 \newglossaryentry{attack}
 {name={attack},
-	description={An \emph{attack}\index{attack} on a \gls{fl} system refers to the intentional 
-		perturbation or manipulation of certain components of the system. Such components 
-		include the \gls{localdataset}s (\gls{datapoisoning}) or the communication links 
-		between \gls{device}s. Depending on their objective, we distinguish between \gls{dosattack}s, \gls{backdoor} attacks 
-		and privacy attacks.},
+	description={
+		An attack\index{attack} on a \gls{ml} system refers to an intentional action -- either 
+		active or passive -- that compromises the system's integrity, availability, or confidentiality. 
+		Active attacks involve perturbing components such as \glspl{dataset} (\gls{datapoisoning}) 
+		or communication links between \glspl{device} in a \gls{fl} setting. Passive attacks, 
+		such as \glspl{privattack}, aim to infer \glspl{sensattr} without modifying the system. 
+		Depending on their goal, we distinguish between \glspl{dosattack}, \gls{backdoor} attacks, and \glspl{privattack}.},
 	plural={attacks}, 
-	first={attack},text={attack}
+	first={attack},
+	firstplural={attacks}, 
+	text={attack}
+}
+
+\newglossaryentry{privattack}
+{name={privacy attack},
+	description={A privacy attack\index{privacy attack} on a \gls{ml} system aims to infer 
+		\glspl{sensattr} of individuals by exploiting partial access to a trained \gls{ml} \gls{model}. 
+		One form of a privacy attack is \gls{modelinversion}.\\
+		See also: \gls{attack}, \gls{trustAI}, \gls{gdpr}, \gls{modelinversion}.
+		},
+	plural={privacy attacks}, 
+	first={privacy attack},
+	firstplural={privacy attacks}, 
+	text={attack}
 }
 
 \newglossaryentry{epigraph}
@@ -469,8 +487,9 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 				\node at ($( \colZ + 0.9,-5 )$) {$\localdataset{\nodeidx}$};
 			\end{tikzpicture}
 			\end{center}
-			\caption{VFL uses \glspl{localdataset} that are derived from the \glspl{datapoint} of a common global \gls{dataset}. 
-				The \glspl{localdataset} differ in the choice of \glspl{feature} used to characterize the \glspl{datapoint}.\label{fig_vertical_FL}}
+			\caption{VFL uses \glspl{localdataset} that are derived from the \glspl{datapoint} 
+			of a common global \gls{dataset}. The \glspl{localdataset} differ in the choice 
+			of \glspl{feature} used to characterize the \glspl{datapoint}. \label{fig_vertical_FL_dict}}
 		\end{figure}
 		See also: \gls{fl}, \gls{device}, \gls{feature}, \gls{datapoint}, \gls{dataset}, \gls{featurevec}, \gls{localdataset}, \gls{label}, \gls{data}, \gls{privprot}.},
 	first={vertical federated learning (VFL)},
@@ -629,7 +648,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		 \label{equ_def_gd_basic_dict} 
 		\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
 		\end{equation} 
-		Mathematically, the \gls{gradient} step is a (typically non-linear) operator $\mathcal{T}^{(f,\lrate)}$ 
+		Mathematically, the \gls{gradient} step is an operator $\mathcal{T}^{(f,\lrate)}$ 
 		that is parametrized by the function $f$ and the \gls{stepsize} $\lrate$. 
 		\begin{figure}[H]
 			\begin{center}
@@ -661,12 +680,12 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\label{equ_approx_gd_step_dict}
 		\widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!(1/\lrate)\normgeneric{\weights-\weights'}{2}^2. 
 		\end{align}
-		We intentionally use the same symbol $\lrate$ for the parameter in \eqref{equ_approx_gd_step_dict} 
+		We intentionally use the same symbol $\lrate$ for the \gls{parameter} in \eqref{equ_approx_gd_step_dict} 
 		as we used for the \gls{stepsize} in \eqref{equ_def_gd_basic_dict}. The larger the $\lrate$ we choose in 
 		\eqref{equ_approx_gd_step_dict}, the more progress the update will make towards reducing the 
 		function value $f(\widehat{\weights})$. Note that, much like the \gls{gradient} step \eqref{equ_def_gd_basic_dict}, 
-		also the update \eqref{equ_approx_gd_step_dict} defines a (typically non-linear) operator 
-		that is parametrized by the function $f(\cdot)$ and the parameter $\lrate$. For a \gls{convex} function 
+		also the update \eqref{equ_approx_gd_step_dict} defines an operator 
+		that is parametrized by the function $f(\cdot)$ and the \gls{learnrate} $\lrate$. For a \gls{convex} function 
 		$f(\cdot)$, this operator is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
 					\\ 
 		See also: \gls{differentiable}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{convex}, \gls{proxop}.
@@ -677,6 +696,19 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		text={gradient step}
 	}
 	
+\newglossaryentry{contractop}
+{name={contraction operator},
+	description={An\index{contraction operator} operator $\fixedpointop: \mathbb{R}^{m} \rightarrow \mathbb{R}^{m}$ 
+		is a contraction if, for some $\contractfac \in [0,1)$,
+		\begin{equation} 
+			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel \nrnodes}.
+		\end{equation}
+	},
+	first={contraction operator},
+	text={contraction operator}, 
+	firstplural={contraction operators}, 
+	plural={contraction operators}
+}
 
 \newglossaryentry{proxop}
 {name={proximal operator},
@@ -686,8 +718,6 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal operator 
 		amounts to minimizing a penalized variant of $f(\weights')$. The penalty term is the 
 		scaled squared Euclidean distance to a given vector $\weights$ (which is the input to the proximal operator). 
-		%\Gls{convex} functions for which the proximal operator can be computed efficiently 
-		%is sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}. 
 		The proximal operator can be interpreted as a \gls{generalization} of the \gls{gradstep}, which is defined 
 		for a \gls{smooth} \gls{convex} function $f(\weights')$. Indeed, taking a 
 		\gls{gradstep} with \gls{stepsize} $\lrate$ at the current vector $\weights$ 
@@ -819,13 +849,16 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	sort=zerooneloss, 
     first={$0/1$ loss},text={$0/1$ loss}}
 
-\newglossaryentry{probability}{name={probability}, 
-	description={We\index{probability} assign a probability value, typically chosen in the 
-		interval $[0,1]$, to each event that might occur in a random experiment \cite{BillingsleyProbMeasure}, \cite{BertsekasProb}, \cite{HalmosMeasure},  \cite{KallenbergBook}.},
-first={probability},
-firstplural={probabilities},
-plural={probabilities},
-text={probability}}
+\newglossaryentry{probability}
+{name={probability}, 
+  description={We\index{probability} assign a probability value, typically 
+  	chosen in the interval $[0,1]$, to each event that might occur in a 
+  	random experiment \cite{BillingsleyProbMeasure}, \cite{BertsekasProb}, \cite{HalmosMeasure},  \cite{KallenbergBook}.},
+  first={probability},
+  firstplural={probabilities},
+  plural={probabilities},
+  text={probability}
+ }
 	
 \newglossaryentry{underfitting}{name={underfitting},description={Consider\index{underfitting} 
 		an \gls{ml} method that uses \gls{erm} to learn a \gls{hypothesis} with the \gls{minimum} \gls{emprisk} 
@@ -3561,7 +3594,9 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 				\\
 		See also: \gls{pca}, \gls{probmodel}, \gls{datapoint}, \gls{em}.},first={probabilistic principal component analysis (PPCA)},text={PPCA}}
 	
-\newglossaryentry{polyreg}{name={polynomial regression}, description={Polynomial\index{polynomial regression} 
+\newglossaryentry{polyreg}
+{name={polynomial regression}, 
+ description={Polynomial\index{polynomial regression} 
 		\gls{regression} aims at learning a polynomial \gls{hypothesis} map to predict a numeric \gls{label} based
 		 on the numeric \glspl{feature} of a \gls{datapoint}. For \glspl{datapoint} characterized by a single 
 		 numeric \gls{feature}, polynomial \gls{regression} uses the \gls{hypospace} 
@@ -3570,26 +3605,40 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 			incurred on a set of \glspl{labeled datapoint} (which we refer to as the 
 			\gls{trainset}).
 					\\
-		See also: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypospace}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},first={polynomial regression},text={polynomial regression}}
+		See also: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypospace}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},
+		first={polynomial regression},
+		text={polynomial regression}
+	}
 
-\newglossaryentry{linreg}{name={linear regression}, description={Linear\index{linear regression} 
-		\gls{regression} aims to learn a linear \gls{hypothesis} map to predict a numeric \gls{label} based 
-		on the numeric \glspl{feature} of a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is 
-		measured using the average \gls{sqerrloss} incurred on a set of \glspl{labeled datapoint}, 
-		which we refer to as the \gls{trainset}.
+\newglossaryentry{linreg}
+{name={linear regression}, 
+ description={Linear\index{linear regression} \gls{regression} aims to learn a linear 
+ 	\gls{hypothesis} map to predict a numeric \gls{label} based on the numeric \glspl{feature} of 
+ 	a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is measured using the average 
+ 	\gls{sqerrloss} incurred on a set of \glspl{labeled datapoint}, which we refer to as the \gls{trainset}.
 				\\
-		See also: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint},  \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},first={linear regression},text={linear regression}}
+		See also: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint},  \gls{sqerrloss}, 
+		\gls{labeled datapoint}, \gls{trainset}.},
+	first={linear regression},
+	text={linear regression}
+}
         
-\newglossaryentry{ridgeregression}{name={ridge regression}, description={Ridge\index{ridge regression} 
-		\gls{regression} learns the \gls{weights} $\weights$ of a linear \gls{hypothesis} map $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. The quality of a particular choice for the \gls{modelparams} $\weights$ is measured by the sum 
-		of two components. The first component is the average \gls{sqerrloss} incurred by $\hypothesis^{(\weights)}$ on a set of 
-		\glspl{labeled datapoint} (i.e., the \gls{trainset}). The second component is the scaled squared 
-		Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} parameter 
-		$\regparam > 0$. Adding $\regparam \| \weights \|^{2}_{2}$ to 
-	    the average \gls{sqerrloss} is equivalent to replacing original \glspl{datapoint} by the \glspl{realization} 
-	    of (infinitely many) \gls{iid} \glspl{rv} centered around these \glspl{datapoint} (see \gls{regularization}).
+\newglossaryentry{ridgeregression}
+{name={ridge regression}, 
+ description={Ridge\index{ridge regression} \gls{regression} learns the \gls{weights} $\weights$ 
+ 	of a linear \gls{hypothesis} map $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. 
+ 	The quality of a particular choice for the \gls{modelparams} $\weights$ is measured by the sum of 
+ 	two components. The first component is the average \gls{sqerrloss} incurred by $\hypothesis^{(\weights)}$ 
+ 	on a set of \glspl{labeled datapoint} (i.e., the \gls{trainset}). The second component is the scaled 
+ 	squared Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} parameter 
+ 	$\regparam > 0$. Adding $\regparam \| \weights \|^{2}_{2}$ to the average \gls{sqerrloss} is equivalent 
+ 	to replacing original \glspl{datapoint} by the \glspl{realization} of (infinitely many) \gls{iid} \glspl{rv} 
+ 	centered around these \glspl{datapoint} (see \gls{regularization}).
 	    		\\
-		See also: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},first={ridge regression},text={ridge regression}}
+		See also: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},
+	first={ridge regression},
+	text={ridge regression}
+}
 
 
 \newglossaryentry{expectation}
@@ -3647,34 +3696,72 @@ first={expectation},
 text={expectation}
 }
 
-\newglossaryentry{logreg}{name={logistic regression}, description={Logistic\index{logistic regression} \gls{regression} learns a 
+\newglossaryentry{logreg}
+{name={logistic regression}, 
+	description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} map (or \gls{classifier}) $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
 		to predict a binary \gls{label} $\truelabel$ based on the numeric \gls{featurevec} $\featurevec$ of 
 		a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is measured by the average \gls{logloss} 
 		on some \glspl{labeled datapoint} (i.e., the \gls{trainset}).
 				\\
 		See also: \gls{regression}, \gls{hypothesis}, \gls{classifier}, \gls{label}, \gls{featurevec}, \gls{datapoint}, \gls{logloss}, \gls{labeled datapoint}, \gls{trainset}.},
-		first={logistic regression},text={logistic regression}}
+	first={logistic regression},
+	text={logistic regression}}
 	
-\newglossaryentry{logloss}{name={logistic loss}, description={Consider\index{logistic loss} 
-		a \gls{datapoint} characterized by the \glspl{feature} $\featurevec$ and a binary \gls{label} $\truelabel \in \{-1,1\}$. 
-		We use a real-valued \gls{hypothesis} $\hypothesis$ to predict the \gls{label} $\truelabel$ 
-		from the \glspl{feature} $\featurevec$. The logistic \gls{loss} incurred by this \gls{prediction} is 
-		defined as 
+\newglossaryentry{logloss}
+{name={logistic loss}, 
+ description={Consider\index{logistic loss} a \gls{datapoint} characterized by the \glspl{feature} 
+ 	$\featurevec$ and a binary \gls{label} $\truelabel \in \{-1,1\}$. We use a real-valued \gls{hypothesis} 
+ 	$\hypothesis$ to predict the \gls{label} $\truelabel$ from the \glspl{feature} $\featurevec$. 
+ 	The logistic \gls{loss} incurred by this \gls{prediction} is defined as 
 	\begin{equation} 
 		\label{equ_log_loss_gls_dict}
 		\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log ( 1 + \exp(- \truelabel \hypothesis(\featurevec))).
 \end{equation}
+\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines=middle,
+				xlabel={$\truelabel\hypothesis(\featurevec)$},
+				ylabel={$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$},
+				xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  % Adjusted to be relative to axis end
+				ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, % Corrected to vertical position, rotated for readability
+				xmin=-3.5, xmax=3.5,
+				ymin=-0.5, ymax=2.5,
+				xtick={-3, -2, -1, 0, 1, 2, 3},
+				ytick={0, 1, 2},
+				domain=-3:3,
+				samples=100,
+				width=10cm, height=6cm,
+				grid=both,
+				major grid style={line width=.2pt, draw=gray!50},
+				minor grid style={line width=.1pt, draw=gray!20},
+				legend pos=south west % Positions legend at the bottom left
+				]
+					\addplot [red, thick] {ln(1 + exp(-x))};    
+			\end{axis}
+		\end{tikzpicture}
+		\caption{The logistic \gls{loss} incurred by the \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
+			for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$.}
+		\label{fig_logloss_dict}
+	\end{center}
+\end{figure} 	   
 Carefully note that the expression \eqref{equ_log_loss_gls_dict} 
 for the logistic \gls{loss} applies only for the \gls{labelspace} $\labelspace = \{ -1,1\}$ and when using 
 the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
 		\\
-		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},first={logistic loss},text={logistic loss}}
+		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},
+		first={logistic loss},
+		text={logistic loss}
+	}
 	
-\newglossaryentry{hingeloss}{name={hinge loss}, description={Consider\index{hinge loss} a \gls{datapoint} 
-		characterized by a \gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ and a 
-		binary \gls{label} $\truelabel \in \{-1,1\}$. The hinge \gls{loss} incurred by a real-valued 
-		\gls{hypothesis} map $\hypothesis(\featurevec)$ is defined as 
+\newglossaryentry{hingeloss}
+{name={hinge loss}, 
+ description={Consider\index{hinge loss} a \gls{datapoint} characterized by a 
+ 	\gls{featurevec} $\featurevec \in \mathbb{R}^{\featuredim}$ and a binary \gls{label} 
+ 	$\truelabel \in \{-1,1\}$. The hinge \gls{loss} incurred by a real-valued \gls{hypothesis} 
+ 	map $\hypothesis(\featurevec)$ is defined as 
 		\begin{equation} 
 			\label{equ_hinge_loss_gls_dict}
 				\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \max \{ 0 , 1 - \truelabel \hypothesis(\featurevec) \}. 
@@ -3704,15 +3791,21 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
      %   \addlegendentry{$\max(0, 1-x)$}
     \end{axis}
 \end{tikzpicture}
-\caption{A regularized variant of the hinge \gls{loss} is used by the \gls{svm} \cite{LampertNowKernel}.}
-\label{fig_hingeloss}
+\caption{The hinge \gls{loss} incurred by the \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
+for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A reguarlized variant of the hinge 
+\gls{loss} is used by the \gls{svm} \cite{LampertNowKernel}.}
+\label{fig_hingeloss_dict}
 \end{center}
 \end{figure} 	    
 		See also: \gls{datapoint}, \gls{featurevec}, \gls{label}, \gls{loss}, \gls{hypothesis}, \gls{svm}.
-		},first={hinge loss},text={hinge loss}}
+		},
+ first={hinge loss},
+ text={hinge loss}
+}
 
-\newglossaryentry{iidasspt}{name={independent and identically distributed assumption (i.i.d.\ assumption)}, description={The \gls{iid} 
-		assumption\index{independent and identically distributed assumption (i.i.d.\ assumption)} interprets \glspl{datapoint} of a \gls{dataset} as the 
+\newglossaryentry{iidasspt}
+{name={independent and identically distributed assumption (i.i.d.\ assumption)}, 
+	description={The \gls{iid} assumption\index{independent and identically distributed assumption (i.i.d.\ assumption)} interprets \glspl{datapoint} of a \gls{dataset} as the 
 		\glspl{realization} of \gls{iid} \glspl{rv}.
 				\\
 		See also: \gls{iid}, \gls{datapoint}, \gls{dataset}, \gls{realization}, \gls{rv}.},first={independent and identically distributed assumption (i.i.d.\ assumption)},text={i.i.d.\ assumption} }
@@ -3742,10 +3835,13 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
 	map, similar to how a social security number identifies a person in Finland.
 			\\
 		See also: \gls{model}, \gls{parameter}, \gls{hypothesis}.},
-	first={model parameters},text={model parameters} }
+	first={model parameters},
+	text={model parameters} 
+}
 
-\newglossaryentry{ai}{name={artificial intelligence (AI)}, description={
-		AI\index{artificial intelligence (AI)} refers to systems that behave rationally in the sense of 
+\newglossaryentry{ai}
+{name={artificial intelligence (AI)}, 
+  description={AI\index{artificial intelligence (AI)} refers to systems that behave rationally in the sense of 
 		maximizing a long-term \gls{reward}. The \gls{ml}-based approach to AI is to train a \gls{model} for  
 		predicting optimal actions. These \glspl{prediction} are computed from observations about the state of the 
 		environment. The choice of \gls{lossfunc} sets AI applications apart from more basic \gls{ml} applications. 
@@ -3753,7 +3849,10 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}.
 		Instead, AI systems use observed \gls{reward} signals to obtain a (point-wise) estimate for the 
 		\gls{loss} incurred by the current choice of \gls{modelparams}.
 				\\
-		See also: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},first={AI},text={AI} }
+		See also: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},
+	first={AI},
+	text={AI} 
+}
 
 \newglossaryentry{reward}{name={reward}, description={A reward refers to some\index{reward} observed 
 		(or measured) quantity that allows us to estimate the \gls{loss} incurred by the \gls{prediction} 
@@ -4064,16 +4163,19 @@ first={online gradient descent (online GD)},text={online GD}}
 				\\
 		See also: \gls{featuremap}, \gls{feature}, \gls{minimum}.},first={principal component analysis (PCA)},text={PCA} }
 	
-\newglossaryentry{loss}{name={loss}, description={\gls{ml}\index{loss} methods use a 
-		\gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ to measure the error incurred 
-		by applying a specific \gls{hypothesis} to a specific \gls{datapoint}. With a
-		slight abuse of notation, we use the term loss for both the \gls{lossfunc} $\loss$ 
-		itself and the specific value $\lossfunc{\datapoint}{\hypothesis}$, for a \gls{datapoint} $\datapoint$ 
-		and \gls{hypothesis} $\hypothesis$.
+\newglossaryentry{loss}
+{name={loss}, 
+  description={\gls{ml}\index{loss} methods use a \gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ 
+  	to measure the error incurred by applying a specific \gls{hypothesis} to a specific \gls{datapoint}. 
+  	With a slight abuse of notation, we use the term loss for both the \gls{lossfunc} $\loss$ 
+	 itself and the specific value $\lossfunc{\datapoint}{\hypothesis}$, for a \gls{datapoint} $\datapoint$ 
+	and \gls{hypothesis} $\hypothesis$.
 				\\
 		See also: \gls{ml}, \gls{lossfunc}, \gls{hypothesis}, \gls{datapoint}.},first={loss},text={loss} }
 
-\newglossaryentry{lossfunc}{name={loss function}, description={A\index{loss function} \gls{loss} function is a map 
+\newglossaryentry{lossfunc}
+{name={loss function}, 
+  description={A\index{loss function} \gls{loss} function is a map 
 		$$\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
 		 \hypothesis\big) \mapsto  \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.$$
 		It assigns a non-negative real number (i.e., the \gls{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$
@@ -4102,9 +4204,9 @@ first={online gradient descent (online GD)},text={online GD}}
 						ymin=-0.5,
 						ymax=2.5
 						]
-						\addplot [smooth, ultra thick] table [x=a, y=b, col sep=comma] {assets/logloss.csv};    
+						\addplot [red, thick] {ln(1 + exp(-x))};    
 					\end{axis}
-					\node [above] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
+					\node [above,centered,xshift=-5pt] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
 					\node [above] at (10,1) {\gls{hypothesis} $\hypothesis$};
 						\node [right] at (4,6) {\gls{loss}};
 				\end{tikzpicture}
@@ -4118,15 +4220,18 @@ first={online gradient descent (online GD)},text={online GD}}
 		See also: \gls{loss}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{prediction}, \gls{featurevec}, \gls{ml}.
  },first={loss function},text={loss function} }
 
-\newglossaryentry{decisiontree}{name={decision tree}, plural={decision trees}, description={A\index{decision tree} 
-		decision tree is a flow-chart-like representation of a \gls{hypothesis} map $\hypothesis$. 
-		More formally, a decision tree is a directed \gls{graph} containing a root node that reads 
-		in the \gls{featurevec} $\featurevec$ of a \gls{datapoint}. The root node then forwards 
-		the \gls{datapoint} to one of its child nodes based on some elementary test on the \glspl{feature} $\featurevec$. 
-		If the receiving child node is not a leaf node, i.e., it has itself child nodes, 
-	  it represents another test. Based on the test result, the \gls{datapoint} is forwarded 
-	   to one of its descendants. This testing and forwarding of the \gls{datapoint} is continued 
-	  until the \gls{datapoint} ends up in a leaf node (having no child nodes). 
+\newglossaryentry{decisiontree}
+{name={decision tree}, 
+  plural={decision trees}, 
+  description={A\index{decision tree} decision tree is a flow-chart-like representation 
+  	of a \gls{hypothesis} map $\hypothesis$. More formally, a decision tree is a directed 
+  	\gls{graph} containing a root node that reads in the \gls{featurevec} $\featurevec$ of 
+  	a \gls{datapoint}. The root node then forwards the \gls{datapoint} to one of its child 
+  	nodes based on some elementary test on the \glspl{feature} $\featurevec$. If the receiving 
+  	child node is not a leaf node, i.e., it has itself child nodes, it represents another test. 
+  	Based on the test result, the \gls{datapoint} is forwarded to one of its descendants. 
+  	This testing and forwarding of the \gls{datapoint} is continued until the \gls{datapoint} 
+  	ends up in a leaf node without any children. 
 \begin{figure}[H]
 \begin{minipage}{.45\textwidth}
 	\scalebox{1}{
@@ -4190,12 +4295,13 @@ first={online gradient descent (online GD)},text={online GD}}
 			In practice, the \gls{model} is typically deployed on a server connected to the internet. 
 			Clients send requests containing \gls{feature} values to the server, which responds with 
 			the computed \gls{prediction} $\widehat{\hypothesis}(\featurevec)$. APIs promote modularity 
-			in \gls{ml} system design, i.e., one team can develop and train the model, while another team
+			in \gls{ml} system design, i.e., one team can develop and train the \gls{model}, while another team
 			handles integration and user interaction. Publishing a trained \gls{model} via an API also 
 			offers practical advantages: 
 			\begin{itemize} 
 				\item The server can centralize computational resources which are required to compute \glspl{prediction}. 
-		        \item The internal structure of the \gls{model} remains hidden (which is useful for protecting intellectual property (IP) or trade secrets). 
+		        \item The internal structure of the \gls{model} remains hidden -- which is useful for protecting 
+		        intellectual property or trade secrets. 
 		    \end{itemize} 
 			However, APIs are not without \gls{risk}. Techniques such as \gls{modelinversion} can potentially reconstruct a 
 			\gls{model} from its \glspl{prediction} on carefully selected \glspl{featurevec}.
@@ -4206,7 +4312,43 @@ first={online gradient descent (online GD)},text={online GD}}
 		text={API}
 }
 
-\newglossaryentry{modelinversion}{name={model inversion},description={TBD.},first={model inversion},text={model inversion}}
+\newglossaryentry{modelinversion}
+{name={model inversion},
+  description={A\index{model inversion} \gls{model} inversion is a form of privacy \gls{attack} on a \gls{ml} system. 
+  	An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
+  	to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
+  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ on carefully chosen inputs. 
+  	Basic \gls{modelinversion} techniques have been demonstrated in the context of facial image 
+  	\gls{classification}, where images were reconstructed using the (\gls{gradient} of) \gls{model} outputs 
+  	combined with auxiliary information such as a person’s name \cite{Fredrikson2015}.
+  	\begin{tikzpicture}[scale=1.5]
+  		% Axes
+  		\draw[->] (-0.5,0) -- (5.5,0) node[right] {face image $\featurevec$};
+  		\draw[->] (0,-0.2) -- (0,2.5) node[above] {name};
+  		% Sigmoid-like curve
+  		\draw[thick, domain=0.5:5, samples=100, smooth, variable=\x, name path=sigmoid] 
+  		plot ({\x}, {2/(1 + exp(-3*(\x - 3)))});
+  		%\node at (5.1, 0.2) {\small (e.g., face photo)};
+  		% Highlight point
+  		\def\xval{3}
+  		\pgfmathsetmacro{\yval}{2/(1 + exp(-3*(\xval - 3)))}
+  		% Ruler lines
+  		\draw[dashed] (\xval,0) -- (\xval,\yval);
+  		\draw[dashed] (0,\yval) -- (\xval,\yval);
+  		% Filled circle
+  		\filldraw[fill=blue!20, draw=blue] (\xval,\yval) circle (0.1);
+  		\node[anchor=south east] at (-0.1,\yval) {\footnotesize ``Alexander Jung''};
+  		% Axis labels with image
+  		\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
+  		% Label on curve
+  		\node[above right] at (4,2.2) {trained \gls{model} $\learnthypothesis$};
+  	\end{tikzpicture}
+  	\\ 
+  	See also: \gls{attack}, \gls{trustAI}, \gls{privprot}. 
+  },
+  first={model inversion},
+  text={model inversion}
+}
 
 
 \newglossaryentry{hilbertspace}{
@@ -4479,11 +4621,13 @@ first={probability density function (pdf)},text={pdf}}
 		the \gls{weights} of an \gls{ann}). These parameters (hopefully) converge to an optimal choice 
 		for the \gls{modelparams}. In practice, given finite computational 
 		resources, we need to stop iterating after a finite number of repetitions. 
-		A stopping criterion is any well-defined condition required for stopping 
-		the iteration.
+		A stopping criterion is any well-defined condition for deciding when to stop  
+		iterating.
 				\\
 		See also: \gls{ml}, \gls{algorithm}, \gls{modelparams}, \gls{weights}, \gls{ann}.},
 		first={stopping criterion},
+		firstplural={stopping criteria}, 
+		plural={stopping criteria}, 
 		text={stopping criterion}
 }
 
