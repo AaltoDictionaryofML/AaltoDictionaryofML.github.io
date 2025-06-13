@@ -2,12 +2,13 @@
 
 \newglossaryentry{inverse}
 {name={inverse matrix},
- description={The\index{inverse matrix} inverse $\mA^{-1}$ of a square matrix $\mA \in \mathbb{R}^{n \times n}$ 
- 	(if it exists, then $\mA$ is called invertible) is defined by $\mA \mA^{-1} = \mA^{-1} \mA = \mI$, where $\mI$ 
- 	is the identity matrix. A matrix is invertible if and only if its \gls{det} is non-zero. Inverse matrices are used in 
- 	solving systems of linear equations and in closed-form solutions of \gls{linreg}. 
- 	Note that for non-square matrices, one may define one-sided inverses: a left inverse $\mB$ s
- 	atisfies $\mB\mA = \mI$ and a right inverse $\mC$ satisfies $\mA\mC = \mI$.\\
+ description={Consider a sqaure matrix $\mA \in \mathbb{R}^{n \times n}$ which has full rank, i.e., 
+ 	its columns are linearly indepedent. It is then invertible, i.e., there is an\index{inverse matrix} inverse matrix 
+ 	$\mA^{-1}$ such that $\mA \mA^{-1} = \mA^{-1} \mA = \mI$. A matrix is invertible if and only 
+ 	if its \gls{det} is non-zero. Inverse matrices are used in solving systems of linear equations 
+ 	and in closed-form solutions of \gls{linreg}. The concept of an inverse matrix can be generalized 
+ 	to non-invertible and even non-square matrices. Indeed, one may define a left inverse $\mB$ by 
+ 	requiring $\mB\mA = \mI$ or a right inverse $\mC$ that satisfies $\mA\mC = \mI$.\\
 		See also: \gls{det}, \gls{linreg}.},
 	first={inverse matrix},
 	text={inverse matrix}
@@ -15,16 +16,47 @@
 
 \newglossaryentry{det}
 {name={determinant},
- description={The\index{determinant} \emph{determinant} $\det(\mA)$ of a square matrix 
+ description={The\index{determinant} determinant $\det(\mA)$ of a square matrix 
  	$\mA \in \mathbb{R}^{n \times n}$ is a scalar that characterizes how (the orientation of) 
- 	volumes in $\mathbb{R}^n$ are altered by applying $\mA$. [Note that a matrix $\mA$ represents 
- 	a linear transformation on $\mathbb{R}^{n}$.] In particular, $\det(\mA) > 0$ preserves 
- 	orientation, $\det(\mA) < 0$ reverses orientation, and $\det(\mA) = 0$ collapses volume entirely, 
- 	indicating that $\mA$ is non-invertible. Formally, $\det(\mA) = 0$ if and only if $\mA$ is non-invertible. 
+ 	volumes in $\mathbb{R}^n$ are altered by applying $\mA$ \cite{GolubVanLoanBook,Strang2007}. 
+ 	[Note that a matrix $\mA$ represents a linear transformation on $\mathbb{R}^{n}$.] 
+ 	In particular, $\det(\mA) > 0$ preserves orientation, $\det(\mA) < 0$ reverses orientation, 
+ 	and $\det(\mA) = 0$ collapses volume entirely, indicating that $\mA$ is non-invertible. 
  	The determinant also satisfies $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, and if $\mA$ is 
- 	diagonalizable with eigenvalues $\eigval{1}, \ldots, \eigval{n}$, then $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}.
-    Geometrically, for the special cases $n=2$ (2D) and $n=3$ (3D), the determinant corresponds 
-     to the signed area or volume spanned by the column vectors of $\mA$.
+ 	diagonalizable with \glspl{eigenvalue} $\eigval{1}, \ldots, \eigval{n}$, then $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}.
+    For the special cases $n=2$ (2D) and $n=3$ (3D), the determinant can be interpreted as an oriented 
+    area or volume spanned by the column vectors of $\mA$.
+    \begin{figure} 
+    	\begin{center}
+    \begin{tikzpicture}[x=2cm]
+% LEFT: Standard basis vectors and unit square
+	\begin{scope}
+	\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
+	\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
+%	\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+	%\node at (0.5,0.5) {\small unit square};
+	%\node at (0.5,-0.6) {standard basis};
+	\end{scope}
+% RIGHT: Transformed basis vectors and parallelogram
+	\begin{scope}[shift={(2.8,0)}]
+	\coordinate (A) at (1.5,0.5);
+	\coordinate (B) at (-0.2,1.2);
+	\draw[->, very thick, red] (0,0) -- (A) node[below right] {$\mA \vx$};
+	\draw[->, very thick, red] (0,0) -- (B) node[above left] {$\mA \vy$};
+	\draw[fill=red!20, opacity=0.6] (0,0) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+	\draw[dashed] (A) -- ($(A)+(B)$);
+	\draw[dashed] (B) -- ($(A)+(B)$);
+	\node at (0.8,0.6) {\small $\det(\mA)$};
+	% Orientation arc
+	\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
+%	\node[blue] at (0.25,1.25) {};
+%	\node at (0.8,-0.6) {transformed basis};
+	\end{scope}
+% Arrow between plots
+	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+	\end{tikzpicture}
+	\end{center}
+	\end{figure}
 		\\ 
 		See also: \gls{eigenvalue}, \gls{inverse}.
 	},
@@ -34,9 +66,14 @@
 
 \newglossaryentry{linearmap}{
 	name={linear map},
-	description={A\index{linear map} linear map $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a function that satisfies additivity :
+	description={A\index{linear map} linear map $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a \gls{function} 
+		that satisfies additivity :
 		$f(\vx + \vy) = f(\vx) + f(\vy)$, and homogeneity :
-		$f(c\vx) = c f(\vx)$ for all vectors $\vx, \vy \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear map can be represented as a matrix multiplication $f(\vx) = \mA \vx$ for some matrix $\mA \in \mathbb{R}^{m \times n}$. Linear maps are fundamental in \gls{linmodel}, \gls{linreg}, and \gls{pca}.\\
+		$f(c\vx) = c f(\vx)$ for all vectors $\vx, \vy \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. 
+		In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear map can be represented as a matrix 
+		multiplication $f(\vx) = \mA \vx$ for some matrix $\mA \in \mathbb{R}^{m \times n}$. 
+		The collection of real-valued linear maps for a given dimension $n$ constitute a \gls{linmodel} 
+		which is used in many \gls{ml} methods. \\
 		See also: \gls{linmodel}, \gls{linreg}, \gls{pca}, \gls{featurevec}.},
 	first={linear map},
 	text={linear map}
