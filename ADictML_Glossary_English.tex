@@ -1,14 +1,72 @@
 % !TeX spellcheck = en_GB
+ 
+ 
+\newglossaryentry{pseudoinverse}
+{name={pseudoinverse},
+  description={The \index{pseudoinverse}Moore–Penrose pseudoinverse $\mA^{+}$ 
+ of a matrix $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ generalizes the 
+ notion of an \gls{inverse} \cite{GolubVanLoanBook}. The pseudoinverse arises naturally 
+ within \gls{ridgeregression} when applied to a \gls{dataset} with arbitrary \glspl{label} $\vy$ 
+ and \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. The \gls{modelparams} 
+ learned by \gls{ridgeregression} 
+  are given by
+  	\[
+  	\widehat{\vw}^{(\regparam)}  = \big(\mA^T \mA + \regparam \mI \big)^{-1} \mA^\top \vy, \quad \regparam > 0.
+  	\]
+  	We can then define the pseudoinverse  $\mA^+ \in \mathbb{R}^{\nrfeatures \times \samplesize}$ via 
+  	the limit \cite[Ch. 3]{benisrael2003generalized}
+  	\[
+  	\lim_{\regparam \to 0^+} \widehat{\vw}^{(\regparam)} = \mA^+ \vy.
+  	\]
+	},
+ 	first={pseudoinverse},
+ 	text={pseudoinverse}
+ }
+ 
 
 \newglossaryentry{inverse}
 {name={inverse matrix},
- description={Consider a sqaure matrix $\mA \in \mathbb{R}^{n \times n}$ which has full rank, i.e., 
- 	its columns are linearly indepedent. It is then invertible, i.e., there is an\index{inverse matrix} inverse matrix 
- 	$\mA^{-1}$ such that $\mA \mA^{-1} = \mA^{-1} \mA = \mI$. A matrix is invertible if and only 
- 	if its \gls{det} is non-zero. Inverse matrices are used in solving systems of linear equations 
- 	and in closed-form solutions of \gls{linreg}. The concept of an inverse matrix can be generalized 
- 	to non-invertible and even non-square matrices. Indeed, one may define a left inverse $\mB$ by 
- 	requiring $\mB\mA = \mI$ or a right inverse $\mC$ that satisfies $\mA\mC = \mI$.\\
+ description={An inverse matrix\index{inverse matrix} $\mA^{-1}$ is defined for a 
+ 	square matrix $\mA \in \mathbb{R}^{n \times n}$ that is of full rank, meaning its 
+ 	columns are linearly independent. In this case, $\mA$ is said to be invertible, 
+ 	and its inverse satisfies 
+ 	\[
+ 	\mA \mA^{-1} = \mA^{-1} \mA = \mI.
+ 	\]  	
+     A square matrix is invertible if and only if its \gls{det} is non-zero. Inverse matrices are 
+     fundamental in solving systems of linear equations and in the closed-form solution of 
+     \gls{linreg} \cite{Strang2007,Horn91}.  The concept of an inverse matrix can be extended 
+     to matrices that are not square or not full rank. One may define a ``left inverse'' $\mB$ 
+     satisfying $\mB \mA = \mI$, or a ``right inverse'' $\mC$ satisfying $\mA \mC = \mI$. 
+     For general rectangular or singular matrices, the Moore–Penrose \gls{pseudoinverse}
+     $\mA^{+}$ provides a unified concept of generalized inverse matrix \cite{GolubVanLoanBook}.
+ 	 \begin{figure}
+ 		\centering
+ 		\begin{tikzpicture}[x=2cm,y=2cm]
+ 			% LEFT: Standard basis
+ 			\begin{scope}
+ 				\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
+ 				\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
+ 			\end{scope}
+ 			% CENTER: Transformed basis (by A)
+ 			\begin{scope}[shift={(2.0,0)}]
+ 				\coordinate (A) at (1.5,0.5);
+ 				\coordinate (B) at (-0.2,1.2);
+				\draw[->, very thick, red] (0,0) -- (A) node[pos=0.5, below right] {$\mA \vx$};
+ 				\draw[->, very thick, red] (0,0) -- (B) node[above right] {$\mA \vy$};
+ 			\end{scope}
+ 			% RIGHT: Inverse transformation
+ 			\begin{scope}[shift={(4.9,0)}]
+ 				\draw[->, very thick, blue] (0,0) -- (1,0) node[pos=0.5, below] {$\mA^{-1} (\mA \vx) = \vx$};
+ 				\draw[->, very thick, blue] (0,0) -- (0,1) node[above] {$\mA^{-1} (\mA \vy) = \vy$};
+ 			\end{scope}
+ 			% Curved arrows between stages
+ 			\draw[->, thick, bend left=20] (1.2,0.4) to node[above] {$\mA$} (1.8,0.4);
+ 			\draw[->, thick, bend left=20] (3.8,0.4) to node[below] {$\mA^{-1}$} (4.4,0.4);
+ 		\end{tikzpicture}
+ 		\caption{A matrix $\mathbf{A}$ represents a linear transformation of $\mathbb{R}^{2}$. The inverse matrix $\mathbf{A}^{-1}$ 
+ 			represents the inverse transformation. \label{fig_matrix_inverse_dict}} 
+ 	\end{figure}\\
 	See also: \gls{det}, \gls{linreg}.},
   first={inverse matrix},
   text={inverse matrix}
