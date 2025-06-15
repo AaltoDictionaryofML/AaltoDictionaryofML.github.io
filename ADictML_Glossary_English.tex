@@ -1,4 +1,4 @@
-% !TeX spellcheck = en_GB
+% !TeX spellcheck = en_US
  
  
 \newglossaryentry{pseudoinverse}
@@ -807,19 +807,19 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	}
 
 \newglossaryentry{lime}
-{name={local interpretable model-agnostic explanations (LIME)},description={
+{name={local interpretable model-agnostic explanations (LIME)},
+ description={
 		Consider\index{local interpretable model-agnostic explanations (LIME)} 
 		a trained \gls{model} (or learned \gls{hypothesis}) $\widehat{\hypothesis} \in \hypospace$, 
 		which maps the \gls{featurevec} of a \gls{datapoint} to the \gls{prediction} $\widehat{\truelabel}= \widehat{\hypothesis}$. 
-		LIME is a technique for explaining 
-		the behavior of $\widehat{\hypothesis}$, locally around a \gls{datapoint} with \gls{featurevec} $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
-		The \gls{explanation} is given in the form of a local approximation $g \in \hypospace'$ of $\widehat{\hypothesis}$ (see Fig. \ref{fig_lime}). 
-		This approximation can be obtained by an instance of \gls{erm} with a carefully designed 
-		\gls{trainset}. In particular, the \gls{trainset} consists of \glspl{datapoint} with 
-		\gls{featurevec} $\featurevec$ close to $\featurevec^{(0)}$ and the (pseudo-)\gls{label} $\widehat{\hypothesis}(\featurevec)$. 
+		LIME is a technique for explaining the behavior of $\widehat{\hypothesis}$, locally around a \gls{datapoint} with \gls{featurevec} $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
+		The \gls{explanation} is given in the form of a local approximation $g \in \hypospace'$ of $\widehat{\hypothesis}$ 
+		(see Fig. \ref{fig_lime_dict}). This approximation can be obtained by an instance of \gls{erm} 
+		with a carefully designed \gls{trainset}. In particular, the \gls{trainset} consists of \glspl{datapoint} 
+		with \gls{featurevec} $\featurevec$ close to $\featurevec^{(0)}$ and the (pseudo-)\gls{label} $\widehat{\hypothesis}(\featurevec)$. 
 		Note that we can use a different \gls{model} $\hypospace'$ for the approximation from 
 		the original \gls{model} $\hypospace$. For example, we can use a \gls{decisiontree} 
-		to approximate (locally) a \gls{deepnet}. Another widely-used choice for $\hypospace'$ is 
+		to locally approximate a \gls{deepnet}. Another widely-used choice for $\hypospace'$ is 
 		the \gls{linmodel}. 
 		\begin{figure}[H]
 		\begin{center}
@@ -852,9 +852,9 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\end{center}
 		\caption{To explain a trained \gls{model} $\widehat{\hypothesis} \in \hypospace$, around a 
 		given \gls{featurevec} $\featurevec^{(0)}$, we can use a local approximation $g \in \hypospace'$. }
-		\label{fig_lime}
+		\label{fig_lime_dict}
 		\end{figure}
-		See also: \gls{model}, \gls{hypothesis}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{explanation}, \gls{erm}, \gls{trainset}, \gls{label}, \gls{decisiontree}, \gls{deepnet}, \gls{linmodel}.},
+		See also: \gls{model}, \gls{explanation}, \gls{erm}, \gls{trainset}, \gls{label}, \gls{decisiontree}, \gls{deepnet}, \gls{linmodel}.},
 	first={LIME},text={LIME}
 }
 
@@ -862,21 +862,94 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 
 \newglossaryentry{linmodel}
 {name={linear model}, 
-	description={Consider\index{linear model} \glspl{datapoint}, each characterized by a numeric \gls{featurevec} 
-		$\featurevec \in \mathbb{R}^{\featuredim}$. A linear \gls{model} is 
-		a \gls{hypospace} which consists of all \glspl{linearmap} such that 
-	\begin{equation} 
-		\label{equ_def_lin_model_hypspace_dict}
-		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
-	\end{equation} 
-	Note that \eqref{equ_def_lin_model_hypspace_dict} defines an entire family of \glspl{hypospace}, which is 
-	parametrized by the number $\nrfeatures$ of \glspl{feature} that are linearly combined to form the 
-	\gls{prediction} $\hypothesis(\featurevec)$. The design choice of $\nrfeatures$ is guided by \gls{compasp} 
-	(e.g., reducing $\nrfeatures$ means less computation), \gls{statasp} (e.g., increasing $\nrfeatures$ might 
-	reduce \gls{prediction} error), and \gls{interpretability}. A linear \gls{model} using few carefully chosen 
-	\glspl{feature} tends to be considered more interpretable \cite{rudin2019stop}, \cite{Ribeiro2016}.
-				\\ 
-		See also: \gls{datapoint}, \gls{featurevec}, \gls{model}, \gls{hypospace}, \gls{linearmap}, \gls{feature}, \gls{prediction}, \gls{compasp}, \gls{statasp}, \gls{interpretability}.}, 
+	description={
+		Consider\index{linear model} a \gls{ml} application involving \glspl{datapoint}, each represented 
+		by a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\nrfeatures}$. A linear \gls{model} defines 
+		a \gls{hypospace} consisting of all real-valued \glspl{linearmap} from $\mathbb{R}^{\nrfeatures}$ to $\mathbb{R}$,
+		\begin{equation}
+			\label{equ_def_lin_model_hypspace_dict}
+			\linmodel{\nrfeatures} \defeq \left\{ \hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R} \mid \hypothesis(\featurevec) = \weights^{\top} \featurevec \text{ for some } \weights \in \mathbb{R}^{\nrfeatures} \right\}.
+		\end{equation}
+		Each value of $\nrfeatures$ defines a different \gls{hypospace}, corresponding to the number of 
+		\glspl{feature} used to compute the \gls{prediction} $\hypothesis(\featurevec)$. The choice of 
+		$\nrfeatures$ is often guided by \gls{compasp} (e.g., fewer features reduce computation), \gls{statasp} 
+		(e.g., more features typically reduce \gls{bias} and thus lower \gls{risk}), and \gls{interpretability}. 
+		A linear \gls{model} using a small number of well-chosen \glspl{feature} is generally considered 
+		more interpretable \cite{rudin2019stop, Ribeiro2016}.
+		The \gls{linmodel} is attractive because it can typically be trained using scalable \gls{convex} \glspl{optmethod} \cite{hastie01statisticallearning,BertsekasNonLinProgr}. Moreover, \glspl{linmodel} often permit rigorous 
+		statistical analysis, including fundamental limits on the minimum achievable \gls{risk} \cite{Wain2019}. 
+		They are also useful for analyzing more complex, non-linear \glspl{model} such as \glspl{ann}. For instance, 
+		a \gls{deepnet} can be viewed as the composition of a \gls{featuremap}---implemented by the input and 
+		hidden layers---and a linear \gls{model} in the output layer. Similarly, a \gls{decisiontree} can be interpreted 
+		as applying a one-hot encoded \gls{featuremap} based on \glspl{decisionregion}, followed by a linear 
+		\gls{model} that assigns a \gls{prediction} to each region.
+		More generally, any trained \gls{model} $\learnthypothesis \in \hypospace$ that is 
+		\gls{differentiable} at some $\featurevec'$ can be locally approximated by a \gls{linearmap} 
+		$g(\featurevec)$. Figure~\ref{fig_linapprox_dict} illustrates such a local linear approximation, 
+		defined by the \gls{gradient} $\nabla \learnthypothesis(\featurevec')$. Note that the \gls{gradient} 
+		is only defined where $\learnthypothesis$ is \gls{differentiable}.
+		To ensure \gls{robustness} in the context of \gls{trustAI}, one may prefer \glspl{model} whose 
+		associated \gls{map} $\learnthypothesis$ is Lipschitz continuous. A classic result in mathematical 
+		analysis---Rademacher’s Theorem---states that if $\learnthypothesis$ is Lipschitz continuous with 
+		some constant $L$ over an open set $\Omega \subseteq \mathbb{R}^{\nrfeatures}$, then $\learnthypothesis$ 
+		is \gls{differentiable} almost everywhere in $\Omega$ \cite[Thm.~3.1]{heinonen2005lectures}.
+	\begin{figure}[htbp]
+	\begin{center}
+	\begin{tikzpicture}[x=0.5cm]
+		\begin{axis}[
+			hide axis,
+			xmin=-3, xmax=6,
+			ymin=0, ymax=6,
+			domain=0:6,
+			samples=100,
+			width=10cm,
+			height=6cm,
+			clip=false
+			]
+		% Original nonlinear function h(x)
+			\addplot[blue, thick, domain=-2:6] {2 + sin(deg(x))} 
+			node[pos=0.5, above right, yshift=3pt] {$\learnthypothesis(\featurevec)$};
+		% Tangent line as local linear approximation at x = 3
+		% h(3) = 2 + sin(3), h'(3) = cos(3)
+			\addplot[red, thick, domain=4.5:6.5] 
+			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
+			node[pos=0.95, above right] {$g(\featurevec)$};
+		% Mark point of approximation
+			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
+			    % Vertical dashed line (ruler) at x = 3
+			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
+			\node at (axis cs:6, -0.2) {$\featurevec'$};
+			    % Plot the two points
+			    % Coordinates of the two points
+			\pgfmathsetmacro{\xA}{-1.5}
+			\pgfmathsetmacro{\xB}{3}
+			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+			\addplot[mark=*, only marks] coordinates {(\xA, \yA) (\xB, \yB)};
+		%	\node at (axis cs:\xA, \yA+0.2) {$A$};
+	%		\node at (axis cs:\xB, \yB+0.2) {$B$};
+			% Draw dashed lines from the points to the x and y axes
+			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:\xA,0);
+			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:\xB,0);
+			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:0,\yA);
+			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:0,\yB);
+			 % Draw delta x
+			\draw[<->, thick] (axis cs:\xA,-0.4) -- node[below] {$\normgeneric{\Delta \featurevec}{2}$} (axis cs:\xB,-0.4);
+			% Draw delta y
+			\draw[<->, thick] (axis cs:-2.4,\yA) -- node[left] {$\leq L \normgeneric{\Delta \featurevec}{2}$} (axis cs:-2.4,\yB);
+		\end{axis}
+		\vspace*{-10mm}
+\end{tikzpicture}
+		\vspace*{-5mm}
+	\end{center}
+	\caption{
+		A trained \gls{model} $\learnthypothesis(\featurevec)$ that is \gls{differentiable} at a point $\featurevec'$ 
+		can be locally approximated by a \gls{linearmap} $g \in \linmodel{\nrfeatures}$. This local approximation 
+		is determined by the \gls{gradient} $\nabla \learnthypothesis(\featurevec')$.}
+		\label{fig_linapprox_dict}
+	\end{figure}
+	\\ 
+		See also: \gls{model}, \gls{hypospace}, \gls{gradient}, \gls{linearmap}, \gls{lime}, \gls{interpretability}.}, 
    first={linear model},
    plural={linear models},
    firstplural={linear models}, 
@@ -4723,18 +4796,18 @@ the current guess $\weights^{(\itercntr)}$. We can achieve this typically by usi
 		a single GD step \eqref{equ_def_GD_step_dict}.
 		\begin{figure}[H]
 			\begin{center}
-				\begin{tikzpicture}[scale=0.8]
+				\begin{tikzpicture}[scale=0.9]
 					\draw[loosely dotted] (-4,0) grid (4,4);
 					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
 					\draw[red, thick, domain=2:4.7] plot (\x,  {2*\x - 4});
-					\draw[<-] (4,4) -- node[right] {$\nabla f(\weights^{(\itercntr)})$} (4,2);
-					\draw[->] (4,4) -- node[above] {$-\lrate \nabla f(\weights^{(\itercntr)})$} (2,4);
-					\draw[<-] (4,2) -- node[below] {$1$} (3,2) ;
+					\draw[<-] (4,4) -- node[right] {$\big( \Delta \weights\big)^{T} \nabla f(\weights^{(\itercntr)})$} (4,2);
+					\draw[->] (4,4) -- node[above] {$-\lrate \nabla f(\weights^{(\itercntr)})$} (1,4);
+					\draw[<-] (4,2) -- node[below] {$\Delta \weights$} (3,2) ;
 					\draw[->] (-4.25,0) -- (4.25,0) node[right] {$\weights$};
 					\draw[->] (0,-2pt) -- (0,4.25) node[above] {$f(\weights)$};
 					\draw[shift={(0,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\overline{\weights}$};
 					\draw[shift={(4,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights^{(\itercntr)}$};
-					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights^{(\itercntr\!+\!1)}$};
+					\draw[shift={(1,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights^{(\itercntr\!+\!1)}$};
 					\foreach \y/\ytext in {1/1, 2/2, 3/3, 4/4}
 					\draw[shift={(0,\y)}] (2pt,0pt) -- (-2pt,0pt) node[left] {$\ytext$};  
 				\end{tikzpicture}
