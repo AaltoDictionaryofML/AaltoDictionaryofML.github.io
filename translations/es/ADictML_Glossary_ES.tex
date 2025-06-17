@@ -7,6 +7,45 @@
 	first={mínimo},text={mínimo}
 }
 
+\newglossaryentry{function}
+{name={function},
+	description={
+		  A \textbf{function}\index{function} is a mathematical rule that assigns to each 
+		  element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}. We write 
+		  this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
+		  and $\mathcal{V}$ the co-domain of $f$. That is, a function $f$ defines a unique 
+		  output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. For more details, 
+	},
+	first={function},
+	text={function}
+}
+
+\newglossaryentry{map}
+{name={map},
+	description={We\index{map} use the term map as a synonym for a \gls{function}.
+	},
+	first={map},
+	text={map}
+}
+
+\newglossaryentry{optproblem}
+{name={optimization problem},
+	description={
+		   An\index{optimization problem} optimization problem is a mathematical 
+		   structure consisting of an \gls{objfunc} $f: \mathcal{U} \rightarrow \mathcal{V}$ 
+		   defined over an optimization variable $\weights \in \mathcal{U}$, together with a 
+		   feasible set $\mathcal{W} \subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
+		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
+		   we can determine whether $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
+		   or $\mathbf{a} > \mathbf{b}$. The goal of optimization is to find those values $\weights \in \mathcal{W}$ 
+		   for which the objective $f(\weights)$ is extremal -- i.e., minimal or maximal \cite{BoydConvexBook,nesterov04,BertsekasNonLinProgr}.
+	},
+	first={optimization problem},
+	text={optimization problem}
+}
+
+
+
 
 \newglossaryentry{maximum}
 {name=máximo,
@@ -181,34 +220,35 @@
 \newglossaryentry{explainability}
 {name={explicabilidad},
 	description={
-		Definimos\index{explicabilidad} la (subjetiva) explicabilidad de un método de \gls{ml}
-		como el nivel de simulabilidad \cite{Colin:2022aa} de las \gls{prediction}es
-		entregadas por un sistema de \gls{ml} a un usuario humano.
-		Se pueden construir medidas cuantitativas para la explicabilidad (subjetiva) de un \gls{model} entrenado
-		comparando sus \gls{prediction}es con las \gls{prediction}es proporcionadas por un usuario
-		en un \gls{testset} \cite{Zhang:2024aa,Colin:2022aa}.
-		Alternativamente, podemos usar \gls{probmodel}s para los \gls{data}
-		y medir la explicabilidad de un \gls{model} de \gls{ml} entrenado mediante la entropía condicional
-		(diferencial) de sus \gls{prediction}es, dadas las \gls{prediction}es del usuario \cite{JunXML2020,Chen2018}.
-	},
+		Definimos\index{explicabilidad} la (subjetiva) explicabilidad de un método de aprendizaje automático
+		como el nivel de simulabilidad \cite{Colin:2022aa} de las predicciones
+		entregadas por un sistema de aprendizaje automático a un usuario humano.
+		Se pueden construir medidas cuantitativas para la explicabilidad (subjetiva) de un modelo entrenado
+		comparando sus predicciones con las predicciones proporcionadas por un usuario
+		en un conjunto de prueba \cite{Zhang:2024aa,Colin:2022aa}.
+		Alternativamente, podemos usar modelos probabilísticos para los datos
+		y medir la explicabilidad de un modelo de aprendizaje automático entrenado mediante la entropía condicional
+		(diferencial) de sus predicciones, dadas las predicciones del usuario \cite{JunXML2020,Chen2018}.
+		\\
+		Vea también: \gls{ml}, \gls{prediction}, \gls{model}, \gls{testset}, \gls{probmodel}, \gls{data} },
 	first={explicabilidad},text={explicabilidad}
 }
 	
 \newglossaryentry{lime}
 {name={Explicaciones Locales Interpretables e Independientes del Modelo (LIME)},description={
 		Consideremos\index{Explicaciones Locales Interpretables e Independientes del Modelo (LIME)} 
-		un \gls{model} entrenado (o una \gls{hypothesis} aprendida) $\widehat{\hypothesis} \in \hypospace$, 
-		que asigna la \gls{featurevec} de un \gls{datapoint} a la \gls{prediction} $\widehat{\truelabel}= \widehat{\hypothesis}$. 
+		un modelo entrenado (o una hipótesis aprendida) $\widehat{\hypothesis} \in \hypospace$, 
+		que asigna el vector de atributos de un punto de datos a la predicción $\widehat{\truelabel}= \widehat{\hypothesis}$. 
 		Las explicaciones Locales Interpretables e Independientes del Modelo (LIME) son una tecnica para explicar 
-		el comportamiento de $\widehat{\hypothesis}$, localmente, alrededor de un \gls{datapoint} con \gls{featurevec} $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
+		el comportamiento de $\widehat{\hypothesis}$, localmente, alrededor de un punto de datos con vector de atributos $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
 		La explicación se da en forma de una aproximación local $g \in \hypospace'$ de $\widehat{\hypothesis}$ (véa Fig.\ \ref{fig_lime}). 
-		Esta aproximación puede obtenerse mediante una instancia de \gls{erm} con un 
-		\gls{trainset} diseñado cuidadosamente. En particular, el \gls{trainset} consiste en \gls{datapoint} con 
-		\gls{featurevec} $\featurevec$ cercana a $\featurevec^{(0)}$ y la (pseudo-)etiqueta $\widehat{\hypothesis}(\featurevec)$. 
-		Nótese que podemos utilizar un \gls{model} $\hypospace'$ diferente para la aproximación que 
-		el \gls{model} original $\hypospace$. Por ejemplo, podemos usar un \gls{decisiontree} 
-		para aproximar (localmente) una \gls{deepnet}. Otra elección ampliamente utilizada para $\hypospace'$ es 
-		el \gls{linmodel}. 
+		Esta aproximación puede obtenerse mediante una instancia de ERM con un 
+		conjunto de entrenamiento diseñado cuidadosamente. En particular, el conjunto de entrenamiento consiste en puntos de datos con 
+		vector de atributos $\featurevec$ cercana a $\featurevec^{(0)}$ y la (pseudo-)etiqueta $\widehat{\hypothesis}(\featurevec)$. 
+		Nótese que podemos utilizar un modelo $\hypospace'$ diferente para la aproximación que 
+		el modelo original $\hypospace$. Por ejemplo, podemos usar un arbol de decision
+		para aproximar (localmente) una red profunda. Otra elección ampliamente utilizada para $\hypospace'$ es 
+		el modelo lineal. 
 		\begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}
@@ -239,39 +279,43 @@
 		  \end{tikzpicture}
 		\end{center}
 		\caption{Para explicar un \gls{model} $\widehat{\hypothesis} \in \hypospace$ entrenado, alrededor de un \gls{featurevec} $\featurevec^{(0)}$, podemos usar una aproximación local $g \in \hypospace'$. }
-		\end{figure}\label{fig_lime}},
+		\end{figure}\label{fig_lime}
+		\\
+		Vea también: \gls{model}, \gls{hypothesis}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{erm}, \gls{trainset}, \gls{decisiontree}, \gls{deepnet}, \gls{linmodel}  },
 	first={LIME},text={LIME}
 }
 
 
 \newglossaryentry{linmodel}{name={modelo lineal},
-	description={Consideremos\index{modelo lineal} \gls{datapoint}, cada uno caracterizado por una \gls{featurevec} numérica
-		$\featurevec \in \mathbb{R}^{\featuredim}$. Un  \gls{model} lineal es 
-		un \gls{hypospace} que consiste en todos los mapeos lineales, 
+	description={Consideremos\index{modelo lineal} puntos de datos, cada uno caracterizado por un vector de atributos numérico
+		$\featurevec \in \mathbb{R}^{\featuredim}$. Un modelo lineal es 
+		un espacio de hipótesis que consiste en todos los mapeos lineales, 
 	\begin{equation} 
 		\label{equ_def_lin_model_hypspace_dict}
 		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
 	\end{equation} 
-	Nótese que \eqref{equ_def_lin_model_hypspace_dict} define toda una familia de \gls{hypospace}s, parametrizada por el número
-	 $\nrfeatures$ de \gls{feature}s que se combinan linealmente para formar la 
-	\gls{prediction} $\hypothesis(\featurevec)$. La elección de diseño de $\nrfeatures$ se guía por \gls{compasp} 
-	(por ejemplo, reducir $\nrfeatures$ implica menor computación), por \gls{statasp} (por ejemplo, aumentar $\nrfeatures$ podría 
-	reducir el error de \gls{prediction}), y por la \gls{interpretability}. Un \gls{model} lineal que utiliza pocas 
-	\gls{feature}s cuidadosamente elegidas suele considerarse más interpretable \cite{Ribeiro2016,rudin2019stop}.}, 
+	Nótese que \eqref{equ_def_lin_model_hypspace_dict} define toda una familia de espacios de hipótesis, parametrizados por el número
+	 $\nrfeatures$ de atributos que se combinan linealmente para formar la 
+	prediccion $\hypothesis(\featurevec)$. La elección de diseño de $\nrfeatures$ se guía por aspectos computacionales
+	(por ejemplo, reducir $\nrfeatures$ implica menor computación), por aspectos estadísticos (por ejemplo, aumentar $\nrfeatures$ podría 
+	reducir el error de prediccion), y por la interpretabilidad. Un modelo lineal que utiliza pocos 
+	atributos cuidadosamente elegidas suele considerarse más interpretable \cite{Ribeiro2016,rudin2019stop}.
+	\\
+		Vea también: \gls{datapoint}, \gls{featurevec}, \gls{model}, \gls{hypospace}, \gls{feature}, \gls{prediction}, \gls{compasp}, \gls{statasp}, \gls{interpretability}, \gls{model} }, 
   first={modelo lineal},text={modelo lineal}}
 	
 	
-  \newglossaryentry{gradstep}{name={paso de gradiente},description={Dada una función diferenciable \gls{differentiable} 
+  \newglossaryentry{gradstep}{name={paso de gradiente},description={Dada una función diferenciable 
   de valores reales $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
-  y un vector $\weights \in \mathbb{R}^{\nrfeatures}$, el paso de \gls{gradient} \index{gradient step} 
-  actualiza $\weights$ sumándole el negativo escalado del \gls{gradient} $\nabla f(\weights)$ para obtener 
+  y un vector $\weights \in \mathbb{R}^{\nrfeatures}$, el paso de gradiente\index{gradient step} 
+  actualiza $\weights$ sumándole el negativo escalado del gradiente $\nabla f(\weights)$ para obtener 
   el nuevo vector (véase la Figura \ref{fig_basic_GD_step_single_dict})
   \begin{equation}
   \label{equ_def_gd_basic_dict} 
  \widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
  \end{equation} 
- Matemáticamente, el paso de \gls{gradient} es un operador (típicamente no lineal) $\mathcal{T}^{(f,\lrate)}$
- que está parametrizado por la función $f$ y el \gls{stepsize} $\lrate$. 
+ Matemáticamente, el paso de gradiente es un operador (típicamente no lineal) $\mathcal{T}^{(f,\lrate)}$
+ que está parametrizado por la función $f$ y el tamaño de paso $\lrate$. 
  \begin{figure}[H]
 	 \begin{center}
 		 \begin{tikzpicture}[scale=0.8]
@@ -288,65 +332,68 @@
 			 \draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\mathcal{T}^{(f,\lrate)}(\weights)$};
 		 \end{tikzpicture}
 	 \end{center}
-	 \caption{El paso básico de \gls{gradient} \eqref{equ_def_gd_basic_dict} mapea un vector $\weights$ 
+	 \caption{El paso básico de gradiente \eqref{equ_def_gd_basic_dict} mapea un vector $\weights$ 
 	 al vector actualizado $\weights'$. Define un operador 
 	 $\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
 	  \weights \mapsto \widehat{\weights}$.}
 	 \label{fig_basic_GD_step_single_dict}
  \end{figure}
- Nótese que el paso de \gls{gradient} \eqref{equ_def_gd_basic_dict} optimiza localmente - 
- en una \gls{neighborhood} cuyo tamaño está determinado por el \gls{stepsize} $\lrate$ - una aproximación lineal 
- de la función $f(\cdot)$. Un  \gls{generalization} natural de \eqref{equ_def_gd_basic_dict} es optimizar localmente
+ Nótese que el paso de gradiente \eqref{equ_def_gd_basic_dict} optimiza localmente - 
+ en un entorno cuyo tamaño está determinado por el tamaño de paso $\lrate$ - una aproximación lineal 
+ de la función $f(\cdot)$. Una generalización natural de \eqref{equ_def_gd_basic_dict} es optimizar localmente
  la función misma - en lugar de su aproximación lineal - de tal manera que:
  \begin{align} 
  \label{equ_approx_gd_step_dict}
  \widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!(1/\lrate)\normgeneric{\weights-\weights'}{2}^2. 
  \end{align}
  Intencionalmente usamos el mismo símbolo $\lrate$ para el parámetro en \eqref{equ_approx_gd_step_dict} 
- que en el \gls{stepsize} de \eqref{equ_def_gd_basic_dict}. Mientras mayor sea el valor de $\lrate$ en 
+ que en el tamaño de paso de \eqref{equ_def_gd_basic_dict}. Mientras mayor sea el valor de $\lrate$ en 
  \eqref{equ_approx_gd_step_dict}, más progreso hará la actualización en la reducción del valor de la función $f(\widehat{\weights})$. 
- Nótese que, al igual que el paso de \gls{gradient}  \eqref{equ_def_gd_basic_dict}, 
+ Nótese que, al igual que el paso de gradiente \eqref{equ_def_gd_basic_dict}, 
  la actualización \eqref{equ_approx_gd_step_dict} también define un operador (típicamente no lineal)  
- parametrizado por la función $f(\cdot)$ y el parámetro $\lrate$. Para una función \gls{convex}  
- $f(\cdot)$, este operador es conocido como el \gls{proxop} de $f(\cdot)$ \cite{ProximalMethods}. 
- },first={paso de gradiente},text={paso de gradiente}}
+ parametrizado por la función $f(\cdot)$ y el parámetro $\lrate$. Para una función convexa  
+ $f(\cdot)$, este operador es conocido como el operador proximal de $f(\cdot)$ \cite{ProximalMethods}. 
+ \\
+		Vea también: \gls{differentiable}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{convex}, \gls{proxop} },first={paso de gradiente},text={paso de gradiente}}
 
 
- \newglossaryentry{proxop}{name={operador proximal},description={Dada una funcion \gls{convex}\index{operador proximal}   
- $f(\weights')$, definimos su operador proximal como \cite{ProximalMethods,Bauschke:2017} 
-$$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(\rho/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
-Como se ilustra en la Figura \ref{fig_proxoperator_opt_dict}, evaluar el operador proximal 
-equivale a minimizar una variante penalizada de $f(\weights')$. El término de penalización es 
-la distancia euclidiana cuadrada escalada hacia un vector dado $\weights$ (que es la entrada del operador proximal). 
-%\Gls{convex} functions for which the proximal operator can be computed efficiently 
-%is sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}. 
-El operador proximal puede interpretarse como una \gls{generalization} del \gls{gradstep}, definido 
-para una función \gls{smooth} y \gls{convex} $f(\weights')$. De hecho, realizar un 
-\gls{gradstep} con \gls{stepsize} $\lrate$ en el vector actual $\weights$ 
-es lo mismo que aplicar el \gls{proxop}de la función $\tilde{f}(\weights')= \big( \nabla f(\weights)\big)^{T} (\weights'-\weights)$ 
-y usar $\rho=1/\lrate$.
-	\begin{figure}[H]
-	\begin{center}
-		\begin{tikzpicture}[scale=0.8]
-			% Original quadratic function
-			\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f(\weights')$};		
-			% Quadratic function with larger curvature, centered at w = 2
-			\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$(1/\lrate)\normgeneric{\weights-\weights'}{2}^{2}$};
-			% Axes
-			% Minimum point of second curve
-			\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
-			%\node at (2,0.5) [anchor=north] {$\weights$};
-		\end{tikzpicture}
-	\end{center}
-	\caption{Un \gls{gradstep} generalizado actualiza un vector $\weights$ minimizando una versión penalizada 
-		de la función $f(\cdot)$. El término de penalización es la distancia euclidiana cuadrada escalada entre 
-		la variable de optimización $\weights'$ y el vector dado $\weights$.\label{fig_proxoperator_opt_dict}}
-\end{figure}
-},first={operador proximal},text={operador proximal}}
+		\newglossaryentry{proxop}{name={operador proximal},description={Dada una funcion \gls{convex}\index{operador proximal}   
+		$f(\weights')$, definimos su operador proximal como \cite{ProximalMethods,Bauschke:2017} 
+	   $$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(\rho/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
+	   Como se ilustra en la Figura \ref{fig_proxoperator_opt_dict}, evaluar el operador proximal 
+	   equivale a minimizar una variante penalizada de $f(\weights')$. El término de penalización es 
+	   la distancia euclidiana cuadrada escalada hacia un vector dado $\weights$ (que es la entrada del operador proximal). 
+	   %\Gls{convex} functions for which the proximal operator can be computed efficiently 
+	   %is sometimes referred to as \emph{proximable} or \emph{simple} \cite{Condat2013}. 
+	   El operador proximal puede interpretarse como una \gls{generalization} del \gls{gradstep}, definido 
+	   para una función \gls{smooth} y \gls{convex} $f(\weights')$. De hecho, realizar un 
+	   \gls{gradstep} con \gls{stepsize} $\lrate$ en el vector actual $\weights$ 
+	   es lo mismo que aplicar el \gls{proxop}de la función $\tilde{f}(\weights')= \big( \nabla f(\weights)\big)^{T} (\weights'-\weights)$ 
+	   y usar $\rho=1/\lrate$.
+		   \begin{figure}[H]
+		   \begin{center}
+			   \begin{tikzpicture}[scale=0.8]
+				   % Original quadratic function
+				   \draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f(\weights')$};		
+				   % Quadratic function with larger curvature, centered at w = 2
+				   \draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$(1/\lrate)\normgeneric{\weights-\weights'}{2}^{2}$};
+				   % Axes
+				   % Minimum point of second curve
+				   \draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
+				   %\node at (2,0.5) [anchor=north] {$\weights$};
+			   \end{tikzpicture}
+		   \end{center}
+		   \caption{Un \gls{gradstep} generalizado actualiza un vector $\weights$ minimizando una versión penalizada 
+			   de la función $f(\cdot)$. El término de penalización es la distancia euclidiana cuadrada escalada entre 
+			   la variable de optimización $\weights'$ y el vector dado $\weights$.\label{fig_proxoperator_opt_dict}}
+	   \end{figure}
+	   },first={operador proximal},text={operador proximal}}
 
 \newglossaryentry{proximable}{name={proximable},description={Una funcion \index{proximable} 
-\gls{convex} para la cual el \gls{proxop} puede calcularse de manera eficiente 
-se denomina a veces proximable o simple \cite{Condat2013}.},
+convexa para la cual el operador proximal puede calcularse de manera eficiente 
+se denomina a veces proximable o simple \cite{Condat2013}.
+\\
+	Vea también:\gls{convex}, \gls{proxop}  },
 first={proximable},text={proximable}
 
 }
@@ -355,9 +402,10 @@ first={proximable},text={proximable}
 \newglossaryentry{connected}
 		{name={grafo conexo},
 			description={
-				Un \gls{graph} no dirigido\index{grafo conexo} $\graph=\pair{\nodes}{\edges}$ es conexo si todo subconjunto no vacío $\nodes' \subset \nodes$
+				Un grafo no dirigido\index{grafo conexo} $\graph=\pair{\nodes}{\edges}$ es conexo si todo subconjunto no vacío $\nodes' \subset \nodes$
 				tiene al menos una arista que lo conecta con $\nodes \setminus \nodes'$.
-			},
+				\\
+				Vea también: \gls{graph}},
 			first={grafo conexo},text={grafo conexo}
 		}
 	
@@ -368,36 +416,43 @@ first={proximable},text={proximable}
 \newglossaryentry{mvndist}{name ={distribución normal multivariante},description=
 	{
 		La distribución normal multivariante\index{distribución normal multivariante} $\mvnormal{\vm}{\mC}$ es una
-		familia importante de \gls{probdist}s para una \gls{rv} continua $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}.
-		Esta familia está parametrizada por la \gls{mean} $\vm$ y la \gls{covmtx} $\mC$ de $\featurevec$.
-		Si la \gls{covmtx} es invertible, la \gls{probdist} de $\featurevec$ es
+		familia importante de distribución de probabilidad para una variable aleatoria continua $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}.
+		Esta familia está parametrizada por la media $\vm$ y la matriz de covarianza $\mC$ de $\featurevec$.
+		Si la matriz de covarianza es invertible, la distribución de probabilidad de $\featurevec$ es
 		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$
-		},
+		\\
+			Vea también: \gls{probdist}, \gls{rv}, \gls{mean}, \gls{covmtx} },
 		first={distribución normal multivariante},text={distribución normal multivariante}
 		}
 		
 		\newglossaryentry{statasp}{name ={aspectos estadísticos}, description={Por aspectos estadísticos\index{aspectos estadísticos} 
-				de un método de \gls{ml},  nos referimos a las propiedades de la \gls{probdist} de su salida bajo 
-				un \gls{probmodel} para los \gls{data} introducidos en el método.},first={aspectos estadísticos},text={aspectos estadísticos}}
+				de un método de aprendizaje automático, nos referimos a las propiedades de la distribución de probabilidad de su salida bajo 
+				un modelo de probabilidad para los datos introducidos en el método.
+				\\
+				Vea también: \gls{ml}, \gls{probdist}, \gls{probmodel}, \gls{data} },first={aspectos estadísticos},text={aspectos estadísticos}}
 
 				\newglossaryentry{compasp}{name ={aspectos computacionales}, description={Por aspectos 
-				computacionales\index{aspectos computacionales} de un método de \gls{ml}, nos referimos principalmente a los recursos 
+				computacionales\index{aspectos computacionales} de un método de aprendizaje automático, nos referimos principalmente a los recursos 
 				computacionales requeridos para su implementación.
-				Por ejemplo, si un método de \gls{ml} utiliza técnicas 
-				de optimización iterativas para resolver \gls{erm}, sus aspectos computacionales incluyen: 1) cuántas 
-				many operaciones aritméticas se necesitan para implementar una sola iteración(\gls{gradstep}); 
-				y 2) cuántas iteraciones se requieren para obtener \gls{modelparams} útiles. Un ejemplo 
-				importante de técnica de optimización iterativa es el  \gls{gd}.}, first={aspectos computacionales},text={aspectos computacionales}}
+				Por ejemplo, si un método de aprendizaje automático utiliza técnicas 
+				de optimización iterativas para resolver ERM, sus aspectos computacionales incluyen: 1) cuántas 
+				many operaciones aritméticas se necesitan para implementar una sola iteración(paso de gradiente); 
+				y 2) cuántas iteraciones se requieren para obtener parámetros del modelo útiles. Un ejemplo 
+				importante de técnica de optimización iterativa es el descenso por gradiente.
+				\\
+				Vea también: \gls{ml},\gls{erm}, \gls{gradstep}, \gls{modelparams}, \gls{gd}  }, first={aspectos computacionales},text={aspectos computacionales}}
 		
 		\newglossaryentry{zerooneloss}{name={$\bf 0/1$ loss},
-			description={La \gls{loss} $0/1$ \index{$0/1$ loss} $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}$ 
-				mide la calidad de un \gls{classifier} $\hypothesis(\featurevec)$ que genera una 
-				\gls{prediction} $\predictedlabel$ (por ejemplo, mediante un umbral como en \eqref{equ_def_threshold_bin_classifier_dict}) 
-				para la \gls{label} $\truelabel$ de un \gls{datapoint} con \gls{feature}s $\featurevec$. Es igual a $0$ si 
-				la \gls{prediction} es correcta, es decir, 
+			description={La perdida $0/1$ \index{$0/1$ loss} $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}$ 
+				mide la calidad de un clasificador $\hypothesis(\featurevec)$ que genera una 
+				prediccion $\predictedlabel$ (por ejemplo, mediante un umbral como en \eqref{equ_def_threshold_bin_classifier_dict}) 
+				para la etiqueta $\truelabel$ de un punto de datos con atributos $\featurevec$. Es igual a $0$ si 
+				la prediccion es correcta, es decir, 
 			$\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}=0$ cuando $\predictedlabel=\truelabel$. Es igual 
-			a $1$ si la \gls{prediction} es incorrecta, es decir, $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}=1$ 
-			cuando $\predictedlabel\neq\truelabel$.},
+			a $1$ si la prediccion es incorrecta, es decir, $\lossfunczo{\pair{\featurevec}{\truelabel}}{\hypothesis}=1$ 
+			cuando $\predictedlabel\neq\truelabel$.
+			\\
+				Vea también: \gls{loss},\gls{classifier}, \gls{prediction},\gls{label}, \gls{datapoint},\gls{feature} },
 			sort=zerooneloss, 
 		   first={$0/1$ loss},text={$0/1$ loss}}
 		
@@ -408,88 +463,95 @@ first={proximable},text={proximable}
 
 
 				\newglossaryentry{underfitting}{name={subajuste},
-				description={Consideremos\index{subajuste} un método de \gls{ml} que utiliza \gls{erm} para aprender una \gls{hypothesis}
-				con el \gls{minimum} \gls{emprisk} en un \gls{trainset} dado.
-				Dicho método presenta subajuste del \gls{trainset} si no es capaz de aprender una \gls{hypothesis}
-				con un \gls{emprisk} suficientemente pequeño sobre el \gls{trainset}.
-				Si un método sufre de subajuste, típicamente tampoco podrá aprender una \gls{hypothesis}
-				con un \gls{risk} pequeño.},
+				description={Consideremos\index{subajuste} un método de aprendizaje automatico que utiliza ERM para aprender una hipótesis
+				con el minimo riesgo empírico en un conjunto de entrenamiento dado.
+				Dicho método presenta subajuste del conjunto de entrenamiento si no es capaz de aprender una hipótesis
+				con un rieso empírico suficientemente pequeño sobre el conjunto de entrenamiento.
+				Si un método sufre de subajuste, típicamente tampoco podrá aprender una hipótesis
+				con un riesgo pequeño.
+				\\
+				Vea también: \gls{ml}, \gls{erm}, \gls{hypothesis}, \gls{minimum}, \gls{emprisk}, \gls{trainset}, \gls{risk} },
 				first={subajuste},text={subajuste}
 					}
 
 \newglossaryentry{overfitting}{name={sobreajuste},description={Consideremos\index{overfitting} un 
-		método de \gls{ml} que utiliza \gls{erm} para aprender una \gls{hypothesis} con el \gls{minimum} \gls{emprisk} en 
-		un \gls{trainset} dado. Dicho método presenta sobreajuste del \gls{trainset} si aprende 
-		una \gls{hypothesis} con un \gls{emprisk} pequeño sobre el \gls{trainset} pero una \gls{loss} significativamente mayor fuera de él \gls{trainset}.},first={sobreajuste},text={sobreajuste}}
+		método de aprendizaje automático que utiliza ERM para aprender una hipótesis con el minimo riesgo empírico en 
+		un conjunto de entrenamiento dado. Dicho método presenta sobreajuste del conjunto de entrenamiento si aprende 
+		una hipótesis con un rieso empírico pequeño sobre el conjunto de entrenamiento pero una perdida significativamente mayor fuera de él conjunto de entrenamiento.
+		\\
+			Vea también: \gls{ml}, \gls{erm}, \gls{hypothesis}, \gls{minimum}, \gls{emprisk}, \gls{trainset}, \gls{loss}    },first={sobreajuste},text={sobreajuste}}
 
-		\newglossaryentry{gdpr}{name={reglamento general de protección de datos (RGPD)},description={
-			El\index{reglamento general de protección de datos (RGPD)} RGPD
-			fue promulgado por la Union Europea (EU), y entró en efecto el 25 de Mayo de 2018 \cite{GDPR2016}. 
-			Protege la privacidad y los derechos sobre los \gls{data} de los individuos dentro de la EU. 
-			El RGPD tiene implicaciones significativas sobre cómo se recopilan, almacenan y utilizan los \gls{data} en aplicaciones de \gls{ml}.
-			Las disposiciones clave incluyen:
-			\begin{itemize}
-				\item \Gls{dataminprinc}: los sistemas de \gls{ml} deben utilizar únicamente la cantidad necesaria de  
-				\gls{data} personal para su propósito.
-				\item \Gls{transparency} y \gls{explainability}: los sistemas de \gls{ml} deben permitir a sus usuarios comprender 
-				cómo se toman las decisiones que los afectan.
-				\item Derechos del titular de los datos \Gls{data}:los usuarios deben tener la posibilidad de acceder, rectificar y eliminar sus \gls{data}, así como oponerse a decisiones automatizadas y perfiles.
-				\item Responsabilidad: las organizaciones deben garantizar una seguridad robusta de los \gls{data} y demostrar 
-				cumplimiento mediante documentación y auditorías periódicas.
-			\end{itemize}
-			}, 
-	first={reglamento general de protección de datos (RGPD)},text={RGPD}}
-
+			\newglossaryentry{gdpr}{name={reglamento general de protección de datos (RGPD)},description={
+				El\index{reglamento general de protección de datos (RGPD)} RGPD
+				fue promulgado por la Union Europea (EU), y entró en efecto el 25 de Mayo de 2018 \cite{GDPR2016}. 
+				Protege la privacidad y los derechos sobre los \gls{data} de los individuos dentro de la EU. 
+				El RGPD tiene implicaciones significativas sobre cómo se recopilan, almacenan y utilizan los \gls{data} en aplicaciones de \gls{ml}.
+				Las disposiciones clave incluyen:
+				\begin{itemize}
+					\item \Gls{dataminprinc}: los sistemas de \gls{ml} deben utilizar únicamente la cantidad necesaria de  
+					\gls{data} personal para su propósito.
+					\item \Gls{transparency} y \gls{explainability}: los sistemas de \gls{ml} deben permitir a sus usuarios comprender 
+					cómo se toman las decisiones que los afectan.
+					\item Derechos del titular de los datos \Gls{data}:los usuarios deben tener la posibilidad de acceder, rectificar y eliminar sus \gls{data}, así como oponerse a decisiones automatizadas y perfiles.
+					\item Responsabilidad: las organizaciones deben garantizar una seguridad robusta de los \gls{data} y demostrar 
+					cumplimiento mediante documentación y auditorías periódicas.
+				\end{itemize}
+				}, 
+		first={reglamento general de protección de datos (RGPD)},text={RGPD}}
+	
 \newglossaryentry{gaussrv}{name={variable aleatoria gaussiana (VA gaussiana)},description={
-		Una \index{variable aleatoria gaussiana (VA gaussiana)} \gls{rv} gaussiana estándar es una \gls{rv} 
-		real $x$ con \gls{pdf} \cite{papoulis,BertsekasProb,GrayProbBook}
+		Una \index{variable aleatoria gaussiana (VA gaussiana)} variable aleatoria gaussiana estándar es una variable aleatoria
+		real $x$ con función de densidad de probabilidad (pdf) \cite{papoulis,BertsekasProb,GrayProbBook}
 		\begin{equation}
 			\nonumber
 			p(x) = \frac{1}{\sqrt{2\pi}} \exp^{-x^2/2}. 
 		\end{equation}
-		Dada una \gls{rv} gaussiana estándar $x$, podemos construir una \gls{rv} gaussiana general $x'$ con 
-		\gls{mean} $\mu$ y \gls{variance} $\sigma^2$ mediante $x' \defeq \sigma (x+\mu)$. La \gls{probdist} de una 
-		\gls{rv} gaussiana se conoce como distribución normal, denotada $\mathcal{N}(\mu,\sigma)$.  \\ 
+		Dada una variable aleatoria gaussiana estándar $x$, podemos construir una variable aleatoria gaussiana general $x'$ con 
+		media $\mu$ y varianza $\sigma^2$ mediante $x' \defeq \sigma (x+\mu)$. La distribución de probabilidad de una 
+		variable aleatoria gaussiana se conoce como distribución normal, denotada $\mathcal{N}(\mu,\sigma)$.  \\ 
 		Un vector aleatorio gaussiano $\featurevec \in \mathbb{R}^{\featuredim}$ con 
-		\gls{covmtx} $\mathbf{C}$ y \gls{mean} ${\bm \mu}$ puede construirse como 
+		matriz de covarianza $\mathbf{C}$ y media ${\bm \mu}$ puede construirse como 
 		$\featurevec \defeq \mathbf{A} \big( \vz + {\bm \mu} \big)$. Aquí, $\mA$ 
 		es cualquier matriz que satisface $\mA\mA^{T} = \mC$ y $\vz \defeq \big( z_{1},\ldots,z_{\featuredim} \big)^{T}$
-		es un vector cuyos elementos son \gls{iid} gaussianas estándar \gls{rv}s $z_{1},\ldots,z_{\featuredim}$. Los procesos aleatorios gaussianos generalizan
+		es un vector cuyos elementos son iid gaussianas estándar variables aleatorias $z_{1},\ldots,z_{\featuredim}$. Los procesos aleatorios gaussianos generalizan
 		los vectores aleatorios gaussianos aplicando transformaciones lineales a 
-		a secuencias infinitas de \gls{rv}s gaussianas estándar \cite{Rasmussen2006Gaussian}.\\
-		Las \gls{rv}s gaussianas se utilizan ampliamente como \gls{probmodel}s en el análisis estadístico de métodos de \gls{ml}.
-		Su importancia se debe, en parte, al teorema del límite central, que establece que el promedio de un número creciente de \gls{rv}s independientes
-		(aunque no sean gaussianas) converge a una \gls{rv} gaussiana \cite{ross2013first}. 
-},first={variable aleatoria gaussiana (VA gaussiana)},text={VA gaussiana}
+		a secuencias infinitas de variables aleatorias gaussianas estándar \cite{Rasmussen2006Gaussian}.\\
+		Las variables aleatorias gaussianas se utilizan ampliamente como modelos de probabilidad en el análisis estadístico de métodos de aprendizaje automático.
+		Su importancia se debe, en parte, al teorema del límite central, que establece que el promedio de un número creciente de variables aleatorias independientes
+		(aunque no sean gaussianas) converge a una variable aleatoria gaussiana \cite{ross2013first}. 
+		\\
+		Vea también: \gls{rv}, \gls{pdf}, \gls{mean}, \gls{variance}, \gls{probdist}, \gls{covmtx}, \gls{iid}, \gls{ml} },first={variable aleatoria gaussiana (VA gaussiana)},text={VA gaussiana}
 }
 
 \newglossaryentry{trustAI}{name={inteligencia artificial confiable (IA confiable)},description=
-		{Además de los \gls{compasp} y los \gls{statasp}, un tercer aspecto principal 
-		en el diseño de métodos de \gls{ml} es su confiabilidad\index{inteligencia artificial confiable (IA confiable)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
-		La Unión Europea ha propuesto siete requisitos clave (KRs) para una \gls{ai} confiable 
-		(que típicamente se basa en métodos de \gls{ml}) \cite{ALTAIEU}: 
+		{Además de los aspectos computacionales y los aspectos estadísticos, un tercer aspecto principal 
+		en el diseño de métodos de aprendizaje automático es su confiabilidad\index{inteligencia artificial confiable (IA confiable)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
+		La Unión Europea ha propuesto siete requisitos clave (KRs) para una inteligencia artificial confiable 
+		(que típicamente se basa en métodos de aprendizaje automático) \cite{ALTAIEU}: 
 	\begin{enumerate}[label=\arabic*)]
 		\item KR1 - Agencia y supervisión humana;
 		\item KR2 - Robustez técnica y seguridad;
-		\item KR3 - Privacidad y gobernanza de los \gls{data};
+		\item KR3 - Privacidad y gobernanza de los datos;
 		\item KR4 - Transparencia;
 		\item KR5 - Diversidad, no discriminación y equidad; 
 		\item KR6 - Bienestar social y ambiental;
 		\item KR7 - Responsabilidad. 
 	\end{enumerate}
-	},first={inteligencia artificial confiable (IA confiable)},text={trustworthy AI}}
+	.\\
+		Vea también: \gls{compasp}, \gls{statasp}, \gls{ml}, \gls{ai} },first={inteligencia artificial confiable (IA confiable)},text={trustworthy AI}}
 
-\newglossaryentry{sqerrloss}{name={pérdida de error cuadrático},description={La \gls{loss} de
-	error cuadrático\index{pérdida de error cuadrático} mide el error de \gls{prediction} de una 
-	\gls{hypothesis} $\hypothesis$ al predecir una \gls{label} numérica $\truelabel \in \mathbb{R}$ 
-	a partir de las \gls{feature}s $\featurevec$ de un \gls{datapoint}. Se define 
+\newglossaryentry{sqerrloss}{name={pérdida de error cuadrático},description={La perdida de
+	error cuadrático\index{pérdida de error cuadrático} mide el error de predicción de una 
+	hipótesis $\hypothesis$ al predecir una etiqueta numérica $\truelabel \in \mathbb{R}$ 
+	a partir de los atributos $\featurevec$ de un punto de datos. Se define 
 como 
 \begin{equation} 
 \nonumber
 %	\label{equ_squared_loss_gls}
 \lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \big(\truelabel - \underbrace{\hypothesis(\featurevec)}_{=\predictedlabel} \big)^{2}. 
 \end{equation} 
-},first={pérdida de error cuadrático},text={pérdida de error cuadrático}}
+.\\
+		Vea también: \gls{loss}, \gls{prediction}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint} },first={pérdida de error cuadrático},text={pérdida de error cuadrático}}
 
 
 \newglossaryentry{projection}{name={proyección}, 
@@ -501,19 +563,21 @@ como
 	  \projection{\paramspace}{\weights} = \argmin_{\weights' \in \paramspace} \normgeneric{\weights - \weights'}{2}. 
 	\end{equation}
 	 En otras palabras, $\projection{\paramspace}{\weights}$ es el vector en $\paramspace$ más cercano a $\weights$. 
-	 La proyección está bien definida solo para aquellos subconjuntos $\paramspace$ para los cuales existe el \gls{minimum} anterior \cite{BoydConvexBook}.},
+	 La proyección está bien definida solo para aquellos subconjuntos $\paramspace$ para los cuales existe el minimo anterior \cite{BoydConvexBook}.
+	 \\
+		Vea también: \gls{minimum}},
 	 first={proyección},text={proyección}}
 
 
 	 \newglossaryentry{projgd}{name={descenso por gradiente proyectado (GD proyectado)},
-	 description={Consideremos un método basado en \gls{erm} que utiliza un \gls{model} parametrizado con  
-	 un \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. Aun si la
-	 \gls{objfunc} de \gls{erm} es \gls{smooth}, no podemos usar el \gls{gd} básico, ya 
-	 ya que este no toma en cuenta las restricciones sobre la variable de optimización (es decir, los \gls{modelparams}). 
-	 El \gls{gd} proyectado\index{descenso por gradiente proyectado (GD proyectado)} 
-	 extiende el \gls{gd} básico para controlar restricciones sobre la variable de optimización(es decir, los \gls{modelparams}). 
-	 Una sola iteración del \gls{gd} proyectado consiste primero en realizar un \gls{gradstep} 
-	 y luego proyectar el resultado sobre el \gls{paramspace}.
+	 description={Consideremos un método basado en ERM que utiliza un modelo parametrizado con  
+	 un espacio de parámetros $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. Aun si la
+	 funcion objetivo de ERM es suave, no podemos usar el descenso por gradiente básico, ya 
+	 ya que este no toma en cuenta las restricciones sobre la variable de optimización (es decir, los parámetros del modelo). 
+	 El descenso por gradiente proyectado\index{descenso por gradiente proyectado (GD proyectado)} 
+	 extiende el descenso por gradiente básico para controlar restricciones sobre la variable de optimización(es decir, los parámetros del modelo). 
+	 Una sola iteración del descenso por gradiente proyectado consiste primero en realizar un paso de gradiente
+	 y luego proyectar el resultado sobre el espacio de parámetros
 	 \begin{figure}[H]
 		 \begin{center}
 			 \begin{tikzpicture}[scale=0.9]
@@ -532,23 +596,26 @@ como
 		 \caption{\gls{gd} proyectado amplía un \gls{gradstep} básico con una \gls{projection} de regreso 
 		 al conjunto de restricciones $\paramspace$.}
 		 \label{fig_projected_GD_dict}
-	 \end{figure}},first={descenso por gradiente proyectado (GD proyectado)},text={GD proyectado}}
+	 \end{figure}.
+	 \\
+		Vea también:\gls{erm}, \gls{model}, \gls{paramspace}, \gls{objfunc}, \gls{smooth}, \gls{gd}, \gls{modelparams}, \gls{gradstep}  },first={descenso por gradiente proyectado (GD proyectado)},text={GD proyectado}}
 	 
 
 	 \newglossaryentry{diffpriv}
 	 {name=privacidad diferencial (DP),
 	  description={
-		  Consideremos\index{differential privacy (DP)} un método de \gls{ml} $\algomap$ que recibe como entrada un \gls{dataset} (por ejemplo, el \gls{trainset} 
-		  usado para \gls{erm}) y entrega una salida $\algomap(\dataset)$. La salida 
-		  puede ser los \gls{modelparams} aprendidos o las \gls{prediction}es para ciertos \gls{datapoint}. 
-		  DP es una medida precisa de la \gls{privleakage} ocasionada al revelar dicha salida.
-		 Aproximadamente, un método de \gls{ml} es diferencialmente privado si la \gls{probdist} 
-		  de la salida $\algomap(\dataset)$ no cambia significativamente cuando se modifica el \gls{sensattr} 
-		  de un solo \gls{datapoint} del \gls{trainset}. Nótese que la DP 
-		  se basa en un \gls{probmodel} para un método de \gls{ml}, es decir, interpretamos su salida $\algomap(\dataset)$ 
-		  como la \gls{realization} de un \gls{rv}. La aleatoriedad en la salida puede asegurarse añadiendo intencionalmente la
-		  \gls{realization} de una \gls{rv} auxiliar (ruido) a la salida del método de  \gls{ml}.
-		 }, 
+		  Consideremos\index{differential privacy (DP)} un método de aprendizaje automático $\algomap$ que recibe como entrada un conjunto de datos (por ejemplo, el conjunto de entrenamiento
+		  usado para ERM) y entrega una salida $\algomap(\dataset)$. La salida 
+		  puede ser los parámetros del modelo aprendidos o las predicciones para ciertos puntos de datos. 
+		  DP es una medida precisa de la filtración de privacidad ocasionada al revelar dicha salida.
+		 Aproximadamente, un método de aprendizaje automático es diferencialmente privado si la distribución de probabilidad
+		  de la salida $\algomap(\dataset)$ no cambia significativamente cuando se modifica el atributo sensible
+		  de un solo punto de datos del conjunto de entrenamiento. Nótese que la DP 
+		  se basa en un modelo de probabilidad para un método de aprendizaje automático, es decir, interpretamos su salida $\algomap(\dataset)$ 
+		  como la realización de una variable aleatoria. La aleatoriedad en la salida puede asegurarse añadiendo intencionalmente la
+		  realización de una variable aleatoria auxiliar (ruido) a la salida del método de aprendizaje automático.
+		  \\
+		  Vea también: \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{erm}, \gls{modelparams}, \gls{prediction}, \gls{datapoint}, \gls{privleakage}, \gls{probdist}, \gls{sensattr}, \gls{probmodel}, \gls{realization}, \gls{rv}  }, 
 		 first = {privacidad diferencial (DP)}, text={DP} 
 	 }
 \newglossaryentry{stability}
@@ -601,40 +668,43 @@ como
 			\caption{Three \gls{dataset}s $\dataset^{(*)}$, $\dataset^{(\square)}$, and $\dataset^{(\triangle)}$, 
 				each sampled independently from the same \gls{data}-generating \gls{probdist}. A stable \gls{ml} 
 				method should return similar outputs when trained on any of these \gls{dataset}s. \label{fig_three_data_stability}}
-		\end{figure}
-		}, 
+		\end{figure}.
+		\\
+		Vea también: \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{modelparams}, \gls{prediction}, \gls{datapoint}, \gls{generalization}, \gls{risk}, \gls{data}, \gls{probdist},   }, 
 	first = {stability}, text={stability} 
 }
 
 \newglossaryentry{privprot}
 {name=protección de la privacidad,
-    description={Consideremos\index{protección de la privacidad} un método de \gls{ml}  $\algomap$ que recibe como entrada 
-	 una \gls{dataset} $\dataset$ y entega una salida $\algomap(\dataset)$. La salida 
-	 puede ser los \gls{modelparams} aprendidos $\widehat{\weights}$ o una \gls{prediction} 
-	 $\learnthypothesis(\featurevec)$ obtenida para un \gls{datapoint} específico con \gls{feature}s 
-	 $\featurevec$. Muchas aplicaciones importantes de \gls{ml} involucran \gls{datapoint} 
-		que representan a personas. Cada \gls{datapoint} se caracteriza por \gls{feature}s $\featurevec$, 
-		posiblemente una \gls{label} $\truelabel$, y un \gls{sensattr} $\sensattr$ (por ejemplo, un diagnóstico medico). 
+    description={Consideremos\index{protección de la privacidad} un método de aprendizaje automático $\algomap$ que recibe como entrada 
+	 un conjunto de datos $\dataset$ y entega una salida $\algomap(\dataset)$. La salida 
+	 puede ser los parametros del modelo aprendidos $\widehat{\weights}$ o una predicción
+	 $\learnthypothesis(\featurevec)$ obtenida para un punto de datos específico con atributos
+	 $\featurevec$. Muchas aplicaciones importantes de aprendizaje automático involucran puntos de datos 
+		que representan a personas. Cada punto de datos se caracteriza por atributos $\featurevec$, 
+		posiblemente una etiqueta $\truelabel$, y un atributo sensible $\sensattr$ (por ejemplo, un diagnóstico medico). 
 		Mas o menos, la protección de la privacidad significa que debería ser imposible inferir, de la salida $\algomap(\dataset)$, 
-		cualquier \gls{sensattr}s de los \gls{datapoint} en $\dataset$. Matemáticamente, la protección de privacidad requiere que  
+		cualquier atributo sensible de los puntos de datos en $\dataset$. Matemáticamente, la protección de privacidad requiere que  
 		el mapeo $\algomap(\dataset)$ no sea invertible. En general, el solo hacer que  $\algomap(\dataset)$ no sea invertible 
 		no es suficiente. Necesitamos que sea suficientemente no invertible. 
-	}, 
+		\\
+		Vea también:  \gls{ml}, \gls{dataset}, \gls{modelparams}, \gls{prediction}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{sensattr} }, 
 	first = {protección de la privacidad}, text={protección de la privacidad} 
 }
 
 \newglossaryentry{privleakage}
 {
 	name=filtración de privacidad,
-	description={Consideremos\index{privacy leakage} una aplicacion de \gls{ml} que procesa un
-	\gls{dataset} $\dataset$ y produce una salida, como las \gls{prediction}es 
-	obtenidas para nuevos \gls{datapoint}. Se produce una filtración de privacidad 
-	cuando la salida contiene información privada sobre un \gls{feature} de un 
-	\gls{datapoint} (que podría representar a una persona) en $\dataset$. Basado en la \gls{probmodel} 
-	para la generacion de los \gls{data}, podemos medir la filtración de privacidad usando la \gls{mutualinformation} 
-	entre la salida y la \gls{feature} sensible. Otra medida cuantitativa de la filtración de privacidad 
-	es la \gls{diffpriv}. Las relaciones entre las diferentes medidas de filtración de privacidad han sido estudiadas en la literatura (véa \cite{InfThDiffPriv}). 
-	}, 
+	description={Consideremos\index{privacy leakage} una aplicacion de aprendizaje automático que procesa un
+	conjunto de datos $\dataset$ y produce una salida, como las predicciones
+	obtenidas para nuevos puntos de datos. Se produce una filtración de privacidad 
+	cuando la salida contiene información privada sobre un atributo de un 
+	punto de datos (que podría representar a una persona) en $\dataset$. Basado en el modelo de probabilidad
+	para la generacion de los datos, podemos medir la filtración de privacidad usando la información mutua (MI)
+	entre la salida y el atributo sensible. Otra medida cuantitativa de la filtración de privacidad 
+	es la privacidad diferencial (DP). Las relaciones entre las diferentes medidas de filtración de privacidad han sido estudiadas en la literatura (véa \cite{InfThDiffPriv}). 
+	\\
+		Vea también: \gls{ml}, \gls{dataset}, \gls{prediction}, \gls{datapoint},  \gls{feature}, \gls{probmodel}, \gls{data}, \gls{mutualinformation}, \gls{diffpriv} }, 
 	first = {filtración de privacidad}, text={filtración de privacidad} 
 }
 
@@ -643,10 +713,12 @@ como
 \newglossaryentry{probmodel}
 {
 	name=modelo probabilístico,
-	description={Un \gls{model} probabilístico\index{modelo probabilístico} interpreta los \gls{datapoint}
-		como \gls{realization}es de \gls{rv}s con una \gls{probdist} conjunta. Esta \gls{probdist} conjunta típicamente 
-		incluye \gls{parameters} que deben seleccionarse manualmente or o aprenderse usando métodos de inferencia estadística  
-		como la estimación por \gls{maxlikelihood} \cite{LC}. }, 
+	description={Un modelo probabilístico\index{modelo probabilístico} interpreta los puntos de datos
+		como realizaciónes de variables aleatorias con una distribución de probabilidad conjunta. Esta distribución de probabilidad conjunta típicamente 
+		incluye parametros que deben seleccionarse manualmente or o aprenderse usando métodos de inferencia estadística  
+		como la estimación por máxima verosimilitud \cite{LC}.
+		\\
+		Vea también: \gls{model}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{parameters}, \gls{maxlikelihood} }, 
 	first = {modelo probabilístico}, text={modelo probabilístico} 
 }
 
@@ -655,29 +727,35 @@ como
 \newglossaryentry{mean}
 {
 	name=media,
-	description={La\index{media} \gls{expectation} $\expect \{ \featurevec \}$ de una \gls{rv} numérica $\featurevec$.}, 
+	description={La\index{media} esperanza $\expect \{ \featurevec \}$ de una variable aleatoria numérica $\featurevec$.
+	\\
+		Vea también: \gls{expectation}, \gls{rv} }, 
 		first = {media}, text={media} 
 }
 
 \newglossaryentry{variance}
 {
 	name={varianza},
-	description={La\index{varianza} varianza de una \gls{rv} real $\feature$ se define como la \gls{expectation} 
+	description={La\index{varianza} varianza de una variable aleatoria real $\feature$ se define como la esperanza
 		$\expect\big\{ \big( x - \expect\{x \} \big)^{2} \big\}$ de la diferencia cuadrada entre $\feature$ 
-		y su \gls{expectation} $\expect\{x \}$. Extendemos esta definición a \gls{rv}s vectoriales$\featurevec$ 
-		como $\expect\big\{ \big\| \featurevec - \expect\{\featurevec \} \big\|_{2}^{2} \big\}$.} ,
+		y su esperanza $\expect\{x \}$. Extendemos esta definición a variables aleatorias vectoriales$\featurevec$ 
+		como $\expect\big\{ \big\| \featurevec - \expect\{\featurevec \} \big\|_{2}^{2} \big\}$.
+		\\
+		Vea también: \gls{rv}, \gls{expectation} } ,
 		first={varianza},text={varianza} 
 }
 
 \newglossaryentry{nn}
 {
 	name={vecino más cercano (NN)},
-	description={Los métodos de vecino más cerano (NN)\index{vecino más cercano (NN)} aprenden una \gls{hypothesis} 
+	description={Los métodos de vecino más cerano (NN)\index{vecino más cercano (NN)} aprenden una hipótesis
 		$\hypothesis: \featurespace \rightarrow \labelspace$ cuyo valor $\hypothesis(\featurevec)$ 
-		se determina únicamente por los \gls{neighbors} más cercanos dentro de un \gls{dataset}. Distintos 
-		métodos usan diferentes medidas para determinar los \gls{neighbors} más cercanos. Si los \gls{datapoint}
-		se caracterizan por \gls{featurevec}s numéricos, podemos usar la distancia euclidiana como medida.  
-		the metric.},
+		se determina únicamente por los vecinos más cercanos dentro de un conjunto de datos. Distintos 
+		métodos usan diferentes medidas para determinar los vecinos más cercanos. Si los puntos de datos
+		se caracterizan por vector de atributos numéricos, podemos usar la distancia euclidiana como medida.  
+		the metric.
+		\\
+		Vea también: \gls{hypothesis}, \gls{neighbors}, \gls{dataset}, \gls{datapoint}, \gls{featurevec} },
 	first={vecino más cercano (NN)},text={NN} 
 }
 
@@ -685,7 +763,9 @@ como
 {
 	name={entorno},
 	description={El\index{entorno} entorno de un nodo $\nodeidx \in \nodes$ es 
-	el subconjunto de nodos constituido por los \gls{neighbors} de $\nodeidx$.},
+	el subconjunto de nodos constituido por los vecinos de $\nodeidx$.
+	\\
+		Vea también: \gls{neighbors}},
 	first={entorno},text={entorno} 
 }
 
@@ -693,38 +773,46 @@ como
 {
 	name={vecinos},
 	description={Los\index{vecinos} vecinos de un nodo $\nodeidx \in \nodes$ 
-	dentro de un \gls{empgraph} son los nodos $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ conectados con $\nodeidx$ por una arista.},
+	dentro de una red de aprendizaje federado (red FL) son los nodos $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ conectados con $\nodeidx$ por una arista.
+	\\
+	Vea también: \gls{empgraph} },
 	first={vecinos},text={vecinos} 
 }
 
 \newglossaryentry{bias}
 {
 	name={sesgo},
-	description={Consideremos\index{sesgo} un método de \gls{ml} que utiliza un \gls{hypospace} $\hypospace$ parametrizado. 
-		Este aprende los \gls{modelparams} $\weights \in \mathbb{R}^{\dimlocalmodel}$ utilizando el \gls{dataset} $$ \dataset=\big\{ \pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}} \big\}_{\sampleidx=1}^{\samplesize}.$$ 
-		Para analizar las propiedades del método de \gls{ml}, típicamente interpretamos los \gls{datapoint} como \gls{realization}es 
-		de \gls{iid} \gls{rv}s, $$ \truelabel^{(\sampleidx)} = \hypothesis^{(\overline{\weights})}\big( \featurevec^{(\sampleidx)} \big) + \bm{\varepsilon}^{(\sampleidx)}, \sampleidx=1,\ldots,\samplesize.$$ 
-		Entonces podemos interpetar el método de \gls{ml} como un estimador $\widehat{\weights}$ 
-		calculado a partir de $\dataset$ (por ejemplo, resolviendo \gls{erm}). El sesgo (cuadrado) del estimador $\widehat{\weights}$ 
-		se define como $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$. },
+	description={Consideremos\index{sesgo} un método de aprendizaje automático que utiliza un espacio de hipótesis $\hypospace$ parametrizado. 
+		Este aprende los parametros del modelo $\weights \in \mathbb{R}^{\dimlocalmodel}$ utilizando el conjunto de datos $$ \dataset=\big\{ \pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}} \big\}_{\sampleidx=1}^{\samplesize}.$$ 
+		Para analizar las propiedades del método de aprendizaje automático, típicamente interpretamos los puntos de datos como realizaciónes
+		de iid. variables aleatorias, $$ \truelabel^{(\sampleidx)} = \hypothesis^{(\overline{\weights})}\big( \featurevec^{(\sampleidx)} \big) + \bm{\varepsilon}^{(\sampleidx)}, \sampleidx=1,\ldots,\samplesize.$$ 
+		Entonces podemos interpetar el método de aprendizaje automático como un estimador $\widehat{\weights}$ 
+		calculado a partir de $\dataset$ (por ejemplo, resolviendo ERM). El sesgo (cuadrado) del estimador $\widehat{\weights}$ 
+		se define como $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$. 
+		\\
+		Vea también: \gls{ml}, \gls{hypospace}, \gls{modelparams}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{erm}},
 		first={sesgo},text={sesgo} 
 }
 
 \newglossaryentry{classification}
 {name={clasificación},
 description={La clasificación\index{classification} es la tarea de determinar una
-	etiqueta $\truelabel$  con valor discreto para un \gls{datapoint}, basado únicamente en sus 
-	 \gls{feature}s $\featurevec$. La etiqueta $\truelabel$ pertenece a un conjunto finito, como por ejemplo 
+	etiqueta $\truelabel$  con valor discreto para un punto de datos, basado únicamente en sus 
+	atributos $\featurevec$. La etiqueta $\truelabel$ pertenece a un conjunto finito, como por ejemplo 
 	$\truelabel \in \{-1,1\}$ o $\truelabel \in \{1,\ldots,19\}$, y representa la 
-	categoría a la que pertenece el \gls{datapoint}.},
+	categoría a la que pertenece el punto de datos.
+	\\
+		Vea también: \gls{datapoint}, \gls{feature} },
 	first={clasificación},text={clasificación} 
 }
 
 
 \newglossaryentry{privfunnel}
 {name={embudo de privacidad},
-description={El\index{privacy funnel} embudo de privacidad es un método para aprender \gls{feature}s 
-	amigables con la privacidad de los \gls{datapoint} \cite{PrivacyFunnel}.},
+description={El\index{privacy funnel} embudo de privacidad es un método para aprender atributos 
+	amigables con la privacidad de los puntos de datos \cite{PrivacyFunnel}.
+	\\
+		Vea también: \gls{feature}, \gls{datapoint} },
 first={embudo de privacidad},text={embudo de privacidad} 
 }
 
@@ -737,38 +825,44 @@ first={embudo de privacidad},text={embudo de privacidad}
 	description={El número de condición\index{número de condición} $\kappa(\mathbf{Q}) \geq 1$ de una 
 		matriz definida positiva $\mathbf{Q} \in \mathbb{R}^{\featurelen \times \featurelen}$ es el cociente 
 		$\alpha /\beta  $ entre el 
-		mayor $\alpha$ y el menor $\beta$ \gls{eigenvalue} de 
-		$\mathbf{Q}$. El número de condición es útil para el análisis de métodos de \gls{ml}. 
-		La complejidad computacional de los \gls{gdmethods} para \gls{linreg} depende críticamente del número 
-		de condición de la matriz $\mQ = \mX \mX^{T}$, donde $\mX$  es la \gls{featuremtx}  
-		del \gls{trainset}. Es por eso que desde una perspectiva computacional, preferimos \gls{feature}s de los 
-		\gls{datapoint} que hagan que $\mQ$ tenga un número de condición cercano a $1$.},first={número de condición},text={número de condición} 
+		mayor $\alpha$ y el menor $\beta$ de 
+		$\mathbf{Q}$. El número de condición es útil para el análisis de métodos de aprendizaje automático. 
+		La complejidad computacional de los métodos de gradiente para regresión lineal depende críticamente del número 
+		de condición de la matriz $\mQ = \mX \mX^{T}$, donde $\mX$  es la matriz de atributos 
+		del conjunto de entrenamiento. Es por eso que desde una perspectiva computacional, preferimos atributos de los 
+		puntos de datos que hagan que $\mQ$ tenga un número de condición cercano a $1$.
+		\\
+		Vea también: \gls{ml}, \gls{gdmethods}, \gls{linreg}, \gls{featuremtx}, \gls{trainset}, \gls{feature}, \gls{datapoint}},first={número de condición},text={número de condición} 
 }
 
 \newglossaryentry{classifier}
 {
 	name={clasificador},
-	description={Un clasificador\index{clasificador} es una \gls{hypothesis} (función) $\hypothesis(\featurevec)$ 
-		usada para predecir una \gls{label} que toma valores de un \gls{labelspace} finito. Podemos usar directamente 
-		el valor $\hypothesis(\featurevec)$ como \gls{prediction} $\predictedlabel$ para 
-		la \gls{label}. pero normalmente se usa una función $\hypothesis(\cdot)$ que entrega 
-		una cantidad numérica. La \gls{prediction} es obtenida a travez de un paso de umbral. 
-		Por ejemplo, en un problema de \gls{classification} binaria con \label{labelspace} $\labelspace \in  \{ -1,1\}$, 
-		podríamos usar una \gls{hypothesis} de valores reales $\hypothesis(\featurevec) \in \mathbb{R}$ 
-		como clasificador. Una \gls{prediction} $\predictedlabel$ puede obtenerse mediante:  
+	description={Un clasificador\index{clasificador} es una hipótesis (función) $\hypothesis(\featurevec)$ 
+		usada para predecir una etiqueta que toma valores de un espacio de etiquetas finito. Podemos usar directamente 
+		el valor $\hypothesis(\featurevec)$ como predicción $\predictedlabel$ para 
+		la etiqueta. Pero normalmente se usa una función $\hypothesis(\cdot)$ que entrega 
+		una cantidad numérica. La predicción es obtenida a travez de un paso de umbral. 
+		Por ejemplo, en un problema de clasificación binaria con \label{labelspace} $\labelspace \in  \{ -1,1\}$, 
+		podríamos usar una hipótesis de valores reales $\hypothesis(\featurevec) \in \mathbb{R}$ 
+		como clasificador. Una predicción $\predictedlabel$ puede obtenerse mediante:  
 		 \begin{equation} 
 		 	\label{equ_def_threshold_bin_classifier_dict}
 		 	\predictedlabel =1   \mbox{ for } \hypothesis(\featurevec)\!\geq\!0 \mbox{ and } 	\predictedlabel =-1  \mbox{ otherwise.}
 	 		\end{equation}
-		Podemos caracterizar un clasificador mediante sus \gls{decisionregion}es $\decreg{a}$, para 
-		cada valor posible de \gls{label} $a \in \labelspace$. },first={clasificador},text={clasificador} 
+		Podemos caracterizar un clasificador mediante sus regiónes de decisión $\decreg{a}$, para 
+		cada valor posible de etiqueta $a \in \labelspace$.
+		\\
+		Vea también: \gls{hypothesis}, \gls{label}, \gls{labelspace}, \gls{prediction}, \gls{classification}, \gls{decisionregion}  },first={clasificador},text={clasificador} 
 }
 
 \newglossaryentry{emprisk}
 {name={riesgo empírico},
- description={El \gls{risk} empírico\index{riesgo empírico} $\emprisk{\hypothesis}{\dataset}$ 
- 	de una \gls{hypothesis} sobre un \gls{dataset} $\dataset$ es la \gls{loss} promedio incurrida 
- 	por $\hypothesis$ al aplicarse a los \gls{datapoint} en el $\dataset$.},
+ description={El rieso empírico empírico\index{riesgo empírico} $\emprisk{\hypothesis}{\dataset}$ 
+ 	de una hipótesis sobre un conjunto de datos $\dataset$ es la perdida promedio incurrida 
+ 	por $\hypothesis$ al aplicarse a los puntos de datos en el $\dataset$.
+	 \\
+	 Vea también: \gls{risk}, \gls{hypothesis}, \gls{dataset}, \gls{loss}, \gls{datapoint} },
  first={riesgo empírico},text={riesgo empírico} 
 }
 
@@ -776,7 +870,9 @@ first={embudo de privacidad},text={embudo de privacidad}
 \newglossaryentry{nodedegree}
 {name={grado de nodo},
 	description={El grado\index{grado de nodo} $\nodedegree{\nodeidx}$ de un nodo $\nodeidx \in \nodes$ 
-		en un \gls{graph} no dirigido, es el número de sus \gls{neighbors}, es decir, $\nodedegree{\nodeidx} \defeq \big|\neighbourhood{\nodeidx}\big|$.},
+		en un grafo no dirigido, es el número de sus vecinos, es decir, $\nodedegree{\nodeidx} \defeq \big|\neighbourhood{\nodeidx}\big|$.
+		\\
+	 Vea también: \gls{graph}, \gls{neighbors}},
 		first={grado de nodo},text={grado de nodo} 
 }
 
@@ -788,8 +884,10 @@ first={embudo de privacidad},text={embudo de privacidad}
 		específica por una función que asigna a cada arista $\edgeidx \in \edges$ un par de nodos \cite{RockNetworks}. 
 		Un grupo importante de grafos son los grafos no dirigidos. Un grafo simple no dirigido  
 		es obtenida identificando cada arista $\edgeidx \in \edges$ con dos nodos diferentes $\{\nodeidx,\nodeidx'\}$. 
-		Los grafos etiquetados asignan un peso númerico especifico \gls{weights} $\edgeweight_{\edgeidx}$ a cada 
-		arista $\edgeidx \in \edges$.},first={grafo},text={grafo} 
+		Los grafos etiquetados asignan un peso númerico especifico pesos: $\edgeweight_{\edgeidx}$ a cada 
+		arista $\edgeidx \in \edges$.
+		\\
+	 Vea también: \gls{weights} },first={grafo},text={grafo} 
 }
 
 \newglossaryentry{uncertainty}
@@ -798,28 +896,32 @@ first={embudo de privacidad},text={embudo de privacidad}
 		lack thereof—associated with a quantity such as a model prediction, parameter estimate, or 
 		observed data point. In \gls{ml}, uncertainty arises from various sources, including 
 		noisy data, limited training samples, or ambiguity in model assumptions. Probability theory 
-		offers a principled framework for representing and quantifying such uncertainty.},
+		offers a principled framework for representing and quantifying such uncertainty.
+		\\
+	 Vea también: \gls{ml}},
 	first={uncertainty},text={uncertainty}
 }
 
 \newglossaryentry{ucb}
 {name={cota superior de confianza (UCB)},
-	description={Considera \index{cota superior de confianza (UCB)} una aplicación de \gls{ml} 
+	description={Considera \index{cota superior de confianza (UCB)} una aplicación de aprendizaje automático
 	que requiere seleccionar, en cada paso temporal $\iteridx$, una acción $\action_{\iteridx}$ 
 	de un conjunto finito de alternativas $\actionset$. La utilidad de seleccionar la acción $\action_{\iteridx}$ 
-	se cuantifica mediante una señal numérica de \gls{reward} $\reward^{(\action_{\iteridx})}$. 
-	Un \gls{probmodel} ampliamente utilizado para este tipo de problema de toma de decisiones secuencial 
+	se cuantifica mediante una señal numérica de recompensa $\reward^{(\action_{\iteridx})}$. 
+	Un modelo de probabilidad ampliamente utilizado para este tipo de problema de toma de decisiones secuencial 
 	es el entorno de bandidos multi-brazo estocásticos \cite{Bubeck2012}. En este modelo, 
-	la recompensa $\reward^{(\action)}$ se considera como la \gls{realization} de una \gls{rv} 
-	con \gls{mean} desconocida $\mu^{(\action)}$. Idealmente, siempre elegiríamos la 
-	acción con la mayor \gls{reward} esperada $\mu^{(\action)}$, pero estas 
-	medias son desconocidas y deben estimarse a partir de \gls{data} observados. Simplemente 
+	la recompensa $\reward^{(\action)}$ se considera como la realización de una variable aleatoria
+	con media desconocida $\mu^{(\action)}$. Idealmente, siempre elegiríamos la 
+	acción con la mayor recompensa esperada $\mu^{(\action)}$, pero estas 
+	medias son desconocidas y deben estimarse a partir de datos observados. Simplemente 
 	elegir la acción con la mayor estimación $\widehat{\mu}^{(\action)}$ puede 
 	conducir a resultados subóptimos debido a la incertidumbre en la estimación. La estrategia UCB 
 	aborda esto seleccionando acciones no solo basándose en sus medias estimadas, sino 
 	también incorporando un término que refleja la incertidumbre en estas estimaciones, favoreciendo 
 	acciones con alto potencial de recompensa y alta incertidumbre. Las garantías teóricas 
-	para el rendimiento de las estrategias UCB, incluyendo cotas de arrepentimiento logarítmicas, se establecen en \cite{Bubeck2012}.},
+	para el rendimiento de las estrategias UCB, incluyendo cotas de arrepentimiento logarítmicas, se establecen en \cite{Bubeck2012}.
+	\\
+	 Vea también: \gls{ml}, \gls{reward}, \gls{probmodel}, \gls{realization}, \gls{rv}, \gls{mean}, \gls{data} },
 	first={cota superior de confianza (UCB)},text={UCB} 
 }
 
@@ -828,15 +930,17 @@ first={embudo de privacidad},text={embudo de privacidad}
 	description={Un problema de bandido multi-brazo (MAB) \index{bandido multi-brazo (MAB)} modela 
 	un escenario de toma de decisiones repetida en el que, en cada paso temporal $\iteridx$, un aprendiz debe 
 	elegir una de varias acciones posibles, a menudo denominadas brazos, de un conjunto finito 
-	$\actionset$. Cada brazo $\action \in \actionset$ produce una \gls{reward} estocástica $\reward^{(\action)}$ 
-	extraída de una \gls{probdist} desconocida con \gls{mean} $\mu^{(\action)}$. 
-	El objetivo del aprendiz es maximizar la \gls{reward} acumulada a lo largo del tiempo mediante 
+	$\actionset$. Cada brazo $\action \in \actionset$ produce una recompensa estocástica $\reward^{(\action)}$ 
+	extraída de una distribución de probabilidad desconocida con media $\mu^{(\action)}$. 
+	El objetivo del aprendiz es maximizar la recompensa acumulada a lo largo del tiempo mediante 
 	un equilibrio estratégico entre exploración (recopilar información sobre 
 	brazos inciertos) y explotación (seleccionar brazos que se sabe que funcionan bien). 
-	Este equilibrio se cuantifica mediante la noción de \gls{regret}, que mide la brecha de rendimiento 
+	Este equilibrio se cuantifica mediante la noción de arrepentimiento, que mide la brecha de rendimiento 
 	entre la estrategia del aprendiz y la estrategia óptima que siempre selecciona el mejor brazo. 
 	Los problemas MAB forman un modelo fundamental en aprendizaje en línea, aprendizaje por refuerzo 
-	y diseño experimental secuencial \cite{Bubeck2012}.},
+	y diseño experimental secuencial \cite{Bubeck2012}.
+	\\
+	 Vea también: \gls{reward}, \gls{probdist}, \gls{mean}, \gls{regret} },
 	first={bandido multi-brazo (MAB)},text={MAB}
 }
 
@@ -844,20 +948,20 @@ first={embudo de privacidad},text={embudo de privacidad}
 
 \newglossaryentry{optimism in the face of uncertainty}
 {name={optimismo ante la incertidumbre},
-	description={Los metodos de \gls{ml}\index{optimismo ante la incertidumbre} aprenden \gls{modelparams} $\weights$ 
+	description={Los metodos de aprendizaje automático\index{optimismo ante la incertidumbre} aprenden parametros del modelo $\weights$ 
 		de acuerdo con algún criterio de desempeño $\bar{f}(\weights)$. Sin embargo, normalmente 
 		no pueden acceder directamente a $\bar{f}(\weights)$  pero dependen de una estimación (o aproximación) de $f(\weights)$. 
-		Por ejemplo, los métodos basados en \gls{erm} usan la \gls{loss} promedio en un \gls{dataset} (por ejemplo, el \gls{trainset}) 
-		como estimación del \gls{risk} de una \gls{hypothesis}. Usando un \gls{probmodel}, se puede construir 
-		un intervalo  de confianza. 
-	$\big[ l^{(\weights)},  u^{(\weights)} \big]$ para cada elección $\weights$ de los \gls{modelparams}.
+		Por ejemplo, los métodos basados en ERM usan la perdida promedio en un conjunto de datos (por ejemplo, el conjunto de entrenamiento) 
+		como estimación del riesgo de una hipótesis. Usando un modelo de probabilidad, se puede construir 
+		un intervalo de confianza. 
+	$\big[ l^{(\weights)},  u^{(\weights)} \big]$ para cada elección $\weights$ de los parametros del modelo.
 	Una construcción simple es $l^{(\weights)} \defeq f(\weights) - \sigma/2$, $u^{(\weights)} \defeq f(\weights)+ \sigma/2$, 
 	donde $\sigma$ representa una medida de la desviación entre $f(\weights)$ y $\bar{f}(\weights)$. 
 	También se pueden usar otras construcciones del intervalo, mientras se aseguren que $\bar{f}(\weights) \in\big[ l^{(\weights)},  u^{(\weights)} \big]$ 
-	con un probabilidad suficientemente alta. Siendo optimistas, elegimos los \gls{modelparams} 
+	con un probabilidad suficientemente alta. Siendo optimistas, elegimos los parametros del modelo 
 	según el valor más favorable - pero realista - del criterio de desempeño $\tilde{f}(\weights) \defeq  l^{(\weights)}$. 
-	Dos ejemplos de métodos de \gls{ml} que usan una construcción optimista de una \gls{objfunc} 
-	son métodos de \gls{srm} \cite[Ch. 11]{ShalevMLBook} y \gls{ucb}  para decisiones secuenciales \cite[Sec. 2.2]{Bubeck2012}. 
+	Dos ejemplos de métodos de aprendizaje automático que usan una construcción optimista de una funcion objetivo 
+	son métodos de minimización del riesgo estructural (SRM) \cite[Ch. 11]{ShalevMLBook} y cota superior de confianza (UCB) para decisiones secuenciales \cite[Sec. 2.2]{Bubeck2012}. 
 		\begin{figure}[H]
 				\begin{center}
 \begin{tikzpicture}[x=3cm, y=1cm]
@@ -870,23 +974,27 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
   \draw[line width=1, domain=-1:2, samples=100] plot ({\x}, {\x*\x});
  \draw[<->, thick] (1, -0.5) -- (1, 1) node[midway, right] {$\big[ l^{(\weights)}\!,\!u^{(\weights)} \big]$};
 \end{tikzpicture}
-\caption{Los métodos de \gls{ml} aprenden \gls{modelparams} $\weights$ usando una estimación de $f(\weights)$ como 
-	aproximación del criterio de desempeño $\bar{f}(\weights)$. Usando un \gls{probmodel}, se pueden construir intervalos de confianza $\big[ l^{(\weights)},  u^{(\weights)} \big]$ 
+\caption{Los métodos de aprendizaje automático aprenden parametros del modelo $\weights$ usando una estimación de $f(\weights)$ como 
+	aproximación del criterio de desempeño $\bar{f}(\weights)$. Usando un modelo de probabilidad, se pueden construir intervalos de confianza $\big[ l^{(\weights)},  u^{(\weights)} \big]$ 
 	que contienen $\bar{f}(\weights)$ con alta probabilidad. La mejor medida plausible del desempeño para una elección especifica $\weights$ es $\tilde{f}(\weights) \defeq l^{(\weights)}$.} 
 	\end{center}
-		\end{figure}},first={optimismo ante la incertidumbre},text={optimismo ante la incertidumbre} 
+		\end{figure}.
+		\\
+	 Vea también: \gls{ml}, \gls{modelparams}, \gls{erm}, \gls{loss}, \gls{dataset}, \gls{trainset}, \gls{risk}, \gls{hypothesis}, \gls{probmodel}, \gls{ucb},  },first={optimismo ante la incertidumbre},text={optimismo ante la incertidumbre} 
 }
 
 \newglossaryentry{empgraph}
 {name={red de aprendizaje federado (red FL)},
-	description={Una red federada\index{red de aprendizaje federado (red FL)} es un \gls{graph} no dirigido y ponderado, 
-	cuyos nodos representan generadores de \gls{data} que buscan entrenar un \gls{model} local (o personalizado). 
-	Cada nodo de una red federada representa un \gls{device} capaz de recopilar un \gls{localdataset}
-	y, a su vez, entrenar un \gls{localmodel}. 
-	Los métodos de \gls{fl} aprenden una \gls{hypothesis} local $\localhypothesis{\nodeidx}$ para
-	cada nodo $\nodeidx \in \nodes$, de manera que incurra en una \gls{loss} baja sobre su \gls{localdataset}.
-	,first={red de aprendizaje federado (red FL)},text={red FL} 
-} }
+	description={Una red federada\index{red de aprendizaje federado (red FL)} es un grafo no dirigido y ponderado, 
+	cuyos nodos representan generadores de datos que buscan entrenar un modelo local (o personalizado). 
+	Cada nodo de una red federada representa un dispositivo capaz de recopilar un conjunto de datos local
+	y, a su vez, entrenar un modelo local. 
+	Los métodos de aprendizaje federado aprenden una hipótesis local $\localhypothesis{\nodeidx}$ para
+	cada nodo $\nodeidx \in \nodes$, de manera que incurra en una perdida baja sobre su conjnto de datos local.
+	\\
+	 Vea también: \gls{graph},  \gls{data}, \gls{model}, \gls{device}, \gls{localdataset}, \gls{localmodel}, \gls{fl}, \gls{hypothesis}  },first={red de aprendizaje federado (red FL)},text={red FL} 
+ }
+
 \newglossaryentry{norm}
 {name={norma},
 	description={Una norma\index{norma} es una función que asigna a cada elemento (vectorial) de un espacio 
@@ -897,47 +1005,52 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{explanation}
 {name={explicación},
-	description={Un manera para hacer que los métodos de \gls{ml} sean transparentes consiste en  
-		proporcionar una explicación\index{explicación} junto con la \gls{prediction} generada por el método 
-		\gls{ml}. Las explicaciones pueden adoptar muchas formas diferentes. Pueden ser un texto natural
+	description={Un manera para hacer que los métodos de aprendizaje automático sean transparentes consiste en  
+		proporcionar una explicación\index{explicación} junto con la predicción generada por el método 
+		aprendizaje automático. Las explicaciones pueden adoptar muchas formas diferentes. Pueden ser un texto natural
 		o una medida cuantitativa que indique la importancia de atributos individuales
-		de un \gls{datapoint} \cite{Molnar2019}.
- 		También podemos usar formas visuales, como los mapas de intensidad usados en tareas de \gls{classification} de imágenes \cite{GradCamPaper}.},
+		de un punto de datos \cite{Molnar2019}.
+ 		También podemos usar formas visuales, como los mapas de intensidad usados en tareas de clasificación de imágenes \cite{GradCamPaper}.
+		 \\
+		 Vea también: \gls{ml}, \gls{prediction}, \gls{datapoint},  \gls{classification}},
 		first={explicación},text={explicación} 
 }
 
 \newglossaryentry{risk}
 {name={riesgo},
-	description={Consideremos\index{riesgo} una \gls{hypothesis} $\hypothesis$ que se utiliza para predecir la \gls{label} 
-		$\truelabel$ de un \gls{datapoint} a partir de sus \gls{feature}s $\featurevec$. Evaluamos 
-		la calidad de una \gls{prediction} específica usando una \gls{lossfunc} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$. 
-		Si interpretamos los  \gls{datapoint} como \gls{realization}es de \gls{rv}s \gls{iid}, 
-		entonces $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ también se convierte en una\gls{realization} 
-		de una \gls{rv}. El \gls{iidasspt} nos permite definir el riesgo de una \gls{hypothesis} 
-		como la \gls{expectation} de la \gls{loss} $\expect \big\{\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \big\}$. 
-		El riesgo de $\hypothesis$ depende tanto de la \gls{lossfunc} elegida como de la \gls{probdist} de los \gls{datapoint}.
-		},
+	description={Consideremos\index{riesgo} una hipótesis$\hypothesis$ que se utiliza para predecir la etiqueta 
+		$\truelabel$ de un punto de datgos a partir de sus atributos $\featurevec$. Evaluamos 
+		la calidad de una predicción específica usando una funcion de perdida $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$. 
+		Si interpretamos los puntos de datos como realizaciónes de variabels aleatorias iid, 
+		entonces $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ también se convierte en una realización
+		de una variable aleatoria. La suposición de independencia e idéntica distribución nos permite definir el riesgo de una hipótesis
+		como la expectativa de la perdida $\expect \big\{\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \big\}$. 
+		El riesgo de $\hypothesis$ depende tanto de la funcion de perdida elegida como de la distribución de probabilidad de los puntos de datos.
+		\\
+		 Vea también: \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{feature},  \gls{prediction}, \gls{lossfunc}, \gls{realization}, \gls{rv}, \gls{iid}, gls{realization}, \gls{rv}, \gls{iidasspt}, \gls{expectation}, \gls{loss}, \gls{probdist}},
 	first={riesgo},text={riesgo} 
 }
 
 \newglossaryentry{actfun}
 {name={función de activación},
-	description={Cada neurona artificial dentro de una \gls{ann}\index{función de activación} se le asigna 
+	description={Cada neurona artificial dentro de una red neuronal artificial (RNA)\index{función de activación} se le asigna 
 		una función de activación $\actfun(\cdot)$ que transforma una combinación ponderada de 
 		sus entradas $\feature_{1},\ldots,\feature_{\nrfeatures}$ en un único valor de salida: 
 		$a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
-		Cada neurona está parametrizada por los \gls{weights} $\weight_{1},\ldots,\weight_{\nrfeatures}$.},
+		Cada neurona está parametrizada por los pesos $\weight_{1},\ldots,\weight_{\nrfeatures}$.
+		\\
+		 Vea también:\gls{ann}, \gls{weights}},
 first={función de activación},text={función de activación} 
 }
 
 \newglossaryentry{distributedalgorithm}
 {name={algoritmo distribuido},
-	description={Un algoritmo distribuido distributed\index{algoritmo distribuido} es un \gls{algorithm} diseñado para 
+	description={Un algoritmo distribuido distributed\index{algoritmo distribuido} es un algoritmo diseñado para 
 		un tipo especial de computadora: una colección de dispositivos de cómputo interconectados (o nodos). 
 		Estos dispositivos se comunican y coordinan sus cálculos locales intercambiando mensajes
-		a través de una red \cite{IntroDistAlg,ParallelDistrBook}. A diferencia de un \gls{algorithm} clásico,
-		que se ejecuta en un solo \gls{device}, un algoritmo distribuido \gls{algorithm}  
-		se ejecuta de forma concurrente en múltiples \gls{device}s con capacidades de cómputo. 
+		a través de una red \cite{IntroDistAlg,ParallelDistrBook}. A diferencia de un algoritmo clásico,
+		que se ejecuta en un solo dispositivo, un algoritmo distribuido   
+		se ejecuta de forma concurrente en múltiples dispositivos con capacidades de cómputo. 
 		Cada ejecución involucra tanto cálculos locales como eventos de intercambio de mensajes. 
 		Una ejecución genérica podría verse así: 
 		\[
@@ -948,12 +1061,13 @@ first={función de activación},text={función de activación}
 			\text{Node N: } {\rm input}_N, s_1^{(N)}, s_2^{(N)}, \ldots, s_{T_N}^{(N)}, {\rm output}_N.
 		\end{array}
 		\]
-		Cada \gls{device} $\nodeidx$ inicia con su entrada local y ejecuta una secuencia de 
+		Cadad dispositivo  $\nodeidx$ inicia con su entrada local y ejecuta una secuencia de 
 		de cálculos intermedios $s_{\iteridx}^{(\nodeidx)}$ en instantes de tiempo discretos $\iteridx = 1, \dots, T_\nodeidx$. 
 		Estos cálculos pueden depender tanto de cálculos previos locales como de mensajes recibidos de otros dispositivos.
-		Uno de los usos clave de los algoritmos distribuidos es en \gls{fl}, donde una red de 
-		\gls{device}s colabora para entrenar un \gls{model} personalizado por dispositivo.. 
-		},
+		Uno de los usos clave de los algoritmos distribuidos es en aprendizaje federado, donde una red de 
+		dispositivos colaboran para entrenar un modelo personalizado por dispositivo.. 
+		\\
+		 Vea también: \gls{algorithm}, \gls{algorithm}, \gls{device}, \gls{fl}  },
 	first={algoritmo distribuido}, text={algoritmo distribuido}
 }
 
@@ -963,10 +1077,10 @@ first={función de activación},text={función de activación}
 {name={algoritmo},
   description={Un\index{algoritmo} algoritmo es una especificación precisa y paso a paso de
     cómo producir una salida a partir de una entrada dada en un número finito de pasos computacionales \cite{Cormen:2022aa}. 
-    Por ejemplo, un algoritmo para entrenar un \gls{linmodel} describe explícitamente cómo
-	transformar un \gls{trainset} dado en \gls{modelparams} a través de una secuencia de \gls{gradstep}s. 
-    Esta caracterización informal puede formalizarse rigurosamente mediante diferentes \gls{model}s matemáticos \cite{Sipser2013}. 
-   	Un \gls{model} simple de un algoritmo es una colección de ejecuciones posibles. Cada ejecución es una secuencia:
+    Por ejemplo, un algoritmo para entrenar un modelo lineal describe explícitamente cómo
+	transformar un conjunto de entrenamiento dado en parametros del modelo a través de una secuencia de pasos de gradiente. 
+    Esta caracterización informal puede formalizarse rigurosamente mediante diferentes modelos matemáticos \cite{Sipser2013}. 
+   	Un modelo simple de un algoritmo es una colección de ejecuciones posibles. Cada ejecución es una secuencia:
     $${\rm input},s_1,s_2,\ldots,s_T,{\rm output}$$ 
     que respeta las restricciones inherentes al ordenador que ejecuta el algoritmo.
 	Los algoritmos pueden ser deterministas, donde cada entrada resulta únicamente en una sola ejecución,
@@ -976,21 +1090,23 @@ first={función de activación},text={función de activación}
 	Crucialmente, un algoritmo abarca más que solo un mapeo de entrada a salida; también incluye 
 	los pasos computacionales intermedios $s_1,\ldots,s_T$. 
 	%. In \textbf{online algorithms}, these intermediate computational steps  can dynamically incorporate additional input data as the execution progresses.
-	},
+	\\
+		Vea también: \gls{linmodel}, \gls{trainset}, \gls{modelparams}, \gls{gradstep}, \gls{model} },
 	first={algoritmo},text={algoritmo} 
 }
 
 \newglossaryentry{onlinealgorithm}
 {name=algoritmo en línea,
 	description={
-		Un algoritmo en línea\index{algoritmo en línea} es un \gls{algorithm} que procesa \gls{data} de forma incremental,
-		recibiendo elementos de \gls{data} uno por uno y tomando decisiones o generando salidas inmediatamente, sin tener acceso a toda la entrada desde el inicio \cite{HazanOCO,PredictionLearningGames}.
+		Un algoritmo en línea\index{algoritmo en línea} es un algoritmo que procesa datos de forma incremental,
+		recibiendo elementos de datos uno por uno y tomando decisiones o generando salidas inmediatamente, sin tener acceso a toda la entrada desde el inicio \cite{HazanOCO,PredictionLearningGames}.
 		A diferencia de un algoritmo fuera de línea, que dispone de toda la entrada desde el comienzo, un algoritmo en línea debe lidiar con la incertidumbre del futuro y no puede cambiar decisiones pasadas.
 		Puede modelarse como una ejecución del tipo:
 		$${\rm init},s_1,{\rm out}_{1},{\rm in}_{2},s_2,{\rm out}_{2},\ldots,{\rm in}_{T},s_T,{\rm out}_{T}.$$
 		Cada ejecución comienza en un estado inicial y alterna entre cálculos, salidas y nuevas entradas.
-		Un ejemplo importante en \gls{ml} es el \gls{onlineGD}, que actualiza \gls{modelparams} conforme llegan nuevos \gls{datapoint}.
-	},
+		Un ejemplo importante en aprendizaje automático es el descenso por gradiente en línea, que actualiza los modelos de parametro conforme llegan nuevos puntos de datos.
+		\\
+		Vea también: \gls{algorithm}, \gls{data}, \gls{ml}, \gls{onlineGD}, \gls{modelparams}, \gls{datapoint} },
 	first={algoritmo en línea},text={algoritmo en línea}
 }
 
@@ -1014,29 +1130,27 @@ first={función de activación},text={función de activación}
 \newglossaryentry{transparency}
 {name={transparencia},
 	description={La transparencia\index{transparency} es un requisito fundamental para una 
-		\gls{trustAI} confiable \cite{HLEGTrustworhtyAI}. En \gls{ml},
-		suele utilizarse como sinónimo de \gls{explainability} \cite{gallese2023ai,JunXML2020}
-		pero en el contexto más amplio de sistemas de \gls{ai}, 
+		inteligencia artificial confiable confiable \cite{HLEGTrustworhtyAI}. En aprendizaje automático,
+		suele utilizarse como sinónimo de explicabilidad \cite{gallese2023ai,JunXML2020}
+		pero en el contexto más amplio de sistemas de inteligencia artificial, 
 		incluye también información sobre limitaciones, confiabilidad y uso previsto. 
-		En sistemas de diagnóstico médico, se requiere informar el nivel de confianza de una \gls{prediction}.
-		En aplicaciones financieras como la puntuación crediticia, las decisiones automatizadas basadas en \gls{ai}
+		En sistemas de diagnóstico médico, se requiere informar el nivel de confianza de una prediccion.
+		En aplicaciones financieras como la puntuación crediticia, las decisiones automatizadas basadas en inteligencia artificial
 		deben ir acompañadas de explicaciones sobre los factores que influyeron en ellas, como el nivel de ingresos o el historial crediticio. These explanations 
 		Estas explicaciones permiten que las personas (por ejemplo, un solicitante de crédito) comprendan y, 
 		si es necesario, impugnen decisiones automatizadas.. 
-		Algunos métodos de \gls{ml} ofrecen transparencia de manera intrínseca. Por ejemplo, la \gls{logreg} 
-		permite interpretar la fiabilidad de una \gls{classification} mediante el valor absoluto $|\hypothesis(\featurevec)|$. 
-		Las \gls{decisiontree}s,  también son consideradas transparentes porque generan reglas comprensibles para los humanos.
+		Algunos métodos de aprendizaje automático ofrecen transparencia de manera intrínseca. Por ejemplo, la regresión logística 
+		permite interpretar la fiabilidad de una clasificación mediante el valor absoluto $|\hypothesis(\featurevec)|$. 
+		Los árboles de decisión, también son consideradas transparentes porque generan reglas comprensibles para los humanos.
 		\cite{rudin2019stop}.
-		La transparencia también requiere que se informe explícitamente cuando una persona está interactuando con un sistema \gls{ai}.
-		Por ejemplo, los chatbots impulsados por \gls{ai} deben indicar claramente que no son humanos. 
-		For example, \gls{ai}-powered chatbots should notify users that they are interacting with an 
-		automated system rather than a human. Furthermore, transparency encompasses comprehensive 
-		documentation detailing the purpose and design choices underlying the \gls{ai} system. 
+		La transparencia también requiere que se informe explícitamente cuando una persona está interactuando con un sistema de inteligencia artificial.
+		Por ejemplo, los chatbots impulsados por inteligencia artifical deben indicar claramente que no son humanos. 
 		Además, la transparencia incluye documentación exhaustiva que detalle el propósito, las decisiones de diseño y los casos de uso previstos del sistema.
-		Ejemplos de esto son las hojas de datos de \gls{model}s \cite{DatasheetData2021}
-		 y las tarjetas de sistemas de \gls{ai} \cite{10.1145/3287560.3287596}, 
-		 que ayudan a los desarrolladores y usuarios a entender las limitaciones y aplicaciones adecuadas de un sistema \gls{ai} \cite{Shahriari2017}.
-		 },
+		Ejemplos de esto son las hojas de datos de modelos \cite{DatasheetData2021}
+		 y las tarjetas de sistemas de inteligencia artifical \cite{10.1145/3287560.3287596}, 
+		 que ayudan a los desarrolladores y usuarios a entender las limitaciones y aplicaciones adecuadas de un sistema de inteligencia artificial \cite{Shahriari2017}.
+		 \\
+		Vea también: \gls{trustAI}, \gls{ml}, \gls{ai}, \gls{prediction}, \gls{logreg}, \gls{classification}, \gls{decisiontree}, \gls{model} },
 	first={transparencia}, text={transparencia} 
 }
 
@@ -1045,10 +1159,11 @@ first={función de activación},text={función de activación}
 {
 	name=atributo sensible,
 	description={
-		La \gls{ml}\index{atributo sensible} busca aprender una \gls{hypothesis} que prediga la \gls{label} de un \gls{datapoint} a partir de sus \gls{feature}s.
-		En algunas aplicaciones, es crucial garantizar que la salida del sistema no permita inferir atributos sensibles de los \gls{datapoint}.
+		El aprendizaje automático\index{atributo sensible} busca aprender una hipótesis que prediga la etiqueta de un punto de datos a partir de sus atributos.
+		En algunas aplicaciones, es crucial garantizar que la salida del sistema no permita inferir atributos sensibles de los puntos de datos. 
 		Qué se considera atributo sensible depende del dominio de aplicación y debe definirse explícitamente.
-	},
+		\\
+		Vea también: \gls{ml}, \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{feature},  },
 	first={atributo sensible},text={atributo sensible}
 }
 
@@ -1056,20 +1171,23 @@ first={función de activación},text={función de activación}
 {
 	name=modelo estocástico de bloques (SBM),
 	description={
-		El modelo estocástico de bloques (SBM)\index{modelo estocástico de bloques (SBM)} es un \gls{model} generativo probabilístico para un \gls{graph} no dirigido $\graph = \big( \nodes, \edges \big)$ con conjunto de nodos $\nodes$ \cite{AbbeSBM2018}.
-		En su forma básica, asigna aleatoriamente cada nodo $\nodeidx \in \nodes$ a una \gls{cluster} $\clusteridx_{\nodeidx} \in \{1,\ldots,\nrcluster\}$.
-		Cada par de nodos distintos se conecta con \gls{probability} $p_{\nodeidx,\nodeidx'}$ que depende únicamente de sus \gls{label}s $\clusteridx_{\nodeidx}$ y $\clusteridx_{\nodeidx'}$.
+		El modelo estocástico de bloques (SBM)\index{modelo estocástico de bloques (SBM)} es un modelo generativo probabilístico para un grafo no dirigido $\graph = \big( \nodes, \edges \big)$ con conjunto de nodos $\nodes$ \cite{AbbeSBM2018}.
+		En su forma básica, asigna aleatoriamente cada nodo $\nodeidx \in \nodes$ a un clúster $\clusteridx_{\nodeidx} \in \{1,\ldots,\nrcluster\}$.
+		Cada par de nodos distintos se conecta con probabilidad $p_{\nodeidx,\nodeidx'}$ que depende únicamente de sus etiquetas $\clusteridx_{\nodeidx}$ y $\clusteridx_{\nodeidx'}$.
 		La presencia de aristas entre pares de nodos es estadísticamente independiente.
-	},
+		\\
+		Vea también: \gls{model}, \gls{graph}, \gls{cluster}, \gls{probability}, \gls{label}  },
 	first={modelo estocástico de bloques (SBM)},text={SBM}
 }
 
 
 \newglossaryentry{deepnet}
 {name={red profunda},
-	description={Una red profunda\index{deep net} es una \gls{ann} con un número (relativamente) grande 
-	de capas ocultas. El aprendizaje profundo (deep learning) es un término general para los métodos de \gls{ml} 
-	que utilizan una red profunda como \gls{model}  \cite{Goodfellow-et-al-2016}.},
+	description={Una red profunda\index{deep net} es una red neuronal artificial (RNA) con un número (relativamente) grande 
+	de capas ocultas. El aprendizaje profundo (deep learning) es un término general para los métodos de aprendizaje automático 
+	que utilizan una red profunda como modelo  \cite{Goodfellow-et-al-2016}.
+	\\
+		Vea también: \gls{ann}, \gls{ml}, \gls{model} },
 	first={red profunda},text={red profunda} 
 }
 
@@ -1077,31 +1195,31 @@ first={función de activación},text={función de activación}
 
 \newglossaryentry{baseline}
 {name={referencia (baseline)},
-    description={Consideremos\index{referencia (baseline)} un método de \gls{ml} que produce una 
-    \gls{hypothesis} aprendida (o un \gls{model} entrenado) $\learnthypothesis \in \hypospace$.
-	Evaluamos la calidad del \gls{model} entrenado  
-	mediante el cálculo de la \gls{loss} promedio en un \gls{testset}.Pero, ¿cómo saber si ese rendimiento es lo suficientemente bueno?
-	¿Cómo saber si el \gls{model} entrenado se acerca al óptimo y si tiene sentido o no invertir más recursos (como recopilación de \gls{data} o potencia computacional) para mejorarlo? 
+    description={Consideremos\index{referencia (baseline)} un método de aprendizaje automático que produce una 
+    hipótesis aprendida (o un modelo entrenado) $\learnthypothesis \in \hypospace$.
+	Evaluamos la calidad del modelo entrenado  
+	mediante el cálculo de la perdida promedio en un conjunto de prueba. Pero, ¿cómo saber si ese rendimiento es lo suficientemente bueno?
+	¿Cómo saber si el modelo entrenado se acerca al óptimo y si tiene sentido o no invertir más recursos (como recopilación de datos o potencia computacional) para mejorarlo? 
     Para ello, es útil contar con un valor de referencia (o *baseline*) con el cual comparar el rendimiento  
-    del modelo \gls{model} entrenado. Este valor puede provenir del rendimiento humano,
+    del modelo entrenado. Este valor puede provenir del rendimiento humano,
     como la tasa de error de dermatólogos que diagnostican cáncer mediante inspección visual de la piel \cite{SkinHumanAI}.
-	Otra fuente de referencia puede ser un método de \gls{ml} ya existente que, por alguna razón, no sea adecuado para la aplicación (por ejemplo, por ser computacionalmente costoso), pero cuya tasa de error en el \gls{testset} puede servir como baseline.
-	Un enfoque más fundamentado para construir una baseline es utilizar un \gls{probmodel}. En muchos casos, dado un \gls{probmodel} \gls{probmodel} $p(\featurevec,\truelabel)$,  
-    podemos determinar con precisión el \gls{minimum} \gls{risk} alcanzable entre todas las hipótesis (incluso aquellas que no pertenecen al \gls{hypospace} $\hypospace$) \cite{LC}. 
-    Este \gls{minimum} alcanzable se conoce como \gls{bayesrisk} y corresponde al \gls{risk} del \gls{bayesestimator} para la \gls{label} $\truelabel$ de un \gls{datapoint}, dados sus \gls{feature}s $\featurevec$.
-	Dado un \gls{lossfunc} específico, el \gls{bayesestimator} (si existe) está completamente determinado por la \gls{probdist} $p(\featurevec,\truelabel)$ \cite[Cap. 4]{LC}. 
-    Calcular el \gls{bayesestimator} y el \gls{bayesrisk} presenta dos desafíos principales:
+	Otra fuente de referencia puede ser un método de aprendizaje automático ya existente que, por alguna razón, no sea adecuado para la aplicación (por ejemplo, por ser computacionalmente costoso), pero cuya tasa de error en el conjunto de prueba puede servir como baseline.
+	Un enfoque más fundamentado para construir una baseline es utilizar un modelo de probabilidad. En muchos casos, dado un modelo de probabilidad $p(\featurevec,\truelabel)$,  
+    podemos determinar con precisión el minimo riesgo alcanzable entre todas las hipótesis (incluso aquellas que no pertenecen al espacio de hipótesis $\hypospace$) \cite{LC}. 
+    Este minimo alcanzable se conoce como riesgo de Bayes y corresponde al riesgo  para la etiqueta  $\truelabel$ de un punto de datos, dados sus atributos $\featurevec$.
+	Dado una funcion de perdida específica, el estimador de Bayes (si existe) está completamente determinado por la distribución de probabilidad $p(\featurevec,\truelabel)$ \cite[Cap. 4]{LC}. 
+    Calcular el estimador de bayes y el rieso de bayes presenta dos desafíos principales:
     \begin{enumerate}[label=\arabic*)]
     	\item La \gls{probdist} $p(\featurevec,\truelabel)$ desconocida y debe estimarse.
     	\item Incluso si se conoce $p(\featurevec,\truelabel)$ calcular el 
 		\gls{bayesrisk} puede ser computacionalmente muy costoso \cite{cooper1990computational}.
 	\end{enumerate}
-	Un \gls{probmodel} ampliamente utilizado es la \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
-para \gls{datapoint} caracterizados por \gls{feature}s y \gls{label}s numéricos.
-En este caso, bajo la \gls{sqerrloss}, el \gls{bayesestimator} corresponde a la \gls{mean} posterior
-$\mu_{\truelabel|\featurevec}$ de la \gls{label} $\truelabel$, dado  
-\gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. El \gls{bayesrisk} asociado es la 
-\gls{variance} posterior
+	Un modelo de probabilidad ampliamente utilizado es la distribución normal multivariante $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
+para puntos de datos caracterizados por atributos y etiquetas numéricas.
+En este caso, bajo la pérdida de error cuadrático, el estimador de bayes corresponde a la media posterior
+$\mu_{\truelabel|\featurevec}$ de la etiqueta $\truelabel$, dado  
+\gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. El riesgo de bayes asociado es la 
+varianza posterior
 $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	\begin{figure}[H]
 		\begin{center}
@@ -1128,12 +1246,14 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
   			\node[anchor=north] at (0.5,-0.2) {\small $\learnthypothesis(\featurevec)$};
 		  \end{tikzpicture}
 		\end{center}
-		\caption{Si los \gls{feature}s y la  \gls{label} de un \gls{datapoint} siguen una \gls{mvndist}, we 
-		podemos alcanzar el \gls{minimum} \gls{risk} (bajo \gls{sqerrloss}) usando el \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
-		para predecir el \gls{label} $\truelabel$ de un \gls{datapoint} con \gls{feature}s $\featurevec$. El
-		\gls{minimum} \gls{risk} es dada por la \gls{variance} posterior $\sigma^{2}_{\truelabel|\featurevec}$. Podemos 
-		usar esta cantidad como baseline para evaluar la \gls{loss} promedio del \gls{model} $\learnthypothesis$ entrenado. \label{fig_post_baseline_dict}}
-	\end{figure}},
+		\caption{Si los atributos y la etiqueta de un punto de datos siguen una distribución normal multivariante,  
+		podemos alcanzar el minimo riesgo (bajo pérdida de error cuadrático) usando el estimador de bayes $\mu_{\truelabel|\featurevec}$ 
+		para predecir la etiqueta $\truelabel$ de un punto datos con atributos $\featurevec$. El
+		minimo riesgo es dada por la varianza posterior $\sigma^{2}_{\truelabel|\featurevec}$. Podemos 
+		usar esta cantidad como baseline para evaluar la perdida promedia del modelo $\learnthypothesis$ entrenado. \label{fig_post_baseline_dict}}
+	\end{figure}.
+	\\
+		Vea también: \gls{ml},  \gls{hypothesis}, \gls{model}, \gls{loss}, \gls{testset}, \gls{data}, \gls{probmodel}, \gls{minimum},  \gls{risk}, \gls{hypospace}, \gls{bayesrisk}, \gls{bayesestimator}, \gls{probdist}, \gls{mvndist}   },
     first={referencia (baseline)},text={referencia (baseline)}
 }
 
@@ -1153,35 +1273,37 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		\label{fig:spectrogram_dict}}
 	\end{figure}
 		La representación de intensidad del espectrograma puede considerarse como una imagen de la señal. 
-		Una estrategia sencilla para la \gls{classification} de señales de audio consiste en introducir esta imagen en una 
-		\gls{deepnet} desarrollada originalmente para tareas de \gls{classification} de imágenes y detección de objetos \cite{Li:2022aa}. 
+		Una estrategia sencilla para la clasificación de señales de audio consiste en introducir esta imagen en una 
+		red profunda desarrollada originalmente para tareas de clasificación de imágenes y detección de objetos \cite{Li:2022aa}. 
 		Conviene señalar que, además del espectrograma, existen otras representaciones alternativas para describir la distribución 
 		tiempo-frecuencia de la energía de una señal \cite{TimeFrequencyAnalysisBoashash,MallatBook}. 
-		}, 
+		\\
+		Vea también: \gls{classification}, \gls{deepnet} }, 
 	first={espectrograma},text={espectrograma} 
 }
 
 \newglossaryentry{graphclustering}
 {name={agrupamiento en grafos},
-	description={El \gls{clustering} en \gls{graph}s\index{agrupamiento en grafos} tiene como objetivo agrupar \gls{datapoint} que están representados como nodos de un \gls{graph} $\graph$.
-		Las aristas del $\graph$ representan similitudes por pares entre los \gls{datapoint}. 
-		En algunos casos, es posible cuantificar el grado de estas similitudes mediante un \gls{edgeweight} \cite{Luxburg2007,FlowSpecClustering2021}. 
-		}, 
+	description={El agrupamiento en grafos\index{agrupamiento en grafos} tiene como objetivo agrupar puntos de datos que están representados como nodos de un grafo $\graph$.
+		Las aristas del $\graph$ representan similitudes por pares entre los puntos de datos. 
+		En algunos casos, es posible cuantificar el grado de estas similitudes mediante un peso de arista \cite{Luxburg2007,FlowSpecClustering2021}. 
+		\\
+		Vea también: \gls{clustering}, \gls{graph}, \gls{datapoint}, \gls{edgeweight} }, 
 	first={agrupamiento en grafos},text={agrupamiento en grafos} 
 }
 
 \newglossaryentry{specclustering}
 {name={agrupamiento espectral},
-	description={El \gls{clustering} espectral \index{agrupamiento espectral} es una instancia particular del 
-		\gls{graphclustering}, es decir, agrupa \gls{datapoint}
-		representados como los nodos $\nodeidx=1,\ldots,\nrnodes$ de un \gls{graph} $\graph$. 
-		El \gls{clustering} espectral utiliza los \gls{eigenvector}s de la \gls{LapMat} $\LapMat{\graph}$ 
-		para construir \gls{featurevec}s $\featurevec^{(\nodeidx)} \in \mathbb{R}^{\nrfeatures}$ 
-		para cada nodo (es decir, para cada \gls{datapoint}) $\nodeidx=1,\ldots,\nrnodes$. Podemos utilizar estos \gls{featurevec}s 
-		como entrada para métodos de \gls{clustering} en \gls{euclidspace},como \gls{kmeans} 
-		o \gls{softclustering} mediante \gls{gmm}. Mas o menos, los \gls{featurevec}s de los nodos 
-		que pertenecen a un subconjunto bien conectado (o \gls{cluster}) de nodos en $\graph$ estan ubicados 
-		cerca en el \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ (Vea la Figura \ref{fig_lap_mtx_specclustering_dict}). 
+	description={El agrupamiento espectral \index{agrupamiento espectral} es una instancia particular del 
+		agrupamiento en grafos, es decir, agrupa puntos de datos
+		representados como los nodos $\nodeidx=1,\ldots,\nrnodes$ de un grafo $\graph$. 
+		El agrupamiento espectral utiliza los vectores propios de la matriz laplaciana $\LapMat{\graph}$ 
+		para construir vectores de atributos $\featurevec^{(\nodeidx)} \in \mathbb{R}^{\nrfeatures}$ 
+		para cada nodo (es decir, para cada punto de datos) $\nodeidx=1,\ldots,\nrnodes$. Podemos utilizar estos vectores de atributos 
+		como entrada para métodos de agrupammiento en el espacio euclidiano,como k-means
+		o agrupamiento suave mediante modelo de mezcla gaussiana. Mas o menos, los vectores de atributos de los nodos 
+		que pertenecen a un subconjunto bien conectado (o agrupamiento) de nodos en $\graph$ estan ubicados 
+		cerca en el espacio euclidiano $\mathbb{R}^{\nrfeatures}$ (Vea la Figura \ref{fig_lap_mtx_specclustering_dict}). 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{minipage}{0.4\textwidth}
@@ -1246,25 +1368,28 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 												\mathbf{v}^{(2)}\!=\!\begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} \nonumber 
 												\end{align}
 				\end{minipage} 
-				\caption{\label{fig_lap_mtx_specclustering_dict} {\bf Arriba.} Izquierda: Un \gls{graph} no dirigido
-					$\graph$ con cuatro nodos $\nodeidx=1,2,3,4$, donde cada nodo representa un \gls{datapoint}. Derecha: La \gls{LapMat} 
-					$\LapMat{\graph}  \in \mathbb{R}^{4 \times 4}$ y su \gls{evd}. 
-					{\bf Abajo.} Izquierda: Un \gls{scatterplot} de los \gls{datapoint} usando los \gls{featurevec}s 
+				\caption{\label{fig_lap_mtx_specclustering_dict} {\bf Arriba.} Izquierda: Un grafo no dirigido
+					$\graph$ con cuatro nodos $\nodeidx=1,2,3,4$, donde cada nodo representa un punto de datos. Derecha: La matriz laplaciana
+					$\LapMat{\graph}  \in \mathbb{R}^{4 \times 4}$ y su descomposición en valores propios 
+					{\bf Abajo.} Izquierda: Un diagrama de dispersión de los puntos de datos usando los vectores de atributos
 					$\featurevec^{(\nodeidx)} = \big( v^{(1)}_{\nodeidx},v^{(2)}_{\nodeidx} \big)^{T}$. 
-					Derecha: Dos \gls{eigenvector}s $\vv^{(1)},\vv^{(2)} \in \mathbb{R}^{\nrfeatures}$ 
-					correspondientes al \gls{eigenvalue} $\lambda=0$ de la \gls{LapMat} $\LapMat{\graph}$. 
+					Derecha: Dos vectores propios $\vv^{(1)},\vv^{(2)} \in \mathbb{R}^{\nrfeatures}$ 
+					correspondientes al valor propio $\lambda=0$ de la matriz laplaciana $\LapMat{\graph}$. 
 					} 
 			\end{center}
 		\end{figure}
-	\newpage}, 
+	\newpage. \\
+	Vea también: \gls{clustering}, \gls{graphclustering}, \gls{datapoint}, \gls{graph}, \gls{eigenvector}, \gls{LapMat}, \gls{featurevec}, \gls{euclidspace}, \gls{kmeans}, \gls{softclustering}, \gls{gmm}, \gls{evd}, \gls{scatterplot}, \gls{eigenvalue},  }, 
 	first={agrupamiento espectral},text={agrupamiento espectral} 
 }
 \newglossaryentry{flowbasedclustering}
 {name={agrupamiento basado en flujo},
-	description={El \gls{clustering} basado en flujo\index{agrupamiento basado en flujo} agrupa los nodos de un 
-		\gls{graph} no dirigido aplicando el algoritmo de \gls{kmeans} sobre
-		\gls{featurevec}s específicos para cada nodo. Estos \gls{featurevec}s se construyen a partir de flujos de red entre nodos 
-		fuente y destino seleccionados cuidadosamente \cite{FlowSpecClustering2021}. }, 
+	description={El agrupamiento basado en flujo\index{agrupamiento basado en flujo} agrupa los nodos de un 
+		grafo no dirigido aplicando el algoritmo de k-means sobre
+		vectores de atributos específicos para cada nodo. Estos vectores de atributos construyen a partir de flujos de red entre nodos 
+		fuente y destino seleccionados cuidadosamente \cite{FlowSpecClustering2021}.
+		\\
+	Vea también: \gls{clustering}, \gls{graph}, \gls{kmeans}, \gls{featurevec}}, 
 	first={agrupamiento basado en flujo},text={agrupamiento basado en flujo} 
 }
 
@@ -1272,62 +1397,73 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{esterr}
 {name={error de estimación},
-	description={Consideremos\index{error de estimación} varios \gls{datapoint}, cada uno con un \gls{featurevec} $\featurevec$ y una \gls{label} 
+	description={Consideremos\index{error de estimación} varios puntos de datos, cada uno con un vector de atributos $\featurevec$ y una etiqueta
 		$\truelabel$. En algunas aplicaciones, podemos modelar la relación entre el \gls{featurevec} y la \gls{label}
-		de un \gls{datapoint} como $\truelabel = \bar{\hypothesis}(\featurevec) + \varepsilon$. Aquí $\bar{\hypothesis}$ 
-		representa la \gls{hypothesis} verdadera subyacente y $\varepsilon$ es un término de ruido que resume errores de modelado o etiquetado.
-		El error de estimación incurrido por un método de \gls{ml} que aprende una \gls{hypothesis} $\widehat{\hypothesis}$, por ejemplo usando \gls{erm}, se define como 
-		$\widehat{\hypothesis}(\featurevec) - \bar{\hypothesis}(\featurevec)$, para algún \gls{featurevec} dado. 
-		En un \gls{hypospace} paramétrico, donde las \gls{hypothesis}se determinan mediante
-		\gls{modelparams} $\weights$, podemos definir el error de estimación como  $\Delta \weights = \widehat{\weights} - \overline{\weights}$ \cite{kay,hastie01statisticallearning}.},
+		de un punto de datos como $\truelabel = \bar{\hypothesis}(\featurevec) + \varepsilon$. Aquí $\bar{\hypothesis}$ 
+		representa la hipótesis verdadera subyacente y $\varepsilon$ es un término de ruido que resume errores de modelado o etiquetado.
+		El error de estimación incurrido por un método de aprendizaje que aprende una hipótesis $\widehat{\hypothesis}$, por ejemplo usando ERM, se define como 
+		$\widehat{\hypothesis}(\featurevec) - \bar{\hypothesis}(\featurevec)$, para algún vector de atributos dado. 
+		En un espacio de hipótesis paramétrico, donde las hipótesis se determinan mediante
+		parametros del modelo $\weights$, podemos definir el error de estimación como  $\Delta \weights = \widehat{\weights} - \overline{\weights}$ \cite{kay,hastie01statisticallearning}.
+		\\
+	Vea también: \gls{datapoint}, \gls{featurevec}, \gls{label}, \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{hypospace}, \gls{modelparams}  },
 	first={error de estimación},text={error de estimación} 
 }
 
 
 \newglossaryentry{dob}
 {name={grado de pertenencia},
-	description={El grado de pertenencia\index{grado de pertenencia} es un número que indica en qué medida un \gls{datapoint} 
-		pertenece a un \gls{cluster} \cite[Ch. 8]{MLBasics}. Este grado puede interpretarse 
-		como una asignación blanda (*soft*) al \gls{cluster}.Los métodos de \Gls{softclustering} 
+	description={El grado de pertenencia\index{grado de pertenencia} es un número que indica en qué medida un punto de datos 
+		pertenece a un clúster \cite[Ch. 8]{MLBasics}. Este grado puede interpretarse 
+		como una asignación blanda (*soft*) al clúster.Los métodos de agrupamiento suave
 		pueden codificar el grado de pertenencia mediante un número real en el intervalo $[0,1]$. 
-		El \Gls{hardclustering} se obtiene como caso extremo, cuando el grado de pertenencia solo toma los valores $0$ o $1$.
-		}, 
+		El agrupamiento rígido se obtiene como caso extremo, cuando el grado de pertenencia solo toma los valores $0$ o $1$.
+		\\
+		Vea también: \gls{datapoint}, \gls{cluster}, \Gls{softclustering}, \Gls{hardclustering} }, 
 		first={grado de pertenencia},text={grado de pertenencia} 
 }
 
 \newglossaryentry{msee}
 {name={error cuadrático medio de estimación (MSEE)},
-	description={Consideremos\index{error cuadrático medio de estimación (MSEE)} un método de \gls{ml} que aprende 
-		\gls{modelparams} $\widehat{\weights}$ a partir de un \gls{dataset} $\dataset$. 
-		Si interpretamos los \gls{datapoint} en $\dataset$ como \gls{realization}s \gls{iid} de una \gls{rv} $\datapoint$, 
-		definimos el \gls{esterr} como $\Delta \weights \defeq \widehat{\weight} - \overline{\weights}$. 
-		Aquí, $\overline{\weights}$ representa los verdaderos \gls{modelparams} de la \gls{probdist} 
-		de $\datapoint$. El error cuadrático medio de estimación se define como la \gls{expectation} $\expect \big\{ \big\| \Delta \weights \big\|^{2} \big\}$ del cuadrado de la 
-		\gls{norm} euclidiana del \gls{esterr} \cite{LC,kay}.},
+	description={Consideremos\index{error cuadrático medio de estimación (MSEE)} un método de aprendizaje automático que aprende 
+		parametros del modelo $\widehat{\weights}$ a partir de un conjunto de datos $\dataset$. 
+		Si interpretamos los puntos de datos en $\dataset$ como realizaciónes iid de una variable aleatoria $\datapoint$, 
+		definimos el error de estimación como $\Delta \weights \defeq \widehat{\weight} - \overline{\weights}$. 
+		Aquí, $\overline{\weights}$ representa los verdaderos parámetros del modelo de la distribución de probabilidad 
+		de $\datapoint$. El error cuadrático medio de estimación se define como la expectativa $\expect \big\{ \big\| \Delta \weights \big\|^{2} \big\}$ del cuadrado de la 
+		norma euclidiana del error de estimación\cite{LC,kay}.
+		\\
+		Vea también: \gls{ml}, \gls{modelparams}, \gls{dataset}, \gls{datapoint}, \gls{realization}, \gls{esterr}, \gls{probdist}, \gls{expectation}, \gls{norm} },
 	first={error cuadrático medio de estimación (MSEE)},text={MSEE} 
 }
 
 \newglossaryentry{gtvmin}
 {name={minimización de variación total generalizada (GTVMin)},
-	description={La minimización de variación total generalizada (GTVMin)\index{minimización de variación total generalizada (GTVMin)} es una instancia de \gls{rerm} 
-	que utiliza la \gls{gtv} de los \gls{modelparams} locales como un \gls{regularizer} \cite{ClusteredFLTVMinTSP}.},
+	description={La minimización de variación total generalizada (GTVMin)\index{minimización de variación total generalizada (GTVMin)} es una instancia de minimización del riesgo empírico regularizado
+	que utiliza la variación total generalizada de los parametros del modelo locales como un regularizador \cite{ClusteredFLTVMinTSP}.
+	\\
+		Vea también: \gls{rerm}, \gls{gtv}, \gls{modelparams}, \gls{regularizer} },
 	first={minimización de variación total generalizada (GTVMin)},text={GTVMin} 
 }
 
 \newglossaryentry{regression}
 {name={regresión},
 	description={Los problemas de regresión\index{regresión} se centran en la predicción de una 
-		\gls{label} numérica basada únicamente en las \gls{feature}s de un \gls{datapoint} \cite[Ch. 2]{MLBasics}.},
+		etiqueta numérica basada únicamente en los atributos de un punto de datos \cite[Ch. 2]{MLBasics}.
+		\\
+		Vea también: \gls{label}, \gls{feature}, \gls{datapoint}},
 	first={regresión},text={regresión} 
 }
 
 \newglossaryentry{acc}
 {name={precisión (accuracy)},
-	description={Consideremos\index{precisión (accuracy)} \gls{datapoint} caracterizados por\gls{feature}s $\featurevec \in \featurespace$ y 
-		una etiqueta categórica $\truelabel$ que toma valores de un conjunto finito \gls{labelspace} $\labelspace$. La 
-		precisión de una \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \labelspace$, cuando se aplica a los
-		\gls{datapoint} en un \gls{dataset} $\dataset = \big\{ \big(\featurevec^{(1)}, \truelabel^{(1)} \big), \ldots, \big(\featurevec^{(\samplesize)},\truelabel^{(\samplesize)}\big) \big\}$, 
-		se define como $1 - (1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \lossfunczo{\big(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)}\big)}{\hypothesis}$ usando la \gls{zerooneloss} $\lossfunczo{\cdot}{\cdot}$.},
+	description={Consideremos\index{precisión (accuracy)} puntos de datos caracterizados por atributos $\featurevec \in \featurespace$ y 
+		una etiqueta categórica $\truelabel$ que toma valores de un conjunto finito espacio de etiquetas $\labelspace$. La 
+		precisión de una hipótesis $\hypothesis: \featurespace \rightarrow \labelspace$, cuando se aplica a los
+		puntos de datos en un conjunto de datos $\dataset = \big\{ \big(\featurevec^{(1)}, \truelabel^{(1)} \big), \ldots, \big(\featurevec^{(\samplesize)},\truelabel^{(\samplesize)}\big) \big\}$, 
+		se define como $1 - (1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \lossfunczo{\big(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)}\big)}{\hypothesis}$ usando la $\bf 0/1$ loss $\lossfunczo{\cdot}{\cdot}$.
+		\\
+		Vea también:  \gls{datapoint}, \gls{feature}, \gls{hypothesis}, \gls{dataset},  \gls{zerooneloss} },
 	first={precisión (accuracy)},text={precisión} 
 }
 
@@ -1337,23 +1473,26 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{expert}
 {name={experto},
-	description={El \gls{ml}\index{experto} tiene como objetivo aprender una \gls{hypothesis} $\hypothesis$ que prediga con precisión la \gls{label} 
-		de un \gls{datapoint} basado en sus \gls{feature}s. Medimos el error de \gls{prediction} utilizando una
-		\gls{lossfunc}. Idealmente, buscamos una \gls{hypothesis} que incurra en la \gls{loss} mínima
-		para cualquier \gls{datapoint}. Podemos hacer este objetivo más preciso mediante el \gls{iidasspt} 
-		y utilizando el \gls{bayesrisk} como referencia \gls{baseline} para la \gls{loss} promedio de una \gls{hypothesis}. 
-		Una manera alternativa de obtener una\gls{baseline} es utilizar la \gls{hypothesis} $\hypothesis'$ aprendida 
-		por un método de \gls{ml} existente. A esta \gls{hypothesis} $\hypothesis'$ la denominamos experto \cite{PredictionLearningGames}. Los métodos de minimización de \Gls{regret} aprenden una \gls{hypothesis}
-		que incurre en una \gls{loss} comparable a la del mejor experto \cite{PredictionLearningGames,HazanOCO}.},
+	description={El aprendizaje automático\index{experto} tiene como objetivo aprender una hipótesis $\hypothesis$ que prediga con precisión la etiqueta
+		de un punto de datos basado en sus atributos Medimos el error de prediccion utilizando una
+		funcion de perdida. Idealmente, buscamos una hipótesis que incurra en la perdida mínima
+		para cualquier punto de datos. Podemos hacer este objetivo más preciso mediante la suposición de independencia e idéntica distribución 
+		y utilizando el riesgo de bayes como referencia (baseline) para la perdida promedio de una hipótesis. 
+		Una manera alternativa de obtener una referencia es utilizar la hipótesis $\hypothesis'$ aprendida 
+		por un método de aprendizaje automático existente. A esta hipótesis $\hypothesis'$ la denominamos experto \cite{PredictionLearningGames}. Los métodos de minimización de arrepentimiento aprenden una hipótesis
+		que incurre en una perdida comparable a la del mejor experto \cite{PredictionLearningGames,HazanOCO}.
+		\\
+		Vea también: \gls{ml}, \gls{hypothesis}, \gls{label}, gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{lossfunc}, \gls{loss}, \gls{datapoint}, \gls{iidasspt}, \gls{bayesrisk}, \gls{baseline}, \Gls{regret} },
 	first={experto},text={experto} 
 }
 
 \newglossaryentry{nfl}
 {name={aprendizaje federado en red (NFL)},
 	description={El aprendizaje federado en red (NFL)\index{aprendizaje federado en red (NFL)} se refiere 
-		a métodos que aprenden \gls{model}s personalizados de manera distribuida. Estos métodos aprenden a partir de \gls{localdataset}s 
-		que están relacionados por una estructura de red intrínseca.
-		},
+		a métodos que aprenden modelos personalizados de manera distribuida. Estos métodos aprenden a partir de conjuntos de datos locales 
+		que están relacionados por una estructura de red intrínsica.
+		\\
+		Vea también: \gls{model}, \gls{localdataset}},
  first={aprendizaje federado en red (NFL)},text={NFL} 
 }
 
@@ -1362,18 +1501,22 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{regret}
 {name={arrepentimiento (regret)},
-	description={El arrepentimiento\index{arrepentimiento (regret)} de una \gls{hypothesis} $\hypothesis$ en relación con otra 
-		\gls{hypothesis} $\hypothesis'$, que sirve como referencia \gls{baseline}, 
-		es la diferencia entre la \gls{loss} incurrida por $\hypothesis$ y la \gls{loss} 
+	description={El arrepentimiento\index{arrepentimiento (regret)} de una hipótesis $\hypothesis$ en relación con otra 
+		hipótesis $\hypothesis'$, que sirve como referencia, 
+		es la diferencia entre la perdida incurrida por $\hypothesis$ y la perdida 
 		incurrida por $\hypothesis'$ \cite{PredictionLearningGames}. 
-		La \gls{baseline} \gls{hypothesis} de referencia $\hypothesis'$ también se denomina \gls{expert}.},
+		La hipótesis de referencia $\hypothesis'$ también se denomina experto.
+		\\
+		Vea también: \gls{hypothesis}, \gls{baseline}, \gls{loss}, \gls{expert}},
 	first={arrepentimiento (regret)},text={arrepentimiento (regret)} 
 }
 
 \newglossaryentry{strcvx}
 {name={fuertemente convexa},
-	description={Una función real \gls{differentiable} de valor continuo 
-		 $f(\featurevec)$es fuertemente \gls{convex} con coeficiente $\sigma$ si cumple: $f(\vy) \geq f(\vx) + \nabla f(\vx)^{T} (\vy - \vx) + (\sigma/2) \normgeneric{\vy - \vx}{2}^{2}$ \cite{nesterov04},\cite[Sec. B.1.1]{CvxAlgBertsekas}.},
+	description={Una función real diferenciable de valor continuo 
+		 $f(\featurevec)$es fuertemente convexa con coeficiente $\sigma$ si cumple: $f(\vy) \geq f(\vx) + \nabla f(\vx)^{T} (\vy - \vx) + (\sigma/2) \normgeneric{\vy - \vx}{2}^{2}$ \cite{nesterov04},\cite[Sec. B.1.1]{CvxAlgBertsekas}.
+		 \\
+		Vea también: \gls{differentiable}, \gls{convex}},
 	first={fuertemente convexa},text={fuertemente convexa} 
 }
 
@@ -1382,7 +1525,9 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	description={Una función real $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
 		es diferenciable\index{diferenciable} si, en cualquier punto, puede aproximarse localmente mediante una función lineal.
 		La aproximación lineal local en el punto $\mathbf{x}$ es determinada por el 
-		\gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+		gradiente $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		\\
+		Vea también: \gls{gradient}},
 	first={diferenciable},text={diferenciable} 
 }
 
@@ -1391,7 +1536,8 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	description={Para\index{gradiente} una función de valor real $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
 	un vector $\vg$ tal que $\lim_{\weights \rightarrow \weights'} \frac{f(\weights) - \big(f(\weights')+ \vg^{T} (\weights- \weights') \big) }{\| \weights-\weights'\|}=0$ 
 	se denomina gradiente de $f$ en $\weights'$. Si existe tal vector, se denota como
-	$\nabla f(\weights')$ o $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.},
+	$\nabla f(\weights')$ o $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+	},
 	first={gradiente},text={gradiente} 
 }
 
@@ -1405,36 +1551,43 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 
 \newglossaryentry{fedavg}
 {name={promedio federado (FedAvg)},
-	description={El promedio federado (FedAvg)\index{promedio federado (FedAvg)}se refiere a un \gls{algorithm} iterativo de \gls{fl} que alterna entre entrenar \gls{localmodel}s por separado y combinar los \gls{modelparams} locales actualizados.
-		El entrenamiento de los \gls{localmodel}s se implementa a través de varios pasos de \gls{stochGD} \cite{pmlr-v54-mcmahan17a}.}, 
+	description={El promedio federado (FedAvg)\index{promedio federado (FedAvg)}se refiere a un algoritmo iterativo de aprendizaje federado que alterna entre entrenar modelos locales por separado y combinar los parametros del modelo locales actualizados.
+		El entrenamiento de los modelos locales se implementa a través de varios pasos de descenso de gradiente estocástico  \cite{pmlr-v54-mcmahan17a}.
+		\\
+		Vea también: \gls{algorithm}, \gls{fl}, \gls{localmodel}, \gls{modelparams}, \gls{stochGD} }, 
 		first = {FedAvg}, text={FedAvg} 
 }
 
 \newglossaryentry{fedprox}
 {name={FedProx},
-	description={FedProx\index{FedProx}  se refiere a un \gls{algorithm} iterativo de \gls{fl} que alterna entre entrenar \gls{localmodel}s por separado y combinar los \gls{modelparams} locales actualizados. 
-		A diferencia de \gls{fedavg}, que utiliza \gls{stochGD} para entrenar los \gls{localmodel}s, FedProx usa un \gls{proxop}  para el entrenamiento \cite{FedProx2020}.}, 
+	description={FedProx\index{FedProx}  se refiere a un algoritmo iterativo de aprendizaje federado que alterna entre entrenar modelos locales por separado y combinar los parametros del modelo locales actualizados. 
+		A diferencia del promedio federado, que utiliza descenso de gradiente estocástico para entrenar los modelos locales, FedProx usa un operador proximal para el entrenamiento \cite{FedProx2020}.
+		\\
+		Vea también: \gls{algorithm}, \gls{localmodel}, \gls{modelparams}, \gls{fedavg}, \gls{stochGD}, \gls{proxop} }, 
 	first = {FedProx}, text={FedProx} 
 }
 
 \newglossaryentry{relu}
 {name={unidad lineal rectificada (ReLU)},
 	description={La unidad lineal rectificada (ReLU)\index{unidad lineal rectificada (ReLU)} es una elección popular para la 
-		\gls{actfun} de una neurona dentro de una \gls{ann}. Se define como  
+		función de activación de una neurona dentro de una red neuronal artificial. Se define como  
 		$\actfun(z) = \max\{0,z\}$, donde $z$ es la entrada ponderada de la neurona artificial.
-		}, 
+		\\
+		Vea también: \gls{actfun}, \gls{ann}}, 
 	first = {unidad lineal rectificada (ReLU)}, text={ReLU} 
 }
 
 \newglossaryentry{hypothesis}
 {name={hipótesis},
 	description={Una hipótesis\index{hipótesis} se refiere a un mapa (o función) $\hypothesis: \featurespace \rightarrow \labelspace$ que va del
-		\gls{featurespace} $\featurespace$ al \gls{labelspace} $\labelspace$. 
-		Dado un \gls{datapoint} con \gls{feature}s $\featurevec$, utilizamos un mapa de hipótesis $\hypothesis$
-		para estimar (o aproximar) la \gls{label} $\truelabel$ mediante la \gls{prediction}  
-		$\hat{\truelabel} = \hypothesis(\featurevec)$. El \Gls{ml} se centra en aprender (o encontrar) un mapa de hipótesis 
+		espacio de atributos $\featurespace$ al espacio de etiquetas $\labelspace$. 
+		Dado un punto de datos con atributos $\featurevec$, utilizamos un mapa de hipótesis $\hypothesis$
+		para estimar (o aproximar) la etiqueta $\truelabel$ mediante la prediccion
+		$\hat{\truelabel} = \hypothesis(\featurevec)$. El aprendizaje automático se centra en aprender (o encontrar) un mapa de hipótesis 
 		$\hypothesis$ tal que $\truelabel \approx \hypothesis(\featurevec)$ 
-		para cualquier \gls{datapoint} (con \gls{feature}s $\featurevec$ y \gls{label} $\truelabel$).},
+		para cualquier punto de datos (con atributos $\featurevec$ y etiqueta $\truelabel$).
+		\\
+		Vea también: \gls{labelspace}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{prediction}, \Gls{ml}  },
 	first={hipótesis},text={hipótesis}  
 }
 
@@ -1442,85 +1595,98 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 
 \newglossaryentry{vcdim}
 {name={dimensión de Vapnik–Chervonenkis (dimensión VC)},
-	description={La dimensión VC (Vapnik–Chervonenkis)\index{dimensión de Vapnik–Chervonenkis (dimensión VC)} de un \gls{hypospace} infinito es una medida ampliamente utilizada para su tamaño.
+	description={La dimensión VC (Vapnik–Chervonenkis)\index{dimensión de Vapnik–Chervonenkis (dimensión VC)} de un espacio de hipótesis infinito es una medida ampliamente utilizada para su tamaño.
 		Nos referimos a la literatura (vea \cite{ShalevMLBook}) para una definición precisa de la dimensión VC,
-		y para una discusión de sus propiedades básicas y su uso en \gls{ml}.},
+		y para una discusión de sus propiedades básicas y su uso en aprendizaje automático.
+		\\
+		Vea también: \gls{hypospace}, \gls{ml}},
 	first={dimensión de Vapnik–Chervonenkis (dimensión VC)},text={dimensión VC}  
 }
 
 \newglossaryentry{effdim}
 {name={dimensión efectiva},
 	description={La dimensión efectiva\index{dimensión efectiva} $\effdim{\hypospace}$ de un 
-		\gls{hypospace} infinito $\hypospace$ es una medida de su tamaño. A grandes rasgos,la 
-		dimensión efectiva es igual al número efectivo de \gls{modelparams} independientes y ajustables. 
-		Estos \gls{parameters} pueden ser los coeficientes utilizados en un mapa lineal o los 
-		\gls{weights} y términos de sesgo de una \gls{ann}.},
+		espacio de hipótesis infinito $\hypospace$ es una medida de su tamaño. A grandes rasgos,la 
+		dimensión efectiva es igual al número efectivo de parametros del modelo independientes y ajustables. 
+		Estos parametros pueden ser los coeficientes utilizados en un mapa lineal o los 
+		pesos y términos de sesgo de una red neuronal artificial.
+		\\
+		Vea también: \gls{hypospace}, \gls{modelparams}, \gls{parameters}, \gls{weights}, \gls{ann} },
 	first={dimensión efectiva},text={dimensión efectiva}  
 }
 
 \newglossaryentry{labelspace}
 {name={espacio de etiquetas},
-	description={Consideremos\index{espacio de etiquetas} una aplicación de \gls{ml} que involucra \gls{datapoint} caracterizados por \gls{feature}s 
-		y \gls{label}s. El espacio de \gls{label} etiquetas está constituido por todos los valores potenciales que una \gls{label} 
-		de un \gls{datapoint} puede asumir. Los métodos de \Gls{regression}, que  buscan predecir etiquetas numéricas \gls{label}s, 
-		a menudo utilizan el espacio de etiquetas \gls{label} $\labelspace = \mathbb{R}$. Los métodos de \gls{classification} binaria utilizan un espacio de etiquetas \gls{label}  
+	description={Consideremos\index{espacio de etiquetas} una aplicación de aprendizaje automático que involucra puntos de datos caracterizados por atributos
+		y etiquetas. El espacio de etiquetas está constituido por todos los valores potenciales que una etiqueta
+		de un punto de datos puede asumir. Los métodos de regresión, que buscan predecir etiquetas numéricas 
+		a menudo utilizan el espacio de etiquetas $\labelspace = \mathbb{R}$. Los métodos de clasificación binaria utilizan un espacio de etiquetas  
 		que consiste de dos elementos diferentes, por ejemplo, $\labelspace =\{-1,1\}$, $\labelspace=\{0,1\}$, 
-		o $\labelspace = \{ \mbox{``imagen de gato''}, \mbox{``sin imagen de gato''} \}$.}, first={espacio de etiquetas},text={espacio de etiquetas}  
+		o $\labelspace = \{ \mbox{``imagen de gato''}, \mbox{``sin imagen de gato''} \}$.
+		\\
+		Vea también: \gls{ml}, \gls{datapoint},  \gls{feature}, \gls{label}, \Gls{regression}, \gls{classification} }, 
+		first={espacio de etiquetas},text={espacio de etiquetas}  
 }
 
 \newglossaryentry{prediction}
 {name={predicción},
 	description={Una \index{prediction} predicción es una estimación o aproximación de una cantidad de interés.  
-		El \Gls{ml} se centra en aprender o encontrar un mapa de \gls{hypothesis} $\hypothesis$ 
-		que recibe las \gls{feature}s $\featurevec$ de un \gls{datapoint} and y produce una predicción
-		$\widehat{\truelabel} \defeq \hypothesis(\featurevec)$ para su \gls{label} $\truelabel$. },
+		El Aprendizaje Automático se centra en aprender o encontrar un mapa de hipótesis $\hypothesis$ 
+		que recibe los atributos $\featurevec$ de un punto datos and y produce una predicción
+		$\widehat{\truelabel} \defeq \hypothesis(\featurevec)$ para su etiqueta $\truelabel$. 
+		\\
+		Vea también:  \Gls{ml}, \gls{hypothesis}, \gls{feature}, \gls{datapoint}},
 	first={predicción},text={predicción}  
 }
 
 \newglossaryentry{histogram}
 {name={histograma},
-	description={Un histograma \index{histograma} considera un \gls{dataset} $\dataset$ que consiste en $\samplesize$ \gls{datapoint}
+	description={Un histograma \index{histograma} considera un conjunto de datos $\dataset$ que consiste en $\samplesize$ puntos de datos
 		$\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$, cada uno de los cuales pertenece a una celda  
 		$[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ con longitud de lado 
 		$U$. Dividimos esta celda uniformemente en celdas elementales más pequeñas con longitud de lado 
-		$\Delta$. El histograma de $\dataset$ asigna a cada celda elemental la fracción correspondiente de
-		\gls{datapoint} en $\dataset$ que caen dentro de esa celda.
-	},
+		$\Delta$. El histograma de $\dataset$ asigna a cada celda elemental la fracción correspondiente del
+		punto de datos en $\dataset$ que caen dentro de esa celda.
+		\\
+		Vea también: \gls{dataset}, \gls{datapoint} },
 	first={histograma},text={histograma}  
 }
 
 \newglossaryentry{bootstrap}
 {name={bootstrap},
-	description={Para\index{bootstrap} el análisis de métodos de \gls{ml} methods, es a menudo útil interpretar 
-		un conjunto dado de \gls{datapoint} $\dataset = \big\{ \datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}\big\}$ 
-		como \gls{realization}es de \gls{rv}s\gls{iid} con una \gls{probdist} común $p(\datapoint)$.En general, no conocemos 
+	description={Para\index{bootstrap} el análisis de métodos de aprendizaje automático, es a menudo útil interpretar 
+		un conjunto dado de puntos de datos $\dataset = \big\{ \datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}\big\}$ 
+		como realizaciónes de variables aleatorias iid con una distribución de probabilidad común $p(\datapoint)$. En general, no conocemos 
 		$p(\datapoint)$ exactamente, por lo que necesitamos estimarla. El método bootstrap utiliza el histograma de 
-		$\dataset$ como un estimador para la \gls{probdist} subyacente $p(\datapoint)$. 
-	},
+		$\dataset$ como un estimador para la distribución de probabilidad subyacente $p(\datapoint)$. 
+		\\
+		Vea también: \gls{ml}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{iid},\gls{probdist} },
 	first={bootstrap},text={bootstrap}  
 }
 
 \newglossaryentry{featurespace}
 {name={espacio de atributos},
 	description={
-		El\index{espacio de atributos} espacio de atributos de una aplicación o método de \gls{ml}
-		está constituido por todos los valores potenciales que el \gls{featurevec} de un \gls{datapoint} puede asumir.
-		Una elección común para el espacio de atributos es el \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
-		donde la dimensión $\featurelen$ es el número de \gls{feature}s individuales de un \gls{datapoint}.
-		},
+		El\index{espacio de atributos} espacio de atributos de una aplicación o método de aprendizaje automático
+		está constituido por todos los valores potenciales que el vector de atributos de un punto de datos puede asumir.
+		Una elección común para el espacio de atributos es el espacio euclidiano $\mathbb{R}^{\featuredim}$, 
+		donde la dimensión $\featurelen$ es el número de atributos individuales de un punto de datos.
+		\\
+		Vea también: \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{euclidspace}, \gls{feature} },
 	first={espacio de atributos},text={espacio de atributos}  
 }
 
 
 \newglossaryentry{missingdata}
 {name={datos faltantes},
-	description={Considere\index{datos faltantes} un \gls{dataset} constituido por \gls{datapoint}s recopilados  
-		a través de algún \gls{device} físico. Debido a imperfecciones y fallas, algunos de los valores de \gls{feature} 
-		o \gls{label} de los \gls{datapoint} podrían estar corruptos o simplemente faltar.  
-		La imputación de \Gls{data}  tiene como objetivo estimar estos valores faltantes \cite{Abayomi2008DiagnosticsFM}. 
-		Podemos interpretar la imputación de \gls{data}  como un problema de \gls{ml}donde la \gls{label} de un \gls{datapoint} es 
-		es el valor de la \gls{feature}  corrupta. 
-		},
+	description={Considere\index{datos faltantes} un conjunto de datos constituido por puntos de datos recopilados  
+		a través de algún dispositivo físico. Debido a imperfecciones y fallas, algunos de los valores de atributos
+		o etiquetas de los puntos ded atos podrían estar corruptos o simplemente faltar.  
+		La imputación de datos tiene como objetivo estimar estos valores faltantes \cite{Abayomi2008DiagnosticsFM}. 
+		Podemos interpretar la imputación de datos como un problema de aprendizaje automático donde la etiqueta de un punto de datos es 
+		es el valor del atributo corrupto. 
+		\\
+		Vea también:  \gls{dataset}, \gls{datapoint}, \gls{device}, \gls{feature}, \gls{label}, \gls{datapoint}, \Gls{data} },
 	first={datos faltantes},text={datos faltantes}  
 }
 
@@ -1530,24 +1696,28 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
     description=
     {Una \index{semi-definida positiva (psd)} matriz simétrica (con valores reales) $\mQ = \mQ^{T} \in \mathbb{R}^{\featuredim \times \featuredim}$ 
 	se denomina semi-definida positiva (psd) si $\featurevec^{T} \mQ \featurevec \geq 0$ para todo vector $\featurevec \in \mathbb{R}^{\featuredim}$. 
-	La propiedad de ser semi-definida positiva puede extenderse desde matrices a funciones \gls{kernel} simétricas (con valores reales) 
+	La propiedad de ser semi-definida positiva puede extenderse desde matrices a funciones kernel simétricas (con valores reales) 
 	$\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
 	(con $\kernel(\featurevec,\featurevec') = \kernel(\featurevec',\featurevec)$)
-	de la siguiente manera: Para cualquier conjunto finito de \gls{featurevec}s $\featurevec^{(1)},\dots,\featurevec^{(\samplesize)}$, 
+	de la siguiente manera: Para cualquier conjunto finito de vectores de atributos $\featurevec^{(1)},\dots,\featurevec^{(\samplesize)}$, 
 	la matriz resultante $\mQ \in \mathbb{R}^{\samplesize \times \samplesize}$ con 
 	entradas $Q_{\sampleidx,\sampleidx'} = \kernelmap{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}}$ 
-	es semi-definida positiva \cite{LearningKernelsBook}.},
+	es semi-definida positiva \cite{LearningKernelsBook}.
+	\\
+		Vea también: \gls{kernel}, \gls{featurevec}},
     first={semi-definida positiva (psd)},text={psd}  
 }
 
 \newglossaryentry{feature}
 {name={atributo},
 	description={Un\index{atributo} atributo de un \gls{datapoint} es una de sus propiedades que se puede 
-		medir o calcular fácilmente sin la necesidad de supervisión humana. Por ejemplo, si un \gls{datapoint} 
+		medir o calcular fácilmente sin la necesidad de supervisión humana. Por ejemplo, si un punto de datos
 		es una imagen digital (por ejemplo, almacenada como un archivo \texttt{.jpeg}), entonces podríamos usar
 		las intensidades rojo-verde-azul de sus píxeles como atributos. Sinónimos específicos del dominio  
 		para el término atributo incluyen "covariable", "variable explicativa", "variable independiente", "variable de entrada", "predictor (variable)" o "regresor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
-		}, first={atributo},text={atributo}  
+		\\
+		Vea también: \gls{datapoint} }, 
+		first={atributo},text={atributo}  
 }
 
 \newglossaryentry{featurevec}
@@ -1557,11 +1727,12 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 		El\index{vector de atributos} vector de atributos se refiere a un vector 
 		$\vx = \big(x_{1},\ldots,x_{\nrfeatures}\big)^{T}$ cuyos elementos son atributos individuales 
 		$x_{1},\ldots,x_{\nrfeatures}$. 
-		Muchos métodos de \gls{ml} utilizan vectores de atributos que pertenecen a algún 
-		\gls{euclidspace} de dimensión finita $\mathbb{R}^{\nrfeatures}$. Sin embargo, para algunos 
-		métodos de \gls{ml}, puede ser más conveniente trabajar con vectores de atributos que pertenezcan 
-		a un espacio vectorial de dimensión infinita (por ejemplo, ver \gls{kernelmethod}). 
-	},
+		Muchos métodos de aprendizaje automático utilizan vectores de atributos que pertenecen a algún 
+		espacio euclidiano de dimensión finita $\mathbb{R}^{\nrfeatures}$. Sin embargo, para algunos 
+		métodos de aprendizaje automático, puede ser más conveniente trabajar con vectores de atributos que pertenezcan 
+		a un espacio vectorial de dimensión infinita (por ejemplo, ver método de kernel). 
+		\\
+		Vea también: \gls{ml}, \gls{euclidspace}, \gls{ml}, \gls{kernelmethod}},
 	first={vector de atributos},text={vector de atributos}  
 }
 
@@ -1569,11 +1740,12 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 {
 	name={etiqueta},
 	description={
-		Una\index{etiqueta} es un hecho de nivel superior o una cantidad de interés asociada a un \gls{datapoint}. 
-		Por ejemplo, si el \gls{datapoint} es una imagen, la etiqueta podría indicar si la 
+		Una\index{etiqueta} es un hecho de nivel superior o una cantidad de interés asociada a un punto de datos. 
+		Por ejemplo, si el punto de datos es una imagen, la etiqueta podría indicar si la 
 		imagen contiene un gato o no. Los sinónimos de etiqueta, comúnmente utilizados en dominios específicos, 
 		incluyen "variable de respuesta", "variable de salida" y "objetivo" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}.
-	},
+		\\
+		Vea también: \gls{datapoint}},
 	first={etiqueta},text={etiqueta}  
 }
 
@@ -1594,14 +1766,14 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 
 \newglossaryentry{dataset}
 {name={conjunto de datos},
-	description={Un\index{conjunto de datos} conjunto de datos se refiere a una colección de \gls{datapoint}. Estos 
-		\gls{datapoint} contienen información sobre alguna cantidad de interés (o \gls{label}) dentro 
-		de una aplicación de \gls{ml}. Los métodos de \gls{ml} utilizan conjuntos de datos para el entrenamiento de \gls{model} (por ejemplo, a través de \gls{erm})
-		y para la \gls{validation} de \gls{model}s. Nuestra noción de conjunto de datos es muy flexible, 
-		ya que permite diferentes tipos de \gls{datapoint}. De hecho, los \gls{datapoint} pueden ser objetos físicos concretos
+	description={Un\index{conjunto de datos} conjunto de datos se refiere a una colección de puntos de datos. Estos 
+		puntos de datos contienen información sobre alguna cantidad de interés (o etiqueta) dentro 
+		de una aplicación de aprendizaje automático. Los métodos de aprendizaje automático utilizan conjuntos de datos para el entrenamiento de un modelo (por ejemplo, a través de ERM)
+		y para la validación de modelos. Nuestra noción de conjunto de datos es muy flexible, 
+		ya que permite diferentes tipos de puntos de datos. De hecho, los puntos de datos pueden ser objetos físicos concretos
 		(como humanos o animales) o objetos abstractos (como números).
 		Como ejemplo, la Figura\ \ref{fig_cows_dataset} muestra un conjunto de datos que consiste en vacas como 
-		\gls{datapoint}. 
+		punto de datos. 
 		\begin{figure}[H]
 				\begin{center}
 		\label{fig:cowsintheswissalps}
@@ -1609,22 +1781,22 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 		  \end{center}
 		\caption{\label{fig_cows_dataset}“Cows in the Swiss Alps” by User:Huhu Uet is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)}
 	  \end{figure}
-	   Con frecuencia, un ingeniero de \gls{ml}  no tiene acceso directo a un conjunto de datos. De hecho, acceder al conjunto de datos en la Figura 
+	   Con frecuencia, un ingeniero de aprendizaje automático no tiene acceso directo a un conjunto de datos. De hecho, acceder al conjunto de datos en la Figura 
        \ \ref{fig:cowsintheswissalps} requeriría visitar el rebaño de vacas en los Alpes. En su lugar, 
 	   necesitamos utilizar una aproximación (o representación) del conjunto de datos que sea más conveniente para trabajar. 
        Se han desarrollado diferentes modelos matemáticos para la representación (o aproximación) de conjuntos de datos  
        \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
-	   Uno de los modelos de datos más adoptados es el modelo relacional, \gls{model}, que organiza los \gls{data} 
+	   Uno de los modelos de datos más adoptados es el modelo relacional, que organiza los datos
        en una tabla (o relación) \cite{codd1970relational}, \cite{silberschatz2019database}.
 	   Una tabla se compone de filas y columnas:
 		\begin{itemize} 
-		\item Cada fila de la tabla representa un solo \gls{datapoint}.
-		\item Cada columna de la tabla corresponde a un atributo específico del \gls{datapoint}. 
-		Los métodos de \gls{ml}  pueden utilizar estos atributos como \gls{feature}s y \gls{label}s del \gls{datapoint}.
+		\item Cada fila de la tabla representa un solo punto de datos.
+		\item Cada columna de la tabla corresponde a un atributo específico del punto de datos. 
+		Los métodos de aprendizaje automático pueden utilizar estos atributos como atributos y etiquetas del punto de datos.
 		\end{itemize}
 		Por ejemplo, la Tabla \ref{tab:cowdata} muestra una representación del conjunto de datos en la Figura\ \ref{fig_cows_dataset}. 
 		En el modelo relacional, el orden de las filas es irrelevante, y cada atributo (es decir, columna) debe estar definido de manera precisa con un dominio, que especifica el conjunto de valores posibles.
-		En las aplicaciones de \gls{ml}, estos dominios de atributos se convierten en el \gls{featurespace} y el \gls{labelspace}. 
+		En las aplicaciones de aprendizaje automático, estos dominios de atributos se convierten en el espacio de atributos y el espacio de etiquetas. 
 		\begin{table}[H]
 			\centering
 			\begin{tabular}{lcccc}
@@ -1639,43 +1811,50 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 			\caption{Una relación (o tabla) que representa el conjunto de datos en la Figura\ \ref{fig:cowsintheswissalps}.}
 			\label{tab:cowdata}
 		\end{table}
- Si bien el modelo relacional es útil para el estudio de muchas aplicaciones de  \gls{ml}, puede ser insuficiente 
- para cumplir con los requisitos de  \gls{trustAI}. Enfoques modernos como las hojas de datos para conjuntos de datos proporcionan una documentación más completa,   
+ Si bien el modelo relacional es útil para el estudio de muchas aplicaciones de aprendizaje automático, puede ser insuficiente 
+ para cumplir con los requisitos de IA confiable. Enfoques modernos como las hojas de datos para conjuntos de datos proporcionan una documentación más completa,   
  incluyendo detalles sobre el proceso de recolección del conjunto de datos, su uso previsto y otra información contextual 
- \cite{DatasheetData2021}.},first={conjunto de datos},text={conjunto de datos}  
+ \cite{DatasheetData2021}.
+ \\
+		Vea también: \gls{datapoint}, \gls{label}, \gls{ml}, \gls{model},  \gls{erm}, \gls{validation}, \gls{data}, \gls{featurespace}, \gls{labelspace}, \gls{trustAI}},first={conjunto de datos},text={conjunto de datos}  
 }
 
 \newglossaryentry{predictor}
 {name={predictor},
-	description={Un\index{predictor} predictor es un mapa de \gls{hypothesis} con valores reales.
-		Dado un\gls{datapoint} con \gls{feature}s $\featurevec$, el valor 
-		$\hypothesis(\featurevec) \in \mathbb{R}$ se utiliza como una \gls{prediction} para la verdadera  
-		\gls{label} numérica $\truelabel \in \mathbb{R}$ del \gls{datapoint}. },first={predictor},text={predictor}  
+	description={Un\index{predictor} predictor es un mapa de hipótesis con valores reales.
+		Dado un punto de datos con atributos $\featurevec$, el valor 
+		$\hypothesis(\featurevec) \in \mathbb{R}$ se utiliza como una predicción para la verdadera  
+		etiqueta numérica $\truelabel \in \mathbb{R}$ del punto de datos. 
+		\\
+		Vea también: \gls{hypothesis}, \gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{label} },first={predictor},text={predictor}  
 }
 
 \newglossaryentry{labeled datapoint}
 {name={punto de dato etiquetado},
- description={Un\index{punto de dato etiquetado} \gls{datapoint} cuya \gls{label} es conocida o ha sido determinada  
+ description={Un\index{punto de dato etiquetado} punto de datos cuya etiqueta es conocida o ha sido determinada  
  por algún medio, lo que podría requerir trabajo humano.
- },
+ \\
+	Vea también: \gls{datapoint},  \gls{label} },
  first={punto de dato etiquetado},text={punto de dato etiquetado}  
 }
 
 \newglossaryentry{rv}
 {name={variable aleatoria (RV)},
  description={Una RV\index{variable aleatoria (RV)} es una función que mapea desde  
- 	un \gls{probspace} $\mathcal{P}$ a un espacio de valores \cite{BillingsleyProbMeasure,GrayProbBook}. 
- 	El \gls{probspace} consiste en eventos elementales y está equipado con una medida de \gls{probability} 
+ 	un espacio de probabilidad $\mathcal{P}$ a un espacio de valores \cite{BillingsleyProbMeasure,GrayProbBook}. 
+ 	El espacio de probabilidad consiste en eventos elementales y está equipado con una medida de probabilidad
  	que asigna probabilidades a subconjuntos de $\mathcal{P}$. 
  	Existen diferentes tipos de variables aleatorias (RV), que incluyen:  
  	\begin{itemize} 
  	\item {RVs binarias}, que asignan eventos elementales a un conjunto de dos valores distintos, como 
  	$\{-1,1\}$ o $\{\text{cat}, \text{no cat}\}$; 
  	\item {RVs de valor real}, que toman valores en los números reales $\mathbb{R}$;  
- 	\item {RVs de valor vectorial}, que mapean eventos elementales al \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
+ 	\item {RVs de valor vectorial}, que mapean eventos elementales al espacio euclidiano $\mathbb{R}^{\featuredim}$.  
  	\end{itemize} 
- 	La teoría de \Gls{probability} utiliza el concepto de espacios medibles para definir rigurosamente
- 	y estudiar las propiedades de (grandes) colecciones de RVs \cite{BillingsleyProbMeasure}.}, first={variable aleatoria (RV)},text={RV}  }
+ 	La teoría de probabilidad utiliza el concepto de espacios medibles para definir rigurosamente
+ 	y estudiar las propiedades de (grandes) colecciones de RVs \cite{BillingsleyProbMeasure}.
+	 \\
+	 Vea también: \gls{probspace}, \gls{probability}, \gls{euclidspace},  }, first={variable aleatoria (RV)},text={RV}  }
  
  \newglossaryentry{probspace}{
  	name={probability space}, 
@@ -1692,7 +1871,9 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
  		countable sequence of pairwise disjoint events $\mathcal{A}_1, \mathcal{A}_2, \dots$ in $\mathcal{F}$.
  		\end{itemize}
  		\Gls{probability} spaces provide the foundation for defining \gls{rv}s and to reason about 
- 		uncertainty in \gls{ml} applications \cite{BillingsleyProbMeasure,GrayProbBook,ross2013first}.},  
+ 		uncertainty in \gls{ml} applications \cite{BillingsleyProbMeasure,GrayProbBook,ross2013first}.
+		 \\
+		 Vea también: \gls{probability}, \gls{model}, \gls{rv}, \gls{ml}  },  
  	first={probability space}, 
  	text={probability space}
  }
@@ -1700,89 +1881,106 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 	
  \newglossaryentry{realization}
  {name={realización},
-	 description={Consideremos\index{realización} una \gls{rv} $x$ que asigna cada elemento 
-	 (es decir, resultado o evento elemental) $\omega \in \mathcal{P}$ de un \gls{probspace} $\mathcal{P}$ 
+	 description={Consideremos\index{realización} una variable aleatoria $x$ que asigna cada elemento 
+	 (es decir, resultado o evento elemental) $\omega \in \mathcal{P}$ de un espacio de probabilidad $\mathcal{P}$ 
 	 a un elemento $a$ de un espacio medible $\mathcal{N}$ \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
 	 Una realización de $x$ es cualquier elemento $a' \in \mathcal{N}$ tal que existe 
-	 un elemento $\omega' \in \mathcal{P}$ con $x(\omega') = a'$.}, first={realización},text={realización}  }
+	 un elemento $\omega' \in \mathcal{P}$ con $x(\omega') = a'$.
+	 \\
+		Vea también: \gls{rv}, \gls{probspace}}, first={realización},text={realización}  }
  
  \newglossaryentry{trainset}
  {name={conjunto de entrenamiento},
- description={Un\index{conjunto de entrenamiento} conjunto de entrenamiento es un \gls{dataset} $\dataset$ que consiste en algunos \gls{datapoint} usados en \gls{erm} 
-	 para aprender una\gls{hypothesis} $\learnthypothesis$. La \gls{loss} promedio de $\learnthypothesis$ en el 
-	 conjunto de entrenamiento se denomina \gls{trainerr}.  La comparación del \gls{trainerr} con el 
-	 \gls{valerr} de $\learnthypothesis$ nos permite diagnosticar el método de \gls{ml} e informa cómo mejorar 
-	 el error de validación (por ejemplo, utilizando un \gls{hypospace} diferente o recopilando más \gls{datapoint}) \cite[Sec. 6.6]{MLBasics}.}
+ description={Un\index{conjunto de entrenamiento} conjunto de entrenamiento es un conjunto de datos $\dataset$ que consiste en algunos puntos de datos usados en ERM
+	 para aprender una hipótesis $\learnthypothesis$. La perdida promedio de $\learnthypothesis$ en el 
+	 conjunto de entrenamiento se denomina error de entrenamiento.  La comparación del error de entrenamiento con el 
+	 error de validación de $\learnthypothesis$ nos permite diagnosticar el método de aprendizaje automático e informa cómo mejorar 
+	 el error de validación (por ejemplo, utilizando un espacio de hipótesis diferente o recopilando más puntos de datos) \cite[Sec. 6.6]{MLBasics}.
+	 \\
+	 Vea también: \gls{dataset}, \gls{datapoint}, \gls{erm}, \gls{hypothesis}, \gls{loss}, \gls{trainerr}, \gls{valerr}}
 	 ,first={conjunto de entrenamiento},text={conjunto de entrenamiento}  
  }
  
  \newglossaryentry{netmodel}
  {name={modelo en red},
-   description={Un\index{modelo en red} modelo en red sobre un \gls{empgraph} $\graph = \pair{\nodes}{\edges}$ asigna 
-	un \gls{localmodel} (es decir, un \gls{hypospace}) a cada nodo $\nodeidx \in \nodes$ del \gls{empgraph} $\graph$.}, 
+   description={Un\index{modelo en red} modelo en red sobre un red de aprendizaje federado $\graph = \pair{\nodes}{\edges}$ asigna 
+	un modelo local (es decir, un espacio de hipótesis) a cada nodo $\nodeidx \in \nodes$ de la red de aprendizaje federado $\graph$.
+	\\
+	 Vea también: \gls{empgraph}, \gls{localmodel}, \gls{hypospace}}, 
 	first={modelo en red},text={modelo en red}
  }
 
  \newglossaryentry{batch}
  {
 	 name={lote},
-	 description={En\index{lote} el contexto de \gls{stochGD}, un lote se refiere a un subconjunto elegido al azar del 
-	 conjunto total de \gls{trainset}. Utilizamos los \gls{datapoint} de este subconjunto 
-	 para estimar el \gls{gradient} del \gls{trainerr} y, a su vez, actualizar los \gls{modelparams}.}, 
+	 description={En\index{lote} el contexto de descenso de gradiente estocástico, un lote se refiere a un subconjunto elegido al azar del 
+	 conjunto total de conjunto de entrenamiento. Utilizamos los puntos locales de este subconjunto 
+	 para estimar el gradiente del error de entrenamiento y, a su vez, actualizar los parametros del modelo.
+	 \\
+	 Vea también: \gls{stochGD}, \gls{trainset}, \gls{datapoint}, \gls{gradient}, \gls{trainerr}, \gls{modelparams} }, 
 	 first={lote},text={lote}  
  }
  
  \newglossaryentry{netdata}
  {
 	 name={datos en red},
-	 description={Los\index{datos en red} \gls{data} en red consisten en \gls{localdataset}s 
+	 description={Los\index{datos en red} datos en red consisten en conjuntos de datos locales 
 	 relacionados por alguna noción de similitud por pares. Podemos representar los datos en red 
-	 utilizando un \gls{graph} cuyos nodos contienen \gls{localdataset}s y cuyas aristas codifican 
-	 similitudes por pares. Un ejemplo de datos en red surge en las aplicaciones de \gls{fl} 
-	 donde los \gls{localdataset}s  son generados por \gls{device}s distribuidos espacialmente.}, 
+	 utilizando un grafo cuyos nodos contienen conjuntos de datos locales y cuyas aristas codifican 
+	 similitudes por pares. Un ejemplo de datos en red surge en las aplicaciones de aprenizaje federado
+	 donde los conjuntos de datos locales son generados por dispositivos distribuidos espacialmente.
+	 \\
+	 Vea también: \gls{data}, \gls{localdataset}, \gls{graph}, \gls{localdataset}, \gls{fl}, \gls{device} }, 
 	 first={datos en red},text={datos en red}  
  }
  
  \newglossaryentry{trainerr}
  {
 	 name={error de entrenamiento},
-	 description={El\index{error de entrenamiento} \gls{loss} promedio de una \gls{hypothesis} al 
-		 predecir las \gls{label}s de los \gls{datapoint} en un \gls{trainset}. 
-		 A veces también nos referimos al error de entrenamiento como el \gls{loss} promedio mínimo 
-		 que se logra mediante una solución de \gls{erm}.},
+	 description={La\index{error de entrenamiento} perdida promedio de una hipótesis al 
+		 predecir las etiquetas de los puntos de datos en un conjunto de entrenamiento. 
+		 A veces también nos referimos al error de entrenamiento como la perdida promedio mínimo 
+		 que se logra mediante una solución de ERM.
+		 \\
+	 	Vea también: \gls{loss}, \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{trainset}, \gls{erm}},
 		 first={error de entrenamiento},text={error de entrenamiento}  
  }
 
 \newglossaryentry{datapoint}
 {name={punto de datos},
 description={Un\index{punto de datos} punto de datos es cualquier objeto que transmite información \cite{coverthomas}.
-		Los puntos de datos pueden ser estudiantes, señales de radio, árboles, bosques, imágenes, \gls{rv}s, números reales o proteínas.
-		Caracterizamos los puntos de datos utilizando dos tipos de propiedades. Un tipo de propiedad se denomina \gls{feature}. 
-		Las \Gls{feature}s son propiedades de un punto de datos que se pueden medir o calcular de manera automatizada.  
-		Un tipo diferente de propiedad se denomina \gls{label}. La \gls{label} de un punto de datos representa 
-		algún hecho de mayor nivel (o cantidad de interés). A diferencia de las \gls{feature}s, determinar la \gls{label} de un punto de datos suele requerir expertos humanos (expertos en dominio). 
-		En términos generales, el \gls{ml} tiene como objetivo predecir la
-		\gls{label} of a \gls{data} de un punto de datos únicamente a partir de sus  \gls{feature}s. 
-		}, first={punto de datos},text={punto de datos}  
+		Los puntos de datos pueden ser estudiantes, señales de radio, árboles, bosques, imágenes, variables aleatorias, números reales o proteínas.
+		Caracterizamos los puntos de datos utilizando dos tipos de propiedades. Un tipo de propiedad se denomina atributo. 
+		Los atributos son propiedades de un punto de datos que se pueden medir o calcular de manera automatizada.  
+		Un tipo diferente de propiedad se denomina etiqueta. La etiqueta de un punto de datos representa 
+		algún hecho de mayor nivel (o cantidad de interés). A diferencia de los atributos, determinar la etiqueta de un punto de datos suele requerir expertos humanos (expertos en dominio). 
+		En términos generales, el aprendizaje automático tiene como objetivo predecir la
+		etiqueta de un punto de datos únicamente a partir de sus atributos.  
+		\\
+	 	Vea también: \gls{rv}, \gls{feature}, \gls{label}, \gls{ml} }, first={punto de datos},text={punto de datos}  
 }
 
 
 \newglossaryentry{valerr}
 {name={error de validación},
- description={Consideremos\index{error de validación} una \gls{hypothesis} $\learnthypothesis$ obtenida por algún método de
- 	\gls{ml}, e.g., por ejemplo, utilizando \gls{erm} en un \gls{trainset}. El \gls{loss} promedio de
- 	$\learnthypothesis$ en un \gls{valset}, que es diferente del \gls{trainset},  se denomina error de validación.},
+ description={Consideremos\index{error de validación} una hipótesis $\learnthypothesis$ obtenida por algún método de
+ 	aprendizaje automático, por ejemplo, utilizando ERM en un conjunto de entrenamiento. La perdida promedio de
+ 	$\learnthypothesis$ en un conjunto de validación, que es diferente del cojunto de entrenamiento, se denomina error de validación.
+	 \\
+	 Vea también: \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{trainset}, \gls{loss}, \gls{valset}},
 	first={error de validación},text={error de validación}  
 }
 
 \newglossaryentry{validation} 
 {
 	name={validación},
-	description={La\index{validación} validación se refiere a la práctica de evaluar el \gls{loss} incurrido por una 
-		\gls{hypothesis} $\learnthypothesis$ que ha sido aprendida mediante algún método de \gls{ml}, 
-		por ejemplo, resolviendo \gls{erm} en un \gls{trainset} $\dataset$. La validación implica evaluar 
-		el desempeño de la \gls{hypothesis} en un conjunto de \gls{datapoint} que no están contenidos 
-		en el \gls{trainset} $\dataset$.}, 
+	description={La\index{validación} validación se refiere a la práctica de evaluar la perdida incurrida por una 
+		hipótesis $\learnthypothesis$ que ha sido aprendida mediante algún método de aprendizaje automático, 
+		por ejemplo, resolviendo ERM en un conjunto de entrenamiento $\dataset$. La validación implica evaluar 
+		el desempeño de la hipótesis en un conjunto de puntos de datos que no están contenidos 
+		en el conjunto de entrenamiento $\dataset$.
+		\\
+	 Vea también: \gls{loss}, \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{trainset}, \gls{datapoint}}, 
 	first={validación},text={validación}  
 }
 \newglossaryentry{quadfunc}
@@ -1790,19 +1988,22 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 	description={Una\index{función cuadrática} función $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ de la forma
 	$$f(\weights) =  \weights^{T} \mathbf{Q} \mathbf{w} + \mathbf{q}^{T} \weights+a,$$ donde 
 	$\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ es una matriz, $\vq \in \mathbb{R}^{\nrfeatures}$ es un vector
-	y $a \in \mathbb{R}$ es un escalar. },
+	y $a \in \mathbb{R}$ es un escalar. 
+	},
 	first={función cuadrática},text={función cuadrática}  
 }
 
 \newglossaryentry{valset}
 {name={conjunto de validación},
-  description={Un\index{conjunto de validación} conjunto de \gls{datapoint} usado para 
-  	estimar el \gls{risk} de una \gls{hypothesis} $\learnthypothesis$ que ha sido 
-  	aprendida mediante algún método de \gls{ml} (por ejemplo, resolviendo \gls{erm}). El \gls{loss} promedio de $\learnthypothesis$ 
-  	en el conjunto de validación \gls{validation} se denomina \gls{valerr} y puede utilizarse para diagnosticar un método de 
-  	\gls{ml} (vea \cite[Sec. 6.6]{MLBasics}). La comparación entre el \gls{trainerr} 
-  	y el \gls{valerr} puede proporcionar información sobre cómo mejorar el método de \gls{ml} method (como usar 
-  	un\gls{hypospace} diferente).},
+  description={Un\index{conjunto de validación} conjunto de puntos de dastos usado para 
+  	estimar el riesgo de una hipótesis $\learnthypothesis$ que ha sido 
+  	aprendida mediante algún método de aprendizaje automático (por ejemplo, resolviendo ERM). La perdida promedio de $\learnthypothesis$ 
+  	en el conjunto de validación se denomina error de validacion y puede utilizarse para diagnosticar un método de 
+  	aprendizaje automático (vea \cite[Sec. 6.6]{MLBasics}). La comparación entre el error de entrenamiento 
+  	y el error de validacion puede proporcionar información sobre cómo mejorar el método de aprendizaje automático  (como usar 
+  	un espacio de hipótesis diferente).
+	  \\
+	  Vea también: \gls{datapoint}, \gls{risk}, \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{loss}, \gls{validation},  \gls{valerr}, \gls{trainerr}, \gls{hypospace}},
 	first={conjunto de validación},text={conjunto de validación}  
 }
 
@@ -2363,7 +2564,7 @@ description={DBSCAN\index{agrupamiento basado en densidad para aplicaciones espa
 	una gran distancia euclidiana.},
 first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (DBSCAN)},text={DBSCAN} }
 
-\newglossaryentry{fl}{name={aprendizaje federado (FL)}, description={FL\index{aprendizaje federado (FL)} 
+\newglossaryentry{fl}{name={aprendizaje federado(FL)}, description={FL\index{aprendizaje federado (FL)} 
 		es un término general para los métodos de \gls{ml} que entrenan \gls{model}s de manera colaborativa,
 		utilizando \gls{data} y computación descentralizadas.},first={aprendizaje federado (FL)},text={FL} }
 	
