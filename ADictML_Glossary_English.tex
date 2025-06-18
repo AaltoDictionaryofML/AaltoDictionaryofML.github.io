@@ -1606,26 +1606,95 @@ and then projecting the result back onto the \gls{paramspace}.
 
 
 \newglossaryentry{mean}
-{
-	name={mean}, plural={means},
-	description={The \index{mean} mean of an \gls{rv} $\featurevec$, taking 
- values in an \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$, is its 
- \gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
- integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$ (e.g., see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
-\[
-\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx).
-\] 
-We also use the term to refer to the average of a finite sequence 
-$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
-these two definitions are essentially the same. Indeed, we can use the sequence 
-$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
-discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$, with the index $I$ being chosen uniformly 
-at random from the set $\{1,\ldots,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
-precisely the average $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
+{name={mean}, plural={means},
+ description={The \index{mean} mean of an \gls{rv} $\featurevec$, taking 
+ 	values in an \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$, is its 
+ 	\gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
+ 	integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$ (e.g., see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
+	\[
+		\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \featurevec \, \mathrm{d}P(\featurevec).
+	\] 
+	Sometimes it is useful to think of the mean as the solution of the following \gls{risk} 
+	minimization problem \cite{BertsekasProb}
+	\[
+		\expect\{\featurevec\} = \argmin_{\vc \in \mathbb{R}^{\nrfeatures}} 
+		\expect \big\{\normgeneric{\featurevec - \vc}{2}^{2}\big \}.
+	\] 
+	We also use the term to refer to the average of a finite sequence 
+	$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
+	these two definitions are essentially the same. Indeed, we can use the sequence 
+	$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
+	discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$, with the index $I$ being chosen uniformly 
+	at random from the set $\{1,\ldots,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
+	precisely the average $\frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
 			\\ 
-		See also: \gls{rv}, \gls{euclidspace}, \gls{expectation}, \gls{probdist}.}, 
+		See also: \gls{rv}, \gls{expectation}, \gls{probdist}.}, 
 		first = {mean}, text={mean} 
 }
+
+\newglossaryentry{median}
+{name={median}, 
+ plural={medians},
+ description={The \index{median} median $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ 
+ 	of a finite sequence  $x^{(1)}, \ldots, x^{(\samplesize)} \in \mathbb{R}$ is a value 
+	 such that at least half of the values $x^{(1)}, \ldots, x^{(\samplesize)}$ are less than
+	 or equal to $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ and at least half of the values 
+	 $x^{(1)}, \ldots, x^{(\samplesize)}$ are greater than or equal to $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ \cite{}. 
+	For example, if $\samplesize$ is odd, then the median is the middle value of the sorted sequence. 
+	If $\samplesize$ is even, then the median is the average of the two middle values of the sorted sequence. 
+    We can represent the median as the solution of the following optimization problem: 
+	$$\med(x^{(1)}, \ldots, x^{(\samplesize)}) = \argmin_{x \in \mathbb{R}}  \sum_{\sampleidx=1}^{\samplesize} \big| x - x^{(\sampleidx)}\big|. $$
+    Like the \gls{mean}, also the median can be used to estimate the \gls{expectation} 
+	of an underlying \gls{probdist}. Compared to the \gls{mean}, the median is more 
+	robust to \glspl{outlier}. As a case in point, the median of a sequence stays constant 
+	even if we arbitrary increase the largest sequence element. In contrast, the 
+	\gls{mean} of the sequence can be arbitrarily increased by increasing the largest 
+	element.
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+			\begin{scope}
+				\foreach \x/\y in {
+					1/2, 2/3, 3/1, 4/6, 5/8, 6/5, 7/8, 8/4, 9/7, 10/2
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 4.5) -- (10.5, 4.5) node[right] {$\text{median}$};
+				\node[above right=2pt and 0pt, blue] at (ptA7) {$\localparamsiter{\nodeidx'}{\iteridx}$};
+				\node at (5.5, -4) {(a) no \gls{outlier}.};
+			\end{scope}
+			\begin{scope}[xshift=12cm]
+				\foreach \x/\y in {
+					1/2, 2/3, 4/6, 5/8, 6/5, 8/4, 9/7, 10/2
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\foreach \x/\y in {
+					3/-1, 7/11
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[red] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 4.5) -- (10.5, 4.5) node[right] {$\text{median}$};
+				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
+				\node[below right=2pt and 2pt, red] at (ptB3) {outlier};
+				\node at (5.5, -4) {(b) with \gls{outlier}.};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Illustration of how the median remains robust under outlier contamination. }
+	\end{figure}
+	\\ 
+		See also: \gls{mean}, \gls{robustness}, \gls{outlier}.}, 
+	first = {median}, 
+	text={median} 
+}
+
+
 
 \newglossaryentry{variance}
 {
