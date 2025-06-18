@@ -122,11 +122,12 @@ nx.draw(
     arrows=True
 )
 
-nx.draw_networkx_labels(G, pos, labels=labels, font_size=20)
+#nx.draw_networkx_labels(G, pos, labels=labels, font_size=20)
 
-plt.title("Glossary Dependency Graph (Community-Colored, Label Filtered)", fontsize=20)
-plt.tight_layout()
-plt.show()
+#plt.title("Glossary Dependency Graph (Community-Colored, Label Filtered)", fontsize=20)
+#plt.tight_layout()
+
+#plt.show()
 
 def generate_html(G, glossary, glossary_names, filename="glossary_network.html"):
     import json
