@@ -1635,58 +1635,81 @@ and then projecting the result back onto the \gls{paramspace}.
 \newglossaryentry{median}
 {name={median}, 
  plural={medians},
- description={The \index{median} median $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ 
- 	of a finite sequence  $x^{(1)}, \ldots, x^{(\samplesize)} \in \mathbb{R}$ is a value 
-	 such that at least half of the values $x^{(1)}, \ldots, x^{(\samplesize)}$ are less than
-	 or equal to $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ and at least half of the values 
-	 $x^{(1)}, \ldots, x^{(\samplesize)}$ are greater than or equal to $\med(x^{(1)}, \ldots, x^{(\samplesize)})$ \cite{}. 
-	For example, if $\samplesize$ is odd, then the median is the middle value of the sorted sequence. 
-	If $\samplesize$ is even, then the median is the average of the two middle values of the sorted sequence. 
-    We can represent the median as the solution of the following optimization problem: 
-	$$\med(x^{(1)}, \ldots, x^{(\samplesize)}) = \argmin_{x \in \mathbb{R}}  \sum_{\sampleidx=1}^{\samplesize} \big| x - x^{(\sampleidx)}\big|. $$
-    Like the \gls{mean}, also the median can be used to estimate the \gls{expectation} 
-	of an underlying \gls{probdist}. Compared to the \gls{mean}, the median is more 
-	robust to \glspl{outlier}. As a case in point, the median of a sequence stays constant 
-	even if we arbitrary increase the largest sequence element. In contrast, the 
-	\gls{mean} of the sequence can be arbitrarily increased by increasing the largest 
-	element.
+ description={A\index{median} median $\med(x)$ of a real-valued \gls{rv} $x$ 
+ is any number $m \in \mathbb{R}$ such that $\prob{ x \leq m} \geq 1/2$ and $\prob{ x \geq m} \geq 1/2$ \cite{LC}. 
+ \begin{figure}
+	\begin{center}
+	\begin{tikzpicture}
+  \begin{axis}[
+    axis lines=middle,
+    xlabel={$m$},
+    ylabel={},
+    ymin=0, ymax=1.1,
+    xmin=-2, xmax=6,
+    xtick=\empty,
+    ytick={0,1/2,1},
+    domain=-2:6,
+    samples=200,
+    width=10cm,
+    height=6cm,
+    smooth,
+    enlargelimits=true,
+    clip=false
+  ]
+    % Shifted sigmoid CDF
+	\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\prob{x \leq m}$};    % Vertical and horizontal ruler at F(x) = 0.5
+    \draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
+    \draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
+    % Mark the median point
+    \filldraw[red] (axis cs:1,0.5) circle (2pt);
+  %  \node[below left] at (axis cs:1,0.5) {\footnotesize $(x{=}1,\ F(x){=}\tfrac{1}{2})$};
+    % Label next to curve
+  \end{axis}
+\end{tikzpicture} 
+\end{center}
+ \end{figure}  
+ We can define the median $\med(\dataset)$ 
+ of a \gls{dataset} $\dataset = \{ x^{(1)}, \ldots, x^{(\samplesize)} \in \mathbb{R} \}$ 
+ via a specific \gls{rv} $\tilde{x}$ that is naturally associated with $\dataset$. 
+ In particular, this \gls{rv} is constructed by $\tilde{x} = x^{(I)}$ with the index $I$ 
+ being chosen uniformly at random from the set $\{1,\ldots,\samplesize\}$, i.e., $\prob{I = \sampleidx}=1/\samplesize$ for 
+ all $\sampleidx=1,\ldots,\samplesize$. If the \gls{rv} $x$ is integrable, a median of $x$ 
+ is the solution of the following optimization problem: 
+ $$\min_{x' \in \mathbb{R}} \expect{|x - x'|}.$$ 
+ Like the \gls{mean}, also the median of a \gls{dataset} $\dataset$ can be used 
+ to estimate the \glspl{parameter} of an underlying \gls{probmodel}. Compared 
+ to the \gls{mean}, the median is more robust to \glspl{outlier}. For example, 
+ a median of a \gls{dataset} $\dataset$ with more than one \gls{datapoint} does not 
+ change even if we arbitrarily increase the largest element of $\dataset$. In contrast, 
+ the \gls{mean} will increase arbitrarily.
 	\begin{figure}
 		\centering
 		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
 			\begin{scope}
 				\foreach \x/\y in {
-					1/2, 2/3, 3/1, 4/6, 5/8, 6/5, 7/8, 8/4, 9/7, 10/2
+					1/2, 4/3, 7/4
 				} {
 					\draw[dashed, gray] (\x, 0) -- (\x, \y);
 					\filldraw[blue] (\x, \y) circle (2pt);
 					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
 				}
-				\draw[dashed, thick, darkgreen] (0.5, 4.5) -- (10.5, 4.5) node[right] {$\text{median}$};
-				\node[above right=2pt and 0pt, blue] at (ptA7) {$\localparamsiter{\nodeidx'}{\iteridx}$};
-				\node at (5.5, -4) {(a) no \gls{outlier}.};
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med(\dataset)$};
+				\node at (5.5, -4) {(a) Original \gls{dataset} $\dataset$.};
 			\end{scope}
 			\begin{scope}[xshift=12cm]
 				\foreach \x/\y in {
-					1/2, 2/3, 4/6, 5/8, 6/5, 8/4, 9/7, 10/2
+					1/2, 4/3, 7/10
 				} {
 					\draw[dashed, gray] (\x, 0) -- (\x, \y);
 					\filldraw[blue] (\x, \y) circle (2pt);
 					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
 				}
-				\foreach \x/\y in {
-					3/-1, 7/11
-				} {
-					\draw[dashed, gray] (\x, 0) -- (\x, \y);
-					\filldraw[red] (\x, \y) circle (2pt);
-					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
-				}
-				\draw[dashed, thick, darkgreen] (0.5, 4.5) -- (10.5, 4.5) node[right] {$\text{median}$};
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med\big(\widetilde{\dataset}\big)$};
 				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
-				\node[below right=2pt and 2pt, red] at (ptB3) {outlier};
-				\node at (5.5, -4) {(b) with \gls{outlier}.};
+				\node at (5.5, -4) {(b) Noisy \gls{dataset} $\widetilde{\dataset}$ including an \gls{outlier}.};
 			\end{scope}
 		\end{tikzpicture}
-		\caption{Illustration of how the median remains robust under outlier contamination. }
+		\caption{The median is robust against \gls{outlier} contamination. }
 	\end{figure}
 	\\ 
 		See also: \gls{mean}, \gls{robustness}, \gls{outlier}.}, 
@@ -2526,8 +2549,9 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		defined as the \gls{expectation} $\expect \big\{ \big\| \Delta \weights \big\|^{2} \big\}$ of the 
 		squared Euclidean \gls{norm} of the \gls{esterr} \cite{LC}, \cite{kay}.
 					\\ 
-		See also: \gls{ml}, \gls{modelparams}, \gls{dataset}, \gls{datapoint}, \gls{iid}, \gls{realization}, \gls{rv}, \gls{esterr}, \gls{probdist}, \gls{expectation}, \gls{norm}, \gls{mean}.},
-	first={mean squared estimation error (MSEE)},text={MSEE} 
+		See also:  \gls{rv}, \gls{esterr}, \gls{probmodel}, \gls{sqerrloss}.},
+	first={mean squared estimation error (MSEE)},
+	text={MSEE} 
 }
 
 \newglossaryentry{gtvmin}
@@ -2535,7 +2559,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	description={GTVMin\index{generalized total variation minimization (GTVMin)} is an instance of \gls{rerm} 
 		using the \gls{gtv} of local \gls{modelparams} as a \gls{regularizer} \cite{ClusteredFLTVMinTSP}.
 					\\ 
-		See also: \gls{rerm}, \gls{gtv}, \gls{modelparams}, \gls{regularizer}.},
+		See also: \gls{rerm}, \gls{gtv}, \gls{regularizer}.},
 	first={generalized total variation minimization (GTVMin)},text={GTVMin} 
 }
 
@@ -2556,8 +2580,9 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		to the \glspl{datapoint} in a \gls{dataset} $\dataset = \big\{ \big(\featurevec^{(1)}, \truelabel^{(1)} \big), \ldots, \big(\featurevec^{(\samplesize)},\truelabel^{(\samplesize)}\big) \big\}$, 
 		is then defined as $1 - (1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \lossfunczo{\big(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)}\big)}{\hypothesis}$ using the \gls{zerooneloss} $\lossfunczo{\cdot}{\cdot}$.
 					\\ 
-		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{dataset}, \gls{zerooneloss}.},
-	first={accuracy},text={accuracy} 
+		See also: \gls{loss}, \gls{zerooneloss}, \gls{metric}.},
+	first={accuracy},
+	text={accuracy} 
 }
 
 
@@ -2566,16 +2591,17 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{expert}
 {name={expert},
-	description={\gls{ml}\index{expert} aims to learn a \gls{hypothesis} $\hypothesis$ that accurately predicts the \gls{label} 
-		of a \gls{datapoint} based on its \glspl{feature}. We measure the \gls{prediction} error using 
-		some \gls{lossfunc}. Ideally, we want to find a \gls{hypothesis} that incurs minimal \gls{loss} 
-		on any \gls{datapoint}. We can make this informal goal precise via the \gls{iidasspt} 
+	description={\gls{ml}\index{expert} aims to learn a \gls{hypothesis} $\hypothesis$ 
+	    that accurately predicts the \gls{label} of a \gls{datapoint} based on its \glspl{feature}. 
+		We measure the \gls{prediction} error using some \gls{lossfunc}. Ideally, we want 
+		to find a \gls{hypothesis} that incurs minimal \gls{loss} on any \gls{datapoint}. We 
+		can make this informal goal precise via the \gls{iidasspt} 
 		and by using the \gls{bayesrisk} as the \gls{baseline} for the (average) \gls{loss} of a \gls{hypothesis}. 
 		An alternative approach to obtaining a \gls{baseline} is to use the \gls{hypothesis} $\hypothesis'$ learned 
 		by an existing \gls{ml} method. We refer to this \gls{hypothesis} $\hypothesis'$ as an expert \cite{PredictionLearningGames}. \Gls{regret} minimization methods learn a \gls{hypothesis}
 		that incurs a \gls{loss} comparable to the best expert \cite{PredictionLearningGames}, \cite{HazanOCO}.
 					\\ 
-		See also: \gls{ml}, \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{lossfunc}, \gls{loss}, \gls{iidasspt}, \gls{bayesrisk}, \gls{baseline}, \gls{regret}.},
+		See also: \gls{lossfunc}, \gls{baseline}, \gls{regret}.},
 	first={expert},text={expert} 
 }
 
@@ -2600,7 +2626,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		incurred by $\hypothesis'$ \cite{PredictionLearningGames}. 
 		The \gls{baseline} \gls{hypothesis} $\hypothesis'$ is also referred to as an \gls{expert}.
 					\\ 
-		See also: \gls{hypothesis}, \gls{baseline}, \gls{loss}, \gls{expert}.},
+		See also: \gls{baseline}, \gls{loss}, \gls{expert}.},
 	first={regret},text={regret} 
 }
 
@@ -4095,7 +4121,8 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 		See also: \gls{probmodel}, \gls{feature}, \gls{datapoint}, \gls{mvndist}, \gls{rv}, \gls{mean}, \gls{covmtx}, \gls{clustering}, \gls{model}.
 	 },first={Gaussian mixture model (GMM)},text={GMM} }
  
-\newglossaryentry{maxlikelihood}{name={maximum likelihood}, description={
+\newglossaryentry{maxlikelihood}
+{name={maximum likelihood}, description={
 		Consider\index{maximum likelihood} \glspl{datapoint} $\dataset=\big\{ \datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)} \}$ 
 		that are interpreted as the \glspl{realization} of \gls{iid} \glspl{rv} with a common \gls{probdist} $\prob{\datapoint; \weights}$ which 
 		depends on the \gls{modelparams} $\weights \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
@@ -4104,19 +4131,21 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 		of the observed \gls{dataset}. Thus, the \gls{maximum} likelihood estimator is a 
 		solution to the \gls{optproblem} $\max_{\weights \in \mathcal{W}} \prob{\dataset; \weights}$.
 				\\
-		See also: \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{probdist}, \gls{modelparams}, \gls{maximum}, \gls{dataset}, \gls{optproblem}.
+		See also: \gls{probdist}, \gls{probmodel}, \gls{optproblem}.
 	},first={maximum likelihood},text={maximum likelihood}}
 
 
 
-\newglossaryentry{em}{name={expectation-maximization (EM)}, description={
-		\index{expectation-maximization (EM)} 
-		Consider a \gls{probmodel} $\prob{\datapoint; \weights}$ for the \glspl{datapoint} $\dataset$ generated in some 
-		\gls{ml} application. The \gls{maxlikelihood} estimator for the \gls{modelparams} $\weights$ is obtained by maximizing 
-		$\prob{\dataset; \weights}$. However, the resulting \gls{optproblem} might be computationally 
-		challenging. EM approximates the \gls{maxlikelihood} estimator by introducing a latent 
-		\gls{rv} $\vz$ such that maximizing $\prob{\dataset,\vz; \weights}$ would be easier \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. Since we 
-		do not observe $\vz$, we need to estimate it from the observed \gls{dataset} $\dataset$ 
+\newglossaryentry{em}
+{name={expectation-maximization (EM)}, 
+ description={\index{expectation-maximization (EM)} 
+		Consider a \gls{probmodel} $\prob{\datapoint; \weights}$ for the \glspl{datapoint} $\dataset$ 
+		generated in some \gls{ml} application. The \gls{maxlikelihood} estimator for the \gls{modelparams} 
+		$\weights$ is obtained by maximizing $\prob{\dataset; \weights}$. However, the resulting 
+		\gls{optproblem} might be computationally challenging. EM approximates the \gls{maxlikelihood} 
+		estimator by introducing a latent \gls{rv} $\vz$ such that maximizing $\prob{\dataset,\vz; \weights}$ 
+		would be easier \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. 
+		Since we do not observe $\vz$, we need to estimate it from the observed \gls{dataset} $\dataset$ 
 		using a conditional \gls{expectation}. The resulting estimate $\widehat{\vz}$ is then used to 
 		compute a new estimate $\widehat{\weights}$ by solving $\max_{\weights} \prob{\dataset, \widehat{\vz}; \weights}$. 
 		The crux is that the conditional \gls{expectation} $\widehat{\vz}$ depends on the \gls{modelparams} $\widehat{\weights}$, 
@@ -4125,28 +4154,37 @@ description={CFL\index{clustered federated learning (CFL)} trains \glspl{localmo
 		we repeat the computation of the conditional \gls{expectation} (i.e., the E-step) and the update 
 		of the \gls{modelparams} (i.e., the M-step) until some \gls{stopcrit} is met. 
 				\\
-		See also: \gls{probmodel}, \gls{datapoint}, \gls{ml}, \gls{maxlikelihood}, \gls{modelparams}, \gls{optproblem}, \gls{rv}, \gls{dataset}, \gls{expectation}, \gls{stopcrit}.
-  },first={EM},text={EM}}
+		See also: \gls{probmodel}, \gls{maxlikelihood},\gls{optproblem}.
+  	},
+	first={EM},
+	text={EM}
+}
 
-\newglossaryentry{ppca}{name={probabilistic principal component analysis (PPCA)}, description={PPCA\index{probabilistic principal component analysis (PPCA)} 
-		extends basic \gls{pca} by using a \gls{probmodel} for \glspl{datapoint}. The \gls{probmodel} of PPCA 
-		reduces the task of dimensionality reduction to an estimation problem that can be solved using \gls{em} 
-		methods.
+\newglossaryentry{ppca}
+{name={probabilistic principal component analysis (PPCA)}, 
+ description={PPCA\index{probabilistic principal component analysis (PPCA)} 
+		extends basic \gls{pca} by using a \gls{probmodel} for \glspl{datapoint}. 
+		The \gls{probmodel} of PPCA reduces the task of dimensionality reduction 
+		to an estimation problem that can be solved using \gls{em} \cite{TippingProbPCA}.
 				\\
-		See also: \gls{pca}, \gls{probmodel}, \gls{datapoint}, \gls{em}.},first={probabilistic principal component analysis (PPCA)},text={PPCA}}
+		See also: \gls{pca}, \gls{probmodel}, \gls{em}.},
+		first={probabilistic principal component analysis (PPCA)},
+		text={PPCA}
+}
 	
 \newglossaryentry{polyreg}
 {name={polynomial regression}, 
 	description={Polynomial\index{polynomial regression} 
-		\gls{regression} aims at learning a polynomial \gls{hypothesis} \gls{map} to predict a numeric \gls{label} based
-		 on the numeric \glspl{feature} of a \gls{datapoint}. For \glspl{datapoint} characterized by a single 
-		 numeric \gls{feature}, polynomial \gls{regression} uses the \gls{hypospace} 
-			$\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \}.$
+		\gls{regression} is an \gls{erm}-based methods that learns a polynomial \gls{hypothesis} 
+		\gls{map} to predict a numeric \gls{label} based on the numeric \glspl{feature} of a \gls{datapoint}. 
+		For \glspl{datapoint} characterized by a single numeric \gls{feature}, polynomial \gls{regression} 
+		uses the \gls{hypospace} 
+		$\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \}.$
 			The quality of a polynomial \gls{hypothesis} \gls{map} is measured using the average \gls{sqerrloss} 
 			incurred on a set of \glspl{labeled datapoint} (which we refer to as the 
 			\gls{trainset}).
 					\\
-		See also: \gls{regression}, \gls{hypothesis}, \gls{map}, \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypospace}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},
+		See also: \gls{regression}, \gls{sqerrloss}, \gls{erm}.},
 		first={polynomial regression},
 		text={polynomial regression}
 }
