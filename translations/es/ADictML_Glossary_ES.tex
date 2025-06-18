@@ -45,8 +45,6 @@
 }
 
 
-
-
 \newglossaryentry{maximum}
 {name=máximo,
  %description={Given a set of real numbers, the maximum\index{maximum} is the largest of those numbers.},
@@ -99,18 +97,55 @@
 }
 
 \newglossaryentry{dimred}
-{name={reducción de dimensionalidad},
-	description={
-		Los métodos de reducción de dimensionalidad\index{reducción de dimensionalidad}
-		mapean (normalmente muchos) atributos originales a un conjunto (relativamente pequeño) de
-		nuevos atributos. Estos métodos pueden utilizarse para visualizar puntos de datos
-		aprendiendo dos atributos que sirvan como coordenadas de una representación
-		en un diagrama de dispersión.
-		\\
-		Vea también: \gls{feature}, \gls{datapoint}, \gls{scatterplot}},
-	first={reducción de dimensionalidad},text={reducción de dimensionalidad}
-}
-
+{name={dimensionality reduction},
+	description={Dimensionality reduction\index{dimensionality reduction} refers 
+		to methods that learn a transformation 
+		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+		of a (typically large) set of raw \glspl{feature} $\feature_{1},\ldots,\feature_{\nrfeatures}$ 
+		into a smaller set of informative \glspl{feature} $z_{1},\ldots,z_{\nrfeatures'}$. 
+		Using a smaller set of \glspl{feature} is beneficial in several ways: 
+		\begin{itemize} 
+			\item {Statistical benefit:} It typically reduces the risk of \gls{overfitting}, as 
+			reducing the number of \glspl{feature} often reduces the \gls{effdim} of a \gls{model}. 
+			\item {Computational benefit:} Using fewer \glspl{feature} means less computation 
+			for the training of \gls{ml} \glspl{model}. As a case in point, \gls{linreg} methods 
+			need to invert a matrix whose size is determined by the number of \glspl{feature}. 
+			\item {Visualization:} Dimensionality reduction is also instrumental for \gls{data} visualization. 
+			For example, we can learn a transformation that delivers two \glspl{feature} $z_{1},z_{2}$ 
+			which we can use, in turn, as the coordinates of a \gls{scatterplot}. Figure \ref{fig:dimred-scatter_dict} 
+			depicts the \gls{scatterplot} of hand-written digits that are placed 
+			according transformed \glspl{feature}. Here, the \glspl{datapoint} are 
+			naturally represented by a large number of grayscale values (one value for each pixel).
+		\end{itemize} 
+		 \begin{figure}[H]
+		 \centering
+		 \begin{tikzpicture}[scale=1]	
+		% % Axes
+		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
+		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
+		% % Example points with mini-images (can replace adjustbox with \includegraphics)
+		 	\foreach \x/\y/\label in {
+  		 		1.2/0.5/3,
+  		 		0.8/2.0/8,
+  		 		2.5/1.8/1,
+  		 		3.8/3.5/6,
+  		 		4.2/0.7/9,
+  		 		2.8/3.0/7,
+  		 		1.5/3.8/2
+		 	}{
+  		 		\node[draw, minimum size=0.6cm, inner sep=0pt] at (\x,\y)
+    	 		{\label};
+		 	}
+		 	\end{tikzpicture}
+		 	\caption{Example of dimensionality reduction: High-dimensional image data 
+			(e.g., high-resolution images of hand-written digits) embedded into 2D using 
+			learned \glspl{feature} $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
+		 	\label{fig:dimred-scatter_dict}
+		 \end{figure}
+		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.}, 
+		first={dimensionality reduction},
+		text={dimensionality reduction}
+} 
 
 
 \newglossaryentry{ml}
@@ -1777,7 +1812,7 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 		\begin{figure}[H]
 				\begin{center}
 		\label{fig:cowsintheswissalps}
-		\includegraphics[width=0.5\textwidth]{../../assets/Cows_in_the_Swiss_Alps}
+		\includegraphics[width=0.5\textwidth]{../../assets/CowsAustria.jpg}
 		  \end{center}
 		\caption{\label{fig_cows_dataset}“Cows in the Swiss Alps” by User:Huhu Uet is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)}
 	  \end{figure}
