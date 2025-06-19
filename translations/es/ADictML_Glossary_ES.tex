@@ -1,5 +1,208 @@
 % !TeX spellcheck = en_GB
 
+
+\newglossaryentry{pseudoinverse}
+{name={pseudoinverse},
+  description={The \index{pseudoinverse}Moore–Penrose pseudoinverse $\mA^{+}$ 
+ of a matrix $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ generalizes the 
+ notion of an \gls{inverse} \cite{GolubVanLoanBook}. The pseudoinverse arises naturally 
+ within \gls{ridgeregression} when applied to a \gls{dataset} with arbitrary \glspl{label} $\vy$ 
+ and \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. The \gls{modelparams} 
+ learned by \gls{ridgeregression} 
+  are given by
+  	\[
+  	\widehat{\vw}^{(\regparam)}  = \big(\mA^T \mA + \regparam \mI \big)^{-1} \mA^\top \vy, \quad \regparam > 0.
+  	\]
+  	We can then define the pseudoinverse  $\mA^+ \in \mathbb{R}^{\nrfeatures \times \samplesize}$ via 
+  	the limit \cite[Ch. 3]{benisrael2003generalized}
+  	\[
+  	\lim_{\regparam \to 0^+} \widehat{\vw}^{(\regparam)} = \mA^+ \vy.
+  	\]
+	},
+ 	first={pseudoinverse},
+ 	text={pseudoinverse}
+ }
+
+
+ \newglossaryentry{inverse}
+{name={inverse matrix},
+ description={An inverse matrix\index{inverse matrix} $\mA^{-1}$ is defined for a 
+ 	square matrix $\mA \in \mathbb{R}^{n \times n}$ that is of full rank, meaning its 
+ 	columns are linearly independent. In this case, $\mA$ is said to be invertible, 
+ 	and its inverse satisfies 
+ 	\[
+ 	\mA \mA^{-1} = \mA^{-1} \mA = \mI.
+ 	\]  	
+     A square matrix is invertible if and only if its \gls{det} is non-zero. Inverse matrices are 
+     fundamental in solving systems of linear equations and in the closed-form solution of 
+     \gls{linreg} \cite{Strang2007,Horn91}.  The concept of an inverse matrix can be extended 
+     to matrices that are not square or not full rank. One may define a ``left inverse'' $\mB$ 
+     satisfying $\mB \mA = \mI$, or a ``right inverse'' $\mC$ satisfying $\mA \mC = \mI$. 
+     For general rectangular or singular matrices, the Moore–Penrose \gls{pseudoinverse}
+     $\mA^{+}$ provides a unified concept of generalized inverse matrix \cite{GolubVanLoanBook}.
+ 	 \begin{figure}
+ 		\centering
+ 		\begin{tikzpicture}[x=2cm,y=2cm]
+ 			% LEFT: Standard basis
+ 			\begin{scope}
+ 				\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
+ 				\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
+ 			\end{scope}
+ 			% CENTER: Transformed basis (by A)
+ 			\begin{scope}[shift={(2.0,0)}]
+ 				\coordinate (A) at (1.5,0.5);
+ 				\coordinate (B) at (-0.2,1.2);
+				\draw[->, very thick, red] (0,0) -- (A) node[pos=0.5, below right] {$\mA \vx$};
+ 				\draw[->, very thick, red] (0,0) -- (B) node[above right] {$\mA \vy$};
+ 			\end{scope}
+ 			% RIGHT: Inverse transformation
+ 			\begin{scope}[shift={(4.9,0)}]
+ 				\draw[->, very thick, blue] (0,0) -- (1,0) node[pos=0.5, below] {$\mA^{-1} (\mA \vx) = \vx$};
+ 				\draw[->, very thick, blue] (0,0) -- (0,1) node[above] {$\mA^{-1} (\mA \vy) = \vy$};
+ 			\end{scope}
+ 			% Curved arrows between stages
+ 			\draw[->, thick, bend left=20] (1.2,0.4) to node[above] {$\mA$} (1.8,0.4);
+ 			\draw[->, thick, bend left=20] (3.8,0.4) to node[below] {$\mA^{-1}$} (4.4,0.4);
+ 		\end{tikzpicture}
+ 		\caption{A matrix $\mathbf{A}$ represents a linear transformation of $\mathbb{R}^{2}$. The inverse matrix $\mathbf{A}^{-1}$ 
+ 			represents the inverse transformation. \label{fig_matrix_inverse_dict}} 
+ 	\end{figure}\\
+	See also: \gls{det}, \gls{linreg}.},
+  first={inverse matrix},
+  text={inverse matrix}
+}
+
+\newglossaryentry{det}
+{name={determinant},
+ description={The\index{determinant} determinant $\det(\mA)$ of a square matrix 
+ 	$\mA \in \mathbb{R}^{n \times n}$ is a scalar that characterizes how (the orientation of) 
+ 	volumes in $\mathbb{R}^n$ are altered by applying $\mA$ \cite{GolubVanLoanBook,Strang2007}. 
+ 	[Note that a matrix $\mA$ represents a linear transformation on $\mathbb{R}^{n}$.] 
+ 	In particular, $\det(\mA) > 0$ preserves orientation, $\det(\mA) < 0$ reverses orientation, 
+ 	and $\det(\mA) = 0$ collapses volume entirely, indicating that $\mA$ is non-invertible. 
+ 	The determinant also satisfies $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, and if $\mA$ is 
+ 	diagonalizable with \glspl{eigenvalue} $\eigval{1}, \ldots, \eigval{n}$, then $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}.
+    For the special cases $n=2$ (2D) and $n=3$ (3D), the determinant can be interpreted as an oriented 
+    area or volume spanned by the column vectors of $\mA$.
+    \begin{figure} 
+    	\begin{center}
+    \begin{tikzpicture}[x=2cm]
+% LEFT: Standard basis vectors and unit square
+	\begin{scope}
+	\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
+	\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
+%	\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+	%\node at (0.5,0.5) {\small unit square};
+	%\node at (0.5,-0.6) {standard basis};
+	\end{scope}
+% RIGHT: Transformed basis vectors and parallelogram
+	\begin{scope}[shift={(2.8,0)}]
+	\coordinate (A) at (1.5,0.5);
+	\coordinate (B) at (-0.2,1.2);
+	\draw[->, very thick, red] (0,0) -- (A) node[below right] {$\mA \vx$};
+	\draw[->, very thick, red] (0,0) -- (B) node[above left] {$\mA \vy$};
+	\draw[fill=red!20, opacity=0.6] (0,0) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+	\draw[dashed] (A) -- ($(A)+(B)$);
+	\draw[dashed] (B) -- ($(A)+(B)$);
+	\node at (0.8,0.6) {\small $\det(\mA)$};
+	% Orientation arc
+	\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
+%	\node[blue] at (0.25,1.25) {};
+%	\node at (0.8,-0.6) {transformed basis};
+	\end{scope}
+% Arrow between plots
+	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+	\end{tikzpicture}
+	\end{center}
+	\end{figure}
+		\\ 
+		See also: \gls{eigenvalue}, \gls{inverse}.
+	},
+	first={determinant},
+	text={determinant}
+}
+
+\newglossaryentry{linearmap}{
+	name={linear map},
+	description={A\index{linear map} linear map $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a \gls{function} 
+		that satisfies additivity :
+		$f(\vx + \vy) = f(\vx) + f(\vy)$, and homogeneity :
+		$f(c\vx) = c f(\vx)$ for all vectors $\vx, \vy \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. 
+		In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear map can be represented as a matrix 
+		multiplication $f(\vx) = \mA \vx$ for some matrix $\mA \in \mathbb{R}^{m \times n}$. 
+		The collection of real-valued linear maps for a given dimension $n$ constitute a \gls{linmodel} 
+		which is used in many \gls{ml} methods. \\
+		See also: \gls{linmodel}, \gls{linreg}, \gls{pca}, \gls{featurevec}.},
+	first={linear map},
+	text={linear map}
+}
+
+
+\newglossaryentry{vectorspace}
+{name={vector space},
+	description={A\index{vector space} vector space (also called linear space) is a collection of elements (called vectors) closed under vector addition and scalar multiplication, i.e.,
+		\begin{itemize}
+			\item If $\vx, \vy \in \mathcal{V}$, then $\vx + \vy \in \mathcal{V}$.
+			\item If $\vx \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vx \in \mathcal{V}$.
+			\item In particular, $\mathbf{0} \in \mathcal{V}$.
+		\end{itemize}
+		The \gls{euclidspace} $\mathbb{R}^n$ is a vector space.
+		\Glspl{linmodel} and \glspl{linearmap} operate within such spaces.\\
+		See also: \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
+	first={vector space},
+	text={vector space}
+}
+
+
+\newglossaryentry{stochastic}
+{name={stochastic},
+	description={A process\index{stochastic} or method is called stochastic if it involves
+		a random component or is governed by probabilistic laws. In \gls{ml}, stochastic
+		methods often incorporate randomness for reasons such as optimization (e.g., \gls{stochGD})
+		or \gls{uncertainty} modeling (e.g., \glspl{probmodel}). A stochastic process is a collection
+		of \glspl{rv} indexed by time or space, which are used to model random phenomena
+		evolving over time (e.g., noise in sensors or financial time series).\\
+		See also:  \gls{ml}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}, \gls{rv}, \gls{sbm}.},
+	first={stochastic},
+	text={stochastic}
+}
+
+\newglossaryentry{entropy}
+{name={entropy},
+	description={Entropy quantifies the \gls{uncertainty} or unpredictability associated with a \gls{rv} \cite{coverthomas}. 
+		  For a discrete \gls{rv} $x$ taking values in a finite set $\mathcal{S} = \{x_1, \ldots, x_n\}$ with 
+		probability mass function $p_i \defeq \prob{x = x_i}$, the entropy is defined as
+		\[
+		H(x) \defeq -\sum_{i=1}^n p_i \log p_i.
+		\]
+		Entropy is maximized when all outcomes are equally likely, and minimized (i.e., zero) 
+		when the outcome is deterministic. A generalization of the concept of entropy for continuous 
+		\glspl{rv} is \gls{diffentropy}. 
+\\
+		See also: \gls{uncertainty}, \gls{probmodel}.},
+	first={entropy},
+	text={entropy}
+}
+
+\newglossaryentry{diffentropy}
+{name={differential entropy},
+	description={For\index{differential entropy} a real-valued \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
+		with \gls{pdf} $p(x)$,
+		the differential entropy is defined as \cite{coverthomas}
+		\[
+		h(\featurevec) \defeq - \int p(\featurevec) \log p(\featurevec) \, d\featurevec.
+		\]
+		Differential entropy can be negative and lacks some properties of \gls{entropy} for 
+		discrete-valued \glspl{rv}, such as invariance under change of variables \cite{coverthomas}. 
+		Among all \glspl{rv} with given \gls{mean} $\meanvecgeneric$ and \gls{covmtx} $\covmtxgeneric$, 
+		$h(\featurevec)$ is maximized by $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$. 
+		\\
+		See also: \gls{uncertainty}, \gls{probmodel}.},
+	first={differential entropy},
+	text={differential entropy}
+}
+
+
 \newglossaryentry{minimum}
 {
 	name=mínimo,
@@ -20,13 +223,19 @@
 	text={function}
 }
 
+
+
+
 \newglossaryentry{map}
-{name={map},
-	description={We\index{map} use the term map as a synonym for a \gls{function}.
+{name={map}, plural={maps}, 
+	description={We\index{map} use the term map as a synonym for \gls{function}.
+	\\
+	See also: \gls{function}.
 	},
 	first={map},
 	text={map}
 }
+
 
 \newglossaryentry{optproblem}
 {name={optimization problem},
@@ -42,6 +251,120 @@
 	},
 	first={optimization problem},
 	text={optimization problem}
+}
+
+
+
+
+\newglossaryentry{optmethod}
+{name={optimization method},
+	description={An\index{optimization method} optimization method is an \gls{algorithm} that 
+		reads in a representation of an \gls{optproblem} and delivers an (approximate) solution 
+		as its output \cite{BoydConvexBook}, \cite{nesterov04}, \cite{BertsekasNonLinProgr}.
+		 \\
+		 See also: \gls{algorithm}, \gls{optproblem}.
+	},
+	first={optimization method},
+	text={optimization method}
+}
+
+
+
+
+\newglossaryentry{ergraph}
+{name={Erd\H{o}s-R\'enyi graph (ER graph)},
+	description={An ER  \gls{graph} is a \gls{probmodel} for \glspl{graph} defined over 
+		a given node set $\nodeidx=1,\ldots,\nrnodes$. One way to define the ER \gls{graph} is 
+		via the collection of \gls{iid} binary \glspl{rv} $b^{(\edge{\nodeidx}{\nodeidx'})} \in \{0,1\}$, 
+		for each pair of different nodes $\nodeidx, \nodeidx'$. A specific \gls{realization}  
+		of an ER \gls{graph} contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if 
+		$b^{(\edge{\nodeidx}{\nodeidx'})}=1$. The ER \gls{graph} is parametrized by the 
+		number $\nrnodes$ of nodes and the \gls{probability} $\prob{b^{(\edge{\nodeidx}{\nodeidx'})}=1}$. 
+		\\
+		See also: \gls{graph}, \gls{probmodel}, \gls{iid}, \gls{rv}, \gls{realization}, \gls{probability}.
+	},
+	first={Erd\H{o}s-R\'enyi (ER) graph},
+	text={ER graph}
+}
+
+\newglossaryentry{attack}
+{name={attack},  
+	description={An attack\index{attack} on an \gls{ml} system refers to an intentional action—either 
+		active or passive—that compromises the system's integrity, availability, or confidentiality. 
+		Active attacks involve perturbing components such as \glspl{dataset} (via \gls{datapoisoning}) 
+		or communication links between \glspl{device} in a \gls{fl} setting. Passive attacks, 
+		such as \glspl{privattack}, aim to infer \glspl{sensattr} without modifying the system. 
+		Depending on their goal, we distinguish between \glspl{dosattack}, \gls{backdoor} attacks, and \glspl{privattack}.
+		\\
+		See also:  \gls{datapoisoning}, \gls{privattack}, \gls{sensattr}, \gls{dosattack}, \gls{backdoor}.}, 
+	first={attack},
+	text={attack}
+}
+
+\newglossaryentry{privattack}
+{name={privacy attack},
+	description={A privacy \gls{attack}\index{privacy attack} on an \gls{ml} system aims to infer 
+		\glspl{sensattr} of individuals by exploiting partial access to a trained \gls{ml} \gls{model}. 
+		One form of a privacy \gls{attack} is \gls{modelinversion}.\\
+		See also: \gls{attack}, \gls{sensattr}, \gls{modelinversion}, \gls{trustAI}, \gls{gdpr}.
+		},
+	first={privacy attack}, 
+	text={privacy attack}
+}
+
+\newglossaryentry{epigraph}
+{name={epigraph},
+  description={The epigraph\index{epigraph} of a real-valued \gls{function} $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+  	is the set of points lying on or above its \gls{graph}:
+		\[
+		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+		\]
+		A \gls{function} is \gls{convex} if and only if its epigraph is a \gls{convex} set \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				\begin{axis}[
+					axis lines = middle,
+					xlabel = $x$,
+					ylabel = {},
+					xmin=-2, xmax=2,
+					ymin=0, ymax=4.5,
+					samples=100,
+					domain=-1.5:1.5,
+					thick,
+					width=8cm,
+					height=6cm,
+					grid=none,
+					axis on top,
+					]
+					% Function
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					% Epigraph shading
+					\addplot [
+					name path=f,
+					draw=none,
+					ytick=\empty,
+					domain=-1.5:1.5,
+					] {x^2};
+					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+					\addplot [
+					blue!20,
+					opacity=0.6,
+					draw=none,
+					] fill between [
+					of=f and top,
+					soft clip={domain=-1.5:1.5},
+					];
+					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
+				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Epigraph of the \gls{function} $f(x) = x^2$ (i.e., shaded area).}
+		\end{figure}
+		See also: \gls{function}, \gls{graph}, \gls{convex}.
+	},
+	first={epigraph},
+	text={epigraph}
 }
 
 
@@ -78,6 +401,36 @@
 	first={discrepancia},text={discrepancia}
 }
 
+\newglossaryentry{FedRelax}
+{name={FedRelax},
+	description={An\index{FedRelax} \gls{fl} \gls{distributedalgorithm}. 
+		\\ 
+		See also: \gls{fl}, \gls{distributedalgorithm}.},
+	first={FedRelax},
+	text={FedRelax}
+} 
+
+
+\newglossaryentry{FedGD}
+{name={FedGD},
+	description={An\index{FedGD} \gls{fl} \gls{distributedalgorithm} that 
+		can be implemented as message passing across an \gls{empgraph}. 
+		\\ 
+		See also: \gls{fl}, \gls{distributedalgorithm}, \gls{empgraph}, \gls{gradstep}, \gls{gdmethods}.},
+	first={FedGD},
+	text={FedGD}
+} 
+
+
+\newglossaryentry{FedSGD}
+{name={FedSGD},
+	description={An\index{FedSGD} \gls{fl} \gls{distributedalgorithm} that 
+		can be implemented as message passing across an \gls{empgraph}. 
+		\\ 
+		See also: \gls{fl}, \gls{distributedalgorithm}, \gls{empgraph}, \gls{gradstep}, \gls{gdmethods}, \gls{stochGD}.},
+	first={FedSGD},
+	text={FedSGD}
+} 
 
 
 \newglossaryentry{hfl}
@@ -198,17 +551,74 @@
 } 
 
 \newglossaryentry{vfl}
-{name={aprendizaje federado vertical (FL vertical)},description=
-	{El aprendizaje federado vertical\index{aprendizaje federado vertical (FL vertical)} utiliza conjuntos de datos locales
-	formados por los mismos puntos de datos, pero caracterizados mediante diferentes características \cite{VFLChapter}. 
-    Por ejemplo, diferentes proveedores de salud podrían contener información
-	sobre la misma población de pacientes. Sin embargo, diferentes proveedores de salud
-	recopilan distintas mediciones (por ejemplo, valores sanguíneos, electrocardiogramas, radiografías de tórax)
-	para los mismos pacientes.
-	\\
-	Vea también: \gls{localdataset}, \gls{datapoint}, \gls{feature}},
-	first={aprendizaje federado vertical (FL vertical)},text={FL vertical}
-}
+{name={vertical federated learning (VFL)},
+	description={
+		VFL\index{vertical federated learning (VFL)} refers to \gls{fl} applications where  
+		\glspl{device} have access to different \glspl{feature} of the same set of \glspl{datapoint} \cite{VFLChapter}. 
+		Formally, the underlying global \gls{dataset} is
+		\[
+		\dataset^{(\mathrm{global})} \defeq \left\{ \left(\featurevec^{(1)}, \truelabel^{(1)}\right), \ldots, \left(\featurevec^{(\samplesize)}, \truelabel^{(\samplesize)}\right) \right\}.
+		\]
+		We denote by $\featurevec^{(\sampleidx)} = \big( \feature^{(\sampleidx)}_{1}, \ldots, \feature^{(\sampleidx)}_{\nrfeatures'} \big)^{T}$, for $\sampleidx=1,\ldots,\samplesize$, 
+	     the complete \glspl{featurevec} for the \glspl{datapoint}. Each \gls{device} $\nodeidx \in \nodes$ 
+		observes only a subset $\mathcal{F}^{(\nodeidx)} \subseteq \{1,\ldots,\nrfeatures'\}$ of \glspl{feature}, resulting 
+		in a \gls{localdataset} $\localdataset{\nodeidx}$ with \glspl{featurevec}
+		\[
+		\featurevec^{(\nodeidx,\sampleidx)} = \big( \feature^{(\sampleidx)}_{\featureidx_{1}}, \ldots, \feature^{(\sampleidx)}_{\featureidx_{\nrfeatures}} \big)^{T}.
+		\]
+		Some of the \glspl{device} might also have access to the \glspl{label} $\truelabel^{(\sampleidx)}$, for $\sampleidx=1,\ldots,\samplesize$, 
+		of the global \gls{dataset}. One potential application of VFL is to enable collaboration between 
+		different healthcare providers. Each provider collects distinct types of measurements—such as blood 
+		values, electrocardiography, and lung X-rays—for the same patients. Another application is a 
+		national social insurance system, where health records, financial indicators, consumer behavior, 
+		and mobility \gls{data} are collected by different institutions. VFL enables joint learning across 
+		these parties while allowing well-defined levels of \gls{privprot}.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[every node/.style={anchor=base}]
+				  % --- Coordinate definitions ---
+				\def\colX{0}
+				\def\colY{1.6}
+				\def\colZ{3.2}
+				\def\colD{4.8}
+				\def\colLabel{6.4} 
+				\def\rowOne{0}
+				\def\rowTwo{-1.2}
+				\def\rowThree{-2.4}
+				\def\rowFour{-3.6}
+				% Manually place matrix entries
+				\foreach \i/\label in {1/1, 2/2, 4/\samplesize} {
+					\pgfmathsetmacro{\y}{-1.2*(\i-1)}
+					\node (x\i1) at (0,\y) {$x^{(\label)}_{1}$};
+					\node (x\i2) at (1.6,\y) {$x^{(\label)}_{2}$};
+					\node (dots\i) at (3.2,\y) {$\cdots$};
+					\node (x\i3) at (4.8,\y) {$x^{(\label)}_{\dimlocalmodel}$};
+					\node (y\i) at (6.4,\y) {$\truelabel^{(\label)}$};
+				}
+				  % Outer rectangle for the full dataset
+				\draw[dashed, rounded corners, thick]
+				(-0.6,0.6) rectangle (6.9,-4.2);
+				\node at (3.1,0.9) {$\dataset^{(\mathrm{global})} $};
+			% Rectangle for local dataset 1 (e.g., first two features)
+			\draw[dashed, rounded corners, thick]
+			(-0.9,0.9) rectangle (2.1,-4.0);
+			\node at (0.25,1.0) {$\localdataset{1}$};
+		  % --- Local dataset k (columns 2–3, rows 1–3) ---
+		\draw[dashed, rounded corners, thick]
+			($( \colZ + 1,,0.9 )$) rectangle
+			($( \colLabel + 0.4, -4.5)$);
+				\node at ($( \colZ + 0.9,-5 )$) {$\localdataset{\nodeidx}$};
+			\end{tikzpicture}
+			\end{center}
+			\caption{VFL uses \glspl{localdataset} that are derived from the \glspl{datapoint} of a common global \gls{dataset}. 
+				The \glspl{localdataset} differ in the choice of \glspl{feature} used to characterize the \glspl{datapoint}.
+				\label{fig_vertical_FL_dict}}
+		\end{figure}
+		See also: \gls{fl}, \gls{device}, \gls{feature}, \gls{datapoint}, \gls{dataset}, \gls{featurevec}, \gls{localdataset}, \gls{label}, \gls{data}, \gls{privprot}.},
+	first={vertical federated learning (VFL)},
+	text={VFL}
+} 
+
 
 
 \newglossaryentry{interpretability}
@@ -321,6 +731,7 @@
 }
 
 
+
 \newglossaryentry{linmodel}{name={modelo lineal},
 	description={Consideremos\index{modelo lineal} puntos de datos, cada uno caracterizado por un vector de atributos numérico
 		$\featurevec \in \mathbb{R}^{\featuredim}$. Un modelo lineal es 
@@ -391,7 +802,21 @@
  \\
 		Vea también: \gls{differentiable}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{convex}, \gls{proxop} },first={paso de gradiente},text={paso de gradiente}}
 
-
+		\newglossaryentry{contractop}
+		{name={contraction operator},
+			description={An\index{contraction operator} operator $\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
+				is a contraction if, for some $\contractfac \in [0,1)$,
+				\begin{equation} 
+					\nonumber
+					\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\nrfeatures}.
+				\end{equation}
+			},
+			first={contraction operator},
+			text={contraction operator} 
+			
+			
+		}
+			
 		\newglossaryentry{proxop}{name={operador proximal},description={Dada una funcion \gls{convex}\index{operador proximal}   
 		$f(\weights')$, definimos su operador proximal como \cite{ProximalMethods,Bauschke:2017} 
 	   $$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(\rho/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
@@ -459,7 +884,19 @@ first={proximable},text={proximable}
 			Vea también: \gls{probdist}, \gls{rv}, \gls{mean}, \gls{covmtx} },
 		first={distribución normal multivariante},text={distribución normal multivariante}
 		}
-		
+
+
+\newglossaryentry{stdnormvec}
+		{name={standard normal vector}, 
+			description={A\index{standard normal vector} standard normal vector is a random vector $\vx=\big(x_{1},\ldots,x_{\nrfeatures}\big)^{T}$ 
+				whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
+				It is a special case of a \gls{mvndist}, $\vx \sim \mathcal(\mathbf{0},\mathbf{I})$.
+				\\ 
+				See also: \gls{iid}, \gls{gaussrv}, \gls{mvndist}, \gls{rv}.}, 
+			first={standard normal vector},
+			text={standard normal vector}
+		}
+
 		\newglossaryentry{statasp}{name ={aspectos estadísticos}, description={Por aspectos estadísticos\index{aspectos estadísticos} 
 				de un método de aprendizaje automático, nos referimos a las propiedades de la distribución de probabilidad de su salida bajo 
 				un modelo de probabilidad para los datos introducidos en el método.
@@ -557,6 +994,82 @@ first={proximable},text={proximable}
 		\\
 		Vea también: \gls{rv}, \gls{pdf}, \gls{mean}, \gls{variance}, \gls{probdist}, \gls{covmtx}, \gls{iid}, \gls{ml} },first={variable aleatoria gaussiana (VA gaussiana)},text={VA gaussiana}
 }
+\newglossaryentry{clt}
+{name={central limit theorem (CLT)},
+	description={
+		The\index{central limit theorem (CLT)} CLT refers to mathematically precise statements about 
+		the tendency of an average of a large number of independent \glspl{rv} to tend towards 
+		a \gls{gaussrv}. 
+		\\ 
+		See also: \gls{rv}, \gls{gaussrv}.
+	},
+	first={central limit theorem (CLT)},
+	text={CLT}
+}
+
+\newglossaryentry{GaussProc}
+{name={Gaussian process (GP)},
+  description={A \index{Gaussian Process (GP)}GP is a collection of \glspl{rv} 
+  	$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
+  	from some input space $\featurespace$, such that, for any finite subset 
+  	$\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \in \featurespace$, 
+  	the corresponding \glspl{rv} $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)}$ have a joint 
+  	multivariate Gaussian distribution:
+  	\[
+  	\left( f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  	\]
+  	For a fixed input space $\featurespace$, a GP is fully specified (or parametrized) by 
+  	\begin{itemize}
+  		\item a \gls{mean} \gls{function} $\mu(\featurevec) = \expect\{ f(\featurevec)\}$
+  		\item and a covariance \gls{function} $\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.
+  	\end{itemize}
+  	\text{Example:} We can interpret the temperature distribution across Finland (at a specific 
+  	point in time) as the \gls{realization} of a GP $f(\featurevec)$, where each input $\featurevec = (\text{lat}, \text{lon})$ 
+  	denotes a geographic location. Temperature observations from \gls{fmi} weather stations provide 
+  	\glspl{sample} of $f(\featurevec)$ at specific locations (see Figure \ref{fig_gp_FMI_dict}). A GP allows us to 
+  	predict the temperature nearby \gls{fmi} weather stations and to quantify the \gls{uncertainty} 
+  	of these predictions. 
+  	\begin{figure}[H]
+  	\begin{center}
+  \begin{tikzpicture}
+\begin{axis}[
+	axis equal,
+	hide axis,
+	scale=1.2,
+	xmin=17, xmax=32,
+	ymin=55, ymax=71,
+%	width=15cm,
+%	height=20cm,
+	clip=true
+	]
+	% --- Finland border (polyline) ---
+	\addplot[
+	color=black,
+	thick
+	] table [x=lon, y=lat, col sep=comma] {../../assets/finland_border.csv};
+	% --- FMI sample stations ---
+	\addplot[
+	only marks,
+	mark=*,
+	mark options={fill=blue},
+	color=black
+	] table [x=lon, y=lat, col sep=comma] {../../assets/fmi_stations_subset.csv};
+	% Draw manual axes
+	\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {lon};
+	\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
+\end{axis}
+\end{tikzpicture}
+\vspace*{-15mm}
+\end{center}
+\caption{We can interpret the temperature distribution over Finland as a \gls{realization} 
+	of a GP indexed by geographic coordinates and sampled at \gls{fmi} weather stations (indicated by 
+	blue dots). \label{fig_gp_FMI_dict}}
+\end{figure}
+See also: \gls{rv}, \gls{mean}, \gls{function}, \gls{realization}, \gls{fmi}, \gls{sample}, \gls{uncertainty}.}, 
+first = {GP}, 
+text = {GP}
+}
+
 
 \newglossaryentry{trustAI}{name={inteligencia artificial confiable (IA confiable)},description=
 		{Además de los aspectos computacionales y los aspectos estadísticos, un tercer aspecto principal 
@@ -653,6 +1166,21 @@ como
 		  Vea también: \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{erm}, \gls{modelparams}, \gls{prediction}, \gls{datapoint}, \gls{privleakage}, \gls{probdist}, \gls{sensattr}, \gls{probmodel}, \gls{realization}, \gls{rv}  }, 
 		 first = {privacidad diferencial (DP)}, text={DP} 
 	 }
+
+\newglossaryentry{robustness}
+	 {name={robustness},
+		 description={Robustness\index{robustness} is a key requirement for \gls{trustAI}. It
+			 refers to the property of an \gls{ml} system to maintain acceptable performance even when 
+			 subjected to different forms of perturbations. These perturbations can be to the \glspl{feature} 
+			 of a \gls{datapoint} in order to manipulate the \gls{prediction} delivered by a trained \gls{ml} \gls{model}. 
+			 Robustness also includes the \gls{stability} of \gls{erm}-based methods against perturbations 
+			 of the \gls{trainset}. Such perturbations can occur within \gls{datapoisoning} \glspl{attack}. 
+			 \\ See also: \gls{trustAI}, \gls{ml}, \gls{feature}, \gls{datapoint}, \gls{prediction}, \gls{model}, \gls{stability}, \gls{erm}, \gls{trainset}, \gls{datapoisoning}, \gls{attack}.
+		 }, 
+		 first = {robustness}, 
+		 text={robustness} 
+	 }
+	 
 \newglossaryentry{stability}
 {name={stability},
 	description={
@@ -766,6 +1294,91 @@ como
 	\\
 		Vea también: \gls{expectation}, \gls{rv} }, 
 		first = {media}, text={media} 
+}
+
+\newglossaryentry{median}
+{name={median}, 
+ description={A\index{median} median $\med(x)$ of a real-valued \gls{rv} $x$ 
+ is any number $m \in \mathbb{R}$ such that $\prob{ x \leq m} \geq 1/2$ and $\prob{ x \geq m} \geq 1/2$ \cite{LC}. 
+ \begin{figure}
+	\begin{center}
+	\begin{tikzpicture}
+  \begin{axis}[
+    axis lines=middle,
+    xlabel={$m$},
+    ylabel={},
+    ymin=0, ymax=1.1,
+    xmin=-2, xmax=6,
+    xtick=\empty,
+    ytick={0,1/2,1},
+    domain=-2:6,
+    samples=200,
+    width=10cm,
+    height=6cm,
+    smooth,
+    enlargelimits=true,
+    clip=false
+  ]
+    % Shifted sigmoid CDF
+	\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\prob{x \leq m}$};    % Vertical and horizontal ruler at F(x) = 0.5
+    \draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
+    \draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
+    % Mark the median point
+    \filldraw[red] (axis cs:1,0.5) circle (2pt);
+  %  \node[below left] at (axis cs:1,0.5) {\footnotesize $(x{=}1,\ F(x){=}\tfrac{1}{2})$};
+    % Label next to curve
+  \end{axis}
+\end{tikzpicture} 
+\end{center}
+ \end{figure}  
+ We can define the median $\med(\dataset)$ 
+ of a \gls{dataset} $\dataset = \{ x^{(1)}, \ldots, x^{(\samplesize)} \in \mathbb{R} \}$ 
+ via a specific \gls{rv} $\tilde{x}$ that is naturally associated with $\dataset$. 
+ In particular, this \gls{rv} is constructed by $\tilde{x} = x^{(I)}$ with the index $I$ 
+ being chosen uniformly at random from the set $\{1,\ldots,\samplesize\}$, i.e., $\prob{I = \sampleidx}=1/\samplesize$ for 
+ all $\sampleidx=1,\ldots,\samplesize$. If the \gls{rv} $x$ is integrable, a median of $x$ 
+ is the solution of the following optimization problem: 
+ $$\min_{x' \in \mathbb{R}} \expect{|x - x'|}.$$ 
+ Like the \gls{mean}, also the median of a \gls{dataset} $\dataset$ can be used 
+ to estimate the \glspl{parameter} of an underlying \gls{probmodel}. Compared 
+ to the \gls{mean}, the median is more robust to \glspl{outlier}. For example, 
+ a median of a \gls{dataset} $\dataset$ with more than one \gls{datapoint} does not 
+ change even if we arbitrarily increase the largest element of $\dataset$. In contrast, 
+ the \gls{mean} will increase arbitrarily.
+ \definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+  	\begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+			\begin{scope}
+				\foreach \x/\y in {
+					1/2, 4/3, 7/4
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med(\dataset)$};
+				\node at (5.5, -4) {(a) Original \gls{dataset} $\dataset$.};
+			\end{scope}
+			\begin{scope}[xshift=12cm]
+				\foreach \x/\y in {
+					1/2, 4/3, 7/10
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med\big(\widetilde{\dataset}\big)$};
+				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
+				\node at (5.5, -4) {(b) Noisy \gls{dataset} $\widetilde{\dataset}$ including an \gls{outlier}.};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{The median is robust against \gls{outlier} contamination. }
+	\end{figure}
+	\\ 
+		See also: \gls{mean}, \gls{robustness}, \gls{outlier}.}, 
+	first = {median}, 
+	text={median} 
 }
 
 \newglossaryentry{variance}
@@ -1038,6 +1651,73 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	first={norma},text={norma} 
 }
 
+\newglossaryentry{dualnorm}
+{name={dual norm},
+description={Every \gls{norm} $\normgeneric{\cdot}{}$ defined on an \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$ 
+		has an associated dual \gls{norm}, which is denoted $\normgeneric{\cdot}{*}$ and defined as 
+		$\normgeneric{\vy}{*} \defeq \sup_{\norm{\vx}{} \le 1} \vy^{T} \vx$. 
+		The dual \gls{norm} measures the largest possible inner product between $\vy$ 
+		and any vector in the unit ball of the original \gls{norm}. For further details, see 
+		\cite[Sec.~A.1.6]{BoydConvexBook}.
+					\\ 
+		See also: \gls{norm}, \gls{euclidspace}.},
+	first={dual norm},
+	text={dual norm}
+}
+
+\newglossaryentry{geometricmedian}{
+	name={geometric median (GM)},
+	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
+		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
+		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
+		\begin{equation} 
+			\label{equ_geometric_median_dict}
+		\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+		\end{equation} 
+	Figure \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
+	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
+	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero—this is the zero-\gls{subgradient}  
+	(optimality) condition of \eqref{equ_geometric_median}. It turns out that the solution to 
+	\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy input 
+	vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
+	  	\begin{figure}[H]
+  		\begin{center}
+			\begin{tikzpicture}[scale=2, thick, >=stealth]
+%				% Central model w
+				\coordinate (w) at (3,0);
+				\fill (w) circle (1.2pt) node[below right] {$\vz$};
+% Clean nodes
+				\coordinate (w2) at (0.5,0.3);
+				\coordinate (w3) at (0.7,0.7);
+				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
+				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
+			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
+%				% Dashed lines from w to good nodes
+				\draw[dashed] (w) -- (w2);
+				\draw[dashed] (w) -- (w3);
+%				% Draw unit vectors (scaled to 1cm)
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
+%				\node at (-0.2,1.4) {\textbf{Clean}};
+				\coordinate (w4) at (5,0.2);
+				\node at (5,0.6) {\textbf{perturbed}};
+				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
+%		% Optional dotted line from w to bad
+		\end{tikzpicture}
+		\caption{\label{opt_cond_GM_dict}
+			Consider a solution $\vz$ of \eqref{equ_geometric_median} that does not coincide 
+			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median} 
+			requires that the unit vectors from $\vz$ to the input vectors sum to zero.}
+			\end{center}
+	\end{figure}
+		See also: \gls{subgradient}.
+},
+	first={geometric median},
+	text={GM}
+}
+
+
 \newglossaryentry{explanation}
 {name={explicación},
 	description={Un manera para hacer que los métodos de aprendizaje automático sean transparentes consiste en  
@@ -1128,6 +1808,35 @@ first={función de activación},text={función de activación}
 	\\
 		Vea también: \gls{linmodel}, \gls{trainset}, \gls{modelparams}, \gls{gradstep}, \gls{model} },
 	first={algoritmo},text={algoritmo} 
+}
+
+\newglossaryentry{stochalgorithm}
+{name={stochastic algorithm}, 
+ plural={stochastic algorithms},
+	description={A\index{stochastic algorithm} \gls{stochastic} \gls{algorithm} uses a random mechanism 
+		during its execution. For example, \gls{stochGD} uses a randomly selected subset of \glspl{datapoint} 
+		to compute an approximation for the \gls{gradient} of an \gls{objfunc}. We can represent a 
+		\gls{stochastic} \gls{algorithm} by a \gls{stochastic} process, i.e., The possible execution sequence is the possible outcomes of 
+		a random experiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
+		\\ 
+		See also: \gls{stochastic}, \gls{algorithm}, \gls{stochGD}, \gls{datapoint}, \gls{gradient}, \gls{objfunc}, \gls{optmethod}, \gls{gdmethods}. 
+	},
+	first={stochastic algorithm},
+	text={stochastic algorithm} 
+}
+
+\newglossaryentry{onlinelearning}
+{name={online learning},
+	description={
+		Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
+		manner, updating their \gls{modelparams} as new \glspl{datapoint} become available—one at a time. 
+		A typical example is time series data, such as daily \gls{minimum} and \gls{maximum} temperatures 
+		recorded by a \gls{fmi} weather station. These values form a chronological sequence 
+		of observations. In online learning, the \gls{hypothesis} (or its \gls{modelparams}) is refined 
+		incrementally with each newly observed \gls{datapoint}, without revisiting past \gls{data}.  \\ 
+		See also: \gls{ml}, \gls{data}, \gls{modelparams}, \gls{datapoint}, \gls{fmi}, \gls{hypothesis}, \gls{onlineGD}, \gls{onlinealgorithm}. 
+	},
+	first={online learning},text={online learning} 
 }
 
 \newglossaryentry{onlinealgorithm}
@@ -2307,6 +3016,63 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 		},
 	first={generalización},text={generalización} }
 
+	\newglossaryentry{gengap}
+	{name = {generalization gap}, 
+		description={The difference\index{generalization gap} between the performance of a trained \gls{model} on the 
+			\gls{trainset} and its performance on other \glspl{datapoint} (such as those in a \gls{valset}). 
+			\\
+			See also: \gls{model}, \gls{trainset}, \gls{datapoint}, \gls{valset}, \gls{hypothesis}, \gls{decisiontree}, \gls{generalization}, \gls{gdmethods}, \gls{erm}, \gls{smooth}, \gls{lossfunc}, \gls{gd}, \gls{modelparams}, \gls{emprisk}, \gls{gradient}, \gls{loss}, \gls{gradstep}.
+		}, 
+		first={generalization gap}, 
+		text={generalization gap}} 
+	
+		
+	\newglossaryentry{concentrationinequ}
+{name = {concentration inequality}, 
+	description={An upper bound on the \gls{probability}\index{concentration inequality} that an \gls{rv} deviates 
+		more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
+	\\
+	See also: \gls{probability}, \gls{rv}, \gls{expectation}.
+	}, 
+	first={concentration inequality},  
+	text={concentration inequality}}
+
+
+	\newglossaryentry{boosting}
+{name = {boosting}, 
+	description={Boosting\index{boosting} is an iterative \gls{optmethod} to learn an accurate 
+		\gls{hypothesis} \gls{map} (or strong learner) by sequentially combining less accurate 
+		\gls{hypothesis} \glspl{map} (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
+		For example, weak learners are shallow \glspl{decisiontree} which are combined to 
+		obtain a deep \gls{decisiontree}. Boosting can be understood as a \gls{generalization} 
+		of \gls{gdmethods} for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
+		\cite{Friedman2001}. Just like \gls{gd} iteratively updates \gls{modelparams} to reduce the \gls{emprisk}, 
+		boosting iteratively combines (e.g., by summation) \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk}. 
+		A widely-used instance of the generic boosting idea is referred to as \gls{gradient} boosting, which 
+		uses \glspl{gradient} of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=1.2]
+					% Axes
+					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
+					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
+					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
+					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
+						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
+						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
+						\node[below] at (\x, -0.1) {\label};                             % label
+					}
+				\end{tikzpicture}
+			\end{center} 
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} $\hypothesis^{(0)},\hypothesis^{(1)},\ldots$ 
+				            that are increasingly strong learners (i.e., incurring a smaller \gls{loss}).}
+     	\end{figure} 
+     	See also: \gls{hypothesis}, \gls{map}, \gls{decisiontree}, \gls{generalization}, \gls{gdmethods}, \gls{erm}, \gls{model}, \gls{smooth}, \gls{lossfunc}, \gls{gd}, \gls{modelparams}, \gls{emprisk}, \gls{gradient}, \gls{loss}, \gls{gradstep}.
+		}, 
+	first={boosting}, 
+	text={boosting}} 
+
+
 	
 \newglossaryentry{gtv}{name={variación total generalizada (GTV)}, description={GTV es una\index{variación total generalizada (GTV)} 
 		medida de la variación de los modelos locales entrenados $\localhypothesis{\nodeidx}$ 
@@ -2798,6 +3564,72 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		Vea también: \gls{erm}, \gls{effdim}, \gls{model}, \gls{samplesize}, \gls{datapoint}, \gls{trainset}, \gls{linreg}, \gls{feature}, \gls{ml}, \gls{ann}, \gls{weights}, \gls{probability}.},
    first={régimen de alta dimensión},text={régimen de alta dimensión} }
 
+   \newglossaryentry{covariance}
+{name={covariance}, 
+ description={The\index{covariance} covariance between two real-valued 
+ 	\glspl{rv} $x$ and $y$, defined on a common \gls{probspace}, measures their linear 
+ 	dependence. It defined as 
+			$$
+			\cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
+			$$
+	A positive covariance indicates that $x$ and $y$ tend to increase together, 
+	while a negative covariance suggests that one tends to increase as the other decreases. 
+	If $\cov{x}{y} = 0$, the \glspl{rv} are said to be uncorrelated, though not necessarily statistically 
+	independent. See Figure \ref{fig:covariance-examples_dict} for visual illustrations.
+		\begin{figure}
+		\begin{tikzpicture}
+		 % Negative covariance
+		\begin{scope}[shift={(0,0)}]
+			\begin{axis}[
+				width=4.5cm, height=4.5cm,
+						 title={$\cov{x}{y} <0$},
+				xlabel={$x$}, ylabel={$y$},
+				xmin=-3, xmax=3, ymin=-3, ymax=3,
+				xtick=\empty, ytick=\empty,
+				axis lines=middle, enlargelimits
+				]
+				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				({x}, {-x + rand});
+			\end{axis}
+		\end{scope}
+		% Zero covariance
+		\begin{scope}[shift={(5.2cm,0)}]
+			\begin{axis}[
+				width=4.5cm, height=4.5cm,
+				 title={$\cov{x}{y} =0$}, xlabel={$x$}, ylabel={$y$},
+				xmin=-3, xmax=3, ymin=-3, ymax=3,
+				xtick=\empty, ytick=\empty,
+				axis lines=middle, enlargelimits
+				]
+				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				({x}, {rand});
+			\end{axis}
+		\end{scope}
+		% Positive covariance
+		\begin{scope}[shift={(10.4cm,0)}]
+			\begin{axis}[
+				width=4.5cm, height=4.5cm,
+				 title={$\cov{x}{y} > 0$},
+				xlabel={$x$}, ylabel={$y$},
+				xmin=-3, xmax=3, ymin=-3, ymax=3,
+				xtick=\empty, ytick=\empty,
+				axis lines=middle, enlargelimits
+				]
+				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				({x}, {x + rand});
+			\end{axis}
+		\end{scope}
+		\end{tikzpicture}
+			\caption{\Glspl{scatterplot} illustrating \glspl{realization} from three different \glspl{probmodel} for two 
+				\glspl{rv} with different covariance values: negative (left), zero (center), and positive (right).}
+			\label{fig:covariance-examples_dict}
+		\end{figure}
+		},
+	first={covariance},
+	text={covariance} 
+}
+
+
 \newglossaryentry{gmm}{name={modelo de mezcla gaussiana (GMM)}, description={Un GMM\index{modelo de mezcla gaussiana (GMM)} 
 		es un tipo particular de modelo de probabilidad para un vector numérico $\featurevec$ (por ejemplo, 
 		los atributos de un punto de datos). Dentro de un GMM, el vector  $\featurevec$ se extrae de una  
@@ -3060,8 +3892,18 @@ la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}.
 	De este modo, se obtiene una elección natural para el grado de pertenencia como la probabilidad 
 	condicional de que un puntos de datos pertenezca a un componente específico de la mezcla.
 	\\
-		Vea tambien: \gls{clustering}, \gls{datapoint}, \gls{cluster}, \gls{dob}, \gls{iid}, \gls{realization}, \gls{gmm}, \gls{probability}.},first={agrupamiento suave},text={agrupamiento suave} }
-	
+	Vea tambien: \gls{clustering}, \gls{datapoint}, \gls{cluster}, \gls{dob}, \gls{iid}, \gls{realization}, \gls{gmm}, \gls{probability}.},first={agrupamiento suave},text={agrupamiento suave} }
+
+
+\newglossaryentry{kroneckerproduct}
+		{name={Kronecker product}, 
+			description={The\index{Kronecker product} Kronecker product between two matries $\mA$ and $\mB$ as 
+				defined as... 
+				},
+			first={Kronecker product},
+			text={Kronecker product} 
+		}
+		
 \newglossaryentry{clustering}{name={agrupamiento}, description={Los métodos de agrupamiento\index{agrupamiento} 
 	descomponen un conjunto dado de puntos de datos en pocos subconjuntos, que se denominan clústers. 
 	Cada clúster está compuesto por puntos de dastos que son más similares entre sí que con respecto a 
@@ -3508,6 +4350,47 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
 		text={API}
 }
 
+\newglossaryentry{modelinversion}
+{name={model inversion},
+  description={A\index{model inversion} \gls{model} inversion is a form of \gls{privattack} on an \gls{ml} system. 
+  	An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
+  	to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
+  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ on carefully chosen inputs. 
+  	Basic \gls{model} inversion techniques have been demonstrated in the context of facial image 
+  	\gls{classification}, where images are reconstructed using the (\gls{gradient} of) \gls{model} outputs 
+  	combined with auxiliary information such as a person’s name \cite{Fredrikson2015}.
+  	\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[scale=1.5]
+  		% Axes
+  		\draw[->] (-0.5,0) -- (5.5,0) node[right] {face image $\featurevec$};
+  		\draw[->] (0,-0.2) -- (0,2.5) node[above] {name};
+  		% Sigmoid-like curve
+  		\draw[thick, domain=0.5:5, samples=100, smooth, variable=\x, name path=sigmoid] 
+  		plot ({\x}, {2/(1 + exp(-3*(\x - 3)))});
+  		%\node at (5.1, 0.2) {\small (e.g., face photo)};
+  		% Highlight point
+  		\def\xval{3}
+  		\pgfmathsetmacro{\yval}{2/(1 + exp(-3*(\xval - 3)))}
+  		% Ruler lines
+  		\draw[dashed] (\xval,0) -- (\xval,\yval);
+  		\draw[dashed] (0,\yval) -- (\xval,\yval);
+  		% Filled circle
+  		\filldraw[fill=blue!20, draw=blue] (\xval,\yval) circle (0.1);
+  		\node[anchor=south east] at (-0.1,\yval) {\footnotesize ``Alexander Jung''};
+  		% Axis labels with image
+  		\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{../../assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
+  		% Label on curve
+  		\node[above right] at (4,2.2) {trained \gls{model} $\learnthypothesis$};
+  	\end{tikzpicture}
+	\end{center} 
+	\end{figure}
+  	See also: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
+  },
+  first={model inversion},
+  text={model inversion}
+}
+
 
 \newglossaryentry{hilbertspace}{name={espacio de Hilbert},description={Un\index{espacio de Hilbert} espacio de Hilbert
  es un espacio vectorial lineal equipado con un producto interno entre pares de vectores.
@@ -3730,6 +4613,22 @@ la distribución de probabilidad subyacente y de la elección de la funcion de p
 		Vea también: \gls{rv}, \gls{probdist}, \gls{probability}.},
 first={función de densidad de probabilidad (pdf)},text={pdf}}
 
+\newglossaryentry{parameter}
+{name={parameter},
+	description={The\index{parameter} parameter of an \gls{ml} \gls{model} is a tunable 
+		(i.e., learnable or adjustable) quantity that allowa us to choose 
+		between different \gls{hypothesis} \glspl{map}. For example, the \gls{linmodel} $\hypospace \defeq \{\hypothesis^{(\weights)}: \hypothesis^{(\weights)}(\feature)= \weight_{1} \feature + \weight_{2}\}$ 
+		consists of all \gls{hypothesis} \glspl{map} $\hypothesis^{(\weights)}(\feature)= \weight_{1} \feature + \weight_{2}$ 
+		with a particular choice for the parameters $\weights = \big(\weight_{1},\weight_{2}\big)^{T} \in \mathbb{R}^{2}$. 
+		Another example of a \gls{model} parameter is the \gls{weights} assigned to a connection between two neurons of an \gls{ann}.
+				\\
+		See also: \gls{ml}, \gls{model}, \gls{hypothesis}, \gls{map}, \gls{linmodel}, \gls{weights}, \gls{ann}.},
+		first={parameter},
+		text={parameter}
+		
+}
+
+
 
 \newglossaryentry{parameters}{name={parámetros},
 	description={Los\index{parámetros} parámetros de un modelo de aprendizaje automático son cantidades ajustables (es decir, entrenables o modificables) 
@@ -3779,6 +4678,56 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 	description={La divergencia de Rényi \index{divergencia de Rényi} mide la (dis)similitud 
 	entre dos distribuciones de probabilidad \cite{RenyiInfo95}.}, 
 	first = {divergencia de Rényi}, text = {divergencia de Rényi}} 
+
+\newglossaryentry{jacobimethod}
+{name={Jacobi method},
+	description={The Jacobi method\index{Jacobi method} is an \gls{algorithm}  
+		for solving systems of linear equations (i.e., a linear system) of the form $\mA\vx= \mathbf{b}$.  
+		Here, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
+		non-zero main diagonal entries. The method constructs a sequence $\vx^{(0)},\vx^{(1)},\ldots$ 
+		by updating each entry of $\mathbf{x}^{(\iteridx)}$ according to 
+		\[
+		x_i^{(\iteridx+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(\iteridx)} \right).
+		\]
+		Carefully note that all entries $x^{(k)}_{1},\ldots,x^{(k)}_{\nrfeatures}$ are updated simultaneously.
+		The above iteration converges to a solution, i.e., $\lim_{\iteridx \rightarrow \infty} \vx^{(\iteridx)}=\vx$, 
+		under certain conditions on the matrix $\mA$, e.g., being strictly 
+		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{Horn91}, \cite{StrangLinAlg2016}. 
+		Jacobi-type methods are appealing for large linear systems due to their parallelizable structure \cite{ParallelDistrBook}.
+		We can interpret the Jacobi method as a fixed point iteration. Indeed, using the decomposition $\mA = \mD + \mR$, with $\mD$ being the 
+		diagonal of $\mA$, allows us to rewrite the linear equation $\mA \vx = \vb$ as a fixed-point equation  
+		\[
+		\mathbf{x} = \underbrace{\mD^{-1}(\mathbf{b} - \mR \mathbf{x})}_{\fixedpointop \vx},
+		\]
+		which leads to the iteration $\vx^{(\iteridx+1)} = \mD^{-1}(\mathbf{b} - \mR \vx^{(\iteridx)})$.
+		\\
+		For example, for the linear equation 
+		 \[
+		 \mA \mathbf{x} = \mathbf{b}, \quad \text{where} \quad
+		 \mA = \begin{bmatrix}
+		 	a_{11} & a_{12} & a_{13} \\
+		 	a_{21} & a_{22} & a_{23} \\
+		 	a_{31} & a_{32} & a_{33}
+		 \end{bmatrix}, \quad
+		 \mathbf{b} = \begin{bmatrix}
+		 	b_1 \\
+		 	b_2 \\
+		 	b_3
+		 \end{bmatrix},
+		 \]
+		 the Jacobi method updates each component of \( \mathbf{x} \) as follows:
+		 \[
+		 \begin{aligned}
+		 	x_1^{(k+1)} &= \frac{1}{a_{11}} \left( b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} \right), \\
+		 	x_2^{(k+1)} &= \frac{1}{a_{22}} \left( b_2 - a_{21} x_1^{(k)} - a_{23} x_3^{(k)} \right), \\
+		 	x_3^{(k+1)} &= \frac{1}{a_{33}} \left( b_3 - a_{31} x_1^{(k)} - a_{32} x_2^{(k)} \right).
+		 \end{aligned}
+		 \]
+		See also: \gls{algorithm}, \gls{optmethod}.},
+	text={Jacobi method}, 
+	first={Jacobi method}
+}
+	
 
 \newglossaryentry{nonsmooth}{name={no suave},
 	description={Nos\index{no suave} referimos a una función como no suave si no es
