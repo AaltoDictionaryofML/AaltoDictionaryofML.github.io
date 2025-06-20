@@ -16,3 +16,6 @@ missing_in_es = en_keys - es_keys
 print("Missing entries in ES version:")
 for key in sorted(missing_in_es):
     print(f"- {key}")
+
+
+# to run this, open the terminal in vscode, and type the command : python3 glossary_diff.py and it will list you the missing defintions.
