@@ -153,16 +153,46 @@
 
 \newglossaryentry{stochastic}
 {name={stochastic},
-	description={A process\index{stochastic} or method is called stochastic if it involves
-		a random component or is governed by probabilistic laws. In \gls{ml}, stochastic
-		methods often incorporate randomness for reasons such as optimization (e.g., \gls{stochGD})
-		or \gls{uncertainty} modeling (e.g., \glspl{probmodel}). A stochastic process is a collection
-		of \glspl{rv} indexed by time or space, which are used to model random phenomena
-		evolving over time (e.g., noise in sensors or financial time series).\\
-		See also:  \gls{ml}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}, \gls{rv}, \gls{sbm}.},
+	description={We refer to a \index{stochastic} method as stochastic if it involves a random component 
+		or is governed by probabilistic laws. \Gls{ml} methods use randomness to reducing 
+		computational complexity (see, e.g., \gls{stochGD}) or to capture \gls{uncertainty} in \glspl{probmodel}. 
+	 \\
+		See also: \gls{uncertainty}, \gls{probmodel}, \gls{stochGD}.},
 	first={stochastic},
 	text={stochastic}
 }
+
+\newglossaryentry{stochproc}
+{name={stochastic process},
+	description={A stochastic process is a collection of \glspl{rv} defined over a common \gls{probspace}. 
+		These \glspl{rv} are indexed by time or space, which are used to model random phenomena
+		evolving over time (e.g., noise in sensors or financial time series). Random \glspl{graph}, 
+		such as \gls{sbm} or \gls{ergraph}, are another example of stochastic processes. These processes 
+		use pairs of nodes in a \gls{graph} as the index set. We can also use stochastic processes 
+		to represent \glspl{stochalgorithm} such as \gls{stochGD}. 
+		\\
+		See also:  \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}, \gls{rv}, \gls{sbm}.},
+	first={stochastic process},
+	text={stochastic process}
+}
+
+
+\newglossaryentry{characteristicfunc}
+{name={characteristic function},
+	description={The characteristic function\index{characteristic function} 
+		of a real-valued \gls{rv} $x$ is the function \cite[Section 26]{BillingsleyProbMeasure}
+		$$ \phi_{x}(t) \defeq \expect { \exp(j t x) } \mbox{ with } j = \sqrt{-1}.$$
+	 The characteristic function uniquely determines the \gls{probdist} of $x$. 
+		\\
+		See also: \gls{probdist}, \gls{rv}.},
+	first={characteristic function},
+	firstplural={characteristic functions}, 
+	plural={characteristic functions},
+	text={characteristic function}
+}
+
+
+
 
 \newglossaryentry{entropy}
 {name={entropy},
@@ -1233,7 +1263,7 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		a given \gls{trainset}. Such a method is overfitting the \gls{trainset} if it learns 
 		a \gls{hypothesis} with a small \gls{emprisk} on the \gls{trainset} but a significantly larger \gls{loss} outside the \gls{trainset}.
 					\\ 
-		See also: \gls{ml}, \gls{erm}, \gls{hypothesis}, \gls{minimum}, \gls{emprisk}, \gls{trainset}, \gls{loss}.},
+		See also: \gls{generalization}, \gls{erm},  \gls{validation}, \gls{gengap}.},
 	first={overfitting},
 	text={overfitting}
 }
@@ -1291,10 +1321,10 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
         		independent \glspl{rv} (not necessarily Gaussian themselves) tends towards a Gaussian \gls{rv} \cite{ross2013first}.
 		\\ 
 		Compared to other \glspl{probdist}, the \gls{mvndist} is also distinct in that—in a mathematically 
-		precise sense—represents maximum uncertainty. Among all continuous random vectors with 
-		a given covariance matrix $\mC$, the Gaussian random vector $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
-		maximizes differential \gls{entropy} \cite[Th. 8.6.5]{coverthomas}. This makes Gaussian distributions a 
-		natural choice for capturing uncertainty (or lack of knowledge) in the absence of additional 
+		precise sense—represents maximum \gls{uncertainty}. Among all vector-valued \glspl{rv} with 
+		a given covariance matrix $\mC$, the \gls{rv} $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
+		maximizes differential \gls{entropy} \cite[Th. 8.6.5]{coverthomas}. This makes \glspl{GaussProc} 
+		a natural choice for capturing \gls{uncertainty} (or lack of knowledge) in the absence of additional 
 		structural information.
 		\\ 
 		See also: \gls{mvndist}, \gls{GaussProc}, \gls{probmodel}, \gls{clt}, \gls{entropy}.
@@ -1305,13 +1335,62 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	
 \newglossaryentry{clt}
 {name={central limit theorem (CLT)},
-	description={Consider a sequence of \gls{iid} \glspl{rv} $\feature^{(\sampleidx)}$, for $\sampleidx=1,2,\ldots$. 
-		The\index{central limit theorem (CLT)} central limit theorem (CLT) states 
-		that the average $(1/\samplesize)\sum_{\sampleidx=1}^{\samplesize} \feature^{(\sampleidx)}$ 
-		converges in distribution to a \gls{gaussrv}  for $\samplesize \rightarrow \infty$ \cite[Proposition 2.17]{AsympVanderVaartBook}. 
-		That is, the normalized sum of $\feature^{(1)},\ldots,\feature^{(\samplesize)}$ 
-		becomes approximately a \gls{gaussrv} as $\samplesize$ increases, regardless of 
-		their original distribution. Generalizations of the CLT allow for non-identical distributions \cite[Section 2.8]{AsympVanderVaartBook}.
+	description={ Consider a sequence of \gls{iid} \glspl{rv} \( \feature^{(\sampleidx)} \), for \( \sampleidx = 1, 2, \ldots \), 
+		each with \gls{mean} zero and finite \gls{variance} \( \sigma^2 > 0 \). 
+		The \index{central limit theorem (CLT)} CLT states that the normalized sum 
+		\[
+		s^{(\samplesize)} \defeq \frac{1}{\sqrt{\samplesize}} \sum_{\sampleidx = 1}^{\samplesize} \feature^{(\sampleidx)} 
+		\]
+		converges in distribution to a \gls{gaussrv} with \gls{mean} zero and \gls{variance} \( \sigma^2 \) as \( \samplesize \to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}.
+		One elegant way to derive the CLT is via the \gls{characteristicfunc} of the normalized sum \( s^{(\samplesize)} \). 
+		Let $ \phi(t) = \expect{ \exp \big( it \feature^{(1)} \big) }$ be the common \gls{characteristicfunc} of each summand 
+		$\feature^{(\sampleidx)}$, and let \( \phi^{(\samplesize)}(t) \) denote the \gls{characteristicfunc} of \( s^{(\samplesize)} \). 
+		Define an operator \( \mathcal{T} \) acting on \glspl{characteristicfunc} 
+		such that
+		\[
+		\phi^{(\samplesize)}(t) = \mathcal{T}(\phi^{(\samplesize-1)})(t) \defeq \phi\left( \frac{t}{\sqrt{\samplesize}} \right) \cdot \phi^{(\samplesize-1)}\left( \frac{\sqrt{\samplesize-1}}{\sqrt{\samplesize}} t \right).
+		\]
+		This \gls{fixedpointiter} captures the effect of recursively adding an \gls{iid} \gls{rv} $\featurevec^{(\samplesize)}$ 
+		and rescaling. Iteratively applying \( \mathcal{T} \) leads to convergence of \( \phi^{(\samplesize)}(t) \) toward the fixed point
+		\[
+		\phi^*(t) = e^{-t^2 \sigma^2 / 2},
+		\]
+		which is the \glspl{characteristicfunc} of a \gls{gaussrv} with mean zero and variance \( \sigma^2 \).
+		Generalizations of the CLT allow for dependent or non-identically distributed \glspl{rv} \cite[Section~2.8]{AsympVanderVaartBook}.
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=10cm,
+			height=6cm,
+			xlabel={},
+			ylabel={},
+			legend style={at={(0.97,0.97)}, anchor=north west},
+			domain=-3:3,
+			ylabel style={
+				yshift=10pt   % shift label up by 10pt
+			},
+			samples=400,
+			ymin=-0.2, ymax=1.1,
+			axis lines=middle,
+			  clip=false,
+			grid=both,
+			]
+		\addplot[thick, blue,domain=-2:2] {cos(x/sqrt(1) r)^1};
+		\addlegendentry{$m=1$}
+		\addplot[thick, red] {cos(x/sqrt(2) r)^2};
+		\addlegendentry{$m=2$}
+		\addplot[thick, green!60!black] {cos(x/sqrt(3) r)^3};
+		\addlegendentry{$m=3$}
+		\addplot[thick, dashed, black] {exp(-x^2/2)};
+		\addlegendentry{$\exp(-t^2/2)$}
+		\node[anchor=south, rotate=0] at (axis cs:-0.08,1.05) {$\phi^{(m)}(t)$};
+		\node[anchor=north, rotate=0] at (axis cs: 3.2,0.1) {$t$};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{\Glspl{characteristicfunc} of normalized sums of \gls{iid} \glspl{rv} $x^{(\sampleidx)} \in \{-1,1\}$ 
+		for $\sampleidx=1,\ldots,\samplesize$ compared to the Gaussian limit.}
+\end{figure}
 		\\ 
 		See also: \gls{rv}, \gls{gaussrv}.},
 	first={central limit theorem (CLT)},
