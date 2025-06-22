@@ -36,7 +36,7 @@ Explore how key concepts relate to one another:
 
 ```bibtex
 @book{jung2025dictionary,
-  author    = {Alexander Jung and Konstantina Olioumtsevits},
+  author    = {Alexander Jung, Konstantina Olioumtsevits and Juliette Gronier},
   title     = {The Aalto Dictionary of Machine Learning},
   year      = {2025},
   url       = {https://aaltodictionaryofml.github.io/}
