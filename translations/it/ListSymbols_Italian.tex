@@ -24,11 +24,18 @@
 	&[0,1] &\quad &\mbox{L'intervallo chiuso dei numeri reali $x$ tali che $0 \leq x \leq 1$. }\nonumber \\[2mm] \hline \nonumber\\[-5mm]
     &\argmin_{\weights} f(\weights) &\quad &\mbox{L'insieme dei minimizzatori di una funzione reale $f(\weights)$.  } \nonumber \\[2mm] \hline \nonumber\\[-5mm]
     &\sphere{\nrnodes} &\quad &\mbox{L'insieme dei vettori a \gls{norm} unitaria in $\mathbb{R}^{\nrnodes+1}$.  }\nonumber \\[2mm] \hline \nonumber\\[-5mm]
-	 &\log a &\quad &\mbox{I logaritmo del numero reale strettamente positivo $a \in \mathbb{R}_{++}$.  } \nonumber \\[2mm] \hline \nonumber\\[-5mm]
-	 &\hypothesis(\cdot)\!:\!\mathcal{A}\!\rightarrow\!\mathcal{B} :  a \!\mapsto\!h(a) &\quad &\parbox{.75\textwidth}{
-	 	Una funzione (mappa) che accetta come input un qualsiasi elemento $a \in \mathcal{A}$, appartenente ad un insieme $\mathcal{A}$, e restituisce un elemento ben definito $h(a) \in \mathcal{B}$, appartenente ad un insieme $\mathcal{B}$. 
-	 	L'insieme $\mathcal{A}$ è detto dominio della funzione $h$, mentre l'insieme $\mathcal{B}$ è il codominio di $\hypothesis$. \Gls{ml} punta ad individuare (o apprendere) una funzione $\hypothesis$ (cioè, un \gls{hypothesis}) che, a partire dalle \glspl{feature} $\featurevec$ di un \gls{datapoint}, fornisca una \gls{prediction} $\hypothesis(\featurevec)$
+      & \exp(a) & \quad & \mbox{La funzione esponenziale calcolata nel punto reale $a \in \mathbb{R}$.} \nonumber \\[2mm] \hline \nonumber \\[-5mm]
+	 &\log(a) &\quad &\mbox{I logaritmo del numero reale strettamente positivo $a \in \mathbb{R}_{++}$.  } \nonumber \\[2mm] \hline \nonumber\\[-5mm]
+	 &f(\cdot)\!:\!\mathcal{A}\!\rightarrow\!\mathcal{B} :  a \!\mapsto\!h(a) &\quad &\parbox{.75\textwidth}{
+	 	Una funzione (mappa) che accetta come input un qualsiasi elemento $a \in \mathcal{A}$, appartenente ad un insieme $\mathcal{A}$, e restituisce un elemento ben definito $f(a) \in \mathcal{B}$, appartenente ad un insieme $\mathcal{B}$. 
+	 	L'insieme $\mathcal{A}$ è detto dominio della funzione $h$, mentre l'insieme $\mathcal{B}$ è il codominio di $\hypothesis$. Il \Gls{ml} punta ad individuare (o apprendere) una funzione $\hypothesis$ (cioè, un \gls{hypothesis}) che, a partire dalle \glspl{feature} $\featurevec$ di un \gls{datapoint}, fornisca una \gls{prediction} $\hypothesis(\featurevec)$
 	 	della sua \gls{label} $\truelabel$.} \nonumber \\[2mm] \hline \nonumber\\[-5mm]
+		&\operatorname{epi}(f)  & \quad & \parbox{.70\textwidth}{L' gls(epigrafo) di una \gls{function} a valori reali 
+	 	$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$. } \nonumber \\[2mm]  \hline \nonumber\\[-5mm]
+	&  \frac{\partial f(\weight_{1},\ldots,\weight_{\nrfeatures})}{\partial \weight_{\featureidx}} & \quad & \parbox{.70\textwidth}{La 
+	derivata parziale (se esiste) di una \gls{function} a valori reali $f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$ rispetto a \ $\weight_{\featureidx}$\cite[Ch. 9]{RudinBookPrinciplesMatheAnalysis}.
+			\\ Si veda anche: \gls{function}.
+			} \nonumber \\[2mm]  \hline \nonumber\\[-5mm]
 	 	&\nabla f(\weights) & \quad & \parbox{.75\textwidth}{Il \gls{gradient} di una funzione reale \gls{differentiable}
 	 	$f: \mathbb{R}^{\featuredim}\rightarrow \mathbb{R}$ è il vettore
 	 	$\nabla f(\weights) = \big( \frac{\partial f}{\partial \weight_{1}},\ldots,\frac{\partial f}{\partial \weight_{\featuredim}}  \big)^{T} \in \mathbb{R}^{\featuredim}$ \cite[Ch. 9]{RudinBookPrinciplesMatheAnalysis}.}   \nonumber
@@ -50,6 +57,8 @@
 	&\mathbf{X}^{T} &\quad & \parbox{.75\textwidth}{La trasposizione di una matrice $\mathbf{X} \in \mathbb{R}^{\samplesize \times \featurelen}$. 
 		Una matrice quadrata a valori reali $\mathbf{X} \in \mathbb{R}^{\samplesize \times \samplesize}$ 
 		è detta simmetrica se $\mathbf{X} = \mathbf{X}^{T}$. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]
+		&\mathbf{X}^{-1} &\quad & \parbox{.75\textwidth}{L' \gls{inverse} di una matrice $\mathbf{X} \in \mathbb{R}^{\featurelen \times \featurelen}$.
+		\\ Si veda anche: \gls{inverse}. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]
 	&\mathbf{0}= \big(0,\ldots,0\big)^{T}  & \quad &  \parbox{.75\textwidth}{Il vettore in $\mathbb{R}^{\dimlocalmodel}$ con ciascuna componente uguale a zero.} \nonumber \\[2mm] \hline \nonumber\\[-5mm]
 	&\mathbf{1}= \big(1,\ldots,1\big)^{T}  & \quad &  \parbox{.75\textwidth}{Il vettore in $\mathbb{R}^{\dimlocalmodel}$ con ciascuna componente uguale a uno.} \nonumber
 \end{align} 
@@ -67,20 +76,21 @@
 \newpage
 \section*{Teoria della Probabilità} 
 \begin{align}
-	\expect_{p} \{ f(\datapoint) \}  \quad\quad & \parbox{.75\textwidth}{L' \gls{expectation} di una funzione $f(\datapoint)$ di una \gls{rv} 
-		$\datapoint$ la cui \gls{probdist} è $\prob{\datapoint}$. Se la \gls{probdist} è chiara dal contesto, scriviamo semplicemente $\expect \{ f(\datapoint) \}$. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]    
-	\prob{\featurevec,\truelabel} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} (congiunta) di una \gls{rv} 
+	&\featurevec \sim p(\vz)  \quad\quad & \parbox{.75\textwidth}{La \gls{rv} $\featurevec$ è distribuita secondo la \gls{probdist} $p(\vz)$ \cite{klenke2020probability}, \cite{BillingsleyProbMeasure}.
+		\\ Si veda anche: \gls{rv}, \gls{probdist}.}  \nonumber \\[2mm] \hline \nonumber\\[-5mm]  
+	&\expect_{p} \{ f(\datapoint) \}  \quad\quad & \parbox{.75\textwidth}{Il \gls{expectation} di una funzione $f(\datapoint)$ di una \gls{rv} $\datapoint$ la cui \gls{probdist} è $\prob{\datapoint}$. Se la \gls{probdist} è chiara dal contesto, scriviamo semplicemente $\expect \{ f(\datapoint) \}$. }  \nonumber \\[2mm] \hline \nonumber\\[-5mm]    
+	&\cov{x}{y} \quad\quad & \parbox{.75\textwidth}{La \gls{covariance} tra due \glspl{rv} a valori reali definite su uno \gls{probspace} comune. 
+		\\ See also: \gls{covariance}, \gls{rv}, \gls{probdist}.}  \nonumber \\[2mm] \hline \nonumber\\[-5mm]
+	&\prob{\featurevec,\truelabel} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} (congiunta) di una \gls{rv} 
 		le cui \glspl{realization} sono \gls{datapoint} con \glspl{feature} $\featurevec$ e \gls{label} $\truelabel$.} \nonumber        \nonumber \\[2mm] \hline \nonumber\\[-5mm]        
-	\prob{\featurevec|\truelabel} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} condizionata di una \gls{rv} 
+	&\prob{\featurevec|\truelabel} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} condizionata di una \gls{rv} 
 		$\featurevec$, dato il valore di un'altra \gls{rv} $\truelabel$ \cite[Sec.\ 3.5]{BertsekasProb}. } \nonumber       \nonumber \\[2mm] \hline \nonumber\\[-5mm]           
-	\prob{\featurevec;\weights} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} parametrizzata di una \gls{rv} $\featurevec$. 
-		La \gls{probdist} dipende da un vettore di parametri $\weights$. Ad esempio, $\prob{\featurevec;\weights}$ potrebbe essere una
-		\gls{mvndist} con il vettore di parametri $\weights$ costituito dagli elementi del vettore di \gls{mean} $\expect \{ \featurevec \}$ 
-		e della \gls{covmtx} $\expect \bigg \{ \big( \featurevec - \expect \{ \featurevec \}\big) \big( \featurevec - \expect \{ \featurevec \}\big)^{T}  \bigg\}$.} \nonumber           \nonumber \\[2mm] \hline \nonumber\\[-5mm]
-	\mathcal{N}(\mu, \sigma^{2}) \quad\quad & \parbox{.75\textwidth}{La \gls{probdist} di una 
+	&\prob{\featurevec;\weights} \quad\quad & \parbox{.75\textwidth}{Una \gls{probdist} parametrizzata di una \gls{rv} $\featurevec$. 
+		La \gls{probdist} dipende da un vettore di parametri $\weights$. Ad esempio, $\prob{\featurevec;\weights}$ potrebbe essere una \gls{mvndist} con il vettore di parametri $\weights$ costituito dagli elementi del vettore di \gls{mean} $\expect \{ \featurevec \}$ e della \gls{covmtx} $\expect \bigg \{ \big( \featurevec - \expect \{ \featurevec \}\big) \big( \featurevec - \expect \{ \featurevec \}\big)^{T}  \bigg\}$.}  \nonumber \\[2mm] \hline \nonumber\\[-5mm]
+	&\mathcal{N}(\mu, \sigma^{2}) \quad\quad & \parbox{.75\textwidth}{La \gls{probdist} di una 
 		\gls{gaussrv} $\feature \in \mathbb{R}$ con \gls{mean} (o \gls{expectation}) $\mu= \expect \{ \feature \}$ 
 		e \gls{variance} $\sigma^{2} =   \expect \big\{  (  \feature - \mu )^2 \big\}$.} \nonumber    \nonumber \\[2mm] \hline \nonumber\\[-5mm]
-	\mathcal{N}(\clustermean, \mathbf{C}) \quad\quad & \parbox{.75\textwidth}{La \gls{mvndist} di una		\gls{gaussrv} vettoriale $\featurevec \in \mathbb{R}^{\featuredim}$ con \gls{mean} (o \gls{expectation}) $\clustermean= \expect \{ \featurevec \}$ 
+	&\mathcal{N}(\clustermean, \mathbf{C}) \quad\quad & \parbox{.75\textwidth}{La \gls{mvndist} di una		\gls{gaussrv} vettoriale $\featurevec \in \mathbb{R}^{\featuredim}$ con \gls{mean} (o \gls{expectation}) $\clustermean= \expect \{ \featurevec \}$ 
 		e \gls{covmtx} $\mathbf{C} =  \expect \big\{ \big( \featurevec - \clustermean \big)\big( \featurevec - \clustermean \big)^{T} \big\}$.} \nonumber                                             
 \end{align}
 
