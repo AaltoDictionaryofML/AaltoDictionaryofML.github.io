@@ -2844,36 +2844,37 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 		Vea también: \gls{hypothesis}, \gls{hypospace}, \gls{prediction}, \gls{trainset}, \gls{datapoint}, \gls{trainset}, \Gls{ridgeregression}, \Gls{lasso} },first={regularizador},text={regularizador} }
 
 
-		\newglossaryentry{regularization}{name={regularization}, description={
-			A\index{regularization} key challenge of modern \gls{ml} applications is that they often 
-			use large \glspl{model}, which have an \gls{effdim} in the order of billions. 
-			Training a high-dimensional \gls{model} using basic \gls{erm}-based methods
-			is prone to \gls{overfitting}, i.e., the learned \gls{hypothesis} performs well on the \gls{trainset} 
-			but poorly outside the \gls{trainset}. Regularization refers to modifications of a given instance 
-			of \gls{erm} in order to avoid \gls{overfitting}, i.e., to ensure that the learned \gls{hypothesis} performs 
-			not much worse outside the \gls{trainset}. There are three routes for implementing 
-			regularization: 
+		\newglossaryentry{regularization}{name={regularización}, description={
+			Un desafío clave de las aplicaciones modernas de \gls{ml} es que a menudo 
+			usan \glspl{model} grandes, que tienen un \gls{effdim} del orden de miles de millones. 
+			Entrenar un \gls{model} de alta dimensión utilizando métodos basados en \gls{erm}
+			es propenso al \gls{overfitting}, es decir, la \gls{hypothesis} aprendida tiene un buen 
+			rendimiento en el \gls{trainset} pero un rendimiento pobre fuera del \gls{trainset}. 
+			La regularización se refiere a modificaciones de una instancia dada de \gls{erm} 
+			para evitar el \gls{overfitting}, es decir, para asegurar que la \gls{hypothesis} aprendida 
+			no tenga un rendimiento mucho peor fuera del \gls{trainset}. Existen tres rutas para implementar 
+			la regularización: 
 			\begin{enumerate}[label=\arabic*)]
-				\item {\Gls{model} pruning:} We prune the original \gls{model} $\hypospace$ to obtain a 
-				smaller \gls{model} $\hypospace'$. For a parametric \gls{model}, the pruning can be 
-				implemented via constraints on the \gls{modelparams} (such as $w_{1} \in [0.4,0.6]$ for 
-				the weight of \gls{feature} $x_{1}$ in \gls{linreg}).
-				\item {\Gls{loss} penalization:} We modify the \gls{objfunc} of \gls{erm} by adding a 
-				penalty term to the \gls{trainerr}. The penalty term estimates how much larger the expected \gls{loss} (or \gls{risk}) 
-				is compared to the average \gls{loss} on the \gls{trainset}. 
-				\item {\Gls{dataaug}:} We can enlarge the \gls{trainset} $\dataset$ by adding 
-				perturbed copies of the original \glspl{datapoint} in $\dataset$. One example for such 
-				a perturbation is to add the \gls{realization} of an \gls{rv} to the \gls{featurevec} 
-				of a \gls{datapoint}. 
+				\item {\Gls{model} podado:} Podamos el \gls{model} original $\hypospace$ para obtener un 
+				\gls{model} más pequeño $\hypospace'$. Para un \gls{model} paramétrico, el podado puede 
+				implementarse mediante restricciones en los \gls{modelparams} (como $w_{1} \in [0.4,0.6]$ para 
+				el peso de la \gls{feature} $x_{1}$ en \gls{linreg}).
+				\item {\Gls{loss} penalización:} Modificamos la \gls{objfunc} de \gls{erm} añadiendo un 
+				término de penalización al \gls{trainerr}. El término de penalización estima cuánto mayor es 
+				el \gls{loss} esperado (o \gls{risk}) en comparación con el \gls{loss} promedio en el \gls{trainset}. 
+				\item {\Gls{dataaug}:} Podemos ampliar el \gls{trainset} $\dataset$ añadiendo 
+				copias perturbadas de los \glspl{datapoint} originales en $\dataset$. Un ejemplo de tal 
+				perturbación es añadir la \gls{realization} de una \gls{rv} al \gls{featurevec} 
+				de un \gls{datapoint}. 
 			\end{enumerate} 
-			Fig. \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
-			These routes are closely related and sometimes fully equivalent. \Gls{dataaug} using \glspl{gaussrv} 
-			to perturb the \glspl{featurevec} in the \gls{trainset} of \gls{linreg} 
-			has the same effect as adding the penalty 
-			$\lambda \normgeneric{\weights}{2}^2$ to the \gls{trainerr} (which is nothing but \gls{ridgeregression}). 
-			The decision on which route to use for regularization can be based on the 
-			available computational infrastructure. For example, it might be much easier to 
-			implement \gls{dataaug} than \gls{model} pruning. 
+			La Fig. \ref{fig_equiv_dataaug_penal_dict} ilustra las tres rutas anteriores para la regularización. 
+			Estas rutas están estrechamente relacionadas y, a veces, son completamente equivalentes. \Gls{dataaug} usando \glspl{gaussrv} 
+			para perturbar los \glspl{featurevec} en el \gls{trainset} de \gls{linreg} 
+			tiene el mismo efecto que añadir la penalización 
+			$\lambda \normgeneric{\weights}{2}^2$ al \gls{trainerr} (que no es más que \gls{ridgeregression}). 
+			La decisión sobre qué ruta usar para la regularización puede basarse en la 
+			infraestructura computacional disponible. Por ejemplo, podría ser mucho más fácil 
+			implementar \gls{dataaug} que el podado de \gls{model}. 
 			\begin{figure}[H]
 				\begin{center} 
 					\begin{tikzpicture}[scale = 1]
@@ -2926,17 +2927,17 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 						\draw[<->, color=blue, thick] (l8) -- (c8);  
 						\draw[<->, color=red, thick] (l9) -- (c9);  
 						\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original \gls{trainset} $\dataset$};
-						\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {augmented};
+						\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {ampliado};
 						\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$};
 						\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\hypothesis}$};
 					\end{tikzpicture}
-					\caption{Three approaches to regularization: 1) \gls{dataaug}; 2) \gls{loss} penalization; and 3) \gls{model} 
-					pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
+					\caption{Tres enfoques para la regularización: 1) \gls{dataaug}; 2) \gls{loss} penalización; y 3) \gls{model} 
+					podado (mediante restricciones en \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
 				\end{center}
 			\end{figure} 
-			See also: \gls{ml}, \gls{model}, \gls{effdim}, \gls{erm}, \gls{overfitting}, \gls{hypothesis}, \gls{trainset}, \gls{modelparams}, \gls{feature}, \gls{linreg}, \gls{loss}, \gls{objfunc}, \gls{trainerr}, \gls{risk}, \gls{dataaug}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{featurevec}, \gls{gaussrv}, \gls{ridgeregression}, \gls{label}.
-			},first={regularization},text={regularization} }
-		
+			Véa también: \gls{ml}, \gls{model}, \gls{effdim}, \gls{erm}, \gls{overfitting}, \gls{hypothesis}, \gls{trainset}, \gls{modelparams}, \gls{feature}, \gls{linreg}, \gls{loss}, \gls{objfunc}, \gls{trainerr}, \gls{risk}, \gls{dataaug}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{featurevec}, \gls{gaussrv}, \gls{ridgeregression}, \gls{label}.
+			},first={regularización},text={regularización} }
+
 \newglossaryentry{rerm}{
 	name={minimización del riesgo empírico regularizado (RERM)}, 
 	description={El ERM básico aprende una hipótesis (o entrena un modelo) $\hypothesis \in \hypospace$ 
