@@ -323,40 +323,43 @@
 
 \newglossaryentry{epigraph}
 {name={epígrafo},
-  description={El epígrafo\index{epígrafo} de una \gls{function} real $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
-  es el conjunto de puntos que se encuentran sobre o en la \gls{graph} de la función:
+  description={El epígrafo\index{epígrafo} de una \gls{function} real 
+  $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ es el conjunto de puntos que 
+  se encuentran sobre o en la \gls{graph} de la función:
 	\[
 	\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
 	\]
-	Una \gls{function} es \gls{convex} si y solo si su epígrafo es un conjunto \gls{convex} \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[scale=1.0]
-				\begin{axis}[
-					axis lines = middle,
-					xlabel = $x$,
-					ylabel = {},
-					xmin=-2, xmax=2,
-					ymin=0, ymax=4.5,
-					samples=100,
-					domain=-1.5:1.5,
-					thick,
-					width=8cm,
-					height=6cm,
-					grid=none,
-					axis on top,
-					]
-					% Function
-					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
-					% Epigraph shading
-					\addplot [
+	Una \gls{function} es \gls{convex} si y solo si su epígrafo es un conjunto \gls{convex} 
+	\cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.0]
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = $x$,
+				ylabel = {},
+				xmin=-2, xmax=2,
+				ymin=0, ymax=4.5,
+				samples=100,
+				domain=-1.5:1.5,
+				thick,
+				width=8cm,
+				height=6cm,
+				grid=none,
+				axis on top,
+				]
+				% Function
+				\addplot [blue, thick, domain=-1.5:1.5] {x^2} 
+					node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+				% Epigraph shading
+				\addplot [
 					name path=f,
 					draw=none,
 					ytick=\empty,
 					domain=-1.5:1.5,
 					] {x^2};
-					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
-					\addplot [
+				\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+				\addplot [
 					blue!20,
 					opacity=0.6,
 					draw=none,
@@ -364,17 +367,15 @@
 					of=f and top,
 					soft clip={domain=-1.5:1.5},
 					];
-					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
-				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
-				\end{axis}
-			\end{tikzpicture}
-			\caption{Epígrafo de la función $f(x) = x^2$ (es decir, área sombreada
-			).}
-		\end{figure}
-		See also: \gls{function}, \gls{graph}, \gls{convex}.
-	},
-	first={epigraph},
-	text={epigraph}
+				\node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Epígrafo de la función $f(x) = x^2$ (área sombreada).}
+	\end{figure}
+	Véa también: \gls{function}, \gls{graph}, \gls{convex}.
+  },
+  first={epigraph},
+  text={epigraph}
 }
 
 
@@ -455,33 +456,33 @@
 }
 
 \newglossaryentry{dimred}
-{name={dimensionality reduction},
-	description={Dimensionality reduction\index{dimensionality reduction} refers 
-		to methods that learn a transformation 
+{name={reducción de dimensionalidad},
+	description={La reducción de dimensionalidad\index{reducción de dimensionalidad} se refiere 
+		a métodos que aprenden una transformación 
 		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
-		of a (typically large) set of raw \glspl{feature} $\feature_{1},\ldots,\feature_{\nrfeatures}$ 
-		into a smaller set of informative \glspl{feature} $z_{1},\ldots,z_{\nrfeatures'}$. 
-		Using a smaller set of \glspl{feature} is beneficial in several ways: 
+		de un conjunto (típicamente grande) de atributos originales 
+		$\feature_{1},\ldots,\feature_{\nrfeatures}$ a un conjunto más pequeño de 
+		atributos informativas $z_{1},\ldots,z_{\nrfeatures'}$. 
+		Usar un conjunto más pequeño de atributos ofrece múltiples ventajas: 
 		\begin{itemize} 
-			\item {Statistical benefit:} It typically reduces the risk of \gls{overfitting}, as 
-			reducing the number of \glspl{feature} often reduces the \gls{effdim} of a \gls{model}. 
-			\item {Computational benefit:} Using fewer \glspl{feature} means less computation 
-			for the training of \gls{ml} \glspl{model}. As a case in point, \gls{linreg} methods 
-			need to invert a matrix whose size is determined by the number of \glspl{feature}. 
-			\item {Visualization:} Dimensionality reduction is also instrumental for \gls{data} visualization. 
-			For example, we can learn a transformation that delivers two \glspl{feature} $z_{1},z_{2}$ 
-			which we can use, in turn, as the coordinates of a \gls{scatterplot}. Figure \ref{fig:dimred-scatter_dict} 
-			depicts the \gls{scatterplot} of hand-written digits that are placed 
-			according transformed \glspl{feature}. Here, the \glspl{datapoint} are 
-			naturally represented by a large number of grayscale values (one value for each pixel).
+			\item \textbf{Ventaja estadística:} Disminuir la cantidad de atributos reduce usualmente 
+			la \gls{effdim} de un modelo, lo cual a su vez disminuye el riesgo de sobreajuste.
+			\item \textbf{Ventaja computacional:} Menos atributos implican menos carga computacional 
+			durante el entrenamiento de los modelos. Por ejemplo, los métodos de regresión lineal 
+			requieren invertir una matriz cuyo tamaño depende del número de atributos.
+			\item \textbf{Visualización:} La reducción de dimensionalidad es clave para la visualización de datos. 
+			Por ejemplo, se puede aprender una transformación que genere dos atributos $z_{1}, z_{2}$ 
+			y emplearlas como coordenadas en un diagrama de dispersión. La Figura~\ref{fig:dimred-scatter_dict} 
+			ilustra dicho diagrama de dispersión con dígitos manuscritos transformados a partir de imágenes 
+			de alta dimensión representadas por valores de escala de grises.
 		\end{itemize} 
 		 \begin{figure}[H]
 		 \centering
 		 \begin{tikzpicture}[scale=1]	
-		% % Axes
+		 	% Ejes
 		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
 		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
-		% % Example points with mini-images (can replace adjustbox with \includegraphics)
+		 	% Puntos de ejemplo con etiquetas
 		 	\foreach \x/\y/\label in {
   		 		1.2/0.5/3,
   		 		0.8/2.0/8,
@@ -495,15 +496,16 @@
     	 		{\label};
 		 	}
 		 	\end{tikzpicture}
-		 	\caption{Example of dimensionality reduction: High-dimensional image data 
-			(e.g., high-resolution images of hand-written digits) embedded into 2D using 
-			learned \glspl{feature} $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
+		 	\caption{Ejemplo de reducción de dimensionalidad: Datos de imágenes de alta dimensión 
+			(p. ej., dígitos manuscritos) incrustados en 2D mediante atributos aprendidas $(z_1, z_2)$ 
+			y visualizados en un diagrama de dispersión.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
-		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.}, 
-		first={dimensionality reduction},
-		text={dimensionality reduction}
-} 
+		Véa también: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.
+	}, 
+	first={reducción de dimensionalidad},
+	text={reducción de dimensionalidad}
+}  
 
 
 \newglossaryentry{ml}
@@ -1669,56 +1671,57 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 }
 
 \newglossaryentry{geometricmedian}{
-	name={geometric median (GM)},
-	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
-		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
-		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
-		\begin{equation} 
-			\label{equ_geometric_median_dict}
-		\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
-		\end{equation} 
-	Figure \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
-	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
-	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero—this is the zero-\gls{subgradient}  
-	(optimality) condition of \eqref{equ_geometric_median}. It turns out that the solution to 
-	\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy input 
-	vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
+	name={mediana geométrica (GM)},
+	description={La GM\index{mediana geométrica (GM)} de un conjunto de vectores de entrada 
+	$\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ en $\mathbb{R}^{\dimlocalmodel}$ 
+	es un punto $\vz \in \mathbb{R}^{\dimlocalmodel}$ que minimiza la suma de distancias 
+	a dichos vectores \cite{BoydConvexBook}, es decir:
+	\begin{equation} 
+		\label{equ_geometric_median_dict}
+	\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+	\end{equation} 
+	La Figura~\ref{opt_cond_GM_dict} ilustra una propiedad fundamental de la GM:
+	si $\vz$ no coincide con ninguno de los vectores de entrada, entonces los vectores unitarios 
+	que apuntan desde $\vz$ hacia cada $\vx^{(\sampleidx)}$ deben sumar cero; 
+	esta es la condición de \gls{subgradient} nulo (óptima) de \eqref{equ_geometric_median}. 
+	Además, se ha demostrado que la solución de \eqref{equ_geometric_median_dict} 
+	no puede alejarse arbitrariamente de los vectores de entrada confiables 
+	mientras estos constituyan la mayoría \cite[Th. 2.2]{Lopuhaae1991}.
 	  	\begin{figure}[H]
   		\begin{center}
 			\begin{tikzpicture}[scale=2, thick, >=stealth]
-%				% Central model w
 				\coordinate (w) at (3,0);
 				\fill (w) circle (1.2pt) node[below right] {$\vz$};
-% Clean nodes
+				% Vectores limpios
 				\coordinate (w2) at (0.5,0.3);
 				\coordinate (w3) at (0.7,0.7);
 				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
 				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
-			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
-%				% Dashed lines from w to good nodes
+			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{limpios}};
+				% Líneas
 				\draw[dashed] (w) -- (w2);
 				\draw[dashed] (w) -- (w3);
-%				% Draw unit vectors (scaled to 1cm)
+				% Vectores unitarios
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
-%				\node at (-0.2,1.4) {\textbf{Clean}};
+				% Punto perturbado
 				\coordinate (w4) at (5,0.2);
-				\node at (5,0.6) {\textbf{perturbed}};
+				\node at (5,0.6) {\textbf{perturbado}};
 				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
-%		% Optional dotted line from w to bad
-		\end{tikzpicture}
-		\caption{\label{opt_cond_GM_dict}
-			Consider a solution $\vz$ of \eqref{equ_geometric_median} that does not coincide 
-			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median} 
-			requires that the unit vectors from $\vz$ to the input vectors sum to zero.}
+			\end{tikzpicture}
+			\caption{\label{opt_cond_GM_dict}
+			Sea $\vz$ una solución de \eqref{equ_geometric_median} que no coincide con ninguno 
+			de los vectores de entrada. La condición de optimalidad requiere que los vectores 
+			unitarios desde $\vz$ hacia los vectores de entrada sumen cero.}
 			\end{center}
 	\end{figure}
-		See also: \gls{subgradient}.
+	Véa también: \gls{subgradient}.
 },
-	first={geometric median},
+	first={mediana geométrica},
 	text={GM}
 }
+
 
 
 \newglossaryentry{explanation}
@@ -3728,8 +3731,8 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		que interpretamos como la realización de una variable aleatoria con una distribución de probabilidad $p(\featurevec)$. 
 		La esperanza de $\featurevec$ se define como la integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}. Nótese que
 		la esperanza solo está definida si esta integral existe, es decir, si la variable aleatoria es integrable.\cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
-		Fig. \ref{fig_expect_discrete} illustrates the expectation of a scalar discrete variable aleatoria $x$ which takes on values 
-		from a finite set only. 
+		Fig. \ref{fig_expect_discrete} ilustra la esperanza de una variable aleatoria  discreta $x$ que toma valores
+		solo de un conjunto finito.
 	   \begin{figure}[H]
 		   \begin{center}
 		   \begin{tikzpicture}
@@ -3768,8 +3771,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 	\end{tikzpicture}
 	\end{center}
 	\vspace*{-5mm}
-	\caption{The expectation of a discrete \gls{rv} $x$ is obtained by summing up its possible values $x_{i}$, weighted 
-		by the corresponding \gls{probability} $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
+	\caption{La esperanza de una variable aleatoria discreta \gls{rv} $x$ se obtiene sumando sus posibles valores $x_{i}$,ponderados por la correspondiente \gls{probability} $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
 	 \end{figure}
 			Vea también: \gls{featurevec}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{probability}.},
 	first={expectation},
@@ -4366,13 +4368,15 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
 
 \newglossaryentry{modelinversion}
 {name={model inversion},
-  description={A\index{model inversion} \gls{model} inversion is a form of \gls{privattack} on an \gls{ml} system. 
-  	An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
-  	to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
-  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ on carefully chosen inputs. 
-  	Basic \gls{model} inversion techniques have been demonstrated in the context of facial image 
-  	\gls{classification}, where images are reconstructed using the (\gls{gradient} of) \gls{model} outputs 
-  	combined with auxiliary information such as a person’s name \cite{Fredrikson2015}.
+  description={Una\index{inversión de modelo} inversión de modelo es una forma de ataque privado
+  dirigida a un sistema de aprendizaje automático. Un adversario intenta inferir un atributo sensible de 
+  puntos de datos individuales aprovechando el acceso parcial a un modelo entrenado 
+  $\learnthypothesis \in \hypospace$. Este acceso suele consistir en consultar el modelo 
+  con \glspl{prediction} $\learnthypothesis(\featurevec)$ sobre entradas cuidadosamente seleccionadas. 
+  Se han demostrado técnicas básicas de inversión de modelo en el contexto de 
+  clasificación de imágenes faciales, donde se reconstruyen imágenes utilizando 
+  la (gradiente de la) salida del modelo junto con información auxiliar como el nombre 
+  de una persona \cite{Fredrikson2015}
   	\begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}[scale=1.5]
@@ -4399,7 +4403,7 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
   	\end{tikzpicture}
 	\end{center} 
 	\end{figure}
-  	See also: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
+  	Vea tambien: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
   },
   first={model inversion},
   text={model inversion}
@@ -4558,16 +4562,20 @@ la estimación actual $\weights^{(\itercntr)}$. Esto se puede lograr típicament
 		first={regresión por desviación absoluta mínima},text={regresión por desviación absoluta mínima}}
 
 		\newglossaryentry{metric}
-		{name={metric},
-			description={In its most general form, a\index{metric} metric is a quantitative measure used to compare or evaluate objects. 
-				In mathematics, a metric measures the distance between two points and must follow specific rules, i.e., 
-				the distance is always non-negative, zero only if the points are the same, symmetric, and it satisfies the 
-				triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In \gls{ml}, a metric is a quantitative measure 
-				of how well a \gls{model} performs. Examples include \gls{acc}, precision, and the average \gls{zerooneloss} 
-				on a \gls{testset} \cite{Goodfellow-et-al-2016}, \cite{BishopBook}. A \gls{lossfunc} is used to train \glspl{model}, 
-				while a metric is used to compare trained \glspl{model}.
-				\\ See also: \gls{ml}, \gls{model}, \gls{acc}, \gls{zerooneloss}, \gls{testset}, \gls{lossfunc}, \gls{loss}, \gls{modelsel}.},
-			first={metric}, text={metric}}
+{name={métrica},
+	description={En su forma más general, una\index{métrica} métrica es una medida cuantitativa utilizada para comparar o evaluar objetos. 
+	En matemáticas, una métrica mide la distancia entre dos puntos y debe cumplir ciertas reglas: 
+	la distancia es siempre no negativa, igual a cero solo si los puntos son idénticos, simétrica 
+	y satisface la desigualdad triangular \cite{RudinBookPrinciplesMatheAnalysis}. En el aprendizaje automático, 
+	una métrica es una medida cuantitativa del rendimiento de un modelo. Algunos ejemplos son 
+	la \gls{acc}, la precisión y el promedio de la perdida 0-1 sobre un conjunto de entrenamiento 
+	\cite{Goodfellow-et-al-2016}, \cite{BishopBook}. Una función de perdida se utiliza para entrenar 
+	modelos, mientras que una métrica se utiliza para comparar modelos ya entrenados.\\ 
+	Véa también: \gls{ml}, \gls{model}, \gls{acc}, \gls{zerooneloss}, \gls{testset}, \gls{lossfunc}, \gls{loss}, \gls{modelsel}.},
+	first={métrica},
+	text={métrica}
+}
+
 
 \newglossaryentry{bayesrisk}{name={riesgo de Bayes},description={Considera un modelo de probabilidad con una 
 distribución de probabilidad conjunta $p(\featurevec,\truelabel)$ para los atributos $\featurevec$ 
@@ -4697,29 +4705,35 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 	entre dos distribuciones de probabilidad \cite{RenyiInfo95}.}, 
 	first = {divergencia de Rényi}, text = {divergencia de Rényi}} 
 
-\newglossaryentry{jacobimethod}
+	\newglossaryentry{jacobimethod}
 {name={Jacobi method},
-	description={The Jacobi method\index{Jacobi method} is an \gls{algorithm}  
-		for solving systems of linear equations (i.e., a linear system) of the form $\mA\vx= \mathbf{b}$.  
-		Here, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
-		non-zero main diagonal entries. The method constructs a sequence $\vx^{(0)},\vx^{(1)},\ldots$ 
-		by updating each entry of $\mathbf{x}^{(\iteridx)}$ according to 
+	description={El método de Jacobi\index{método de Jacobi} es un algoritmo
+	para resolver sistemas de ecuaciones lineales de la forma $\mA\vx = \mathbf{b}$. 
+	Aquí, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ es una matriz cuadrada con 
+	elementos diagonales principales no nulos. El método construye una secuencia 
+	$\vx^{(0)}, \vx^{(1)}, \ldots$ actualizando cada componente de $\mathbf{x}^{(\iteridx)}$ 
+	de acuerdo con la fórmula
 		\[
 		x_i^{(\iteridx+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(\iteridx)} \right).
 		\]
-		Carefully note that all entries $x^{(k)}_{1},\ldots,x^{(k)}_{\nrfeatures}$ are updated simultaneously.
-		The above iteration converges to a solution, i.e., $\lim_{\iteridx \rightarrow \infty} \vx^{(\iteridx)}=\vx$, 
-		under certain conditions on the matrix $\mA$, e.g., being strictly 
-		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{Horn91}, \cite{StrangLinAlg2016}. 
-		Jacobi-type methods are appealing for large linear systems due to their parallelizable structure \cite{ParallelDistrBook}.
-		We can interpret the Jacobi method as a fixed point iteration. Indeed, using the decomposition $\mA = \mD + \mR$, with $\mD$ being the 
-		diagonal of $\mA$, allows us to rewrite the linear equation $\mA \vx = \vb$ as a fixed-point equation  
+		Es importante notar que todos los elementos $x^{(k)}_{1}, \ldots, x^{(k)}_{\nrfeatures}$ 
+		se actualizan de manera simultánea
+		La iteración anterior converge a una solución, es decir, 
+		$\lim_{\iteridx \rightarrow \infty} \vx^{(\iteridx)} = \vx$, 
+		bajo ciertas condiciones sobre la matriz $\mA$, por ejemplo, si es 
+		estrictamente diagonal dominante o simétrica definida positiva \cite{GolubVanLoanBook}, 
+		\cite{Horn91}, \cite{StrangLinAlg2016}. 
+		Los métodos tipo Jacobi son atractivos para sistemas lineales grandes 
+		debido a su estructura paralelizable \cite{ParallelDistrBook}. 
+		Podemos interpretar el método de Jacobi como una iteración de punto fijo. 
+		En efecto, al descomponer $\mA = \mD + \mR$, donde $\mD$ es la parte diagonal de $\mA$, 
+		podemos reescribir la ecuación $\mA \vx = \vb$ como una ecuación de punto fijo: 
 		\[
 		\mathbf{x} = \underbrace{\mD^{-1}(\mathbf{b} - \mR \mathbf{x})}_{\fixedpointop \vx},
 		\]
-		which leads to the iteration $\vx^{(\iteridx+1)} = \mD^{-1}(\mathbf{b} - \mR \vx^{(\iteridx)})$.
+		lo que conduce a la iteración $\vx^{(\iteridx+1)} = \mD^{-1}(\mathbf{b} - \mR \vx^{(\iteridx)})$.
 		\\
-		For example, for the linear equation 
+		Por ejemplo, para el sistema lineal 
 		 \[
 		 \mA \mathbf{x} = \mathbf{b}, \quad \text{where} \quad
 		 \mA = \begin{bmatrix}
@@ -4733,7 +4747,7 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 		 	b_3
 		 \end{bmatrix},
 		 \]
-		 the Jacobi method updates each component of \( \mathbf{x} \) as follows:
+		 el método de Jacobi actualiza cada componente de \( \mathbf{x} \) como sigue:
 		 \[
 		 \begin{aligned}
 		 	x_1^{(k+1)} &= \frac{1}{a_{11}} \left( b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} \right), \\
@@ -4741,10 +4755,11 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 		 	x_3^{(k+1)} &= \frac{1}{a_{33}} \left( b_3 - a_{31} x_1^{(k)} - a_{32} x_2^{(k)} \right).
 		 \end{aligned}
 		 \]
-		See also: \gls{algorithm}, \gls{optmethod}.},
+		Vea tambien: \gls{algorithm}, \gls{optmethod}.},
 	text={Jacobi method}, 
 	first={Jacobi method}
 }
+	
 	
 
 \newglossaryentry{nonsmooth}{name={no suave},
