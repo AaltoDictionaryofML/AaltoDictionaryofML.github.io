@@ -75,9 +75,16 @@
 \newglossaryentry{det}
 {name={determinant},
 	description={The\index{determinant} determinant $\det(\mA)$ of a square matrix 
- 	$\mA \in \mathbb{R}^{n \times n}$ is a scalar that characterizes how (the orientation of) 
- 	volumes in $\mathbb{R}^n$ are altered by applying $\mA$ \cite{GolubVanLoanBook}, \cite{Strang2007}. 
- 	Note that a matrix $\mA$ represents a linear transformation on $\mathbb{R}^{n}$. 
+	$\mA = \big( \va^{(1)},\ldots, \va^{(n)} \big) \in \mathbb{R}^{n \times n}$ is a 
+	function of its columns $\va^{(1)},\ldots,\va^{(n)} \in \mathbb{R}^{n}$ that is \cite{DirschmidHansJorg1996TuF}
+	\begin{itemize}
+		\item normalized: $\det (\mI) = 1$, 
+		\item multi-linear: $\det \big(\va^{(1)},\ldots,\alpha\vu+ \beta \vv,\ldots,\va^{(n)} \big) = \alpha\det \big(\va^{(1)},\ldots,\vu,\ldots,\va^{(n)} \big)+\beta\det \big(\va^{(1)},\ldots,\vv,\ldots,\va^{(n)} \big)$
+		\item anti-symmetric: $\det \big(\va^{(1)},\ldots,\va^{(i)}, \ldots, \va^{(j)},\ldots,\va^{(n)} \big) = - \det \big(\va^{(1)},\ldots,\va^{(j)}, \ldots, \va^{(i)},\ldots,\va^{(n)} \big)$. 
+	\end{itemize} 
+	Note that a matrix $\mA$ represents a linear transformation on $\mathbb{R}^{n}$. 
+	The determinant $\det(\mA)$ characterizes how (the orientation of) 
+ 	volumes in $\mathbb{R}^n$ are altered by this transformation \cite{GolubVanLoanBook}, \cite{Strang2007}. 
  	In particular, $\det(\mA) > 0$ preserves orientation, $\det(\mA) < 0$ reverses orientation, 
  	and $\det(\mA) = 0$ collapses volume entirely, indicating that $\mA$ is non-invertible. 
  	The determinant also satisfies $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, and if $\mA$ is 
@@ -1169,9 +1176,9 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 					%\node at (2,0.5) [anchor=north] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{A generalized \gls{gradstep} updates a vector $\weights$ by minimizing a penalized version 
-				of the \gls{function} $f(\cdot)$. The penalty term is the scaled squared Euclidean distance between the optimization 
-				variable $\weights'$ and the given vector $\weights$.	\label{fig_proxoperator_opt_dict}}
+			\caption{The proximal operator updates a vector $\weights$ by minimizing a penalized version 
+				of the \gls{function} $f(\cdot)$. The penalty term is the scaled squared Euclidean distance 
+				between the optimization variable $\weights'$ and the given vector $\weights$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
 		See also: \gls{convex}, \gls{function}, \gls{generalization}, \gls{gradstep}, \gls{smooth}, \gls{stepsize}.},
 	first={proximal operator},
@@ -3681,9 +3688,13 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 \newglossaryentry{gengap}
 {name={generalization gap}, 
 	description={The difference\index{generalization gap} between the performance of a trained \gls{model} on the 
-		\gls{trainset} and its performance on other \glspl{datapoint} (such as those in a \gls{valset}). 
+		\gls{trainset} $\trainset$ and its performance on \glspl{datapoint} outside of $\trainset$. We can make this notion 
+		precise by using a \gls{probmodel} that allows to compute the \gls{risk} of a trained \gls{model} as the expected 
+		\gls{loss}. However, the \gls{probdist} underlying this expectation is typically unknown and needs to be somehow 
+		estimated. \Gls{validation} techniques use different constructions of a \gls{valset}, which is different from 
+		the \gls{trainset},  to estimate the generalization gap.  
 		\\
-		See also: \gls{model}, \gls{trainset}, \gls{datapoint}, \gls{valset}, \gls{hypothesis}, \gls{decisiontree}, \gls{generalization}, \gls{gdmethods}, \gls{erm}, \gls{smooth}, \gls{lossfunc}, \gls{gd}, \gls{modelparams}, \gls{emprisk}, \gls{gradient}, \gls{loss}, \gls{gradstep}.}, 
+		See also: \gls{generalization}, \gls{erm}, \gls{lossfunc}, \gls{validation}.}, 
 	first={generalization gap}, 
 	text={generalization gap}
 } 
@@ -5828,20 +5839,20 @@ text={pdf}
 	    \gls{gradstep} with \gls{stepsize} $\lrate=1/\beta$ (see Figure \ref{fig_gd_smooth_dict}). 
 	    \begin{figure}[H] 
 	    	\begin{center} 
-	    	\begin{tikzpicture}[scale=0.8, x=0.7cm,y=0.05cm]
+	    	\begin{tikzpicture}[scale=0.8, x=0.6cm,y=0.05cm]
 	    		% Parameter to shift the quadratic curve horizontally
 	    		\def\hshift{0.5} % Change this value to shift the curve horizontally
 	    		% Define the function (only the increasing part of x^2 for x >= 0)
-	    		\draw[thick, domain=\hshift:8+\hshift, smooth, variable=\x] plot ({\x}, {\x^2}); %node[right] {$f(x) = x^2$};
+	    		\draw[thick, dashed, domain=\hshift:8+\hshift, smooth, variable=\x] plot ({\x}, {\x^2}); %node[right] {$f(x) = x^2$};
 	    		% Define points for the tangents
 	    		\coordinate (w) at (\hshift,{\hshift*\hshift}); % Point w on the curve (left end of the plot)
 	    		\coordinate (wkplus1) at (4+\hshift,{(4+\hshift)^2}); % Point w^{k+1} on the curve (x=1 + hshift, y=1)
 	    		\coordinate (wk) at (8+\hshift,{(8+\hshift)^2}); % Point w^k on the curve (right end of the plot)
 	    		% Calculate the slopes for the tangents
-  				\draw[line width=1pt, transform canvas={yshift=-2pt}] (wk) -- +(-1, -{2*(8 + \hshift)} ) -- +(1, {2*(8 + \hshift)}); % Tangent at w^k with positive slope
- 				\draw[line width=1pt, transform canvas={yshift=-2pt}] (w) -- +(-1, -{2*\hshift} ) -- +(1, {2*\hshift} )  node[below] {$\nabla f(\weights)$};% Tangent at w with slope 0 (since derivative at hshift = 0)
+  				\draw[line width=1pt, transform canvas={yshift=-1pt}] (wk) -- +(-2, -{4*(8 + \hshift)} ) -- +(1, {2*(8 + \hshift)}); % Tangent at w^k with positive slope
+ 				\draw[line width=1pt, transform canvas={yshift=-1pt}] (w) -- +(-1, {-{2*\hshift}} ) -- +(1, {+{2*\hshift}})  node[below] {$\nabla f(\weights)$};% Tangent at w with slope 0 (since derivative at hshift = 0)
 %	    		% Draw filled circles at points w^k, w, and w^{k+1}
-	    		\filldraw (wk) circle (2pt) node[above left] {$\weights^{(\iteridx)}$} node[below right] {$\nabla f(\weights^{(\iteridx)})$} ;
+	    		\filldraw (wk) circle (2pt) node[above left] {$\weights^{(\iteridx)}$} node[below right, xshift=-15pt,yshift=-15pt] {$\nabla f(\weights^{(\iteridx)})$} ;
 	    		\filldraw (w) circle (2pt) node[above right] {$\weights$} ;
 	    		\filldraw (wkplus1) circle (2pt) node[below right] {$\weights^{(\iteridx+1)}\!=\!\weights^{(\iteridx)}\!-\!(1/\beta)\nabla f(\weights^{(\iteridx)})$};
 	    		    % Draw horizontal rulers to mark the function values at wk and wk_plus1
