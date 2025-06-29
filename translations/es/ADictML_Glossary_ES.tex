@@ -298,9 +298,9 @@
 		activa o pasiva—que compromete la integridad, disponibilidad o confidencialidad del sistema. 
 		Los ataques activos implican la alteración de componentes como los conjuntos de datos
 		(por medio de envenenamiento de datos) o de los enlaces de comunicación entre dispositivos 
-		en un entorno de aprendizaje federado. Los ataques pasivos, como los \glspl{privattack}, 
+		en un entorno de aprendizaje federado. Los ataques pasivos, como los ataques a la privacidad, 
 		buscan inferir atributos sensibles sin modificar el sistema. 
-		Según su objetivo, distinguimos entre ataques de denegación de servicio, ataques de puerta trasera y \glspl{privattack}.\\
+		Según su objetivo, distinguimos entre ataques de denegación de servicio, ataques de puerta trasera y ataques a la privacidad.\\
 		Véa también: \gls{datapoisoning}, \gls{privattack}, \gls{sensattr}, \gls{dosattack}, \gls{backdoor}.}, 
 	first={ataque},
 	text={ataque}
@@ -323,40 +323,43 @@
 
 \newglossaryentry{epigraph}
 {name={epígrafo},
-  description={El epígrafo\index{epígrafo} de una \gls{function} real $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
-  es el conjunto de puntos que se encuentran sobre o en la \gls{graph} de la función:
+  description={El epígrafo\index{epígrafo} de una \gls{function} real 
+  $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ es el conjunto de puntos que 
+  se encuentran sobre o en la \gls{graph} de la función:
 	\[
 	\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
 	\]
-	Una \gls{function} es \gls{convex} si y solo si su epígrafo es un conjunto \gls{convex} \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[scale=1.0]
-				\begin{axis}[
-					axis lines = middle,
-					xlabel = $x$,
-					ylabel = {},
-					xmin=-2, xmax=2,
-					ymin=0, ymax=4.5,
-					samples=100,
-					domain=-1.5:1.5,
-					thick,
-					width=8cm,
-					height=6cm,
-					grid=none,
-					axis on top,
-					]
-					% Function
-					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
-					% Epigraph shading
-					\addplot [
+	Una \gls{function} es \gls{convex} si y solo si su epígrafo es un conjunto \gls{convex} 
+	\cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.0]
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = $x$,
+				ylabel = {},
+				xmin=-2, xmax=2,
+				ymin=0, ymax=4.5,
+				samples=100,
+				domain=-1.5:1.5,
+				thick,
+				width=8cm,
+				height=6cm,
+				grid=none,
+				axis on top,
+				]
+				% Function
+				\addplot [blue, thick, domain=-1.5:1.5] {x^2} 
+					node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+				% Epigraph shading
+				\addplot [
 					name path=f,
 					draw=none,
 					ytick=\empty,
 					domain=-1.5:1.5,
 					] {x^2};
-					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
-					\addplot [
+				\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+				\addplot [
 					blue!20,
 					opacity=0.6,
 					draw=none,
@@ -364,17 +367,15 @@
 					of=f and top,
 					soft clip={domain=-1.5:1.5},
 					];
-					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
-				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
-				\end{axis}
-			\end{tikzpicture}
-			\caption{Epígrafo de la función $f(x) = x^2$ (es decir, área sombreada
-			).}
-		\end{figure}
-		See also: \gls{function}, \gls{graph}, \gls{convex}.
-	},
-	first={epigraph},
-	text={epigraph}
+				\node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi} f$};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Epígrafo de la función $f(x) = x^2$ (área sombreada).}
+	\end{figure}
+	Véa también: \gls{function}, \gls{graph}, \gls{convex}.
+  },
+  first={epigraph},
+  text={epigraph}
 }
 
 
@@ -455,33 +456,33 @@
 }
 
 \newglossaryentry{dimred}
-{name={dimensionality reduction},
-	description={Dimensionality reduction\index{dimensionality reduction} refers 
-		to methods that learn a transformation 
+{name={reducción de dimensionalidad},
+	description={La reducción de dimensionalidad\index{reducción de dimensionalidad} se refiere 
+		a métodos que aprenden una transformación 
 		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
-		of a (typically large) set of raw \glspl{feature} $\feature_{1},\ldots,\feature_{\nrfeatures}$ 
-		into a smaller set of informative \glspl{feature} $z_{1},\ldots,z_{\nrfeatures'}$. 
-		Using a smaller set of \glspl{feature} is beneficial in several ways: 
+		de un conjunto (típicamente grande) de atributos originales 
+		$\feature_{1},\ldots,\feature_{\nrfeatures}$ a un conjunto más pequeño de 
+		atributos informativas $z_{1},\ldots,z_{\nrfeatures'}$. 
+		Usar un conjunto más pequeño de atributos ofrece múltiples ventajas: 
 		\begin{itemize} 
-			\item {Statistical benefit:} It typically reduces the risk of \gls{overfitting}, as 
-			reducing the number of \glspl{feature} often reduces the \gls{effdim} of a \gls{model}. 
-			\item {Computational benefit:} Using fewer \glspl{feature} means less computation 
-			for the training of \gls{ml} \glspl{model}. As a case in point, \gls{linreg} methods 
-			need to invert a matrix whose size is determined by the number of \glspl{feature}. 
-			\item {Visualization:} Dimensionality reduction is also instrumental for \gls{data} visualization. 
-			For example, we can learn a transformation that delivers two \glspl{feature} $z_{1},z_{2}$ 
-			which we can use, in turn, as the coordinates of a \gls{scatterplot}. Figure \ref{fig:dimred-scatter_dict} 
-			depicts the \gls{scatterplot} of hand-written digits that are placed 
-			according transformed \glspl{feature}. Here, the \glspl{datapoint} are 
-			naturally represented by a large number of grayscale values (one value for each pixel).
+			\item \textbf{Ventaja estadística:} Disminuir la cantidad de atributos reduce usualmente 
+			la \gls{effdim} de un modelo, lo cual a su vez disminuye el riesgo de sobreajuste.
+			\item \textbf{Ventaja computacional:} Menos atributos implican menos carga computacional 
+			durante el entrenamiento de los modelos. Por ejemplo, los métodos de regresión lineal 
+			requieren invertir una matriz cuyo tamaño depende del número de atributos.
+			\item \textbf{Visualización:} La reducción de dimensionalidad es clave para la visualización de datos. 
+			Por ejemplo, se puede aprender una transformación que genere dos atributos $z_{1}, z_{2}$ 
+			y emplearlas como coordenadas en un diagrama de dispersión. La Figura~\ref{fig:dimred-scatter_dict} 
+			ilustra dicho diagrama de dispersión con dígitos manuscritos transformados a partir de imágenes 
+			de alta dimensión representadas por valores de escala de grises.
 		\end{itemize} 
 		 \begin{figure}[H]
 		 \centering
 		 \begin{tikzpicture}[scale=1]	
-		% % Axes
+		 	% Ejes
 		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
 		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
-		% % Example points with mini-images (can replace adjustbox with \includegraphics)
+		 	% Puntos de ejemplo con etiquetas
 		 	\foreach \x/\y/\label in {
   		 		1.2/0.5/3,
   		 		0.8/2.0/8,
@@ -495,15 +496,16 @@
     	 		{\label};
 		 	}
 		 	\end{tikzpicture}
-		 	\caption{Example of dimensionality reduction: High-dimensional image data 
-			(e.g., high-resolution images of hand-written digits) embedded into 2D using 
-			learned \glspl{feature} $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
+		 	\caption{Ejemplo de reducción de dimensionalidad: Datos de imágenes de alta dimensión 
+			(p. ej., dígitos manuscritos) incrustados en 2D mediante atributos aprendidas $(z_1, z_2)$ 
+			y visualizados en un diagrama de dispersión.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
-		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.}, 
-		first={dimensionality reduction},
-		text={dimensionality reduction}
-} 
+		Véa también: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.
+	}, 
+	first={reducción de dimensionalidad},
+	text={reducción de dimensionalidad}
+}  
 
 
 \newglossaryentry{ml}
@@ -534,7 +536,7 @@
 		Se obtienen diferentes métodos de aprendizaje de atributos a partir de diferentes elecciones de 
 		$\featurespace,\featurespace'$, de un espacio de hipótesis $\hypospace$ de posibles mapeos $\featuremapvec$, 
 		y de una medida cuantitativa de la utilidad de un mapeo específico $\featuremapvec \in \hypospace$. Por ejemplo, pca utiliza $\featurespace \defeq \mathbb{R}^{\dimlocalmodel}$, $\featurespace' \defeq \mathbb{R}^{\dimlocalmodel'}$
-		con $\dimlocalmodel' < \dimlocalmodel$, y un \gls{hypospace}
+		con $\dimlocalmodel' < \dimlocalmodel$, y un espacio de hipótesis
 		$$\hypospace\defeq \big\{ \featuremapvec: \mathbb{R}^{\dimlocalmodel}
 		\!\rightarrow\! \mathbb{R}^{\dimlocalmodel'}\!:\!\featurevec'\!\defeq\!\mF \featurevec \mbox{ con alguna } \mF \!\in\! \mathbb{R}^{\dimlocalmodel' \times \dimlocalmodel} \big\}.$$ PCA mide la utilidad de un mapeo específico $\featuremapvec(\featurevec)= \mF \featurevec$ 
 		por el mínimo error de reconstrucción lineal incurrido sobre un conjunto de datos, 
@@ -858,7 +860,7 @@
 convexa para la cual el operador proximal puede calcularse de manera eficiente 
 se denomina a veces proximable o simple \cite{Condat2013}.
 \\
-	Vea también:\gls{convex}, \gls{proxop}  },
+	Vea también: \gls{convex}, \gls{proxop}  },
 first={proximable},text={proximable}
 
 }
@@ -1669,56 +1671,57 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 }
 
 \newglossaryentry{geometricmedian}{
-	name={geometric median (GM)},
-	description={The GM\index{geometric median (GM)} of a set of input vectors $\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ 
-		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
-		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
-		\begin{equation} 
-			\label{equ_geometric_median_dict}
-		\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
-		\end{equation} 
-	Figure \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
-	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
-	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero—this is the zero-\gls{subgradient}  
-	(optimality) condition of \eqref{equ_geometric_median}. It turns out that the solution to 
-	\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy input 
-	vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
+	name={mediana geométrica (GM)},
+	description={La GM\index{mediana geométrica (GM)} de un conjunto de vectores de entrada 
+	$\vx^{(1)}, \ldots, \vx^{(\samplesize)}$ en $\mathbb{R}^{\dimlocalmodel}$ 
+	es un punto $\vz \in \mathbb{R}^{\dimlocalmodel}$ que minimiza la suma de distancias 
+	a dichos vectores \cite{BoydConvexBook}, es decir:
+	\begin{equation} 
+		\label{equ_geometric_median_dict}
+	\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+	\end{equation} 
+	La Figura~\ref{opt_cond_GM_dict} ilustra una propiedad fundamental de la GM:
+	si $\vz$ no coincide con ninguno de los vectores de entrada, entonces los vectores unitarios 
+	que apuntan desde $\vz$ hacia cada $\vx^{(\sampleidx)}$ deben sumar cero; 
+	esta es la condición de \gls{subgradient} nulo (óptima) de \eqref{equ_geometric_median}. 
+	Además, se ha demostrado que la solución de \eqref{equ_geometric_median_dict} 
+	no puede alejarse arbitrariamente de los vectores de entrada confiables 
+	mientras estos constituyan la mayoría \cite[Th. 2.2]{Lopuhaae1991}.
 	  	\begin{figure}[H]
   		\begin{center}
 			\begin{tikzpicture}[scale=2, thick, >=stealth]
-%				% Central model w
 				\coordinate (w) at (3,0);
 				\fill (w) circle (1.2pt) node[below right] {$\vz$};
-% Clean nodes
+				% Vectores limpios
 				\coordinate (w2) at (0.5,0.3);
 				\coordinate (w3) at (0.7,0.7);
 				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
 				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
-			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
-%				% Dashed lines from w to good nodes
+			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{limpios}};
+				% Líneas
 				\draw[dashed] (w) -- (w2);
 				\draw[dashed] (w) -- (w3);
-%				% Draw unit vectors (scaled to 1cm)
+				% Vectores unitarios
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
-%				\node at (-0.2,1.4) {\textbf{Clean}};
+				% Punto perturbado
 				\coordinate (w4) at (5,0.2);
-				\node at (5,0.6) {\textbf{perturbed}};
+				\node at (5,0.6) {\textbf{perturbado}};
 				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
-%		% Optional dotted line from w to bad
-		\end{tikzpicture}
-		\caption{\label{opt_cond_GM_dict}
-			Consider a solution $\vz$ of \eqref{equ_geometric_median} that does not coincide 
-			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median} 
-			requires that the unit vectors from $\vz$ to the input vectors sum to zero.}
+			\end{tikzpicture}
+			\caption{\label{opt_cond_GM_dict}
+			Sea $\vz$ una solución de \eqref{equ_geometric_median} que no coincide con ninguno 
+			de los vectores de entrada. La condición de optimalidad requiere que los vectores 
+			unitarios desde $\vz$ hacia los vectores de entrada sumen cero.}
 			\end{center}
 	\end{figure}
-		See also: \gls{subgradient}.
+	Véa también: \gls{subgradient}.
 },
-	first={geometric median},
+	first={mediana geométrica},
 	text={GM}
 }
+
 
 
 \newglossaryentry{explanation}
@@ -2462,7 +2465,7 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 
 \newglossaryentry{feature}
 {name={atributo},
-	description={Un\index{atributo} atributo de un \gls{datapoint} es una de sus propiedades que se puede 
+	description={Un\index{atributo} atributo de un punto de datos es una de sus propiedades que se puede 
 		medir o calcular fácilmente sin la necesidad de supervisión humana. Por ejemplo, si un punto de datos
 		es una imagen digital (por ejemplo, almacenada como un archivo \texttt{.jpeg}), entonces podríamos usar
 		las intensidades rojo-verde-azul de sus píxeles como atributos. Sinónimos específicos del dominio  
@@ -2608,27 +2611,26 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 	 \\
 	 Vea también: \gls{probspace}, \gls{probability}, \gls{euclidspace},  }, first={variable aleatoria (RV)},text={RV}  }
  
- \newglossaryentry{probspace}{
- 	name={probability space}, 
- 	description={A\index{probability space} \gls{probability} space is a mathematical 
- 		\gls{model} of a physical process (a random experiment) with an uncertain outcome. 
- 	   Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, P)$ where
- 		\begin{itemize} 
- 		\item  $\Omega$ is a sample space containing all possible elementary outcomes of a random experiment;
- 		\item  $\mathcal{F}$ is a sigma-algebra, a collection of subsets of $\Omega$ (called events) that satisfies 
- 		certain closure properties under set operations;
- 		\item $P$ is a \gls{probability} measure, a function that assigns a \gls{probability} $P(\mathcal{A}) \in [0,1]$ 
- 		to each event $\mathcal{A} \in \mathcal{F}$. The function must satisfy $P(\Omega) = 1$ and 	$
- 		P\left(\bigcup_{i=1}^{\infty} \mathcal{A}_i\right) = \sum_{i=1}^{\infty} P(\mathcal{A}_i)$ for any 
- 		countable sequence of pairwise disjoint events $\mathcal{A}_1, \mathcal{A}_2, \dots$ in $\mathcal{F}$.
- 		\end{itemize}
- 		\Gls{probability} spaces provide the foundation for defining \gls{rv}s and to reason about 
- 		uncertainty in \gls{ml} applications \cite{BillingsleyProbMeasure,GrayProbBook,ross2013first}.
-		 \\
-		 Vea también: \gls{probability}, \gls{model}, \gls{rv}, \gls{ml}  },  
- 	first={probability space}, 
- 	text={probability space}
- }
+	 \newglossaryentry{probspace}{
+		name={espacio de probabilidad}, 
+		description={Un espacio de probabilidad\index{espacio de probabilidad} es un modelo matemático de un proceso físico (un experimento aleatorio) con un resultado incierto. Formalmente, un espacio de probabilidad $\mathcal{P}$ es una tripleta $(\Omega, \mathcal{F}, P)$ donde:
+		\begin{itemize} 
+			\item $\Omega$ es el espacio muestral que contiene todos los posibles resultados elementales del experimento aleatorio;
+			\item $\mathcal{F}$ es una sigma-álgebra, es decir, una colección de subconjuntos de $\Omega$ (llamados eventos) que satisface ciertas propiedades de clausura bajo operaciones de conjuntos;
+			\item $P$ es una medida de \gls{probability}, una función que asigna una probabilidad $P(\mathcal{A}) \in [0,1]$ a cada evento $\mathcal{A} \in \mathcal{F}$. Esta función debe satisfacer $P(\Omega) = 1$ y 
+			\[
+			P\left(\bigcup_{i=1}^{\infty} \mathcal{A}_i\right) = \sum_{i=1}^{\infty} P(\mathcal{A}_i)
+			\]
+			para cualquier secuencia numerable de eventos mutuamente disjuntos $\mathcal{A}_1, \mathcal{A}_2, \dots$ en $\mathcal{F}$.
+		\end{itemize}
+		Los espacios de probabilidad constituyen la base para definir variables aleatorias y razonar sobre la incertidumbre en aplicaciones de aprendizaje automático \cite{BillingsleyProbMeasure,GrayProbBook,ross2013first}.
+		\\
+		Véa también: \gls{probability}, \gls{model}, \gls{rv}, \gls{ml}
+		},  
+		first={espacio de probabilidad}, 
+		text={espacio de probabilidad}
+   }
+   
  
 	
  \newglossaryentry{realization}
@@ -2841,36 +2843,37 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 		Vea también: \gls{hypothesis}, \gls{hypospace}, \gls{prediction}, \gls{trainset}, \gls{datapoint}, \gls{trainset}, \Gls{ridgeregression}, \Gls{lasso} },first={regularizador},text={regularizador} }
 
 
-		\newglossaryentry{regularization}{name={regularization}, description={
-			A\index{regularization} key challenge of modern \gls{ml} applications is that they often 
-			use large \glspl{model}, which have an \gls{effdim} in the order of billions. 
-			Training a high-dimensional \gls{model} using basic \gls{erm}-based methods
-			is prone to \gls{overfitting}, i.e., the learned \gls{hypothesis} performs well on the \gls{trainset} 
-			but poorly outside the \gls{trainset}. Regularization refers to modifications of a given instance 
-			of \gls{erm} in order to avoid \gls{overfitting}, i.e., to ensure that the learned \gls{hypothesis} performs 
-			not much worse outside the \gls{trainset}. There are three routes for implementing 
-			regularization: 
+		\newglossaryentry{regularization}{name={regularización}, description={
+			Un desafío clave de las aplicaciones modernas de aprendizaje automático es que a menudo 
+			usan modelos grandes, que tienen un dimension efectiva del orden de miles de millones. 
+			Entrenar un modelo de alta dimensión utilizando métodos basados en ERM
+			es propenso al sobreajuste, es decir, la hipótesis aprendida tiene un buen 
+			rendimiento en el conjunto de entrenamiento pero un rendimiento pobre fuera del conjunto de entrenamiento. 
+			La regularización se refiere a modificaciones de una instancia dada de ERM 
+			para evitar el sobreajuste, es decir, para asegurar que la hipótesis aprendida 
+			no tenga un rendimiento mucho peor fuera del conjunto de entrenamiento. Existen tres rutas para implementar 
+			la regularización: 
 			\begin{enumerate}[label=\arabic*)]
-				\item {\Gls{model} pruning:} We prune the original \gls{model} $\hypospace$ to obtain a 
-				smaller \gls{model} $\hypospace'$. For a parametric \gls{model}, the pruning can be 
-				implemented via constraints on the \gls{modelparams} (such as $w_{1} \in [0.4,0.6]$ for 
-				the weight of \gls{feature} $x_{1}$ in \gls{linreg}).
-				\item {\Gls{loss} penalization:} We modify the \gls{objfunc} of \gls{erm} by adding a 
-				penalty term to the \gls{trainerr}. The penalty term estimates how much larger the expected \gls{loss} (or \gls{risk}) 
-				is compared to the average \gls{loss} on the \gls{trainset}. 
-				\item {\Gls{dataaug}:} We can enlarge the \gls{trainset} $\dataset$ by adding 
-				perturbed copies of the original \glspl{datapoint} in $\dataset$. One example for such 
-				a perturbation is to add the \gls{realization} of an \gls{rv} to the \gls{featurevec} 
-				of a \gls{datapoint}. 
+				\item {\Gls{model} podado:} Podamos el modelo original $\hypospace$ para obtener un 
+				modelo más pequeño $\hypospace'$. Para un modelo paramétrico, el podado puede 
+				implementarse mediante restricciones en los parametros del modelo (como $w_{1} \in [0.4,0.6]$ para 
+				el peso del atributo $x_{1}$ en regresin lineal).
+				\item {Perdida penalización:} Modificamos la funcion objetivo de ERM añadiendo un 
+				término de penalización al error de entrenamiento. El término de penalización estima cuánto mayor es 
+				la perdida esperada (o riesgo) en comparación con la perdida promedio en el conjunto de entrenamiento. 
+				\item {\Gls{dataaug}:} Podemos ampliar el conjunto de entrenamiento $\dataset$ añadiendo 
+				copias perturbadas de los puntos de datos originales en $\dataset$. Un ejemplo de tal 
+				perturbación es añadir la realización de una variable aleatoria al vector de atributos 
+				de un punto de datos. 
 			\end{enumerate} 
-			Fig. \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
-			These routes are closely related and sometimes fully equivalent. \Gls{dataaug} using \glspl{gaussrv} 
-			to perturb the \glspl{featurevec} in the \gls{trainset} of \gls{linreg} 
-			has the same effect as adding the penalty 
-			$\lambda \normgeneric{\weights}{2}^2$ to the \gls{trainerr} (which is nothing but \gls{ridgeregression}). 
-			The decision on which route to use for regularization can be based on the 
-			available computational infrastructure. For example, it might be much easier to 
-			implement \gls{dataaug} than \gls{model} pruning. 
+			La Fig. \ref{fig_equiv_dataaug_penal_dict} ilustra las tres rutas anteriores para la regularización. 
+			Estas rutas están estrechamente relacionadas y, a veces, son completamente equivalentes. \Gls{dataaug} usando \glspl{gaussrv} 
+			para perturbar los \glspl{featurevec} en el \gls{trainset} de \gls{linreg} 
+			tiene el mismo efecto que añadir la penalización 
+			$\lambda \normgeneric{\weights}{2}^2$ al \gls{trainerr} (que no es más que \gls{ridgeregression}). 
+			La decisión sobre qué ruta usar para la regularización puede basarse en la 
+			infraestructura computacional disponible. Por ejemplo, podría ser mucho más fácil 
+			implementar \gls{dataaug} que el podado de \gls{model}. 
 			\begin{figure}[H]
 				\begin{center} 
 					\begin{tikzpicture}[scale = 1]
@@ -2923,17 +2926,17 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 						\draw[<->, color=blue, thick] (l8) -- (c8);  
 						\draw[<->, color=red, thick] (l9) -- (c9);  
 						\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original \gls{trainset} $\dataset$};
-						\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {augmented};
+						\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {ampliado};
 						\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$};
 						\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\hypothesis}$};
 					\end{tikzpicture}
-					\caption{Three approaches to regularization: 1) \gls{dataaug}; 2) \gls{loss} penalization; and 3) \gls{model} 
-					pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
+					\caption{Tres enfoques para la regularización: 1) \gls{dataaug}; 2) \gls{loss} penalización; y 3) \gls{model} 
+					podado (mediante restricciones en \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
 				\end{center}
 			\end{figure} 
-			See also: \gls{ml}, \gls{model}, \gls{effdim}, \gls{erm}, \gls{overfitting}, \gls{hypothesis}, \gls{trainset}, \gls{modelparams}, \gls{feature}, \gls{linreg}, \gls{loss}, \gls{objfunc}, \gls{trainerr}, \gls{risk}, \gls{dataaug}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{featurevec}, \gls{gaussrv}, \gls{ridgeregression}, \gls{label}.
-			},first={regularization},text={regularization} }
-		
+			Véa también: \gls{ml}, \gls{model}, \gls{effdim}, \gls{erm}, \gls{overfitting}, \gls{hypothesis}, \gls{trainset}, \gls{modelparams}, \gls{feature}, \gls{linreg}, \gls{loss}, \gls{objfunc}, \gls{trainerr}, \gls{risk}, \gls{dataaug}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{featurevec}, \gls{gaussrv}, \gls{ridgeregression}, \gls{label}.
+			},first={regularización},text={regularización} }
+
 \newglossaryentry{rerm}{
 	name={minimización del riesgo empírico regularizado (RERM)}, 
 	description={El ERM básico aprende una hipótesis (o entrena un modelo) $\hypothesis \in \hypospace$ 
@@ -3579,69 +3582,64 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
    first={régimen de alta dimensión},text={régimen de alta dimensión} }
 
    \newglossaryentry{covariance}
-{name={covariance}, 
- description={The\index{covariance} covariance between two real-valued 
- 	\glspl{rv} $x$ and $y$, defined on a common \gls{probspace}, measures their linear 
- 	dependence. It defined as 
-			$$
-			\cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
-			$$
-	A positive covariance indicates that $x$ and $y$ tend to increase together, 
-	while a negative covariance suggests that one tends to increase as the other decreases. 
-	If $\cov{x}{y} = 0$, the \glspl{rv} are said to be uncorrelated, though not necessarily statistically 
-	independent. See Figure \ref{fig:covariance-examples_dict} for visual illustrations.
-		\begin{figure}
-		\begin{tikzpicture}
-		 % Negative covariance
-		\begin{scope}[shift={(0,0)}]
-			\begin{axis}[
-				width=4.5cm, height=4.5cm,
-						 title={$\cov{x}{y} <0$},
-				xlabel={$x$}, ylabel={$y$},
-				xmin=-3, xmax=3, ymin=-3, ymax=3,
-				xtick=\empty, ytick=\empty,
-				axis lines=middle, enlargelimits
-				]
-				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
-				({x}, {-x + rand});
-			\end{axis}
-		\end{scope}
-		% Zero covariance
-		\begin{scope}[shift={(5.2cm,0)}]
-			\begin{axis}[
-				width=4.5cm, height=4.5cm,
-				 title={$\cov{x}{y} =0$}, xlabel={$x$}, ylabel={$y$},
-				xmin=-3, xmax=3, ymin=-3, ymax=3,
-				xtick=\empty, ytick=\empty,
-				axis lines=middle, enlargelimits
-				]
-				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
-				({x}, {rand});
-			\end{axis}
-		\end{scope}
-		% Positive covariance
-		\begin{scope}[shift={(10.4cm,0)}]
-			\begin{axis}[
-				width=4.5cm, height=4.5cm,
-				 title={$\cov{x}{y} > 0$},
-				xlabel={$x$}, ylabel={$y$},
-				xmin=-3, xmax=3, ymin=-3, ymax=3,
-				xtick=\empty, ytick=\empty,
-				axis lines=middle, enlargelimits
-				]
-				\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
-				({x}, {x + rand});
-			\end{axis}
-		\end{scope}
-		\end{tikzpicture}
-			\caption{\Glspl{scatterplot} illustrating \glspl{realization} from three different \glspl{probmodel} for two 
-				\glspl{rv} with different covariance values: negative (left), zero (center), and positive (right).}
-			\label{fig:covariance-examples_dict}
-		\end{figure}
-		},
-	first={covariance},
-	text={covariance} 
-}
+   {name={covariance}, 
+	description={La covarianza\index{covarianza} entre dos \glspl{rv} reales $x$ y $y$, definidas sobre un mismo \gls{probspace}, mide su dependencia lineal. Se define como 
+			   $$
+			   \cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
+			   $$
+			   Una covarianza positiva indica que $x$ y $y$ tienden a aumentar juntos, mientras que una covarianza negativa sugiere que uno tiende a aumentar cuando el otro disminuye. Si $\cov{x}{y} = 0$, se dice que las \glspl{rv} son no correlacionadas, aunque esto no implica necesariamente que sean estadísticamente independientes. Véase la Figura~\ref{fig:covariance-examples_dict} para ilustraciones visuales.
+		   \begin{figure}
+		   \begin{tikzpicture}
+			% Negative covariance
+		   \begin{scope}[shift={(0,0)}]
+			   \begin{axis}[
+				   width=4.5cm, height=4.5cm,
+							title={$\cov{x}{y} <0$},
+				   xlabel={$x$}, ylabel={$y$},
+				   xmin=-3, xmax=3, ymin=-3, ymax=3,
+				   xtick=\empty, ytick=\empty,
+				   axis lines=middle, enlargelimits
+				   ]
+				   \addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				   ({x}, {-x + rand});
+			   \end{axis}
+		   \end{scope}
+		   % Zero covariance
+		   \begin{scope}[shift={(5.2cm,0)}]
+			   \begin{axis}[
+				   width=4.5cm, height=4.5cm,
+					title={$\cov{x}{y} =0$}, xlabel={$x$}, ylabel={$y$},
+				   xmin=-3, xmax=3, ymin=-3, ymax=3,
+				   xtick=\empty, ytick=\empty,
+				   axis lines=middle, enlargelimits
+				   ]
+				   \addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				   ({x}, {rand});
+			   \end{axis}
+		   \end{scope}
+		   % Positive covariance
+		   \begin{scope}[shift={(10.4cm,0)}]
+			   \begin{axis}[
+				   width=4.5cm, height=4.5cm,
+					title={$\cov{x}{y} > 0$},
+				   xlabel={$x$}, ylabel={$y$},
+				   xmin=-3, xmax=3, ymin=-3, ymax=3,
+				   xtick=\empty, ytick=\empty,
+				   axis lines=middle, enlargelimits
+				   ]
+				   \addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+				   ({x}, {x + rand});
+			   \end{axis}
+		   \end{scope}
+		   \end{tikzpicture}
+			   \caption{\Glspl{scatterplot} illustrating \glspl{realization} from three different \glspl{probmodel} for two 
+				   \glspl{rv} with different covariance values: negative (left), zero (center), and positive (right).}
+			   \label{fig:covariance-examples_dict}
+		   \end{figure}
+		   },
+	   first={covariance},
+	   text={covariance} 
+   }
 
 
 \newglossaryentry{gmm}{name={modelo de mezcla gaussiana (GMM)}, description={Un GMM\index{modelo de mezcla gaussiana (GMM)} 
@@ -3671,18 +3669,18 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 \newglossaryentry{em}{name={esperanza-maximización (EM)}, description={
 		\index{esperanza-maximización (EM)} 
 		Considera un modelo de probabilidad $\prob{\datapoint; \weights}$ para los puntos de datos $\dataset$ generados en alguna 
-		aplicación de aprendizaje Automático. El estimador de \gls{maxlikelihood}para los \gls{modelparams} $\weights$ se obtienen maximizando
+		aplicación de aprendizaje Automático. El estimador de maxima verosimilitud para los parametros del modelo $\weights$ se obtienen maximizando
 		$\prob{\dataset; \weights}$. Sin embargo, el problema de optimización resultante puede ser computacionalmente 
-		desafiante. El algoritmo de expectativa-maximización (EM) aproxima el estimador de \gls{maxlikelihood} introduciendo una  
-		\gls{rv} latente $\vz$ de modo que maximizar  $\prob{\dataset,\vz; \weights}$ sea más fácil \cite{BishopBook,hastie01statisticallearning,GraphModExpFamVarInfWainJor}. Dado que 
-		no observamos $\vz$, necesitamos estimarlo a partir del \gls{dataset} observado $\dataset$ 
-		utilizando una \gls{expectation} condicional. La estimación resultante $\widehat{\vz}$ se utiliza para 
+		desafiante. El algoritmo de expectativa-maximización (EM) aproxima el estimador de maxima verosimilitud introduciendo una  
+		variable aleatoria latente $\vz$ de modo que maximizar  $\prob{\dataset,\vz; \weights}$ sea más fácil \cite{BishopBook,hastie01statisticallearning,GraphModExpFamVarInfWainJor}. Dado que 
+		no observamos $\vz$, necesitamos estimarlo a partir del conjunto de datos observado $\dataset$ 
+		utilizando una esperanza condicional. La estimación resultante $\widehat{\vz}$ se utiliza para 
 		calcular una nueva estimación $\widehat{\weights}$ resolviendo $\max_{\weights} \prob{\dataset, \widehat{\vz}; \weights}$. 
-		El punto clave es que la \gls{expectation} condicional $\widehat{\vz}$ depende de los \gls{modelparams} $\widehat{\weights}$, 
+		El punto clave es que la esperanza condicional $\widehat{\vz}$ depende de los parametros del modelo $\widehat{\weights}$, 
 		que hemos actualizado en función de $\widehat{\vz}$. Por lo tanto, debemos volver a calcular $\widehat{\vz}$, 
-		lo que a su vez resulta en una nueva elección $\widehat{\weights}$ para los \gls{modelparams}.  En la práctica, 
-		repetimos el cálculo de la \gls{expectation} condicional (es decir, el E-step) y la actualización 
-		de los  \gls{modelparams} (es decir, the M-step)  hasta que se cumpla algún \gls{stopcrit}.
+		lo que a su vez resulta en una nueva elección $\widehat{\weights}$ para los parametros del modelo.  En la práctica, 
+		repetimos el cálculo de la esperanza condicional (es decir, el E-step) y la actualización 
+		de los parametros del modelo (es decir, the M-step)  hasta que se cumpla algún criterio de parada.
 		\\
 		Vea también: \gls{probmodel}, \gls{datapoint}, \gls{ml}, \gls{maxlikelihood}, \gls{modelparams}, \gls{rv}, \gls{dataset}, \gls{expectation}, \gls{stopcrit}. },first={EM},text={EM}}
 
@@ -3728,8 +3726,8 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		que interpretamos como la realización de una variable aleatoria con una distribución de probabilidad $p(\featurevec)$. 
 		La esperanza de $\featurevec$ se define como la integral $\expect \{ \featurevec \} \defeq \int \featurevec p(\featurevec)$ \cite{HalmosMeasure,BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis}. Nótese que
 		la esperanza solo está definida si esta integral existe, es decir, si la variable aleatoria es integrable.\cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
-		Fig. \ref{fig_expect_discrete} illustrates the expectation of a scalar discrete variable aleatoria $x$ which takes on values 
-		from a finite set only. 
+		Fig. \ref{fig_expect_discrete} ilustra la esperanza de una variable aleatoria  discreta $x$ que toma valores
+		solo de un conjunto finito.
 	   \begin{figure}[H]
 		   \begin{center}
 		   \begin{tikzpicture}
@@ -3768,8 +3766,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 	\end{tikzpicture}
 	\end{center}
 	\vspace*{-5mm}
-	\caption{The expectation of a discrete \gls{rv} $x$ is obtained by summing up its possible values $x_{i}$, weighted 
-		by the corresponding \gls{probability} $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
+	\caption{La esperanza de una variable aleatoria discreta \gls{rv} $x$ se obtiene sumando sus posibles valores $x_{i}$,ponderados por la correspondiente \gls{probability} $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
 	 \end{figure}
 			Vea también: \gls{featurevec}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{probability}.},
 	first={expectation},
@@ -4366,13 +4363,15 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
 
 \newglossaryentry{modelinversion}
 {name={model inversion},
-  description={A\index{model inversion} \gls{model} inversion is a form of \gls{privattack} on an \gls{ml} system. 
-  	An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
-  	to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
-  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ on carefully chosen inputs. 
-  	Basic \gls{model} inversion techniques have been demonstrated in the context of facial image 
-  	\gls{classification}, where images are reconstructed using the (\gls{gradient} of) \gls{model} outputs 
-  	combined with auxiliary information such as a person’s name \cite{Fredrikson2015}.
+  description={Una\index{inversión de modelo} inversión de modelo es una forma de ataque privado
+  dirigida a un sistema de aprendizaje automático. Un adversario intenta inferir un atributo sensible de 
+  puntos de datos individuales aprovechando el acceso parcial a un modelo entrenado 
+  $\learnthypothesis \in \hypospace$. Este acceso suele consistir en consultar el modelo 
+  con \glspl{prediction} $\learnthypothesis(\featurevec)$ sobre entradas cuidadosamente seleccionadas. 
+  Se han demostrado técnicas básicas de inversión de modelo en el contexto de 
+  clasificación de imágenes faciales, donde se reconstruyen imágenes utilizando 
+  la (gradiente de la) salida del modelo junto con información auxiliar como el nombre 
+  de una persona \cite{Fredrikson2015}
   	\begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}[scale=1.5]
@@ -4399,7 +4398,7 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
   	\end{tikzpicture}
 	\end{center} 
 	\end{figure}
-  	See also: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
+  	Vea tambien: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
   },
   first={model inversion},
   text={model inversion}
@@ -4558,16 +4557,20 @@ la estimación actual $\weights^{(\itercntr)}$. Esto se puede lograr típicament
 		first={regresión por desviación absoluta mínima},text={regresión por desviación absoluta mínima}}
 
 		\newglossaryentry{metric}
-		{name={metric},
-			description={In its most general form, a\index{metric} metric is a quantitative measure used to compare or evaluate objects. 
-				In mathematics, a metric measures the distance between two points and must follow specific rules, i.e., 
-				the distance is always non-negative, zero only if the points are the same, symmetric, and it satisfies the 
-				triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In \gls{ml}, a metric is a quantitative measure 
-				of how well a \gls{model} performs. Examples include \gls{acc}, precision, and the average \gls{zerooneloss} 
-				on a \gls{testset} \cite{Goodfellow-et-al-2016}, \cite{BishopBook}. A \gls{lossfunc} is used to train \glspl{model}, 
-				while a metric is used to compare trained \glspl{model}.
-				\\ See also: \gls{ml}, \gls{model}, \gls{acc}, \gls{zerooneloss}, \gls{testset}, \gls{lossfunc}, \gls{loss}, \gls{modelsel}.},
-			first={metric}, text={metric}}
+{name={métrica},
+	description={En su forma más general, una\index{métrica} métrica es una medida cuantitativa utilizada para comparar o evaluar objetos. 
+	En matemáticas, una métrica mide la distancia entre dos puntos y debe cumplir ciertas reglas: 
+	la distancia es siempre no negativa, igual a cero solo si los puntos son idénticos, simétrica 
+	y satisface la desigualdad triangular \cite{RudinBookPrinciplesMatheAnalysis}. En el aprendizaje automático, 
+	una métrica es una medida cuantitativa del rendimiento de un modelo. Algunos ejemplos son 
+	la \gls{acc}, la precisión y el promedio de la perdida 0-1 sobre un conjunto de entrenamiento 
+	\cite{Goodfellow-et-al-2016}, \cite{BishopBook}. Una función de perdida se utiliza para entrenar 
+	modelos, mientras que una métrica se utiliza para comparar modelos ya entrenados.\\ 
+	Véa también: \gls{ml}, \gls{model}, \gls{acc}, \gls{zerooneloss}, \gls{testset}, \gls{lossfunc}, \gls{loss}, \gls{modelsel}.},
+	first={métrica},
+	text={métrica}
+}
+
 
 \newglossaryentry{bayesrisk}{name={riesgo de Bayes},description={Considera un modelo de probabilidad con una 
 distribución de probabilidad conjunta $p(\featurevec,\truelabel)$ para los atributos $\featurevec$ 
@@ -4697,29 +4700,35 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 	entre dos distribuciones de probabilidad \cite{RenyiInfo95}.}, 
 	first = {divergencia de Rényi}, text = {divergencia de Rényi}} 
 
-\newglossaryentry{jacobimethod}
+	\newglossaryentry{jacobimethod}
 {name={Jacobi method},
-	description={The Jacobi method\index{Jacobi method} is an \gls{algorithm}  
-		for solving systems of linear equations (i.e., a linear system) of the form $\mA\vx= \mathbf{b}$.  
-		Here, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a square matrix with 
-		non-zero main diagonal entries. The method constructs a sequence $\vx^{(0)},\vx^{(1)},\ldots$ 
-		by updating each entry of $\mathbf{x}^{(\iteridx)}$ according to 
+	description={El método de Jacobi\index{método de Jacobi} es un algoritmo
+	para resolver sistemas de ecuaciones lineales de la forma $\mA\vx = \mathbf{b}$. 
+	Aquí, $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ es una matriz cuadrada con 
+	elementos diagonales principales no nulos. El método construye una secuencia 
+	$\vx^{(0)}, \vx^{(1)}, \ldots$ actualizando cada componente de $\mathbf{x}^{(\iteridx)}$ 
+	de acuerdo con la fórmula
 		\[
 		x_i^{(\iteridx+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(\iteridx)} \right).
 		\]
-		Carefully note that all entries $x^{(k)}_{1},\ldots,x^{(k)}_{\nrfeatures}$ are updated simultaneously.
-		The above iteration converges to a solution, i.e., $\lim_{\iteridx \rightarrow \infty} \vx^{(\iteridx)}=\vx$, 
-		under certain conditions on the matrix $\mA$, e.g., being strictly 
-		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{Horn91}, \cite{StrangLinAlg2016}. 
-		Jacobi-type methods are appealing for large linear systems due to their parallelizable structure \cite{ParallelDistrBook}.
-		We can interpret the Jacobi method as a fixed point iteration. Indeed, using the decomposition $\mA = \mD + \mR$, with $\mD$ being the 
-		diagonal of $\mA$, allows us to rewrite the linear equation $\mA \vx = \vb$ as a fixed-point equation  
+		Es importante notar que todos los elementos $x^{(k)}_{1}, \ldots, x^{(k)}_{\nrfeatures}$ 
+		se actualizan de manera simultánea
+		La iteración anterior converge a una solución, es decir, 
+		$\lim_{\iteridx \rightarrow \infty} \vx^{(\iteridx)} = \vx$, 
+		bajo ciertas condiciones sobre la matriz $\mA$, por ejemplo, si es 
+		estrictamente diagonal dominante o simétrica definida positiva \cite{GolubVanLoanBook}, 
+		\cite{Horn91}, \cite{StrangLinAlg2016}. 
+		Los métodos tipo Jacobi son atractivos para sistemas lineales grandes 
+		debido a su estructura paralelizable \cite{ParallelDistrBook}. 
+		Podemos interpretar el método de Jacobi como una iteración de punto fijo. 
+		En efecto, al descomponer $\mA = \mD + \mR$, donde $\mD$ es la parte diagonal de $\mA$, 
+		podemos reescribir la ecuación $\mA \vx = \vb$ como una ecuación de punto fijo: 
 		\[
 		\mathbf{x} = \underbrace{\mD^{-1}(\mathbf{b} - \mR \mathbf{x})}_{\fixedpointop \vx},
 		\]
-		which leads to the iteration $\vx^{(\iteridx+1)} = \mD^{-1}(\mathbf{b} - \mR \vx^{(\iteridx)})$.
+		lo que conduce a la iteración $\vx^{(\iteridx+1)} = \mD^{-1}(\mathbf{b} - \mR \vx^{(\iteridx)})$.
 		\\
-		For example, for the linear equation 
+		Por ejemplo, para el sistema lineal 
 		 \[
 		 \mA \mathbf{x} = \mathbf{b}, \quad \text{where} \quad
 		 \mA = \begin{bmatrix}
@@ -4733,7 +4742,7 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 		 	b_3
 		 \end{bmatrix},
 		 \]
-		 the Jacobi method updates each component of \( \mathbf{x} \) as follows:
+		 el método de Jacobi actualiza cada componente de \( \mathbf{x} \) como sigue:
 		 \[
 		 \begin{aligned}
 		 	x_1^{(k+1)} &= \frac{1}{a_{11}} \left( b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} \right), \\
@@ -4741,10 +4750,11 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 		 	x_3^{(k+1)} &= \frac{1}{a_{33}} \left( b_3 - a_{31} x_1^{(k)} - a_{32} x_2^{(k)} \right).
 		 \end{aligned}
 		 \]
-		See also: \gls{algorithm}, \gls{optmethod}.},
+		Vea tambien: \gls{algorithm}, \gls{optmethod}.},
 	text={Jacobi method}, 
 	first={Jacobi method}
 }
+	
 	
 
 \newglossaryentry{nonsmooth}{name={no suave},
