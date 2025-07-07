@@ -1391,8 +1391,8 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
   		\\
         		Gaussian \glspl{rv} are widely used \glspl{probmodel} in the statistical analysis of 
         		\gls{ml} methods. Their significance arises partly from the \gls{clt}, which is a mathematically 
-        		precise formulation of the following rule-of-thumb: The average of a large number of 
-        		independent \glspl{rv} (not necessarily Gaussian themselves) tends towards a Gaussian \gls{rv} \cite{ross2013first}.
+        		precise formulation of the following rule-of-thumb: The average of many independent \glspl{rv} 
+        		(not necessarily Gaussian themselves) tends towards a Gaussian \gls{rv} \cite{ross2013first}.
 		\\ 
 		Compared to other \glspl{probdist}, the \gls{mvndist} is also distinct in that—in a mathematically 
 		precise sense—represents maximum \gls{uncertainty}. Among all vector-valued \glspl{rv} with 
@@ -2318,12 +2318,12 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{algorithm}
 {name={algorithm}, plural={algorithms},
  	description={An\index{algorithm} algorithm is a precise, step-by-step specification for 
-  		how to produce an output from a given input within a finite number of computational steps \cite{Cormen:2022aa}. 
-    		For example, an algorithm for training a \gls{linmodel} explicitly describes how to 
+  		producing an output from a given input within a finite number of computational steps \cite{Cormen:2022aa}. 
+    		For example, an algorithm to train a \gls{linmodel} explicitly describes how to 
 		transform a given \gls{trainset} into \gls{modelparams} through a sequence of \glspl{gradstep}. 
     		To study algorithms rigorously, we can represent (or approximate) them by different mathematical structures \cite{Sipser2013}. 
      		One approach is to represent an algorithm as a collection of possible executions. Each individual 
-     		execution is a sequence of the following form: $${\rm input}, s_1, s_2, \ldots, s_T, {\rm output}.$$ This sequence 
+     		execution is then a sequence of the form: $${\rm input}, s_1, s_2, \ldots, s_T, {\rm output}.$$ This sequence 
      		starts from an input and progresses via intermediate steps until an output is delivered. Crucially, an algorithm 
      		encompasses more than just a mapping from input to output; it also includes intermediate computational 
      		steps $s_1, \ldots, s_T$.
@@ -2480,7 +2480,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
     	\gls{hypothesis} (or trained \gls{model}) $\learnthypothesis \in \hypospace$. We evaluate the quality of a trained \gls{model} 
     	by computing the average \gls{loss} on a \gls{testset}. But how can we assess 
     	whether the resulting \gls{testset} performance is sufficiently good? How can we 
-    	determine if the trained \gls{model} performs close to optimal and there is little point 
+    	determine if the trained \gls{model} performs close to optimal such that there is little point 
    	in investing more resources (for \gls{data} collection or computation) to improve it? 
     	To this end, it is useful to have a reference (or baseline) level against which 
     	we can compare the performance of the trained \gls{model}. Such a reference value 
@@ -2499,8 +2499,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
     	However, computing the \gls{bayesestimator} and \gls{bayesrisk} presents two 
     	main challenges:
     \begin{enumerate}[label=\arabic*)]
-    	\item The \gls{probdist} $p(\featurevec,\truelabel)$ is unknown and needs to be estimated.
-    	\item Even if $p(\featurevec,\truelabel)$ is known, it can be computationally too expensive to compute the \gls{bayesrisk} exactly \cite{cooper1990computational}. 
+    	\item The \gls{probdist} $p(\featurevec,\truelabel)$ is unknown and must be estimated from observed \gls{data}.
+    	\item Even if $p(\featurevec,\truelabel)$ were known, computing the \gls{bayesrisk} exactly may be computationally infeasible \cite{cooper1990computational}. 
    \end{enumerate}
 A widely used \gls{probmodel} is the \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 for \glspl{datapoint} characterized by numeric \glspl{feature} and \glspl{label}.
@@ -2996,11 +2996,12 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{bootstrap}
 {name={bootstrap},
-	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often useful to interpret 
-		a given set of \glspl{datapoint} $\dataset = \big\{ \datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}\big\}$ 
-		as \glspl{realization} of \gls{iid} \glspl{rv} with a common \gls{probdist} $p(\datapoint)$. In general, we 
-		do not know $p(\datapoint)$ exactly, but we need to estimate it. The bootstrap uses the 
-		\gls{histogram} of $\dataset$ as an estimator for the underlying \gls{probdist} $p(\datapoint)$. 
+	description={
+		For\index{bootstrap} the analysis of \gls{ml} methods, it is often useful to interpret 
+		a given set of \glspl{datapoint}, $\dataset = \big\{ \datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)} \big\}$, 
+		as \glspl{realization} of \gls{iid} \glspl{rv} drawn from a common \gls{probdist} $p(\datapoint)$. 
+		In practice, the \gls{probdist} $p(\datapoint)$ is unknown and must be estimated from $\dataset$. 
+		The bootstrap approach uses the \gls{histogram} of $\dataset$ as an estimator for $p(\datapoint)$.
 				\\
 		See also: \gls{iid}, \gls{rv}, \gls{probdist}, \gls{histogram}.},
 	first={bootstrap},
@@ -3724,7 +3725,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		For example, weak learners are shallow \glspl{decisiontree} which are combined to 
 		obtain a deep \gls{decisiontree}. Boosting can be understood as a \gls{generalization} 
 		of \gls{gdmethods} for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		\cite{Friedman2001}. Just like \gls{gd} iteratively updates \gls{modelparams} to reduce the \gls{emprisk}, 
+		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \gls{modelparams} to reduce the \gls{emprisk}, 
 		boosting iteratively combines (e.g., by summation) \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk}. 
 		A widely-used instance of the generic boosting idea is referred to as \gls{gradient} boosting, which 
 		uses \glspl{gradient} of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
@@ -4784,12 +4785,12 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 \newglossaryentry{ai}
 {name={artificial intelligence (AI)}, 
 	description={AI\index{artificial intelligence (AI)} refers to systems that behave rationally in the sense of 
-		maximizing a long-term \gls{reward}. The \gls{ml}-based approach to AI is to train a \gls{model} for  
-		predicting optimal actions. These \glspl{prediction} are computed from observations about the state of the 
+		maximizing a long-term \gls{reward}. The \gls{ml}-based approach to AI is to train a \gls{model} to   
+		predict optimal actions. These \glspl{prediction} are computed from observations about the state of the 
 		environment. The choice of \gls{lossfunc} sets AI applications apart from more basic \gls{ml} applications. 
-		AI systems rarely have access to a labeled \gls{trainset} that allows the average \gls{loss} to be measured for any possible choice of \gls{modelparams}. 
-		Instead, AI systems use observed \gls{reward} signals to obtain a (point-wise) estimate for the 
-		\gls{loss} incurred by the current choice of \gls{modelparams}.
+		AI systems rarely have access to a labeled \gls{trainset} that allows the average \gls{loss} to be 
+		measured for any possible choice of \gls{modelparams}. Instead, AI systems use observed \gls{reward} 
+		signals to estimate the \gls{loss} incurred by the current choice of \gls{modelparams}.
 				\\
 		See also: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},
 	first={AI},
@@ -5327,9 +5328,9 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 		        \item The internal structure of the \gls{model} remains hidden—which is useful for protecting intellectual property or trade secrets. 
 		    	\end{itemize} 
 			However, APIs are not without \gls{risk}. Techniques such as \gls{modelinversion} can potentially reconstruct a 
-			\gls{model} from its \glspl{prediction} on carefully selected \glspl{featurevec}.
+			\gls{model} from its \glspl{prediction} using carefully selected \glspl{featurevec}.
 					\\
-			See also: \gls{ml}, \gls{model}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{feature}, \gls{modelinversion}.},
+			See also: \gls{ml}, \glspl{prediction}.},
 		first={application programming interface (API)},
 		text={API}
 }
@@ -5339,7 +5340,7 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
   description={A\index{model inversion} \gls{model} inversion is a form of \gls{privattack} on an \gls{ml} system. 
   	An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
   	to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
-  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ on carefully chosen inputs. 
+  	querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ using carefully chosen inputs. 
   	Basic \gls{model} inversion techniques have been demonstrated in the context of facial image 
   	\gls{classification}, where images are reconstructed using the (\gls{gradient} of) \gls{model} outputs 
   	combined with auxiliary information such as a person’s name \cite{Fredrikson2015}.
@@ -5446,14 +5447,14 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 {name={bagging (or bootstrap aggregation)},
 	description={Bagging\index{bagging (or bootstrap aggregation)} (or bootstrap aggregation) 
 		is a generic technique to improve (the \gls{robustness} of) a given \gls{ml} method. 
-		The idea is to use the \gls{bootstrap} to generate perturbed copies of a given \gls{dataset} 
-		and then to learn a separate \gls{hypothesis} for each copy. We then predict the 
-		\gls{label} of a \gls{datapoint} by combining or aggregating the individual \glspl{prediction} 
+		The idea is to use the \gls{bootstrap} to generate perturbed copies of a given \gls{dataset},  
+		and learn a separate \gls{hypothesis} for each copy. We then predict the \gls{label} of a \gls{datapoint} 
+		by combining or aggregating the individual \glspl{prediction} 
 		of each separate \gls{hypothesis}. For \gls{hypothesis} \glspl{map} delivering numeric \gls{label} 
 		values, this aggregation could be implemented by computing the average of individual 
 		\glspl{prediction}.
 				\\
-		See also: \gls{robustness}, \gls{ml}, \gls{bootstrap}, \gls{dataset}, \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{prediction}, \gls{map}.},
+		See also: \gls{robustness}, \gls{bootstrap}.},
 	first={bagging (or bootstrap aggregation)},
 	text={bagging}
 }
@@ -5596,12 +5597,15 @@ the Bayes \gls{risk} is referred to as a \gls{bayesestimator} \cite{LC}.
 	
 \newglossaryentry{bayesestimator}
 {name={Bayes estimator},
-  description={Consider\index{Bayes estimator} a \gls{probmodel} with a joint \gls{probdist} 
-  	$p(\featurevec,\truelabel)$ for the \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$ 
+  description={
+  	Consider\index{Bayes estimator} a \gls{probmodel} with a joint \gls{probdist} 
+  	$p(\featurevec,\truelabel)$ over the \glspl{feature} $\featurevec$ and the \gls{label} $\truelabel$ 
   	of a \gls{datapoint}. For a given \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$, we refer to a \gls{hypothesis} 
-    $\hypothesis$ as a Bayes estimator if its \gls{risk} $\expect\{\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}\}$ is the 
-\gls{minimum} \cite{LC}. Note that the property of a \gls{hypothesis} being a Bayes estimator depends on 
-the underlying \gls{probdist} and the choice for the \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.
+  	$\hypothesis$ as a Bayes estimator if its \gls{risk} 
+  	$\expect\left\{\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}\right\}$ 
+  	is the \gls{minimum} achievable \gls{risk}~\cite{LC}. 
+  	Note that whether a \gls{hypothesis} qualifies as a Bayes estimator depends on the underlying 
+  	\gls{probdist} and the choice of \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.
 		\\
 		See also: \gls{probmodel},  \gls{hypothesis}, \gls{risk}.},
 		first={Bayes estimator},
