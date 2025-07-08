@@ -405,7 +405,7 @@
 	description={An attack\index{attack} on an \gls{ml} system refers to an intentional action—either 
 		active or passive—that compromises the system's integrity, availability, or confidentiality. 
 		Active attacks involve perturbing components such as \glspl{dataset} (via \gls{datapoisoning}) 
-		or communication links between \glspl{device} in a \gls{fl} setting. Passive attacks, 
+		or communication links between \glspl{device} within an \gls{ml} application. Passive attacks, 
 		such as \glspl{privattack}, aim to infer \glspl{sensattr} without modifying the system. 
 		Depending on their goal, we distinguish between \glspl{dosattack}, \gls{backdoor} attacks, and \glspl{privattack}.
 		\\
@@ -1748,7 +1748,7 @@ and then projecting the result back onto the \gls{paramspace}.
 		is \gls{diffpriv}. The relations between different measures of privacy leakage have been 
 		studied in the literature (see \cite{InfThDiffPriv}). 
 				\\ 
-		See also: \gls{ml}, \gls{dataset}, \gls{prediction}, \gls{datapoint}, \gls{feature}, \gls{probmodel}, \gls{data}, \gls{mutualinformation}, \gls{diffpriv}. }, 
+		See also: \gls{privattack}, \gls{gdpr}, \gls{mutualinformation}, \gls{diffpriv}. }, 
 	first={privacy leakage}, 
 	text={privacy leakage} 
 }
@@ -2714,7 +2714,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	description={Degree of belonging\index{degree of belonging} is a number that indicates the extent to which a \gls{datapoint} 
 		belongs to a \gls{cluster} \cite[Ch. 8]{MLBasics}. The degree of belonging can be 
 		interpreted as a soft \gls{cluster} assignment. \Gls{softclustering} methods can 
-		encode the degree of belonging by a real number in the interval $[0,1]$. 
+		encode the degree of belonging with a real number in the interval $[0,1]$. 
 		\Gls{hardclustering} is obtained as the extreme case when the degree of belonging 
 		only takes on values $0$ or $1$.
 					\\ 
@@ -2906,11 +2906,12 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{vcdim}
 {name={Vapnik–Chervonenkis dimension (VC dimension)},
-	description={The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension of an infinite \gls{hypospace} is a widely-used measure 
-		for its size. We refer to the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
-		as well as a discussion of its basic properties and use in \gls{ml}.
+	description={The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
+	is a widely-used measure for the size of an infinite \gls{hypospace}. We refer to 
+	the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
+	as well as a discussion of its basic properties and use in \gls{ml}.
 					\\ 
-		See also: \gls{hypospace}, \gls{ml}.},
+		See also: \gls{effdim}, \gls{hypospace}, \gls{ml}.},
 	first={Vapnik–Chervonenkis dimension (VC dimension)},
 	text={VC dimension}  
 }
@@ -3305,16 +3306,28 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 }
 
 \newglossaryentry{datapoint}
-{name={data point}, plural={data points},
-	description={A\index{data point} \gls{data} point is any object that conveys information \cite{coverthomas}. \Gls{data} points might be 
-		students, radio signals, trees, forests, images, \glspl{rv}, real numbers, or proteins. We characterize \gls{data} points 
-		using two types of properties. One type of property is referred to as a \gls{feature}. \Glspl{feature} are properties of a 
-		\gls{data} point that can be measured or computed in an automated fashion. 
-		A different kind of property is referred to as a \gls{label}. The \gls{label} of 
-		a \gls{data} point represents some higher-level fact (or quantity of interest). In 
-		contrast to \glspl{feature}, determining the \gls{label} of a \gls{data} point typically 
-		requires human experts (or domain experts). Roughly speaking, \gls{ml} aims to predict 
-		the \gls{label} of a \gls{data} point based solely on its \glspl{feature}. 
+{name={data point}, 
+ plural={data points},
+	description={
+	A\index{data point} \gls{data} point is any object that conveys information~\cite{coverthomas}. 
+	Examples include students, radio signals, trees, images, \glspl{rv}, real numbers, 
+ or proteins. \Gls{data} points are typically described by two types of properties (or attributes):
+\begin{itemize}
+    \item \Glspl{feature} are measurable or computable properties of a \gls{data} point. These 
+    attributes can be automatically extracted or computed using sensors, computers, or other
+	\gls{data} collection systems. For a \gls{data} point being a patient, one \gls{feature} 
+	could be the body weight.
+    \item \Glspl{label} are higher-level facts (or quantities of interest) 
+	associated with the \gls{data} point. Determining the \glspl{label} of a \gls{data} point 
+	usually requires human expertise or domain knowledge. For a \gls{data} point being a patient, 
+	a cancer diagnosis provided by a physician would serve as the \gls{label}.
+\end{itemize}
+ The distinction between \glspl{feature} and \glspl{label} is not always clear-cut. 
+ A property that is considered a \gls{label} in one setting (e.g., a cancer diagnosis) 
+ may be treated as a \gls{feature} in another—particularly if reliable automation (e.g., 
+ via image analysis) allows it to be computed without human intervention.
+   \Gls{ml} broadly aims to predict the \gls{label} of a \gls{data} point based 
+   on its \glspl{feature}.
 				\\
 		See also: \gls{data}, \gls{rv}, \gls{feature}, \gls{label}, \gls{ml}.}, 
 	first={data point},
@@ -4056,7 +4069,7 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	matrix $\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ with 
 	\gls{evd} (or spectral decomposition), 
 	$$ \mQ = \sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx} \vu^{(\featureidx)} \big(  \vu^{(\featureidx)}  \big)^{T}.$$ 
-	Here, we use the ordered (in increasing fashion) \glspl{eigenvalue} 
+	Here, we use the ordered (in ascending order) \glspl{eigenvalue} 
 	\begin{equation}
 		\nonumber
 		 \eigval{1}  \leq  \ldots \leq \eigval{\nrnodes}. 
@@ -4135,14 +4148,20 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 
 \newglossaryentry{cm}
 {name={confusion matrix}, 
- description={Consider\index{confusion matrix} \glspl{datapoint}, which are characterized 
-		by \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$, having values from the finite 
-		\gls{labelspace} $\labelspace = \{1, \ldots, \nrcluster\}$. For a given \gls{hypothesis} $\hypothesis$, 
-		the confusion matrix is a $\nrcluster \times \nrcluster$ matrix with rows representing the elements of 
-		$\labelspace$. The columns of a confusion matrix correspond to the \gls{prediction} $\hypothesis(\featurevec)$. 
-		The $(\clusteridx,\clusteridx')$-th entry of the confusion matrix is the fraction of 
-		\glspl{datapoint} with \gls{label} $\truelabel\!=\! \clusteridx$ and resulting in a \gls{prediction} $\hypothesis(\featurevec)\!=\!\clusteridx'$.
-				\\
+ description={Consider\index{confusion matrix} \glspl{datapoint} characterized 
+		by \glspl{feature} $\featurevec$ and corresponding \glspl{label} $\truelabel$. 
+		The labels take values in a finite \gls{labelspace} $\labelspace = \{1, \ldots, \nrcluster\}$. 
+		For a given \gls{hypothesis} $\hypothesis$, the confusion matrix is a 
+		$\nrcluster \times \nrcluster$ matrix where each row corresponds to a different 
+		value of the true \gls{label} $\truelabel \in \labelspace$ and each column to a 
+		different value of the \gls{prediction} $\hypothesis(\featurevec) \in \labelspace$. 
+		The $(\clusteridx,\clusteridx')$-th entry of the confusion matrix represents the fraction of 
+		\glspl{datapoint} with true \gls{label} $\truelabel = \clusteridx$ that are predicted as 
+		$\hypothesis(\featurevec) = \clusteridx'$. The main diagonal of the confusion matrix 
+		contains the fractions of correctly classified \glspl{datapoint} (i.e, those for which 
+		$\truelabel = \hypothesis(\featurevec)$). The off-diagonal entries contain the fractions of
+		\glspl{datapoint} that are misclassified by $\hypothesis$.
+ 				\\
 		See also: \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{classification}.},
 	first={confusion matrix},text={confusion matrix} }
 
@@ -4165,11 +4184,11 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	description={DBSCAN\index{density-based spatial clustering of applications with 
 			noise (DBSCAN)} refers to a \gls{clustering} \gls{algorithm} for \glspl{datapoint} 
 			that are characterized by numeric \glspl{featurevec}. 
-		Like \gls{kmeans} and \gls{softclustering} via \gls{gmm}, also DBSCAN uses the Euclidean 
+		Like \gls{kmeans} and \gls{softclustering} via \gls{gmm}, DBSCAN also uses the Euclidean 
 		distances between \glspl{featurevec} to determine the \glspl{cluster}. However, in contrast to \gls{kmeans} 
 		and \gls{gmm}, DBSCAN uses a different notion of similarity between \glspl{datapoint}. 
 		DBSCAN considers two \glspl{datapoint} as similar if they are connected 
-		via a sequence (i.e., path) of close-by intermediate \glspl{datapoint}. 
+		via a sequence (i.e., path) of nearby intermediate \glspl{datapoint}. 
 		Thus, DBSCAN might consider two \glspl{datapoint} as similar (and therefore belonging 
 		to the same \gls{cluster}) even if their \glspl{featurevec} have a large Euclidean distance.
 				\\
@@ -5252,7 +5271,7 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 		More formally, a decision tree is a directed \gls{graph} containing a root node that reads 
 		in the \gls{featurevec} $\featurevec$ of a \gls{datapoint}. The root node then forwards 
 		the \gls{datapoint} to one of its child nodes based on some elementary test on the \glspl{feature} $\featurevec$. 
-		If the receiving child node is not a leaf node, i.e., it has itself child nodes, 
+		If the receiving child node is not a leaf node, i.e., it has child nodes itself, 
 	  	it represents another test. Based on the test result, the \gls{datapoint} is forwarded 
 	   	to one of its descendants. This testing and forwarding of the \gls{datapoint} is continued 
 	  	until the \gls{datapoint} ends up in a leaf node without any children. 
@@ -5996,7 +6015,7 @@ text={pdf}
 {name={local dataset}, plural={local datasets}, 
 	description={The\index{local dataset} concept of a local \gls{dataset} is 
 		in between the concept of a \gls{datapoint} and a \gls{dataset}. A local \gls{dataset} consists of several 
-		individual \glspl{datapoint}, which are characterized by \glspl{feature} and \glspl{label}. 
+		individual \glspl{datapoint}, characterized by \glspl{feature} and \glspl{label}. 
 		In contrast to a single \gls{dataset} used in basic \gls{ml} methods, a local \gls{dataset} is also 
 		related to other local \glspl{dataset} via different notions of similarity. These similarities 
 		might arise from \glspl{probmodel} or communication infrastructure and 
