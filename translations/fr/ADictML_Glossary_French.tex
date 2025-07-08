@@ -612,8 +612,8 @@
 }
 
 \newglossaryentry{loss}{
-	name={perte},
-	description={En \gls{ml}\index{perte}, on utilise une \gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ pour mesurer l’erreur commise lorsqu’une \gls{hypothesis} est appliquée à une \gls{datapoint}. Par léger abus de langage, on utilise le terme \emph{perte} à la fois pour désigner la fonction de perte $\loss$ elle-même et la valeur spécifique $\lossfunc{\datapoint}{\hypothesis}$ associée à une donnée $\datapoint$ et une hypothèse $\hypothesis$.},
+	name={perte (ou coût)},
+	description={En \gls{ml}\index{perte (ou coût)}, on utilise une \gls{lossfunc} $\lossfunc{\datapoint}{\hypothesis}$ pour mesurer l’erreur commise lorsqu’une \gls{hypothesis} est appliquée à une \gls{datapoint}. Par léger abus de langage, on utilise le terme \emph{perte} à la fois pour désigner la fonction de perte $\loss$ elle-même et la valeur spécifique $\lossfunc{\datapoint}{\hypothesis}$ associée à une donnée $\datapoint$ et une hypothèse $\hypothesis$.},
 	first={perte},
 	text={perte}
 }
@@ -754,7 +754,7 @@
 \newglossaryentry{learningtask}{
 	name={tâche d'apprentissage},
 	description={
-		Considérons\index{tâche d'apprentissage} un \gls{dataset} $\dataset$ constitué de plusieurs \glspl{datapoint}, chacun étant caractérisé par des \glspl{feature} $\featurevec$. Par exemple, le \gls{dataset} $\dataset$ peut être constitué des images d’une base de données particulière. Parfois, il peut être utile de représenter un \gls{dataset} $\dataset$, ainsi que le choix des \glspl{features}, par une \gls{probdist} $p(\featurevec)$. Une tâche d'apprentissage associée à $\dataset$ consiste en un choix spécifique pour l'\gls{label} d’un \gls{datapoint} et l’\gls{labelspace} correspondant. Étant donné un choix de \gls{lossfunc} et de \gls{model}, une tâche d’apprentissage donne lieu à une instance de \gls{erm}. Ainsi, on pourrait aussi définir une tâche d’apprentissage via une instance de \gls{erm}, c’est-à-dire via une \gls{objfunc}. Remarquons que, pour un même \gls{dataset}, on obtient différentes tâches d’apprentissage en utilisant différents choix de \glspl{feature} et d'\gls{label} d’un \gls{datapoint}. Ces tâches d’apprentissage sont liées, puisqu’elles sont basées sur le même \gls{dataset}, et les résoudre conjointement (via des méthodes de \gls{multitask learning}) est en général préférable à des résolutions distinctes \cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
+		Considérons\index{tâche d'apprentissage} un \gls{dataset} $\dataset$ constitué de plusieurs \glspl{datapoint}, chacun étant caractérisé par des \glspl{feature} $\featurevec$. Par exemple, le \gls{dataset} $\dataset$ peut être constitué des images d’une base de données particulière. Parfois, il peut être utile de représenter un \gls{dataset} $\dataset$, ainsi que le choix des \glspl{feature}, par une \gls{probdist} $p(\featurevec)$. Une tâche d'apprentissage associée à $\dataset$ consiste en un choix spécifique pour l'\gls{label} d’un \gls{datapoint} et l’\gls{labelspace} correspondant. Étant donné un choix de \gls{lossfunc} et de \gls{model}, une tâche d’apprentissage donne lieu à une instance de \gls{erm}. Ainsi, on pourrait aussi définir une tâche d’apprentissage via une instance de \gls{erm}, c’est-à-dire via une \gls{objfunc}. Remarquons que, pour un même \gls{dataset}, on obtient différentes tâches d’apprentissage en utilisant différents choix de \glspl{feature} et d'\gls{label} d’un \gls{datapoint}. Ces tâches d’apprentissage sont liées, puisqu’elles sont basées sur le même \gls{dataset}, et les résoudre conjointement (via des méthodes de \gls{multitask learning}) est en général préférable à des résolutions distinctes \cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
 	},
 	text={tâche d'apprentissage},
 	plural={tâches d'apprentissage}, plural = {tâches d'apprentissage}
@@ -831,6 +831,240 @@
 	first={semi-définie positive},text={semi-définie positive}, plural={semi-définies positives}
 }
 
+\newglossaryentry{actfun}
+{name={fonction d'activation},
+	description={On associe à chaque\index{fonction d'activation} neurone artificiel dans un \gls{ann} 
+		une fonction d'activation $\actfun(\cdot)$ qui prend en entrée une combinaison pondérée 
+		des entrées du neurone $\feature_{1},\ldots,\feature_{\nrfeatures}$ et produit une 
+		sortie unique $a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
+		Notons que chaque neurone est paramétré par les \gls{weights} $\weight_{1},\ldots,\weight_{\nrfeatures}$.},
+	first={fonction d'activation},text={fonction d'activation} , plural={fonctions d'activation}
+}
+
+\newglossaryentry{ann}{
+	name={réseau de neurones artificiels (RNA)},
+	description={Un\index{réseau de neurones artificiels (RNA)} RNA 
+		est une représentation graphique (circulation de signaux) d'une fonction qui associe 
+		les \glspl{feature} d’un \gls{datapoint} en entrée à une \gls{prediction} 
+		de l’\gls{label} correspondante en sortie. L’unité fondamentale d’un 
+		RNA est le neurone artificiel, qui applique une \gls{actfun} à ses 
+		entrées pondérées. Les sorties de ces neurones servent d’entrées à d’autres neurones, 
+		formant des couches interconnectées.},
+	first={réseau de neurones artificiels (RNA)}, plural={RNA},
+	text={RNA}
+}
+
+\newglossaryentry{decisionregion}{name={région de décision}, description={Considérons\index{région de décision} 
+		une fonction \gls{hypothesis} qui renvoie des valeurs d'un ensemble fini $\labelspace$. 
+		Pour chaque valeur (catégorie) d'\gls{label} $a \in \labelspace$, l’\gls{hypothesis} $\hypothesis$ 
+		détermine un sous-ensemble de valeurs de \glspl{feature} $\featurevec \in \featurespace$ 
+		telles que $\hypothesis(\featurevec)=a$. On appelle ce sous-ensemble une région de décision 
+		de l’\gls{hypothesis} $\hypothesis$.},first={région de décision},text={région de décision}, plural= {régions de décision} }
+	
+\newglossaryentry{weights}{name={poids},
+	description={Considérons\index{poids} un \gls{hypospace} paramétré $\hypospace$. 
+		On\index{weights} utilise le terme poids pour désigner des \gls{modelparams} numériques 
+		utilisés pour pondérer les \glspl{feature} ou leurs transformations afin de calculer $\hypothesis^{(\weights)} \in \hypospace$. 
+		Un \gls{linmodel} utilise des poids $\weights=\big(\weight_{1},\ldots,\weight_{\nrfeatures}\big)^{T}$ pour calculer 
+		la combinaison linéaire $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. 
+		Les poids sont également utilisés dans les \gls{ann} pour former des combinaisons linéaires de \glspl{feature} ou des sorties de neurones dans les couches cachées.},first={poids},text={poids}, plural={poids}}
+
+\newglossaryentry{linmodel}{name={modèle linéaire},
+	description={Considérons\index{modèle linéaire} des \glspl{datapoint}, chacun étant caractérisé par un \gls{featurevec} numérique 
+		$\featurevec \in \mathbb{R}^{\featuredim}$. Un \gls{model} linéaire est 
+		un \gls{hypospace} constitué de toutes les applications linéaires, 
+		\begin{equation} 
+			\label{equ_def_lin_model_hypspace_dict}
+			\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
+		\end{equation} 
+		Notons que \eqref{equ_def_lin_model_hypspace_dict} définit une famille entière d'\glspl{hypospace}, 
+		paramétrée par le nombre $\nrfeatures$ de \glspl{feature} qui sont combinées linéairement pour former la 
+		\gls{prediction} $\hypothesis(\featurevec)$. Le choix de $\nrfeatures$ est guidé par les 
+		\gls{compasp} (par exemple, réduire $\nrfeatures$ signifie moins de calcul), les \gls{statasp} 
+		(par exemple, augmenter $\nrfeatures$ peut réduire l’erreur de \gls{prediction}) et 
+		l’\gls{interpretability}. Un \gls{model} linéaire utilisant peu de \glspl{feature} soigneusement sélectionnées 
+		a tendance à être considéré comme plus interprétable \cite{Ribeiro2016,rudin2019stop}.}, 
+	first={modèle linéaire},text={modèle linéaire}, plural={modèles linéaires}}
+
+\newglossaryentry{modelparams}{name={paramètres du modèle}, 
+	description={Les \gls{parameters} d’un \gls{model}\index{paramètres du modèle} sont des quantités 
+		utilisées pour sélectionner une fonction \gls{hypothesis} spécifique à partir d’un \gls{model}. 
+		On peut considérer une liste de \gls{parameters} de \gls{model} comme un identifiant unique 
+		d’une fonction \gls{hypothesis}, de la même manière qu’un numéro de sécurité sociale 
+		identifie une personne en France.},
+	first={paramètres du modèle},text={paramètres du modèle} }
+
+\newglossaryentry{featuremap}{
+	name={transformation de caractéristiques},
+	description={
+		Un trasnformation  de \glspl{feature} \index{transformation de caractéristiques} est une application qui transforme les \glspl{feature} originales d’un \gls{datapoint} en de nouvelles \glspl{feature}. 
+		Les nouvelles \glspl{feature} obtenues peuvent être préférables aux \glspl{feature} d’origine pour plusieurs raisons. 
+		Par exemple, l’agencement des \glspl{datapoint} peut devenir plus simple (ou plus linéaire) dans le nouvel \gls{featurespace}, 
+		permettant ainsi l’utilisation de \glspl{linmodel} dans ce nouvel espace. 
+		Cette idée est un moteur central du développement des \glspl{kernelmethod} \cite{LearningKernelsBook}. 
+		Par ailleurs, les couches cachées d’un \gls{deepnet} peuvent être interprétées comme une transformation de caractéristiques entraînable, 
+		suivie d’un \gls{linmodel} sous forme de couche de sortie. 
+		Une autre raison d’apprendre une transformation de caractéristiques peut être de réduire le \gls{overfitting}
+		et d’assurer une meilleure \gls{interpretability} en apprenant un petit nombre de \glspl{feature} pertinentes \cite{Ribeiro2016}. 
+		Le cas particulier d’une transformation de caractéristiques produisant deux \glspl{feature} numériques est particulièrement utile pour la visualisation des \gls{data}. 
+		En effet, on peut représenter les \glspl{datapoint} dans un \gls{scatterplot} en utilisant ces deux \glspl{feature} comme coordonnées.
+	},
+	first={transformation de caractéristiques},
+	text={transformation de caractéristiques}, plural={transformations de caractéristiques}
+}
+
+\newglossaryentry{kernel}{name={noyau}, 
+	description={Considérons\index{noyau} des \glspl{datapoint} caractérisés par un \gls{featurevec} $\featurevec \in \featurespace$ 
+		avec un \gls{featurespace} générique $\featurespace$. Un noyau (à valeurs réelles)
+		$\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ associe à chaque paire de \glspl{featurevec} 
+		$\featurevec, \featurevec' \in \featurespace$ un nombre réel $\kernelmap{\featurevec}{\featurevec'}$. 
+		La valeur $\kernelmap{\featurevec}{\featurevec'}$ est souvent interprétée comme une mesure de similarité entre 
+		$\featurevec$ et $\featurevec'$. Les \glspl{kernelmethod} utilisent un noyau pour transformer le \gls{featurevec} 
+		$\featurevec$ en un nouveau \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$. 
+		Ce nouveau \gls{featurevec} appartient à un \gls{featurespace} linéaire $\featurespace'$, 
+		qui est (en général) différent de l’\gls{featurespace} original $\featurespace$. 
+		L’\gls{featurespace} $\featurespace'$ possède une structure mathématique spécifique : c’est un espace de Hilbert à noyau reproduisant \cite{LampertNowKernel,LearningKernelsBook}.},
+	first={noyau},
+	text={noyau}, plural={noyaux}
+}
+
+\newglossaryentry{graph}
+{name={graphe},
+	description={Un graphe\index{graphe} $\graph = \pair{\nodes}{\edges}$ est une paire qui consiste en un ensemble de nœuds $\nodes$ et un ensemble d’arêtes $\edges$. Dans sa forme la plus générale, un graphe est spécifié par une application qui associe à chaque arête $\edgeidx \in \edges$ une paire de nœuds \cite{RockNetworks}. Une famille importante de graphes est celle des graphes simples non orientés. Un graphe simple non orienté est obtenu en identifiant chaque arête $\edgeidx \in \edges$ à deux nœuds différents $\{\nodeidx,\nodeidx'\}$. Les graphes pondérés précisent également des \gls{weights} numériques $\edgeweight_{\edgeidx}$ pour chaque arête $\edgeidx \in \edges$.},
+	first={graphe},text={graphe}
+}
+
+\newglossaryentry{device}{name={appareil},description={
+		Tout\index{appareil} système physique qui peut être utilisé pour stocker et traiter des \glspl{data}. Dans le contexte de l'\gls{ml}, 
+		on entend généralement un ordinateur capable de lire des \glspl{datapoint} provenant de différentes 
+		sources et, en retour, d’entraîner un \gls{model} d'\gls{ml} en utilisant ces \glspl{datapoint}.},
+	first={appareil},text={appareil}}
+
+\newglossaryentry{empgraph}
+{name={réseau d'apprentissage fédéré},
+	description={Un réseau d'apprentissage fédéré\index{réseau d'apprentissage fédéré} est un \gls{graph} non orienté pondéré dont les nœuds représentent des générateurs de \glspl{data} visant à entraîner un \gls{model} local (ou personnalisé). Chaque nœud dans un réseau d'apprentissage fédéré représente un \gls{device} capable de collecter un \gls{localdataset} et, à son tour, d’entraîner un \gls{localmodel}. Les méthodes d'\gls{fl} apprennent une \gls{hypothesis} locale $\localhypothesis{\nodeidx}$, pour chaque nœud $\nodeidx \in \nodes$, telle qu’elle engendre une faible \gls{loss} sur les \glspl{localdataset}.},
+	first={réseau d'apprentissage fédéré},text={réseau d'apprentissage fédéré}, plural={réseaux d'apprentissage fédéré}
+}
+
+\newglossaryentry{LapMat}{
+	name={matrice laplacienne},
+	description={La\index{matrice laplacienne} structure d’un \gls{graph} $\graph$, avec 
+		pour nœuds $\nodeidx=1,\ldots,\nrnodes$, peut être analysée à l’aide des propriétés de 
+		matrices spéciales associées à $\graph$. L’une de ces matrices est la matrice laplacienne de $\graph$ : $\mL^{(\graph)} \in \mathbb{R}^{\nrnodes \times \nrnodes}$, définie pour un \gls{graph} $\graph$ non orienté et pondéré \cite{Luxburg2007,Ng2001}. 
+		Elle est définie terme à terme par (voir Figure \ref{fig_lap_mtx_dict})
+		\begin{equation}
+			\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} - \edgeweight_{\nodeidx,\nodeidx'} & \mbox{ pour } \nodeidx\neq \nodeidx', \edge{\nodeidx}{\nodeidx'}\!\in\!\edges, \\ 
+				\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ pour } \nodeidx = \nodeidx', \\ 
+				0 & \mbox{ sinon.} \end{cases}
+		\end{equation}
+		Ici, $\edgeweight_{\nodeidx,\nodeidx'}$ désigne le \gls{edgeweight} d’une arête $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
+		\begin{figure}[H]
+			\begin{center}
+				\begin{minipage}{0.45\textwidth}
+					\begin{tikzpicture}
+						%	 				% 		% Partie gauche - Graphe
+						\begin{scope}[every node/.style={circle, draw, minimum size=1cm}]
+							\node (1) at (0,0) {1};
+							\node (2) [below left=of 1] {2};
+							\node (3) [below right=of 1] {3};
+							\draw (1) -- (2);
+							\draw (1) -- (3);
+						\end{scope}
+					\end{tikzpicture}
+				\end{minipage} 
+				\hspace*{-15mm}
+				\begin{minipage}{0.45\textwidth}
+					\begin{equation} 
+						\LapMat{\graph} = \begin{pmatrix} 2 & -1& -1 \\ -1& 1 & 0 \\  -1 & 0 & 1 \end{pmatrix}  
+						\nonumber
+					\end{equation} 
+				\end{minipage}
+				\caption{\label{fig_lap_mtx_dict} À gauche : Un \gls{graph} non orienté $\graph$ avec trois nœuds $\nodeidx=1,2,3$. 
+					À droite : La matrice laplacienne $\LapMat{\graph}  \in \mathbb{R}^{3 \times 3}$ de $\graph$.} 
+			\end{center}
+		\end{figure}
+	},
+	first={matrice laplacienne},
+	text={matrice laplacienne}, plural ={matrices laplaciennes}
+}
+
+\newglossaryentry{neighborhood}
+{
+	name={voisinage},
+	description={Le\index{voisinage} voisinage d'un nœud $\nodeidx \in \nodes$ est 
+		le sous-ensemble de nœuds constitué des \gls{neighbors} de $\nodeidx$.},
+	first={voisinage},
+	text={voisinage}
+}
+
+\newglossaryentry{localdataset}{
+	name={jeu de données local},
+	description={Le\index{jeu de données local} concept de jeu de données local se situe entre les notions de \gls{datapoint} et de \gls{dataset}. 
+		Un jeu de données local est constitué de plusieurs \glspl{datapoint}, chacun étant caractérisé par des \glspl{feature} et une \glspl{label}. 
+		Contrairement à un \gls{dataset} unique, utilisé dans les méthodes classiques d'\gls{ml}, un jeu de données local peut être relié à d'autres jeux de données locaux 
+		par différentes formes de similarité. Ces similarités peuvent provenir de \glspl{probmodel} ou de l’infrastructure de communication, 
+		et sont représentées par les arêtes d’un \gls{empgraph}.},
+	first={jeu de données local},
+	text={jeu de données local}, plural={jeux de données locaux}
+}
+
+\newglossaryentry{samplesize}
+{name=taille d'échantillon,
+	description={Le\index{taille d'échantillon} nombre de \glspl{datapoint} individuels
+		contenus dans un \gls{dataset}.},first={taille d'échantillon},text={taille d'échantillon}, plural={tailles d'échantillon}
+}
+
+\newglossaryentry{lossfunc}{
+	name={fonction de perte (ou de coût)},
+	description={
+		Une\index{fonction de perte (ou de coût)} fonction de \gls{loss} (ou de coût) est une application
+		\[
+		\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
+		\hypothesis\big) \mapsto \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.
+		\]
+		Elle associe un réel positif ou nul (i.e., la \gls{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$
+		à une paire composée d’un \gls{datapoint}, de \glspl{feature} $\featurevec$ et \gls{label} $\truelabel$, 
+		et d’une \gls{hypothesis} $\hypothesis \in \hypospace$. La valeur 
+		$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ mesure l’écart entre l'\gls{label} réelle $\truelabel$ 
+		et la \gls{prediction} $\hypothesis(\featurevec)$. 
+		Des valeurs plus faibles (proches de zéro) de $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indiquent un écart plus faible 
+		entre la \gls{prediction} $\hypothesis(\featurevec)$ et l'\gls{label} $\truelabel$. 
+		La figure \ref{fig_loss_function_gls_dict} représente une fonction de \gls{loss} pour un \gls{datapoint} donné, 
+		de \glspl{feature} $\featurevec$ et d'\gls{label} $\truelabel$, en fonction de l'\gls{hypothesis} $\hypothesis \in \hypospace$.
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale = 0.7]
+					\begin{axis}[
+						axis x line=center,
+						axis y line=center,
+						xlabel={},
+						xlabel style={below right},
+						ylabel style={above right},
+						xtick=\empty,
+						ytick=\empty,
+						xmin=-4,
+						xscale = 1.4, 
+						xmax=4,
+						ymin=-0.5,
+						ymax=2.5
+						]
+						\addplot [smooth, ultra thick] table [x=a, y=b, col sep=comma] {../../assets/logloss.csv};    
+					\end{axis}
+					\node [above] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
+					\node [above] at (10,1) {\gls{hypothesis} $\hypothesis$};
+					\node [right] at (4,6) {\gls{loss}};
+				\end{tikzpicture}
+			\end{center}
+			\vspace*{-7mm}
+			\caption{Une fonction de \gls{loss} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ pour un \gls{datapoint} fixé, de 
+				\gls{featurevec} $\featurevec$ et d'\gls{label} $\truelabel$, et une \gls{hypothesis} variable $\hypothesis$. 
+				Les méthodes d'\gls{ml} cherchent à trouver (ou apprendre) une \gls{hypothesis} minimisant la \gls{loss}.}
+			\label{fig_loss_function_gls_dict}
+		\end{figure}
+	},
+	first={fonction de perte (ou de coût)},
+	text={fonction de perte}, plural={fonctions de perte}
+}
 
 %Texte non traduit après ce commentaire
 
@@ -1098,24 +1332,6 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 		\end{figure}\label{fig_lime}},
 	first={LIME},text={LIME}
 }
-
-
-
-\newglossaryentry{linmodel}{name={modèle linéaire},
-	description={Consider\index{modèle linéaire}  \gls{datapoint}s, each characterized by a numeric \gls{featurevec} 
-		$\featurevec \in \mathbb{R}^{\featuredim}$. A linear \gls{model} is 
-		a \gls{hypospace} which consists of all linear maps, 
-	\begin{equation} 
-		\label{equ_def_lin_model_hypspace_dict}
-		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
-	\end{equation} 
-	Note that \eqref{equ_def_lin_model_hypspace_dict} defines an entire family of \gls{hypospace}s, which is 
-	parametrized by the number $\nrfeatures$ of \gls{feature}s that are linearly combined to form the 
-	\gls{prediction} $\hypothesis(\featurevec)$. The design choice of $\nrfeatures$ is guided by \gls{compasp} 
-	(e.g., reducing $\nrfeatures$ means less computation), \gls{statasp} (e.g., increasing $\nrfeatures$ might 
-	reduce \gls{prediction} error), and \gls{interpretability}. A linear \gls{model} using few carefully chosen 
-	\gls{feature}s tends to be considered more interpretable \cite{Ribeiro2016,rudin2019stop}.}, 
-   first={modèle linéaire},text={modèle linéaire}}
 	
 	
 \newglossaryentry{gradstep}{name={gradient step},description={Given a \gls{differentiable} 
@@ -1546,14 +1762,6 @@ and then projecting the result back onto the \gls{paramspace}.
 	first={nearest neighbor (NN)},text={NN} 
 }
 
-\newglossaryentry{neighborhood}
-{
-	name={voisinage},
-	description={The\index{voisinage} neighborhood of a node $\nodeidx \in \nodes$ is 
-	the subset of nodes constituted by the \gls{neighbors} of $\nodeidx$.},
-	first={voisinage},text={voisinage} 
-}
-
 
 \newglossaryentry{neighbors}
 {
@@ -1614,17 +1822,6 @@ and then projecting the result back onto the \gls{paramspace}.
 {name={node degree},
 	description={The degree\index{node degree} $\nodedegree{\nodeidx}$ of a node $\nodeidx \in \nodes$ 
 		in an undirected \gls{graph} is the number of its \gls{neighbors}, i.e., $\nodedegree{\nodeidx} \defeq \big|\neighbourhood{\nodeidx}\big|$.},first={node degree},text={node degree} 
-}
-
-\newglossaryentry{graph}
-{name={graphe},
-	description={A graph\index{graphe} $\graph = \pair{\nodes}{\edges}$ is a pair that consists of 
-		a node set $\nodes$ and an edge set $\edges$. In its most general form, a graph is 
-		specified by a map that assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
-		One important family of graphs is simple undirected graphs. A simple undirected graph 
-		is obtained by identifying each edge $\edgeidx \in \edges$ with two different nodes $\{\nodeidx,\nodeidx'\}$. 
-		Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
-		edge $\edgeidx \in \edges$.},first={graphe},text={graphe} 
 }
 
 \newglossaryentry{uncertainty}
@@ -1715,16 +1912,6 @@ and then projecting the result back onto the \gls{paramspace}.
 	\end{figure}},first={optimism in the face of uncertainty},text={optimism in the face of uncertainty} 
 }
 
-\newglossaryentry{empgraph}
-{name={federated learning network (FL network)},
-	description={A FL network\index{federated learning network (FL network)} is an 
-		undirected weighted \gls{graph} whose nodes represent \gls{data} generators that 
-		aim to train a local (or personalized) \gls{model}. Each node in a FL network 
-		represents some \gls{device} capable of collecting a \gls{localdataset} 
-		and, in turn, train a \gls{localmodel}. \Gls{fl} methods learn a local \gls{hypothesis} $\localhypothesis{\nodeidx}$, for 
-		each node $\nodeidx \in \nodes$, such that it incurs small \gls{loss} on the \gls{localdataset}s.},first={federated learning network (FL network)},text={FL network} 
-}
-
 
 \newglossaryentry{dualnorm}
 {name={dual norm},
@@ -1811,16 +1998,6 @@ and then projecting the result back onto the \gls{paramspace}.
 		Note that the risk of $\hypothesis$ depends on both the specific choice for the \gls{lossfunc} and the 
 		\gls{probdist} of the \gls{datapoint}s.},
 	first={risque},text={risque} 
-}
-
-\newglossaryentry{actfun}
-{name={fonction d'activation},
-	description={Each\index{fonction d'activation} artificial neuron within an \gls{ann} is 
-		assigned an activation function $\actfun(\cdot)$ that maps a weighted combination of 
-		the neuron inputs $\feature_{1},\ldots,\feature_{\nrfeatures}$ to a single output 
-		value $a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
-		Note that each neuron is parametrized by the \gls{weights} $\weight_{1},\ldots,\weight_{\nrfeatures}$.},
-first={fonction d'activation},text={fonction d'activation} 
 }
 
 \newglossaryentry{distributedalgorithm}
@@ -2744,20 +2921,6 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		See also: \gls{dimred}.},
 	first={scatterplot},
 	text={scatterplot} }
-
-\newglossaryentry{featuremap}{name={feature map}, description={\Gls{feature} map refers to a\index{feature map} map 
-		that transforms the original \gls{feature}s of a \gls{datapoint} into new \gls{feature}s. The 
-		so-obtained new \gls{feature}s might be preferable over the original \gls{feature}s for 
-		several reasons. For example, the arrangement of \gls{datapoint}s might become 
-		simpler (or more linear) in the new \gls{featurespace}, allowing the use of \gls{linmodel}s 
-		in the new \gls{feature}s. This idea is a main driver for the development of \gls{kernelmethod}s \cite{LearningKernelsBook}. 
-		Moreover, the hidden layers of a \gls{deepnet} can be interpreted as a trainable \gls{feature} map 
-		followed by a \gls{linmodel} in the form of the output layer. Another reason for learning a \gls{feature} map
-		could be that learning a small number of new \gls{feature}s helps to avoid \gls{overfitting} and 
-		ensures \gls{interpretability} \cite{Ribeiro2016}. The special case of a \gls{feature} map delivering 
-		two numeric \gls{feature}s is particularly useful for \gls{data} visualization. Indeed, we can depict 
-		\gls{datapoint}s in a \gls{scatterplot} by using two \gls{feature}s as the coordinates of a \gls{datapoint}.},
-	first={feature map},text={feature map} }
 	
  
   \newglossaryentry{lasso}{name={least absolute shrinkage and selection operator (Lasso)}, 
@@ -2786,51 +2949,6 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
  	},
  	first={Kullback-Leibler divergence (KL divergence)},text={KL divergence} }
 
-\newglossaryentry{LapMat}{
-	name={Laplacian matrix},
-	description={The\index{Laplacian matrix} structure of a \gls{graph} $\graph$, with 
-		nodes $\nodeidx=1,\ldots,\nrnodes$, can be analyzed using the properties of 
-		special matrices that are associated with $\graph$. One such matrix is the 
-		\gls{graph} Laplacian matrix $\mL^{(\graph)} \in \mathbb{R}^{\nrnodes \times \nrnodes}$, 
-		which is defined for an undirected and weighted \gls{graph} \cite{Luxburg2007,Ng2001}. 
-		It is defined element-wise as (see Figure \ref{fig_lap_mtx_dict})
-	\begin{equation}
-		\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} - \edgeweight_{\nodeidx,\nodeidx'} & \mbox{ for } \nodeidx\neq \nodeidx', \edge{\nodeidx}{\nodeidx'}\!\in\!\edges, \\ 
-			\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ for } \nodeidx = \nodeidx', \\ 
-							0 & \mbox{ else.} \end{cases}
-	 \end{equation}
-  Here, $\edgeweight_{\nodeidx,\nodeidx'}$ denotes the \gls{edgeweight} of an edge $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
-  \begin{figure}[H]
-  	\begin{center}
-    \begin{minipage}{0.45\textwidth}
-	\begin{tikzpicture}
-%	 				% 		% Left part - Graph
-	 	 		\begin{scope}[every node/.style={circle, draw, minimum size=1cm}]
-	 					 			\node (1) at (0,0) {1};
-	 					 			\node (2) [below left=of 1] {2};
-	 					 			\node (3) [below right=of 1] {3};
-	 					 		   \draw (1) -- (2);
-	 					 			\draw (1) -- (3);
-	 					 		\end{scope}
-	 				 	\end{tikzpicture}
-	 			 	\end{minipage} 
-	 			 	\hspace*{-15mm}
- 		 		\begin{minipage}{0.45\textwidth}
-	 			 	 \begin{equation} 
-	 				 		 \LapMat{\graph} = \begin{pmatrix} 2 & -1& -1 \\ -1& 1 & 0 \\  -1 & 0 & 1 \end{pmatrix}  
-	 				 		 \nonumber
-	 				 		 \end{equation} 
-	 			 \end{minipage}
-	 	 \caption{\label{fig_lap_mtx_dict} Left: Some undirected \gls{graph} $\graph$ with three nodes $\nodeidx=1,2,3$. 
-	 		 	Right: The Laplacian matrix $\LapMat{\graph}  \in \mathbb{R}^{3 \times 3}$ of $\graph$.} 
-	 		 	\end{center}
-	 		\end{figure}
-	%		
-	},
-	first={Laplacian matrix},
-	text={Laplacian matrix}
-}
-
 \newglossaryentry{cfwmaxmin}{name ={Courant–Fischer–Weyl min-max characterization}, 
 description={Consider\index{Courant–Fischer–Weyl min-max characterization} a \gls{psd} 
 	matrix $\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ with 
@@ -2845,18 +2963,6 @@ description={Consider\index{Courant–Fischer–Weyl min-max characterization} a
 	The Courant–Fischer–Weyl min-max characterization \cite[Th. 8.1.2]{GolubVanLoanBook} 
 	represents the \gls{eigenvalue}s of $\mQ$ as the solutions to certain optimization problems.}, 
 first = {Courant–Fischer–Weyl min-max characterization (CFW)}, text={CFW}}
-
-\newglossaryentry{kernel}{name={kernel}, 
-	description={Consider\index{kernel} \gls{datapoint}s characterized by a \gls{featurevec} $\featurevec \in \featurespace$ 
-	with a generic \gls{featurespace} $\featurespace$. A (real-valued) kernel $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
-	assigns each pair of \gls{featurevec}s $\featurevec, \featurevec' \in \featurespace$ a real number $\kernelmap{\featurevec}{\featurevec'}$. 
-	The value $\kernelmap{\featurevec}{\featurevec'}$ is often interpreted as a measure for the similarity between $\featurevec$ 
-	and $\featurevec'$. \Gls{kernelmethod}s use a kernel to transform the \gls{featurevec} $\featurevec$ to a new \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$. 
-         This new \gls{featurevec} belongs to a linear \gls{featurespace} $\featurespace'$ which is (in general)  
-          different from the original \gls{featurespace} $\featurespace$. The \gls{featurespace} $\featurespace'$ has 
-          a specific mathematical structure, i.e., it is a reproducing kernel \gls{hilbertspace} \cite{LampertNowKernel,LearningKernelsBook}.
-          },
-	first={kernel},text={kernel} }
 	
 \newglossaryentry{kernelmethod}{name={kernel method}, 
 	description={A\index{kernel method} \gls{kernel} method is an \gls{ml} method that uses a 
@@ -2967,13 +3073,6 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
         outlier. Different methods for outlier detection use different measures for this deviation. 
         Stastistical learning theory studies fundamental limits on the ability to mitigate outliers reliably \cite{doi:10.1137/0222052,10.1214/20-AOS1961}.},
 	          first={outlier},text={outlier} }
-
-\newglossaryentry{decisionregion}{name={région de décision}, description={Consider\index{région de décision} 
-		a \gls{hypothesis} map $\hypothesis$ that delivers values from a finite set $\labelspace$. 
-		For each \gls{label} value (category) $a \in \labelspace$, the \gls{hypothesis} $\hypothesis$ 
-		determines a subset of \gls{feature} values $\featurevec \in \featurespace$ that result 
-		in the same output $\hypothesis(\featurevec)=a$. We refer to this subset as a decision 
-		region of the \gls{hypothesis} $\hypothesis$.},first={région de décision},text={région de décision} }
 
 \newglossaryentry{decisionboundary}{name={frontière de décision}, description={Consider\index{frontière de décision} a 
 		\gls{hypothesis} map $\hypothesis$ that reads in a \gls{feature} vector 
@@ -3184,14 +3283,6 @@ the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. },first={lo
 \newglossaryentry{iidasspt}{name={independent and identically distributed assumption (i.i.d.\ assumption)}, description={The \gls{iid} 
 		assumption\index{independent and identically distributed assumption (i.i.d.\ assumption)} interprets \gls{datapoint}s of a \gls{dataset} as the 
 		\gls{realization}s of \gls{iid} \gls{rv}s.},first={independent and identically distributed assumption (i.i.d.\ assumption)},text={i.i.d.\ assumption} }
-
-
-\newglossaryentry{modelparams}{name={paramètres du modèle}, 
-	description={\Gls{model} \gls{parameters}\index{paramètres du modèle} are quantities that 
-	are used to select a specific \gls{hypothesis} map from a \gls{model}. 
-	We can think of a list of \gls{model} \gls{parameters} as a unique identifier for a \gls{hypothesis} 
-	map, similar to how a social security number identifies a person in Finland.},
-	first={paramètres du modèle},text={paramètres du modèle} }
 
 \newglossaryentry{ai}{name={intelligence artificielle (IA)}, description={
 		AI\index{intelligence artificielle (IA)} refers to systems that behave rationally in the sense of 
@@ -3483,54 +3574,6 @@ first={online gradient descent (online GD)},text={online GD}}
 		determines a linear \gls{featuremap} such that the new \gls{feature}s 
 		allow us to reconstruct the original \gls{feature}s with the \gls{minimum} reconstruction error \cite{MLBasics}.},first={analyse en composantes principales (ACP)},text={ACP} }
 
-\newglossaryentry{lossfunc}{name={fonction de perte (ou de coût)}, description={A\index{fonction de perte (ou de coût)} \gls{loss} function is a map 
-		$$\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
-		 \hypothesis\big) \mapsto  \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.$$
-		It assigns a non-negative real number (i.e., the \gls{loss}) $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$
-		to a pair that consists of a \gls{datapoint}, with \gls{feature}s $\featurevec$ 
-		and \gls{label} $\truelabel$, and a \gls{hypothesis} $\hypothesis \in \hypospace$. The 
-		value $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ quantifies the discrepancy 
-		between the true \gls{label} $\truelabel$ and the \gls{prediction} $\hypothesis(\featurevec)$. 
-		Lower (closer to zero) values $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indicate a smaller 
-		discrepancy between \gls{prediction} $\hypothesis(\featurevec)$ and \gls{label} $\truelabel$. 
-		Figure \ref{fig_loss_function_gls_dict} depicts a \gls{loss} function for a given \gls{datapoint}, 
-		with \gls{feature}s $\featurevec$ and \gls{label} $\truelabel$, as a function of the \gls{hypothesis} $\hypothesis \in \hypospace$. 
-		\begin{figure}[H]
-			\begin{center}
-				\begin{tikzpicture}[scale = 0.7]
-					\begin{axis}
-						[%grid, 
-						axis x line=center,
-						axis y line=center,
-						%	xtick={-2,-1,...,2},
-						%	ytick={0,1,...,2},
-						xlabel={},
-						%	ylabel={\hspace*{3mm} loss $\lossfun$},
-						xlabel style={below right},
-						ylabel style={above right},
-						xtick=\empty,
-						ytick=\empty,
-						xmin=-4,
-						xscale = 1.4, 
-						xmax=4,
-						ymin=-0.5,
-						ymax=2.5
-						]
-						\addplot [smooth, ultra thick] table [x=a, y=b, col sep=comma] {../../assets/logloss.csv};    
-					\end{axis}
-					\node [above] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
-					\node [above] at (10,1) {\gls{hypothesis} $\hypothesis$};
-						\node [right] at (4,6) {\gls{loss}};
-				\end{tikzpicture}
-			\end{center}
-			\vspace*{-7mm}
-			\caption{Some \gls{loss} function $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ for a fixed \gls{datapoint}, with 
-				\gls{featurevec} $\featurevec$ and \gls{label} $\truelabel$, and a varying \gls{hypothesis} $\hypothesis$. 
-				\gls{ml} methods try to find (or learn) a \gls{hypothesis} that incurs minimal \gls{loss}.}
-			\label{fig_loss_function_gls_dict}
-	\end{figure}
- },first={fonction de perte (ou de coût)},text={fonction de perte} }
-
 \newglossaryentry{decisiontree}{name={arbre de décision}, description={A\index{arbre de décision} 
 		decision tree is a flow-chart-like representation of a \gls{hypothesis} map $\hypothesis$. 
 		More formally, a decision tree is a directed \gls{graph} containing a root node that reads 
@@ -3653,26 +3696,6 @@ first={online gradient descent (online GD)},text={online GD}}
 		is obtained or interpreted as the \gls{realization} of $\samplesize$ \gls{iid} \gls{rv}s 
 		with a common \gls{probdist} $p(\datapoint)$. The length $\samplesize$ of 
 		the sequence is referred to as the \gls{samplesize}.},first={sample},text={sample}}
-	
-\newglossaryentry{samplesize}
-{name=sample size,
-	description={The\index{sample size} number of individual \gls{datapoint}s 
-		contained in a \gls{dataset}.},first={sample size},text={sample size}
-}
-
-\newglossaryentry{ann}{
-	name={réseau de neurones artificiels (RNA)},
-	description={An\index{réseau de neurones artificiels (RNA)} ANN 
-		is a graphical (signal-flow) representation of a function that maps 
-		\gls{feature}s of a \gls{datapoint} at its input to a \gls{prediction} 
-		for the corresponding \gls{label} at its output. The fundamental unit of an 
-		ANN is the artificial neuron, which applies an \gls{actfun} to its 
-		weighted inputs. The outputs of these neurons serve as inputs for other neurons, 
-		forming interconnected layers.},
-	first={réseau de neurones artificiels (RNA)},
-	text={RNA}
-}
-
 
 \newglossaryentry{randomforest}
 {name={random forest},
@@ -3737,12 +3760,6 @@ first={online gradient descent (online GD)},text={online GD}}
 	%		is too high or too low - only the size of the difference matters.}
 			first={absolute error loss},text={absolute error loss}}
 
-\newglossaryentry{device}{name={dispositif},description={
-				Any\index{dispositif} physical system that can be used to store and process \gls{data}. In the context of \gls{ml}, 
-				we typically mean a computer that is able to read in \gls{datapoint}s from different 
-				sources and, in turn, to train an \gls{ml} \gls{model} using these \gls{datapoint}s.},
-				first={dispositif},text={dispositif}}
-
 \newglossaryentry{llm}{name={grand modèle de langage (GML)},description={
 	Large language \gls{model}s\index{grand modèle de langage (GML)} is an umbrella term for \gls{ml} methods 
 	that process and generate human-like text. These methods typically 
@@ -3788,15 +3805,6 @@ $\hypothesis$ as a Bayes estimator if its \gls{risk} $\expect\{\lossfunc{\pair{\
 \gls{minimum} \cite{LC}. Note that the property of a \gls{hypothesis} being a Bayes estimator depends on 
 the underlying \gls{probdist} and the choice for the \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.},
 		first={Bayes estimator},text={Bayes estimator}}
-
-
-\newglossaryentry{weights}{name={poids},
-	description={Consider\index{poids} a parametrized \gls{hypospace} $\hypospace$. 
-		We\index{weights} use the term weights for numeric \gls{modelparams} that are 
-		used to scale \gls{feature}s or their transformations in order to compute $\hypothesis^{(\weights)} \in \hypospace$. A \gls{linmodel} uses weights $\weights=\big(\weight_{1},\ldots,\weight_{\nrfeatures}\big)^{T}$ to compute 
-		the linear combination $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. 
-		Weights are also used in \gls{ann}s to form linear combinations of \gls{feature}s or the 
-		outputs of neurons in hidden layers.},first={poids},text={poids}}
 
     
     
@@ -4028,15 +4036,6 @@ first={probability density function (pdf)},text={pdf}}
 		    have the same \gls{label} $\truelabel^{(2)}=\truelabel^{(1)}$ as a \gls{datapoint} 
 		     with \gls{featurevec} $\featurevec^{(1)}$.\label{fig_symmetry_dataaug_dict}}
 		 \end{figure} },first={data augmentation},text={data augmentation}}
-	
-	
-\newglossaryentry{localdataset}{name={jeu de données local},description={The\index{jeu de données local} concept of a local \gls{dataset} is 
-		in between the concept of a \gls{datapoint} and a \gls{dataset}. A local \gls{dataset} consists of several 
-		individual \gls{datapoint}s, which are characterized by \gls{feature}s and \gls{label}s. 
-		In contrast to a single \gls{dataset} used in basic \gls{ml} methods, a local \gls{dataset} is also 
-		related to other local \gls{dataset}s via different notions of similarity. These similarities 
-		might arise from \gls{probmodel}s or communication infrastructure and 
-		are encoded in the edges of an \gls{empgraph}.},first={jeu de données local},text={jeu de données local}}
 	
 \newglossaryentry{localmodel}{name={local model},description={Consider\index{local model} a collection 
 		of \gls{localdataset}s that are assigned to the nodes of an \gls{empgraph}. A local \gls{model} $\localmodel{\nodeidx}$ 
