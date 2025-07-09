@@ -162,9 +162,10 @@
 
 \newglossaryentry{stochastic}
 {name={stochastic},
-	description={We refer to a \index{stochastic} method as stochastic if it involves a random component 
-		or is governed by probabilistic laws. \Gls{ml} methods use randomness to reducing 
-		computational complexity (see, e.g., \gls{stochGD}) or to capture \gls{uncertainty} in \glspl{probmodel}. 
+	description={We refer to a \index{stochastic} method as stochastic if it involves a 
+		random component or is governed by probabilistic laws. \Gls{ml} methods use randomness 
+		for reducing computational complexity (see, e.g., \gls{stochGD}) or 
+		to capture \gls{uncertainty} in \glspl{probmodel}. 
 	 \\
 		See also: \gls{uncertainty}, \gls{probmodel}, \gls{stochGD}.},
 	first={stochastic},
@@ -174,7 +175,7 @@
 \newglossaryentry{stochproc}
 {name={stochastic process},
 	description={A stochastic process is a collection of \glspl{rv} defined over a common \gls{probspace}. 
-		These \glspl{rv} are indexed by time or space, which are used to model random phenomena
+		These \glspl{rv} are indexed by time or space, and are used to model random phenomena
 		evolving over time (e.g., noise in sensors or financial time series). Random \glspl{graph}, 
 		such as \gls{sbm} or \gls{ergraph}, are another example of stochastic processes. These processes 
 		use pairs of nodes in a \gls{graph} as the index set. We can also use stochastic processes 
@@ -803,8 +804,8 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
  {name={interpretability},
  	description={An \gls{ml} method is interpretable\index{interpretability} for a 
  	human user if they can comprehend the decision process of the method. 
-	One approach to develop a precise definition of interpretability via the concept of simulatbility 
- 	is via the concept of simulatability, i.e., the ability of a human to mentally simulate the 
+	One approach to develop a precise definition of interpretability is via the concept 
+	of simulatability, i.e., the ability of a human to mentally simulate the 
 	\gls{model} behavior \cite{doshi2017towards,hase-bansal-2020-evaluating,Chen2018,Colin:2022aa,Lipton2018}. 
  	The idea is as follows: if a human user understands a \gls{ml} method then they should 
  	be able to anticipate its \glspl{prediction} on a \gls{testset}. We illustrate 
@@ -1776,7 +1777,7 @@ and then projecting the result back onto the \gls{paramspace}.
 	\[
 		\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \featurevec \, \mathrm{d}P(\featurevec).
 	\] 
-	Sometimes it is useful to think of the mean as the solution of the following \gls{risk} 
+	It is useful to think of the mean as the solution of the following \gls{risk} 
 	minimization problem \cite{BertsekasProb}
 	\[
 		\expect\{\featurevec\} = \argmin_{\vc \in \mathbb{R}^{\nrfeatures}} 
@@ -1838,8 +1839,8 @@ and then projecting the result back onto the \gls{paramspace}.
  all $\sampleidx=1,\ldots,\samplesize$. If the \gls{rv} $x$ is integrable, a median of $x$ 
  is the solution of the following optimization problem: 
  $$\min_{x' \in \mathbb{R}} \expect{|x - x'|}.$$ 
- Like the \gls{mean}, also the median of a \gls{dataset} $\dataset$ can be used 
- to estimate the \glspl{parameter} of an underlying \gls{probmodel}. Compared 
+ Like the \gls{mean}, the median of a \gls{dataset} $\dataset$ can also be used 
+ to estimate \glspl{parameter} of an underlying \gls{probmodel}. Compared 
  to the \gls{mean}, the median is more robust to \glspl{outlier}. For example, 
  a median of a \gls{dataset} $\dataset$ with more than one \gls{datapoint} does not 
  change even if we arbitrarily increase the largest element of $\dataset$. In contrast, 
@@ -2046,13 +2047,16 @@ and then projecting the result back onto the \gls{paramspace}.
 
 \newglossaryentry{uncertainty}
 {name={uncertainty},
-	description={Uncertainty\index{uncertainty} refers to the degree of confidence—or 
-		lack thereof—associated with a quantity such as a \gls{model} \gls{prediction}, \gls{parameter} estimate, or 
-		observed \gls{datapoint}. In \gls{ml}, uncertainty arises from various sources, including 
-		noisy \gls{data}, limited training \glspl{sample}, or ambiguity in \gls{model} assumptions. \Gls{probability} theory 
-		offers a principled framework for representing and quantifying such uncertainty.
+	description={
+	In the context of \gls{ml}, uncertainty \index{uncertainty} refers to the presence of multiple 
+	plausible outcomes or explanations based on available \gls{data}. For example, the 
+	\gls{prediction} $\hat{\hypothesis}(\featurevec)$ produced by a trained \gls{ml} \gls{model} $\hat{\hypothesis}$
+	 often reflects a range of possible values for the true \gls{label} of a given \gls{datapoint}. 
+	 The broader this range, the greater the associated uncertainty. \Gls{probability} theory 
+	 allows us to represent, quantify, and reason about uncertainty in a 
+	 mathematically rigorous manner.
 					\\ 
-		See also: \gls{model}, \gls{prediction}, \gls{parameter}, \gls{datapoint}, \gls{ml}, \gls{data}, \gls{sample}, \gls{probability}.},
+		See also:  \gls{probmodel}, \gls{risk}, \gls{entropy}, \gls{variance}.},
 	first={uncertainty},
 	text={uncertainty}
 }
@@ -2197,7 +2201,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	Fig.\ \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
 	If $\vz$ does not coincide with any of the input vectors, then the unit vectors pointing 
 	from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero—this is the zero-\gls{subgradient}  
-	(optimality) condition of \eqref{equ_geometric_median}. It turns out that the solution to 
+	(optimality) condition of \eqref{equ_geometric_median_dict}. It turns out that the solution to 
 	\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy input 
 	vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
 	  	\begin{figure}[H]
@@ -2226,8 +2230,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 %		% Optional dotted line from w to bad
 		\end{tikzpicture}
 		\caption{\label{opt_cond_GM_dict}
-			Consider a solution $\vz$ of \eqref{equ_geometric_median} that does not coincide 
-			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median} 
+			Consider a solution $\vz$ of \eqref{equ_geometric_median_dict} that does not coincide 
+			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median_dict} 
 			requires that the unit vectors from $\vz$ to the input vectors sum to zero.}
 			\end{center}
 		\end{figure}
@@ -2898,8 +2902,10 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		hypothesis \gls{map} $\hypothesis$ such that $\truelabel \approx \hypothesis(\featurevec)$ 
 		for any \gls{datapoint} (having \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$).
 					\\ 
-		See also: \gls{map}, \gls{function}, \gls{featurespace}, \gls{labelspace}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{prediction}, \gls{ml}.},
+		See also: \gls{map}, \gls{function}, \gls{prediction}, \gls{model}.},
 	first={hypothesis},
+	firstplural={hypotheses}, 
+	plural={hypotheses},
 	text={hypothesis}  
 }
 
@@ -3705,12 +3711,14 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{gengap}
 {name={generalization gap}, 
-	description={The difference\index{generalization gap} between the performance of a trained \gls{model} on the 
-		\gls{trainset} $\trainset$ and its performance on \glspl{datapoint} outside of $\trainset$. We can make this notion 
-		precise by using a \gls{probmodel} that allows to compute the \gls{risk} of a trained \gls{model} as the expected 
-		\gls{loss}. However, the \gls{probdist} underlying this expectation is typically unknown and needs to be somehow 
-		estimated. \Gls{validation} techniques use different constructions of a \gls{valset}, which is different from 
-		the \gls{trainset},  to estimate the generalization gap.  
+	description={The difference\index{generalization gap} between the performance of a 
+	     trained \gls{model} on the \gls{trainset} $\trainset$ and its performance on 
+		 \glspl{datapoint} outside of $\trainset$. We can make this notion precise by using 
+		 a \gls{probmodel} that allows us to compute the \gls{risk} of a trained \gls{model} 
+		 as the expected \gls{loss}. However, the \gls{probdist} underlying this \gls{expectation} 
+		 is typically unknown and needs to be somehow estimated. \Gls{validation} techniques 
+		 use different constructions of a \gls{valset}, which is different from 
+		  the \gls{trainset},  to estimate the generalization gap.  
 		\\
 		See also: \gls{generalization}, \gls{erm}, \gls{lossfunc}, \gls{validation}.}, 
 	first={generalization gap}, 
@@ -4411,7 +4419,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 {name={covariance}, 
  description={The\index{covariance} covariance between two real-valued 
  	\glspl{rv} $x$ and $y$, defined on a common \gls{probspace}, measures their linear 
- 	dependence. It defined as 
+ 	dependence. It is defined as 
 			$$
 			\cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
 			$$
@@ -4467,6 +4475,8 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 				\glspl{rv} with different covariance values: negative (left), zero (center), and positive (right).}
 			\label{fig:covariance-examples_dict}
 		\end{figure}
+					\\
+		See also: \gls{probmodel},  \gls{expectation}.
 		},
 	first={covariance},
 	text={covariance} 
@@ -4483,7 +4493,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		\gls{mean} vector $\clustermean^{(\clusteridx)}$, and the \gls{covmtx} $\mathbf{C}^{(\clusteridx)}$ for each $\clusteridx=1, \ldots, \nrcluster$. 
 		GMMs are widely used for \gls{clustering}, density estimation, and as a generative \gls{model}. 
 				\\
-		See also: \gls{probmodel}, \gls{feature}, \gls{datapoint}, \gls{mvndist}, \gls{rv}, \gls{mean}, \gls{covmtx}, \gls{clustering}, \gls{model}.},
+		See also: \gls{probmodel},  \gls{mvndist},  \gls{clustering}.},
 	first={Gaussian mixture model (GMM)},
 	text={GMM} 
 }
@@ -4542,7 +4552,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 \newglossaryentry{polyreg}
 {name={polynomial regression}, 
 	description={Polynomial\index{polynomial regression} 
-		\gls{regression} is an \gls{erm}-based methods that learns a polynomial \gls{hypothesis} 
+		\gls{regression} is an instance of \gls{erm} that learns a polynomial \gls{hypothesis} 
 		\gls{map} to predict a numeric \gls{label} based on the numeric \glspl{feature} of a \gls{datapoint}. 
 		For \glspl{datapoint} characterized by a single numeric \gls{feature}, polynomial \gls{regression} 
 		uses the \gls{hypospace} 
