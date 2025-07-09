@@ -8,7 +8,7 @@
 		$f(u) \in \mathcal{V}$ pour chaque entrée $u \in \mathcal{U}$.
 	},
 	first={fonction},
-	text={fonction}
+	text={fonction} 
 }
 
 \newglossaryentry{map}
@@ -1066,33 +1066,102 @@
 	text={fonction de perte}, plural={fonctions de perte}
 }
 
-%Texte non traduit après ce commentaire
+\newglossaryentry{erm}{
+	name={minimisation du risque empirique (MRE)},
+	description={La minimisation du risque empirique (MRE) (\gls{emprisk}) est le problème d'optimisation qui consiste à trouver une \gls{hypothesis} (dans un \gls{model}) qui minimise la \gls{loss} moyenne (ou \gls{emprisk}) sur un \gls{dataset} $\dataset$ donné (c’est-à-dire, l'\gls{trainset}). De nombreuses méthodes d'\gls{ml} sont obtenues à partir du \gls{emprisk} via des choix de conception spécifiques pour le \gls{dataset}, le \gls{model} et la \gls{loss} \cite[Ch. 3]{MLBasics}.
+		\\ Voir aussi: \gls{minimum}, \gls{emprisk}, \gls{hypothesis}, \gls{model}, \gls{loss}, \gls{dataset}, \gls{trainset}, \gls{ml}.},
+	first={minimisation du risque empirique (MRE)},
+	text={MRE}
+}
 
-\newglossaryentry{pseudoinverse}
-{name={pseudoinverse},
-	description={The \index{pseudoinverse}Moore–Penrose pseudoinverse $\mA^{+}$ 
-		of a matrix $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ generalizes the 
-		notion of an \gls{inverse} \cite{GolubVanLoanBook}. The pseudoinverse arises naturally 
-		within \gls{ridgeregression} when applied to a \gls{dataset} with arbitrary \glspl{label} $\vy$ 
-		and a \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. The \gls{modelparams} 
-		learned by \gls{ridgeregression} 
-		are given by
+\newglossaryentry{convex}{
+	name={convexe},
+	description={Un sous-ensemble $\mathcal{C} \subseteq \mathbb{R}^{\featuredim}$ de l'\gls{euclidspace} $\mathbb{R}^{\featuredim}$ est dit convexe s’il contient le segment de droite qui relie deux points $\vx, \vy\!\in\!\cluster$ quelconques de cet ensemble. Une fonction $f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ est convexe si son \gls{epigraph} $\big\{ \big( \weights^{T},t \big)^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ est un ensemble convexe \cite{BoydConvexBook}. On illustre un exemple d’ensemble convexe et de fonction convexe dans la Figure \ref{fig_convex_set_function_dict}.
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}
+					\fill[blue!20, opacity=0.5] (-3,0) ellipse (2 and 1.2); 
+					\draw[thick] (-3,0) ellipse (2 and 1.2);
+					\filldraw[black] (-3.7,0.2) circle (2pt) node[left] {$\vw$};
+					\filldraw[black] (-2.3,-0.5) circle (2pt) node[right] {$\vw'$};
+					\draw[thick] (-3.7,0.2) -- (-2.3,-0.5);
+					\node at (-1.2,-1.0) {$\mathcal{C}$};
+					\begin{scope}[shift={(5,-1)}]
+						\draw[thick, domain=-2:2, smooth, variable=\x] 
+						plot ({\x}, {0.5*\x*\x});
+						\fill[blue!30, opacity=0.5] 
+						plot[domain=-1.5:1.5, smooth] ({\x}, {0.5*\x*\x}) -- 
+						(2, {0.5*2*2}) -- 
+						(-2, {0.5*2*2}) -- 
+						cycle;
+						\node at (0,-0.4) {$f(\weights)$};
+					\end{scope}
+				\end{tikzpicture}
+				\vspace*{-8mm}
+			\end{center}
+			\caption{Gauche: Un ensemble convexe $\cluster \subseteq \mathbb{R}^{\dimlocalmodel}$. 
+				Droite: Une \gls{function} convexe $f: \mathbb{R}^{\dimlocalmodel} \rightarrow \mathbb{R}$.
+				\label{fig_convex_set_function_dict}}
+		\end{figure}
+	},
+	first={convexe},
+	text={convexe}
+}
+
+\newglossaryentry{linreg}{
+	name={régression linéaire},
+	description={La \index{régression linéaire} \gls{regression} linéaire vise à apprendre une fonction \gls{hypothesis} linéaire pour prédire une \gls{label} numérique à partir des \glspl{feature} numériques d’un \glspl{datapoint}. La qualité d’une fonction \gls{hypothesis} linéaire est mesurée par la moyenne de la \gls{sqerrloss} subie sur un ensemble de \glspl{labeled datapoint}, que nous appelons l'\gls{trainset}.},
+	first={régression linéaire},
+	text={régression linéaire}, plural={régressions linéaires}
+}
+
+\newglossaryentry{pseudoinverse}{
+	name={pseudo-inverse},
+	description={La \index{pseudo-inverse}pseudo-inverse de Moore–Penrose $\mA^{+}$ d’une matrice $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ généralise la notion d'\gls{inverse} \cite{GolubVanLoanBook}. La pseudo-inverse apparaît naturellement dans le cadre de la \gls{ridgeregression} appliquée à un \gls{dataset} avec des \glspl{label} arbitraires $\vy$ et une \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. Les \gls{modelparams} appris par la \gls{ridgeregression} sont donnés par
 		\[
 		\widehat{\vw}^{(\regparam)}  = \big(\mA^T \mA + \regparam \mI \big)^{-1} \mA^\top \vy, \quad \regparam > 0.
 		\]
-		We can then define the pseudoinverse  $\mA^+ \in \mathbb{R}^{\nrfeatures \times \samplesize}$ via 
-		the limit \cite[Ch. 3]{benisrael2003generalized}
+		On peut alors définir la pseudo-inverse $\mA^+ \in \mathbb{R}^{\nrfeatures \times \samplesize}$ avec la limite \cite[Ch. 3]{benisrael2003generalized}
 		\[
 		\lim_{\regparam \to 0^+} \widehat{\vw}^{(\regparam)} = \mA^+ \vy.
 		\]
-		\\
-		See also: \gls{inverse}, \gls{ridgeregression}, \gls{dataset}, \gls{label}, \gls{featuremtx}, \gls{modelparams}, \gls{ridgeregression}.
+		Voir aussi : \gls{inverse}, \gls{ridgeregression}, \gls{dataset}, \gls{label}, \gls{featuremtx}, \gls{modelparams}, \gls{ridgeregression}.
 	},
-	first={pseudoinverse},
-	text={pseudoinverse}
+	first={pseudo-inverse},
+	text={pseudo-inverse}
 }
 
+\newglossaryentry{probability}{
+	name={probabilité},
+	description={On\index{probabilité} associe une valeur de probabilité, typiquement choisie dans l’intervalle $[0,1]$, à chaque événement pouvant se produire dans une expérience aléatoire \cite{KallenbergBook,BertsekasProb,BillingsleyProbMeasure,HalmosMeasure}.},
+	first={probabilité},
+	text={probabilité}
+}
 
+\newglossaryentry{euclidspace}{
+	name={espace euclidien},
+	description={L’\index{espace euclidien}espace euclidien $\mathbb{R}^{\featuredim}$ de dimension $\featuredim \in \mathbb{N}$ est constitué des vecteurs $\featurevec= \big(\feature_{1},\ldots,\feature_{\featurelen}\big)$, avec $\featuredim$ composantes réelles $\feature_{1},\ldots,\feature_{\featuredim} \in \mathbb{R}$. Un tel espace euclidien est muni d’une structure géométrique définie par le produit scalaire $\featurevec^{T} \featurevec' = \sum_{\featureidx=1}^{\featuredim} \feature_{\featureidx} \feature'_{\featureidx}$ entre deux vecteurs  $\featurevec,\featurevec' \in \mathbb{R}^{\featuredim}$ quelconques \cite{RudinBookPrinciplesMatheAnalysis}.},
+	first={espace euclidien},
+	text={espace euclidien}
+}
+
+\newglossaryentry{iid}{
+	name={indépendantes et identiquement distribuées (i.i.d.)},
+	description={Il\index{indépendantes et identiquement distribuées (i.i.d.)} peut être utile d’interpréter des \glspl{datapoint} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$ comme des \glspl{realization} de \glspl{rv} i.i.d. suivant une \gls{probdist} commune. Si ces \glspl{rv} sont à valeurs continues, leur \gls{pdf} conjointe est $p\big(\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)} \big) = \prod_{\sampleidx=1}^{\samplesize} p \big(\datapoint^{(\sampleidx)}\big)$, où $p(\datapoint)$ est la \gls{pdf} marginale commune des \glspl{rv} sous-jacentes (i.e., dont les \glspl{datapoint} sont les \glspl{realization}).},
+	first={indépendantes et identiquement distribuées (i.i.d.)},
+	text={{i.i.d.}}
+}
+
+\newglossaryentry{pdf}{name={fonction de densité de probabilité},
+	description={La\index{fonction de densité de probabilité} fonction de densité de probabilité $p(\feature)$ 
+		d’une \gls{rv} réelle $\feature \in \mathbb{R}$ est une représentation particulière de sa \gls{probdist}. 
+		Si la fonction de densité de probabilité existe, elle peut être utilisée pour calculer la \gls{probability} que $\feature$ prenne une valeur 
+		dans un ensemble (mesurable) $\mathcal{B} \subseteq \mathbb{R}$ avec $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. La fonction de densité de probabilité d’une \gls{rv} vectorielle $\featurevec \in \mathbb{R}^{\featuredim}$ (si elle existe) 
+		permet de calculer la \gls{probability} que $\featurevec$ appartienne à une région (mesurable) $\mathcal{R}$ avec 
+		$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \ldots d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.},
+	first={fonction de densité de probabilité},text={fonction de densité de probabilité}, plural={fonctions de densité de probabilite}}
+
+%Texte non traduit après ce commentaire
 
 \newglossaryentry{minimum}
 {
@@ -1100,8 +1169,6 @@
 	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers.},
 	first={minimum},text={minimum}
 }
-
-
 
 \newglossaryentry{boosting}
 {name = {boosting}, 
@@ -1451,10 +1518,6 @@ $$ \min_{\mG \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel'}} \sum_{\sam
 	when $\predictedlabel\neq\truelabel$.},
 	sort=zerooneloss, 
     first={$0/1$ loss},text={$0/1$ loss}}
-
-\newglossaryentry{probability}{name={probabilité},
-	description={We\index{probabilité} assign a probability value, typically chosen in the 
-		interval $[0,1]$, to each event that might occur in a random experiment \cite{KallenbergBook,BertsekasProb,BillingsleyProbMeasure,HalmosMeasure}.},first={probabilité},text={probabilité}}
 	
 \newglossaryentry{underfitting}{name={sous-apprentissage},description={Consider\index{sous-apprentissage} 
 		an \gls{ml} method that uses \gls{erm} to learn a \gls{hypothesis} with the \gls{minimum} \gls{emprisk} 
@@ -2685,12 +2748,6 @@ description={For\index{subgradient} a real-valued function $f: \mathbb{R}^{\feat
 		A linear \gls{classifier} is characterized by having \gls{decisionregion}s that are 
 		separated by hyperplanes in $\mathbb{R}^{\featuredim}$ \cite[Ch. 2]{MLBasics}.},first={linear classifier},text={linear classifier} }
 
-\newglossaryentry{erm}{name={minimisation du risque empirique (MRE)}, description={\Gls{emprisk} minimization\index{minimisation du risque empirique (MRE)} is the optimization problem of finding 
-		a \gls{hypothesis} (out of a \gls{model}) with the \gls{minimum} average \gls{loss} (or \gls{emprisk}) on a given \gls{dataset} 
-		$\dataset$ (i.e., the \gls{trainset}). Many \gls{ml} methods are obtained from 
-		\gls{emprisk} via specific design choices for the \gls{dataset}, \gls{model}, and \gls{loss} \cite[Ch. 3]{MLBasics}.},
-	first={minimisation du risque empirique (MRE)},text={MRE} }
-
 \newglossaryentry{multilabelclass}{name={classification multi-classe}, description={Multi-\gls{label} 
 		\gls{classification}\index{classification multi-classe} problems and methods use \gls{datapoint}s 
 		that are characterized by several \gls{label}s. As an example, consider a \gls{datapoint} 
@@ -3054,14 +3111,6 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 	first={clustered federated learning (CFL)},
 	text={CFL} }
 
-\newglossaryentry{iid}{name={indépendantes et identiquement distribuées (i.i.d.)}, description={It\index{indépendantes et identiquement distribuées (i.i.d.)} can be useful to 
-		interpret \gls{datapoint}s $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$ 
-		as \gls{realization}s of i.i.d. \gls{rv}s with 
-		a common \gls{probdist}. If these \gls{rv}s are continuous-valued, their joint \gls{pdf} is $p\big(\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)} \big) = \prod_{\sampleidx=1}^{\samplesize} p \big(\datapoint^{(\sampleidx)}\big)$, with $p(\datapoint)$ being the common 
-		marginal \gls{pdf} of the underlying \gls{rv}s.},
-	first={indépendantes et identiquement distribuées (i.i.d.)},text={{i.i.d.}} }
-
-
 \newglossaryentry{outlier}{name={outlier}, description={Many\index{outlier} \gls{ml} methods 
 		are motivated by the \gls{iidasspt}, which interprets \gls{datapoint}s as \gls{realization}s of 
 		\gls{iid} \gls{rv}s with a common \gls{probdist}. The \gls{iidasspt} is useful for applications  
@@ -3083,22 +3132,13 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 		if each \gls{neighborhood} $\{ \featurevec': \| \featurevec - \featurevec' \| \leq \varepsilon \}$, 
 		for any $\varepsilon >0$, contains at least two vectors with different function values.},first={frontière de décision},text={frontière de décision} }
 
-
-\newglossaryentry{euclidspace}{name={Euclidean space}, description={The\index{Euclidean space} 
-		Euclidean space $\mathbb{R}^{\featuredim}$ of dimension $\featuredim \in \mathbb{N}$ consists 
-		of vectors $\featurevec= \big(\feature_{1},\ldots,\feature_{\featurelen}\big)$, with $\featuredim$ 
-		real-valued entries $\feature_{1},\ldots,\feature_{\featuredim} \in \mathbb{R}$. Such an Euclidean 
-		space is equipped with a geometric structure defined by the inner product 
-		$\featurevec^{T} \featurevec' = \sum_{\featureidx=1}^{\featuredim} \feature_{\featureidx} \feature'_{\featureidx}$ 
-		between any two vectors $\featurevec,\featurevec' \in \mathbb{R}^{\featuredim}$ \cite{RudinBookPrinciplesMatheAnalysis}.},first={Euclidean space},text={Euclidean space} }
-
 \newglossaryentry{eerm}{name={explainable empirical risk minimization (EERM)}, description={Explainable \gls{erm} is an\index{explainable empirical risk minimization (EERM)} 
 		instance of \gls{srm} that adds a \gls{regularization} term to the 
 		average \gls{loss} in the \gls{objfunc} of \gls{erm}. 
 		The \gls{regularization} term is chosen to favor \gls{hypothesis} maps that are intrinsically 
 		explainable for a specific user. This user is characterized by their \gls{prediction}s provided 
 		for the \gls{datapoint}s in a \gls{trainset} \cite{Zhang:2024aa}.},first={explainable empirical risk minimization (EERM)},text={EERM} }
-	
+%	
 	
 \newglossaryentry{kmeans}{name={$k$-moyennes}, description={The\index{$k$-moyennes} $k$-\gls{mean}s \gls{algorithm} 
 		is a \gls{hardclustering} method which assigns each \gls{datapoint} of a \gls{dataset} 
@@ -3205,12 +3245,6 @@ allow us to separate the \gls{datapoint}s using a \gls{linclass}.  \label{fig_li
 			The quality of a polynomial \gls{hypothesis} map is measured using the average \gls{sqerrloss} 
 			incurred on a set of \gls{labeled datapoint}s (which we refer to as the 
 			\gls{trainset}).},first={polynomial regression},text={polynomial regression}}
-
-\newglossaryentry{linreg}{name={linear regression}, description={Linear\index{linear regression} 
-		\gls{regression} aims to learn a linear \gls{hypothesis} map to predict a numeric \gls{label} based 
-		on the numeric \gls{feature}s of a \gls{datapoint}. The quality of a linear \gls{hypothesis} map is 
-		measured using the average \gls{sqerrloss} incurred on a set of \gls{labeled datapoint}s, 
-		which we refer to as the \gls{trainset}.},first={linear regression},text={linear regression}}
         
 \newglossaryentry{ridgeregression}{name={ridge regression}, description={Ridge\index{ridge regression} 
 		\gls{regression} learns the \gls{weights} $\weights$ of a linear \gls{hypothesis} map $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. The quality of a particular choice for the \gls{modelparams} $\weights$ is measured by the sum 
@@ -3806,18 +3840,6 @@ $\hypothesis$ as a Bayes estimator if its \gls{risk} $\expect\{\lossfunc{\pair{\
 the underlying \gls{probdist} and the choice for the \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.},
 		first={Bayes estimator},text={Bayes estimator}}
 
-    
-    
-\newglossaryentry{pdf}{name={probability density function (pdf)},
-	description={The\index{probability density function (pdf)} \gls{probability} density function $p(\feature)$ 
-		of a real-valued \gls{rv} $\feature \in \mathbb{R}$ is a particular representation of its \gls{probdist}. 
-		If the \gls{probability} density function exists, it can be used to compute the \gls{probability} that $\feature$ takes on a value 
-		from a (measurable) set $\mathcal{B} \subseteq \mathbb{R}$ via $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. The \gls{probability} density function of a vector-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ (if it exists) 
-        allows us to compute the \gls{probability} of $\featurevec$ belonging to a (measurable) region $\mathcal{R}$ via 
-        $\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \ldots d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.},
-first={probability density function (pdf)},text={pdf}}
-
-
 \newglossaryentry{lln}{name={law of large numbers},
 	description={The\index{law of large numbers} law of large numbers refers to the 
 		convergence of the average of an increasing (large) number of \gls{iid} \gls{rv}s 
@@ -3851,49 +3873,6 @@ first={probability density function (pdf)},text={pdf}}
 \newglossaryentry{nonsmooth}{name={non-smooth},
 	description={We\index{non-smooth} refer to a function as non-smooth if it is not 
 		\gls{smooth} \cite{nesterov04}.},first={non-smooth},text={non-smooth}}
-
-\newglossaryentry{convex}{name={convexe},
-	description={A\index{convexe} subset $\mathcal{C} \subseteq \mathbb{R}^{\featuredim}$ of the 
-		\gls{euclidspace} $\mathbb{R}^{\featuredim}$ is referred to as convex if it contains 
-		the line segment between any two points $\vx, \vy\!\in\!\cluster$ in that set. A function 
-		$f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ 
-		is convex if its epigraph $\big\{ \big( \weights^{T},t \big)^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ 
-		is a convex set \cite{BoydConvexBook}. We illustrate one example of a convex set 
-		and a convex function in Figure \ref{fig_convex_set_function}. 
-		\begin{figure}[H]
-		\begin{center}
-			\begin{tikzpicture}
-				% Left part: Convex set (Ellipse)
-				\fill[blue!20, opacity=0.5] (-3,0) ellipse (2 and 1.2); % Shaded ellipse
-				\draw[thick] (-3,0) ellipse (2 and 1.2);
-			 % Points inside the ellipse
-				\filldraw[black] (-3.7,0.2) circle (2pt) node[left] {$\vw$};
-				\filldraw[black] (-2.3,-0.5) circle (2pt) node[right] {$\vw'$};
-				% Line segment connecting the two points
-				\draw[thick] (-3.7,0.2) -- (-2.3,-0.5);
-				% Label for the convex set
-				\node at (-1.2,-1.0) {$\mathcal{C}$};
-				% Right part: Convex function and epigraph
-				\begin{scope}[shift={(5,-1)}]
-					% Define the convex function
-					\draw[thick, domain=-2:2, smooth, variable=\x] 
-					plot ({\x}, {0.5*\x*\x});
-					% Shaded epigraph (area above the function)
-					\fill[blue!30, opacity=0.5] 
-					plot[domain=-1.5:1.5, smooth] ({\x}, {0.5*\x*\x}) -- 
-					(2, {0.5*2*2}) -- 
-					(-2, {0.5*2*2}) -- 
-					cycle;
-					%\fill[blue!30, opacity=0.5] (-1.5,1.2) -- (-1.5,2.5) -- (1.5,2.5) -- (1.5,1.2) -- plot[domain=-1.5:1.5, smooth] ({\x}, {0.5*\x*\x}) -- cycle;
-					% Labels
-					\node at (0,-0.4) {$f(\weights)$};
-				\end{scope}
-			\end{tikzpicture}
-			\vspace*{-8mm}
-			\end{center}
-			\caption{Left: A convex set $\cluster \subseteq \mathbb{R}^{\dimlocalmodel}$. 
-				Right: A convex function $f: \mathbb{R}^{\dimlocalmodel} \rightarrow \mathbb{R}$.\label{fig_convex_set_function}}
-		\end{figure}},first={convexe},text={convexe}}
 
 
 \newglossaryentry{smooth}{name={lisse (ou régulière)},
