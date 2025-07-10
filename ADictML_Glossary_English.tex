@@ -265,11 +265,13 @@
 
 
 \newglossaryentry{map}
-{name={map}, plural={maps}, 
-	description={We\index{map} use the term map as a synonym for \gls{function}.
+{name={map}, 
+ description={We\index{map} use the term map as a synonym for \gls{function}.
 	\\
 	See also: \gls{function}.},
 	first={map},
+	firstplural={maps},	
+	plural={maps},
 	text={map}
 }
 
@@ -701,7 +703,7 @@
 		raw \glspl{feature} $\featurevec \in \featurespace$. \Gls{feature} learning\index{feature learning} 
 		refers to the task of learning a \gls{map} 
 		$$\featuremapvec: \featurespace \rightarrow \featurespace': \featurevec \mapsto \featurevec'$$ 
-		that reads in raw \glspl{feature} $\featurevec \in \featurespace$ of a \gls{datapoint} and delivers new 
+		that reads in the \glspl{feature} $\featurevec \in \featurespace$ of a \gls{datapoint} and delivers new 
 		\glspl{feature} $\featurevec' \in \featurespace'$ from a new \gls{featurespace} $\featurespace'$. 
 		Different \gls{feature} learning methods are obtained for different design 
 		choices of $\featurespace,\featurespace'$, for a \gls{hypospace} $\hypospace$ 
@@ -1246,40 +1248,42 @@ but are both derived from the same \gls{dataset}.}
 \newglossaryentry{mvndist}
 {name={multivariate normal distribution}, 
 	description={The\index{multivariate normal distribution} multivariate normal distribution, 
- 		which is denoted $\mvnormal{\meanvecgeneric}{\covmtxgeneric}$, is a fundamental \gls{probmodel} 
- 		for numerical \glspl{featurevec} of fixed dimension $\nrfeatures$. 
- 		It defines a family of \glspl{probdist} over vector-valued \glspl{rv} 
- 		$\featurevec \in \mathbb{R}^{\nrfeatures}$~\cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
- 		Each distribution in this family is fully specified by its \gls{mean} vector 
- 		$\meanvecgeneric \in \mathbb{R}^{\nrfeatures}$ and \gls{covmtx} $\covmtxgeneric \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$. 
- 		When the \gls{covmtx} $\covmtxgeneric$ is invertible, its \gls{probdist} is 
- 		fully characterized by the following \gls{pdf}:
- 		\[
- 		p(\featurevec) = 
+	denoted by $\mvnormal{\meanvecgeneric}{\covmtxgeneric}$, is a fundamental 
+	\gls{probmodel} for numerical \glspl{featurevec} of fixed dimension $\nrfeatures$. 
+	It defines a family of \glspl{probdist} over vector-valued \glspl{rv} 
+	$\featurevec \in \mathbb{R}^{\nrfeatures}$~\cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
+	Each distribution in this family is fully specified by its \gls{mean} vector 
+	$\meanvecgeneric \in \mathbb{R}^{\nrfeatures}$ and \gls{covmtx} 
+	$\covmtxgeneric \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$. When the 
+	\gls{covmtx} $\covmtxgeneric$ is invertible, the corresponding \gls{probdist} is 
+	characterized by the following \gls{pdf}:
+	\[p(\featurevec) = 
  		\frac{1}{\sqrt{(2\pi)^{\nrfeatures} \determinant{\covmtxgeneric}}} 
  		\exp\left[ -\frac{1}{2} 
  		(\featurevec - \meanvecgeneric)^T \covmtxgeneric^{-1} 
  		(\featurevec - \meanvecgeneric) \right].
- 		\]
- 		Note that the \gls{pdf} is only defined when $\covmtxgeneric$ is invertible.
-     		More generally, any \gls{rv} $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$ 
-     		admits the following innovation representation:
-		\[\featurevec \!=\! \mA \vz \!+\!\meanvecgeneric
-		\]
-		where $\vz \sim \mvnormal{\mathbf{0}}{\mathbf{I}}$ is a \gls{stdnormvec} 
-		and $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ satisfies $\mA \mA^T = \covmtxgeneric$. 
-		This innovation representation is valid even when the \gls{covmtx} $\covmtxgeneric$ is singular, 
-		in which case $\mA$ is not necessarily full-rank \cite[Ch. 23]{Lapidoth2017}.\\ 
-		The family of multivariate normal distributions is exceptional among \glspl{probmodel} for numerical 
-		quantities at least for the following reasons. First, the family is closed under affine transformations, i.e., 
-		\[ 
+ 	\]
+	Note that this \gls{pdf} is only defined when $\covmtxgeneric$ is invertible.
+   More generally, any \gls{rv} $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$ 
+   admits the following representation:
+  \[
+    \featurevec = \mA \vz + \meanvecgeneric,
+   \]
+   where $\vz \sim \mvnormal{\mathbf{0}}{\mathbf{I}}$ is a \gls{stdnormvec}, 
+   and $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ satisfies $\mA \mA^\top = \covmtxgeneric$. 
+   This representation remains valid even when $\covmtxgeneric$ is singular, in which case $\mA$ 
+   is not full-rank~\cite[Ch. 23]{Lapidoth2017}.
+   The family of multivariate normal distributions is exceptional among \glspl{probmodel} for numerical 
+   quantities, at least for the following reasons. First, the family is closed under affine 
+   transformations, i.e.,
+	\[ 
 		\featurevec \sim \mathcal{N}(\meanvecgeneric,\covmtxgeneric) \mbox{ implies } 
 		\mB\featurevec\!+\!\vc \sim \mathcal{N}\big( \mB\meanvecgeneric+\vc,\mB \covmtxgeneric \mB^{T} \big). 
 		\]
-		Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the differential \gls{entropy} 
-		among all distributions with the same \gls{covmtx} $\covmtxgeneric$ \cite{coverthomas}. 
+	Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the 
+	\gls{diffentropy} among all distributions with the same \gls{covmtx} $\covmtxgeneric$~\cite{coverthomas}.
 		\\ 
-		See also: \gls{probmodel}, \gls{featurevec}, \gls{probdist}, \gls{rv}, \gls{covmtx}, \gls{pdf}, \gls{stdnormvec}, \gls{gaussrv}, \gls{mean}, \gls{entropy}.}, 
+		See also: \gls{probmodel}, \gls{probdist}, \gls{stdnormvec}, \gls{gaussrv},  \gls{diffentropy}.}, 
 	first={multivariate normal distribution},
 	text={multivariate normal distribution}
 }
@@ -3991,20 +3995,29 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{featuremap}
 {name={feature map}, 
-	description={\Gls{feature} \gls{map} refers to a\index{feature map} \gls{map} 
-		that transforms the original \glspl{feature} of a \gls{datapoint} into new \glspl{feature}. The 
-		so-obtained new \glspl{feature} might be preferable over the original \glspl{feature} for 
-		several reasons. For example, the arrangement of \glspl{datapoint} might become 
-		simpler (or more linear) in the new \gls{featurespace}, allowing the use of \glspl{linmodel} 
-		in the new \glspl{feature}. This idea is a main driver for the development of \glspl{kernelmethod} \cite{LearningKernelsBook}. 
-		Moreover, the hidden layers of a \gls{deepnet} can be interpreted as a trainable \gls{feature} \gls{map} 
-		followed by a \gls{linmodel} in the form of the output layer. Another reason for learning a \gls{feature} \gls{map}
-		could be that learning a small number of new \glspl{feature} helps to avoid \gls{overfitting} and 
-		ensures \gls{interpretability} \cite{Ribeiro2016}. The special case of a \gls{feature} \gls{map} delivering 
-		two numeric \glspl{feature} is particularly useful for \gls{data} visualization. Indeed, we can depict 
-		\glspl{datapoint} in a \gls{scatterplot} by using two \glspl{feature} as the coordinates of a \gls{datapoint}.
+	description={A \gls{feature} \gls{map} refers to a \gls{function} 
+$$
+\featuremapvec: \featurespace \rightarrow \featurespace', \quad \featurevec \mapsto \featurevec'
+$$
+that transforms a \gls{featurevec} $\featurevec \in \featurespace$ of 
+ a \gls{datapoint} into a new \gls{featurevec} $\featurevec' \in \featurespace'$, 
+ where $\featurespace'$ is typically different from $\featurespace$.
+ The transformed representation $\featurevec'$ is often more useful than the original 
+ $\featurevec$. For instance, the geometry of \glspl{datapoint} may become more linear 
+ in $\featurespace'$, allowing the application of a \gls{linmodel} to $\featurevec'$. 
+ This idea is central to the design of \glspl{kernelmethod}~\cite{LearningKernelsBook}.
+ Other benefits of using a \gls{featuremap} include reducing \gls{overfitting} and 
+ improving \gls{interpretability}~\cite{Ribeiro2016}. A common use case is \gls{data} 
+ visualization, where a \gls{featuremap} with two output dimensions allows the representation 
+ of \glspl{datapoint} in a 2D \gls{scatterplot}. Some \gls{ml} methods employ trainable 
+ \glspl{featuremap}, whose \glspl{parameter} are learned from \gls{data}. An example is 
+ the use of hidden layers in a \gls{deepnet}, which act as successive \gls{feature} \glspl{map} 
+ \cite{MallatUnderstandingDeepLearning}. A principled way to train a \gls{featuremap} 
+ is through \gls{erm}, using a \gls{lossfunc} that measures reconstruction quality, 
+ e.g., $\lossfun = \|\featurevec - r(\featurevec')\|^2$, where $r(\cdot)$ is a trainable
+ \gls{map} that attempts to reconstruct $\featurevec$ from the transformed \gls{featurevec} $\featurevec'$.
 				\\
-		See also: \gls{feature}, \gls{map}, \gls{datapoint}, \gls{featurespace}, \gls{linmodel}, \gls{kernelmethod}, \gls{deepnet}, \gls{overfitting}, \gls{interpretability}, \gls{data}, \gls{scatterplot}.},
+		See also: \gls{feature}, \gls{map}, \gls{featlearn}, \gls{pca} \gls{kernelmethod}.},
 	first={feature map},
 	text={feature map} 
 }
@@ -4124,15 +4137,40 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 
 \newglossaryentry{kernel}
 {name={kernel}, 
-	description={Consider\index{kernel} \glspl{datapoint} characterized by a \gls{featurevec} $\featurevec \in \featurespace$ 
-		with a generic \gls{featurespace} $\featurespace$. A (real-valued) kernel $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
-		assigns each pair of \glspl{featurevec} $\featurevec, \featurevec' \in \featurespace$ a real number $\kernelmap{\featurevec}{\featurevec'}$. 
-		The value $\kernelmap{\featurevec}{\featurevec'}$ is often interpreted as a measure for the similarity between $\featurevec$ 
-		and $\featurevec'$. \Glspl{kernelmethod} use a kernel to transform the \gls{featurevec} $\featurevec$ to a new \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$. 
-         	This new \gls{featurevec} belongs to a linear \gls{featurespace} $\featurespace'$ which is (in general)  
-          	different from the original \gls{featurespace} $\featurespace$. The \gls{featurespace} $\featurespace'$ has 
-          	a specific mathematical structure, i.e., it is a reproducing kernel \gls{hilbertspace} \cite{LearningKernelsBook}, \cite{LampertNowKernel}.
-          		\\
+	description={
+	 Consider\index{kernel} a set of \glspl{datapoint}, each represented by a \gls{featurevec} 
+	 $\featurevec \in \featurespace$, where $\featurespace$ denotes the \gls{featurespace}. 
+	 A (real-valued) kernel is a \gls{function} 
+	 $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ that assigns to every pair of 
+     \glspl{featurevec} $\featurevec, \featurevec' \in \featurespace$ a real number $\kernelmap{\featurevec}{\featurevec'}$. 
+     This value is typically interpreted as a similarity measure between $\featurevec$ and $\featurevec'$. 
+	 The defining property of a kernel is that it is symmetric, i.e.,
+	 $\kernelmap{\featurevec}{\featurevec'} = \kernelmap{\featurevec'}{\featurevec}$, and that 
+	 for any finite set of \glspl{featurevec} $\featurevec_1, \ldots, \featurevec_n \in \featurespace$, 
+	 the matrix 
+	  \begin{equation}
+	 	\nonumber
+	 	\mathbf{K} = \begin{pmatrix}
+	 		\kernelmap{\featurevec_1}{\featurevec_1} & \kernelmap{\featurevec_1}{\featurevec_2} & \ldots & \kernelmap{\featurevec_1}{\featurevec_n} \\
+	 		\kernelmap{\featurevec_2}{\featurevec_1} & \kernelmap{\featurevec_2}{\featurevec_2} & \ldots & \kernelmap{\featurevec_2}{\featurevec_n} \\
+	 		\vdots											
+	 		& \vdots & \ddots & \vdots \\
+	 		\kernelmap{\featurevec_n}{\featurevec_1} & \kernelmap{\featurevec_n}{\featurevec_2} & \ldots & \kernelmap{\featurevec_n}{\featurevec_n} 
+	 	\end{pmatrix} \in \mathbb{R}^{n \times n}
+	 \end{equation}
+	 is \gls{psd}. 
+     A kernel naturally defines a transformation of a \gls{featurevec} $\featurevec$ into a 
+	 function $\vz = \kernelmap{\featurevec}{\cdot}$. The function $\vz$ maps an  
+	 input $\featurevec' \in \featurespace$ to the value $\kernelmap{\featurevec}{\featurevec'}$. 
+	 We can view the function $\vz$ as a new \gls{featurevec} that belongs to a 
+	 \gls{featurespace} $\featurespace'$ which is typically different from $\featurespace$. 
+	 This new \gls{featurespace} $\featurespace'$ has a particular mathematical structure, i.e., it is a 
+	 reproducing kernel \gls{hilbertspace} (RKHS)~\cite{LearningKernelsBook,LampertNowKernel}.
+     Since $\vz$ belgons to a RKHS, which is a \gls{vectorspace}, we can inperpret it as a generalized 
+	 \gls{featurevec}. Note that a finite-length \gls{featurevec} $\featurevec=\big(\feature_{1},\ldots,\feature_{\nrfeatures} \big)^{T} \in \mathbb{R}^{\nrfeatures}$ 
+	 can be viewed as a \gls{function} $\featurevec: \{1, \ldots, \nrfeatures\} \rightarrow \mathbb{R}$ 
+	 that assigns a real value to each index $\featureidx \in \{1,\ldots,\nrfeatures\}$. 
+	\\
 		See also: \gls{featurevec}, \gls{featurespace}, \gls{kernelmethod}, \gls{hilbertspace}.
           },
 	first={kernel},text={kernel} }
@@ -5695,7 +5733,30 @@ the Bayes \gls{risk} is referred to as a \gls{bayesestimator} \cite{LC}.
  	in order to compute $\hypothesis^{(\weights)} \in \hypospace$. A \gls{linmodel} uses weights 
 	$\weights=\big(\weight_{1},\ldots,\weight_{\nrfeatures}\big)^{T}$ to compute the linear combination 
  	$\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. Weights are also used in \glspl{ann} 
- 	to form linear combinations of \glspl{feature} or the outputs of neurons in hidden layers.
+ 	to form linear combinations of \glspl{feature} or of the outputs of neurons in hidden layers.
+	\begin{figure}[htbp]
+	\begin{center}
+	\begin{tikzpicture}[neuron/.style={circle, draw, minimum size=1cm}, 
+                    thick, >=stealth]
+% Hidden layer neurons
+		\node[neuron] (h1) at (0, 2) {$h_1$};
+		\node[neuron] (h2) at (0, 0) {$h_2$};
+		\node[neuron] (h3) at (0, -2) {$h_3$};
+% Common target coordinate to merge arrows
+		\coordinate[right=3cm of h2] (outpoint);
+% Label the linear combination to the right of the arrow tips
+		\node[anchor=west] at ([xshift=0.2cm]outpoint) 
+    {$z = w_1 h_1 + w_2 h_2 + w_3 h_3$};
+% Arrows from hidden neurons to common point
+		\draw[->] (h1) -- node[above] {$w_1$} (outpoint);
+		\draw[->] (h2) -- node[above] {$w_2$} (outpoint);
+		\draw[->] (h3) -- node[below] {$w_3$} (outpoint);
+		\end{tikzpicture}
+	\end{center}
+	\caption{A section of an \gls{ann} that contains a hidden layer with outputs (or activations) 
+	$h_{1}$,$h_{2}$ and $h_{3}$. These outputs are combined linearly to compute $z$ which can 
+	be either used as output of the \gls{ann} or as input to another layer.\label{fig_weights_dict}}
+		\end{figure}
 				\\
 		See also: \gls{hypospace}, \gls{modelparams}, \gls{feature}, \gls{linmodel}, \gls{ann}.},
 	first={weights},
