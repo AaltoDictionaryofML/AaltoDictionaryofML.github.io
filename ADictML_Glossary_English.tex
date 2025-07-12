@@ -72,27 +72,106 @@
 	text={inverse matrix}
 }
 
+\newglossaryentry{matrix}
+{name={matrix},
+ description={A matrix\index{matrix} of size $\samplesize \times \nrfeatures$ is a two-dimensional array of numbers, 
+ 	denoted as 
+$$
+  \mA = \begin{bmatrix}
+   A_{1,1} & A_{1,2} & \dots  & A_{1,\nrfeatures} \\
+	A_{2,1} & A_{2,2} & \dots  & A_{2,\nrfeatures} \\
+	\vdots  & \vdots  & \ddots & \vdots \\
+	A_{\samplesize,1} & A_{\samplesize,2} & \dots  & A_{\samplesize,\nrfeatures}
+\end{bmatrix} \in \mathbb{R}^{\samplesize \times \nrfeatures}.
+$$
+Here, $A_{\sampleidx,\featureidx}$ denotes the matrix entry in the $\sampleidx$-th row and the 
+$\featureidx$-the column. Matrices are useful representations of various mathematical objects \cite{StrangLinAlg2016}:
+\begin{itemize}
+	\item {\bf Systems of Linear Equations.} We can use a matrix to represent a system of linear equations 
+	$$ \begin{pmatrix}
+	A_{1,1} & A_{1,2} \\
+	A_{2,1} & A_{2,2}
+\end{pmatrix}
+\begin{pmatrix}
+	w_1 \\
+	w_2
+\end{pmatrix}
+=\begin{pmatrix}
+	y_1 \\
+	y_2
+\end{pmatrix}
+\quad \text{ compactly as } \quad \mA \vw = \vy.
+$$
+    One important example of systems of linear equations are the optimality condition for the 
+    \gls{modelparams} within \gls{linreg}. 
+	\item {\bf \Glspl{linearmap}.} 
+	Consider a $\nrfeatures$-dimensional \gls{vectorspace} $\mathcal{U}$ and a $\samplesize$-dimensional \gls{vectorspace} $\mathcal{V}$. 
+	If we fix a basis $\mathbf{u}^{(1)},\ldots,\mathbf{u}^{(\nrfeatures)}$ for $\mathcal{U}$ and a basis $\mathbf{v}^{(1)},\ldots,\mathbf{v}^{(\samplesize)}$ 
+	for $\mathcal{V}$, each matrix $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ naturally defines a linear map $\alpha: \mathcal{U} \rightarrow \mathcal{V}$:
+   $$\vu^{(\featureidx)} \mapsto \sum_{\sampleidx=1}^{\samplesize} A_{\sampleidx,\featureidx} \vv^{(\sampleidx)}.$$
+	\item {\bf \Glspl{dataset}.} We can use a matrix to represent a \gls{dataset}: each row 
+	corresponds to a single \gls{datapoint}, and each column corresponds to a specific 
+	\gls{feature} or \gls{label} of a \gls{datapoint}. 
+\end{itemize}
+	\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}[x=2cm]
+			% LEFT: Standard basis vectors and unit square
+			\begin{scope}
+				\draw[->, thick] (0,0) -- (1,0) node[below] {$\vu^{(1)}$};
+				\draw[->, thick] (0,0) -- (0,1) node[above] {$\vu^{(2)}$};
+				%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+				%\node at (0.5,0.5) {\small unit square};
+				%\node at (0.5,-0.6) {standard basis};
+			\end{scope}
+			% RIGHT: Transformed basis vectors and parallelogram
+			\begin{scope}[shift={(3.2,0)}]
+					\draw[->, thick] (0,0) -- (1,0) node[below] {$\vv^{(1)}$};
+				\draw[->, thick] (0,0) -- (0,1) node[above] {$\vv^{(2)}$};
+				\coordinate (A) at (0.2,-1.0);
+				\coordinate (B) at (0.4,1.2);
+				\draw[->, very thick, red] (0,0) -- (A) node[below,right] {$\mA \vu^{(1)}\!=\!A_{1,1}\vv^{(1)}\!+\!A_{2,1}\vv^{(2)}$};
+				\draw[->, very thick, red] (0,0) -- (B) node[right,xshift=1pt] {$\mA \vu^{(2)}$};
+				%	\node[blue] at (0.25,1.25) {};
+				%	\node at (0.8,-0.6) {transformed basis};
+			\end{scope}
+			% Arrow between plots
+			\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {$\mA$} (2.7,0.5);
+		%	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+		\end{tikzpicture}
+	\end{center}
+	\caption{A matrix $\mA$ defines a \gls{linearmap} between two \glspl{vectorspace}.} 
+\end{figure}
+See also: \gls{linearmap}, \gls{dataset}, \gls{linmodel}. },
+first={matrix},
+	firstplural={matrices},
+	plural={matrices},
+	text={matrix}
+}
+
+
 \newglossaryentry{det}
 {name={determinant},
 	description={The\index{determinant} determinant $\det(\mA)$ of a square matrix 
-		$\mA = \big( \va^{(1)},\ldots, \va^{(n)} \big) \in \mathbb{R}^{n \times n}$ is a 
-		\gls{function} of its columns $\va^{(1)},\ldots,\va^{(n)} \in \mathbb{R}^{n}$, that is \cite{DirschmidHansJorg1996TuF}
+		$\mA = \big( \va^{(1)},\ldots, \va^{(\nrfeatures)} \big) \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is a 
+		\gls{function} of its columns $\va^{(1)},\ldots,\va^{(\nrfeatures)} \in \mathbb{R}^{\nrfeatures}$, that is \cite{DirschmidHansJorg1996TuF}
 		\begin{itemize}
 			\item Normalized: $$\det (\mI) = 1$$ 
-			\item Multi-linear: \begin{align} \nonumber \det \big(\va^{(1)},\ldots,\alpha\vu+ \beta \vv,\ldots,\va^{(n)} \big) & = \alpha\det \big(\va^{(1)},\ldots,\vu,\ldots,\va^{(n)} \big) \\ 
-			& +\beta\det \big(\va^{(1)},\ldots,\vv,\ldots,\va^{(n)} \big) \nonumber
+			\item Multi-linear: \begin{align} \nonumber \det \big(\va^{(1)},\ldots,\alpha\vu+ \beta \vv,\ldots,\va^{(\nrfeatures)} \big) & = \alpha\det \big(\va^{(1)},\ldots,\vu,\ldots,\va^{(\nrfeatures)} \big) \\ 
+			& +\beta\det \big(\va^{(1)},\ldots,\vv,\ldots,\va^{(\nrfeatures)} \big) \nonumber
 			\end{align}
-			\item Anti-symmetric: $$\det \big(\ldots,\va^{(i)}, \ldots, \va^{(j)},\ldots \big) = - \det \big(\ldots,\va^{(j)}, \ldots, \va^{(i)},\ldots \big).$$ 
+			\item Anti-symmetric: $$\det \big(\ldots,\va^{(\featureidx)}, \ldots, \va^{(\featureidx')},\ldots \big) = - \det \big(\ldots,\va^{(\featureidx')}, \ldots, \va^{(\featureidx)},\ldots \big).$$ 
 		\end{itemize} 
-		We can interpret a matrix $\mA$ as a linear transformation on $\mathbb{R}^{n}$. 
+		We can interpret a matrix $\mA$ as a linear transformation on $\mathbb{R}^{\nrfeatures}$. 
 		The determinant $\det(\mA)$ characterizes how (the orientation of) 
- 		volumes in $\mathbb{R}^n$ are altered by this transformation \cite{GolubVanLoanBook}, \cite{Strang2007}. 
+ 		volumes in $\mathbb{R}^\nrfeatures$ are altered by this transformation \cite{GolubVanLoanBook}, \cite{Strang2007}. 
  		In particular, $\det(\mA) > 0$ preserves orientation, $\det(\mA) < 0$ reverses orientation, 
  		and $\det(\mA) = 0$ collapses volume entirely, indicating that $\mA$ is non-invertible. 
  		The determinant also satisfies $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, and if $\mA$ is 
- 		diagonalizable with \glspl{eigenvalue} $\eigval{1}, \ldots, \eigval{n}$, then $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}.
-    		For the special cases $n=2$ (2D) and $n=3$ (3D), the determinant can be interpreted as an oriented 
-    		area or volume spanned by the column vectors of $\mA$.
+ 		diagonalizable with \glspl{eigenvalue} $\eigval{1}, \ldots, \eigval{\nrfeatures}$, then 
+ 		$\det(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}. 
+ 		For the special cases $\nrfeatures=2$ (2D) and $\nrfeatures=3$ (3D), the determinant can be 
+ 		interpreted as an oriented area or volume spanned by the column vectors of $\mA$.
     		\begin{figure}[H]
     			\begin{center}
     			\begin{tikzpicture}[x=2cm]
@@ -123,6 +202,8 @@
 			\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
 			\end{tikzpicture}
 			\end{center}
+			\caption{We can interpret a square \gls{matrix} $\mA$ as a linear transformation of $\mathbb{R}^{\nrfeatures}$ 
+				into itself. The determinant $\det(\mA)$ characterizes how this transformation alters an oriented volume.} 
 		\end{figure}
 		See also: \gls{eigenvalue}, \gls{inverse}.},
 	first={determinant},
