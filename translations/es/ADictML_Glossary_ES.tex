@@ -2145,17 +2145,82 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 
 
 
+
 \newglossaryentry{explanation}
-{name={explicación},
-	description={Un manera para hacer que los métodos de aprendizaje automático sean transparentes consiste en  
-		proporcionar una explicación\index{explicación} junto con la predicción generada por el método 
-		aprendizaje automático. Las explicaciones pueden adoptar muchas formas diferentes. Pueden ser un texto natural
-		o una medida cuantitativa que indique la importancia de atributos individuales
-		de un punto de datos \cite{Molnar2019}.
- 		También podemos usar formas visuales, como los mapas de intensidad usados en tareas de clasificación de imágenes \cite{GradCamPaper}.
-		 \\
-		 Vea también: \gls{ml}, \gls{prediction}, \gls{datapoint},  \gls{classification}},
-		first={explicación},text={explicación} 
+{name={explanation},
+	description={
+		One approach to enhance the transparency of a \gls{ml} method for its human user 
+		is to provide an explanation\index{explanation} alongside the \glspl{prediction} delivered 
+		by the method. Explanations can take different forms. For instance, they may 
+        consist of human-readable text or quantitative indicators such as \gls{feature} 
+        importance scores for the individual \glspl{feature} of a given \gls{datapoint}~\cite{Molnar2019}. 
+	   Alternatively, explanations can be visual, for example, intensity maps that highlight 
+	   image regions that drive the \gls{prediction} \cite{GradCamPaper}. 
+       Fig.\ \ref{fig_explanation_dict} illustrates two types of explanations. The first 
+       is a local linear approximation $g(\featurevec)$ of a non-linear trained \gls{model} 
+       $\learnthypothesis(\featurevec)$ around a specific \gls{featurevec} $\featurevec'$, 
+       as used in the method \gls{lime}. 
+        The second form of explanation depicted in the figure is a sparse set of \glspl{prediction} 
+       $\learnthypothesis(\featurevec^{(1)}), \learnthypothesis(\featurevec^{(2)}), \learnthypothesis(\featurevec^{(3)})$ 
+       at selected \glspl{featurevec}, offering concrete reference points for the user. 
+	 	 \begin{figure}[htbp]
+	   		\begin{center}
+	 		\begin{tikzpicture}[x=0.5cm]
+	 		\begin{axis}[
+	 			hide axis,
+	 			xmin=-3, xmax=6,
+	 			ymin=0, ymax=6,
+	 			domain=0:6,
+	 			samples=100,
+	 			width=10cm,
+	 			height=6cm,
+	 			clip=false
+	 		   ]
+	 	% Original nonlinear function h(x)
+			\addplot[thick, domain=-2:6] {2 + sin(deg(x))} 
+	   		     node[pos=0.9, above right, yshift=10pt] {$\learnthypothesis(\featurevec)$};
+	 	% Tangent line as local linear approximation at x = 1.5
+	 	% h(3) = 2 + sin(3), h'(3) = cos(3)
+	 		\addplot[blue, thick, domain=0.5:2.5] 
+	 		{2 + sin(deg(1.5)) + cos(deg(1.5))*(x - 1.5)}
+	 		node[pos=0.2, above] {$g(\featurevec)$};
+	 	% Mark point of approximation
+	 		\addplot[mark=*] coordinates {(1.5, {2 + sin(deg(1.5))})};
+	 		    % Vertical dashed line (ruler) at x = 1.5
+			\addplot[dashed, gray] coordinates {(1.5,0) (1.5,2.4)};
+	 		\node at (axis cs:1.5, -0.2) {$\featurevec'$};
+	      % add function values for finite set of featurevecs
+	       \addplot[mark=*,blue] coordinates {(-1, {2 + sin(deg(-1))})};
+	       	\addplot[dashed, gray] coordinates {(-1,0) (-1,{2 + sin(deg(-1))})};
+	       \node at (axis cs:-1, -0.2) {$\featurevec^{(1)}$};
+	 	   \addplot[mark=*,blue] coordinates {(0, {2 + sin(deg(0))})};
+	 	   	\addplot[dashed, gray] coordinates {(0,0) (0,{2 + sin(deg(0))})};
+	 	   \node at (axis cs:0, -0.2) {$\featurevec^{(2)}$};
+	 	   \addplot[mark=*,blue] coordinates {(5, {2 + sin(deg(5))})};
+	 	   	 	   	\addplot[dashed, gray] coordinates {(5,0) (5,{2 + sin(deg(5))})};
+	 	   \node at (axis cs:5, -0.2) {$\featurevec^{(3)}$};
+	% 		    % Plot the two points
+	% 		    % Coordinates of the two points
+	% 		\pgfmathsetmacro{\xA}{-1.5}
+	% 		\pgfmathsetmacro{\xB}{3}
+	% 		\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+	% 		\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+	 		\end{axis}
+	% 	\vspace*{-10mm}
+	 \end{tikzpicture}
+	 \end{center}
+	 \caption{A trained \gls{model} $\learnthypothesis(\featurevec)$ can be explained 
+	     locally at some point $\featurevec'$ by a linear approximation $g(\featurevec)$. 
+	     For a \gls{differentiable} $\learnthypothesis(\featurevec)$, this approximation is 
+	     determined by the \gls{gradient} $\nabla \learnthypothesis(\featurevec')$. Another 
+	     form of explanation could be the \gls{function} values $\learnthypothesis\big(\featurevec^{(\sampleidx)} \big)$ 
+	     for $\sampleidx=1,2,3$. 
+		\label{fig_explanation_dict}}
+	 \end{figure} 
+	 \\
+		See also: \gls{explainability}, \gls{trustAI}.},
+	first={explanation},
+	text={explanation} 
 }
 
 \newglossaryentry{risk}
