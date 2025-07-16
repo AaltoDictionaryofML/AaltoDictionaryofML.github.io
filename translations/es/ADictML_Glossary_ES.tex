@@ -73,31 +73,116 @@
   text={inverse matrix}
 }
 
+
+\newglossaryentry{matrix}
+{name={matrix},
+ description={A matrix\index{matrix} of size $\samplesize \times \nrfeatures$ is a two-dimensional array of numbers, 
+ 	denoted as 
+$$
+  \mA = \begin{bmatrix}
+   A_{1,1} & A_{1,2} & \dots  & A_{1,\nrfeatures} \\
+	A_{2,1} & A_{2,2} & \dots  & A_{2,\nrfeatures} \\
+	\vdots  & \vdots  & \ddots & \vdots \\
+	A_{\samplesize,1} & A_{\samplesize,2} & \dots  & A_{\samplesize,\nrfeatures}
+\end{bmatrix} \in \mathbb{R}^{\samplesize \times \nrfeatures}.
+$$
+Here, $A_{\sampleidx,\featureidx}$ denotes the matrix entry in the $\sampleidx$-th row and the 
+$\featureidx$-the column. Matrices are useful representations of various mathematical objects \cite{StrangLinAlg2016}:
+\begin{itemize}
+	\item {\bf Systems of Linear Equations.} We can use a matrix to represent a system of linear equations 
+	$$ \begin{pmatrix}
+	A_{1,1} & A_{1,2} \\
+	A_{2,1} & A_{2,2}
+\end{pmatrix}
+\begin{pmatrix}
+	w_1 \\
+	w_2
+\end{pmatrix}
+=\begin{pmatrix}
+	y_1 \\
+	y_2
+\end{pmatrix}
+\quad \text{ compactly as } \quad \mA \vw = \vy.
+$$
+    One important example of systems of linear equations are the optimality condition for the 
+    \gls{modelparams} within \gls{linreg}. 
+	\item {\bf \Glspl{linearmap}.} 
+	Consider a $\nrfeatures$-dimensional \gls{vectorspace} $\mathcal{U}$ and a $\samplesize$-dimensional \gls{vectorspace} $\mathcal{V}$. 
+	If we fix a basis $\mathbf{u}^{(1)},\ldots,\mathbf{u}^{(\nrfeatures)}$ for $\mathcal{U}$ and a basis $\mathbf{v}^{(1)},\ldots,\mathbf{v}^{(\samplesize)}$ 
+	for $\mathcal{V}$, each matrix $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ naturally defines a linear map $\alpha: \mathcal{U} \rightarrow \mathcal{V}$:
+   $$\vu^{(\featureidx)} \mapsto \sum_{\sampleidx=1}^{\samplesize} A_{\sampleidx,\featureidx} \vv^{(\sampleidx)}.$$
+	\item {\bf \Glspl{dataset}.} We can use a matrix to represent a \gls{dataset}: each row 
+	corresponds to a single \gls{datapoint}, and each column corresponds to a specific 
+	\gls{feature} or \gls{label} of a \gls{datapoint}. 
+\end{itemize}
+	\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}[x=2cm]
+			% LEFT: Standard basis vectors and unit square
+			\begin{scope}
+				\draw[->, thick] (0,0) -- (1,0) node[below] {$\vu^{(1)}$};
+				\draw[->, thick] (0,0) -- (0,1) node[above] {$\vu^{(2)}$};
+				%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+				%\node at (0.5,0.5) {\small unit square};
+				%\node at (0.5,-0.6) {standard basis};
+			\end{scope}
+			% RIGHT: Transformed basis vectors and parallelogram
+			\begin{scope}[shift={(3.2,0)}]
+					\draw[->, thick] (0,0) -- (1,0) node[below] {$\vv^{(1)}$};
+				\draw[->, thick] (0,0) -- (0,1) node[above] {$\vv^{(2)}$};
+				\coordinate (A) at (0.2,-1.0);
+				\coordinate (B) at (0.4,1.2);
+				\draw[->, very thick, red] (0,0) -- (A) node[below,right] {$\mA \vu^{(1)}\!=\!A_{1,1}\vv^{(1)}\!+\!A_{2,1}\vv^{(2)}$};
+				\draw[->, very thick, red] (0,0) -- (B) node[right,xshift=1pt] {$\mA \vu^{(2)}$};
+				%	\node[blue] at (0.25,1.25) {};
+				%	\node at (0.8,-0.6) {transformed basis};
+			\end{scope}
+			% Arrow between plots
+			\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {$\mA$} (2.7,0.5);
+		%	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+		\end{tikzpicture}
+	\end{center}
+	\caption{A matrix $\mA$ defines a \gls{linearmap} between two \glspl{vectorspace}.} 
+\end{figure}
+See also: \gls{linearmap}, \gls{dataset}, \gls{linmodel}. },
+first={matrix},
+	firstplural={matrices},
+	plural={matrices},
+	text={matrix}
+}
+
 \newglossaryentry{det}
 {name={determinante},
- description={El\index{determinante} determinante $\det(\mA)$ de una matriz cuadrada 
- $\mA \in \mathbb{R}^{n \times n}$ es un escalar que caracteriza cómo (y en qué orientación) 
- se alteran los volúmenes en $\mathbb{R}^n$ al aplicar $\mA$ \cite{GolubVanLoanBook,Strang2007}. 
- [Nótese que una matriz $\mA$ representa una transformación lineal en $\mathbb{R}^{n}$.] 
- En particular, $\det(\mA) > 0$ preserva la orientación, $\det(\mA) < 0$ la invierte, 
- y $\det(\mA) = 0$ colapsa completamente el volumen, lo que indica que $\mA$ no es invertible. 
- El determinante también satisface $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, y si $\mA$ 
- es diagonalizable con valores propios $\eigval{1}, \ldots, \eigval{n}$, entonces 
- $\det(\mA) = \prod_{i=1}^{n} \eigval{i}$ \cite{HornMatAnalysis}.
- En los casos especiales $n=2$ (2D) y $n=3$ (3D), el determinante puede interpretarse como un área 
- o volumen orientado definido por los vectores columna de $\mA$.
-    \begin{figure} 
-    	\begin{center}
-    \begin{tikzpicture}[x=2cm]
-% LEFT: Standard basis vectors and unit square
+description={El\index{determinante} determinante $\det(\mA)$ de una matriz cuadrada 
+$\mA = \big( \va^{(1)},\ldots, \va^{(\nrfeatures)} \big) \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ 
+es una funcion de sus columnas $\va^{(1)},\ldots,\va^{(\nrfeatures)} \in \mathbb{R}^{\nrfeatures}$, que satisface \cite{DirschmidHansJorg1996TuF}
+\begin{itemize}
+	\item Normalización: $$\det (\mI) = 1$$ 
+	\item Multilinealidad: 
+	\begin{align} \nonumber 
+	\det \big(\va^{(1)},\ldots,\alpha\vu+ \beta \vv,\ldots,\va^{(\nrfeatures)} \big) & = \alpha\det \big(\va^{(1)},\ldots,\vu,\ldots,\va^{(\nrfeatures)} \big) \\ 
+	& +\beta\det \big(\va^{(1)},\ldots,\vv,\ldots,\va^{(\nrfeatures)} \big) \nonumber
+	\end{align}
+	\item Antisimetría: $$\det \big(\ldots,\va^{(\featureidx)}, \ldots, \va^{(\featureidx')},\ldots \big) = - \det \big(\ldots,\va^{(\featureidx')}, \ldots, \va^{(\featureidx)},\ldots \big).$$ 
+\end{itemize} 
+Podemos interpretar una matriz $\mA$ como una transformación lineal en $\mathbb{R}^{\nrfeatures}$. 
+El determinante $\det(\mA)$ caracteriza cómo (y en qué orientación) se alteran los volúmenes en $\mathbb{R}^\nrfeatures$ por esta transformación \cite{GolubVanLoanBook}, \cite{Strang2007}. 
+En particular, $\det(\mA) > 0$ preserva la orientación, $\det(\mA) < 0$ la invierte, 
+y $\det(\mA) = 0$ colapsa el volumen completamente, lo que indica que $\mA$ no es invertible. 
+El determinante también satisface $\det(\mA \mB) = \det(\mA) \cdot \det(\mB)$, y si $\mA$ es 
+diagonalizable con valor propio $\eigval{1}, \ldots, \eigval{\nrfeatures}$, entonces 
+$\det(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}. 
+Para los casos especiales $\nrfeatures=2$ (2D) y $\nrfeatures=3$ (3D), el determinante puede interpretarse 
+como un área o volumen orientado definido por los vectores columna de $\mA$.
+\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[x=2cm]
+	% LEFT: Standard basis vectors and unit square
 	\begin{scope}
 	\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
 	\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
-%	\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
-	%\node at (0.5,0.5) {\small unit square};
-	%\node at (0.5,-0.6) {standard basis};
 	\end{scope}
-% RIGHT: Transformed basis vectors and parallelogram
+	% RIGHT: Transformed basis vectors and parallelogram
 	\begin{scope}[shift={(2.8,0)}]
 	\coordinate (A) at (1.5,0.5);
 	\coordinate (B) at (-0.2,1.2);
@@ -107,22 +192,20 @@
 	\draw[dashed] (A) -- ($(A)+(B)$);
 	\draw[dashed] (B) -- ($(A)+(B)$);
 	\node at (0.8,0.6) {\small $\det(\mA)$};
-	% Orientation arc
 	\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
-%	\node[blue] at (0.25,1.25) {};
-%	\node at (0.8,-0.6) {transformed basis};
 	\end{scope}
-% Arrow between plots
+	% Arrow between plots
 	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
 	\end{tikzpicture}
 	\end{center}
-	\end{figure}
-		\\ 
-		Vea tambien: \gls{eigenvalue}, \gls{inverse}.
-	},
-	first={determinant},
-	text={determinant}
+	\caption{Podemos interpretar una matriz cuadrada $\mA$ como una transformación lineal de $\mathbb{R}^{\nrfeatures}$ en sí misma. 
+	El determinante $\det(\mA)$ caracteriza cómo esta transformación altera un volumen orientado.} 
+\end{figure}
+Vea tambien: \gls{eigenvalue}, \gls{inverse}.},
+first={determinante},
+text={determinante}
 }
+
 
 \newglossaryentry{linearmap}{
 	name={aplicación lineal},
@@ -235,12 +318,12 @@
 
 \newglossaryentry{stochproc}
 {name={proceso estocástico},
-	description={Un proceso estocástico es una colección de \glspl{rv} definidas sobre un mismo \gls{probspace}. 
-		Estas \glspl{rv} están indexadas por el tiempo o el espacio, y se utilizan para modelar fenómenos aleatorios
+	description={Un proceso estocástico es una colección de variables aleatorias definidas sobre un mismo espacio de probabilidad. 
+		Estas variables aleatorias están indexadas por el tiempo o el espacio, y se utilizan para modelar fenómenos aleatorios
 		que evolucionan en el tiempo (por ejemplo, ruido en sensores o series temporales financieras). 
-		\Glspl{graph} aleatorios, como el \gls{sbm} o el \gls{ergraph}, son otro ejemplo de procesos estocásticos. 
-		Estos procesos utilizan pares de nodos en un \gls{graph} como conjunto de índices. 
-		También podemos usar procesos estocásticos para representar \glspl{stochalgorithm} como \gls{stochGD}.
+		Grafos aleatorios, como el modelo estocástico de bloques (SBM) o el grafo de Erd, son otro ejemplo de procesos estocásticos. 
+		Estos procesos utilizan pares de nodos en un grafo como conjunto de índices. 
+		También podemos usar procesos estocásticos para representar algoritmo estocástico como descenso por gradiente estocástico.
 		\\
 		Véase también: \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}, \gls{rv}, \gls{sbm}.},
 	first={proceso estocástico},
@@ -306,8 +389,8 @@
 \newglossaryentry{function}
 {name={función},
 	description={
-		Una \textbf{función}\index{función} es una regla matemática que asigna a cada 
-		elemento $u \in \mathcal{U}$ exactamente un elemento $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}. 
+		Una función\index{función} entre dos conjuntos $\mathcal{U}$ y $\mathcal{V}$ 
+	asigna a cada elemento $u \in \mathcal{U}$ exactamente un elemento $v \in \mathcal{V}$  \cite{RudinBookPrinciplesMatheAnalysis}. 
 		Esto se escribe como $f: \mathcal{U} \rightarrow \mathcal{V}$, donde $\mathcal{U}$ es el dominio 
 		y $\mathcal{V}$ el codominio de $f$. Es decir, una función $f$ define una salida única 
 		$f(u) \in \mathcal{V}$ para cada entrada $u \in \mathcal{U}$. Para más detalles,
@@ -700,7 +783,7 @@
 	atributos crudos $\featurevec \in \featurespace$. El aprendizaje de atributos\index{aprendizaje de atributos}
 	se refiere a la tarea de aprender un mapeo
 		$$\featuremapvec: \featurespace \rightarrow \featurespace': \featurevec \mapsto \featurevec',$$ 
-		que recibe como entrada los atributos crudos $\featurevec \in \featurespace$ de un punto de datos y entrega nuevos
+		que recibe como entrada el atributo $\featurevec \in \featurespace$ de un punto de datos y entrega nuevos
 		atributos $\featurevec' \in \featurespace'$ de un nuevo espacio de atributos $\featurespace'$. 
 		Se obtienen diferentes métodos de aprendizaje de atributos a partir de diferentes elecciones de 
 		$\featurespace,\featurespace'$, de un espacio de hipótesis $\hypospace$ de posibles mapeos $\featuremapvec$, 
@@ -797,14 +880,65 @@
 
 
 \newglossaryentry{interpretability}
-{name={interpretabilidad},description=
-		{Un método de aprendizaje automático es interpretable \index{interpretabilidad} por un usuario específico si
-		puede anticipar adecuadamente las predicciones entregadas por el método. 
-		La noción de interpretabilidad puede precisarse utilizando medidas cuantitativas
-		de la incertidumbre sobre las predicciones \cite{JunXML2020}.
-		\\
-		Vea también: \gls{ml}, \gls{prediction} },
-		first={interpretabilidad},text={interpretabilidad}
+{name={interpretabilidad},
+description={Un método de aprendizaje automático es interpretable\index{interpretabilidad} para una persona usuaria si esta puede comprender su proceso de decisión. 
+Una forma de desarrollar una definición precisa de interpretabilidad es mediante el concepto de simulabilidad, es decir, la capacidad de una persona de simular mentalmente el comportamiento del modelo
+\cite{Colin:2022aa}, \cite{Chen2018}, \cite{doshi2017towards}, \cite{hase-bansal-2020-evaluating}, \cite{Lipton2018}. 
+La idea es la siguiente: si una persona entiende un método de aprendizaje automático, entonces debería poder anticipar sus predicciones en un conjunto de prueba. 
+Ilustramos este conjunto de prueba en la Fig. \ref{fig_aug_simulatability_dict}, que también muestra dos hipótesis aprendidas: $\learnthypothesis$ y $\learnthypothesis'$. 
+El método de aprendizaje automático que produce la hipótesis $\learnthypothesis$ es interpretable para una persona familiarizada con el concepto de mapa lineal. 
+Dado que $\learnthypothesis$ corresponde a un mapa lineal, la persona puede anticipar sus predicciones sobre el conjunto de prueba. 
+En cambio, el método que produce $\learnthypothesis'$ no es interpretable, porque su comportamiento ya no coincide con las expectativas de la persona.
+\begin{figure}[H]
+\begin{center} 
+\begin{tikzpicture}[x=1.5cm, y=1cm]
+% Adjustable parameters
+\def\slope{0.4}
+\def\offset{2.0}
+% Axes
+\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[below, xshift=-1cm] {$\feature$}; % x-axis
+\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {$\truelabel$};           % y-axis
+% Model line
+\draw[color=black, thick, dashed, domain=-0.5:7.2, variable=\x] 
+plot ({\x},{\slope*\x + \offset});
+% non-interpretable model
+\draw[color=black, thick, dashed, domain=4:7.2, variable=\x] 
+plot ({\x},{\slope*\x + \offset-(\x-4)*0.5});
+\node[above] at (7.2, {\slope*7.2 + \offset}) {$\learnthypothesis(\feature)$};
+\node[above] at (7.2, {\slope*7.2 + \offset - 0.5*(7.2 - 4)}) {$\learnthypothesis'(\feature)$};
+% Training Data points
+\foreach \x/\y/\c/\s in {
+1.2/1.0/blue/6, 1.4/1.0/blue/6, 1.7/1.0/blue/6,
+2.2/3.9/blue/12, 2.6/4.2/blue/12, 3.0/4.4/blue/12
+}{
+\coordinate (pt) at (\x,\y);
+\node[fill=\c, circle, draw, minimum size=\s pt, scale=0.6] at (pt) {};
+\draw[<->, >={Latex[width=2mm,length=4mm]}, color=\c, thick]
+(\x, {\slope*\x + \offset}) -- (pt);
+}
+% test set with pseudo-labels
+\foreach \x/\y/\c/\s in {
+5.7/2.6/red/12, 5.9/2.6/red/12, 6.2/2.6/red/12
+}{
+\coordinate (pt) at (\x,{\slope*\x + \offset});
+\node[fill=\c, circle, draw, minimum size=\s pt, scale=0.6] at (pt) {};
+}
+% Legend
+\draw[fill=blue] (4.2, 1.7) circle (0.1cm) node [black,xshift=0.2cm,anchor=west] {conjunto de entrenamiento $\dataset$};
+\draw[fill=red]  (4.2, 1.2) circle (0.1cm) node [black,xshift=0.2cm,anchor=west] {conjunto de prueba $\dataset'$};
+\end{tikzpicture}
+\caption{Podemos evaluar la interpretabilidad de los modelos de aprendizaje automático entrenados $\learnthypothesis$ y $\learnthypothesis'$ 
+comparando sus predicciones con pseudo-etiquetas generadas por una persona para $\dataset'$. 
+\label{fig_aug_simulatability_dict}}
+\end{center}
+\end{figure}
+La noción de interpretabilidad está estrechamente relacionada con la de explicabilidad, ya que ambas buscan que los métodos de aprendizaje automático sean más comprensibles para las personas. 
+En el contexto de la Fig. \ref{fig_aug_simulatability_dict}, la interpretabilidad de un método $\learnthypothesis$ requiere que la persona pueda anticipar sus predicciones sobre cualquier conjunto de prueba. 
+Esto contrasta con la explicabilidad, donde se apoya al usuario mediante explicaciones externas —como mapas de saliencia o ejemplos de referencia del conjunto de entrenamiento— para entender las predicciones de $\learnthypothesis$ sobre un conjunto de prueba $\dataset'$.
+\\ 
+Vea tambien: \gls{explainability}, \gls{trustAI}, \gls{regularization}, \gls{lime}.},
+first={interpretabilidad},
+text={interpretabilidad}
 }
 
 \newglossaryentry{multitask learning}
@@ -820,23 +954,55 @@
 }
 
 \newglossaryentry{learningtask}
-{name={tarea de aprendizaje},description=
-	{Consideremos\index{tarea de aprendizaje} un conjunto de datos $\dataset$ constituido por varios puntos de datos, cada uno 
-	caracterizado por atributos $\featurevec$. Por ejemplo, el conjunto de datos $\dataset$ 
-	podría estar constituido por imágenes de una base de datos particular. A veces puede ser útil 
-	 representar un conjunto de datos $\dataset$, junto con la elección de atributos, por una distribución de probabilidad $p(\featurevec)$. 
-	 Una tarea de aprendizaje asociada a $\dataset$ consiste en una elección específica de la 
-	 etiqueta de un punto de datos y el correspondiente espacio de etiquetas. 
-	 Dada una elección de la funcion de perdida y el modelo, una tarea de aprendizaje da lugar 
-	 a una instancia de (ERM). Así, también podríamos definir una tarea de aprendizaje mediante una instancia de (ERM), es decir, 
-	 mediante una función de objetivo. Nótese que, para el mismo conjunto de datos, obtenemos diferentes tareas de aprendizaje utilizando 
-	 distintas elecciones de atributo y etiqueta de un datapoint. Estas tareas de aprendizaje  
-	 están relacionadas, ya que se basan en el mismo conjunto de datos, y resolverlas conjuntamente 
-	 (usando métodos de aprendizaje multitarea) es preferible a resolverlas de forma independiente \cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
-	 \\
-		Vea también: \gls{dataset}, \gls{datapoint}, \gls{feature}, \gls{probdist}, \gls{label}, \gls{labelspace}, \gls{lossfunc}, \gls{model}, \gls{erm}, \gls{objfunc}, \gls{multitask learning}},
-	first={tarea de aprendizaje},text={tarea de aprendizaje}
-	}
+{name={tarea de aprendizaje},
+description={Considere\index{tarea de aprendizaje} un conjunto de datos $\dataset$ que consiste en múltiples puntos de datos $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$. 
+Por ejemplo, $\dataset$ podría representar una colección de imágenes en una base de datos. 
+Una tarea de aprendizaje se define especificando aquellas propiedades (o atributos) de un punto de datos que se usan como sus atributos y etiquetas. 
+Dada una elección de modelo $\hypospace$ y funcion de perdida, una tarea de aprendizaje conduce a una instancia de ERM y puede representarse mediante la funcion de objetivo asociada $\emprisk{\hypothesis}{\dataset}$ para $\hypothesis \in \hypospace$. 
+Es importante destacar que se pueden construir múltiples tareas de aprendizaje distintas a partir del mismo conjunto de datos seleccionando diferentes conjuntos de atributos y etiquetas. 
+\begin{figure}[H]
+\centering
+% Fila superior: imagen
+\begin{minipage}[t]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../../assets/CowsAustria.jpg}
+    \caption*{Una imagen que muestra vacas pastando en el campo austriaco.}
+    \vspace{5mm}
+\end{minipage}
+\vspace{5mm}
+% Fila inferior: dos tareas de aprendizaje
+\begin{minipage}[t]{0.45\textwidth}
+    Tarea 1 (Regresión):
+    \begin{itemize}
+        \item Atributos: Los valores RGB de todos los píxeles de la imagen.
+        \item Etiqueta: El número de vacas representadas.
+    \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+    Tarea 2 (Clasificación):
+    \begin{itemize}
+        \item Atributos: La intensidad promedio de verde en la imagen.
+        \item Etiqueta: ¿Deben moverse las vacas a otra ubicación (sí/no)?
+    \end{itemize}
+\end{minipage}
+\caption{Dos tareas de aprendizaje construidas a partir de un solo conjunto de datos de imágenes. 
+Estas tareas difieren en la selección de atributo y en la elección de etiqueta (es decir, el objetivo), 
+pero ambas se derivan del mismo conjunto de datos.}
+\label{fig:learning_tasks_cows_dict}
+\end{figure}.
+Tales tareas están inherentemente relacionadas, y resolverlas conjuntamente, por ejemplo usando métodos de aprendizaje multitarea, 
+suele ser más eficaz que tratarlas de forma independiente 
+\cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
+\\ 
+Véase también: \gls{dataset}, \gls{model}, \gls{lossfunc}, \gls{objfunc}, \gls{multitask learning}, \gls{labelspace}.},
+first={tarea de aprendizaje},
+firstplural={tareas de aprendizaje},
+plural={tareas de aprendizaje}, 
+text={tarea de aprendizaje}
+}
+
+
 \newglossaryentry{explainability}
 {name={explicabilidad},
 	description={
@@ -1048,18 +1214,49 @@ first={proximable},text={proximable}
 
 	
 
-\newglossaryentry{mvndist}{name ={distribución normal multivariante},description=
-	{
-		La distribución normal multivariante\index{distribución normal multivariante} $\mvnormal{\vm}{\mC}$ es una
-		familia importante de distribución de probabilidad para una variable aleatoria continua $\featurevec \in \mathbb{R}^{\nrfeatures}$ \cite{BertsekasProb,GrayProbBook,Lapidoth09}.
-		Esta familia está parametrizada por la media $\vm$ y la matriz de covarianza $\mC$ de $\featurevec$.
-		Si la matriz de covarianza es invertible, la distribución de probabilidad de $\featurevec$ es
-		$$p(\featurevec) \propto \exp\bigg(-(1/2) \big( \featurevec - \vm \big)^{T} \mC^{-1} \big( \featurevec - \vm \big) \bigg).$$
-		\\
-			Vea también: \gls{probdist}, \gls{rv}, \gls{mean}, \gls{covmtx} },
-		first={distribución normal multivariante},text={distribución normal multivariante}
+		\newglossaryentry{mvndist}
+		{name={distribución normal multivariante}, 
+			description={La\index{distribución normal multivariante} distribución normal multivariante, 
+				denotada como $\mvnormal{\meanvecgeneric}{\covmtxgeneric}$, es un modelo de probabilidad fundamental 
+				para vectores de atributos numéricos de dimensión fija $\nrfeatures$. 
+				Define una familia de distribución de probabilidad sobre variables aleatorias vectoriales 
+				$\featurevec \in \mathbb{R}^{\nrfeatures}$~\cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
+				Cada distribución de esta familia está completamente determinada por su vector de media 
+				$\meanvecgeneric \in \mathbb{R}^{\nrfeatures}$ y su matriz de covarianza
+				$\covmtxgeneric \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$. Cuando la 
+				matriz de covarianza $\covmtxgeneric$ es invertible, la correspondiente distribución de probabilidad se caracteriza por 
+				la siguiente pdf:
+				\[p(\featurevec) = 
+				 \frac{1}{\sqrt{(2\pi)^{\nrfeatures} \determinant{\covmtxgeneric}}} 
+				 \exp\left[ -\frac{1}{2} 
+				 (\featurevec - \meanvecgeneric)^T \covmtxgeneric^{-1} 
+				 (\featurevec - \meanvecgeneric) \right].
+				 \]
+				Nótese que esta pdf solo está definida cuando $\covmtxgeneric$ es invertible.
+				   Más generalmente, cualquier variable aleatoria $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$ 
+				   admite la siguiente representación:
+				  \[
+					\featurevec = \mA \vz + \meanvecgeneric
+				   \]
+				   donde $\vz \sim \mvnormal{\mathbf{0}}{\mathbf{I}}$ es un vector normal estandard,  
+				   y $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ satisface $\mA \mA^\top = \covmtxgeneric$. 
+				   Esta representación sigue siendo válida incluso si $\covmtxgeneric$ es singular, en cuyo caso $\mA$ 
+				   no es de rango completo~\cite[Ch. 23]{Lapidoth2017}.
+				   La familia de distribuciones normales multivariantes es excepcional entre los modelos de probabilidad para 
+				   cantidades numéricas, al menos por las siguientes razones. Primero, esta familia es cerrada bajo 
+				   transformaciones afines, es decir,
+				\[ 
+				\featurevec \sim \mathcal{N}(\meanvecgeneric,\covmtxgeneric) \Rightarrow 
+				\mB\featurevec\!+\!\vc \sim \mathcal{N}\big( \mB\meanvecgeneric+\vc,\mB \covmtxgeneric \mB^{T} \big). 
+				\]
+				Segundo, la distribución de probabilidad $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximiza la 
+				entropia diferencial entre todas las distribuciones con la misma matriz de covarianza $\covmtxgeneric$~\cite{coverthomas}. 
+				\\ 
+				Véa también: \gls{probmodel}, \gls{probdist}, \gls{stdnormvec}, \gls{diffentropy}, \gls{gaussrv}.}, 
+			first={distribución normal multivariante},
+			text={distribución normal multivariante}
 		}
-
+		
 
 		\newglossaryentry{stdnormvec}
 		{name={vector normal estándar}, 
@@ -1172,15 +1369,67 @@ first={proximable},text={proximable}
 }
 \newglossaryentry{clt}
 {name={teorema central del límite (CLT)},
-	description={
-		El\index{teorema central del límite (CLT)} CLT hace referencia a enunciados matemáticamente precisos sobre 
-		la tendencia de un promedio de un gran número de \glspl{rv} independientes a aproximarse 
-		a una \gls{gaussrv}.\\ 
-		Véa también: \gls{rv}, \gls{gaussrv}.
-	},
-	first={teorema central del límite (CLT)},
-	text={CLT}
+description={Consideremos una secuencia de variable aleatoria iid \( \feature^{(\sampleidx)} \), para \( \sampleidx = 1, 2, \ldots \), 
+cada una con media cero y varianza finita \( \sigma^2 > 0 \). 
+El \index{teorema central del límite (CLT)} teorema central del límite (CLT) establece que la suma normalizada
+\[
+s^{(\samplesize)} \defeq \frac{1}{\sqrt{\samplesize}} \sum_{\sampleidx = 1}^{\samplesize} \feature^{(\sampleidx)} 
+\]
+converge en distribución a una variable aleatoria gaussiana con media cero y varianza \( \sigma^2 \) cuando \( \samplesize \to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}. 
+Una forma elegante de derivar el CLT es mediante la funcion característica de la suma normalizada \( s^{(\samplesize)} \). 
+Sea $ \phi(t) = \expect \big\{ \exp \big( j t \feature \big) \big\}$ (donde $j = \sqrt{-1}$ es la unidad imaginaria) 
+la funcion característica común de cada término $\feature^{(\sampleidx)}$, y sea \( \phi^{(\samplesize)}(t) \) 
+la funcion característica de \( s^{(\samplesize)} \). Definimos un operador \( \mathcal{T} \) que actúa sobre funciones de característica 
+tal que
+\[
+\phi^{(\samplesize)}(t) = \mathcal{T}(\phi^{(\samplesize-1)})(t) \defeq \phi\left( \frac{t}{\sqrt{\samplesize}} \right) \cdot \phi^{(\samplesize-1)}\left( \frac{\sqrt{\samplesize-1}}{\sqrt{\samplesize}} t \right).
+\]
+Esta iteracion de punto fijo captura el efecto de añadir recursivamente una variable aleatoria iid $\featurevec^{(\samplesize)}$ 
+y reescalar. Al aplicar \( \mathcal{T} \) iterativamente, se obtiene la convergencia de \( \phi^{(\samplesize)}(t) \) hacia el punto fijo
+\[
+\phi^*(t) = \exp\,(-t^2 \sigma^2 / 2)
+\]
+que es la funcion característica de una variable aleatoria gaussiana con media cero y varianza \( \sigma^2 \). 
+Las generalizaciones del CLT permiten variables aleatorias dependientes o no idénticamente distribuidas \cite[Sec.~2.8]{AsympVanderVaartBook}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+width=10cm,
+height=6cm,
+xlabel={},
+ylabel={},
+legend style={at={(0.97,0.97)}, anchor=north west},
+domain=-3:3,
+ylabel style={
+yshift=10pt   % shift label up by 10pt
+},
+samples=400,
+ymin=-0.2, ymax=1.1,
+axis lines=middle,
+clip=false,
+grid=both,
+]
+\addplot[thick, blue,domain=-2:2] {cos(x/sqrt(1) r)^1};
+\addlegendentry{$m=1$}
+\addplot[thick, red] {cos(x/sqrt(2) r)^2};
+\addlegendentry{$m=2$}
+\addplot[thick, green!60!black] {cos(x/sqrt(3) r)^3};
+\addlegendentry{$m=3$}
+\addplot[thick, dashed, black] {exp(-x^2/2)};
+\addlegendentry{$\exp\,(-t^2/2)$}
+\node[anchor=south, rotate=0] at (axis cs:-0.08,1.05) {$\phi^{(m)}(t)$};
+\node[anchor=north, rotate=0] at (axis cs: 3.2,0.1) {$t$};
+\end{axis}
+\end{tikzpicture}
+\caption{Funciones característica de sumas normalizadas de variables aleatorias iid $x^{(\sampleidx)} \in \{-1,1\}$ 
+para $\sampleidx=1,\ldots,\samplesize$, comparadas con el límite gaussiano.}
+\end{figure}
+Vea tambien: \gls{rv}, \gls{gaussrv}.},
+first={teorema central del límite (CLT)},
+text={CLT}
 }
+
 
 
 \newglossaryentry{GaussProc}
@@ -1713,16 +1962,20 @@ first={embudo de privacidad},text={embudo de privacidad}
 }
 
 \newglossaryentry{uncertainty}
-{name={uncertainty},
-	description={Uncertainty\index{uncertainty} refers to the degree of confidence—or 
-		lack thereof—associated with a quantity such as a model prediction, parameter estimate, or 
-		observed data point. In \gls{ml}, uncertainty arises from various sources, including 
-		noisy data, limited training samples, or ambiguity in model assumptions. Probability theory 
-		offers a principled framework for representing and quantifying such uncertainty.
-		\\
-	 Vea también: \gls{ml}},
-	first={uncertainty},text={uncertainty}
+{name={incertidumbre},
+	description={En el contexto del aprendizaje automático, la incertidumbre\index{incertidumbre} se refiere a la existencia de múltiples 
+	resultados o explicaciones plausibles con base en los datos disponibles. Por ejemplo, la 
+	prediccion $\hat{\hypothesis}(\featurevec)$ producida por un modelo de aprendizaje automático entrenado $\hat{\hypothesis}$
+	suele reflejar un rango de posibles valores para la verdadera etiqueta de un punto de datos dado. 
+	Cuanto más amplio es este rango, mayor es la incertidumbre asociada. La teoría de la probabilidad
+	nos permite representar, cuantificar y razonar sobre la incertidumbre de manera 
+	mathemáticamente rigurosa.
+	\\ 
+	Véase también: \gls{probmodel}, \gls{risk}, \gls{entropy}, \gls{variance}. },
+	first={incertidumbre},
+	text={incertidumbre}
 }
+
 
 \newglossaryentry{ucb}
 {name={cota superior de confianza (UCB)},
@@ -2518,13 +2771,16 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 
 \newglossaryentry{vcdim}
 {name={dimensión de Vapnik–Chervonenkis (dimensión VC)},
-	description={La dimensión VC (Vapnik–Chervonenkis)\index{dimensión de Vapnik–Chervonenkis (dimensión VC)} de un espacio de hipótesis infinito es una medida ampliamente utilizada para su tamaño.
-		Nos referimos a la literatura (vea \cite{ShalevMLBook}) para una definición precisa de la dimensión VC,
-		y para una discusión de sus propiedades básicas y su uso en aprendizaje automático.
-		\\
-		Vea también: \gls{hypospace}, \gls{ml}},
-	first={dimensión de Vapnik–Chervonenkis (dimensión VC)},text={dimensión VC}  
+description={La\index{dimensión de Vapnik–Chervonenkis (dimensión VC)} dimensión VC 
+	es una medida ampliamente utilizada para cuantificar el tamaño de un \gls{hypospace} infinito. 
+	Remitimos a la literatura (véase \cite{ShalevMLBook}) para una definición precisa 
+	de la dimensión VC, así como una discusión sobre sus propiedades básicas y su uso en \gls{ml}.
+			\\ 
+	Vea tambien: \gls{hypospace}, \gls{ml}, \gls{effdim}.},
+first={dimensión de Vapnik–Chervonenkis (dimensión VC)},
+text={dimensión VC}  
 }
+
 
 \newglossaryentry{effdim}
 {name={dimensión efectiva},
@@ -2868,20 +3124,32 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 		 first={error de entrenamiento},text={error de entrenamiento}  
  }
 
-\newglossaryentry{datapoint}
-{name={punto de datos},
-description={Un\index{punto de datos} punto de datos es cualquier objeto que transmite información \cite{coverthomas}.
-		Los puntos de datos pueden ser estudiantes, señales de radio, árboles, bosques, imágenes, variables aleatorias, números reales o proteínas.
-		Caracterizamos los puntos de datos utilizando dos tipos de propiedades. Un tipo de propiedad se denomina atributo. 
-		Los atributos son propiedades de un punto de datos que se pueden medir o calcular de manera automatizada.  
-		Un tipo diferente de propiedad se denomina etiqueta. La etiqueta de un punto de datos representa 
-		algún hecho de mayor nivel (o cantidad de interés). A diferencia de los atributos, determinar la etiqueta de un punto de datos suele requerir expertos humanos (expertos en dominio). 
-		En términos generales, el aprendizaje automático tiene como objetivo predecir la
-		etiqueta de un punto de datos únicamente a partir de sus atributos.  
-		\\
-	 	Vea también: \gls{rv}, \gls{feature}, \gls{label}, \gls{ml} }, first={punto de datos},text={punto de datos}  
-}
-
+ \newglossaryentry{datapoint}
+ {name={punto de datos}, plural={puntos de datos},
+ description={Un\index{punto de datos} punto de datos es cualquier objeto que transmite información~\cite{coverthomas}. 
+	 Ejemplos incluyen estudiantes, señales de radio, árboles, imágenes, variables aleatorias, números reales 
+	 o proteínas. Los puntos de datos se describen típicamente mediante dos tipos de propiedades (o atributos):
+	 \begin{itemize}
+		 \item Atributos son propiedades medibles o computables de un punto de datos. 
+		 Estos atributos pueden extraerse o calcularse automáticamente mediante sensores, computadoras 
+		 u otros sistemas de recolección de datos. Para un punto de datos que representa a un paciente, 
+		 una posible atributo podría ser el peso corporal.
+		 \item Etiquetas son hechos de nivel superior (o cantidades de interés) asociadas al punto de datos. 
+		 Determinar las etiquetas de un punto de datos usualmente requiere experiencia humana o conocimiento del dominio. 
+		 Para un punto de datos que representa a un paciente, un diagnóstico de cáncer proporcionado por un médico 
+		 serviría como etiqueta.
+	 \end{itemize}
+	 La distinción entre atributos y etiquetas no siempre es clara. 
+	 Una propiedad considerada como etiqueta en un contexto (por ejemplo, un diagnóstico de cáncer) 
+	 puede tratarse como una atributo en otro, particularmente si una automatización confiable (por ejemplo, 
+	 mediante análisis de imágenes) permite calcularla sin intervención humana.
+	 El aprendizaje automático busca en términos generales predecir la etiqueta de un punto de datos a partir de sus atributos.
+	 \\
+	 Vea tambien: \gls{data}, \gls{rv}, \gls{feature}, \gls{label}, \gls{ml}.}, 
+ first={punto de datos},
+ text={punto de datos}  
+ }
+ 
 
 \newglossaryentry{valerr}
 {name={error de validación},
@@ -3395,20 +3663,35 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
 		Vea también: \gls{ml}, \gls{hypothesis}, \gls{gd}, \gls{stochGD}, \gls{projgd}, \gls{stepsize}.},
 	first={tasa de aprendizaje},text={tasa de aprendizaje} }
 
-\newglossaryentry{featuremap}{name={mapa de atributos}, description={Un mapa de atributos\index{mapa de atributos} se 
-		refiere a una transformación que convierte los atributos originales de un punto de datos en nuevos atributos.  
-		Estos nuevos atributos pueden ser preferibles a los originales por diversas razones. Por ejemplo, la disposición de los puntos de datos puede volverse 
-		más simple (o más lineal) en el nuevo espacio de atributos, permitiendo el uso de modelos lineales 
-		en los nuevos atributos. Esta idea es uno de los principales impulsores del desarrollo de metodos de kernel \cite{LearningKernelsBook}. 
-		Además, las capas ocultas de una red profunda pueden interpretarse como un mapa de atributos 
-		entrenable seguido de un modelo lineal en la forma de la capa de salida. Otra razón para aprender
-		un mapa de atributos podría ser que aprender un pequeño número de nuevos atributos ayuda a evitar el sobreajuste y 
-		garantiza la interpretabilidad \cite{Ribeiro2016}. El caso especial de un mapa de atributos que proporciona dos atributos numéricos
-		es particularmente útil para la visualización de datos. De hecho, podemos representar 
-		puntos de datos en un diagrama de dispersión usando dos atributos como las coordenadas de un punto de datos.
-		\\
-		Vea también: \gls{feature}, \gls{datapoint}, \gls{featurespace}, \gls{linmodel}, \gls{kernelmethod}, \gls{deepnet}, \gls{overfitting}, \gls{interpretability}, \gls{data}, \gls{scatterplot}.},
-	first={mapa de atributos},text={mapa de atributos} }
+	\newglossaryentry{featuremap}
+	{name={mapa de atributos}, 
+		description={Un mapa de atributos\index{mapa de atributos} se refiere a una función
+			$$
+			\featuremapvec: \featurespace \rightarrow \featurespace', \quad \featurevec \mapsto \featurevec'
+			$$
+			que transforma un vector de atributos $\featurevec \in \featurespace$ de un punto de datos
+			en un nuevo vector de atributos $\featurevec' \in \featurespace'$, donde típicamente 
+			$\featurespace'$ es diferente de $\featurespace$.
+			La representación transformada $\featurevec'$ suele ser más útil que la original $\featurevec$. 
+			Por ejemplo, la geometría de los puntos de datos puede volverse más lineal en $\featurespace'$, 
+			lo que permite aplicar un modelo lineal a $\featurevec'$. 
+			Esta idea es central en el diseño de metodos de kernel~\cite{LearningKernelsBook}.
+			Otros beneficios de usar un mapa de atributos incluyen la reducción del sobreajuste
+			y la mejora de la interpretabilidad~\cite{Ribeiro2016}. Un caso de uso común es la visualización 
+			de datos, donde un mapa de atributos con dos dimensiones de salida permite representar 
+			punto de datos en un diagrama de dispersión 2D. Algunos métodos de aprendizaje automático emplean mapas de atributos
+			entrenables, cuyos parametros se aprenden a partir de datos. Un ejemplo es el uso 
+			de capas ocultas en una red profunda, que actúan como mapa de atributos sucesivos 
+			\cite{MallatUnderstandingDeepLearning}. Una forma fundamentada de entrenar un mapa de atributos
+			es mediante ERM, utilizando una funcion de perdida que mide la calidad de reconstrucción, 
+			por ejemplo, $\lossfun = \|\featurevec - r(\featurevec')\|^2$, donde $r(\cdot)$ es un mapa 
+			entrenable que intenta reconstruir $\featurevec$ a partir del vector de atributos transformado $\featurevec'$.
+			\\
+			Véa también: \gls{feature}, \gls{map}, \gls{kernelmethod}, \gls{featlearn}, \gls{pca}.},
+		first={mapa de atributos},
+		text={mapa de atributos} 
+	}
+	
 	
  
   \newglossaryentry{lasso}{name={operador de reducción y selección absoluta mínima (Lasso)}, 
@@ -3515,18 +3798,46 @@ description={Considere\index{caracterización min-max de Courant–Fischer–Wey
 	first = {caracterización min-max de Courant–Fischer–Weyl (CFW)}, 
 	text={CFW}}
 
-\newglossaryentry{kernel}{name={kernel}, 
-	description={Considere\index{kernel} puntos de datos caracterizados por un vector de atributos $\featurevec \in \featurespace$ 
-	con un espacio de atributos genérico $\featurespace$. Un kernel (de valor real) $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
-	asigna a cada par de vectores de atributos $\featurevec, \featurevec' \in \featurespace$ un número real $\kernelmap{\featurevec}{\featurevec'}$. 
-	El valor $\kernelmap{\featurevec}{\featurevec'}$ se interpreta a menudo como una medida de similitud entre $\featurevec$ 
-	y $\featurevec'$. Los metodos de kernel utilizan un kernel para transformar el vector de atributos $\featurevec$ en un nuevo vector de atributos $\vz = \kernelmap{\featurevec}{\cdot}$. 
-		Este nuevo vector de atributos pertenece a un espacio de atributos lineal $\featurespace'$ que (en general)   
-			es diferente del espacio de atributos original $\featurespace$. El espacio de atributos $\featurespace'$  
-			tiene una estructura matemática específica, es decir, es un espacio de Hilbert de kernel reproducible espacio de Hilbert \cite{LampertNowKernel,LearningKernelsBook}.
+	\newglossaryentry{kernel}
+	{name={kernel}, 
+		description={Considere\index{kernel} un conjunto de puntos de datos, cada uno representado por un vector de atributos
+			$\featurevec \in \featurespace$, donde $\featurespace$ denota el espacio de atributos. 
+			Un kernel (de valores reales) es una función
+			$\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ que asigna a cada par de 
+			vector de atributos $\featurevec, \featurevec' \in \featurespace$ un número real $\kernelmap{\featurevec}{\featurevec'}$. 
+			Este valor se interpreta típicamente como una medida de similitud entre $\featurevec$ y $\featurevec'$. 
+			La propiedad definitoria de un kernel es que es simétrico, es decir,
+			$\kernelmap{\featurevec}{\featurevec'} = \kernelmap{\featurevec'}{\featurevec}$, y que 
+			para cualquier conjunto finito de vectores de atributos $\featurevec_1, \ldots, \featurevec_n \in \featurespace$, la matriz 
+			\begin{equation}
+				\nonumber
+				\mathbf{K} = \begin{pmatrix}
+					\kernelmap{\featurevec_1}{\featurevec_1} & \kernelmap{\featurevec_1}{\featurevec_2} & \ldots & \kernelmap{\featurevec_1}{\featurevec_n} \\
+					\kernelmap{\featurevec_2}{\featurevec_1} & \kernelmap{\featurevec_2}{\featurevec_2} & \ldots & \kernelmap{\featurevec_2}{\featurevec_n} \\
+					\vdots											
+					& \vdots & \ddots & \vdots \\
+					\kernelmap{\featurevec_n}{\featurevec_1} & \kernelmap{\featurevec_n}{\featurevec_2} & \ldots & \kernelmap{\featurevec_n}{\featurevec_n} 
+				\end{pmatrix} \in \mathbb{R}^{n \times n}
+			\end{equation}
+			es semi-positiva definida. 
+			Un kernel define naturalmente una transformación de un vector de atributos $\featurevec$ en una 
+			funcion $\vz = \kernelmap{\featurevec}{\cdot}$. La función $\vz$ asigna a una entrada 
+			$\featurevec' \in \featurespace$ el valor $\kernelmap{\featurevec}{\featurevec'}$. 
+			Podemos ver la funcion $\vz$ como un nuevo vector de atributos que pertenece a un 
+			espacio de atributos $\featurespace'$, que típicamente es diferente de $\featurespace$. 
+			Este nuevo espacio de atributos $\featurespace'$ posee una estructura matemática particular: 
+			es un espacio de Hilbert con núcleo reproducible (RKHS, por sus siglas en inglés)~\cite{LearningKernelsBook}, \cite{LampertNowKernel}.
+			Dado que $\vz$ pertenece a un RKHS, que es un espacio de vectores, podemos interpretarlo como un 
+			vector de atributos generalizado. Nótese que un vector de atributos de longitud finita 
+			$\featurevec=\big(\feature_{1},\ldots,\feature_{\nrfeatures} \big)^{T} \in \mathbb{R}^{\nrfeatures}$ 
+			puede verse como una funcion $\featurevec: \{1, \ldots, \nrfeatures\} \rightarrow \mathbb{R}$ 
+			que asigna un valor real a cada índice $\featureidx \in \{1,\ldots,\nrfeatures\}$.
 			\\
-			Vea tambien: \gls{datapoint}, \gls{featurevec}, \gls{featurespace}, \gls{kernelmethod}, \gls{hilbertspace}. },
-	first={kernel},text={kernel} }
+			Véa también: \gls{featurevec}, \gls{featurespace}, \gls{hilbertspace}, \gls{kernelmethod}.},
+		first={kernel},
+		text={kernel} 
+	}
+	
 	
 \newglossaryentry{kernelmethod}{name={método de kernel}, 
 	description={Un\index{método de kernel} método de kernel es un método de aprendizaje Automático que utiliza un 
@@ -3572,17 +3883,26 @@ Vea tambien: \gls{kernel}, \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{fea
 },first={método de kernel},text={método de kernel} }
 	
 
-\newglossaryentry{cm}{name={matriz de confusión}, 
-	description={Considere\index{matriz de confusión} puntos de datos caracterizados por atributos $\featurevec$ 
-		y etiquetas $\truelabel$ con valores del espacio de etiquetas finito $\labelspace = \{1,\ldots,\nrcluster\}$. 
-		La matriz de confusión es una matriz de tamaño $\nrcluster \times \nrcluster$ donde las filas representan diferentes valores $\clusteridx$ 
-		de la verdadera etiqueta de un punto de datos. Las columnas de la matriz de confusión corresponden a diferentes valores 
-		$\clusteridx'$ entregados por una hipótesis $\hypothesis(\featurevec)$. El elemento $(\clusteridx,\clusteridx')$ de 
-		la matriz de confusión es la fracción de punto de datos con la etiqueta $\truelabel\!=\! \clusteridx$ y la
-		predicción $\hat{\truelabel}\!=\!\clusteridx'$ asignada por la hipótesis $\hypothesis$.
-		\\
-		Vea también: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{prediction}.},
-	first={matriz de confusión},text={matriz de confusión} }
+\newglossaryentry{cm}
+{name={matriz de confusión}, 
+description={Considere\index{matriz de confusión} puntos de datos caracterizados 
+	por atributos $\featurevec$ y sus correspondientes etiquetas $\truelabel$. 
+	Las etiquetas toman valores en un espacio de etiquetas finito $\labelspace = \{1, \ldots, \nrcluster\}$. 
+	Para una hipótesis dada $\hypothesis$, la matriz de confusión es una 
+	matriz de tamaño $\nrcluster \times \nrcluster$ donde cada fila corresponde a un valor 
+	distinto de la etiqueta verdadera $\truelabel \in \labelspace$ y cada columna a un valor 
+	distinto de la predicción $\hypothesis(\featurevec) \in \labelspace$. 
+	La entrada $(\clusteridx,\clusteridx')$-ésima de la matriz representa la fracción de 
+	puntos de datos con etiquetas verdadera $\truelabel = \clusteridx$ que son clasificadas como 
+	$\hypothesis(\featurevec) = \clusteridx'$. La diagonal principal de la matriz contiene las fracciones 
+	de puntos de datos correctamente clasificadas (es decir, aquellas para las que 
+	$\truelabel = \hypothesis(\featurevec)$). Las entradas fuera de la diagonal contienen las fracciones de 
+	puntos de datos que son mal clasificadas por $\hypothesis$.
+	\\
+	Vea tambien: \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{classification}.},
+first={matriz de confusión},
+text={matriz de confusión} 
+}
 
 
 \newglossaryentry{featuremtx}{name={matriz de atributos}, 
@@ -3858,14 +4178,14 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		\\
 		Vea también: \gls{pca}, \gls{probmodel}, \gls{datapoint}, \gls{em}.},first={análisis de componentes principales probabilístico (PPCA)},text={PPCA}}
 	
-\newglossaryentry{polyreg}{name={regresión polinómica}, description={La\index{regresión polinómica} 
-		regresión polinómica tiene como objetivo aprender un mapa de hipótesis polinómico para predecir una etiqueta
-		 numérica en función de los atributos numéricos de un punto de datos. Para puntos de datos caracterizados por un único 
-		  atributo numérico, la regresión polinómica utiliza el espacio de hipótesis 
-			$\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \}.$
-			La calidad de un mapa de hipótesis polinómico se mide utilizando el promedio de error cuadrado medio
-			incurrido en un conjunto de puntos de datos etiquetados (al que nos referimos como el 
-			conjunto de entrenamiento).
+\newglossaryentry{polyreg}{name={regresión polinómica}, description={La \index{regresión polinómica} \gls{regression} polinómica es una instancia de \gls{erm} que aprende una \gls{hypothesis} 
+\gls{map} polinómica para predecir una \gls{label} numérica a partir de los \glspl{feature} numéricos de un \gls{datapoint}. 
+Para \glspl{datapoint} caracterizados por una única \gls{feature} numérica, la \gls{regression} polinómica utiliza el \gls{hypospace}
+\[
+\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \left\{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \right\}.
+\]
+La calidad de una \gls{hypothesis} polinómica \gls{map} se mide mediante la \gls{sqerrloss} promedio 
+incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como el \gls{trainset}).
 			\\
 		Vea también: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypospace}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},first={regresión polinómica},text={regresión polinómica}}
 
@@ -4074,14 +4394,30 @@ la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}.
 	Vea tambien: \gls{clustering}, \gls{datapoint}, \gls{cluster}, \gls{dob}, \gls{iid}, \gls{realization}, \gls{gmm}, \gls{probability}.},first={agrupamiento suave},text={agrupamiento suave} }
 
 
-\newglossaryentry{kroneckerproduct}
-		{name={Kronecker product}, 
-			description={The\index{Kronecker product} Kronecker product between two matries $\mA$ and $\mB$ as 
-				defined as... 
-				},
-			first={Kronecker product},
-			text={Kronecker product} 
-		}
+	\newglossaryentry{kroneckerproduct}
+	{name={producto de Kronecker}, 
+		description={El producto de Kronecker\index{producto de Kronecker} de dos matrices $\mA \in \mathbb{R}^{m \times n}$ 
+		y $\mB \in \mathbb{R}^{p \times q}$ es una matriz por bloques denotada como $\mA \otimes \mB$ 
+		y definida como \cite{GolubVanLoanBook}, \cite{HornMatAnalysis}
+		\[
+		\mA \otimes \mB =
+		\begin{bmatrix}
+			a_{11}\mB & \cdots & a_{1n}\mB \\
+			\vdots & \ddots & \vdots \\
+			a_{m1}\mB & \cdots & a_{mn}\mB
+		\end{bmatrix}
+		\in \mathbb{R}^{mp \times nq}.
+		\]
+		El producto de Kronecker es un caso particular del producto tensorial para matrices y se 
+		utiliza ampliamente en estadística multivariada, álgebra lineal y modelos estructurados de aprendizaje automático. 
+		Satisface la identidad $(\mA \otimes \mB)(\vx \otimes \vy) = (\mA\vx) \otimes (\mB\vy)$ 
+		para vectores $\vx$ y $\vy$ de dimensiones compatibles.
+		\\
+		Véa también: \gls{ml}, \gls{model}. },
+		first={producto de Kronecker},
+		text={producto de Kronecker} 
+	}
+	
 		
 \newglossaryentry{clustering}{name={agrupamiento}, description={Los métodos de agrupamiento\index{agrupamiento} 
 	descomponen un conjunto dado de puntos de datos en pocos subconjuntos, que se denominan clústers. 
@@ -5239,9 +5575,9 @@ están codificadas en las aristas de una red de aprendizaje federado.
 % 	  \newglossaryentry{backpropagation}{
 %   name={backpropagation},
 %   description={
-%     Backpropagation\index{backpropagation} is an efficient algorithm in \gls{ml} used to train neural networks. It is an efficient method for computing the gradient of a loss function with respect to all parameters, such as weights and biases, using the chain rule of calculus. \\[0.5ex]
-%     It involves two phases: 1) a forward pass, compute the networks predictions and the individual losses by comparing predictions to true labels.  2) During the backward pass (backpropagation), the gradients of the loss are propagated backward through the network.\\[0.5ex] It is used together with gradient descent to optimize and adjust the network's parameters, such as weights and biases. \\[0.5ex]
-%     Neural networks contain many neurons in hidden layers, and each of these neurons contributes to the total loss differently. Backpropagation allows us to determine how each weight should be adjusted for each neuron. The \gls{learnrate} controls the size of these adjustments, with larger values leading to faster but potentially erratic updates, and smaller values resulting in slower, but more precise updates. \\
+%     Backpropagation\index{backpropagation} is an efficient algorithm in \gls{ml} used to train neural networks. It enables networks to automatically update parameters such as weights and bias to minimize a given \gls{lossfunc}. The process relies on computing the gradient of the loss with respect to each parameter. \\[0.5ex]
+	%  There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is  compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
+	%this whole process is done by computing the gradient of the loss function with respect to each parameter.  \\
 %     See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
 %   },
 %   first={backpropagation},
