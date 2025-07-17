@@ -1060,7 +1060,7 @@
 		\\
 		Voir aussi: \gls{ml}, \gls{hypothesis}, \gls{model}, \gls{map}, \gls{featurespace}, \gls{labelspace}, \gls{statasp}, \gls{feature}, \gls{label}, \gls{linmodel}.},
 	first={espace des hypothèses},
-	text={espace des hypothèses} 
+	text={espace des hypothèses} , plural={espaces des hypothèses}
 }
 
 \newglossaryentry{model}{
@@ -1799,7 +1799,7 @@
 		identifie une personne en France.
 		\\
 		Voir aussi: \gls{model}, \gls{parameter}, \gls{hypothesis}, \gls{map}.},
-	first={paramètres du modèle},text={paramètres du modèle} }
+	first={paramètres du modèle},text={paramètres du modèle}, plural={paramètres du modèle} }
 
 \newglossaryentry{featuremap}
 {name={transformation de caractéristiques},
@@ -1925,7 +1925,7 @@
 
 \newglossaryentry{graph}
 {name={graphe},
-	description={Un graphe\index{graphe} $\graph = \pair{\nodes}{\edges}$ est une paire qui consiste en un ensemble de nœuds $\nodes$ et un ensemble d’arêtes $\edges$. Dans sa forme la plus générale, un graphe est spécifié par une \gls{map} qui associe à chaque arête $\edgeidx \in \edges$ une paire de nœuds \cite{RockNetworks}. Une famille importante de graphes est celle des graphes simples non orientés. Un graphe simple non orienté est obtenu en identifiant chaque arête $\edgeidx \in \edges$ à deux nœuds différents $\{\nodeidx,\nodeidx'\}$. Les graphes pondérés précisent également des \gls{weights} numériques $\edgeweight_{\edgeidx}$ pour chaque arête $\edgeidx \in \edges$.
+	description={Un graphe\index{graphe} $\graph = \pair{\nodes}{\edges}$ est une paire qui consiste en un ensemble de sommets $\nodes$ et un ensemble d’arêtes $\edges$. Dans sa forme la plus générale, un graphe est spécifié par une \gls{map} qui associe à chaque arête $\edgeidx \in \edges$ une paire de sommets \cite{RockNetworks}. Une famille importante de graphes est celle des graphes simples non orientés. Un graphe simple non orienté est obtenu en identifiant chaque arête $\edgeidx \in \edges$ à deux sommets différents $\{\nodeidx,\nodeidx'\}$. Les graphes pondérés précisent également des \gls{weights} numériques $\edgeweight_{\edgeidx}$ pour chaque arête $\edgeidx \in \edges$.
 		\\
 		Voir aussi : \gls{map}, \gls{weights}.},
 	first={graphe},text={graphe}
@@ -1942,24 +1942,131 @@
 \newglossaryentry{empgraph}
 {name={réseau d’apprentissage fédéré},
 	description={Un réseau\index{réseau d’apprentissage fédéré} d'\gls{fl} consiste en un 
-		\gls{graph} non orienté et pondéré $\graph$. Les nœuds de $\graph$ représentent des \glspl{device} 
+		\gls{graph} non orienté et pondéré $\graph$. Les sommets de $\graph$ représentent des \glspl{device} 
 		ayant chacun accès à un \gls{localdataset} et capables d’entraîner un \gls{localmodel}. Les arêtes de $\graph$ 
 		représentent à la fois les liens de communication entre les \glspl{device} et les similarités statistiques 
 		entre leurs \glspl{localdataset}. Une approche rigoureuse pour entraîner les \glspl{localmodel} est 
 		\gls{gtvmin}. Les solutions de \gls{gtvmin} correspondent à des \gls{modelparams} locaux qui équilibrent 
-		de manière optimale la \gls{loss} subie sur les \glspl{localdataset} et leur divergence le long des arêtes de $\graph$.
+		de manière optimale la \gls{loss} subie sur les \glspl{localdataset} et leur \gls{discrepancy} le long des arêtes de $\graph$.
 		\\
 		Voir aussi : \gls{fl}, \gls{graph}, \gls{device}, \gls{gtvmin}.},
 	first={réseau d’apprentissage fédéré},
 	text={réseau d'apprentissage fédéré}, plural={réseaux d'apprentissage fédéré}
 }
 
-%REPRENDRE ICI
+\newglossaryentry{gtvmin}
+{name={minimisation de la variation totale généralisée (GTVMin)},
+	description={GTVMin\index{minimisation de la variation totale généralisée (GTVMin)} est une instance 
+		de \gls{rerm} utilisant la \gls{gtv} des paramètres locaux des modèles comme \gls{regularizer} 
+		\cite{ClusteredFLTVMinTSP}.
+		\\
+		Voir aussi : \gls{rerm}, \gls{gtv}, \gls{regularizer}, \glspl{modelparams}.},
+	first={minimisation de la variation totale généralisée (GTVMin)},
+	text={GTVMin}
+}
+
+\newglossaryentry{gtv}
+{name={variation totale généralisée (GTV)}, 
+	description={La variation totale généralisée (GTV)\index{variation totale généralisée (GTV)} est une mesure de la variation des \glspl{localmodel} entraînés $\localhypothesis{\nodeidx}$ (ou leurs paramètres de modèle $\localparams{\nodeidx}$) assignés aux sommets $\nodeidx=1, \ldots, \nrnodes$ d’un \gls{graph} pondéré non orienté $\graph$ avec arêtes $\edges$. Étant donnée une mesure $\discrepancy{\hypothesis}{\hypothesis'}$ de la \gls{discrepancy} (ou écart) entre deux fonctions \glspl{hypothesis} $\hypothesis,\hypothesis'$, la GTV est définie par
+		\begin{equation}
+			\nonumber
+			\sum_{\edge{\nodeidx}{\nodeidx'}\in \edges} \edgeweight_{\nodeidx,\nodeidx'} 
+			\discrepancy{\localhypothesis{\nodeidx}}{\localhypothesis{\nodeidx'}}.
+		\end{equation}
+		Ici, $\edgeweight_{\nodeidx,\nodeidx'}>0$ désigne le poids de l’arête non orientée $\edge{\nodeidx}{\nodeidx'}\in \edges$.
+		\\
+		Voir aussi : \gls{localmodel}, \gls{modelparams}, \gls{graph}, \gls{discrepancy}, \gls{hypothesis}, \gls{map}.},
+	first={variation totale généralisée (GTV)},
+	text={GTV}
+}
+
+\newglossaryentry{rerm}
+{name={minimisation du risque empirique régularisé (MRER)}, 
+	description={La \gls{erm} classique consiste à apprendre une \gls{hypothesis} (ou à entraîner un \gls{model}) $\hypothesis \in \hypospace$ en se basant uniquement sur le \gls{emprisk} $\emprisk{\hypothesis}{\dataset}$ calculé sur un \gls{trainset} $\dataset$. Pour rendre la \gls{erm} moins sujette au \gls{overfitting}, on peut appliquer une \gls{regularization} en ajoutant un \gls{regularizer} (pondéré) $\regularizer{\hypothesis}$ dans l’objectif d’apprentissage. Cela conduit à la minimisation du risque empirique régularisé (MRER)\index{minimisation du risque empirique régularisé (MRER)} :
+		\begin{equation}
+			\label{equ_def_rerm_dict}
+			\learnthypothesis \in \argmin_{\hypothesis \in \hypospace} \emprisk{\hypothesis}{\dataset} + \regparam \regularizer{\hypothesis}.
+		\end{equation}
+		Le \gls{parameter} $\regparam \geq 0$ contrôle l’intensité de la \gls{regularization}. Pour $\regparam = 0$, on retrouve la \gls{erm} standard, sans \gls{regularization}. Lorsque $\regparam$ augmente, l’\gls{hypothesis} apprise est de plus en plus biaisée vers des petites valeurs de $\regularizer{\hypothesis}$. Le terme $\regparam \regularizer{\hypothesis}$ dans la \gls{objfunc} de \eqref{equ_def_rerm_dict} peut être interprété comme une estimation de l’augmentation moyenne de la \gls{loss} qui peut se produire lors de la prédiction d'\glspl{label} pour des \glspl{datapoint} en dehors de l'\gls{trainset}. Cette intuition peut être formalisée de plusieurs manières. Par exemple, dans le cas d’un \gls{linmodel} entraîné avec la \gls{sqerrloss} et le \gls{regularizer} $\regularizer{\hypothesis} = \normgeneric{\weights}{2}^{2}$, le terme $\regparam \regularizer{\hypothesis}$ correspond à l’augmentation attendue de la \gls{loss} induite par l’ajout de \glspl{gaussrv} aux \glspl{featurevec} de l'\gls{trainset} \cite[Ch. 3]{MLBasics}. Une construction rigoureuse du \gls{regularizer} $\regularizer{\hypothesis}$ découle des majorations approchées de l’erreur de \gls{generalization}. L’instance de MRER ainsi obtenue est appelée \gls{srm} \cite[Sec. 7.2]{ShalevShwartz2009}.
+		\\
+		Voir aussi : \gls{erm}, \gls{hypothesis}, \gls{model}, \gls{emprisk}, \gls{trainset}, \gls{overfitting}, \gls{regularization}, \gls{regularizer}, \gls{parameter}, \gls{objfunc}, \gls{loss}, \gls{label}, \gls{datapoint}, \gls{linmodel}, \gls{sqerrloss}, \gls{gaussrv}, \gls{featurevec}, \gls{generalization}, \gls{srm}.},
+	first={minimisation du risque empirique régularisé (MRER)},
+	text={MRER} 
+}
+
+\newglossaryentry{regularizer}
+{name={terme de régularisation}, 
+	description={Un terme de régularisation\index{terme de régularisation} 
+		assigne à chaque \gls{hypothesis} $\hypothesis$ d’un \gls{hypospace} $\hypospace$ une mesure quantitative 
+		$\regularizer{\hypothesis}$ représentant à quel point l’erreur de \gls{prediction} sur un \gls{trainset} 
+		pourrait différer des erreurs de \gls{prediction} sur des \glspl{datapoint} en dehors de l'\gls{trainset}. 
+		La \gls{ridgeregression} utilise le terme de \gls{regularization} 
+		$\regularizer{\hypothesis} \defeq \normgeneric{\weights}{2}^{2}$ pour des fonctions \glspl{hypothesis} linéaires 
+		de la forme $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. 
+		Le \gls{lasso} utilise quant à lui $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
+		pour des \glspl{hypothesis} linéaires de même forme \cite[Ch. 3]{MLBasics}.
+		\\
+		Voir aussi : \gls{hypothesis}, \gls{hypospace}, \gls{prediction}, \gls{trainset}, \gls{datapoint}, \gls{ridgeregression}, \gls{map}, \gls{lasso}. },
+	first={terme de régularisation},
+	text={terme de régularisation}, plural={termes de régularisation}
+}
+
+\newglossaryentry{srm}
+{name={minimisation du risque structurel (MRS)}, 
+	description={La MRS\index{minimisation du risque structurel (MRS)} est une instance de \gls{rerm}, dans laquelle le \gls{model} $\hypospace$ peut être exprimé comme une union dénombrable de sous-modèles telle que $\hypospace = \bigcup_{n=1}^{\infty} \hypospace^{(n)}$. 
+		Chaque sous-modèle $\hypospace^{(n)}$ permet d'évaluer une borne supérieure approchée de l’erreur de \gls{generalization} encourue lors de l’application de la \gls{erm} pour entraîner $\hypospace^{(n)}$. 
+		Ces bornes individuelles — une pour chaque sous-modèle — sont ensuite combinées pour former un \gls{regularizer} utilisé dans l’objectif de la \gls{rerm}. 
+		Ces bornes supérieures approchées (une pour chaque $\hypospace^{(n)}$) sont alors combinées pour construire un \gls{regularizer} pour la \gls{rerm} \cite[Sec.\ 7.2]{ShalevMLBook}.
+		\\
+		Voir aussi: \gls{rerm}, \gls{model}, \gls{generalization}, \gls{erm}, \gls{regularizer}, \gls{risk}.},
+	first={minimisation du risque structurel (MRS)},
+	text={MRS}
+}
+
+\newglossaryentry{discrepancy}
+{name={divergence},
+	description={Considérons\index{divergence} une application d'\gls{fl} avec des \gls{netdata} 
+		représentées par un \gls{empgraph}. Les méthodes d'\gls{fl} utilisent une mesure de divergence 
+		pour comparer des fonctions \gls{hypothesis} issues de \glspl{localmodel} aux sommets $\nodeidx,\nodeidx'$ 
+		liés par une arête dans le \gls{empgraph}.
+		\\ 
+		Voir aussi : \gls{fl}, \gls{empgraph}, \gls{localmodel}.},
+	first={divergence},
+	firstplural={divergences}, 
+	plural={divergences}, 
+	text={divergence}
+}
+
+\newglossaryentry{netdata}
+{name={données en réseau},
+	description={Les données en réseau\index{données en réseau} sont constituées de \glspl{localdataset} 
+		liés par une notion de similarité deux à deux. On peut représenter les données en réseau 
+		à l’aide d’un \gls{graph} dont les sommets portent des \glspl{localdataset} et dont les arêtes 
+		codent les similarités deux à deux. Un exemple typique de données en réseau apparaît dans les applications d'\gls{fl} 
+		où les \glspl{localdataset} sont générés par des \glspl{device} distribués spatialement.
+		\\
+		Voir aussi : \gls{data}, \gls{localdataset}, \gls{graph}, \gls{fl}, \gls{device}.}, 
+	first={données en réseau},
+	text={données en réseau}  , plural={données en réseau}
+}
+
+\newglossaryentry{lasso}
+{name={moindre contraction absolue et opérateur de sélection (Lasso)}, 
+	description={Le Lasso\index{moindre contraction absolue et opérateur de sélection (Lasso)} est une 
+		instance de \gls{srm}. Il apprend les \gls{weights} $\weights$ d'une \gls{linearmap} 
+		$\hypothesis(\featurevec) = \weights^{T} \featurevec$ à partir d'un \gls{trainset}. 
+		Le Lasso est obtenu à partir de \gls{linreg} en ajoutant la \gls{norm} $\ell_{1}$ 
+		pondérée $\regparam \normgeneric{\weights}{1}$ à la moyenne de la \gls{sqerrloss} subie sur le \gls{trainset}. 
+		\\
+		Voir aussi : \gls{srm}, \gls{weights}, \gls{linearmap}, \gls{trainset}, \gls{linreg}, \gls{norm}, \gls{sqerrloss}.},
+	first={Lasso},
+	text={Lasso} 
+}
 
 \newglossaryentry{LapMat}{
 	name={matrice laplacienne},
 	description={La\index{matrice laplacienne} structure d’un \gls{graph} $\graph$, avec 
-		pour nœuds $\nodeidx=1,\ldots,\nrnodes$, peut être analysée à l’aide des propriétés de 
+		pour sommets $\nodeidx=1,\ldots,\nrnodes$, peut être analysée à l’aide des propriétés de 
 		matrices spéciales associées à $\graph$. L’une de ces matrices est la matrice laplacienne de $\graph$: $\mL^{(\graph)} \in \mathbb{R}^{\nrnodes \times \nrnodes}$, définie pour un \gls{graph} $\graph$ non orienté et pondéré \cite{Luxburg2007,Ng2001}. 
 		Elle est définie terme à terme par (voir Figure \ref{fig_lap_mtx_dict})
 		\begin{equation}
@@ -1967,7 +2074,7 @@
 				\sum_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''} & \mbox{ pour } \nodeidx = \nodeidx', \\ 
 				0 & \mbox{ sinon.} \end{cases}
 		\end{equation}
-		Ici, $\edgeweight_{\nodeidx,\nodeidx'}$ désigne le \gls{edgeweight} d’une arête $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
+		Ici, $\edgeweight_{\nodeidx,\nodeidx'}$ désigne le \gls{weights} d’une arête $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{minipage}{0.45\textwidth}
@@ -1989,10 +2096,11 @@
 						\nonumber
 					\end{equation} 
 				\end{minipage}
-				\caption{\label{fig_lap_mtx_dict} À gauche: Un \gls{graph} non orienté $\graph$ avec trois nœuds $\nodeidx=1,2,3$. 
+				\caption{\label{fig_lap_mtx_dict} À gauche: Un \gls{graph} non orienté $\graph$ avec trois sommets $\nodeidx=1,2,3$. 
 					À droite: La matrice laplacienne $\LapMat{\graph}  \in \mathbb{R}^{3 \times 3}$ de $\graph$.} 
 			\end{center}
 		\end{figure}
+	Voir aussi: \gls{graph}, \gls{edgeweight}.
 	},
 	first={matrice laplacienne},
 	text={matrice laplacienne}, plural ={matrices laplaciennes}
@@ -2001,19 +2109,23 @@
 \newglossaryentry{neighborhood}
 {
 	name={voisinage},
-	description={Le\index{voisinage} voisinage d'un nœud $\nodeidx \in \nodes$ est 
-		le sous-ensemble de nœuds constitué des \gls{neighbors} de $\nodeidx$.},
+	description={Le\index{voisinage} voisinage d'un sommet $\nodeidx \in \nodes$ est 
+		le sous-ensemble de sommets constitué des \gls{neighbors} de $\nodeidx$.
+	\\
+	Voir aussi: \gls{neighbors}.},
 	first={voisinage},
 	text={voisinage}
 }
 
 \newglossaryentry{localdataset}{
 	name={jeu de données local},
-	description={Le\index{jeu de données local} concept de jeu de données local se situe entre les notions de \gls{datapoint} et de \gls{dataset}. 
-		Un jeu de données local est constitué de plusieurs \glspl{datapoint}, chacun étant caractérisé par des \glspl{feature} et une \glspl{label}. 
+	description={Le\index{jeu de données local} concept de \gls{dataset} local se situe entre les notions de \gls{datapoint} et de \gls{dataset}. 
+		Un \gls{dataset} local est constitué de plusieurs \glspl{datapoint}, chacun étant caractérisé par des \glspl{feature} et \glspl{label}. 
 		Contrairement à un \gls{dataset} unique, utilisé dans les méthodes classiques d'\gls{ml}, un jeu de données local peut être relié à d'autres jeux de données locaux 
 		par différentes formes de similarité. Ces similarités peuvent provenir de \glspl{probmodel} ou de l’infrastructure de communication, 
-		et sont représentées par les arêtes d’un \gls{empgraph}.},
+		et sont représentées par les arêtes d’un \gls{empgraph}.
+		\\
+		Voir aussi: \gls{dataset}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{ml}, \gls{probmodel}, \gls{empgraph}.},
 	first={jeu de données local},
 	text={jeu de données local}, plural={jeux de données locaux}
 }
@@ -2021,13 +2133,15 @@
 \newglossaryentry{samplesize}
 {name=taille d'échantillon,
 	description={Le\index{taille d'échantillon} nombre de \glspl{datapoint} individuels
-		contenus dans un \gls{dataset}.},first={taille d'échantillon},text={taille d'échantillon}, plural={tailles d'échantillon}
+		contenus dans un \gls{dataset}.
+		\\
+		Voir aussi: \gls{datapoint}, \gls{dataset}.},first={taille d'échantillon},text={taille d'échantillon}, plural={tailles d'échantillon}
 }
 
 \newglossaryentry{lossfunc}{
 	name={fonction de perte (ou de coût)},
 	description={
-		Une\index{fonction de perte (ou de coût)} fonction de \gls{loss} (ou de coût) est une application
+		Une\index{fonction de perte (ou de coût)} fonction de \gls{loss} (ou de coût) est une \gls{map}
 		\[
 		\lossfun: \featurespace \times \labelspace \times \hypospace \rightarrow \mathbb{R}_{+}: \big( \big(\featurevec,\truelabel\big),
 		\hypothesis\big) \mapsto \lossfunc{(\featurevec,\truelabel)}{\hypothesis}.
@@ -2039,7 +2153,7 @@
 		et la \gls{prediction} $\hypothesis(\featurevec)$. 
 		Des valeurs plus faibles (proches de zéro) de $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ indiquent un écart plus faible 
 		entre la \gls{prediction} $\hypothesis(\featurevec)$ et l'\gls{label} $\truelabel$. 
-		La figure \ref{fig_loss_function_gls_dict} représente une fonction de \gls{loss} pour un \gls{datapoint} donné, 
+		La figure \ref{fig_loss_function_gls_dict} représente une \gls{function} de \gls{loss} pour un \gls{datapoint} donné, 
 		de \glspl{feature} $\featurevec$ et d'\gls{label} $\truelabel$, en fonction de l'\gls{hypothesis} $\hypothesis \in \hypospace$.
 		\begin{figure}[H]
 			\begin{center}
@@ -2066,11 +2180,12 @@
 				\end{tikzpicture}
 			\end{center}
 			\vspace*{-7mm}
-			\caption{Une fonction de \gls{loss} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ pour un \gls{datapoint} fixé, de 
+			\caption{Une \gls{function} de \gls{loss} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ pour un \gls{datapoint} fixé, de 
 				\gls{featurevec} $\featurevec$ et d'\gls{label} $\truelabel$, et une \gls{hypothesis} variable $\hypothesis$. 
 				Les méthodes d'\gls{ml} cherchent à trouver (ou apprendre) une \gls{hypothesis} minimisant la \gls{loss}.}
 			\label{fig_loss_function_gls_dict}
 		\end{figure}
+	Voir aussi: \gls{loss}, \gls{function}, \gls{map}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{prediction}, \gls{featurevec}, \gls{ml}.
 	},
 	first={fonction de perte (ou de coût)},
 	text={fonction de perte}, plural={fonctions de perte}
@@ -2078,15 +2193,16 @@
 
 \newglossaryentry{erm}{
 	name={minimisation du risque empirique (MRE)},
-	description={La minimisation du risque empirique (MRE) (\gls{emprisk}) est le problème d'optimisation qui consiste à trouver une \gls{hypothesis} (dans un \gls{model}) qui minimise la \gls{loss} moyenne (ou \gls{emprisk}) sur un \gls{dataset} $\dataset$ donné (c’est-à-dire, l'\gls{trainset}). De nombreuses méthodes d'\gls{ml} sont obtenues à partir du \gls{emprisk} via des choix de conception spécifiques pour le \gls{dataset}, le \gls{model} et la \gls{loss} \cite[Ch. 3]{MLBasics}.
-		\\ Voir aussi: \gls{minimum}, \gls{emprisk}, \gls{hypothesis}, \gls{model}, \gls{loss}, \gls{dataset}, \gls{trainset}, \gls{ml}.},
+	description={La minimisation du \gls{emprisk} (MRE) est le \gls{optproblem} qui consiste à trouver une \gls{hypothesis} (dans un \gls{model}) qui minimise la \gls{loss} moyenne (ou \gls{emprisk}) sur un \gls{dataset} $\dataset$ donné (c’est-à-dire, l'\gls{trainset}). De nombreuses méthodes d'\gls{ml} sont obtenues à partir du \gls{emprisk} via des choix de conception spécifiques pour le \gls{dataset}, le \gls{model} et la \gls{loss} \cite[Ch. 3]{MLBasics}.
+		\\
+		Voir aussi: \gls{optproblem}, \gls{hypothesis}, \gls{model}, \gls{minimum}, \gls{loss}, \gls{emprisk}, \gls{dataset}, \gls{trainset}, \gls{ml}.},
 	first={minimisation du risque empirique (MRE)},
 	text={MRE}
 }
 
 \newglossaryentry{convex}{
 	name={convexe},
-	description={Un sous-ensemble $\mathcal{C} \subseteq \mathbb{R}^{\featuredim}$ de l'\gls{euclidspace} $\mathbb{R}^{\featuredim}$ est dit convexe s’il contient le segment de droite qui relie deux points $\vx, \vy\!\in\!\cluster$ quelconques de cet ensemble. Une fonction $f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ est convexe si son \gls{epigraph} $\big\{ \big( \weights^{T},t \big)^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ est un ensemble convexe \cite{BoydConvexBook}. On illustre un exemple d’ensemble convexe et de fonction convexe dans la Figure \ref{fig_convex_set_function_dict}.
+	description={Un sous-ensemble $\mathcal{C} \subseteq \mathbb{R}^{\featuredim}$ de l'\gls{euclidspace} $\mathbb{R}^{\featuredim}$ est dit convexe s’il contient le segment de droite qui relie deux points $\vx, \vy\!\in\!\cluster$ quelconques de cet ensemble. Une \gls{function} $f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ est convexe si son \gls{epigraph} $\big\{ \big( \weights^{T},t \big)^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ est un ensemble convexe \cite{BoydConvexBook}. On illustre un exemple d’ensemble convexe et de \gls{function} convexe dans la Figure \ref{fig_convex_set_function_dict}.
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}
@@ -2113,6 +2229,7 @@
 				Droite: Une \gls{function} convexe $f: \mathbb{R}^{\dimlocalmodel} \rightarrow \mathbb{R}$.
 				\label{fig_convex_set_function_dict}}
 		\end{figure}
+	Voir aussi: \gls{euclidspace}, \gls{function}, \gls{epigraph}.
 	},
 	first={convexe},
 	text={convexe}
@@ -2120,14 +2237,16 @@
 
 \newglossaryentry{linreg}{
 	name={régression linéaire},
-	description={La \index{régression linéaire} \gls{regression} linéaire vise à apprendre une fonction \gls{hypothesis} linéaire pour prédire une \gls{label} numérique à partir des \glspl{feature} numériques d’un \glspl{datapoint}. La qualité d’une fonction \gls{hypothesis} linéaire est mesurée par la moyenne de la \gls{sqerrloss} subie sur un ensemble de \glspl{labeled datapoint}, que nous appelons l'\gls{trainset}.},
+	description={La \index{régression linéaire} \gls{regression} linéaire vise à apprendre une fonction \gls{hypothesis} linéaire pour prédire une \gls{label} numérique à partir des \glspl{feature} numériques d’un \glspl{datapoint}. La qualité d’une fonction \gls{hypothesis} linéaire est mesurée par la moyenne de la \gls{sqerrloss} subie sur un ensemble de \glspl{labeled datapoint}, que nous appelons l'\gls{trainset}.
+		\\
+		Voir aussi: \gls{regression}, \gls{hypothesis}, \gls{map}, \gls{label}, \gls{feature}, \gls{datapoint},  \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},
 	first={régression linéaire},
 	text={régression linéaire}, plural={régressions linéaires}
 }
 
 \newglossaryentry{pseudoinverse}{
 	name={pseudo-inverse},
-	description={La \index{pseudo-inverse}pseudo-inverse de Moore–Penrose $\mA^{+}$ d’une matrice $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ généralise la notion d'\gls{inverse} \cite{GolubVanLoanBook}. La pseudo-inverse apparaît naturellement dans le cadre de la \gls{ridgeregression} appliquée à un \gls{dataset} avec des \glspl{label} arbitraires $\vy$ et une \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. Les \gls{modelparams} appris par la \gls{ridgeregression} sont donnés par
+	description={La \index{pseudo-inverse}pseudo-inverse de Moore–Penrose $\mA^{+}$ d’une matrice $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ généralise la notion de \gls{inverse} \cite{GolubVanLoanBook}. La pseudo-inverse apparaît naturellement dans le cadre de la \gls{ridgeregression} appliquée à un \gls{dataset} avec des \glspl{label} arbitraires $\vy$ et une \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. Les \gls{modelparams} appris par la \gls{ridgeregression} sont donnés par
 		\[
 		\widehat{\vw}^{(\regparam)}  = \big(\mA^T \mA + \regparam \mI \big)^{-1} \mA^\top \vy, \quad \regparam > 0.
 		\]
@@ -2150,14 +2269,80 @@
 
 \newglossaryentry{euclidspace}{
 	name={espace euclidien},
-	description={L’\index{espace euclidien}espace euclidien $\mathbb{R}^{\featuredim}$ de dimension $\featuredim \in \mathbb{N}$ est constitué des vecteurs $\featurevec= \big(\feature_{1},\ldots,\feature_{\featurelen}\big)$, avec $\featuredim$ composantes réelles $\feature_{1},\ldots,\feature_{\featuredim} \in \mathbb{R}$. Un tel espace euclidien est muni d’une structure géométrique définie par le produit scalaire $\featurevec^{T} \featurevec' = \sum_{\featureidx=1}^{\featuredim} \feature_{\featureidx} \feature'_{\featureidx}$ entre deux vecteurs  $\featurevec,\featurevec' \in \mathbb{R}^{\featuredim}$ quelconques \cite{RudinBookPrinciplesMatheAnalysis}.},
+	description={L’\index{espace euclidien}espace euclidien $\mathbb{R}^{\featuredim}$ de dimension $\featuredim \in \mathbb{N}$ est constitué des \glspl{vector} $\featurevec= \big(\feature_{1},\ldots,\feature_{\featurelen}\big)$, avec $\featuredim$ composantes réelles $\feature_{1},\ldots,\feature_{\featuredim} \in \mathbb{R}$. Un tel espace euclidien est muni d’une structure géométrique définie par le produit scalaire $\featurevec^{T} \featurevec' = \sum_{\featureidx=1}^{\featuredim} \feature_{\featureidx} \feature'_{\featureidx}$ entre deux \glspl{vector} $\featurevec,\featurevec' \in \mathbb{R}^{\featuredim}$ quelconques \cite{RudinBookPrinciplesMatheAnalysis}.},
 	first={espace euclidien},
 	text={espace euclidien}
 }
 
+\newglossaryentry{vector}
+{name={vecteur},
+	description={
+		Un\index{vecteur} vecteur est un élément d’un \gls{vectorspace}. 
+		Dans le contexte de l’\gls{ml}, un exemple particulièrement important d’\gls{vectorspace} 
+		est l’\gls{euclidspace} $\mathbb{R}^{\nrfeatures}$, où $\nrfeatures \in \mathbb{N}$ 
+		est la dimension (finie) de l’espace. Un vecteur $\vx \in \mathbb{R}^{\nrfeatures}$ 
+		peut être représenté comme une liste ou un tableau unidimensionnel de nombres réels, c’est-à-dire 
+		$x_1, \ldots, x_{\nrfeatures}$ avec $x_\featureidx \in \mathbb{R}$ pour 
+		$\featureidx = 1, \ldots, \nrfeatures$. La valeur $x_\featureidx$ est la $\featureidx$-ième entrée du vecteur $\vx$. Il peut également être utile de voir un vecteur $\vx \in \mathbb{R}^{\nrfeatures}$ 
+		comme une \gls{function} qui associe à chaque indice $\featureidx \in \{1, \ldots, \nrfeatures\}$ 
+		une valeur $x_\featureidx \in \mathbb{R}$, c’est-à-dire $\vx: \featureidx \mapsto x_\featureidx$. 
+		Cette perspective est particulièrement utile pour l’étude des \glspl{kernelmethod}.
+		\begin{figure}[htbp]
+			% Left: Stem plot
+			\begin{minipage}[c]{0.48\textwidth}
+				\centering 
+				2,-1,3,0,-2,1
+			\end{minipage}
+			\hfill
+			% Right: Column vector
+			\begin{minipage}{0.48\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						width=6.5cm,
+						height=5cm,
+						title={},
+						xlabel={indice $\featureidx$},
+						ylabel={$x_\featureidx$},
+						ymin=-3.5, ymax=3.5,
+						xmin=0.5, xmax=6.5,
+						xtick={1,2,3,4,5,6},
+						ytick={-3,-2,-1,0,1,2,3},
+						axis x line=bottom,
+						axis y line=left,
+						grid=both,
+						major grid style={dotted, gray!60},
+						enlargelimits=0.1
+						]
+						\addplot+[ycomb, thick, mark=*]
+						coordinates {
+							(1,2)
+							(2,-1)
+							(3,3)
+							(4,0)
+							(5,-2)
+							(6,1)
+						};
+					\end{axis}
+				\end{tikzpicture}
+			\end{minipage}
+			\caption{Deux représentations équivalentes d’un vecteur $\vx= \big( 2,-1,3,0,-2,1 \big)^{T} \in \mathbb{R}^{6}$ :
+				comme tableau numérique (à gauche) et comme application $\featureidx \mapsto x_\featureidx$ (à droite).}
+			\label{fig:vector-function-dual_dict}
+		\end{figure}
+		\\
+		Voir aussi : \gls{euclidspace}, \gls{vectorspace}, \gls{linearmap}.},
+	first={vecteur},
+	firstplural={vecteurs},
+	plural={vecteurs},
+	text={vecteur}
+}
+
 \newglossaryentry{iid}{
 	name={indépendantes et identiquement distribuées (i.i.d.)},
-	description={Il\index{indépendantes et identiquement distribuées (i.i.d.)} peut être utile d’interpréter des \glspl{datapoint} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$ comme des \glspl{realization} de \glspl{rv} i.i.d. suivant une \gls{probdist} commune. Si ces \glspl{rv} sont à valeurs continues, leur \gls{pdf} conjointe est $p\big(\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)} \big) = \prod_{\sampleidx=1}^{\samplesize} p \big(\datapoint^{(\sampleidx)}\big)$, où $p(\datapoint)$ est la \gls{pdf} marginale commune des \glspl{rv} sous-jacentes (i.e., dont les \glspl{datapoint} sont les \glspl{realization}).},
+	description={Il\index{indépendantes et identiquement distribuées (i.i.d.)} peut être utile d’interpréter des \glspl{datapoint} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$ comme des \glspl{realization} de \glspl{rv} i.i.d. suivant une \gls{probdist} commune. Si ces \glspl{rv} sont à valeurs continues, leur \gls{pdf} conjointe est $p\big(\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)} \big) = \prod_{\sampleidx=1}^{\samplesize} p \big(\datapoint^{(\sampleidx)}\big)$, où $p(\datapoint)$ est la \gls{pdf} marginale commune des \glspl{rv} sous-jacentes (i.e., dont les \glspl{datapoint} sont les \glspl{realization}).
+		\\
+		Voir aussi: \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{pdf}.},
 	first={indépendantes et identiquement distribuées (i.i.d.)},
 	text={i.i.d.}, plural={i.i.d.}}
 
@@ -2167,28 +2352,42 @@
 		Si la fonction de densité de probabilité existe, elle peut être utilisée pour calculer la \gls{probability} que $\feature$ prenne une valeur 
 		dans un ensemble (mesurable) $\mathcal{B} \subseteq \mathbb{R}$ avec $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. La fonction de densité de probabilité d’une \gls{rv} vectorielle $\featurevec \in \mathbb{R}^{\featuredim}$ (si elle existe) 
 		permet de calculer la \gls{probability} que $\featurevec$ appartienne à une région (mesurable) $\mathcal{R}$ avec 
-		$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \ldots d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.},
+		$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \ldots d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
+		\\
+		Voir aussi: \gls{rv}, \gls{probdist}, \gls{probability}.},
 	first={fonction de densité de probabilité},text={fonction de densité de probabilité}, plural={fonctions de densité de probabilite}}
 
 \newglossaryentry{probmodel}
 {
 	name={modèle probabiliste},
 	description={Un \gls{model}\index{modèle probabiliste} probabiliste interprète les \glspl{datapoint} 
-		comme des \glspl{realization} de \glspl{rv} selon une \gls{probdist} conjointe. Cette \gls{probdist} conjointe implique généralement des \gls{parameter} qui doivent être choisis manuellement ou appris via des méthodes d’inférence statistique telles que l’estimation par \gls{maxlikelihood} \cite{LC}.}, 
+		comme des \glspl{realization} de \glspl{rv} selon une \gls{probdist} conjointe. Cette \gls{probdist} conjointe implique généralement des \gls{parameter} qui doivent être choisis manuellement ou appris via des méthodes d’inférence statistique telles que l’estimation par \gls{maxlikelihood} \cite{LC}.
+		\\ 
+		Voir aussi: \gls{model}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{parameter}, \gls{maxlikelihood}.}, 
 	first = {modèle probabiliste}, text={modèle probabiliste} , plural={modèles probabilistes}
 }
 
 \newglossaryentry{uncertainty}
-{
-	name={incertitude},
-	description={L’incertitude\index{incertitude} désigne le degré de confiance — ou de manque de confiance — associé à une quantité comme une prédiction de modèle, une estimation de paramètre ou une observation de \gls{datapoint}. En \gls{ml}, l’incertitude provient de diverses sources, comme des données bruitées, un nombre limité d’échantillons d’entraînement, ou une ambiguïté dans les hypothèses du \gls{model}. La théorie des probabilités fournit un cadre rigoureux pour représenter et quantifier cette incertitude.},
-	first={incertitude}, text={incertitude}
+{name={incertitude},
+	description={Dans le contexte de l’\gls{ml}, l’incertitude\index{incertitude} fait référence à la présence de multiples 
+		résultats ou \glspl{explanation} plausibles à partir des \gls{data} disponibles. Par exemple, la 
+		\gls{prediction} $\hat{\hypothesis}(\featurevec)$ produite par un \gls{model} d’\gls{ml} entraîné, $\hat{\hypothesis}$,
+		reflète souvent un éventail de valeurs possibles pour la véritable \gls{label} d’un \gls{datapoint} donné. 
+		Plus cet éventail est large, plus l’incertitude associée est grande. La théorie des \glspl{probability} 
+		permet de représenter, quantifier et raisonner sur l’incertitude de manière 
+		rigoureuse d'un point de vue mathématique.
+		\\ 
+		Voir aussi : \gls{probmodel}, \gls{risk}, \gls{entropy}, \gls{variance}. },
+	first={incertitude},
+	text={incertitude}
 }
 
 \newglossaryentry{validation} 
 {
 	name={validation},
-	description={Considérons\index{validation} une \gls{hypothesis} $\learnthypothesis$ apprise à l’aide d’une méthode d'\gls{ml}, par exemple en résolvant la \gls{erm} sur un \gls{trainset} $\dataset$. La validation désigne la pratique consistant à évaluer la \gls{loss} encourue par l’\gls{hypothesis} $\learnthypothesis$ sur un ensemble de \glspl{datapoint} qui ne sont pas contenus dans le \gls{trainset} $\dataset$.},
+	description={Considérons\index{validation} une \gls{hypothesis} $\learnthypothesis$ apprise à l’aide d’une méthode d'\gls{ml}, par exemple en résolvant la \gls{erm} sur un \gls{trainset} $\dataset$. La validation désigne la pratique consistant à évaluer la \gls{loss} encourue par l’\gls{hypothesis} $\learnthypothesis$ sur un ensemble de \glspl{datapoint} qui ne sont pas contenus dans le \gls{trainset} $\dataset$.
+		\\
+		Voir aussi: \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{trainset}, \gls{loss}, \gls{datapoint}.},
 	first={validation}, text={validation}
 }
 
@@ -2196,7 +2395,7 @@
 {
 	name={espace des étiquettes},
 	description={Considérons\index{espace des étiquettes} une application d'\gls{ml} impliquant des \glspl{datapoint} caractérisés par des \glspl{feature} et des \glspl{label}. L’espace des \glspl{label} est constitué de toutes les valeurs possibles que l'\gls{label} d’un \gls{datapoint} peut prendre. Les méthodes de \gls{regression}, visant à prédire des \glspl{label} numériques, utilisent souvent l’espace des \glspl{label} $\labelspace = \mathbb{R}$. Les méthodes de \gls{classification} binaire utilisent un espace des \glspl{label} constitué de deux éléments différents, par exemple $\labelspace =\{-1,1\}$, $\labelspace=\{0,1\}$, ou .\\
-		See also: \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{regression}, \gls{classification}.}, 
+		Voir aussi: \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{regression}, \gls{classification}.}, 
 	first={espace des étiquettes},
 	text={espace des étiquettes}, plural={espaces des étiquettes}
 }
@@ -2211,13 +2410,14 @@
 		(généralement basée sur des méthodes d'\gls{ml}) \cite{ALTAIEU}: 
 		\begin{enumerate}[label=\arabic*)]
 			\item Facteur humain et contrôle humain ;
-			\item Robustesse technique et sécurité ;
-			\item Respect de la vie privée et gouvernance des données ;
-			\item Transparence ;
+			\item \Gls{robustness} technique et sécurité ;
+			\item Respect de la vie privée et gouvernance des \gls{data} ;
+			\item \Gls{transparency} ;
 			\item Diversité, non-discrimination et équité ;
 			\item Bien-être sociétal et environnemental ;
 			\item Responsabilisation. 
 		\end{enumerate}
+	Voir aussi: \gls{compasp}, \gls{statasp}, \gls{ml}, \gls{ai}, \gls{robustness}, \gls{data}, \gls{transparency}.
 	},
 	first={intelligence artificielle digne de confiance (IA digne de confiance)},
 	text={IA digne de confiance}, plural ={IA dignes de confiance}
@@ -2263,6 +2463,7 @@
 			et \glspl{label} $\truelabel^{(\sampleidx)} \in \{ \circ, \square \}$, pour $\sampleidx=1, \ldots, 5$. 
 			Avec ces \glspl{featurevec}, il n'est pas possible de séparer les deux classes par une ligne droite (représentant la \gls{decisionboundary} d'un \gls{linclass}). En revanche, le \glspl{featurevec} transformé $\vz^{(\sampleidx)} = \kernelmap{\featurevec^{(\sampleidx)}}{\cdot}$ permet de séparer les \glspl{datapoint} à l'aide d'un \gls{linclass}.  \label{fig_linsep_kernel_dict}}
 	\end{figure}
+	Voir aussi: \gls{kernel}, \gls{featurevec}, \gls{featurespace}, \gls{linclass}.
 	},
 	text={méthode à noyau}, plural={méthodes à noyau}
 }
@@ -2307,7 +2508,9 @@
 	name={aspects statistiques}, 
 	description={Par aspects statistiques\index{aspects statistiques} 
 		d'une méthode d'\gls{ml}, on entend (les propriétés de) la \gls{probdist} de sa sortie 
-		sous un \gls{probmodel} pour les \gls{data} fournies en entrée de la méthode.},
+		sous un \gls{probmodel} pour les \gls{data} fournies en entrée de la méthode.
+		\\ 
+		Voir aussi: \gls{ml}, \gls{probdist}, \gls{probmodel}, \gls{data}.},
 	first={aspects statistiques},
 	text={aspects statistiques}
 }
@@ -2319,23 +2522,70 @@
 		la qualité d’une \gls{prediction} particulière en utilisant une \gls{lossfunc} $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$. 
 		Si nous interprétons les \glspl{datapoint} comme les \glspl{realization} de \gls{rv} \gls{iid}, 
 		alors $\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$ devient la \gls{realization} 
-		d’une \gls{rv}. La \gls{iidasspt} nous permet de définir le risque d’une \gls{hypothesis} 
+		d’une \gls{rv}. L'\gls{iidasspt} nous permet de définir le risque d’une \gls{hypothesis} 
 		comme l’espérance de la \gls{loss} $\expect \big\{\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \big\}$. 
 		Notons que le risque de $\hypothesis$ dépend à la fois du choix spécifique de la \gls{lossfunc} et de la 
-		\gls{probdist} des \glspl{datapoint}.},
+		\gls{probdist} des \glspl{datapoint}.
+		\\ 
+		Voir aussi: \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{lossfunc}, \gls{realization}, \gls{iid} \gls{rv}, \gls{iidasspt}, \gls{loss}, \gls{probdist}.},
 	first={risque},text={risque} 
 }
 
 \newglossaryentry{overfitting}{name={surapprentissage},description={Considérons\index{surapprentissage} une 
 		méthode d'\gls{ml} qui utilise la \gls{erm} pour apprendre une \gls{hypothesis} avec le \gls{emprisk} minimal sur 
 		un \gls{trainset} donné. Une telle méthode fait du surapprentissage sur l'\gls{trainset} si elle apprend 
-		une \gls{hypothesis} avec un petit \gls{emprisk} sur l'\gls{trainset} mais une \gls{loss} significativement plus grande en dehors de cet ensemble.},first={surapprentissage},text={surapprentissage}}
+		une \gls{hypothesis} avec un petit \gls{emprisk} sur l'\gls{trainset} mais une \gls{loss} significativement plus grande en dehors de cet ensemble.
+		\\ 
+		Voir aussi: \\gls{erm}, \gls{generalization}, \gls{validation}, \gls{gengap}.},first={surapprentissage},text={surapprentissage}}
+		
+\newglossaryentry{gengap}
+{name={écart de généralisation}, 
+	description={L'écart de \gls{generalization} est la différence\index{écart de généralisation} entre la performance d’un \gls{model} 
+		entraîné sur l'\gls{trainset} $\trainset$ et sa performance sur des \glspl{datapoint} 
+		extérieurs à $\trainset$. Cette notion peut être précisée en utilisant un \gls{probmodel} 
+		permettant de calculer le \gls{risk} d’un \gls{model} entraîné comme l’\gls{expectation} 
+		de la \gls{loss}. Toutefois, la \gls{probdist} sous-jacente à cette \gls{expectation} 
+		est généralement inconnue et doit être estimée d’une manière ou d’une autre. 
+		Les techniques de \gls{validation} utilisent différentes constructions pour l'\gls{valset}, 
+		différent du \gls{trainset}, pour estimer l’écart de \gls{generalization}.
+		\\
+		Voir aussi : \gls{validation}, \gls{generalization}, \gls{erm}, \gls{lossfunc}.}, 
+	first={écart de généralisation}, 
+	text={écart de généralisation}, plural={écarts de généralisation}
+}
 	
-\newglossaryentry{objfunc}{name={fonction objective}, description={Une\index{fonction objective} 
-		fonction objective est une application qui associe à chaque valeur d’une variable d’optimisation, comme 
-		les \gls{modelparams} $\weights$ d’une \gls{hypothesis} $\hypothesis^{(\weights)}$, une 
-		valeur objective $f(\weights)$. La valeur objective $f(\weights)$ peut être le 
-		\gls{risk} ou le \gls{emprisk} d’une \gls{hypothesis} $\hypothesis^{(\weights)}$.},first={fonction objective},text={fonction objective}, plural={fonctions objectives} }
+\newglossaryentry{objfunc}
+{name={fonction objective}, plural={fonctions objectives}, 
+	description={Une\index{fonction objective} \gls{function} objective est une \gls{map} qui associe une 
+		valeur numérique $f(\weights)$ à chaque choix $\weights$ d’une variable que l’on souhaite 
+		optimiser (voir Fig. \ref{fig_obj_func_dict}). Dans le contexte de l’\gls{ml}, la variable d’optimisation peut être 
+		les \gls{modelparams} d’une \gls{hypothesis} $\hypothesis^{(\weights)}$. 
+		Parmi les \glspl{function} objectives courantes, on trouve le \gls{risk} (c’est-à-dire la \gls{loss} espérée) 
+		ou le \gls{emprisk} (c’est-à-dire la \gls{loss} moyenne sur un \gls{trainset}). 
+		Les méthodes d’\gls{ml} utilisent des techniques d’optimisation, telles que les \gls{gdmethods}, 
+		pour trouver le choix $\weights$ qui minimise ou maximise la valeur de la \gls{function} objective.
+		\\
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=1.0]
+					% Axes
+					\draw[->] (-0.5,0) -- (4.5,0) node[right] {$\weights$};
+					\draw[->] (0,-0.5) -- (0,3.5);
+					% Objective function curve
+					\draw[thick,domain=0.3:4,smooth,variable=\x] 
+					plot ({\x}, {0.5*(\x-2)^2 + 0.5});
+					% Label the curve
+					\node at (3.5,2.8) {$f(\weights)$};
+				\end{tikzpicture} 
+			\end{center}
+			\caption{Une \gls{function} objective associe à chaque valeur possible $\weights$ d’une variable d’optimisation, 
+				comme les \glspl{parameter} d’un \gls{model} d'\gls{ml}, une valeur mesurant l’utilité de $\weights$. 
+				\label{fig_obj_func_dict}}
+		\end{figure} 
+		Voir aussi : \gls{function}, \gls{map}, \gls{ml}, \gls{modelparams}, \gls{hypothesis}, \gls{risk}, \gls{loss}, \gls{emprisk}, \gls{trainset}, \gls{gdmethods}, \gls{minimum}, \gls{maximum}, \gls{model}, \gls{lossfunc}.},
+	first={fonction objective},
+	text={fonction objective} , plural={fonctions objectives}
+}
 	
 \newglossaryentry{dataaug}{name={augmentation de données},
 	description={Les méthodes d’augmentation de \gls{data}\index{augmentation de données} ajoutent des \glspl{datapoint} synthétiques 
@@ -2353,7 +2603,6 @@
 					% Define shift macros locally
 					\newcommand{\xshift}{0.5}
 					\newcommand{\yshift}{2}
-					% Define the shifted curves
 					% Define the shifted curves
 					\draw[very thick, blue] plot[smooth, tension=1] coordinates {(0,0) (2,1) (4,0) (6,-1) (8,0)};
 					\node[blue, right] at (0,0) {\textbf{chat}};
@@ -2374,28 +2623,33 @@
 				avec comme \gls{featurevec} $\featurevec^{(2)} = \mathcal{T}^{(\eta)} \big(\featurevec^{(1)} \big)$ doit 
 				avoir la même \gls{label} $\truelabel^{(2)}=\truelabel^{(1)}$ qu’un \gls{datapoint} 
 				avec comme \gls{featurevec} $\featurevec^{(1)}$.\label{fig_symmetry_dataaug_dict}}
-	\end{figure} },first={augmentation de données},text={augmentation de données}, plural={augmentations de données}}
+	\end{figure}
+	Voir aussi: \gls{data}, \gls{datapoint}, \gls{label}, \gls{featurevec}, \gls{regularization}, \gls{featurespace}. },first={augmentation de données},text={augmentation de données}, plural={augmentations de données}}
 
 \newglossaryentry{ridgeregression}{name={régression Ridge}, description={La \gls{regression} Ridge\index{régression Ridge} apprend les \gls{weights} $\weights$ d’une fonction \gls{hypothesis} linéaire $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. La qualité d’un choix particulier des \gls{modelparams} $\weights$ est mesurée par la somme 
 		de deux composantes. La première composante est la moyenne de la \gls{sqerrloss} subie par $\hypothesis^{(\weights)}$ sur un ensemble de 
-		\glspl{labeled datapoint} (i.e., l'\gls{trainset}). La deuxième composante est la \gls{norm} euclidienne au carré, mise à l’échelle, $\regparam \| \weights \|^{2}_{2}$ avec un paramètre de \gls{regularization} 
+		\glspl{labeled datapoint} (i.e., l'\gls{trainset}). La deuxième composante est la \gls{norm} euclidienne au carré, mise à l’échelle, $\regparam \| \weights \|^{2}_{2}$ avec un \gls{parameter} de \gls{regularization} 
 		$\regparam > 0$. Ajouter $\regparam \| \weights \|^{2}_{2}$ à 
 		la moyenne de la \gls{sqerrloss} équivaut à remplacer chaque \glspl{datapoint} initial par la \gls{realization} 
-		d'une infinité sw \gls{rv} \gls{iid} centrées autour de ces \glspl{datapoint}.},first={régression Ridge},text={régression Ridge}}
+		d'une infinité sw \gls{rv} \gls{iid} centrées autour de ces \glspl{datapoint}.
+		\\
+		Voir aussi: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{map}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{parameter}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},first={régression Ridge},text={régression Ridge}}
 	
 \newglossaryentry{deepnet}
 {name={réseau de neurones profond},
 	description={Un\index{réseau de neurones profond} réseau de neurones profond est un \gls{ann} avec un nombre (relativement) élevé de 
-		couches cachées. L’apprentissage profond est un terme générique désignant les méthodes d'\gls{ml} qui utilisent un réseau de neurones profond comme \gls{model} \cite{Goodfellow-et-al-2016}.},
+		couches cachées. L’apprentissage profond est un terme générique désignant les méthodes d'\gls{ml} qui utilisent un réseau de neurones profond comme \gls{model} \cite{Goodfellow-et-al-2016}.
+		\\ 
+		Voir aussi: \gls{ann}, \gls{ml}, \gls{model}.},
 	first={réseau de neurones profond},text={réseau de neurones profond} , plural={réseaux de neurones profonds}
 }
 
 \newglossaryentry{gd}{name={descente de gradient},description={La descente de \gls{gradient} \index{descente de gradient} 
-		est une méthode itérative pour trouver le \gls{minimum} d’une fonction $f(\weights)$ 
+		est une méthode itérative pour trouver le \gls{minimum} d’une \gls{function} $f(\weights)$ 
 		d’un argument vectoriel $\weights \in \mathbb{R}^{\featurelen}$ \gls{differentiable}. Considérons une estimation actuelle ou 
 		approximation $\weights^{(\itercntr)}$ du \gls{minimum} de la fonction $f(\weights)$. Nous souhaitons trouver un nouveau (et meilleur) vecteur $\weights^{(\itercntr+1)}$ 
 		ayant une valeur objective inférieure $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ que 
-		l’estimation actuelle $\weights^{(\itercntr)}$. Nous pouvons généralement y parvenir en utilisant un \gls{gradstep}
+		l’estimation actuelle $\weights^{(\itercntr)}$. Nous pouvons généralement y parvenir en utilisant un \gls{gradstep} de gradient
 		\begin{equation} 
 			\label{equ_def_GD_step_dict}
 			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
@@ -2423,6 +2677,7 @@
 			\caption{Un seul \gls{gradstep} \eqref{equ_def_GD_step_dict} vers le minimiseur $\overline{\weights}$ de $f(\weights)$.}
 			\label{fig_basic_GD_step_dict}
 		\end{figure}
+	Voir aussi: \gls{minimum}, \gls{differentiable}, \gls{gradstep}, \gls{stepsize}, \gls{gradient}.
 	},first={descente de gradient},text={descente de gradient}, plural={descentes de gradient}}
 
 \newglossaryentry{projgd}{
@@ -2442,9 +2697,10 @@
 				\end{tikzpicture}
 				\vspace*{-5mm}
 			\end{center}
-			\caption{La \gls{gd} avec projection complète un \gls{gradstep} classique avec une \gls{projection} sur l’ensemble de contraintes $\paramspace$.}
+			\caption{La \gls{gd} avec projection complète un \gls{gradstep} de gradient classique avec une \gls{projection} sur l’ensemble de contraintes $\paramspace$.}
 			\label{fig_projected_GD_dict}
 		\end{figure}
+	Voir aussi: \gls{erm}, \gls{model}, \gls{paramspace}, \gls{objfunc}, \gls{smooth}, \gls{gd}, \gls{modelparams}, \gls{gradstep}, \gls{projection}.
 	},
 	first={descente de gradient avec projection},
 	text={descente de gradient avec projection}, plural={descentes de gradient avec projection}
@@ -2464,14 +2720,18 @@
 \newglossaryentry{maximum}
 {
 	name=maximum,
-	description={Le maximum\index{maximum} d’un ensemble $\mathcal{A} \subseteq \mathbb{R}$ de nombres réels est le plus grand élément de cet ensemble, si un tel élément existe. Un ensemble $\mathcal{A}$ a un maximum s’il est majoré et atteint son \gls{supremum} \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.},
+	description={Le maximum\index{maximum} d’un ensemble $\mathcal{A} \subseteq \mathbb{R}$ de nombres réels est le plus grand élément de cet ensemble, si un tel élément existe. Un ensemble $\mathcal{A}$ a un maximum s’il est majoré et atteint sa \gls{supremum} \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.
+	\\
+	Voir aussi: \gls{supremum}.},
 	first={maximum},text={maximum}, plural={maxima}
 }
 
 \newglossaryentry{compasp}
 {
 	name={aspects computationnels},
-	description={Par aspects computationnels\index{aspects computationnels} (ou calculatoires) d’une méthode d'\gls{ml}, on entend principalement les ressources computationnelles nécessaires à sa mise en œuvre. Par exemple, si une méthode d'\gls{ml} utilise des techniques d’optimisation itérative pour résoudre une \gls{erm}, alors ses aspects computationnels incluent: 1) combien d’opérations arithmétiques sont nécessaires pour exécuter une itération unique (\gls{gradstep}) ; et 2) combien d’itérations sont nécessaires pour obtenir des \gls{modelparams} utiles. Un exemple important de technique d’optimisation itérative est la \gls{gd}.},
+	description={Par aspects computationnels\index{aspects computationnels} (ou calculatoires) d’une méthode d'\gls{ml}, on entend principalement les ressources computationnelles nécessaires à sa mise en œuvre. Par exemple, si une méthode d'\gls{ml} utilise des techniques d’optimisation itérative pour résoudre une \gls{erm}, alors ses aspects computationnels incluent: 1) combien d’opérations arithmétiques sont nécessaires pour exécuter une itération unique (\gls{gradstep} de gradient) ; et 2) combien d’itérations sont nécessaires pour obtenir des \gls{modelparams} utiles. Un exemple important de technique d’optimisation itérative est la \gls{gd}.
+		\\ 
+		Voir aussi: \gls{ml}, \gls{erm}, \gls{gradstep}, \gls{modelparams}, \gls{gd}.},
 	first={aspects computationnels},
 	text={aspects computationnels}
 }
@@ -2531,8 +2791,8 @@
 		car toutes deux visent à rendre les méthodes d'\gls{ml} plus compréhensibles pour les humains.  
 		Comme illustré dans la Figure \ref{fig_aug_simulatability_dict}, l’interprétabilité d’une méthode d'\gls{ml}  
 		$\learnthypothesis$ exige que l’utilisateur humain puisse anticiper ses \glspl{prediction}  
-		sur un \gls{testset} arbitraire. Cela contraste avec l’explicabilité, où l’utilisateur est aidé par  
-		des explications externes — comme des cartes de saillance ou des exemples de référence issus du \gls{trainset} —  
+		sur un \gls{testset} arbitraire. Cela contraste avec l’\gls{explainability}, où l’utilisateur est aidé par  
+		des \glspl{explanation} externes — comme des cartes de saillance ou des exemples de référence issus du \gls{trainset} —  
 		pour comprendre les prédictions de $\learnthypothesis$ sur un jeu de test spécifique $\dataset'$. \\
 		Voir aussi: \gls{explainability}, \gls{trustAI}, \gls{regularization}, \gls{lime}.},
 	first={interprétabilité},
@@ -2574,25 +2834,30 @@
 		\end{figure}
 		Un nuage de points permet une inspection visuelle des \glspl{datapoint} naturellement  
 		représentés par des \glspl{featurevec} dans des espaces de grande dimension. \\
-		Voir aussi: \gls{dimred}.},
+		Voir aussi: \gls{datapoint}, \gls{minimum}, \gls{feature}, \gls{maximum}, \gls{label}, \gls{fmi}, \gls{featurevec}, \gls{dimred}.},
 	first={nuage de points},
 	text={nuage de points}, plural={nuages de points}
 }
 
-\newglossaryentry{localmodel}{
-	name={modèle local},
-	description={Considérons\index{modèle local} une collection de \glspl{localdataset} qui sont assignés aux nœuds d’un \gls{empgraph}.  
-		Un \gls{model} local $\localmodel{\nodeidx}$ est un \gls{hypospace} assigné à un nœud $\nodeidx \in \nodes$.  
-		Différents nœuds peuvent se voir assigner des \glspl{hypospace} différents, c’est-à-dire qu’en général  
-		$\localmodel{\nodeidx} \neq \localmodel{\nodeidx'}$ pour des nœuds différents $\nodeidx, \nodeidx' \in \nodes$.},
+\newglossaryentry{localmodel}
+{name={modèle local}, plural={modèles locaux}, 
+	description={Considérons\index{modèle local} une collection d'\glspl{device} représentés 
+		par les sommets $\nodes$ d’un \gls{empgraph}. Un \gls{model} local $\localmodel{\nodeidx}$ 
+		est un \gls{hypospace} attribué à un sommet $\nodeidx \in \nodes$. Des sommets différents peuvent 
+		avoir des \glspl{hypospace} différents, c’est-à-dire qu’en général $\localmodel{\nodeidx} \neq \localmodel{\nodeidx'}$ 
+		pour des sommets $\nodeidx, \nodeidx' \in \nodes$ distincts.
+		\\
+		Voir aussi : \gls{device}, \gls{empgraph}, \gls{model}, \gls{hypospace}. },
 	first={modèle local},
-	text={modèle local}, plural={modèles locaux}
+	text={modèle local}
 }
 
 \newglossaryentry{fl}{
 	name={apprentissage fédéré},
 	description={L’apprentissage fédéré\index{apprentissage fédéré} est un terme générique désignant les méthodes d'\gls{ml} 
-		qui entraînent des \glspl{model} de manière collaborative à l’aide de \gls{data} et de calculs décentralisés.},
+		qui entraînent des \glspl{model} de manière collaborative à l’aide de \gls{data} et de calculs décentralisés.
+	\\
+Voir aussi : \gls{ml}, \gls{model}, \gls{data}.},
 	first={apprentissage fédéré},
 	text={apprentissage fédéré}
 }
@@ -2602,7 +2867,9 @@
 	description={Chaque\index{poids d’arête} arête $\edge{\nodeidx}{\nodeidx'}$ d’un \gls{empgraph} 
 		est associée à un poids d’arête non négatif $\edgeweight_{\nodeidx,\nodeidx'} \geq 0$. 
 		Un poids d’arête nul $\edgeweight_{\nodeidx,\nodeidx'} = 0$ indique l’absence 
-		d’une arête entre les nœuds $\nodeidx, \nodeidx' \in \nodes$.},
+		d’une arête entre les sommets $\nodeidx, \nodeidx' \in \nodes$.
+	\\
+	Voir aussi: \gls{empgraph}.},
 	first={poids d’arête},
 	text={poids d’arête}, plural={poids d'arête}
 }
@@ -2610,8 +2877,10 @@
 \newglossaryentry{neighbors}
 {
 	name={voisins},
-	description={Les\index{voisins} voisins d’un nœud $\nodeidx \in \nodes$ dans un \gls{empgraph} 
-		sont les nœuds $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ qui sont connectés (via une arête) au nœud $\nodeidx$.},
+	description={Les\index{voisins} voisins d’un sommet $\nodeidx \in \nodes$ dans un \gls{empgraph} 
+		sont les sommets $\nodeidx' \in \nodes \setminus \{ \nodeidx\}$ qui sont connectés (via une arête) au sommet $\nodeidx$.
+	\\
+	Voir aussi: \gls{empgraph}.},
 	first={voisins},
 	text={voisins}
 }
@@ -2619,11 +2888,13 @@
 \newglossaryentry{ai}{name={intelligence artificielle (IA)}, description={
 		L’intelligence artificielle (IA)\index{intelligence artificielle (IA)} fait référence à des systèmes qui se comportent de manière rationnelle au sens de
 		maximiser une \gls{reward} à long terme. L’approche de l’\gls{ml} en matière d’IA consiste à entraîner un \gls{model}
-		pour prédire des actions optimales. Ces prédictions sont calculées à partir d’observations sur l’état de l’environnement.
+		pour prédire des actions optimales. Ces \glspl{prediction} sont calculées à partir d’observations sur l’état de l’environnement.
 		Le choix de la \gls{lossfunc} distingue les applications d’IA des applications d'\gls{ml} plus basiques.
 		Les systèmes d’IA ont rarement accès à un \gls{trainset} étiqueté qui permettrait de mesurer la \gls{loss} moyenne pour tout choix possible des \gls{modelparams}.
 		À la place, les systèmes d’IA utilisent des signaux de \gls{reward} observés pour obtenir une estimation (ponctuelle) de la
 		\gls{loss} engendrée par le choix actuel des \gls{modelparams}.
+		\\
+		Voir aussi: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.
 	},first={intelligence artificielle (IA)},text={IA} }
 
 \newglossaryentry{decisionboundary}{name={frontière de décision}, description={
@@ -2632,16 +2903,60 @@
 		La frontière de décision de $\hypothesis$ est l’ensemble des vecteurs $\featurevec \in \mathbb{R}^{\featuredim}$
 		qui se trouvent entre différentes \glspl{decisionregion}. Plus précisément, un
 		vecteur $\featurevec$ appartient à la frontière de décision si et seulement si chaque \gls{neighborhood}
-		$\{ \featurevec': \| \featurevec - \featurevec' \| \leq \varepsilon \}$, pour tout $\varepsilon > 0$, contient au moins deux vecteurs avec des images différentes par la fonction.
+		$\{ \featurevec': \| \featurevec - \featurevec' \| \leq \varepsilon \}$, pour tout $\varepsilon > 0$, contient au moins deux vecteurs avec des images différentes par la \gls{function}.
+		\\
+		Voir aussi: \gls{hypothesis}, \gls{map}, \gls{featurevec}, \gls{decisionregion}, \gls{neighborhood}, \gls{function}.
 	},first={frontière de décision},text={frontière de décision}, plural ={frontières de décision} }
-
 \newglossaryentry{dimred}
 {name={réduction de dimension},
-	description={Les méthodes de réduction de dimension\index{réduction de dimension}
-		associent des \glspl{feature} brutes (généralement nombreuses) à un ensemble (relativement petit) de nouvelles \glspl{feature}.
-		Ces méthodes peuvent être utilisées pour visualiser des \glspl{datapoint}
-		en apprenant deux \glspl{feature} pouvant servir de coordonnées pour une représentation dans un \gls{scatterplot}.},
-	first={réduction de dimension},text={réduction de dimension}, plural={réductions de dimension}
+	description={La réduction de dimension\index{réduction de dimension} désigne 
+		les méthodes qui apprennent une transformation 
+		$\hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+		d’un ensemble (généralement grand) de \glspl{feature} brutes 
+		$\feature_{1}, \ldots, \feature_{\nrfeatures}$ 
+		en un ensemble plus petit de \glspl{feature} informatives $z_{1}, \ldots, z_{\nrfeatures'}$. 
+		L’utilisation d’un ensemble réduit de \glspl{feature} présente plusieurs avantages :
+		\begin{itemize} 
+			\item \textbf{Avantage statistique :} elle réduit généralement le risque de \gls{overfitting}, 
+			car réduire le nombre de \glspl{feature} réduit souvent la \gls{effdim} d’un \gls{model}.
+			\item \textbf{Avantage computationnel :} utiliser moins de \glspl{feature} signifie 
+			moins de calculs lors de l’entraînement des \glspl{model} d’\gls{ml}. 
+			Par exemple, les méthodes de \gls{linreg} doivent inverser une matrice dont la taille dépend 
+			du nombre de \glspl{feature}.
+			\item \textbf{Visualisation :} la réduction de dimension est également utile 
+			pour la visualisation des \gls{data}. Par exemple, on peut apprendre une transformation 
+			qui produit deux \glspl{feature} $z_{1},z_{2}$, que l’on peut utiliser comme coordonnées 
+			d’un \gls{scatterplot}. La Fig.\ \ref{fig:dimred-scatter_dict} montre un \gls{scatterplot} 
+			de chiffres manuscrits placés selon des \glspl{feature} transformées. Ici, 
+			les \glspl{datapoint} sont initialement représentés par un grand nombre de niveaux 
+			de gris (un par pixel).
+		\end{itemize} 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1]	
+				\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
+				\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
+				\foreach \x/\y/\label in {
+					1.2/0.5/3,
+					0.8/2.0/8,
+					2.5/1.8/1,
+					3.8/3.5/6,
+					4.2/0.7/9,
+					2.8/3.0/7,
+					1.5/3.8/2
+				}{
+					\node[draw, minimum size=0.6cm, inner sep=0pt] at (\x,\y)
+					{\label};
+				}
+			\end{tikzpicture}
+			\caption{Exemple de réduction de dimension : des données image en haute dimension 
+				(par exemple, des images haute résolution de chiffres manuscrits) sont projetées en 2D 
+				en utilisant des \glspl{feature} apprises $(z_1, z_2)$ et visualisées dans un \gls{scatterplot}.}
+			\label{fig:dimred-scatter_dict}
+		\end{figure}
+		Voir aussi : \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.}, 
+	first={réduction de dimension},
+	text={réduction de dimension}
 }
 
 \newglossaryentry{explainability}
@@ -2652,7 +2967,9 @@
 		(subjective) d’un \gls{model} entraîné peuvent être construites en comparant ses \glspl{prediction} avec les \glspl{prediction}
 		fournies par un utilisateur sur un \gls{testset} \cite{Zhang:2024aa,Colin:2022aa}. Alternativement, on peut utiliser
 		des \glspl{probmodel} pour les \gls{data} et mesurer l’explicabilité d’un \gls{model} d'\gls{ml} entraîné
-		via l’entropie différentielle conditionnelle de ses \glspl{prediction}, étant donné les \glspl{prediction} de l’utilisateur \cite{JunXML2020,Chen2018}.
+		via l’\gls{entropy} différentielle (ou conditionnelle) de ses \glspl{prediction}, étant donné les \glspl{prediction} de l’utilisateur \cite{JunXML2020,Chen2018}.
+		\\ 
+		Voir aussi: \gls{trustAI}, \gls{regularization}.
 	},
 	first={explicabilité},text={explicabilité}
 }
@@ -2662,14 +2979,18 @@
 		avec $\samplesize$ \glspl{datapoint} de \glspl{featurevec} $\featurevec^{(1)},\ldots,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$. Il est pratique de 
 		rassembler les \glspl{featurevec} individuels dans une
 		matrice de \glspl{feature} $\mX \defeq \big(\featurevec^{(1)},\ldots,\featurevec^{(\samplesize)}\big)^{T}$ 
-		de taille $\samplesize \times \nrfeatures$.},
+		de taille $\samplesize \times \nrfeatures$.
+		\\
+		Voir aussi: \gls{dataset}, \gls{datapoint}, \gls{featurevec}, \gls{feature}.},
 	first={matrice de caractéristiques},text={matrice de caractéristiques}, plural={matrices de caractéristiques} }
 
 \newglossaryentry{fmi}{name={Institut météorologique finlandais (FMI)}, 
-	description={Le\index{Institut météorologique finlandais (FMI)} FMI est une agence gouvernementale responsable de la collecte et du rapport sur les \gls{data} météorologiques en Finlande.},
+	description={Le\index{Institut météorologique finlandais (FMI)} FMI est une agence gouvernementale responsable de la collecte et du rapport sur les \gls{data} météorologiques en Finlande.
+	\\
+	Voir aussi: \gls{data}.},
 	first={Institut météorologique finlandais (FMI)},text={FMI} }
 
-\newglossaryentry{gradstep}{name={pas de gradient (pas)},description={Étant donnée une fonction \gls{differentiable} à valeurs réelles $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
+\newglossaryentry{gradstep}{name={pas de gradient (pas)},description={Étant donnée une \gls{function} \gls{differentiable} à valeurs réelles $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
 		et un vecteur $\weights \in \mathbb{R}^{\nrfeatures}$, le pas de \gls{gradient}\index{pas de gradient (pas)} 
 		met à jour $\weights$ en ajoutant le \gls{gradient} négatif mis à l’échelle $\nabla f(\weights)$ pour obtenir 
 		le nouveau vecteur (voir Figure \ref{fig_basic_GD_step_single_dict})
@@ -2678,7 +2999,7 @@
 			\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
 		\end{equation} 
 		Mathématiquement, le pas est un opérateur (typiquement non-linéaire) $\mathcal{T}^{(f,\lrate)}$ 
-		paramétré par la fonction $f$ et la \gls{stepsize} $\lrate$. 
+		paramétré par la \gls{function} $f$ et la \gls{stepsize} $\lrate$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -2709,24 +3030,30 @@
 			\label{equ_approx_gd_step_dict}
 			\widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!(1/\lrate)\normgeneric{\weights-\weights'}{2}^2. 
 		\end{align}
-		Nous utilisons intentionnellement le même symbole $\lrate$ pour le paramètre dans \eqref{equ_approx_gd_step_dict} 
+		Nous utilisons intentionnellement le même symbole $\lrate$ pour le \gls{parameter} dans \eqref{equ_approx_gd_step_dict} 
 		que celui utilisé pour la \gls{stepsize} dans \eqref{equ_def_gd_basic_dict}. Plus le $\lrate$ choisi dans 
 		\eqref{equ_approx_gd_step_dict} est grand, plus la mise à jour avancera vers la réduction de la 
 		valeur de la fonction $f(\widehat{\weights})$. Notez que, tout comme le pas \eqref{equ_def_gd_basic_dict}, 
 		la mise à jour \eqref{equ_approx_gd_step_dict} définit aussi un opérateur (typiquement non-linéaire) 
-		paramétré par la fonction $f(\cdot)$ et le paramètre $\lrate$. Pour une fonction \gls{convex} 
+		paramétré par la fonction $f(\cdot)$ et le \gls{parameter} $\lrate$. Pour une fonction \gls{convex} 
 		$f(\cdot)$, cet opérateur est connu sous le nom de \gls{proxop} de $f(\cdot)$ \cite{ProximalMethods}. 
+		\\ 
+		Voir aussi: \gls{differentiable}, \gls{function}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{parameter}, \gls{learnrate}, \gls{convex}, \gls{proxop}. 
 	},first={pas de gradient},text={pas}, plural={pas}, firstplural={pas de gradient}}
 
 \newglossaryentry{iidasspt}{name={hypothèse d’indépendance et de distribution identique (hypothèse i.i.d.)},
-	 description={L’hypothèse \gls{iid}\index{hypothèse d’indépendance et de distribution identique (hypothèse i.i.d.)} interprète les \glspl{datapoint} d’un \gls{dataset} comme des \glspl{realization} de  \glspl{rv} \glspl{iid}.},
+	 description={L’hypothèse \gls{iid}\index{hypothèse d’indépendance et de distribution identique (hypothèse i.i.d.)} interprète les \glspl{datapoint} d’un \gls{dataset} comme des \glspl{realization} de  \glspl{rv} \glspl{iid}.
+	 	\\
+	 	Voir aussi: \gls{iid}, \gls{datapoint}, \gls{dataset}, \gls{realization}, \gls{rv}.},
 	 first={hypothèse d’indépendance et de distribution identique (hypothèse i.i.d.)},text={hypothèse i.i.d.} }
  
  \newglossaryentry{labeled datapoint}
  {
  	name={point de données étiqueté},
  	description={Un\index{point de données étiqueté} \gls{datapoint} dont l'\gls{label} est connue ou a été déterminée 
- 		par un certain moyen, pouvant nécessiter une intervention humaine.},
+ 		par un certain moyen, pouvant nécessiter une intervention humaine.
+ 		\\
+ 		Voir aussi: \gls{datapoint}, \gls{label}.},
  	first={point de données étiqueté},
  	text={point de données étiqueté}, plural={points de données étiquetés}  
  }
@@ -2791,6 +3118,8 @@
 		Considérons\index{classifieur linéaire} des \glspl{datapoint} caractérisés par des \glspl{feature} numériques $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
 		et une \gls{label} $\truelabel \in \labelspace$ appartenant à un \gls{labelspace} fini $\labelspace$. 
 		Un \gls{classifier} linéaire est caractérisé par des \glspl{decisionregion} séparées par des hyperplans dans $\mathbb{R}^{\featuredim}$ \cite[Ch. 2]{MLBasics}.
+		\\
+		Voir aussi: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{labelspace}, \gls{classifier}, \gls{decisionregion}.
 	},
 	first={classifieur linéaire},text={classifieur linéaire}, plural={classifieurs linéaires}
 }
@@ -2819,8 +3148,10 @@
 		dépend des \glspl{modelparams} $\weights \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		Les méthodes de maximum de vraisemblance apprennent les \glspl{modelparams} $\weights$ en maximisant 
 		la probabilité $\prob{\dataset; \weights} = \prod_{\sampleidx=1}^{\samplesize} \prob{\datapoint^{(\sampleidx)}; \weights}$ 
-		du \gls{dataset} observé. Ainsi, l’estimateur du maximum de vraisemblance est une 
-		solution au problème d’optimisation $\max_{\weights \in \mathcal{W}} \prob{\dataset; \weights}$.
+		du \gls{dataset} observé. Ainsi, l’estimateur du \gls{maximum} de vraisemblance est une 
+		solution au \gls{optproblem} $\max_{\weights \in \mathcal{W}} \prob{\dataset; \weights}$.
+		\\
+		Voir aussi: \gls{probdist}, \gls{optproblem}, \gls{probmodel}.
 	},
 	first={maximum de vraisemblance},
 	text={maximum de vraisemblance}, plural={maxima de vraisemblance}
@@ -2828,8 +3159,8 @@
 
 \newglossaryentry{paramspace}{
 	name={espace des paramètres},
-	description={L'\index{espace des paramètres} espace des paramètres $\paramspace$ d’un \gls{model} d'apprentissage automatique $\hypospace$ est l’ensemble de tous les choix possibles pour les \gls{modelparams} (voir Figure \ref{fig_param_space_dict}). 
-		De nombreuses méthodes importantes en \gls{ml} utilisent un \gls{model} paramétré par des vecteurs de l’espace euclidien $\mathbb{R}^{\dimlocalmodel}$. 
+	description={L'\index{espace des paramètres} espace des \glspl{parameter} $\paramspace$ d’un \gls{model} d'\gls{ml} $\hypospace$ est l’ensemble de tous les choix possibles pour les \gls{modelparams} (voir Figure \ref{fig_param_space_dict}). 
+		De nombreuses méthodes importantes en \gls{ml} utilisent un \gls{model} paramétré par des vecteurs de l’\gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$. 
 		Deux exemples courants de \glspl{model} paramétrés sont les \glspl{linmodel} 
 		et les \glspl{deepnet}. L’espace des \glspl{parameter} est alors souvent un sous-ensemble $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$, 
 		par exemple tous les vecteurs $\weights \in \mathbb{R}^{\dimlocalmodel}$ dont la \gls{norm} est inférieure à un.
@@ -2874,24 +3205,26 @@
 
  \newglossaryentry{projection}{name={projection}, 
 	description={Considérons\index{projection} un sous-ensemble $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$ de 
-		l’espace euclidien de dimension $\dimlocalmodel$. On définit la projection $\projection{\paramspace}{\weights}$
+		l’\gls{euclidspace} de dimension $\dimlocalmodel$. On définit la projection $\projection{\paramspace}{\weights}$
 		d’un vecteur $\weights \in \mathbb{R}^{\dimlocalmodel}$ sur $\paramspace$ comme
 		\begin{equation} 
 			\label{equ_def_proj_generic_dict}
 			\projection{\paramspace}{\weights} = \argmin_{\weights' \in \paramspace} \normgeneric{\weights - \weights'}{2}. 
 		\end{equation}
 		Autrement dit, $\projection{\paramspace}{\weights}$ est le vecteur dans $\paramspace$ qui est le plus proche de $\weights$. 
-		La projection est bien définie uniquement pour les sous-ensembles $\paramspace$ pour lesquels le \gls{minimum} ci-dessus existe \cite{BoydConvexBook}.},
+		La projection est bien définie uniquement pour les sous-ensembles $\paramspace$ pour lesquels le \gls{minimum} ci-dessus existe \cite{BoydConvexBook}.
+		\\
+		Voir aussi: \gls{euclidspace}, \gls{minimum}.},
 	first={projection},text={projection}}
 
 \newglossaryentry{smooth}{name={régulière (ou lisse)},
-	description={Une\index{régulière (ou lisse)} fonction à valeurs réelles $f: \mathbb{R}^{\dimlocalmodel} \rightarrow \mathbb{R}$ 
+	description={Une\index{régulière (ou lisse)} \gls{function} à valeurs réelles $f: \mathbb{R}^{\dimlocalmodel} \rightarrow \mathbb{R}$ 
 		est dite régulière (ou lisse) si elle est \gls{differentiable} et si son \gls{gradient} $\nabla f(\weights)$ est continu en tout point $\weights \in \mathbb{R}^{\dimlocalmodel}$ (on parle aussi de fonction de classe $\mathcal{C}^1$) \cite{nesterov04,CvxBubeck2015}. 
-		Une fonction régulière $f$ est dite dérivable de gradient $\beta$-lipschitzien (ou $\beta$-\textit{smooth}) si son \gls{gradient} 
+		Une \gls{function} régulière $f$ est dite dérivable de gradient $\beta$-lipschitzien (ou $\beta$-\textit{smooth}) si son \gls{gradient} 
 		$\nabla f(\weights)$ vérifie:
 		$$\| \nabla f(\weights) - \nabla f(\weights') \| \leq \beta \| \weights - \weights' \| \mbox{, pour tout } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel}.$$ 
 		La constante $\beta$ mesure le degré de régularité de la fonction $f$: plus $\beta$ est petit, 
-		plus $f$ est lisse. Les problèmes d’optimisation comportant une \gls{objfunc} régulière peuvent être résolus efficacement par des \gls{gdmethods}. 
+		plus $f$ est lisse. Les \glspl{optproblem} comportant une \gls{objfunc} régulière peuvent être résolus efficacement par des \gls{gdmethods}. 
 		En effet, les \gls{gdmethods} approximent la \gls{objfunc} localement autour d’un point courant $\weights$ 
 		en utilisant son \gls{gradient}. Cette approximation est pertinente lorsque le \gls{gradient} 
 		ne varie pas trop rapidement. Cette affirmation intuitive peut être rendue rigoureuse en étudiant l’effet d’un seul 
@@ -2928,6 +3261,7 @@
 				pour des \glspl{objfunc} plus lisses (c’est-à-dire avec un plus petit $\beta$), 
 				on peut effectuer des pas plus grands. \label{fig_gd_smooth_dict}}
 		\end{figure}
+	Voir aussi: \gls{function}, \gls{differentiable}, \gls{gradient}, \gls{optproblem}, \gls{objfunc}, \gls{gdmethods}, \gls{gradstep}, \gls{stepsize}.
 	},first={régulière},text={régulière}}
 
 \newglossaryentry{sqerrloss}{name={perte quadratique},
@@ -2939,6 +3273,8 @@
 			% \label{equ_squared_loss_gls}
 			\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \big(\truelabel - \underbrace{\hypothesis(\featurevec)}_{=\predictedlabel} \big)^{2}. 
 		\end{equation} 
+	\\ 
+	Voir aussi: \gls{loss}, \gls{prediction}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint}.
 	},first={perte quadratique},text={perte quadratique}}
 
 \newglossaryentry{stochastic}
@@ -2966,7 +3302,9 @@
 
 \newglossaryentry{testset}
 {name={ensemble de test (ou jeu de test)},
-	description={Un\index{ensemble de test (ou jeu de test)} ensemble de \glspl{datapoint} qui n'ont été utilisés ni pour entraîner un \gls{model} (par exemple via \gls{erm}), ni dans un \gls{valset} pour la sélection entre différents \glspl{model}.},
+	description={Un\index{ensemble de test (ou jeu de test)} ensemble de \glspl{datapoint} qui n'ont été utilisés ni pour entraîner un \gls{model} (par exemple via \gls{erm}), ni dans un \gls{valset} pour la sélection entre différents \glspl{model}.
+		\\
+		Voir aussi: \gls{datapoint}, \gls{model}, \gls{erm}, \gls{valset}.},
 	first={ensemble de test},
 	text={ensemble de test}, plural={ensembles de test}
 }
@@ -2989,74 +3327,164 @@
 		la direction actuelle du volant d’un véhicule. On peut construire une récompense à partir 
 		des mesures d’un capteur de collision indiquant si le véhicule se dirige vers un obstacle. 
 		Une faible récompense est donnée à la direction $\hypothesis(\featurevec)$ si le véhicule 
-		avance dangereusement vers un obstacle.},
+		avance dangereusement vers un obstacle.
+		\\
+		Voir aussi: \gls{loss}, \gls{prediction}, \gls{hypothesis}, \gls{ml}.},
 	first={récompense}, text={récompense}}
 
 \newglossaryentry{generalization}
-{name={généralisation},
-	description={Beaucoup de systèmes d'\gls{ml} (et d'\gls{ai}) actuels reposent sur la \gls{erm}: au noyau, ils entraînent un \gls{model} (c’est-à-dire apprennent une \gls{hypothesis} $\learnthypothesis \in \hypospace$) en minimisant la \gls{loss} moyenne (ou \gls{emprisk}) sur des \glspl{datapoint} $\vz^{(1)},\ldots,\vz^{(\samplesize)}$, qui constituent un \gls{trainset} $\trainset$. 
-		La généralisation désigne la capacité d’une méthode d’\gls{ml} à bien fonctionner en dehors de cet \gls{trainset}. 
-		Toute théorie mathématique sur la généralisation nécessite une notion mathématique du « en dehors de l'\gls{trainset} ». Par exemple, la théorie statistique de l’apprentissage utilise un \gls{probmodel} tel que l’\gls{iidasspt} pour la génération des données: les \glspl{datapoint} du \gls{trainset} sont des réalisations \gls{iid} d’une \gls{probdist} sous-jacente $p(\vz)$. 
-		Un tel modèle probabiliste permet d’explorer ce qui est en dehors de l'\gls{trainset} en tirant d’autres réalisations \gls{iid} selon $p(\vz)$. 
-		De plus, grâce à l’\gls{iidasspt}, on peut définir le \gls{risk} d’un \gls{model} entraîné $\learnthypothesis \in \hypospace$ comme la \gls{loss} espérée $\risk{\learnthypothesis}$. On peut également utiliser des bornes de concentration ou des résultats de convergence pour des suites de \glspl{rv} \gls{iid} afin de borner l’écart entre le \gls{emprisk} $\emprisk{\learnthypothesis}{\trainset}$ d’un modèle entraîné et son \gls{risk} \cite{ShalevMLBook}. 
-		Il est aussi possible d’étudier la généralisation sans utiliser de \gls{probmodel}. Par exemple, on peut considérer des perturbations (déterministes) des \glspl{datapoint} de l'\gls{trainset} pour étudier ce qui est en dehors. 
-		En général, on souhaite que le \gls{model} entraîné soit robuste, c’est-à-dire que ses \glspl{prediction}s ne changent pas trop pour de petites perturbations des \glspl{datapoint}. Par exemple, pour un modèle entraîné à détecter un objet dans une photo prise avec un smartphone, le résultat de la détection ne devrait pas changer si l’on masque un petit nombre de pixels choisis aléatoirement dans l’image \cite{OnePixelAttack}.
+{name={généralisation}, plural={généralisations}, 
+	description={La généralisation\index{généralisation} désigne la capacité d’un \gls{model} entraîné sur un \gls{trainset} 
+		à produire des \glspl{prediction} précises sur de nouveaux \glspl{datapoint} jamais vus. 
+		Il s’agit d’un objectif central de l’\gls{ml} et de l’\gls{ai}, à savoir apprendre des motifs 
+		qui s’étendent au-delà de l'\gls{trainset}. La plupart des systèmes d’\gls{ml} utilisent 
+		le \gls{erm} pour apprendre une \gls{hypothesis} $\learnthypothesis \in \hypospace$ en minimisant 
+		la \gls{loss} moyenne sur un \gls{trainset} de \glspl{datapoint} $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$, 
+		noté $\trainset$. Toutefois, le succès sur l'\gls{trainset} ne garantit pas le succès sur 
+		des \gls{data} inconnues — cette différence constitue le défi de la généralisation.\\
+		Pour étudier la généralisation de manière mathématique, il est nécessaire de formaliser la notion 
+		de \gls{data} « non vues ». Une approche largement utilisée consiste à supposer un \gls{probmodel} 
+		pour la génération des \gls{data}, tel que l'\gls{iidasspt}. On interprète alors les \glspl{datapoint} 
+		comme des \glspl{rv} indépendantes suivant une \gls{probdist} identique $p(\datapoint)$. 
+		Cette \gls{probdist}, supposée fixe mais inconnue, permet de définir le \gls{risk} d’un \gls{model} 
+		entraîné $\learnthypothesis$ comme la \gls{loss} espérée :
+		\[
+		\risk{\learnthypothesis}=\expect_{\datapoint \sim p(\datapoint)} \big\{ \loss(\learnthypothesis, \datapoint) \big\}.
+		\]
+		La différence entre le \gls{risk} $\risk{\learnthypothesis}$ et le \gls{emprisk} $\emprisk{\learnthypothesis}{\trainset}$ 
+		est appelée \gls{gengap}. Des outils issus de la théorie des \glspl{probability}, tels que les \glspl{concentrationinequ} 
+		et la convergence uniforme, permettent de borner cet écart sous certaines conditions \cite{ShalevMLBook}.\\
+		\textbf{Généralisation sans \gls{probability} :} La théorie des \glspl{probability} est une manière 
+		d’étudier la capacité d’un \gls{model} à généraliser au-delà de l'\gls{trainset}, mais ce n’est pas la seule. 
+		On peut aussi utiliser des modifications déterministes simples sur les \glspl{datapoint} de l'\gls{trainset}. 
+		L’idée de base est qu’un bon \gls{model} $\learnthypothesis$ doit être robuste, c’est-à-dire que sa 
+		\gls{prediction} $\learnthypothesis(\featurevec)$ ne doit pas beaucoup changer si on modifie légèrement 
+		les \glspl{feature} $\featurevec$ d’un \gls{datapoint} $\datapoint$.\\[1mm]
+		Par exemple, un détecteur d’objets entraîné sur des photos prises avec un smartphone 
+		devrait toujours détecter l’objet même si quelques pixels aléatoires sont masqués \cite{OnePixelAttack}. 
+		De même, il devrait produire le même résultat si on fait pivoter l’objet dans l’image \cite{MallatUnderstandingDeepLearning}.
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=0.8]
-				% Ellipse remplie représentant p(z)
 				\draw[lightblue, fill=lightblue, opacity=0.5] (3, 2) ellipse (6cm and 2cm);
-				% Label pour p(z)
-				\node[black] at (6, 3) {$p(z)$};
-				% Points de données
-				\fill[blue] (1, 3) circle (4pt) node[below] {$\datapoint^{(1)}$};
+				\node[black] at (6, 3) {$p(\datapoint)$};
+				\fill[blue] (1, 3) circle (4pt) node[below, xshift=0pt, yshift=0pt] {$\datapoint^{(1)}$};
 				\fill[blue] (5, 1) circle (4pt) node[below] {$\datapoint^{(2)}$};
-				% Copies décalées pour datapoint^{(1)}
 				\fill[blue] (1.6, 3) circle (3pt);
 				\fill[blue] (0.4, 3) circle (3pt);
 				\draw[<->, thin] (1, 3) -- (1.6, 3);
 				\draw[<->, thin] (1, 3) -- (0.4, 3);
-				% Copies décalées pour datapoint^{(2)}
 				\fill[blue] (5.6, 1) circle (3pt);
 				\fill[blue] (4.4, 1) circle (3pt);
 				\draw[<->, thin] (5, 1) -- (5.6, 1);
 				\draw[<->, thin] (5, 1) -- (4.4, 1);
-				% Courbe polynomiale
 				\draw[black, thick, domain=0:6, smooth] plot (\x, {- 1*\x + 5});
-				% Label de l’hypothèse
 				\node[black] at (3, 2.5) [right] {$\learnthypothesis$};
 			\end{tikzpicture}
-			\caption{Deux \glspl{datapoint} $\datapoint^{(1)},\datapoint^{(2)}$ utilisés comme \gls{trainset} pour apprendre une \gls{hypothesis} $\learnthypothesis$ via \gls{erm}. On peut évaluer $\learnthypothesis$ en dehors de l'\gls{trainset} soit avec l'\gls{iidasspt} avec une \gls{probdist} sous-jacente $p(\datapoint)$, soit en perturbant les \glspl{datapoint}.}
+			\caption{Deux \glspl{datapoint} $\datapoint^{(1)},\datapoint^{(2)}$ utilisés comme \gls{trainset} 
+				pour apprendre une \gls{hypothesis} $\learnthypothesis$ via la \gls{erm}. 
+				On peut évaluer $\learnthypothesis$ en dehors de $\trainset$ soit par une \gls{iidasspt} 
+				avec une \gls{probdist} sous-jacente $p(\datapoint)$, soit en perturbant les \glspl{datapoint}.}
 			\label{fig:polynomial_fit_dict}
 		\end{figure}
-	},
+		Voir aussi : \gls{model}, \gls{trainset}, \gls{prediction}, \gls{datapoint}, \gls{ml}, \gls{ai}, \gls{erm}, \gls{hypothesis}, \gls{loss}, \gls{data}, \gls{probmodel}, \gls{iidasspt}, \gls{rv}, \gls{probdist}, \gls{risk}, \gls{emprisk}, \gls{gengap}, \gls{probability}, \gls{concentrationinequ}, \gls{feature}.},
 	first={généralisation},
-	text={généralisation}
+	text={généralisation} 
+}
+
+\newglossaryentry{concentrationinequ}
+{name={inégalité de concentration}, 
+	description={Une borne supérieure sur la \gls{probability}\index{inégalité de concentration} qu'une \gls{rv} 
+		s'écarte davantage qu’un certain seuil de son \gls{expectation} \cite{Wain2019}. \\
+		Voir aussi : \gls{probability}, \gls{rv}, \gls{expectation}.}, 
+	first={inégalité de concentration},
+	firstplural={inégalités de concentration},
+	plural={inégalités de concentration},  
+	text={inégalité de concentration}
 }
 
 \newglossaryentry{explanation}
 {name={explication},
-	description={Une approche pour rendre les méthodes d'\gls{ml} plus transparentes consiste à fournir une explication\index{explication} en complément de la \gls{prediction} produite par une méthode d'\gls{ml}. Les explications peuvent prendre différentes formes. Il peut s’agir d’un texte en langage naturel ou d’une mesure quantitative indiquant l’importance des différentes \glspl{feature} d’un \gls{datapoint} \cite{Molnar2019}. On peut aussi utiliser des formes visuelles d’explication, comme des cartes d’intensité pour la \gls{classification} d’images \cite{GradCamPaper}.},
-	first={explication},text={explication}
+	description={
+		Une manière d’améliorer la \gls{transparency} d’une méthode d'\gls{ml} pour un utilisateur humain 
+		est de fournir une explication\index{explication} en complément des \glspl{prediction} renvoyées par la méthode. 
+		Les explications peuvent prendre plusieurs formes. Par exemple, elles peuvent consister en un texte lisible 
+		par un humain ou en des indicateurs quantitatifs comme les scores d’importance des \glspl{feature} 
+		individuelles d’un \gls{datapoint} donné~\cite{Molnar2019}. 
+		Autrement, les explications peuvent être visuelles, comme des cartes d’intensité mettant en évidence 
+		les régions d’une image influençant la \gls{prediction} \cite{GradCamPaper}. 
+		La figure~\ref{fig_explanation_dict} illustre deux types d’explications. Le premier est une approximation linéaire 
+		locale $g(\featurevec)$ d’un \gls{model} non linéaire entraîné $\learnthypothesis(\featurevec)$ autour d’un certain 
+		\gls{featurevec} $\featurevec'$, comme le propose la méthode \gls{lime}. Le second type d’explication présenté 
+		dans la figure est un ensemble clairsemé de \glspl{prediction} 
+		$\learnthypothesis(\featurevec^{(1)}), \learnthypothesis(\featurevec^{(2)}), \learnthypothesis(\featurevec^{(3)})$ 
+		évaluées en quelques \glspl{featurevec} choisis, servant de points de référence concrets pour l’utilisateur. 
+		\begin{figure}[htbp]
+			\begin{center}
+				\begin{tikzpicture}[x=0.5cm]
+					\begin{axis}[
+						hide axis,
+						xmin=-3, xmax=6,
+						ymin=0, ymax=6,
+						domain=0:6,
+						samples=100,
+						width=10cm,
+						height=6cm,
+						clip=false
+						]
+						\addplot[thick, domain=-2:6] {2 + sin(deg(x))} 
+						node[pos=0.9, above right, yshift=10pt] {$\learnthypothesis(\featurevec)$};
+						\addplot[blue, thick, domain=0.5:2.5] 
+						{2 + sin(deg(1.5)) + cos(deg(1.5))*(x - 1.5)}
+						node[pos=0.2, above] {$g(\featurevec)$};
+						\addplot[mark=*] coordinates {(1.5, {2 + sin(deg(1.5))})};
+						\addplot[dashed, gray] coordinates {(1.5,0) (1.5,2.4)};
+						\node at (axis cs:1.5, -0.2) {$\featurevec'$};
+						\addplot[mark=*,blue] coordinates {(-1, {2 + sin(deg(-1))})};
+						\addplot[dashed, gray] coordinates {(-1,0) (-1,{2 + sin(deg(-1))})};
+						\node at (axis cs:-1, -0.2) {$\featurevec^{(1)}$};
+						\addplot[mark=*,blue] coordinates {(0, {2 + sin(deg(0))})};
+						\addplot[dashed, gray] coordinates {(0,0) (0,{2 + sin(deg(0))})};
+						\node at (axis cs:0, -0.2) {$\featurevec^{(2)}$};
+						\addplot[mark=*,blue] coordinates {(5, {2 + sin(deg(5))})};
+						\addplot[dashed, gray] coordinates {(5,0) (5,{2 + sin(deg(5))})};
+						\node at (axis cs:5, -0.2) {$\featurevec^{(3)}$};
+					\end{axis}
+				\end{tikzpicture}
+			\end{center}
+			\caption{Un \gls{model} entraîné $\learnthypothesis(\featurevec)$ peut être expliqué localement 
+				au voisinage d’un point $\featurevec'$ à l’aide d’une approximation linéaire $g(\featurevec)$. 
+				Pour un $\learnthypothesis(\featurevec)$ \gls{differentiable}, cette approximation est déterminée 
+				par le \gls{gradient} $\nabla \learnthypothesis(\featurevec')$. Une autre forme d’explication consiste 
+				à afficher les valeurs de la \gls{function} $\learnthypothesis\big(\featurevec^{(\sampleidx)} \big)$ 
+				pour $\sampleidx=1,2,3$.}
+			\label{fig_explanation_dict}
+		\end{figure} 
+		\\
+		Voir aussi : \gls{explainability}, \gls{trustAI}.},
+	first={explication},
+	text={explication} 
 }
 
 \newglossaryentry{classifier}
 {	name={classifieur},
-	description={Un classifieur\index{classifieur} est une (fonction) \gls{hypothesis} $\hypothesis(\featurevec)$ utilisée pour prédire une \gls{label} prenant ses valeurs dans un ensemble fini appelé \gls{labelspace}. On peut utiliser directement la valeur $\hypothesis(\featurevec)$ comme \gls{prediction} $\predictedlabel$ pour l’étiquette, mais il est courant d’utiliser une application $\hypothesis(\cdot)$ produisant une quantité numérique. La \gls{prediction} est alors obtenue par un simple seuillage. 		
-		Par exemple, dans un problème de \gls{classification} binaire avec un espace d’étiquettes $\labelspace \in \{ -1,1 \}$, on peut utiliser une fonction \gls{hypothesis} à valeurs réelles $\hypothesis(\featurevec) \in \mathbb{R}$ comme classifieur. Une \gls{prediction} $\predictedlabel$ peut alors être obtenue par seuillage:
+	description={Un classifieur\index{classifieur} est une (fonction) \gls{hypothesis} $\hypothesis(\featurevec)$ utilisée pour prédire une \gls{label} prenant ses valeurs dans un ensemble fini appelé \gls{labelspace}. On peut utiliser directement la valeur $\hypothesis(\featurevec)$ comme \gls{prediction} $\predictedlabel$ pour l’étiquette, mais il est courant d’utiliser une \gls{map} $\hypothesis(\cdot)$ produisant une quantité numérique. La \gls{prediction} est alors obtenue par un simple seuillage. 		
+		Par exemple, dans un problème de \gls{classification} binaire avec un \gls{labelspace} $\labelspace \in \{ -1,1 \}$, on peut utiliser une \gls{function} \gls{hypothesis} à valeurs réelles $\hypothesis(\featurevec) \in \mathbb{R}$ comme classifieur. Une \gls{prediction} $\predictedlabel$ peut alors être obtenue par seuillage:
 		\begin{equation}
 			\label{equ_def_threshold_bin_classifier_dict}
 			\predictedlabel =1 \text{ si } \hypothesis(\featurevec)\!\geq\!0 \quad \text{et} \quad \predictedlabel = -1 \text{ sinon.}
 		\end{equation}		
-		On peut caractériser un classifieur par ses \glspl{decisionregion} $\decreg{a}$ pour chaque valeur possible $a \in \labelspace$ de l’étiquette.
+		On peut caractériser un classifieur par ses \glspl{decisionregion} $\decreg{a}$ pour chaque valeur possible $a \in \labelspace$ de l’\gls{label}.
+		\\ 
+		Voir aussi: \gls{hypothesis}, \gls{map}, \gls{label}, \gls{labelspace}, \gls{function}, \gls{prediction}, \gls{classification}, \gls{decisionregion}.
 	},
 	first={classifieur},text={classifieur}
 }
 
 \newglossaryentry{decisiontree}{
 	name={arbre de décision},
-	description={Un arbre de décision\index{arbre de décision} est une représentation en forme d'organigramme d'une fonction \gls{hypothesis} $\hypothesis$. Plus formellement, un arbre de décision est un \gls{graph} orienté composé d'un nœud en racine qui lit le \gls{featurevec} $\featurevec$ d’un \gls{datapoint}. La racine transfère ensuite ce \gls{datapoint} à l’un de ses nœuds enfants en fonction d’un test élémentaire sur les \glspl{feature} de $\featurevec$. 
-		Si le nœud récepteur n’est pas une feuille (c’est-à-dire qu’il a lui-même des enfants), il représente un nouveau test. Selon le résultat de ce test, le \gls{datapoint} est à nouveau transféré vers l’un des nœuds descendants. Ce processus de test et de transfert est répété jusqu’à ce que le \gls{datapoint} atteigne une feuille (un nœud sans enfant). 
+	description={Un arbre de décision\index{arbre de décision} est une représentation en forme d'organigramme d'une fonction \gls{hypothesis} $\hypothesis$. Plus formellement, un arbre de décision est un \gls{graph} orienté composé d'un sommet en racine qui lit le \gls{featurevec} $\featurevec$ d’un \gls{datapoint}. La racine transfère ensuite ce \gls{datapoint} à l’un de ses sommets enfants en fonction d’un test élémentaire sur les \glspl{feature} de $\featurevec$. 
+		Si le sommet récepteur n’est pas une feuille (c’est-à-dire qu’il a lui-même des enfants), il représente un nouveau test. Selon le résultat de ce test, le \gls{datapoint} est à nouveau transféré vers l’un des sommets descendants. Ce processus de test et de transfert est répété jusqu’à ce que le \gls{datapoint} atteigne une feuille (un sommet sans enfant). 
 		\begin{figure}[H]
 			\begin{minipage}{.45\textwidth}
 				\scalebox{1}{
@@ -3099,20 +3527,21 @@
 				À droite: un arbre de décision partitionne l’\gls{featurespace} $\featurespace$ en \glspl{decisionregion}. Chaque région $\decreg{\hat{\truelabel}} \!\subseteq\!\featurespace$ correspond à une feuille particulière de l’arbre.}
 			\label{fig_decision_tree}
 		\end{figure}
+	Voir aussi: \gls{decisionregion}.
 	},
 	first={arbre de décision},text={arbre de décision}, plural={arbres de décision}
 }
 
 \newglossaryentry{proxop}{
 	name={opérateur proximal},
-	description={Étant donné\index{opérateur proximal} une fonction \gls{convex} $f(\weights')$, 
+	description={Étant donné\index{opérateur proximal} une \gls{function} \gls{convex} $f(\weights')$, 
 		on définit son opérateur proximal comme suit \cite{ProximalMethods,Bauschke:2017}:
 		$$
 		\proximityop{f(\cdot)}{\weights}{\rho} \defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} 
 		\left[ f(\weights') + \frac{\rho}{2} \normgeneric{\weights - \weights'}{2}^{2} \right] \quad \text{avec } \rho > 0.
 		$$
 		Comme illustré à la Figure~\ref{fig_proxoperator_opt_dict}, évaluer l’opérateur proximal revient à minimiser une version pénalisée de $f(\weights')$. Le terme de pénalité est la distance euclidienne quadratique pondérée à un vecteur donné $\weights$.
-		L’opérateur proximal peut être interprété comme une \gls{generalization} du \gls{gradstep}, défini pour une fonction \gls{smooth} et \gls{convex} $f(\weights')$. En effet, effectuer un \gls{gradstep} de gradient avec une \gls{stepsize} $\lrate$ à partir du vecteur actuel $\weights$ revient à appliquer l’opérateur proximal à la fonction linéarisée $\tilde{f}(\weights') = \left( \nabla f(\weights) \right)^{T} (\weights' - \weights)$, avec $\rho = 1/\lrate$.
+		L’opérateur proximal peut être interprété comme une \gls{generalization} du \gls{gradstep} de gradient, défini pour une fonction \gls{smooth} et \gls{convex} $f(\weights')$. En effet, effectuer un \gls{gradstep} avec une \gls{stepsize} $\lrate$ à partir du vecteur actuel $\weights$ revient à appliquer l’opérateur proximal à la \gls{function} linéarisée $\tilde{f}(\weights') = \left( \nabla f(\weights) \right)^{T} (\weights' - \weights)$, avec $\rho = 1/\lrate$.
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -3121,9 +3550,10 @@
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{Un \gls{gradstep} généralisé met à jour un vecteur $\weights$ en minimisant une version pénalisée de la fonction $f(\cdot)$. Le terme de pénalité correspond à la distance euclidienne quadratique pondérée entre la variable d’optimisation $\weights'$ et le vecteur donné $\weights$.}
+			\caption{Un \gls{gradstep} généralisé met à jour un vecteur $\weights$ en minimisant une version pénalisée de la \gls{function} $f(\cdot)$. Le terme de pénalité correspond à la distance euclidienne quadratique pondérée entre la variable d’optimisation $\weights'$ et le vecteur donné $\weights$.}
 			\label{fig_proxoperator_opt_dict}
 		\end{figure}
+	Voir aussi: \gls{convex}, \gls{function}, \gls{generalization}, \gls{gradstep}, \gls{smooth}, \gls{stepsize}.
 	},
 	first={opérateur proximal},text={opérateur proximal}, plural={opérateurs proximaux}
 }
@@ -3138,6 +3568,7 @@
 			\item Droits des personnes concernées: les utilisateurs doivent pouvoir accéder à leurs \gls{data} personnelles, les rectifier, les supprimer, et s’opposer aux décisions automatisées ainsi qu’au profilage.
 			\item Responsabilité: les organisations doivent garantir une sécurité robuste des \gls{data} et prouver leur conformité au RGPD par la documentation et des audits réguliers.
 		\end{itemize}
+	Voir aussi: \gls{data}, \gls{ml}, \gls{dataminprinc}, \gls{transparency}, \gls{explainability}.
 	},
 	first={Règlement général sur la protection des données (RGPD)},
 	text={RGPD}
@@ -3147,6 +3578,8 @@
 	name={principe de minimisation des données},
 	description={
 		La\index{principe de minimisation des données} réglementation européenne sur la protection des \gls{data} inclut un principe de minimisation des \gls{data}. Ce principe impose au responsable du traitement de limiter la collecte des informations personnelles à ce qui est directement pertinent et nécessaire pour atteindre un objectif spécifié. Les \gls{data} doivent être conservées uniquement aussi longtemps que nécessaire pour remplir cet objectif \cite[Article 5(1)(c)]{GDPR2016}, \cite{EURegulation2018}.
+		\\
+		Voir aussi: \gls{data}.
 	},
 	first={principe de minimisation des données},
 	text={principe de minimisation des données}
@@ -3168,35 +3601,69 @@
 		Enfin, la transparence suppose une documentation complète précisant l’objectif et les choix de conception du système d'\gls{ai}. 
 		Des outils comme les fiches techniques de \gls{model} \cite{DatasheetData2021} ou les cartes descriptives de systèmes d'\gls{ai} \cite{10.1145/3287560.3287596} 
 		aident les praticiens à comprendre les cas d’usage prévus ainsi que les limitations du système \cite{Shahriari2017}.
-	},
+		\\ 
+		Voir aussi: \gls{trustAI}, \gls{ml}, \gls{explainability}, \gls{ai}, \gls{prediction}, \gls{model}, \gls{logreg}, \gls{classification}, \gls{decisiontree}.},
 	first={transparence},
 	text={transparence}
 }
 
 \newglossaryentry{logreg}{
 	name={régression logistique},
-	description={La\index{régression logistique} \gls{regression} logistique apprend une fonction
+	description={La\index{régression logistique} \gls{regression} logistique apprend une \gls{function}
 		\gls{hypothesis} (ou \gls{classifier}) linéaire $\hypothesis(\featurevec) = \weights^{T} \featurevec$ 
 		pour prédire une \gls{label} binaire $\truelabel$ à partir du \gls{featurevec} numérique $\featurevec$ 
 		d’un \gls{datapoint}. La qualité d’une telle fonction \gls{hypothesis} linéaire est mesurée à l’aide de la 
-		\gls{logloss} moyenne sur un ensemble de \glspl{labeled datapoint} (c’est-à-dire l'\gls{trainset}).},
+		\gls{logloss} moyenne sur un ensemble de \glspl{labeled datapoint} (c’est-à-dire l'\gls{trainset}).
+		\\
+		Voir aussi: \gls{regression}, \gls{hypothesis}, \gls{map}, \gls{classifier}, \gls{label}, \gls{featurevec}, \gls{datapoint}, \gls{logloss}, \gls{labeled datapoint}, \gls{trainset}.},
 	first={régression logistique},
 	text={régression logistique}, plural={régressions logistiques}
 }
 
-\newglossaryentry{logloss}{
-	name={perte logistique},
-	description={Considérons\index{perte logistique} un \gls{datapoint} caractérisé par des \glspl{feature} $\featurevec$ 
-		et une \gls{label} binaire $\truelabel \in \{-1,1\}$. 
-		On utilise une \gls{hypothesis} à valeurs réelles $\hypothesis$ pour prédire l'\gls{label} $\truelabel$ 
-		à partir des \glspl{feature} $\featurevec$. La \gls{loss} logistique associée à cette \gls{prediction} est définie comme 
+\newglossaryentry{logloss}
+{name={perte logistique}, 
+	description={Considérons\index{perte logistique} 
+		un \gls{datapoint} caractérisé par des \glspl{feature} $\featurevec$ et une \gls{label} binaire $\truelabel \in \{-1,1\}$. 
+		ON utilise une \gls{hypothesis} à valeurs réelle $\hypothesis$ pour prédire l’\gls{label} $\truelabel$ à partir des 
+		\glspl{feature} $\featurevec$. La \gls{loss} logistique associée à cette \gls{prediction} est définie comme suit :
 		\begin{equation} 
 			\label{equ_log_loss_gls_dict}
-			\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log ( 1 + \exp(- \truelabel \hypothesis(\featurevec))).
+			\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log\, ( 1 + \exp\,(- \truelabel \hypothesis(\featurevec))).
 		\end{equation}
-		Il est important de noter que l’expression \eqref{equ_log_loss_gls_dict} 
-		de la \gls{loss} logistique s’applique uniquement dans le cas d’un \gls{labelspace} $\labelspace = \{-1,1\}$ 
-		et lorsque l’on utilise la règle de seuillage définie en \eqref{equ_def_threshold_bin_classifier_dict}.},
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}
+					\begin{axis}[
+						axis lines=middle,
+						xlabel={$\truelabel\hypothesis(\featurevec)$},
+						ylabel={$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$},
+						xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},
+						ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center},
+						xmin=-3.5, xmax=3.5,
+						ymin=-0.5, ymax=2.5,
+						xtick={-3, -2, -1, 0, 1, 2, 3},
+						ytick={0, 1, 2},
+						domain=-3:3,
+						samples=100,
+						width=10cm, height=6cm,
+						grid=both,
+						major grid style={line width=.2pt, draw=gray!50},
+						minor grid style={line width=.1pt, draw=gray!20},
+						legend pos=south west
+						]
+						\addplot [red, thick] {ln(1 + exp(-x))};    
+					\end{axis}
+				\end{tikzpicture}
+				\caption{La \gls{loss} logistique associée à la \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
+					pour un \gls{datapoint} d'\gls{label} $\truelabel \in \{-1,1\}$.}
+				\label{fig_logloss_dict}
+			\end{center}
+		\end{figure}
+		Il est à noter que l’expression \eqref{equ_log_loss_gls_dict} de la \gls{loss} logistique 
+		est valable uniquement lorsque l’\gls{labelspace} est $\labelspace = \{ -1,1\}$ 
+		et que la règle de décision utilisée est celle du seuil définie en \eqref{equ_def_threshold_bin_classifier_dict}.
+		\\
+		Voir aussi : \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},
 	first={perte logistique},
 	text={perte logistique}, plural={pertes logistiques}
 }
@@ -3208,20 +3675,24 @@
 		On dit que cette méthode est en situation de sous-apprentissage si elle n’est pas capable d’apprendre 
 		une \gls{hypothesis} avec un \gls{emprisk} suffisamment faible sur l'\gls{trainset}. 
 		En général, une méthode en situation de sous-apprentissage ne parviendra pas non plus à apprendre 
-		une \gls{hypothesis} avec un \gls{risk} faible.},
+		une \gls{hypothesis} avec un \gls{risk} faible.
+		\\ 
+		Voir aussi: \gls{ml}, \gls{erm}, \gls{hypothesis}, \gls{minimum}, \gls{emprisk}, \gls{trainset}, \gls{risk}.},
 	first={sous-apprentissage},
 	text={sous-apprentissage}
 }
 
 \newglossaryentry{polyreg}{
 	name={régression polynomiale},
-	description={La\index{régression polynomiale} \gls{regression} polynomiale vise à apprendre 
-		une fonction \gls{hypothesis} polynomiale pour prédire une \gls{label} numérique à partir 
+	description={La\index{régression polynomiale} \gls{regression} polynomiale est une instance de \gls{erm} vise à apprendre 
+		une \gls{function} \gls{hypothesis} polynomiale pour prédire une \gls{label} numérique à partir 
 		des \glspl{feature} numériques d’un \gls{datapoint}. Pour des \glspl{datapoint} caractérisés 
 		par une seule \gls{feature} numérique, la régression polynomiale utilise l’\gls{hypospace} 
 		$\hypospace^{(\rm poly)}_{\nrfeatures} \defeq \{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \}.$
 		La qualité d’une fonction \gls{hypothesis} polynomiale est mesurée via la \gls{sqerrloss} moyenne 
-		encourue sur un ensemble de \glspl{labeled datapoint} (appelé \gls{trainset}).},
+		encourue sur un ensemble de \glspl{labeled datapoint} (appelé \gls{trainset}).
+		\\
+		Voir aussi: \gls{regression}, \gls{erm}, \gls{sqerrloss}.},
 	first={régression polynomiale},
 	text={régression polynomiale}, plural={régressions polynomiales}
 }
@@ -3230,9 +3701,11 @@
 	name={loi des grands nombres},
 	description={La\index{loi des grands nombres} loi des grands nombres désigne la convergence 
 		de la moyenne d’un nombre croissant (et grand) de \glspl{rv} \glspl{iid} vers la \gls{mean} 
-		de leur \gls{probdist} commune. Il existe plusieurs versions de la loi des grands nombres selon les notions de convergence utilisées \cite{papoulis}.},
+		de leur \gls{probdist} commune. Il existe plusieurs versions de la loi des grands nombres selon les notions de convergence utilisées \cite{papoulis}.
+		\\
+		Voir aussi: \gls{iid}, \gls{rv}, \gls{mean}, \gls{probdist}.},
 	first={loi des grands nombres},
-	text={loi des grands nombres}
+	text={loi des grands nombres}, plural={lois des grands nombres}
 }
 
 \newglossaryentry{mab}
@@ -3241,7 +3714,7 @@
 	description={Le problème du bandit manchot\index{bandit manchot} modélise un scénario 
 		de prises de décision répétées dans lequel, à chaque instant $\iteridx$, un apprenant doit 
 		choisir une action parmi plusieurs possibles (on appellera ces actions des bras) dans un ensemble fini $\actionset$. 
-		Chaque bras $\action \in \actionset$ génère une \gls{reward} stochastique $\reward^{(\action)}$ 
+		Chaque bras $\action \in \actionset$ génère une \gls{reward} \gls{stochastic} $\reward^{(\action)}$ 
 		prélevée selon une \gls{probdist} inconnue, de \gls{mean} $\mu^{(\action)}$. 
 		Le but de l’apprenant est de maximiser la somme des \glspl{reward} au cours du temps en équilibrant 
 		stratégiquement l’exploration (collecte d’informations sur les bras incertains) et 
@@ -3249,7 +3722,9 @@
 		Cet équilibre est quantifié par la notion de \gls{regret}, qui mesure l’écart de performance 
 		entre la stratégie de l’apprenant et la stratégie optimale qui sélectionnerait toujours le meilleur bras. 
 		Les problèmes de bandit manchot constituent un modèle fondamental en \gls{onlinelearning}, 
-		apprentissage par renforcement et en conception expérimentale séquentielle \cite{Bubeck2012}.},
+		apprentissage par renforcement et en conception expérimentale séquentielle \cite{Bubeck2012}.
+		\\ 
+		Voir aussi: \gls{stochastic}, \gls{reward}, \gls{probdist}, \gls{mean}, \gls{regret}, \gls{model}.},
 	first={bandit manchot},text={bandit manchot}
 }
 
@@ -3259,7 +3734,9 @@
 		une autre \gls{hypothesis} $\hypothesis'$ (considérée comme \gls{baseline}) 
 		est défini comme la différence entre la \gls{loss} engendrée par $\hypothesis$ 
 		et celle engendrée par $\hypothesis'$ \cite{PredictionLearningGames}. 
-		L'\gls{hypothesis} de référence $\hypothesis'$ est aussi appelée un \gls{expert}.},
+		L'\gls{hypothesis} de référence $\hypothesis'$ est aussi appelée un \gls{expert}.
+		\\ 
+		Voir aussi: \gls{baseline}, \gls{loss}, \gls{expert}.},
 	first={regret},text={regret}
 }
 
@@ -3288,7 +3765,9 @@
 		On peut préciser cet objectif informel avec l'\gls{iidasspt} et le \gls{bayesrisk}, qui sert de \gls{baseline} pour la \gls{loss} moyenne d'une \gls{hypothesis}. 
 		Une autre approche pour définir une \gls{baseline} consiste à utiliser l'\gls{hypothesis} $\hypothesis'$ apprise par une méthode d’\gls{ml} existante. 
 		On appelle alors cette \gls{hypothesis} $\hypothesis'$ un expert \cite{PredictionLearningGames}. 
-		Les méthodes de minimisation de \gls{regret} cherchent à apprendre une \gls{hypothesis} dont la \gls{loss} est comparable à celle du meilleur expert \cite{PredictionLearningGames,HazanOCO}.},
+		Les méthodes de minimisation du \gls{regret} cherchent à apprendre une \gls{hypothesis} dont la \gls{loss} est comparable à celle du meilleur expert \cite{PredictionLearningGames,HazanOCO}.
+		\\ 
+		Voir aussi: \gls{lossfunc}, \gls{baseline}, \gls{regret}.},
 	first={expert},
 	text={expert}
 }
@@ -3355,7 +3834,8 @@
 				pour prédire l’\gls{label} $\truelabel$ d’un \gls{datapoint} avec des \glspl{feature} $\featurevec$. Le \gls{risk} minimal
 				correspondant est donné par la \gls{variance} a posteriori $\sigma^{2}_{\truelabel|\featurevec}$. On peut utiliser 
 				cette quantité comme référence pour la \gls{loss} moyenne d’un \gls{model} entraîné $\learnthypothesis$. \label{fig_post_baseline_dict}}
-	\end{figure}},
+	\end{figure}
+	Voir aussi: \gls{bayesrisk}, \gls{bayesestimator}.},
 	first={niveau de référence},text={niveau de référence}, plural={niveaux de référence}}
 
 \newglossaryentry{bayesestimator}{
@@ -3364,7 +3844,9 @@
 		$\truelabel$ d’un \gls{datapoint}. Pour une \gls{lossfunc} donnée $\lossfunc{\cdot}{\cdot}$, on appelle une \gls{hypothesis} 
 		$\hypothesis$ un estimateur bayésien si son \gls{risk} $\expect\{\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis}\}$ est le 
 		\gls{minimum} atteignable \cite{LC}. Notons que la propriété d’être un estimateur bayésien dépend de 
-		la \gls{probdist} sous-jacente ainsi que du choix de la \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.},
+		la \gls{probdist} sous-jacente ainsi que du choix de la \gls{lossfunc} $\lossfunc{\cdot}{\cdot}$.
+		\\
+		Voir aussi: \gls{probmodel}, \gls{hypothesis}, \gls{risk}},
 	first={estimateur bayésien},
 	text={estimateur bayésien}, plural={estimateurs bayésiens}}
 
@@ -3374,7 +3856,9 @@
 		et l’\gls{label} $\truelabel$ d’un \gls{datapoint}. Le\index{risque bayésien} \gls{risk} bayésien 
 		est le \gls{minimum} possible de \gls{risk} qui peut être atteint par toute \gls{hypothesis} 
 		$\hypothesis: \featurespace \rightarrow \labelspace$. Toute \gls{hypothesis} atteignant 
-		le risque bayésien est appelée un \gls{bayesestimator} \cite{LC}.},
+		le risque bayésien est appelée un \gls{bayesestimator} \cite{LC}.
+		\\
+		Voir aussi: \gls{probmodel}, \gls{risk}, \gls{bayesestimator}.},
 	first={risque bayésien},
 	text={risque bayésien}, plural={risques bayésiens}}
 
@@ -3435,6 +3919,7 @@
 				Cet exemple utilise la \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weight} = (\feature^{(\timeidx)} - \weight)^{2}$.
 			}
 		\end{figure}
+	Voir aussi: \gls{ml}, \gls{modelparams}, \gls{paramspace}, \gls{datapoint}, \gls{iid}, \gls{rv}, \gls{risk}, \gls{hypothesis}, \gls{objfunc}, \gls{gd}, \gls{gradstep}, \gls{loss}, \gls{learnrate}, \gls{sqerrloss}.
 	},
 	first={descente de gradient en ligne},
 	text={descente de gradient en ligne}
@@ -3487,9 +3972,9 @@
 }
 
 \newglossaryentry{nodedegree}
-{name={degré d’un noeud},
-	description={Le degré\index{degré d’un nœud} $\nodedegree{\nodeidx}$ d’un nœud $\nodeidx \in \nodes$ 
-		dans un \gls{graph} non orienté est le nombre de \gls{neighbors} de ce nœud, c’est-à-dire 
+{name={degré d’un sommet},
+	description={Le degré\index{degré d’un sommet} $\nodedegree{\nodeidx}$ d’un sommet $\nodeidx \in \nodes$ 
+		dans un \gls{graph} non orienté est le nombre de \gls{neighbors} de ce sommet, c’est-à-dire 
 		$\nodedegree{\nodeidx} \defeq \big|\neighbourhood{\nodeidx}\big|$.
 		\\ 
 		Voir aussi: \gls{graph}, \gls{neighbors}.},
