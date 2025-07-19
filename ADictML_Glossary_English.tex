@@ -328,12 +328,20 @@
 
 \newglossaryentry{stochproc}
 {name={stochastic process},
-	description={A \gls{stochastic} process\index{stochastic process} is a collection of \glspl{rv} defined over a common \gls{probspace}. 
-		These \glspl{rv} are indexed by time or space, and are used to model random phenomena
-		evolving over time (e.g., noise in sensors or financial time series). Random \glspl{graph}, 
-		such as \gls{sbm} or \gls{ergraph}, are another example of \gls{stochastic} processes. These processes 
-		use pairs of nodes in a \gls{graph} as the index set. We can also use \gls{stochastic} processes 
-		to represent \glspl{stochalgorithm} such as \gls{stochGD}. 
+	description={
+		A \gls{stochastic} process\index{stochastic process} is a collection of 
+		\glspl{rv} defined on a common \gls{probspace}, indexed by some set 
+		$\mathcal{I}$ \cite{papoulis,GrayProbBook,Brockwell91}. The index set 
+		$\mathcal{I}$ typically represents time or space, allowing to represent 
+		random phenomena that evolve across time or spatial dimensions—for example, 
+		sensor noise or financial time series. Stochastic processes are not limited 
+		to temporal or spatial settings. For instance, random \glspl{graph} such as 
+		the \gls{ergraph} or the \gls{sbm} 
+		can also be viewed as stochastic processes. Here, the index set $\mathcal{I}$ 
+		consists of node pairs that index \glspl{rv} whose values encode 
+		the presence or weight of an edge between two nodes. Moreover, \gls{stochastic} 
+		processes naturally arise in the analysis of \glspl{stochalgorithm}, 
+		such as \gls{stochGD}, which construct a sequence of \glspl{rv}. 
 		\\
 		See also:  \gls{rv}, \gls{sbm}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}.},
 	first={stochastic process},
@@ -636,30 +644,34 @@
 
 \newglossaryentry{nullspace}
 {name={nullspace},
- description={The nullspace \index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
- 	denoted ${\rm null}(\mA)$ is the set of \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
- 	such that $$\mA \mathbf{n} = \mathbf{0}.$$
-    Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform a 
-	\gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
-	to a new \gls{featurevec} $\mA\featurevec$. The nullspace ${\rm null}\{ \mA\}$ defines 
-	the directions in the original \gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along 
-	which the new \gls{featurevec} $\mA\featurevec$ does not change. In other words, the 
-	nullspace ${\rm null}(\mA)$ allows us to enforce invariances of the resulting 
-	\glspl{prediction} (which are computed from $\mA\featurevec$). One example for 
-	such an invariance is illustrated in Fig.\ \ref{fig:nullspace-rotation-dict} 
-	which shows a \gls{scatterplot} of rotated images of hand-written digits. 
-	The rotated images of the same digit are approximately aligned along a one-dimensional 
-	curve in the \gls{featurespace}. This one-dimensional curve is spanned by a vector 
-	$ \mathbf{n} \in \mathbb{R}^{\nrfeatures} $. It seems reasonable to require a digit detector 
-	to be invariant against rotations of the image. This can be enfored by transforming the 
-	\gls{featurevec} of an image by a \gls{matrix} $\mA$ such that $\vn \in {\rm null}(\mathbf{A})$. 
+ description={
+	The nullspace \index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
+    denoted ${\rm null}(\mA)$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
+    such that $$\mA \mathbf{n} = \mathbf{0}.$$ 
+	Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
+	a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
+	into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
+	The nullspace ${\rm null}(\mA)$ characterizes all directions in the original 
+    \gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
+	$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
+	the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
+	representation $\vz$. This property can be exploited to enforce invariances in the 
+	\glspl{prediction} (computed from $\mA \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
+	illustrates one such invariance. It shows rotated versions of handwritten digits $0$ and $1$, 
+	which approximately lie along one-dimensional curves in the original \gls{featurespace}. 
+	These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
+    To ensure that the trained \gls{model} is invariant to such rotations, we can 
+	choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in {\rm null}(\mA)$. 
+	This ensures that $\mA \mathbf{x}$, and hence the resulting \gls{prediction}, 
+	is approximately insensitive to rotation of the input image.
 		\begin{figure}[h]
       \centering
       \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace.png}
-      \caption{Rotated images of handwritten digits $0$ and $1$. The rotations 
-	 are approximately aligned along linear curves that are parellel to the vector $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}
-          \end{figure}
-		See also: \gls{matrix}.},
+	  \caption{Rotated images of handwritten digits $0$ and $1$. The rotations are approximately 
+	  aligned along linear curves that are parallel to the \gls{vector} $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
+	       \end{figure}
+		See also: \gls{matrix}. \\ 
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
  	first={nullspace},
  	firstplural={nullspaces},
  	plural={nullspaces},
@@ -1597,21 +1609,23 @@ sort={zerooneloss},
 		\[
 		\featurevec \defeq \mathbf{A} \vz + {\bm \mu}
 		\]
-		where $\vz \defeq \big( z_{1}, \ldots, z_{\featuredim} \big)\,^{T}$ is a \gls{vector} of \gls{iid} standard Gaussian \glspl{rv}, 
-		and $\mA \in \mathbb{R}^{\featuredim \times \featuredim}$ is any \gls{matrix} satisfying $\mA \mA\,^{T} = \mC$. 
-		The \gls{probdist} of a Gaussian random \gls{vector} is referred to as the \gls{mvndist}, denoted $\mathcal{N}({\bm \mu}, \mathbf{C})$.
+		where $\vz \defeq \big( z_{1}, \ldots, z_{\featuredim} \big)\,^{T}$ is a \gls{vector} 
+		of \gls{iid} standard Gaussian \glspl{rv}, and $\mA \in \mathbb{R}^{\featuredim \times \featuredim}$ is any \gls{matrix} satisfying $\mA \mA\,^{T} = \mC$. 
+		The \gls{probdist} of a Gaussian random \gls{vector} is referred to as the \gls{mvndist}, 
+		denoted $\mathcal{N}({\bm \mu}, \mathbf{C})$.
 		\\
-		Gaussian random \glspl{vector} arise as finite-dimensional marginals of \glspl{GaussProc}, which define 
-		consistent joint Gaussian distributions over arbitrary (potentially infinite) index sets \cite{Rasmussen2006Gaussian}. 
+		We can interpret a Gaussian random \gls{vector} $\featurevec=\big(\feature_{1},\ldots,\feature_{\nrfeatures}\big)$ as a \gls{stochproc} 
+		indexed by the set $\mathcal{I}=\{1,\ldots,\nrfeatures\}$. A \glspl{GaussProc} is a 
+		\gls{stochproc} over an arbitray index set $\mathcal{I}$ such that any restriction to a finite subset 
+		$\mathcal{I}' \subseteq \mathcal{I}$ yields a Gaussian random \gls{vector} \cite{Rasmussen2006Gaussian}.
   		\\
-        		Gaussian \glspl{rv} are widely used \glspl{probmodel} in the statistical analysis of 
-        		\gls{ml} methods. Their significance arises partly from the \gls{clt}, which is a mathematically 
-        		precise formulation of the following rule-of-thumb: The average of many independent \glspl{rv} 
+        Gaussian \glspl{rv} are widely used \glspl{probmodel} in the statistical analysis of 
+        \gls{ml} methods. Their significance arises partly from the \gls{clt}, which is a mathematically 
+        precise formulation of the following rule-of-thumb: The average of many independent \glspl{rv} 
 		(not necessarily Gaussian themselves) tends towards a Gaussian \gls{rv} \cite{ross2013first}.
 		\\ 
-		Compared to other \glspl{probdist}, the \gls{mvndist} is also distinct in that—in a mathematically 
-		precise sense—it represents maximum \gls{uncertainty}. Among all \gls{vector}-valued \glspl{rv} with 
-		a given \gls{covmtx} $\mC$, the \gls{rv} $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
+		The \gls{mvndist} is also distinct in that it represents maximum \gls{uncertainty}: 
+		Among all \gls{vector}-valued \glspl{rv} with a given \gls{covmtx} $\mC$, the \gls{rv} $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
 		maximizes \gls{diffentropy} \cite[Th. 8.6.5]{coverthomas}. This makes \glspl{GaussProc} a 
 		natural choice for capturing \gls{uncertainty} (or lack of knowledge) in the absence of additional 
 		structural information.
@@ -3479,18 +3493,18 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
- 	description={An RV\index{random variable (RV)} is a \gls{function} that maps from 
- 		a \gls{probspace} $\mathcal{P}$ to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
- 		The \gls{probspace} consists of elementary events and is equipped with a \gls{probability} 
- 		measure that assigns \glspl{probability} to subsets of $\mathcal{P}$. 
+ 	description={An RV\index{random variable (RV)} is a \gls{function} that maps the 
+	outcomes of a random experiment to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
+ 	Mathematically, a RV is a function $x: \Omega \rightarrow \featurespace$ that is defined on the 
+	\gls{samplespace} $\Omega$ of a \gls{probspace}. 
  		Different types of RVs include  
  		\begin{itemize} 
- 			\item {binary RVs}, which map each elementary event to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
+ 			\item {binary RVs}, which map each outcome to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
  			\item {real-valued RVs}, which take on values in the real numbers $\mathbb{R}$;  
- 			\item {\gls{vector}-valued RVs}, which map elementary events to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
+ 			\item {\gls{vector}-valued RVs}, which map outcomes to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
  		\end{itemize} 
  		\Gls{probability} theory uses the concept of measurable spaces to rigorously define 
- 		and study the properties of (large) collections of RVs \cite{BillingsleyProbMeasure}.
+ 		and study the properties of collections of RVs \cite{BillingsleyProbMeasure}.
 			\\
 		See also: \gls{function}, \gls{probspace}, \gls{probability}, \gls{vector}, \gls{euclidspace}.}, 
 	first={random variable (RV)},
@@ -3500,33 +3514,47 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  \newglossaryentry{probspace}
  {name={probability space}, 
  	description={A\index{probability space} \gls{probability} space is a mathematical 
- 		\gls{model} of a physical process (i.e., a random experiment) with an uncertain outcome. 
- 	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, P)$ where
+ 		structure that allows to reason about a random experiment, e.g., the observation 
+		of a physical phenomenon. 
+ 	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, \prob{\cdot})$ where
  		\begin{itemize} 
- 			\item  $\Omega$ is a \gls{sample} space containing all possible elementary outcomes of a random experiment;
- 			\item  $\mathcal{F}$ is a sigma-algebra, i.e., a collection of subsets of $\Omega$ (called events) that satisfies 
- 			certain closure properties under set operations;
- 			\item $P$ is a \gls{probability} measure, i.e., a \gls{function} that assigns a \gls{probability} $P(\mathcal{A}) \in [0,1]$ 
- 			to each event $\mathcal{A} \in \mathcal{F}$. The \gls{function} must satisfy $P(\Omega) = 1$ and 	$
- 			P\left(\bigcup_{i=1}^{\infty} \mathcal{A}_i\right) = \sum_{i=1}^{\infty} P(\mathcal{A}_i)$ for any 
+ 			\item  $\Omega$ is a \gls{sample} space containing all possible outcomes
+			of a random experiment;
+ 			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of $\Omega$ 
+			(called events) that satisfies certain closure properties under set operations;
+ 			\item $\prob{\cdot}$ is a \gls{probdist}, i.e., a \gls{function} that assigns a 
+			\gls{probability} $P(\mathcal{A}) \in [0,1]$ 
+ 			to each event $\mathcal{A} \in \mathcal{F}$. This \gls{function} 
+			must satisfy $\prob{\Omega} = 1$ and $\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ for any 
  			countable sequence of pairwise disjoint events $\mathcal{A}_1, \mathcal{A}_2, \ldots$ in $\mathcal{F}$.
  		\end{itemize}
- 		\Gls{probability} spaces provide the foundation for defining \glspl{rv} and for reasoning about 
- 		\gls{uncertainty} in \gls{ml} applications \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
+ 		\Gls{probability} spaces are the foundation of \glspl{probmodel} which can be 
+		used to study the behaviour of \gls{ml} methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
 				\\
-		See also: \gls{probability}, \gls{model}, \gls{sample}, \gls{function}, \gls{rv}, \gls{uncertainty}, \gls{ml}.},  
+		See also: \gls{probability},  \gls{rv}, \gls{uncertainty}.},  
  	first={probability space}, 
  	text={probability space}
  }
+
+\newglossaryentry{samplespace}
+  {name={sample space}, 
+  	description={A\index{sample space} \gls{sample} space is the set of all possible 
+	outcomes of a random experiment \cite{papoulis,BillingsleyProbMeasure,AshProbMeasure,BertsekasProb}. 
+ 		See also: \gls{probspace}.},  
+  	first={sample space}, 
+ 	firstplural={sample spaces},
+ 	plural={sample spaces},
+  	text={sample space}
+  }
  
 	
 \newglossaryentry{realization}
 {name={realization}, plural={realizations},
-	description={Consider\index{realization} an \gls{rv} $x$ which maps each element 
-		(i.e., outcome or elementary event) $\omega \in \mathcal{P}$ of a \gls{probspace} $\mathcal{P}$ 
-		to an element $a$ of a measurable space $\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
-		A realization of $x$ is any element $a' \in \mathcal{N}$ such that there is 
-		an element $\omega' \in \mathcal{P}$ with $x(\omega') = a'$.
+	description={Consider\index{realization} an \gls{rv} $\featurevec$ which maps each 
+	outcome $\omega \in \mathcal{P}$ of a \gls{probspace} $\mathcal{P}$ to 
+	an element $a$ of a measurable space $\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
+	A realization of $\featurevec$ is any element $\va \in \mathcal{N}$ such that there is 
+	an element $\omega \in \mathcal{P}$ with $\featurevec(\omega) = \va$.
 			\\
 		See also: \gls{rv}, \gls{probspace}.}, 
 	first={realization},
@@ -4582,19 +4610,53 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	text={CFL} 
 }
 
+\newglossaryentry{measurableset}
+{name={measurableset}, 
+	description={Consider a random experiment with a \gls{samplespace} $\Omega$ which is the set of all 
+	possible outcomes. A measurable set\index{measurable set} $\mathcal{A} \subseteq \Omega$ 
+	is a subset of the \gls{samplespace} $\Omega$ for which the  
+	the \gls{probability} of the event occurring, i.e., $\prob{\mathcal{A}}$ is well-defined. 
+	Given a \gls{probspace} $(\Omega, \mathcal{P}, \prob{\cdot})$, a subset is measurable 
+	if it belongs to the $\sigma$-algebra $\mathcal{F}$.
+	},
+	first={measurable set},
+	firstplural={measurable sets},
+	plural={measurable sets},
+	text={measurable set} 
+}
+
+
 \newglossaryentry{iid}
 {name={independent and identically distributed (i.i.d.)}, 
-	description={It\index{independent and identically distributed (i.i.d.)} can be useful to 
-		interpret \glspl{datapoint} $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$ 
-		as \glspl{realization} of i.i.d. \glspl{rv} with 
-		a common \gls{probdist}. If these \glspl{rv} are continuous-valued, their joint \gls{pdf} 
-		is $p\big(\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)} \big) = \prod_{\sampleidx=1}^{\samplesize} p \big(\datapoint^{(\sampleidx)}\big)$, 
-		with $p(\datapoint)$ being the common 
-		marginal \gls{pdf} of the underlying \glspl{rv}.
+	description={
+	    A collection of \glspl{rv} $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$ is 
+		 said to be independent and identically distributed (i.i.d.)\index{independent and identically distributed (i.i.d.)} 
+		 if each $\datapoint^{(\sampleidx)}$ follows the same \gls{probdist}, and 
+		 the \glspl{rv} are mutually independent: For any collection of 
+		 events $\mathcal{A}_1, \ldots, \mathcal{A}_\samplesize$, we have
+         \[
+          \prob{ \datapoint^{(1)} \in \mathcal{A}_1, \ldots, \datapoint^{(\samplesize)} \in \mathcal{A}_{\samplesize}} 
+         = \prod_{\sampleidx=1}^{\samplesize} \prob{ \datapoint^{(\sampleidx)} \in \mathcal{A}_\sampleidx}.
+         \]
 				\\
-		See also: \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{pdf}.},
+		See also: \gls{datapoint}, \gls{iidasspt}, \gls{rv}, \gls{probmodel}.},
 	first={independent and identically distributed (i.i.d.)},
 	text={{i.i.d.}} 
+}
+
+\newglossaryentry{event}
+{name={event}, 
+	description={
+	    Consider\index{event} a \gls{rv} $\featurevec$, defined on some \gls{probspace}, 
+		which takes values in the set $\featurespace$. An event $\mathcal{A} \subseteq \featurespace$ 
+		is a subset of $\featurespace$ such that the \gls{probability} 
+		$\prob{\featurevec \in \mathcal{A}}$ is well-defined. 
+				\\
+		See also: \gls{datapoint}, \gls{iidasspt}, \gls{rv}, \gls{probmodel}.},
+	first={event},
+	firstplural={events},
+	plural={events},
+	text={event} 
 }
 
 
