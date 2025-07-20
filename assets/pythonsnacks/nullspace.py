@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 # Parameters
-angles = np.linspace(-30, 30, 25)
+angles = np.linspace(-80, 80, 25)
 num_digits = 2
 inlay_step = 6  # Add image inlay every 6 rotations
 
@@ -28,6 +28,18 @@ for digit in range(10):
         selected_labels.append(digit)
     if len(selected_digits) == num_digits:
         break
+
+# Manually select two fixed digits
+digit1 =6
+digit2 = 9
+
+# Find the first occurrence of each digit
+idx1 = (labels == digit1).nonzero()[0][0]
+idx2 = (labels == digit2).nonzero()[0][0]
+
+# Select the corresponding images and labels
+selected_digits = [images[idx1], images[idx2]]
+selected_labels = [digit1, digit2]
 
 # Rotate images and collect data
 rotated_images = []
