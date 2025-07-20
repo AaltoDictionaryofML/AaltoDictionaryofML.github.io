@@ -657,7 +657,7 @@
 	the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
 	representation $\vz$. This property can be exploited to enforce invariances in the 
 	\glspl{prediction} (computed from $\mA \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
-	illustrates one such invariance. It shows rotated versions of handwritten digits $0$ and $1$, 
+	illustrates one such invariance. It shows rotated versions of two handwritten digits, 
 	which approximately lie along one-dimensional curves in the original \gls{featurespace}. 
 	These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
     To ensure that the trained \gls{model} is invariant to such rotations, we can 
@@ -666,8 +666,8 @@
 	is approximately insensitive to rotation of the input image.
 		\begin{figure}[h]
       \centering
-      \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace.png}
-	  \caption{Rotated images of handwritten digits $0$ and $1$. The rotations are approximately 
+      \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
+	  \caption{Rotated images of two handwritten digits. The rotations are approximately 
 	  aligned along linear curves that are parallel to the \gls{vector} $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
 	       \end{figure}
 		See also: \gls{matrix}. \\ 
@@ -4610,22 +4610,6 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	text={CFL} 
 }
 
-\newglossaryentry{measurableset}
-{name={measurableset}, 
-	description={Consider a random experiment with a \gls{samplespace} $\Omega$ which is the set of all 
-	possible outcomes. A measurable set\index{measurable set} $\mathcal{A} \subseteq \Omega$ 
-	is a subset of the \gls{samplespace} $\Omega$ for which the  
-	the \gls{probability} of the event occurring, i.e., $\prob{\mathcal{A}}$ is well-defined. 
-	Given a \gls{probspace} $(\Omega, \mathcal{P}, \prob{\cdot})$, a subset is measurable 
-	if it belongs to the $\sigma$-algebra $\mathcal{F}$.
-	},
-	first={measurable set},
-	firstplural={measurable sets},
-	plural={measurable sets},
-	text={measurable set} 
-}
-
-
 \newglossaryentry{iid}
 {name={independent and identically distributed (i.i.d.)}, 
 	description={
@@ -4633,7 +4617,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		 said to be independent and identically distributed (i.i.d.)\index{independent and identically distributed (i.i.d.)} 
 		 if each $\datapoint^{(\sampleidx)}$ follows the same \gls{probdist}, and 
 		 the \glspl{rv} are mutually independent: For any collection of 
-		 events $\mathcal{A}_1, \ldots, \mathcal{A}_\samplesize$, we have
+		 \glspl{event} $\mathcal{A}_1, \ldots, \mathcal{A}_\samplesize$, we have
          \[
           \prob{ \datapoint^{(1)} \in \mathcal{A}_1, \ldots, \datapoint^{(\samplesize)} \in \mathcal{A}_{\samplesize}} 
          = \prod_{\sampleidx=1}^{\samplesize} \prob{ \datapoint^{(\sampleidx)} \in \mathcal{A}_\sampleidx}.
@@ -4644,13 +4628,73 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	text={{i.i.d.}} 
 }
 
+\newglossaryentry{preimage}
+{name={preimage}, 
+	description={Consider a \gls{function}\index{preimage} $f\colon \mathcal{U} \rightarrow \mathcal{V}$ 
+		between two sets. The preimage $f^{-1}(\mathcal{B})$ of a subset $\mathcal{B} \subseteq \mathcal{V}$ is the set 
+		of all inputs $u \in \mathcal{U}$ that are mapped into $\mathcal{B}$ by $f$, i.e.,
+		\[
+		f^{-1}(\mathcal{B}) \defeq \{ u \in \mathcal{U} \mid f(u) \in \mathcal{B} \}.
+		\]
+		The preimage is well-defined even if the \gls{function} $f$ is not invertible \cite{RudinBookPrinciplesMatheAnalysis}.},
+	first={preimage},
+	text={preimage}
+}
+
+\newglossaryentry{measurable}
+{name={measurable}, 
+	description={
+		Consider\index{measurable} a random experiment, such as recording the air temperature at an \gls{fmi} weather station. 
+		The corresponding \gls{samplespace} $\Omega$ consists of all possible outcomes $\omega$ (e.g., 
+		all possible temperature values in degree Celsius). In many \gls{ml} applications, we are not interested 
+		in the exact outcome $\omega$, but only whether it belongs to a subset $\mathcal{A} \subseteq \Omega$ 
+		(e.g., “is the temperature below zero degrees?”). We call such a subset $\mathcal{A}$ measurable if it is 
+		possible to decide, for any outcome $\omega$, whether $\omega \in \mathcal{A}$ or not. 
+		\begin{figure}
+		\begin{tikzpicture}
+			% Draw temperature axis
+			\draw[->] (0,0) -- (8.5,0) node[right] {temperature [$^\circ$C]};
+			% Add tick marks and labels every 20 degrees from -20 to 100
+			\foreach \x/\label in {0/-20, 1/-10, 2/0, 3/10, 4/20, 5/30, 6/40, 7/50, 8/60} {
+				\draw (\x,0.1) -- (\x,-0.1);
+				\node[below] at (\x,-0.1) {\label};
+			}
+			% Shade measurable set: Temperature < 0°C
+			\fill[blue!20] (0,0.3) rectangle (2,0.6);
+			\node[above] at (1,0.6) {$\omega < 0^\circ$C};
+			% Shade measurable set: 5°C < omega < 10°C
+			\fill[red!20] (5.5,0.3) rectangle (7.5,0.6);
+			\node[above] at (6,0.6) {$35^\circ$C $< \omega < 55^\circ$C};
+			\vspace*{10mm}
+		\end{tikzpicture}
+			\vspace*{10mm}
+		\caption{A \gls{samplespace} constituted by all possible temperature values $\omega$ 
+			that may be experienced at an \gls{fmi} station. Two measurable subsets of temperature 
+			values, denoted $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$, are highlighted. For any 
+			actual temperature value $\omega$, it is possible to determine whether $\omega \in \mathcal{A}^{(1)}$ and whether $\omega \in \mathcal{A}^{(2)}$.
+			} 
+		\end{figure}
+		In principle, measurable sets could be chosen freely (e.g., depending on the resolution of the 
+		measuring equipment). However, it is often useful to impose certain completeness requirements 
+		on the collection of measurable sets. For example, the \gls{samplespace} itself should be 
+		measurable, and the union of two measurable sets should also be measurable. These completeness 
+		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,rudin1987real}. 
+		A measurable space is a pair $\big(\featurespace,\mathcal{F}\big)$ that consists of an arbitrary set $\featurespace$ and a 
+		collection $\mathcal{F}$ of measurable subsets of $\featurespace$ that form a $\sigma$-algebra. 
+	\\
+		See also: \gls{probability}, \gls{samplespace}.},
+	first={measurable},
+	text={measurable} 
+}
+
 \newglossaryentry{event}
 {name={event}, 
 	description={
-	    Consider\index{event} a \gls{rv} $\featurevec$, defined on some \gls{probspace}, 
-		which takes values in the set $\featurespace$. An event $\mathcal{A} \subseteq \featurespace$ 
+	    Consider\index{event} a \gls{rv} $\featurevec$, defined on some \gls{probspace} $\mathcal{P}$, 
+		which takes values in a \gls{measurable} space $\featurespace$. An event $\mathcal{A} \subseteq \featurespace$ 
 		is a subset of $\featurespace$ such that the \gls{probability} 
-		$\prob{\featurevec \in \mathcal{A}}$ is well-defined. 
+		$\prob{\featurevec \in \mathcal{A}}$ is well-defined. In other words, the preimage 
+		$\featurevec^{-1}(\mathcal{A})$ of an event belongs to the $\sigma$-algebra of $\mathcal{P}$. 
 				\\
 		See also: \gls{datapoint}, \gls{iidasspt}, \gls{rv}, \gls{probmodel}.},
 	first={event},

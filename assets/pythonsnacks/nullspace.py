@@ -31,7 +31,7 @@ for digit in range(10):
 
 # Manually select two fixed digits
 digit1 =6
-digit2 = 9
+digit2 =9
 
 # Find the first occurrence of each digit
 idx1 = (labels == digit1).nonzero()[0][0]
