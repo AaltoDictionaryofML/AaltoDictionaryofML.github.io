@@ -5973,19 +5973,22 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 
 \newglossaryentry{gd}
 {name={gradient descent (GD)},
-	description={GD\index{gradient descent (GD)} 
-		is an iterative method for finding the \gls{minimum} of a \gls{differentiable} 
-		\gls{function} $f(\weights)$ of a \gls{vector}-valued argument $\weights \in \mathbb{R}^{\featurelen}$. 
-		Consider a current guess or approximation $\weights^{(\itercntr)}$ for the \gls{minimum} of 
-		the \gls{function} $f(\weights)$. We would like to find a new (better) \gls{vector} $\weights^{(\itercntr+1)}$ 
-		that has a smaller objective value $f(\weights^{(\itercntr+1)}) < f\big(\weights^{(\itercntr)}\big)$ than 
-		the current guess $\weights^{(\itercntr)}$. We can achieve this typically by using a \gls{gradstep}
-		\begin{equation} 
-			\label{equ_def_GD_step_dict}
-			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
-		\end{equation} 
-		with a sufficiently small \gls{stepsize} $\lrate\!>\!0$. Fig. \ref{fig_basic_GD_step_dict} illustrates the effect of 
-		a single GD step \eqref{equ_def_GD_step_dict}.
+	description={
+	 Gradient descent (GD)\index{gradient descent (GD)} is an iterative method for 
+	 finding the \gls{minimum} of a \gls{differentiable} \gls{function} $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$. 
+	 GD generates a sequence of estimates $\weights^{(0)}, \weights^{(1)}, \weights^{(2)}, \ldots$ 
+	 that (ideally) converge to a \gls{minimum} of $f$. At each iteration $\itercntr$, GD refines 
+	 the current estimate $\weights^{(\itercntr)}$ by taking a step in the direction of 
+	 steepest descent of a local linear approximation. This direction is given by the negative 
+	 \gls{gradient} $\nabla f(\weights^{(\itercntr)})$ of the \gls{function} $f$ at the current estimate $\weights^{(\itercntr)}$. 
+	 The resulting update rule is given by
+	\begin{equation} 
+		\label{equ_def_GD_step_dict}
+		\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)}),
+	\end{equation} 
+	where $\lrate > 0$ is a suitably small \gls{stepsize}. For a suitably choosen \gls{stepsize} $\lrate$, 
+	the update typically reduces the function value, i.e., $f(\weights^{(\itercntr+1)}) < f(\weights^{(\itercntr)})$. 
+	Fig.\ \ref{fig_basic_GD_step_dict} illustrates a single GD step.	
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.9]
