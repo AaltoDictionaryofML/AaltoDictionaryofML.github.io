@@ -883,10 +883,31 @@
 	 	obtained from different design choices for \glspl{datapoint} (i.e., their \glspl{feature} and \gls{label}), 
 	 	the \gls{model}, and the \gls{lossfunc} \cite[Ch. 3]{MLBasics}.
 	 			\\ 
-		See also: \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypothesis}, \gls{hypospace}, \gls{model}, \gls{lossfunc}, \gls{erm}.},
+		See also: \gls{data}, \gls{model}, \gls{loss}.},
 	first={machine learning (ML)},
 	text={ML}
 } 
+
+
+\newglossaryentry{reinforcementlearning}
+{name={reinforcement learning (RL)},
+	description={
+	RL\index{reinforcement learning (RL)} refers to a \gls{onlinelearning} setting where 
+	we can only evaluate the usefulness of a single \gls{hypothesis} (i.e., a choice of \gls{model} \glspl{parameter}) 
+	at each time step $\timeidx$. In particular, RL methods apply the current \gls{hypothesis} 
+	$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
+	newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
+	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
+	signal $\reward^{(\timeidx)}$. In general, the \gls{reward} depends also on the 
+	previous \glspl{prediction} $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
+	for $\timeidx' < \timeidx$. The goal of RL is to learn $\hypothesis^{(\timeidx)}$, for 
+	each time step $\timeidx$, such that the (possibly discounted) cumulative \gls{reward} 
+	is maximized \cite{MLBasics}, \cite{SuttonEd2}.
+		\\
+		See also: \gls{lossfunc}, \gls{reward}, \gls{ml}.},
+	first={reinforcement learning (RL)},
+	text={RL}
+}
 
 
 \newglossaryentry{featlearn}
@@ -2307,20 +2328,21 @@ plural={medians},
 
 \newglossaryentry{mab}
 {name={multi-armed bandit (MAB)},
-	description={A MAB\index{multi-armed bandit (MAB)} problem models 
-		a repeated decision-making scenario in which, at each time step $\iteridx$, a learner must 
-		choose one out of several possible actions, often referred to as arms, from a finite 
-		set $\actionset$. Each arm $\action \in \actionset$ yields a \gls{stochastic} \gls{reward} $\reward^{(\action)}$ 
-		drawn from an unknown \gls{probdist} with \gls{mean} $\mu^{(\action)}$. 
-		The learner’s goal is to maximize the cumulative \gls{reward} over time by 
-		strategically balancing exploration (i.e., gathering information about 
-		uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
-		This balance is quantified by the notion of \gls{regret}, which measures the performance 
-		gap between the learner's strategy and the optimal strategy that always selects the best arm. 
-		MAB problems form a foundational \gls{model} in \gls{onlinelearning}, reinforcement learning, 
-		and sequential experimental design \cite{Bubeck2012}.
+	description={A MAB \index{multi-armed bandit (MAB)} problem is a precise mathematical 
+	formulation of a sequential decision-making task under uncertainty. At each 
+	discrete time step $\iteridx$, a learner selects one of several possible 
+	actions—called arms—from a finite set $\actionset$. Pulling arm $\action$ at time 
+	$\iteridx$ yields 
+	a \gls{reward} $\reward^{(\action,\iteridx)}$ which is drawn from an unknown 
+	\gls{probdist} $\prob{\reward^{(\action,\iteridx)}}$. We obtain different classes 
+	of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
+	setting, the \gls{probdist} $\prob{\reward^{(\action,\iteridx)}}$ does not depend on $\timeidx$. 
+	Given a MAB problem, the goal is to construct \gls{ml} methods that maximize the cumulative 
+	\gls{reward} over time by strategically balancing exploration (i.e., gathering information 
+	about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
+	MAB problems form an important special case of \gls{reinforcementlearning} problems \cite{SuttonEd2, Bubeck2012}.
 					\\ 
-		See also: \gls{stochastic}, \gls{reward}, \gls{probdist}, \gls{mean}, \gls{regret}, \gls{model}.},
+	See also:  \gls{reward}, \gls{regret}.},
 	first={MAB},
 	text={MAB}
 }
@@ -2634,14 +2656,15 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{onlinelearning}
 {name={online learning},
-	description={Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
-		manner, updating their \gls{modelparams} one at a time, as new \glspl{datapoint} become available. 
-		A typical example is time series data, such as daily \gls{minimum} and \gls{maximum} temperatures 
-		recorded by an \gls{fmi} weather station. These values form a chronological sequence 
-		of observations. In online learning, the \gls{hypothesis} (or its \gls{modelparams}) is refined 
-		incrementally with each newly observed \gls{datapoint}, without revisiting past \gls{data}.  
+	description={Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a 
+	    sequential manner, updating their \gls{modelparams} one at a time, as new \glspl{datapoint} become 
+		available. A typical example is time series \gls{data}, such as daily \gls{minimum} and \gls{maximum} 
+		temperatures recorded by an \gls{fmi} weather station. These values form a chronological 
+		sequence of observations. During each time step $\timeidx$, online learning methods update (or refine)  
+		the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ (or \gls{modelparams} $\weights^{(\timeidx)}$) 
+		based on the newly observed \gls{datapoint} $\datapoint^{(\timeidx)}$. 
 		\\ 
-		See also: \gls{ml}, \gls{data}, \gls{modelparams}, \gls{datapoint}, \gls{fmi}, \gls{hypothesis}, \gls{onlineGD}, \gls{onlinealgorithm}. },
+		See also: \gls{onlineGD}, \gls{onlinealgorithm}. },
 	first={online learning},
 	text={online learning} 
 }
@@ -5299,7 +5322,7 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 		an obstacle. We define a low reward for the steering direction 
 		$\hypothesis(\featurevec)$ if the vehicle moves dangerously towards an obstacle.
 			\\
-		See also: \gls{loss}, \gls{prediction}, \gls{hypothesis}, \gls{ml}.},
+		See also: \gls{loss}, \gls{mab}, \gls{reinforcementlearning}.},
 	first={reward}, 
 	text={reward}
 } 
