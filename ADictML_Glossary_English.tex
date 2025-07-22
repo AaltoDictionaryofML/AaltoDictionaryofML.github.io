@@ -898,7 +898,39 @@
 	$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
 	newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
 	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
-	signal $\reward^{(\timeidx)}$. In general, the \gls{reward} depends also on the 
+	signal $\reward^{(\timeidx)}$. 
+	\begin{figure}
+			\begin{center}
+		\begin{tikzpicture}[scale=1]
+			\draw[->] (-2, 0) -- (6, 0);
+			\node at (6.3, 0) {$\hypothesis$};
+	        % loss at time t 
+			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
+			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-\loss^{(\timeidx)}(\hypothesis)$};
+			% Marker and hypothesis label for h^(t)
+			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
+			\node[anchor=north] at (1.5-3, -0.3) {$\hypothesis^{(\timeidx)}$};		
+			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
+			%%% time t+1
+			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
+			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-\loss^{(\timeidx+1)}(\hypothesis)$};
+			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
+			\node[anchor=north] at (2, -0.3) {$\hypothesis^{(\timeidx+1)}$};
+			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
+			%%% time t+2
+			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
+			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-\loss^{(\timeidx+2)}(\hypothesis)$};
+			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
+			\node[anchor=north] at (3.5+2, -0.3) {$\hypothesis^{(\timeidx+2)}$};
+			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
+		\end{tikzpicture}
+		\caption{Three consecutive time steps $\timeidx,\timeidx+1,\timeidx+2$ with corresponding \glspl{lossfunc} $\loss^{(\timeidx)},
+		\loss^{(\timeidx+1)}, \loss^{(\timeidx+2)}$. During time step $\timeidx$, a RL method can evaluate the 
+		\gls{lossfunc} only for one specific \gls{hypothesis} $\hypothesis^{(\timeidx)}$, resulting in the \gls{reward} 
+		signal $\reward^{(\timeidx)}=-\loss^{(\timeidx)}(\hypothesis^{(\timeidx)})$.}
+			\end{center}
+	\end{figure}
+	In general, the \gls{reward} depends also on the 
 	previous \glspl{prediction} $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
 	for $\timeidx' < \timeidx$. The goal of RL is to learn $\hypothesis^{(\timeidx)}$, for 
 	each time step $\timeidx$, such that the (possibly discounted) cumulative \gls{reward} 
@@ -5306,10 +5338,36 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 		measured for any possible choice of \gls{modelparams}. Instead, AI systems use observed \gls{reward} 
 		signals to estimate the \gls{loss} incurred by the current choice of \gls{modelparams}.
 				\\
-		See also: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},
+		See also: \gls{reinforcementlearning}, \gls{ml}.},
 	first={AI},
 	text={AI} 
 }
+
+
+\newglossaryentry{mdp}
+{name={Markov decision process (MDP)},
+ description={
+    A MDP \index{Markov decision process (MDP)} is a mathematical structure that can 
+    be used to study \gls{reinforcementlearning} applications. An MDP formalizes how \gls{reward} 
+	signals depend on the \glspl{prediction} (and corresponding actions) 
+	made by a \gls{reinforcementlearning} method.Formally, an MDP is a specific type of \gls{stochproc} defined by:
+	\begin{itemize}
+    \item a state space $\mathcal{S}$,
+    \item an action space $\mathcal{A}$ (each action $a \in \mathcal{A}$ corresponds to a specific 
+		\gls{prediction} made by the \gls{reinforcementlearning} method),
+    \item a transition function $\prob{s' \mid s, a}$ specifying the \gls{probdist} over the 
+		next state $s' \in \mathcal{S}$, given the current state $s \in \mathcal{S}$ and action $a \in \mathcal{A}$,
+    \item a \gls{reward} function $\reward(s, a) \in \mathbb{R}$ that assigns a numerical \gls{reward} to each 
+		state-action pair.
+	\end{itemize}
+	The defining property of an MDP is the Markov property: the next state $s'$ and \gls{reward} 
+	only depend on the current state $s$ and action $a$, not on the entire history of interaction. 
+	},
+ first={mdp},
+ text={mdp} 
+ }
+
+
 
 \newglossaryentry{reward}
 {name={reward}, 
