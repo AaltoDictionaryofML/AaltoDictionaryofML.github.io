@@ -1758,10 +1758,10 @@ sort={zerooneloss},
   	$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
   	from some input space $\featurespace$ such that, for any finite subset 
   	$\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \in \featurespace$, 
-  	the corresponding \glspl{rv} $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)})$ have a joint 
-  	multivariate Gaussian distribution
+  	the corresponding \glspl{rv} $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)})$ 
+	have a joint \gls{mvndist} 
   	\[
-  	\left( f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  	f \left( \featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
   	\]
   	For a fixed input space $\featurespace$, a GP is fully specified (or parameterized) by: 1) a \gls{mean} \gls{function} $\mu(\featurevec) = \expect\{ f(\featurevec)\}$;
   	and 2) a \gls{covariance} \gls{function} $\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.\\
@@ -1803,11 +1803,11 @@ sort={zerooneloss},
 	\end{tikzpicture}
 	\vspace*{-15mm}
 	\end{center}
-	\caption{We can interpret the temperature distribution over Finland as a \gls{realization} 
-	of a GP indexed by geographic coordinates and sampled at \gls{fmi} weather stations (indicated by 
-	blue dots). \label{fig_gp_FMI_dict}}
+	\caption{For a given point in time, we can interpret the current temperature distribution 
+	over Finland as a \gls{realization} of a GP indexed by geographic coordinates and 
+	sampled at \gls{fmi} weather stations. The weather sations are indicated by blue dots. \label{fig_gp_FMI_dict}}
 	\end{figure}
-	See also: \gls{rv}, \gls{mean}, \gls{function}, \gls{covariance}, \gls{realization}, \gls{fmi}, \gls{sample}, \gls{uncertainty}.}, 
+	See also: \gls{gaussrv}, \gls{mvndist}, \gls{uncertainty}.}, 
   first={GP}, 
   text={GP}
 }
@@ -3369,12 +3369,64 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{featurespace}
 {name={feature space},
-	description={The\index{feature space} \gls{feature} space of a given \gls{ml} application or method is 
-		constituted by all potential values that the \gls{featurevec} of a \gls{datapoint} can 
-		take on. A widely used choice for the \gls{feature} space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
-		with the dimension $\featurelen$ being the number of individual \glspl{feature} of a \gls{datapoint}.
+	description={The\index{feature space} \gls{feature} space of a given \gls{ml} application 
+	or method is constituted by all potential values that the \gls{featurevec} of a 
+	\gls{datapoint} can take on. 
+	\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.6]
+% --------- 1D Line Feature Space (left) ---------
+\begin{scope}[xshift=0cm]
+  % Axis
+  \draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
+  % Points
+  \foreach \x/\lbl in {0.5/$\featurevec^{(1)}$, 1.5/$\featurevec^{(2)}$, 2.8/$\featurevec^{(3)}$}
+    \filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
+  % Label
+  \node at (1.5, -4.0)  {$\featurespace^{(1)}$};
+\end{scope}
+% --------- 2D Bounded (Disk) Feature Space (middle) ---------
+\begin{scope}[xshift=8cm]
+  % Circle boundary
+  \draw[thick] (0,0) circle (1.8);
+  \fill[gray!5] (0,0) circle (1.8);
+  % Points inside circle
+  \filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {$\featurevec^{(1)}$};
+  \filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {$\featurevec^{(3)}$};
+  % Label
+  \node at (1.5, -4) {$\featurespace^{(2)}$};
+\end{scope}
+% --------- Graph-Based Feature Space (right) ---------
+\begin{scope}[xshift=14cm, yshift=0.3cm]
+  % Nodes
+  \filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {$\featurevec^{(1)}$};
+  \filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {$\featurevec^{(3)}$};
+  \filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {$\featurevec^{(4)}$};
+  % Edges
+  \draw[-] (0,0) -- (2,1.2);
+  \draw[-] (2,1.2) -- (1,2.5);
+  \draw[-] (1,2.5) -- (3,2.5);
+  % Label
+  \node at (1.5, -4.0) {$\featurespace^{(3)}$};
+\end{scope}
+\end{tikzpicture}
+\caption{Three different \gls{feature} spaces: a linear space $\featurespace^{(1)} = \mathbb{R}$, a 
+bounded \gls{convex} set $\featurespace^{(2)} \subseteq \mathbb{R}^{2}$, and a discrete space 
+$\featurespace^{(3)}$ whose elements are nodes of an undirected \gls{graph}.}
+\end{figure}
+For \glspl{datapoint} described by a fixed number $\nrfeatures$ of numerical \glspl{feature}, 
+a common choice for the \gls{feature} space is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
+However, the mere presence of $\nrfeatures$ numeric \glspl{feature} does not imply that $\mathbb{R}^{\nrfeatures}$ 
+is the most appropriate representation of the \gls{feature} space. Indeed, the numerical \glspl{feature}  
+might be assigned to \glspl{datapoint} in a largely arbitrary or random manner, resulting 
+in \glspl{datapoint} that are randomly scattered throughout $\mathbb{R}^{\nrfeatures}$ 
+without any meaningful geometric structure. \Gls{featlearn} methods try to learn a 
+transformation of the original (potentially non-numeric) \glspl{feature} to ensure a 
+more meaningful arrangement of \glspl{datapoint} in $\mathbb{R}^{\nrfeatures}$. 
 				\\
-		See also: \gls{feature}, \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{feature}, \gls{euclidspace}.},
+		See also: \gls{featurevec}, \gls{euclidspace}.},
 	first={feature space},
 	text={feature space}  
 }
