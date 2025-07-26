@@ -24,6 +24,65 @@
  text={pseudoinverse}
 }
 
+
+\newglossaryentry{randomexperiment}
+{name={random experiment},
+  description={A random experiment\index{random experiment} is a physical (or abstract) process 
+     that produces an outcome $\omega$ from a set of possibilities $\Omega$. 
+	 This set of all possible outcomes is referred to as the \gls{samplespace} of 
+	 the experiment. The key characterstic of a random experiment is that its 
+	 outcome is unpredictable (or uncertain). Any measurement or observation 
+	 of the outcome is a \gls{rv}, i.e., a function of the outcome $\omega \in \Omega$. 
+	 Probability theory uses a \gls{probspace} as a mathematical structure for the study of 
+	 random experiments. A key conceptual property of a random experiment is that it can 
+	 be repeated under identical conditions. Strictly speaking, repeating a random experiment 
+	 a given number $\samplesize$ of times defines a new random experiment. The outcomes 
+	 of this new experiment are length-$\samplesize$ sequences of outcomes 
+	 from the original experiment. While the outcome of a single experiment is 
+	 uncertain, the long-run behavior of the outcomes of repeated experiments 
+	 tends to become insreasingly predictable. This informal claim can be made 
+	 precise via fundamental results of \gls{probability} theory, such as the \gls{lln} 
+	 and the \gls{clt}.
+	 \begin{figure}[h]
+		\begin{center}
+	 \begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
+		\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
+		\node (omega) [right=of experiment] {$\omega \in \Omega$};
+		\coordinate (rightpad) at ($(omega.east) + (0.2,0)$);
+		\draw[->] (experiment) -- (omega);
+		\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\omega^{(1)}, \omega^{(2)}, \dots, \omega^{(\samplesize)})$};
+		\node (sequence1) [below=of sequence, yshift=-0.5cm] {$(\datapoint^{(1)}, \datapoint^{(2)}, \dots, \datapoint^{(\samplesize)})$};
+		\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $\samplesize$ times} (sequence.north);
+		\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {\glspl{rv}} (sequence1.north);
+		% Anchor node ~60% along the repeat arrow
+		\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
+		% Dotted rounded box enclosing experiment and part of repeat arrow
+        \node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega \times \ldots \times \Omega$}] {};
+	 \end{tikzpicture}
+	     \end{center}
+		 \caption{A random experiment produces an outcome $\omega \in \Omega$ from a set of possibilities (or \gls{samplespace}) 
+		 $\Omega$. Repeating the experiment $\samplesize$ times yiels another random experiment, whose outcomes are 
+		 sequences $(\omega^{(1)}, \omega^{(2)}, \dots, \omega^{(\samplesize)}) \in \Omega\times\ldots\times \Omega$. 
+		 One example of a random experiment arising in many \gls{ml} applications is the gathering 
+		 of a \gls{trainset} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$.}
+	 \end{figure} 
+	 Examples for random experiments arising in \gls{ml} applications include: 
+	 \begin{itemize} 
+		\item \Gls{data} collection: the \glspl{datapoint} collected in \gls{erm}-based methods 
+		can be interpreted as \glspl{rv}, i.e., as functions of the outcome $\omega \in \Omega$ 
+		of a random experiment. 
+		\item \Gls{stochGD} uses a random experiment at each iteration to select a subset of 
+		of the \gls{trainset}. 
+		\item \Gls{privprot} methods use random expriments to generate noise that is added to the 
+		 outputs of a \gls{ml} method to ensure \gls{diffpriv}. 
+	 \end{itemize} },
+ firstplural={random experiments},
+ plural={random experiments},
+ first={random experiment},
+ text={random experiment}
+}
+
+
 \newglossaryentry{inverse}
 {name={inverse matrix},
  description={An inverse \gls{matrix}\index{inverse matrix} $\mA^{-1}$ is defined for a 
