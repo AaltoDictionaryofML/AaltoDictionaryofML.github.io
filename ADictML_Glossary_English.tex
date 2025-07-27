@@ -18,11 +18,70 @@
   	\lim_{\regparam \to 0^+} \widehat{\vw}^{(\regparam)} = \mA^+ \vy.
   	\]
 	\\
-	See also: \gls{matrix}, \gls{inverse}, \gls{ridgeregression}, \gls{dataset}, \gls{label}, \gls{featuremtx}, \gls{modelparams}.
+	See also: \gls{matrix}, \gls{inverse}, \gls{ridgeregression}.
 	},
  first={pseudoinverse},
  text={pseudoinverse}
 }
+
+
+\newglossaryentry{randomexperiment}
+{name={random experiment},
+  description={A random experiment\index{random experiment} is a physical (or abstract) process 
+     that produces an outcome $\omega$ from a set of possibilities $\Omega$. 
+	 This set of all possible outcomes is referred to as the \gls{samplespace} of 
+	 the experiment. The key characterstic of a random experiment is that its 
+	 outcome is unpredictable (or uncertain). Any measurement or observation 
+	 of the outcome is a \gls{rv}, i.e., a function of the outcome $\omega \in \Omega$. 
+	 Probability theory uses a \gls{probspace} as a mathematical structure for the study of 
+	 random experiments. A key conceptual property of a random experiment is that it can 
+	 be repeated under identical conditions. Strictly speaking, repeating a random experiment 
+	 a given number $\samplesize$ of times defines a new random experiment. The outcomes 
+	 of this new experiment are length-$\samplesize$ sequences of outcomes 
+	 from the original experiment. While the outcome of a single experiment is 
+	 uncertain, the long-run behavior of the outcomes of repeated experiments 
+	 tends to become insreasingly predictable. This informal claim can be made 
+	 precise via fundamental results of \gls{probability} theory, such as the \gls{lln} 
+	 and the \gls{clt}.
+	 \begin{figure}[h]
+		\begin{center}
+	 \begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
+		\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
+		\node (omega) [right=of experiment] {$\omega \in \Omega$};
+		\coordinate (rightpad) at ($(omega.east) + (0.2,0)$);
+		\draw[->] (experiment) -- (omega);
+		\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\omega^{(1)}, \omega^{(2)}, \dots, \omega^{(\samplesize)})$};
+		\node (sequence1) [below=of sequence, yshift=-0.5cm] {$(\datapoint^{(1)}, \datapoint^{(2)}, \dots, \datapoint^{(\samplesize)})$};
+		\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $\samplesize$ times} (sequence.north);
+		\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {\glspl{rv}} (sequence1.north);
+		% Anchor node ~60% along the repeat arrow
+		\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
+		% Dotted rounded box enclosing experiment and part of repeat arrow
+        \node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega \times \ldots \times \Omega$}] {};
+	 \end{tikzpicture}
+	     \end{center}
+		 \caption{A random experiment produces an outcome $\omega \in \Omega$ from a set of possibilities (or \gls{samplespace}) 
+		 $\Omega$. Repeating the experiment $\samplesize$ times yiels another random experiment, whose outcomes are 
+		 sequences $(\omega^{(1)}, \omega^{(2)}, \dots, \omega^{(\samplesize)}) \in \Omega\times\ldots\times \Omega$. 
+		 One example of a random experiment arising in many \gls{ml} applications is the gathering 
+		 of a \gls{trainset} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$.}
+	 \end{figure} 
+	 Examples for random experiments arising in \gls{ml} applications include: 
+	 \begin{itemize} 
+		\item \Gls{data} collection: the \glspl{datapoint} collected in \gls{erm}-based methods 
+		can be interpreted as \glspl{rv}, i.e., as functions of the outcome $\omega \in \Omega$ 
+		of a random experiment. 
+		\item \Gls{stochGD} uses a random experiment at each iteration to select a subset of 
+		of the \gls{trainset}. 
+		\item \Gls{privprot} methods use random expriments to generate noise that is added to the 
+		 outputs of a \gls{ml} method to ensure \gls{diffpriv}. 
+	 \end{itemize} },
+ firstplural={random experiments},
+ plural={random experiments},
+ first={random experiment},
+ text={random experiment}
+}
+
 
 \newglossaryentry{inverse}
 {name={inverse matrix},
@@ -898,7 +957,39 @@
 	$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
 	newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
 	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
-	signal $\reward^{(\timeidx)}$. In general, the \gls{reward} depends also on the 
+	signal $\reward^{(\timeidx)}$. 
+	\begin{figure}
+			\begin{center}
+		\begin{tikzpicture}[scale=1]
+			\draw[->] (-2, 0) -- (6, 0);
+			\node at (6.3, 0) {$\hypothesis$};
+	        % loss at time t 
+			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
+			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-\loss^{(\timeidx)}(\hypothesis)$};
+			% Marker and hypothesis label for h^(t)
+			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
+			\node[anchor=north] at (1.5-3, -0.3) {$\hypothesis^{(\timeidx)}$};		
+			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
+			%%% time t+1
+			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
+			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-\loss^{(\timeidx+1)}(\hypothesis)$};
+			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
+			\node[anchor=north] at (2, -0.3) {$\hypothesis^{(\timeidx+1)}$};
+			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
+			%%% time t+2
+			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
+			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-\loss^{(\timeidx+2)}(\hypothesis)$};
+			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
+			\node[anchor=north] at (3.5+2, -0.3) {$\hypothesis^{(\timeidx+2)}$};
+			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
+		\end{tikzpicture}
+		\caption{Three consecutive time steps $\timeidx,\timeidx+1,\timeidx+2$ with corresponding \glspl{lossfunc} $\loss^{(\timeidx)},
+		\loss^{(\timeidx+1)}, \loss^{(\timeidx+2)}$. During time step $\timeidx$, a RL method can evaluate the 
+		\gls{lossfunc} only for one specific \gls{hypothesis} $\hypothesis^{(\timeidx)}$, resulting in the \gls{reward} 
+		signal $\reward^{(\timeidx)}=-\loss^{(\timeidx)}(\hypothesis^{(\timeidx)})$.}
+			\end{center}
+	\end{figure}
+	In general, the \gls{reward} depends also on the 
 	previous \glspl{prediction} $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
 	for $\timeidx' < \timeidx$. The goal of RL is to learn $\hypothesis^{(\timeidx)}$, for 
 	each time step $\timeidx$, such that the (possibly discounted) cumulative \gls{reward} 
@@ -1726,10 +1817,10 @@ sort={zerooneloss},
   	$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
   	from some input space $\featurespace$ such that, for any finite subset 
   	$\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \in \featurespace$, 
-  	the corresponding \glspl{rv} $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)})$ have a joint 
-  	multivariate Gaussian distribution
+  	the corresponding \glspl{rv} $f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)})$ 
+	have a joint \gls{mvndist} 
   	\[
-  	\left( f(\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  	f \left( \featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
   	\]
   	For a fixed input space $\featurespace$, a GP is fully specified (or parameterized) by: 1) a \gls{mean} \gls{function} $\mu(\featurevec) = \expect\{ f(\featurevec)\}$;
   	and 2) a \gls{covariance} \gls{function} $\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.\\
@@ -1771,11 +1862,11 @@ sort={zerooneloss},
 	\end{tikzpicture}
 	\vspace*{-15mm}
 	\end{center}
-	\caption{We can interpret the temperature distribution over Finland as a \gls{realization} 
-	of a GP indexed by geographic coordinates and sampled at \gls{fmi} weather stations (indicated by 
-	blue dots). \label{fig_gp_FMI_dict}}
+	\caption{For a given point in time, we can interpret the current temperature distribution 
+	over Finland as a \gls{realization} of a GP indexed by geographic coordinates and 
+	sampled at \gls{fmi} weather stations. The weather sations are indicated by blue dots. \label{fig_gp_FMI_dict}}
 	\end{figure}
-	See also: \gls{rv}, \gls{mean}, \gls{function}, \gls{covariance}, \gls{realization}, \gls{fmi}, \gls{sample}, \gls{uncertainty}.}, 
+	See also: \gls{gaussrv}, \gls{mvndist}, \gls{uncertainty}.}, 
   first={GP}, 
   text={GP}
 }
@@ -3337,12 +3428,64 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{featurespace}
 {name={feature space},
-	description={The\index{feature space} \gls{feature} space of a given \gls{ml} application or method is 
-		constituted by all potential values that the \gls{featurevec} of a \gls{datapoint} can 
-		take on. A widely used choice for the \gls{feature} space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
-		with the dimension $\featurelen$ being the number of individual \glspl{feature} of a \gls{datapoint}.
+	description={The\index{feature space} \gls{feature} space of a given \gls{ml} application 
+	or method is constituted by all potential values that the \gls{featurevec} of a 
+	\gls{datapoint} can take on. 
+	\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.6]
+% --------- 1D Line Feature Space (left) ---------
+\begin{scope}[xshift=0cm]
+  % Axis
+  \draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
+  % Points
+  \foreach \x/\lbl in {0.5/$\featurevec^{(1)}$, 1.5/$\featurevec^{(2)}$, 2.8/$\featurevec^{(3)}$}
+    \filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
+  % Label
+  \node at (1.5, -4.0)  {$\featurespace^{(1)}$};
+\end{scope}
+% --------- 2D Bounded (Disk) Feature Space (middle) ---------
+\begin{scope}[xshift=8cm]
+  % Circle boundary
+  \draw[thick] (0,0) circle (1.8);
+  \fill[gray!5] (0,0) circle (1.8);
+  % Points inside circle
+  \filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {$\featurevec^{(1)}$};
+  \filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {$\featurevec^{(3)}$};
+  % Label
+  \node at (1.5, -4) {$\featurespace^{(2)}$};
+\end{scope}
+% --------- Graph-Based Feature Space (right) ---------
+\begin{scope}[xshift=14cm, yshift=0.3cm]
+  % Nodes
+  \filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {$\featurevec^{(1)}$};
+  \filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {$\featurevec^{(3)}$};
+  \filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {$\featurevec^{(4)}$};
+  % Edges
+  \draw[-] (0,0) -- (2,1.2);
+  \draw[-] (2,1.2) -- (1,2.5);
+  \draw[-] (1,2.5) -- (3,2.5);
+  % Label
+  \node at (1.5, -4.0) {$\featurespace^{(3)}$};
+\end{scope}
+\end{tikzpicture}
+\caption{Three different \gls{feature} spaces: a linear space $\featurespace^{(1)} = \mathbb{R}$, a 
+bounded \gls{convex} set $\featurespace^{(2)} \subseteq \mathbb{R}^{2}$, and a discrete space 
+$\featurespace^{(3)}$ whose elements are nodes of an undirected \gls{graph}.}
+\end{figure}
+For \glspl{datapoint} described by a fixed number $\nrfeatures$ of numerical \glspl{feature}, 
+a common choice for the \gls{feature} space is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
+However, the mere presence of $\nrfeatures$ numeric \glspl{feature} does not imply that $\mathbb{R}^{\nrfeatures}$ 
+is the most appropriate representation of the \gls{feature} space. Indeed, the numerical \glspl{feature}  
+might be assigned to \glspl{datapoint} in a largely arbitrary or random manner, resulting 
+in \glspl{datapoint} that are randomly scattered throughout $\mathbb{R}^{\nrfeatures}$ 
+without any meaningful geometric structure. \Gls{featlearn} methods try to learn a 
+transformation of the original (potentially non-numeric) \glspl{feature} to ensure a 
+more meaningful arrangement of \glspl{datapoint} in $\mathbb{R}^{\nrfeatures}$. 
 				\\
-		See also: \gls{feature}, \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{feature}, \gls{euclidspace}.},
+		See also: \gls{featurevec}, \gls{euclidspace}.},
 	first={feature space},
 	text={feature space}  
 }
@@ -3354,10 +3497,10 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		some physical \gls{device}. Due to imperfections and failures, some of the \gls{feature} 
 		or \gls{label} values of \glspl{datapoint} might be corrupted or simply missing. 
 		\Gls{data} imputation aims to estimate these missing values \cite{Abayomi2008DiagnosticsFM}. 
-		We can interpret \gls{data} imputation as an \gls{ml} problem where the \gls{label} of a \gls{datapoint} is 
-		the value of the corrupted \gls{feature}.
+		We can interpret \gls{data} imputation as an \gls{ml} problem where the \gls{label} of 
+		a \gls{datapoint} is the value of the corrupted \gls{feature}.
 				\\
-		See also: \gls{dataset}, \gls{datapoint}, \gls{device}, \gls{feature}, \gls{label}, \gls{data}, \gls{ml}. },
+		See also: \gls{feature}, \gls{label}. },
 	first={missing data},
 	text={missing data}  
 }
@@ -4067,7 +4210,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		                   		or by perturbing the \glspl{datapoint}.}
 		                   	\label{fig:polynomial_fit_dict}
 		      \end{figure}
-		See also: \gls{model}, \gls{trainset}, \gls{prediction}, \gls{datapoint}, \gls{ml}, \gls{ai}, \gls{erm}, \gls{hypothesis}, \gls{loss}, \gls{data}, \gls{probmodel}, \gls{iidasspt}, \gls{rv}, \gls{probdist}, \gls{risk}, \gls{emprisk}, \gls{gengap}, \gls{probability}, \gls{concentrationinequ}, \gls{feature}.},
+		See also: \gls{erm}, \gls{iidasspt}, \gls{overfitting}, \gls{validation}, \gls{gengap}.},
 	first={generalization},
 	text={generalization} 
 }
@@ -5257,15 +5400,35 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 
 \newglossaryentry{hypospace}
 {name={hypothesis space}, plural={hypothesis spaces}, 
-	description={Every\index{hypothesis space} 
-		practical \gls{ml} method uses a \gls{hypothesis} space (or \gls{model}) $\hypospace$. The \gls{hypothesis} space 
-		of an \gls{ml} method is a subset of all possible \glspl{map} from the \gls{featurespace} to the \gls{labelspace}. 
-		The design choice of the \gls{hypothesis} space should take into account available computational resources and 
-		\gls{statasp}. If the computational infrastructure allows for efficient \gls{matrix} operations, and there 
-		is an (approximately) linear relation between a set of \glspl{feature} and a \gls{label}, the \gls{linmodel} 
-		might be a useful choice for the \gls{hypothesis} space.
+	description={A \gls{hypothesis} space\index{hypothesis space} is a mathematical \gls{model} 
+	that characterizes the learning capacity of a \gls{ml} method. The goal of such a method is 
+	to learn a \gls{hypothesis} \gls{map} that maps \glspl{feature} of a \gls{datapoint} to a 
+	\gls{prediction} of its \gls{label}. Given a finite amount of computational resources, a 
+	practical \gls{ml} method typically explores only a restricted set of all possible \glspl{map} 
+	from the \gls{featurespace} to the \gls{labelspace}. Such a restricted set is referred to as 
+	a \gls{hypothesis} space $\hypospace$ underlying the \gls{ml} method.
+    For the analysis of a given \gls{ml} method, the choice of \gls{hypothesis} space $\hypospace$ is not unique: 
+	any superset containing all maps the method can learn is also a valid \gls{hypothesis} space. 
+	\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[allow upside down, scale=0.4]
+			\node [below] at (5,-3) {$\labelspace^{\featurespace}$};
+			\draw [ultra thick] (5,0) circle (5cm);
+			\draw [ultra thick,fill=black!20] (5,0) circle (1cm);
+			\node [] at (5,0) {$\hypospace$};
+		\end{tikzpicture}
+	\end{center}
+	\caption{The \gls{hypothesis} space $\hypospace$ of a \gls{ml} method is a (typically very small) 
+	subset of the (typically very large) set $\labelspace^{\featurespace}$ of all possible \glspl{map} 
+	from the \gls{featurespace} $\featurespace$ into the \gls{labelspace} $\labelspace$.}
+\end{figure}
+	On the other hand, from a \gls{ml} engineering perspective, the \gls{hypothesis} space $\hypospace$ is a design 
+	choice for \gls{erm}-based methods. This design choice can be guided by the available computational 
+	resources and \glspl{statasp}. For instance, if efficient \gls{matrix} operations are feasible and a 
+	roughly linear relation exists between \glspl{feature} and \glspl{label}, a \gls{linmodel} can be a 
+	useful choice for $\hypospace$.
 				\\
-		See also: \gls{ml}, \gls{hypothesis}, \gls{model}, \gls{map}, \gls{featurespace}, \gls{labelspace}, \gls{statasp}, \gls{matrix}, \gls{feature}, \gls{label}, \gls{linmodel}.},
+		See also: \gls{hypothesis}, \gls{model}, \gls{map}, \gls{linmodel}.},
 	first={hypothesis space},
 	text={hypothesis space} 
 }
@@ -5273,13 +5436,40 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 	
 \newglossaryentry{model}
 {name={model}, plural={models}, 
-	description={In\index{model} the context of \gls{ml}, 
-		the term model typically refers to the \gls{hypospace} underlying an 
-		\gls{ml} method \cite{MLBasics}, \cite{ShalevMLBook}. However, the term is also used in other 
-		fields but with a different meaning. For example, a \gls{probmodel} refers to a parameterized 
-		set of \glspl{probdist}.
-				\\
-		See also: \gls{ml}, \gls{hypospace}, \gls{probmodel}, \gls{probdist}.},
+	description={The study and design of \gls{ml} methods is often based on a mathematical model \cite{bender1978mathematical}. 
+	Maybe the most widely used example of a mathematical model for \gls{ml} is a \gls{hypospace}. 
+	A \gls{hypospace} consists of \gls{hypothesis} \glspl{map} that are used by a \gls{ml} method to 
+	predict \glspl{label} from the \glspl{feature} of \glspl{datapoint}. Another important type of 
+	mathematical model is a \gls{probmodel}, which consists of \glspl{probdist} that describe 
+	how \glspl{datapoint} are generated. Unless stated otherwise, we use the term \gls{model} to 
+	refer specifically to the \gls{hypospace} underlying a \gls{ml} method. 
+ \\
+See also: \gls{hypospace}, \gls{probmodel}, \gls{probdist}.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1]
+\draw[->] (-1,0) -- (3,0) node[right] {$\feature$};
+\draw[->] (0,-1) -- (0,3) node[above] {$\truelabel$};
+\draw[thick, red] (-0.5,0) -- (2.5,2) node[right] {$\hypothesis^{(1)}$};
+\draw[thick, blue] (-0.5,1) -- (2.5,1) node[right] {$\hypothesis^{(2)}$};
+\draw[thick, green!60!black] (-0.5,2) -- (2.5,0.5) node[right] {$\hypothesis^{(3)}$};
+\node at (1.5,-1.2) {(a)};
+\end{tikzpicture}
+\hspace{2cm}
+\begin{tikzpicture}[scale=1]
+\draw[->] (-1,0) -- (3,0) node[right] {$\feature$};
+\draw[->] (0,-1) -- (0,3) node[above] {$\truelabel$};
+\draw[thick, red] (1,1) ellipse [x radius=1, y radius=0.5];
+\draw[thick, blue] (2,2) ellipse [x radius=0.7, y radius=0.3];
+\node[red] at (1,0.3) {$p^{(1)}(\feature,\truelabel)$};
+\node[blue] at (2,2.7) {$p^{(2)}(\feature,\truelabel)$};
+\node at (1.5,-1.2) {(b)};
+\end{tikzpicture}
+\caption{Two types of mathematical models used in \gls{ml}: (a) a \gls{hypospace} consisting of 
+three \glspl{linearmap}; (b) a \gls{probmodel} consisting of \gls{probdist} over the plane spanned by 
+the \gls{feature} and \gls{label} values of a \gls{datapoint}.}
+\end{figure}
+},
 	first={model},
 	text={model} 
 }
@@ -5306,10 +5496,36 @@ for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized 
 		measured for any possible choice of \gls{modelparams}. Instead, AI systems use observed \gls{reward} 
 		signals to estimate the \gls{loss} incurred by the current choice of \gls{modelparams}.
 				\\
-		See also: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},
+		See also: \gls{reinforcementlearning}, \gls{ml}.},
 	first={AI},
 	text={AI} 
 }
+
+
+\newglossaryentry{mdp}
+{name={Markov decision process (MDP)},
+ description={
+    A MDP \index{Markov decision process (MDP)} is a mathematical structure that can 
+    be used to study \gls{reinforcementlearning} applications. An MDP formalizes how \gls{reward} 
+	signals depend on the \glspl{prediction} (and corresponding actions) 
+	made by a \gls{reinforcementlearning} method.Formally, an MDP is a specific type of \gls{stochproc} defined by:
+	\begin{itemize}
+    \item a state space $\mathcal{S}$,
+    \item an action space $\mathcal{A}$ (each action $a \in \mathcal{A}$ corresponds to a specific 
+		\gls{prediction} made by the \gls{reinforcementlearning} method),
+    \item a transition function $\prob{s' \mid s, a}$ specifying the \gls{probdist} over the 
+		next state $s' \in \mathcal{S}$, given the current state $s \in \mathcal{S}$ and action $a \in \mathcal{A}$,
+    \item a \gls{reward} function $\reward(s, a) \in \mathbb{R}$ that assigns a numerical \gls{reward} to each 
+		state-action pair.
+	\end{itemize}
+	The defining property of an MDP is the Markov property: the next state $s'$ and \gls{reward} 
+	only depend on the current state $s$ and action $a$, not on the entire history of interaction. 
+	},
+ first={mdp},
+ text={mdp} 
+ }
+
+
 
 \newglossaryentry{reward}
 {name={reward}, 
