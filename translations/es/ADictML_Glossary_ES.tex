@@ -759,6 +759,61 @@ text={determinante}
 	text={FedRelax}
 } 
 
+\newglossaryentry{fedavg}
+{name={FedAvg},
+	description={FedAvg\index{FedAvg} refers to a family of iterative \gls{fl} \glspl{algorithm}. 
+		It uses a server-client setting and alternates between client-wise \glspl{localmodel} 
+		re-training, followed by the aggregation of updated \gls{modelparams} at the server 
+		\cite{pmlr-v54-mcmahan17a}. The local update at client $\nodeidx=1, \ldots, \nrnodes$ 
+		at time $\iteridx$ starts from the current \gls{modelparams} $\weights^{(\iteridx)}$ provided 
+		by the server and typically amounts to executing few iterations of \gls{stochGD}. After completing the local updates, they are aggregated 
+		by the server (e.g., by averaging them). Fig. \ref{fig_single_iteration_fedavg_dict} illustrates the execution of a single 
+		iteration of FedAvg. 
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[>=Stealth, node distance=1cm and 1.5cm, every node/.style={font=\small}]
+			% Styles
+			\tikzstyle{server} = [circle, fill=black, minimum size=6pt, inner sep=0pt]
+			\tikzstyle{client} = [circle, draw=black, minimum size=6pt, inner sep=0pt]
+			% Time step labels
+			\node (label1) at (0,3.5) {broadcast};
+			\node[right=2.5cm of label1] (label2) {local update};
+			\node[right=2.5cm of label2] (label3) {aggregate};
+			% Time step k
+			\node[server] (s1) at (label1 |- 0,2.5) {};
+			\node[client] (c1l) at ($(s1) + (-1cm,-1cm)$) {};
+			\node[client] (c1r) at ($(s1) + (1cm,-1cm)$) {};
+			\node[] (dots1) at ($(s1) + (0cm,-1cm)$) {\ldots};
+			\draw[->] (s1) -- (c1l) node[midway,left] {$\weights^{(\iteridx)}$};
+			\draw[->] (s1) -- (c1r) node[midway,right] {$\weights^{(\iteridx)}$};
+			\draw[->] (s1) -- (dots1);
+			% Time step k+1 (local updates)
+			\node[server] (s2) at (label2 |- 0,2.5) {};
+			\node[client] (c2l) at ($(s2) + (-1cm,-1cm)$) {};
+			\node[client] (c2r) at ($(s2) + (1cm,-1cm)$) {};
+			\node[] (dots2) at ($(s2) + (0cm,-1cm)$) {\ldots};
+			\node[below=0.2cm of c2l] {$\localparamsiter{\iteridx}{1}$};
+			\node[below=0.2cm of c2r] {$\localparamsiter{\iteridx}{\nrnodes}$};
+			% Time step k+2 (aggregation)
+			\node[server] (s3) at (label3 |- 0,2.5) {};
+			\node[above=0.01cm of s3, yshift=-4pt] {$\weights^{(\iteridx+1)}$};
+			\node[client] (c3l) at ($(s3) + (-1cm,-1cm)$) {};
+			\node[client] (c3r) at ($(s3) + (1cm,-1cm)$) {};
+			\node[] (dots3) at ($(s3) + (0cm,-1cm)$) {\ldots};
+			\draw[->] (c3l) -- (s3) node[midway,left] {$\localparamsiter{\iteridx}{1}$};
+			\draw[->] (c3r) -- (s3)  node[midway,right] {$\localparamsiter{\iteridx}{\nrnodes}$};
+			\draw[->] (dots3) -- (s3);
+			\end{tikzpicture}
+			\end{center}
+			\caption{Illustration of a single iteration of FedAvg, which consists of broadcasting \gls{modelparams} by the 
+			server, performing local updates at clients, and aggregating the updates by the server. 
+			\label{fig_single_iteration_fedavg_dict}} 
+		\end{figure} 
+		See also: \gls{fl}, \gls{algorithm}, \gls{localmodel}, \gls{stochGD}.},
+	first={FedAvg},
+	text={FedAvg}
+} 
+
 \newglossaryentry{FedGD}
 {name={FedGD},
 	description={Un\index{FedGD} algoritmo distribuido de aprendizaje federado que 
@@ -865,25 +920,56 @@ text={determinante}
 
 
 \newglossaryentry{reinforcementlearning}
-{name={aprendizaje por refuerzo (RL)},
+{name={reinforcement learning (RL)},
 	description={
-	RL\index{aprendizaje por refuerzo (RL)} se refiere a un entorno de aprendizaje en linea en el cual 
-	sólo podemos evaluar la utilidad de una única hipótesis (es decir, una elección de parametros del modelo) 
-	en cada instante de tiempo $\timeidx$. En particular, los métodos de RL aplican la hipótesis actual 
-	$\hypothesis^{(\timeidx)}$ al vector de atributos $\featurevec^{(\timeidx)}$ del 
-	punto de datos recién recibido. La utilidad de la prediccion resultante 
-	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ se cuantifica mediante una señal de recompensa 
-	$\reward^{(\timeidx)}$. En general, la recompensa también depende de las 
-	predicciones anteriores $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
-	para $\timeidx' < \timeidx$. El objetivo del RL es aprender $\hypothesis^{(\timeidx)}$, para 
-	cada instante de tiempo $\timeidx$, de forma que se maximice la recompensa acumulada (posiblemente descontada) 
-	\cite{MLBasics}, \cite{SuttonEd2}.
+	RL\index{reinforcement learning (RL)} refers to a \gls{onlinelearning} setting where 
+	we can only evaluate the usefulness of a single \gls{hypothesis} (i.e., a choice of \gls{model} \glspl{parameter}) 
+	at each time step $\timeidx$. In particular, RL methods apply the current \gls{hypothesis} 
+	$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
+	newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
+	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
+	signal $\reward^{(\timeidx)}$. 
+	\begin{figure}
+			\begin{center}
+		\begin{tikzpicture}[scale=1]
+			\draw[->] (-2, 0) -- (6, 0);
+			\node at (6.3, 0) {$\hypothesis$};
+	        % loss at time t 
+			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
+			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-\loss^{(\timeidx)}(\hypothesis)$};
+			% Marker and hypothesis label for h^(t)
+			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
+			\node[anchor=north] at (1.5-3, -0.3) {$\hypothesis^{(\timeidx)}$};		
+			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
+			%%% time t+1
+			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
+			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-\loss^{(\timeidx+1)}(\hypothesis)$};
+			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
+			\node[anchor=north] at (2, -0.3) {$\hypothesis^{(\timeidx+1)}$};
+			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
+			%%% time t+2
+			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
+			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-\loss^{(\timeidx+2)}(\hypothesis)$};
+			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
+			\node[anchor=north] at (3.5+2, -0.3) {$\hypothesis^{(\timeidx+2)}$};
+			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
+		\end{tikzpicture}
+		\caption{Three consecutive time steps $\timeidx,\timeidx+1,\timeidx+2$ with corresponding \glspl{lossfunc} $\loss^{(\timeidx)},
+		\loss^{(\timeidx+1)}, \loss^{(\timeidx+2)}$. During time step $\timeidx$, a RL method can evaluate the 
+		\gls{lossfunc} only for one specific \gls{hypothesis} $\hypothesis^{(\timeidx)}$, resulting in the \gls{reward} 
+		signal $\reward^{(\timeidx)}=-\loss^{(\timeidx)}(\hypothesis^{(\timeidx)})$.}
+			\end{center}
+	\end{figure}
+	In general, the \gls{reward} depends also on the 
+	previous \glspl{prediction} $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
+	for $\timeidx' < \timeidx$. The goal of RL is to learn $\hypothesis^{(\timeidx)}$, for 
+	each time step $\timeidx$, such that the (possibly discounted) cumulative \gls{reward} 
+	is maximized \cite{MLBasics}, \cite{SuttonEd2}.
 		\\
-		Véa también: \gls{lossfunc}, \gls{reward}, \gls{ml}.},
-	first={aprendizaje por refuerzo (RL)},
+		See also: \gls{lossfunc}, \gls{reward}, \gls{ml}.},
+	first={reinforcement learning (RL)},
 	text={RL}
 }
-
 
 \newglossaryentry{featlearn}
 {name={aprendizaje de atributos},
@@ -1181,24 +1267,100 @@ text={tarea de aprendizaje}
 
 
 
-\newglossaryentry{linmodel}{name={modelo lineal},
-	description={Consideremos\index{modelo lineal} puntos de datos, cada uno caracterizado por un vector de atributos numérico
-		$\featurevec \in \mathbb{R}^{\featuredim}$. Un modelo lineal es 
-		un espacio de hipótesis que consiste en todos los mapeos lineales, 
-	\begin{equation} 
-		\label{equ_def_lin_model_hypspace_dict}
-		\linmodel{\nrfeatures} \defeq \left\{ \hypothesis(\featurevec)= \weights^{T} \featurevec: \weights \in \mathbb{R}^{\nrfeatures} \right\}. 
-	\end{equation} 
-	Nótese que \eqref{equ_def_lin_model_hypspace_dict} define toda una familia de espacios de hipótesis, parametrizados por el número
-	 $\nrfeatures$ de atributos que se combinan linealmente para formar la 
-	prediccion $\hypothesis(\featurevec)$. La elección de diseño de $\nrfeatures$ se guía por aspectos computacionales
-	(por ejemplo, reducir $\nrfeatures$ implica menor computación), por aspectos estadísticos (por ejemplo, aumentar $\nrfeatures$ podría 
-	reducir el error de prediccion), y por la interpretabilidad. Un modelo lineal que utiliza pocos 
-	atributos cuidadosamente elegidas suele considerarse más interpretable \cite{Ribeiro2016,rudin2019stop}.
-	\\
-		Vea también: \gls{datapoint}, \gls{featurevec}, \gls{model}, \gls{hypospace}, \gls{feature}, \gls{prediction}, \gls{compasp}, \gls{statasp}, \gls{interpretability}, \gls{model} }, 
-  first={modelo lineal},text={modelo lineal}}
-	
+\newglossaryentry{linmodel}
+{name={linear model}, 
+	description={Consider\index{linear model} an \gls{ml} application involving \glspl{datapoint}, each represented 
+		by a numeric \gls{featurevec} $\featurevec \in \mathbb{R}^{\nrfeatures}$. A linear \gls{model} defines 
+		a \gls{hypospace} consisting of all real-valued \glspl{linearmap} from $\mathbb{R}^{\nrfeatures}$ to $\mathbb{R}$ such that
+		\begin{equation}
+			\label{equ_def_lin_model_hypspace_dict}
+			\linmodel{\nrfeatures} \defeq \left\{ \hypothesis: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R} \mid \hypothesis(\featurevec) = \weights^{\top} \featurevec \text{ for some } \weights \in \mathbb{R}^{\nrfeatures} \right\}.
+		\end{equation}
+		Each value of $\nrfeatures$ defines a different \gls{hypospace}, corresponding to the number of 
+		\glspl{feature} used to compute the \gls{prediction} $\hypothesis(\featurevec)$. The choice of 
+		$\nrfeatures$ is often guided not only by \gls{compasp} (e.g., fewer features reduce computation) and 
+		\gls{statasp} (e.g., more features typically reduce \gls{bias} and \gls{risk}), but also by \gls{interpretability}. 
+		A linear \gls{model} using a small number of well-chosen \glspl{feature} is generally considered 
+		more interpretable \cite{rudin2019stop}, \cite{Ribeiro2016}.
+		The linear \gls{model} is attractive because it can typically be trained using scalable \gls{convex} \glspl{optmethod} \cite{hastie01statisticallearning}, \cite{BertsekasNonLinProgr}. 
+		Moreover, linear \glspl{model} often permit rigorous 
+		statistical analysis, including fundamental limits on the \gls{minimum} achievable \gls{risk} \cite{Wain2019}. 
+		They are also useful for analyzing more complex, non-linear \glspl{model} such as \glspl{ann}. For instance, 
+		a \gls{deepnet} can be viewed as the composition of a \gls{featuremap}—implemented by the input and 
+		hidden layers—and a linear \gls{model} in the output layer. Similarly, a \gls{decisiontree} can be interpreted 
+		as applying a one-hot encoded \gls{featuremap} based on \glspl{decisionregion}, followed by a linear 
+		\gls{model} that assigns a \gls{prediction} to each region.
+		More generally, any trained \gls{model} $\learnthypothesis \in \hypospace$ that is 
+		\gls{differentiable} at some $\featurevec'$ can be locally approximated by a \gls{linearmap} 
+		$g(\featurevec)$. Figure~\ref{fig_linapprox_dict} illustrates such a local linear approximation, 
+		defined by the \gls{gradient} $\nabla \learnthypothesis(\featurevec')$. Note that the \gls{gradient} 
+		is only defined where $\learnthypothesis$ is \gls{differentiable}.
+		To ensure \gls{robustness} in the context of \gls{trustAI}, one may prefer \glspl{model} whose 
+		associated \gls{map} $\learnthypothesis$ is Lipschitz continuous. A classic result in mathematical 
+		analysis—Rademacher’s Theorem—states that if $\learnthypothesis$ is Lipschitz continuous with 
+		some constant $L$ over an open set $\Omega \subseteq \mathbb{R}^{\nrfeatures}$, then $\learnthypothesis$ 
+		is \gls{differentiable} almost everywhere in $\Omega$ \cite[Th.~3.1]{heinonen2005lectures}.
+	\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[x=0.5cm]
+		\begin{axis}[
+			hide axis,
+			xmin=-3, xmax=6,
+			ymin=0, ymax=6,
+			domain=0:6,
+			samples=100,
+			width=10cm,
+			height=6cm,
+			clip=false
+			]
+		% Original nonlinear function h(x)
+			\addplot[blue, thick, domain=-2:6] {2 + sin(deg(x))} 
+			node[pos=0.5, above right, yshift=3pt] {$\learnthypothesis(\featurevec)$};
+		% Tangent line as local linear approximation at x = 3
+		% h(3) = 2 + sin(3), h'(3) = cos(3)
+			\addplot[red, thick, domain=4.5:6.5] 
+			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
+			node[pos=0.95, above right] {$g(\featurevec)$};
+		% Mark point of approximation
+			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
+			    % Vertical dashed line (ruler) at x = 3
+			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
+			\node at (axis cs:6, -0.2) {$\featurevec'$};
+			    % Plot the two points
+			    % Coordinates of the two points
+			\pgfmathsetmacro{\xA}{-1.5}
+			\pgfmathsetmacro{\xB}{3}
+			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+			\addplot[mark=*, only marks] coordinates {(\xA, \yA) (\xB, \yB)};
+		%	\node at (axis cs:\xA, \yA+0.2) {$A$};
+		%	\node at (axis cs:\xB, \yB+0.2) {$B$};
+			% Draw dashed lines from the points to the x and y axes
+			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:\xA,0);
+			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:\xB,0);
+			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:0,\yA);
+			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:0,\yB);
+			 % Draw delta x
+			\draw[<->, thick] (axis cs:\xA,-0.4) -- node[below] {$\normgeneric{\Delta \featurevec}{2}$} (axis cs:\xB,-0.4);
+			% Draw delta y
+			\draw[<->, thick] (axis cs:-2.4,\yA) -- node[left] {$\leq L \normgeneric{\Delta \featurevec}{2}$} (axis cs:-2.4,\yB);
+		\end{axis}
+		\vspace*{-10mm}
+	\end{tikzpicture}
+		\vspace*{-5mm}
+	\end{center}
+	\caption{
+		A trained \gls{model} $\learnthypothesis(\featurevec)$ that is \gls{differentiable} at a point $\featurevec'$ 
+		can be locally approximated by a \gls{linearmap} $g \in \linmodel{\nrfeatures}$. This local approximation 
+		is determined by the \gls{gradient} $\nabla \learnthypothesis(\featurevec')$.}
+		\label{fig_linapprox_dict}
+	\end{figure}
+		See also: \gls{model}, \gls{hypospace}, \gls{linearmap}, \gls{interpretability}, \gls{lime}.}, 
+   first={linear model},
+   plural={linear models},
+   firstplural={linear models}, 
+   text={linear model}
+}
 	
   \newglossaryentry{gradstep}{name={paso de gradiente},description={Dada una función diferenciable 
   de valores reales $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
@@ -1472,6 +1634,12 @@ first={proximable},text={proximable}
 		Las variables aleatorias gaussianas se utilizan ampliamente como modelos de probabilidad en el análisis estadístico de métodos de aprendizaje automático.
 		Su importancia se debe, en parte, al teorema del límite central, que establece que el promedio de un número creciente de variables aleatorias independientes
 		(aunque no sean gaussianas) converge a una variable aleatoria gaussiana \cite{ross2013first}. 
+		\\
+		The \gls{mvndist} is also distinct in that it represents maximum \gls{uncertainty}: 
+		Among all \gls{vector}-valued \glspl{rv} with a given \gls{covmtx} $\mC$, the \gls{rv} $\vx \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
+		maximizes \gls{diffentropy} \cite[Th. 8.6.5]{coverthomas}. This makes \glspl{GaussProc} a 
+		natural choice for capturing \gls{uncertainty} (or lack of knowledge) in the absence of additional 
+		structural information.
 		\\
 		Vea también: \gls{rv}, \gls{pdf}, \gls{mean}, \gls{variance}, \gls{probdist}, \gls{covmtx}, \gls{iid}, \gls{ml} },first={variable aleatoria gaussiana (VA gaussiana)},text={VA gaussiana}
 }
@@ -1825,13 +1993,34 @@ como
 
 
 \newglossaryentry{mean}
-{
-	name=media,
-	description={La\index{media} esperanza $\expect \{ \featurevec \}$ de una variable aleatoria numérica $\featurevec$.
-	\\
-		Vea también: \gls{expectation}, \gls{rv} }, 
-		first = {media}, text={media} 
+{name={media}, plural={medias},
+	description={The \index{mean} mean of an \gls{rv} $\featurevec$, which takes 
+ 		on values in a \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$, is its 
+ 		\gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
+ 		integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$ (e.g., 
+		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
+		\[
+			\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx).
+		\] 
+		It is useful to think of the mean as the solution of the following \gls{risk} 
+		minimization problem \cite{BertsekasProb}:
+		\[
+			\expect\{\featurevec\} = \aargmin_{\vc \in \mathbb{R}^{\nrfeatures}} 
+			\expect \big\{\normgeneric{\featurevec - \vc}{2}^{2}\big \}.
+		\] 
+		We also use the term to refer to the average of a finite sequence 
+		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
+		these two definitions are essentially the same. Indeed, we can use the sequence 
+		$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
+		discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$, with the index $I$ being chosen uniformly 
+		at random from the set $\{1, \ldots, \samplesize\}$. The mean of $\widetilde{\vx}$ is 
+		precisely the average $({1}/{\samplesize}) \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
+			\\ 
+		See also: \gls{rv}, \gls{expectation}, \gls{probdist}.}, 
+	first={media}, 
+	text={media} 
 }
+
 \newglossaryentry{median}
 {name={mediana}, 
  description={Una\index{mediana} mediana $\med(x)$ de una variable aleatoria real $x$ 
@@ -2898,14 +3087,7 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 	first={subgradiente},text={subgradiente} 
 }
 
-\newglossaryentry{fedavg}
-{name={promedio federado (FedAvg)},
-	description={El promedio federado (FedAvg)\index{promedio federado (FedAvg)}se refiere a un algoritmo iterativo de aprendizaje federado que alterna entre entrenar modelos locales por separado y combinar los parametros del modelo locales actualizados.
-		El entrenamiento de los modelos locales se implementa a través de varios pasos de descenso de gradiente estocástico  \cite{pmlr-v54-mcmahan17a}.
-		\\
-		Vea también: \gls{algorithm}, \gls{fl}, \gls{localmodel}, \gls{modelparams}, \gls{stochGD} }, 
-		first = {FedAvg}, text={FedAvg} 
-}
+
 
 \newglossaryentry{fedprox}
 {name={FedProx},
@@ -2992,16 +3174,43 @@ text={dimensión VC}
 }
 
 \newglossaryentry{histogram}
-{name={histograma},
-	description={Un histograma \index{histograma} considera un conjunto de datos $\dataset$ que consiste en $\samplesize$ puntos de datos
-		$\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$, cada uno de los cuales pertenece a una celda  
-		$[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ con longitud de lado 
-		$U$. Dividimos esta celda uniformemente en celdas elementales más pequeñas con longitud de lado 
-		$\Delta$. El histograma de $\dataset$ asigna a cada celda elemental la fracción correspondiente del
-		punto de datos en $\dataset$ que caen dentro de esa celda.
-		\\
-		Vea también: \gls{dataset}, \gls{datapoint} },
-	first={histograma},text={histograma}  
+{name={histogram},
+	description={Consider\index{histogram} a \gls{dataset} $\dataset$ that consists of $\samplesize$ \glspl{datapoint} 
+		$\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$, each of them belonging to some 
+		cell $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ with side 
+		length $U$. We partition this cell evenly into smaller elementary cells with side 
+		length $\Delta$. The histogram of $\dataset$ assigns each elementary cell to 
+		the corresponding fraction of \glspl{datapoint} in $\dataset$ that fall into this 
+		elementary cell. A visual example of such a histogram is provided in Fig. \ref{fig:histogram_dict}.\\
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\pgfplotsset{compat=1.18}
+		\begin{axis}[
+		    ybar,
+		    ymin=0,
+		    ymax=6,
+		    bar width=22pt,
+		    width=10cm,
+		    height=6cm,
+		    xlabel={Value},
+		    ylabel={Frequency},
+		    ytick={1,2,3,4,5,6},
+		    xtick={1,2,3,4,5},
+		    xticklabels={{[0,1)}, {[1,2)}, {[2,3)}, {[3,4)}, {[4,5)}},
+		    enlarge x limits=0.15,
+		    title={Histogram of Sample Data}
+			]
+		\addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{A histogram representing the frequency of \glspl{datapoint} falling within discrete value ranges (i.e., bins). 
+		Each bar height shows the count of \glspl{sample} in the corresponding interval.}
+		\label{fig:histogram_dict}
+		\end{figure}
+		See also: \gls{dataset}, \gls{datapoint}, \gls{sample}.},
+	first={histogram},
+	text={histogram}  
 }
 
 \newglossaryentry{bootstrap}
@@ -3016,17 +3225,71 @@ text={dimensión VC}
 	first={bootstrap},text={bootstrap}  
 }
 
+
 \newglossaryentry{featurespace}
-{name={espacio de atributos},
-	description={
-		El\index{espacio de atributos} espacio de atributos de una aplicación o método de aprendizaje automático
-		está constituido por todos los valores potenciales que el vector de atributos de un punto de datos puede asumir.
-		Una elección común para el espacio de atributos es el espacio euclidiano $\mathbb{R}^{\featuredim}$, 
-		donde la dimensión $\featurelen$ es el número de atributos individuales de un punto de datos.
-		\\
-		Vea también: \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{euclidspace}, \gls{feature} },
-	first={espacio de atributos},text={espacio de atributos}  
+{name={feature space},
+	description={The\index{feature space} \gls{feature} space of a given \gls{ml} application 
+	or method is constituted by all potential values that the \gls{featurevec} of a 
+	\gls{datapoint} can take on. 
+	\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.6]
+% --------- 1D Line Feature Space (left) ---------
+\begin{scope}[xshift=0cm]
+  % Axis
+  \draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
+  % Points
+  \foreach \x/\lbl in {0.5/$\featurevec^{(1)}$, 1.5/$\featurevec^{(2)}$, 2.8/$\featurevec^{(3)}$}
+    \filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
+  % Label
+  \node at (1.5, -4.0)  {$\featurespace^{(1)}$};
+\end{scope}
+% --------- 2D Bounded (Disk) Feature Space (middle) ---------
+\begin{scope}[xshift=8cm]
+  % Circle boundary
+  \draw[thick] (0,0) circle (1.8);
+  \fill[gray!5] (0,0) circle (1.8);
+  % Points inside circle
+  \filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {$\featurevec^{(1)}$};
+  \filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {$\featurevec^{(3)}$};
+  % Label
+  \node at (1.5, -4) {$\featurespace^{(2)}$};
+\end{scope}
+% --------- Graph-Based Feature Space (right) ---------
+\begin{scope}[xshift=14cm, yshift=0.3cm]
+  % Nodes
+  \filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {$\featurevec^{(1)}$};
+  \filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {$\featurevec^{(2)}$};
+  \filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {$\featurevec^{(3)}$};
+  \filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {$\featurevec^{(4)}$};
+  % Edges
+  \draw[-] (0,0) -- (2,1.2);
+  \draw[-] (2,1.2) -- (1,2.5);
+  \draw[-] (1,2.5) -- (3,2.5);
+  % Label
+  \node at (1.5, -4.0) {$\featurespace^{(3)}$};
+\end{scope}
+\end{tikzpicture}
+\caption{Three different \gls{feature} spaces: a linear space $\featurespace^{(1)} = \mathbb{R}$, a 
+bounded \gls{convex} set $\featurespace^{(2)} \subseteq \mathbb{R}^{2}$, and a discrete space 
+$\featurespace^{(3)}$ whose elements are nodes of an undirected \gls{graph}.}
+\end{figure}
+For \glspl{datapoint} described by a fixed number $\nrfeatures$ of numerical \glspl{feature}, 
+a common choice for the \gls{feature} space is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
+However, the mere presence of $\nrfeatures$ numeric \glspl{feature} does not imply that $\mathbb{R}^{\nrfeatures}$ 
+is the most appropriate representation of the \gls{feature} space. Indeed, the numerical \glspl{feature}  
+might be assigned to \glspl{datapoint} in a largely arbitrary or random manner, resulting 
+in \glspl{datapoint} that are randomly scattered throughout $\mathbb{R}^{\nrfeatures}$ 
+without any meaningful geometric structure. \Gls{featlearn} methods try to learn a 
+transformation of the original (potentially non-numeric) \glspl{feature} to ensure a 
+more meaningful arrangement of \glspl{datapoint} in $\mathbb{R}^{\nrfeatures}$. 
+				\\
+		See also: \gls{featurevec}, \gls{euclidspace}.},
+	first={feature space},
+	text={feature space}  
 }
+
 
 
 \newglossaryentry{missingdata}
@@ -3310,26 +3573,59 @@ text={dimensión VC}
 
  \newglossaryentry{datapoint}
  {name={punto de datos}, plural={puntos de datos},
- description={Un\index{punto de datos} punto de datos es cualquier objeto que transmite información~\cite{coverthomas}. 
-	 Ejemplos incluyen estudiantes, señales de radio, árboles, imágenes, variables aleatorias, números reales 
-	 o proteínas. Los puntos de datos se describen típicamente mediante dos tipos de propiedades (o atributos):
-	 \begin{itemize}
-		 \item Atributos son propiedades medibles o computables de un punto de datos. 
-		 Estos atributos pueden extraerse o calcularse automáticamente mediante sensores, computadoras 
-		 u otros sistemas de recolección de datos. Para un punto de datos que representa a un paciente, 
-		 una posible atributo podría ser el peso corporal.
-		 \item Etiquetas son hechos de nivel superior (o cantidades de interés) asociadas al punto de datos. 
-		 Determinar las etiquetas de un punto de datos usualmente requiere experiencia humana o conocimiento del dominio. 
-		 Para un punto de datos que representa a un paciente, un diagnóstico de cáncer proporcionado por un médico 
-		 serviría como etiqueta.
-	 \end{itemize}
-	 La distinción entre atributos y etiquetas no siempre es clara. 
-	 Una propiedad considerada como etiqueta en un contexto (por ejemplo, un diagnóstico de cáncer) 
-	 puede tratarse como una atributo en otro, particularmente si una automatización confiable (por ejemplo, 
-	 mediante análisis de imágenes) permite calcularla sin intervención humana.
-	 El aprendizaje automático busca en términos generales predecir la etiqueta de un punto de datos a partir de sus atributos.
-	 \\
-	 Vea tambien: \gls{data}, \gls{rv}, \gls{feature}, \gls{label}, \gls{ml}.}, 
+ description={A\index{data point} \gls{data} point is any object that conveys information~\cite{coverthomas}. 
+		Examples include students, radio signals, trees, images, \glspl{rv}, real numbers, 
+ 		or proteins. We describe \gls{data} points of the same type by two categories 
+		of properties:
+		\begin{enumerate}[label=\arabic*)]
+   			\item \Glspl{feature} are measurable or computable properties of a \gls{data} point. These 
+    			attributes can be automatically extracted or computed using sensors, computers, or other
+			\gls{data} collection systems. For a \gls{data} point that represents a patient, one \gls{feature} 
+			could be the body weight.
+    			\item \Glspl{label} are higher-level facts (or quantities of interest) 
+			associated with the \gls{data} point. Determining the \glspl{label} of a \gls{data} point 
+			usually requires human expertise or domain knowledge. For a \gls{data} point that represents a patient, 
+			a cancer diagnosis provided by a physician would serve as the \gls{label}.
+		\end{enumerate}
+		Fig.\ \ref{fig:datapoint_cowherd_dict} depicts an image as an example of a \gls{data} 
+		point along with its \glspl{feature} and \glspl{label}. Importantly, what constitutes 
+		a \gls{feature} or a \gls{label} is not inherent to the \gls{data} point itself—it is a design 
+		choice that depends on the specific \gls{ml} applicaton.
+		\begin{figure}[H]
+    		\centering
+    			% Image as a datapoint
+    			\begin{minipage}[t]{0.95\textwidth}
+        			\centering
+        			\includegraphics[width=\textwidth]{../../assets/CowsAustria.jpg}
+        			\caption*{A single \gls{data} point.}
+        			\vspace{5mm}
+    			\end{minipage}
+    			% Feature and label description
+    			\begin{minipage}[t]{0.95\textwidth}
+        			\Glspl{feature}:
+        			\begin{itemize}
+            			\item $x_{1},\ldots,x_{\nrfeatures_{1}}$: Colour intensities of all image pixels.
+            			\item $x_{\nrfeatures_{1}+1}$: Time-stamp of the image capture.
+            			\item $x_{\nrfeatures_{1}+2}$: Spatial location of the image capture.
+			\end{itemize}
+			\Glspl{label}:
+            		\begin{itemize}
+               	 		\item $\truelabel_{1}$: Number of cows depicted. 
+                			\item $\truelabel_{2}$: Number of wolves depicted. 
+                			\item $\truelabel_{3}$: Condition of the pasture (e.g., healthy, overgrazed).
+            		\end{itemize}
+    			\end{minipage}
+    			\caption{Illustration of a \gls{data} point consisting of an image. We can use 
+			different properties of the image as \glspl{feature} and higher-level facts
+			about the image as \glspl{label}.\label{fig:datapoint_cowherd_dict}}
+		\end{figure}
+ 		The distinction between \glspl{feature} and \glspl{label} is not always clear-cut. 
+ 		A property that is considered a \gls{label} in one setting (e.g., a cancer diagnosis) 
+ 		may be treated as a \gls{feature} in another setting—particularly if reliable automation (e.g., 
+ 		via image analysis) allows it to be computed without human intervention.
+   		\Gls{ml} broadly aims to predict the \gls{label} of a \gls{data} point based on its \glspl{feature}. 
+				\\
+		See also: \gls{data}, \gls{feature}, \gls{label}, \gls{dataset}.}, 
  first={punto de datos},
  text={punto de datos}  
  }
@@ -3444,13 +3740,33 @@ text={dimensión VC}
 		first={aprendizaje semi-supervisado (SSL)},text={SSL} }
 	
 	
-\newglossaryentry{objfunc}{name={función objetivo}, description={Una\index{función objetivo} 
-		función objetivo es un mapa que asigna a cada valor de una variable de optimización, como 
-		los parametros del modelo $\weights$ de una hipótesis $\hypothesis^{(\weights)}$, un
-		valor objetivo $f(\weights)$. El valor objetivo $f(\weights)$ podria ser el 
-		riesgo o el riesgo empírico de una hipótesis $\hypothesis^{(\weights)}$.
-		\\
-		Vea también: \gls{modelparams}, \gls{hypothesis},\gls{risk}, \gls{emprisk}  },first={función objetivo},text={función objetivo} }
+\newglossaryentry{objfunc}{name={función objetivo}, description={An\index{objective function} objective \gls{function} is a \gls{map} that assigns a numeric 
+objective value $f(\weights)$ to each choice $\weights$ of some variable that we want to 
+optimize (see Fig. \ref{fig_obj_func_dict}). In the context of \gls{ml}, the optimization variable could 
+be the \gls{modelparams} of a \gls{hypothesis} $\hypothesis^{(\weights)}$. 
+Common objective \glspl{function} include the \gls{risk} (i.e., expected \gls{loss}) or the \gls{emprisk} 
+(i.e., average \gls{loss} over a \gls{trainset}). \gls{ml} methods apply optimization 
+techniques, such as \gls{gdmethods}, to find the choice $\weights$ with the 
+optimal value (e.g., the \gls{minimum} or the \gls{maximum}) of the objective \gls{function}.
+\\
+\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[scale=1.0]
+		% Axes
+		\draw[->] (-0.5,0) -- (4.5,0) node[right] {$\weights$};
+		\draw[->] (0,-0.5) -- (0,3.5);
+		% Objective function curve
+		\draw[thick,domain=0.3:4,smooth,variable=\x] 
+		plot ({\x}, {0.5*(\x-2)^2 + 0.5});
+		% Label the curve
+		\node at (3.5,2.8) {$f(\weights)$};
+	\end{tikzpicture} 
+	\end{center}
+\caption{An objective \gls{function} maps each possible value $\weights$ of an optimization variable, such 
+as the \gls{modelparams} of an \gls{ml} \gls{model}, to a value that measures the usefulness 
+   of $\weights$.\label{fig_obj_func_dict}}
+\end{figure} 
+See also: \gls{function}, \gls{map}, \gls{ml}, \gls{modelparams}, \gls{hypothesis}, \gls{risk}, \gls{loss}, \gls{emprisk}, \gls{trainset}, \gls{gdmethods}, \gls{minimum}, \gls{maximum}, \gls{model}, \gls{lossfunc}.},first={función objetivo},text={función objetivo} }
 	
 \newglossaryentry{regularizer}{name={regularizador}, description={Un regularizador\index{regularizador} 
 		asigna a cada hipótesis $\hypothesis$ de un espacio de hipótesis $\hypospace$ una medida cuantitativa 
@@ -3748,12 +4064,19 @@ text={dimensión VC}
  }
  
 
-\newglossaryentry{datapoisoning}{name={envenenamiento de datos}, description={El envenenamiento de datos \index{envenenamiento de datos} 
-		se refiere a la manipulación intencional (o fabricación) de puntos de datos para 
-		influir en el entrenamiento de un modelo de aprendizaje automático \cite{Liu2021,PoisonGAN}. La protección contra 
-		el envenenamiento de datos es especialmente importante en aplicaciones distribuidas de aprendizaje automático donde los conjuntos de datos están descentralizados.
-		\\
-		Vea también: \gls{datapoint}, \gls{model}, \gls{ml}, \gls{dataset}},first={envenenamiento de datos},text={envenenamiento de datos} }
+\newglossaryentry{datapoisoning}{name={envenenamiento de datos}, description={\Gls{data}\index{data poisoning} poisoning refers to the intentional manipulation 
+(or fabrication) of \glspl{datapoint} to steer the training of an \gls{ml} \gls{model} \cite{Liu2021}, \cite{PoisonGAN}. 
+\Gls{data} poisoning \glspl{attack} take various forms, including the following:
+\begin{itemize}
+	\item \Gls{backdoor} \glspl{attack}: Implanting triggers into training \gls{data}, so that the trained \gls{model} 
+	behaves normally on typical \glspl{featurevec} but misclassifies a \gls{featurevec} with a trigger pattern.
+	\item \Gls{dosattack}: Degrading overall performance of the trained \gls{model} by injecting mislabeled or 
+	adversarial examples to prevent effective learning.
+\end{itemize}
+\Gls{data} poisoning is particularly concerning in decentralized or distributed \gls{ml} settings (such as \gls{fl}), 
+where training \gls{data} cannot be centrally verified.
+	  \\
+See also: \gls{attack}, \gls{backdoor}, \gls{dosattack}, \gls{trustAI}.},first={envenenamiento de datos},text={envenenamiento de datos} }
 	
 	
 \newglossaryentry{backdoor}{name={puerta trasera (backdoor)}, description={Un ataque de puerta trasera (backdoor)\index{puerta trasera (backdoor)} se refiere
@@ -4538,20 +4861,54 @@ incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como
 		Vea también: \gls{regression}, \gls{hypothesis}, \gls{classifier}, \gls{label}, \gls{featurevec}, \gls{datapoint}, \gls{logloss}, \gls{labeled datapoint}, \gls{trainset}.},
 		first={regresión logística},text={regresión logística}}
 	
-\newglossaryentry{logloss}{name={pérdida logística}, description={Consideremos\index{pérdida logística} 
-		un puntos de datos caracterizado por los atributos $\featurevec$ y una etiqueta $\truelabel \in \{-1,1\}$. 
-		Utilizamos una hipótesis con valores reales $\hypothesis$ para predecir la etiqueta $\truelabel$ 
-		a partir de los atributos $\featurevec$. La perdida logística incurrida por esta predicción se
-		define como 
-	\begin{equation} 
-		\label{equ_log_loss_gls_dict}
-		\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log ( 1 + \exp(- \truelabel \hypothesis(\featurevec))).
-\end{equation}
-Nótese cuidadosamente que la expresión \eqref{equ_log_loss_gls_dict} 
-para la perdida logística aplica solo para el espacio de etiquetas $\labelspace = \{ -1,1\}$ y cuando se usa 
-la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}. 
-\\
-		Vea también \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},first={pérdida logística},text={pérdida logística}}
+		\newglossaryentry{logloss}
+		{name={logistic loss}, 
+			description={Consider\index{logistic loss} 
+				a \gls{datapoint} characterized by the \glspl{feature} $\featurevec$ and a binary \gls{label} $\truelabel \in \{-1,1\}$. 
+				We use a real-valued \gls{hypothesis} $\hypothesis$ to predict the \gls{label} $\truelabel$ 
+				from the \glspl{feature} $\featurevec$. The logistic \gls{loss} incurred by this \gls{prediction} is 
+				defined as 
+			\begin{equation} 
+				\label{equ_log_loss_gls_dict}
+				\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log\, ( 1 + \exp\,(- \truelabel \hypothesis(\featurevec))).
+			\end{equation}
+			\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}
+					\begin{axis}[
+						axis lines=middle,
+						xlabel={$\truelabel\hypothesis(\featurevec)$},
+						ylabel={$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$},
+						xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  % Adjusted to be relative to axis end
+						ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, % Corrected to vertical position, rotated for readability
+						xmin=-3.5, xmax=3.5,
+						ymin=-0.5, ymax=2.5,
+						xtick={-3, -2, -1, 0, 1, 2, 3},
+						ytick={0, 1, 2},
+						domain=-3:3,
+						samples=100,
+						width=10cm, height=6cm,
+						grid=both,
+						major grid style={line width=.2pt, draw=gray!50},
+						minor grid style={line width=.1pt, draw=gray!20},
+						legend pos=south west % Positions legend at the bottom left
+						]
+							\addplot [red, thick] {ln(1 + exp(-x))};    
+					\end{axis}
+				\end{tikzpicture}
+				\caption{The logistic \gls{loss} incurred by the \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
+					for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$.}
+				\label{fig_logloss_dict}
+			\end{center}
+			\end{figure}
+			Note that the expression \eqref{equ_log_loss_gls_dict} 
+			for the logistic \gls{loss} applies only for the \gls{labelspace} $\labelspace = \{ -1,1\}$ and when using 
+			the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
+				\\
+				See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},
+			first={logistic loss},
+			text={logistic loss}
+		}
 	
 \newglossaryentry{hingeloss}{name={pérdida de hinge}, description={Consideremos\index{pérdida de hinge} un punto de datos
 		caracterizado por un vector de atributos $\featurevec \in \mathbb{R}^{\featuredim}$ y una
@@ -4597,16 +4954,41 @@ la regla de umbralización \eqref{equ_def_threshold_bin_classifier_dict}.
 		\\
 		Vea también: \gls{iid}, \gls{datapoint}, \gls{dataset}, \gls{realization}, \gls{rv}.},first={suposición de independencia e idéntica distribución (suposición i.i.d.)},text={suposición i.i.d.} }
 
-\newglossaryentry{hypospace}{name={espacio de hipótesis}, description={Cada\index{espacio de hipótesis} 
-		método práctico de aprendizaje automático utiliza un espacio de hipótesis (o modelo) $\hypospace$. El espacio de hipótesis  
-		de un método de aprendizaje automático es un subconjunto de todos los posibles mapeos del vector de atributos al espacio de etiquetas. 
-		La elección del diseño del espacio de hipótesis debe considerar los recursos computacionales disponibles y 
-		los aspectos estadísticos. Si la infraestructura computacional permite operaciones matriciales eficientes y existe
-		una relación (aproximadamente) lineal entre un conjunto de atributos y una etiqueta, una elección útil para el 
-		espacio de hipótesis podria ser el modelo lineal.
-		\\
-		Vea tambien: \gls{ml}, \gls{hypothesis}, \gls{model}, \gls{featurespace}, \gls{labelspace}, \gls{statasp}, \gls{feature}, \gls{label}, \gls{linmodel}.},first={espacio de hipótesis},text={espacio de hipótesis} }
-	
+		\newglossaryentry{hypospace}
+		{name={espacio de hipótesis}, plural={espacios de hipótesis}, 
+			description={A \gls{hypothesis} space\index{hypothesis space} is a mathematical \gls{model} 
+			that characterizes the learning capacity of a \gls{ml} method. The goal of such a method is 
+			to learn a \gls{hypothesis} \gls{map} that maps \glspl{feature} of a \gls{datapoint} to a 
+			\gls{prediction} of its \gls{label}. Given a finite amount of computational resources, a 
+			practical \gls{ml} method typically explores only a restricted set of all possible \glspl{map} 
+			from the \gls{featurespace} to the \gls{labelspace}. Such a restricted set is referred to as 
+			a \gls{hypothesis} space $\hypospace$ underlying the \gls{ml} method.
+			For the analysis of a given \gls{ml} method, the choice of \gls{hypothesis} space $\hypospace$ is not unique: 
+			any superset containing all maps the method can learn is also a valid \gls{hypothesis} space. 
+			\begin{figure}[htbp]
+			\begin{center}
+				\begin{tikzpicture}[allow upside down, scale=0.4]
+					\node [below] at (5,-3) {$\labelspace^{\featurespace}$};
+					\draw [ultra thick] (5,0) circle (5cm);
+					\draw [ultra thick,fill=black!20] (5,0) circle (1cm);
+					\node [] at (5,0) {$\hypospace$};
+				\end{tikzpicture}
+			\end{center}
+			\caption{The \gls{hypothesis} space $\hypospace$ of a \gls{ml} method is a (typically very small) 
+			subset of the (typically very large) set $\labelspace^{\featurespace}$ of all possible \glspl{map} 
+			from the \gls{featurespace} $\featurespace$ into the \gls{labelspace} $\labelspace$.}
+		\end{figure}
+			On the other hand, from a \gls{ml} engineering perspective, the \gls{hypothesis} space $\hypospace$ is a design 
+			choice for \gls{erm}-based methods. This design choice can be guided by the available computational 
+			resources and \glspl{statasp}. For instance, if efficient \gls{matrix} operations are feasible and a 
+			roughly linear relation exists between \glspl{feature} and \glspl{label}, a \gls{linmodel} can be a 
+			useful choice for $\hypospace$.
+						\\
+				See also: \gls{hypothesis}, \gls{model}, \gls{map}, \gls{linmodel}.},
+			first={espacio de hipótesis },
+			text={espacio de hipótesis} 
+		}
+		
 		\newglossaryentry{model}
 		{name={modelo}, plural={modelos}, 
 			description={El estudio y diseño de métodos de aprendizaje automático suele basarse en un modelo matemático \cite{bender1978mathematical}. 
