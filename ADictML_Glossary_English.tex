@@ -233,7 +233,7 @@
 		$\det(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}.
     		For the special cases $\nrfeatures=2$ (2D) and $\nrfeatures=3$ (3D), the determinant can be 
 		interpreted as an oriented area or volume spanned by the column \glspl{vector} of $\mA$.
-    		\begin{figure}[H]
+    		\begin{figure}[h]
     			\begin{center}
     			\begin{tikzpicture}[x=2cm]
 			% LEFT: Standard basis vectors and unit square
@@ -366,11 +366,8 @@
 	(denoted $c\cdot \vv$) of a vector $\vv$ with a scalar $c$ who belongs to some 
 	number field (a typical choice for this field is $\mathbb{R}$). The defining 
 	property of a vector space is that it is closed under these operations, i.e.,
-		\begin{itemize}
-			\item If $\vv, \vw \in \mathcal{V}$, then $\vv + \vw \in \mathcal{V}$.
-			\item If $\vv \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vv \in \mathcal{V}$.
-			\item In particular, $\mathbf{0} \in \mathcal{V}$.
-		\end{itemize}
+     $\alpha \vv + \beta \vw \in \mathcal{V}$ for any $\vv,\vw \in \mathcal{V}$ and scalars 
+	 $\alpha,\beta$. 
 		\begin{figure}[ht]
 		\centering
 			\begin{tikzpicture}[>=Stealth, scale=1.2]
@@ -385,7 +382,7 @@
   			\draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {$\vv+\vw$};
   			\draw[dashed, red] (V) -- (VplusW);
   			\draw[dashed, blue] (W) -- (VplusW);
-  			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$0.5\vv$};
+  			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha \vv$};
 			% Filled dots
   			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  % origin
   			\filldraw[blue] (V) circle (2pt);         % v
@@ -393,21 +390,23 @@
   			\filldraw[purple] (VplusW) circle (2pt);  % v + w
   			\filldraw[orange] (HalfV) circle (2pt);   % 0.5v
 			\end{tikzpicture}
-			\caption{A vector space $\mathcal{V}$ is a collection of vectors such that scaling 
-			and adding them always yields another vector in $\mathcal{V}$. In \gls{ml} applications, 
-			 vectors are used to represent \glspl{datapoint} (or their \glspl{featurevec}) and 
-			 invariances (or symmetries) of \glspl{model}.}
+			\caption{A vector space $\mathcal{V}$ is a collection of vectors such that 
+			scaling and adding them always yields another vector in $\mathcal{V}$.}
+			%In \gls{ml}, we use vector spaces to represent \glspl{rv}, \glspl{datapoint} 
+			%(or their \glspl{featurevec}) as well as invariances (or symmetries) of \glspl{model}.}
 			\label{fig:vector-ops_dict}
 		\end{figure}
-		A common example of a vector space is the \gls{euclidspace} $\mathbb{R}^n$, which is widely used in 
-		\gls{ml} to represent \glspl{model} and \glspl{dataset}.
-		\\
+		A common example of a vector space is the \gls{euclidspace} $\mathbb{R}^n$, which is 
+		widely used in \gls{ml} to represent \glspl{dataset}. We can also use $\mathbb{R}^n$ 
+		to represent, either exactly or approximately, the \gls{hypospace} used by a \gls{ml} method.  
+		Another example of a vector space, that is naturally associated with every \gls{probspace} 
+		$\mathcal{P}=\big(\Omega,\mathcal{R},\prob{\cdot} \big)$, is the collection of all 
+		real-valued \glspl{rv} $x: \Omega \rightarrow \mathbb{R}$ \cite{rudin1987real,folland1999real}.  
 		See also: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
 	first={vector space},
 	type=math,
 	text={vector space}
 }
-
 
 \newglossaryentry{stochastic}
 {name={stochastic},
@@ -2819,21 +2818,6 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 }
 
 
-%\newglossaryentry{transparency}
-%{name={transparency},
-%	description={Transparency\index{transparency} is a key requirement for 
-%		trustworthy \gls{ai} \cite{HLEGTrustworhtyAI}. In the context of ML methods, 
-%		such as \gls{erm}-based methods, transparency is mainly used synonymously 
-%		for \gls{explainability} \cite{gallese2023ai,JunXML2020}. However, in the wide 
-%		context of \gls{ai} systems, transparency also includes providing information 
-%		about limitations and reliability of the \gls{ai} system. As a point in case, \gls{logreg} provides a 
-%		quantitative measure of the reliability of a \gls{classification} in the form of the value $|\hypothesis(\featurevec)|$. 
-%		Transparency also includes the user interface, by requiring to clearly indicate when a user is 
-%		interaction with an \gls{ai} system. Another component of transparency is the documentation 
-%		of the system’s purpose, design choices, and intended use cases \cite{Shahriari2017,DatasheetData2021,10.1145/3287560.3287596}. },
-%	first={transparency},text={transparency} 
-%}
-
 \newglossaryentry{transparency}
 {name={transparency},
 	description={Transparency\index{transparency} is a fundamental requirement for 
@@ -2857,7 +2841,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		For instance, \gls{model} datasheets \cite{DatasheetData2021} and \gls{ai} system cards \cite{10.1145/3287560.3287596} 
 		help practitioners understand the intended use cases and limitations of an \gls{ai} system \cite{Shahriari2017}.
 					\\ 
-		See also: \gls{trustAI}, \gls{ml}, \gls{explainability}, \gls{ai}, \gls{prediction}, \gls{model}, \gls{logreg}, \gls{classification}, \gls{decisiontree}.},
+		See also: \gls{trustAI},  \gls{explainability}.},
 	first={transparency}, 
 	text={transparency} 
 }
@@ -5245,17 +5229,23 @@ sort={k-means},
         
 \newglossaryentry{ridgeregression}
 {name={ridge regression}, 
-	description={Ridge\index{ridge regression} 
-		\gls{regression} learns the \gls{weights} $\weights$ of a linear \gls{hypothesis} \gls{map} $\hypothesis^{(\weights)}(\featurevec)= \weights\,^{T} \featurevec$. 
-		The quality of a particular choice for the \gls{modelparams} $\weights$ is measured by the sum 
-		of two components. The first component is the average \gls{sqerrloss} incurred by $\hypothesis^{(\weights)}$ on a set of 
-		\glspl{labeled datapoint} (i.e., the \gls{trainset}). The second component is the scaled squared 
-		Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} \gls{parameter} 
-		$\regparam > 0$. Adding $\regparam \| \weights \|^{2}_{2}$ to 
-	    	the average \gls{sqerrloss} is equivalent to replacing original \glspl{datapoint} by the \glspl{realization} 
-	    	of (infinitely many) \gls{iid} \glspl{rv} centered around these \glspl{datapoint} (see \gls{regularization}).
+	description={Consider a \gls{regression} problem where the goal is to learn a \gls{hypothesis} $\hypothesis^{(\weights)}$ 
+	for predicing the numeric \gls{label} of a \gls{datapoint} based on its \gls{featurevec}. 
+	  Ridge\index{ridge regression} \gls{regression} learns the \glspl{parameter} $\weights$ 
+	  by minimizing the penalized average \gls{sqerrloss}. The average \gls{sqerrloss} is measured 
+		on a set of \glspl{labeled datapoint} (i.e., the \gls{trainset}) 
+		$$\pair{\featurevec^{(1)}}{\truelabel^{(1)}},\ldots,\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}.$$ The penalty term is the 
+		scaled squared Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} \gls{parameter} 
+		$\regparam > 0$. The purpose of the penalty term is \gls{regularization}, i.e., to 
+		prevent \gls{overfitting} in the high-dimensional regime, where the number of \glspl{feature} 
+		$\featuredim$ exceeds the number of \glspl{datapoint} $\samplesize$ in the \gls{trainset}.
+		Adding $\regparam \| \weights \|^{2}_{2}$ to the average \gls{sqerrloss} is equivalent 
+		to computing the average \gls{sqerrloss} on an augmented \gls{trainset}: This augmented 
+		\gls{trainset} is obtained by replacing each \gls{datapoint} $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ 
+		in the original \gls{trainset} by the \gls{realization} of infinitely many \gls{iid} \glspl{rv} 
+		whose \gls{probdist} is centered at $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$.
 	    		\\
-		See also: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{map}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{parameter}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},
+		See also: \gls{regression}, \gls{map}, \gls{dataaug}, \gls{regularization}.},
 	first={ridge regression},
 	text={ridge regression}
 }
