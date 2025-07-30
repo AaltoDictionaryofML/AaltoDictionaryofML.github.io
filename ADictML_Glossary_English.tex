@@ -99,7 +99,7 @@
      	satisfying $\mB \mA = \mI$ or a ``right inverse'' $\mC$ satisfying $\mA \mC = \mI$. 
      	For general rectangular or singular \glspl{matrix}, the Moore–Penrose \gls{pseudoinverse}
      	$\mA^{+}$ provides a unified concept of a generalized inverse \gls{matrix} \cite{GolubVanLoanBook}.
- 	 \begin{figure}[H]
+ 	 \begin{figure}[h]
  		\centering
  		\begin{tikzpicture}[x=2cm,y=2cm]
  			% LEFT: Standard basis
@@ -401,7 +401,7 @@
 		to represent, either exactly or approximately, the \gls{hypospace} used by a \gls{ml} method.  
 		Another example of a vector space, that is naturally associated with every \gls{probspace} 
 		$\mathcal{P}=\big(\Omega,\mathcal{R},\prob{\cdot} \big)$, is the collection of all 
-		real-valued \glspl{rv} $x: \Omega \rightarrow \mathbb{R}$ \cite{rudin1987real,folland1999real}.  
+		real-valued \glspl{rv} $x: \Omega \rightarrow \mathbb{R}$ \cite{RudinBook,folland1999real}.  
 		See also: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
 	first={vector space},
 	type=math,
@@ -440,6 +440,7 @@
 		See also:  \gls{rv}, \gls{sbm}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}.},
 	first={stochastic process},
 	firstplural={stochastic processes},
+	type=math, 
 	plural={stochastic processes},
 	text={stochastic process}
 }
@@ -453,6 +454,7 @@
 		\\
 		See also: \gls{rv}, \gls{probdist}.},
 	first={characteristic function},
+	type=math, 
 	firstplural={characteristic functions}, 
 	plural={characteristic functions},
 	text={characteristic function}
@@ -503,13 +505,37 @@
 }
 
 \newglossaryentry{function}
-{name={function}, plural={functions}, 
+{name={function},
 	description={A function\index{function} between two sets $\mathcal{U}$ and $\mathcal{V}$ assigns  
-		each element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
-		We write this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
-		and $\mathcal{V}$ the co-domain of $f$. That is, a function $f$ defines a unique 
-		output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. },
+		each element $u \in \mathcal{U}$ exactly one element $f(u) \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		We write this as $$f: \mathcal{U} \rightarrow \mathcal{V}: u \mapsto f(u),$$ 
+		where $\mathcal{U}$ is the domain and $\mathcal{V}$ the co-domain of $f$. 
+		That is, a function $f$ defines a unique output $f(u) \in \mathcal{V}$ for every 
+		input $u \in \mathcal{U}$.
+		\begin{figure}[h]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.2cm and 2.5cm]
+				\tikzset{dot/.style={circle, fill=black, inner sep=1.2pt}}
+				\node (A) [dot, label=left:$a$] {};
+				\node (B) [dot, below=of A, label=left:$b$] {};
+				\node (C) [dot, below=of B, label=left:$c$] {};
+				\node (1) [dot, right=4cm of A, label=right:$1$] {};
+				\node (2) [dot, below=of 1, label=right:$2$] {};
+				\node (3) [dot, below=of 2, label=right:$3$] {};
+				\node[draw=blue!70, thick, ellipse, inner sep=0.5cm, fit=(A)(B)(C), label=above:$\mathcal{U}$] {};
+				\node[draw=green!70!black, thick, ellipse, inner sep=0.5cm, fit=(1)(2)(3), label=above:$\mathcal{V}$] {};
+				\draw[->] (A) -- (2);
+				\draw[->] (B) -- (1);
+				\draw[->] (C) -- (2);
+			\end{tikzpicture}
+			\caption{A function \( f \colon \{a,b,c\} \to \{1,2,3\} \) mapping each element of the domain to exactly one element of 
+				the co-domain.}
+		\end{figure}
+		 },
 	first={function},
+	type=math, 
+	firstplural={functions}, 
+	 plural={functions}, 
 	text={function}
 }
 
@@ -521,9 +547,61 @@
 		See also: \gls{function}.},
 	first={map},
 	firstplural={maps},	
+	type=math, 
 	plural={maps},
 	text={map}
 }
+
+\newglossaryentry{attention}
+{name={attention}, 
+	description={
+		Some \gls{ml} applications\index{attention} involve \glspl{datapoint} composed of smaller units, known 
+		as tokens. For example, a sentence consists of words, an image of pixel patches, and a network of 
+		nodes. In practice, the tokens within a single \gls{datapoint} are typically not independent of one 
+		another but, rather, each token pays attention to specific other tokens. \Glspl{probmodel} provide a 
+		principled framework for representing and analyzing such dependencies \cite{Blei2003}. Attention 
+		mechanisms use a more direct approach without explicit reference to a \gls{probmodel}. The idea is to 
+		represent the relationship between two tokens $\nodeidx$ and $\nodeidx'$ using a parametrized \gls{function} $f^{(\weights)}(\nodeidx,\nodeidx')$, 
+		where the \glspl{parameter} $\weights$ are learned via a variant of \gls{erm}. 
+		Practical attention mechanisms differ in their precise choice of attention \gls{model} $f^{(\weights)}(\nodeidx,\nodeidx')$ 
+		as well as in the precise \gls{erm} variant used to learn the \glspl{parameter} $\weights$. One widely-used family of attention mechanisms 
+		defines the parameters $\weights$ in terms of two \glspl{vector} associated with each token $\nodeidx$: 
+		a query \gls{vector} $\vq^{(\nodeidx)}$ and a key \gls{vector} $\vk^{(\nodeidx')}$. For a given token $\nodeidx$ 
+		with query $\vq^{(\nodeidx)}$, and another token $\nodeidx'$ with key $\vk^{(\nodeidx')}$, the quantity 
+		$\big( \vq^{(\nodeidx)} \big)^{\top} \vk^{(\nodeidx')}$ quantifies the extent to which token $\nodeidx$ attends 
+		to (or depends on) token $\nodeidx'$.
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=stealth, node distance=0.2cm and 0.2cm,
+		every node/.style={inner sep=2pt, font=\large}, baseline]
+		% Words (sentence: All human beings are born free and equal.)
+		\node (w1) [draw, fill=gray!10, rounded corners] {All};
+		\node (w2) [draw, fill=gray!10, right=of w1, rounded corners] {human};
+		\node (w3) [draw, fill=gray!10, right=of w2, rounded corners] {beings};
+		\node (w4) [draw, fill=gray!10, right=of w3, rounded corners] {are};
+		\node (w5) [draw, fill=gray!10, right=of w4, rounded corners] {born};
+		\node (w6) [draw, fill=gray!10, right=of w5, rounded corners] {free};
+		\node (w7) [draw, fill=gray!10, right=of w6, rounded corners] {and};
+		\node (w8) [draw, fill=blue!20, right=of w7, rounded corners] {equal};
+	% Label "i" below the word "equal"
+   	   		\node[font=\footnotesize, below=0.15cm of w8, align=center] (labeli) {$\nodeidx$ \\ $\vq^{(\nodeidx)},\ \vk^{(\nodeidx)}$};
+		\node[font=\footnotesize, below=0.15cm of w1, align=center] (labelii) {$\nodeidx'$ \\ $\vq^{(\nodeidx')},\ \vk^{(\nodeidx')}$};
+	% Dummy node above for routing attention arrows
+	  \node (eqTop) [above=1.8cm of w8] {};
+	 % Arrows from "equal" to earlier words (drawn above)
+	 \draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.0cm) and +(up:1.0cm) .. (w6.north); % to "free"
+	 \draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.2cm) and +(up:1.0cm) .. (w5.north); % to "born"
+	\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{(\weights)}(\nodeidx,\nodeidx')$}  (w1.north); % to "All"
+	\end{tikzpicture}
+	\caption{Attention mechanisms learn a parametrized \gls{function} $f^{(\weights)}(\nodeidx,\nodeidx')$ to measure 
+	how much token $\nodeidx$ attends to token $\nodeidx'$. One widely-used construction of $f^{(\weights)}(\nodeidx,\nodeidx')$ 
+	uses query and key \glspl{vector}, denoted $\vq^{(\nodeidx)}$ and $\vk^{(\nodeidx)}$, assigned to each token $\nodeidx$ \cite{vaswani2017attention}.}
+\end{figure}
+		See also: \gls{function}.},
+	first={attention},
+	text={attention}
+}
+
 
 
 \newglossaryentry{optproblem}
@@ -539,6 +617,7 @@
 		   \\
 		   See also: \gls{objfunc}.},
 	first={optimization problem},
+	type=math,
 	firstplural={optimization problems}, 
 	plural={optimization problems}, 
 	text={optimization problem}
@@ -4864,7 +4943,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		measuring equipment). However, it is often useful to impose certain completeness requirements 
 		on the collection of measurable sets. For example, the \gls{samplespace} itself should be 
 		measurable, and the union of two measurable sets should also be measurable. These completeness 
-		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,rudin1987real}. 
+		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,RudinBook}. 
 		A measurable space is a pair $\big(\featurespace,\mathcal{F}\big)$ that consists of an arbitrary set $\featurespace$ and a 
 		collection $\mathcal{F}$ of measurable subsets of $\featurespace$ that form a $\sigma$-algebra. 
 	\\
