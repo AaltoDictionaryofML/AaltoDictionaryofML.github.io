@@ -99,7 +99,7 @@
      	satisfying $\mB \mA = \mI$ or a ``right inverse'' $\mC$ satisfying $\mA \mC = \mI$. 
      	For general rectangular or singular \glspl{matrix}, the Moore–Penrose \gls{pseudoinverse}
      	$\mA^{+}$ provides a unified concept of a generalized inverse \gls{matrix} \cite{GolubVanLoanBook}.
- 	 \begin{figure}[H]
+ 	 \begin{figure}[h]
  		\centering
  		\begin{tikzpicture}[x=2cm,y=2cm]
  			% LEFT: Standard basis
@@ -206,6 +206,7 @@
 		See also: \gls{linearmap}, \gls{dataset}, \gls{linmodel}. },
 	first={matrix},
 	firstplural={matrices},
+	type=math,
 	plural={matrices},
 	text={matrix}
 }
@@ -232,7 +233,7 @@
 		$\det(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}.
     		For the special cases $\nrfeatures=2$ (2D) and $\nrfeatures=3$ (3D), the determinant can be 
 		interpreted as an oriented area or volume spanned by the column \glspl{vector} of $\mA$.
-    		\begin{figure}[H]
+    		\begin{figure}[h]
     			\begin{center}
     			\begin{tikzpicture}[x=2cm]
 			% LEFT: Standard basis vectors and unit square
@@ -267,6 +268,7 @@
 		\end{figure}
 		See also: \gls{eigenvalue}, \gls{inverse}.},
 	first={determinant},
+	type=math,
 	text={determinant}
 }
 
@@ -349,6 +351,7 @@
 		\end{figure}
 		See also: \gls{vectorspace}, \gls{euclidspace}, \gls{linearmap}.},
 	first={vector},
+	type=math,
 	firstplural={vectors},
 	plural={vectors},
 	text={vector}
@@ -357,21 +360,53 @@
 
 \newglossaryentry{vectorspace}
 {name={vector space},
-	description={A\index{vector space} \gls{vector} space (also called linear space) is a collection of elements (called \glspl{vector}) 
-		closed under \gls{vector} addition and scalar multiplication, i.e.,
-		\begin{itemize}
-			\item If $\vx, \vy \in \mathcal{V}$, then $\vx + \vy \in \mathcal{V}$.
-			\item If $\vx \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vx \in \mathcal{V}$.
-			\item In particular, $\mathbf{0} \in \mathcal{V}$.
-		\end{itemize}
-		The \gls{euclidspace} $\mathbb{R}^n$ is a \gls{vector} space.
-		\Glspl{linmodel} and \glspl{linearmap} operate within such spaces.
-		\\
+	description={A\index{vector space} \gls{vector} space $\mathcal{V}$ (also called linear space) 
+	is a collection of elements, called \glspl{vector}, along with two operations: 
+    addition (denoted by $\vv+\vw$) of two vectors $\vv,\vw$ and multiplication 
+	(denoted $c\cdot \vv$) of a vector $\vv$ with a scalar $c$ who belongs to some 
+	number field (a typical choice for this field is $\mathbb{R}$). The defining 
+	property of a vector space is that it is closed under these operations, i.e.,
+     $\alpha \vv + \beta \vw \in \mathcal{V}$ for any $\vv,\vw \in \mathcal{V}$ and scalars 
+	 $\alpha,\beta$. 
+		\begin{figure}[ht]
+		\centering
+			\begin{tikzpicture}[>=Stealth, scale=1.2]
+				  % Coordinates
+  			\coordinate (O) at (0,0);            % Origin
+  			\coordinate (V) at (2,1.5);          % vector v
+  			\coordinate (W) at (1,3);            % vector w
+  			\coordinate (VplusW) at (3,4.5);     % v + w
+  			\coordinate (HalfV) at (1,0.75);     % 0.5 * v
+  			\draw[->, thick, blue] (O) -- (V) node[pos=1, right] {$\vv$};
+  			\draw[->, thick, red] (O) -- (W) node[pos=1, left] {$\vw$};
+  			\draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {$\vv+\vw$};
+  			\draw[dashed, red] (V) -- (VplusW);
+  			\draw[dashed, blue] (W) -- (VplusW);
+  			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha \vv$};
+			% Filled dots
+  			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  % origin
+  			\filldraw[blue] (V) circle (2pt);         % v
+  			\filldraw[red] (W) circle (2pt);          % w
+  			\filldraw[purple] (VplusW) circle (2pt);  % v + w
+  			\filldraw[orange] (HalfV) circle (2pt);   % 0.5v
+			\end{tikzpicture}
+			\caption{A vector space $\mathcal{V}$ is a collection of vectors such that 
+			scaling and adding them always yields another vector in $\mathcal{V}$.}
+			%In \gls{ml}, we use vector spaces to represent \glspl{rv}, \glspl{datapoint} 
+			%(or their \glspl{featurevec}) as well as invariances (or symmetries) of \glspl{model}.}
+			\label{fig:vector-ops_dict}
+		\end{figure}
+		A common example of a vector space is the \gls{euclidspace} $\mathbb{R}^n$, which is 
+		widely used in \gls{ml} to represent \glspl{dataset}. We can also use $\mathbb{R}^n$ 
+		to represent, either exactly or approximately, the \gls{hypospace} used by a \gls{ml} method.  
+		Another example of a vector space, that is naturally associated with every \gls{probspace} 
+		$\mathcal{P}=\big(\Omega,\mathcal{R},\prob{\cdot} \big)$, is the collection of all 
+		real-valued \glspl{rv} $x: \Omega \rightarrow \mathbb{R}$ \cite{RudinBook,folland1999real}.  
 		See also: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
 	first={vector space},
+	type=math,
 	text={vector space}
 }
-
 
 \newglossaryentry{stochastic}
 {name={stochastic},
@@ -405,6 +440,7 @@
 		See also:  \gls{rv}, \gls{sbm}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}.},
 	first={stochastic process},
 	firstplural={stochastic processes},
+	type=math, 
 	plural={stochastic processes},
 	text={stochastic process}
 }
@@ -418,6 +454,7 @@
 		\\
 		See also: \gls{rv}, \gls{probdist}.},
 	first={characteristic function},
+	type=math, 
 	firstplural={characteristic functions}, 
 	plural={characteristic functions},
 	text={characteristic function}
@@ -468,13 +505,37 @@
 }
 
 \newglossaryentry{function}
-{name={function}, plural={functions}, 
+{name={function},
 	description={A function\index{function} between two sets $\mathcal{U}$ and $\mathcal{V}$ assigns  
-		each element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
-		We write this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
-		and $\mathcal{V}$ the co-domain of $f$. That is, a function $f$ defines a unique 
-		output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. },
+		each element $u \in \mathcal{U}$ exactly one element $f(u) \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		We write this as $$f: \mathcal{U} \rightarrow \mathcal{V}: u \mapsto f(u),$$ 
+		where $\mathcal{U}$ is the domain and $\mathcal{V}$ the co-domain of $f$. 
+		That is, a function $f$ defines a unique output $f(u) \in \mathcal{V}$ for every 
+		input $u \in \mathcal{U}$.
+		\begin{figure}[h]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.2cm and 2.5cm]
+				\tikzset{dot/.style={circle, fill=black, inner sep=1.2pt}}
+				\node (A) [dot, label=left:$a$] {};
+				\node (B) [dot, below=of A, label=left:$b$] {};
+				\node (C) [dot, below=of B, label=left:$c$] {};
+				\node (1) [dot, right=4cm of A, label=right:$1$] {};
+				\node (2) [dot, below=of 1, label=right:$2$] {};
+				\node (3) [dot, below=of 2, label=right:$3$] {};
+				\node[draw=blue!70, thick, ellipse, inner sep=0.5cm, fit=(A)(B)(C), label=above:$\mathcal{U}$] {};
+				\node[draw=green!70!black, thick, ellipse, inner sep=0.5cm, fit=(1)(2)(3), label=above:$\mathcal{V}$] {};
+				\draw[->] (A) -- (2);
+				\draw[->] (B) -- (1);
+				\draw[->] (C) -- (2);
+			\end{tikzpicture}
+			\caption{A function \( f \colon \{a,b,c\} \to \{1,2,3\} \) mapping each element of the domain to exactly one element of 
+				the co-domain.}
+		\end{figure}
+		 },
 	first={function},
+	type=math, 
+	firstplural={functions}, 
+	 plural={functions}, 
 	text={function}
 }
 
@@ -486,9 +547,61 @@
 		See also: \gls{function}.},
 	first={map},
 	firstplural={maps},	
+	type=math, 
 	plural={maps},
 	text={map}
 }
+
+\newglossaryentry{attention}
+{name={attention}, 
+	description={
+		Some \gls{ml} applications\index{attention} involve \glspl{datapoint} composed of smaller units, known 
+		as tokens. For example, a sentence consists of words, an image of pixel patches, and a network of 
+		nodes. In practice, the tokens within a single \gls{datapoint} are typically not independent of one 
+		another but, rather, each token pays attention to specific other tokens. \Glspl{probmodel} provide a 
+		principled framework for representing and analyzing such dependencies \cite{Blei2003}. Attention 
+		mechanisms use a more direct approach without explicit reference to a \gls{probmodel}. The idea is to 
+		represent the relationship between two tokens $\nodeidx$ and $\nodeidx'$ using a parametrized \gls{function} $f^{(\weights)}(\nodeidx,\nodeidx')$, 
+		where the \glspl{parameter} $\weights$ are learned via a variant of \gls{erm}. 
+		Practical attention mechanisms differ in their precise choice of attention \gls{model} $f^{(\weights)}(\nodeidx,\nodeidx')$ 
+		as well as in the precise \gls{erm} variant used to learn the \glspl{parameter} $\weights$. One widely-used family of attention mechanisms 
+		defines the parameters $\weights$ in terms of two \glspl{vector} associated with each token $\nodeidx$: 
+		a query \gls{vector} $\vq^{(\nodeidx)}$ and a key \gls{vector} $\vk^{(\nodeidx')}$. For a given token $\nodeidx$ 
+		with query $\vq^{(\nodeidx)}$, and another token $\nodeidx'$ with key $\vk^{(\nodeidx')}$, the quantity 
+		$\big( \vq^{(\nodeidx)} \big)^{\top} \vk^{(\nodeidx')}$ quantifies the extent to which token $\nodeidx$ attends 
+		to (or depends on) token $\nodeidx'$.
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=stealth, node distance=0.2cm and 0.2cm,
+		every node/.style={inner sep=2pt, font=\large}, baseline]
+		% Words (sentence: All human beings are born free and equal.)
+		\node (w1) [draw, fill=gray!10, rounded corners] {All};
+		\node (w2) [draw, fill=gray!10, right=of w1, rounded corners] {human};
+		\node (w3) [draw, fill=gray!10, right=of w2, rounded corners] {beings};
+		\node (w4) [draw, fill=gray!10, right=of w3, rounded corners] {are};
+		\node (w5) [draw, fill=gray!10, right=of w4, rounded corners] {born};
+		\node (w6) [draw, fill=gray!10, right=of w5, rounded corners] {free};
+		\node (w7) [draw, fill=gray!10, right=of w6, rounded corners] {and};
+		\node (w8) [draw, fill=blue!20, right=of w7, rounded corners] {equal};
+	% Label "i" below the word "equal"
+   	   		\node[font=\footnotesize, below=0.15cm of w8, align=center] (labeli) {$\nodeidx$ \\ $\vq^{(\nodeidx)},\ \vk^{(\nodeidx)}$};
+		\node[font=\footnotesize, below=0.15cm of w1, align=center] (labelii) {$\nodeidx'$ \\ $\vq^{(\nodeidx')},\ \vk^{(\nodeidx')}$};
+	% Dummy node above for routing attention arrows
+	  \node (eqTop) [above=1.8cm of w8] {};
+	 % Arrows from "equal" to earlier words (drawn above)
+	 \draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.0cm) and +(up:1.0cm) .. (w6.north); % to "free"
+	 \draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.2cm) and +(up:1.0cm) .. (w5.north); % to "born"
+	\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{(\weights)}(\nodeidx,\nodeidx')$}  (w1.north); % to "All"
+	\end{tikzpicture}
+	\caption{Attention mechanisms learn a parametrized \gls{function} $f^{(\weights)}(\nodeidx,\nodeidx')$ to measure 
+	how much token $\nodeidx$ attends to token $\nodeidx'$. One widely-used construction of $f^{(\weights)}(\nodeidx,\nodeidx')$ 
+	uses query and key \glspl{vector}, denoted $\vq^{(\nodeidx)}$ and $\vk^{(\nodeidx)}$, assigned to each token $\nodeidx$ \cite{vaswani2017attention}.}
+\end{figure}
+		See also: \gls{function}.},
+	first={attention},
+	text={attention}
+}
+
 
 
 \newglossaryentry{optproblem}
@@ -504,6 +617,7 @@
 		   \\
 		   See also: \gls{objfunc}.},
 	first={optimization problem},
+	type=math,
 	firstplural={optimization problems}, 
 	plural={optimization problems}, 
 	text={optimization problem}
@@ -2783,21 +2897,6 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 }
 
 
-%\newglossaryentry{transparency}
-%{name={transparency},
-%	description={Transparency\index{transparency} is a key requirement for 
-%		trustworthy \gls{ai} \cite{HLEGTrustworhtyAI}. In the context of ML methods, 
-%		such as \gls{erm}-based methods, transparency is mainly used synonymously 
-%		for \gls{explainability} \cite{gallese2023ai,JunXML2020}. However, in the wide 
-%		context of \gls{ai} systems, transparency also includes providing information 
-%		about limitations and reliability of the \gls{ai} system. As a point in case, \gls{logreg} provides a 
-%		quantitative measure of the reliability of a \gls{classification} in the form of the value $|\hypothesis(\featurevec)|$. 
-%		Transparency also includes the user interface, by requiring to clearly indicate when a user is 
-%		interaction with an \gls{ai} system. Another component of transparency is the documentation 
-%		of the system’s purpose, design choices, and intended use cases \cite{Shahriari2017,DatasheetData2021,10.1145/3287560.3287596}. },
-%	first={transparency},text={transparency} 
-%}
-
 \newglossaryentry{transparency}
 {name={transparency},
 	description={Transparency\index{transparency} is a fundamental requirement for 
@@ -2821,7 +2920,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		For instance, \gls{model} datasheets \cite{DatasheetData2021} and \gls{ai} system cards \cite{10.1145/3287560.3287596} 
 		help practitioners understand the intended use cases and limitations of an \gls{ai} system \cite{Shahriari2017}.
 					\\ 
-		See also: \gls{trustAI}, \gls{ml}, \gls{explainability}, \gls{ai}, \gls{prediction}, \gls{model}, \gls{logreg}, \gls{classification}, \gls{decisiontree}.},
+		See also: \gls{trustAI},  \gls{explainability}.},
 	first={transparency}, 
 	text={transparency} 
 }
@@ -4844,7 +4943,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		measuring equipment). However, it is often useful to impose certain completeness requirements 
 		on the collection of measurable sets. For example, the \gls{samplespace} itself should be 
 		measurable, and the union of two measurable sets should also be measurable. These completeness 
-		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,rudin1987real}. 
+		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,RudinBook}. 
 		A measurable space is a pair $\big(\featurespace,\mathcal{F}\big)$ that consists of an arbitrary set $\featurespace$ and a 
 		collection $\mathcal{F}$ of measurable subsets of $\featurespace$ that form a $\sigma$-algebra. 
 	\\
@@ -5209,17 +5308,23 @@ sort={k-means},
         
 \newglossaryentry{ridgeregression}
 {name={ridge regression}, 
-	description={Ridge\index{ridge regression} 
-		\gls{regression} learns the \gls{weights} $\weights$ of a linear \gls{hypothesis} \gls{map} $\hypothesis^{(\weights)}(\featurevec)= \weights\,^{T} \featurevec$. 
-		The quality of a particular choice for the \gls{modelparams} $\weights$ is measured by the sum 
-		of two components. The first component is the average \gls{sqerrloss} incurred by $\hypothesis^{(\weights)}$ on a set of 
-		\glspl{labeled datapoint} (i.e., the \gls{trainset}). The second component is the scaled squared 
-		Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} \gls{parameter} 
-		$\regparam > 0$. Adding $\regparam \| \weights \|^{2}_{2}$ to 
-	    	the average \gls{sqerrloss} is equivalent to replacing original \glspl{datapoint} by the \glspl{realization} 
-	    	of (infinitely many) \gls{iid} \glspl{rv} centered around these \glspl{datapoint} (see \gls{regularization}).
+	description={Consider a \gls{regression} problem where the goal is to learn a \gls{hypothesis} $\hypothesis^{(\weights)}$ 
+	for predicing the numeric \gls{label} of a \gls{datapoint} based on its \gls{featurevec}. 
+	  Ridge\index{ridge regression} \gls{regression} learns the \glspl{parameter} $\weights$ 
+	  by minimizing the penalized average \gls{sqerrloss}. The average \gls{sqerrloss} is measured 
+		on a set of \glspl{labeled datapoint} (i.e., the \gls{trainset}) 
+		$$\pair{\featurevec^{(1)}}{\truelabel^{(1)}},\ldots,\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}.$$ The penalty term is the 
+		scaled squared Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a \gls{regularization} \gls{parameter} 
+		$\regparam > 0$. The purpose of the penalty term is \gls{regularization}, i.e., to 
+		prevent \gls{overfitting} in the high-dimensional regime, where the number of \glspl{feature} 
+		$\featuredim$ exceeds the number of \glspl{datapoint} $\samplesize$ in the \gls{trainset}.
+		Adding $\regparam \| \weights \|^{2}_{2}$ to the average \gls{sqerrloss} is equivalent 
+		to computing the average \gls{sqerrloss} on an augmented \gls{trainset}: This augmented 
+		\gls{trainset} is obtained by replacing each \gls{datapoint} $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ 
+		in the original \gls{trainset} by the \gls{realization} of infinitely many \gls{iid} \glspl{rv} 
+		whose \gls{probdist} is centered at $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$.
 	    		\\
-		See also: \gls{regression}, \gls{weights}, \gls{hypothesis}, \gls{map}, \gls{modelparams}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}, \gls{norm}, \gls{regularization}, \gls{parameter}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}.},
+		See also: \gls{regression}, \gls{map}, \gls{dataaug}, \gls{regularization}.},
 	first={ridge regression},
 	text={ridge regression}
 }
