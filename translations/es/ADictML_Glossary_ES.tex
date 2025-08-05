@@ -41,7 +41,7 @@
 	 tends to become insreasingly predictable. This informal claim can be made 
 	 precise via fundamental results of \gls{probability} theory, such as the \gls{lln} 
 	 and the \gls{clt}.
-	 \begin{figure}[h]
+	 \begin{figure}[H]
 		\begin{center}
 	 \begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
 		\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
@@ -98,7 +98,7 @@
  que satisface $\mB \mA = \mI$, o una ``inversa por la derecha'' $\mC$ que satisface $\mA \mC = \mI$. 
  Para matrices rectangulares o singulares en general, la pseudoinversa de Moore–Penrose 
  $\mA^{+}$ proporciona un concepto unificado de matriz inversa generalizada \cite{GolubVanLoanBook}.
- 	 \begin{figure}
+ 	 \begin{figure}[H]
  		\centering
  		\begin{tikzpicture}[x=2cm,y=2cm]
  			% LEFT: Standard basis
@@ -124,7 +124,7 @@
  		\end{tikzpicture}
  		\caption{Una matriz $\mathbf{A}$ representa una transformación lineal de  $\mathbb{R}^{2}$. La matriz inversa $\mathbf{A}^{-1}$ 
  			representa la transformación inversa. \label{fig_matrix_inverse_dict}} 
- 	\end{figure}\\
+ 	\end{figure}
 	Vea tambien: \gls{det}, \gls{linreg}.},
   first={matriz inversa},
   text={matriz inversa}
@@ -199,6 +199,7 @@
         Véa también: \gls{linearmap}, \gls{dataset}, \gls{linmodel}, \gls{modelparams}, \gls{linreg}, \gls{vectorspace} },
     first={matriz},
     firstplural={matrices},
+	type=math,
     plural={matrices},
     text={matriz}
 }
@@ -255,6 +256,7 @@ como un área o volumen orientado definido por los vectores columna de $\mA$.
 \end{figure}
 Vea tambien: \gls{eigenvalue}, \gls{inverse}.},
 first={determinante},
+type=math,
 text={determinante}
 }
 
@@ -289,7 +291,7 @@ text={determinante}
 		como una función que asigna a cada índice $\featureidx \in \{1, \ldots, \nrfeatures\}$ 
 		un valor $x_\featureidx \in \mathbb{R}$, es decir, $\vx: \featureidx \mapsto x_\featureidx$. 
 		Esta perspectiva resulta particularmente útil en el estudio de los metodos de kernel.
-\begin{figure}[htbp]
+\begin{figure}[H]
 % Left: Stem plot
 \begin{minipage}[c]{0.48\textwidth}
 \centering 
@@ -332,25 +334,63 @@ text={determinante}
 : como un arreglo numérico (izquierda) y como una función $\featureidx \mapsto x_\featureidx$ (derecha).}
 \label{fig:vector-function-dual_dict}
 \end{figure}
-	  \\
 		Vea tambien: \gls{euclidspace}, \gls{vectorspace}, \gls{linearmap}, \gls{function}, \glspl{kernelmethod}},
 	first={vector},
+	type=math,
 	text={vector}
 }
 
 \newglossaryentry{vectorspace}
-{name={espacio vectorial},
-	description={Un\index{espacio vectorial} espacio vectorial (también llamado espacio lineal) es un conjunto de elementos (llamados vectores) cerrado bajo la suma de vectores y la multiplicación por escalares, es decir:
-		\begin{itemize}
-			\item Si $\vx, \vy \in \mathcal{V}$, entonces $\vx + \vy \in \mathcal{V}$.
-			\item Si $\vx \in \mathcal{V}$ y $c \in \mathbb{R}$, entonces $c \vx \in \mathcal{V}$.
-			\item En particular, $\mathbf{0} \in \mathcal{V}$.
-		\end{itemize}
-		El espacio euclidiano $\mathbb{R}^n$ es un espacio vectorial.
-		Los modelos lineales y las aplicaciónes lineales operan dentro de tales espacios.\\
-		Véa también: \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
-	first={espacio vectorial},
-	text={espacio vectorial}
+{
+  name={espacio vectorial},
+  description={Un \index{espacio vectorial} espacio vectorial $\mathcal{V}$ (también llamado espacio lineal) 
+  es una colección de elementos, llamados vectores, junto con las siguientes dos operaciones: 
+    1) suma (denotada $\vv+\vw$) de dos vectores $\vv,\vw$; y 2) multiplicación 
+    (denotada $c \,\cdot \,\vv$) de un vector $\vv$ con un escalar $c$ que pertenece a algún 
+    campo numérico (con una elección típica para este campo siendo $\mathbb{R}$). La propiedad 
+    definitoria de un espacio vectorial es que está cerrado bajo estas operaciones:
+    \begin{itemize}
+      \item Si $\vv, \vw \in \mathcal{V}$, entonces $\vv + \vw \in \mathcal{V}$.
+      \item Si $\vv \in \mathcal{V}$ y $c \in \mathbb{R}$, entonces $c \vv \in \mathcal{V}$.
+      \item En particular, $\mathbf{0} \in \mathcal{V}$.
+    \end{itemize}
+    \begin{figure}[H]
+    \centering
+      \begin{tikzpicture}[>=Stealth, scale=1.2]
+        % Coordinates
+        \coordinate (O) at (0,0);            % Origin
+        \coordinate (V) at (2,1.5);          % vector v
+        \coordinate (W) at (1,3);            % vector w
+        \coordinate (VplusW) at (3,4.5);     % v + w
+        \coordinate (HalfV) at (1,0.75);     % 0.5 * v
+        \draw[->, thick, blue] (O) -- (V) node[pos=1, right] {$\vv$};
+        \draw[->, thick, red] (O) -- (W) node[pos=1, left] {$\vw$};
+        \draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {$\vv+\vw$};
+        \draw[dashed, red] (V) -- (VplusW);
+        \draw[dashed, blue] (W) -- (VplusW);
+        \draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha \vv$};
+        % Filled dots
+        \filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  % origin
+        \filldraw[blue] (V) circle (2pt);         % v
+        \filldraw[red] (W) circle (2pt);          % w
+        \filldraw[purple] (VplusW) circle (2pt);  % v + w
+        \filldraw[orange] (HalfV) circle (2pt);   % 0.5v
+      \end{tikzpicture}
+      \caption{Un espacio vectorial $\mathcal{V}$ es una colección de vectores tal que 
+      escalar y sumar estos siempre produce otro vector en $\mathcal{V}$.}
+      \label{fig:vector-ops_dict}
+    \end{figure}
+    Un ejemplo común de un espacio vectorial es el espacio euclidiano $\mathbb{R}^n$, que es 
+    ampliamente utilizado en aprendizaje automático para representar conjuntos de datos. También podemos usar $\mathbb{R}^n$ 
+    para representar, ya sea exactamente o aproximadamente, el espacio de hipótesis utilizado por un método de aprendizaje automático. 
+    Otro ejemplo de un espacio vectorial, que está naturalmente asociado con cada espacio de probabilidad
+    $\mathcal{P}=\big(\Omega,\mathcal{R},\prob{\cdot} \big)$, es la colección de todas 
+    las variables aleatorias con valores reales $x: \Omega \rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
+    \\
+    Véa también: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
+  first={espacio vectorial},
+  type=math,
+  text={espacio vectorial}
 }
 
 
@@ -379,6 +419,7 @@ text={determinante}
 		\\
 		Véase también: \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}, \gls{rv}, \gls{sbm}.},
 	first={proceso estocástico},
+	type=math,
 	text={proceso estocástico}
 }
 
@@ -392,6 +433,7 @@ text={determinante}
 		\\
 		Véase también: \gls{probdist}, \gls{rv}.},
 	first={función característica},
+	type=math,
 	text={función característica}
 }
 
@@ -445,9 +487,28 @@ text={determinante}
 	asigna a cada elemento $u \in \mathcal{U}$ exactamente un elemento $v \in \mathcal{V}$  \cite{RudinBookPrinciplesMatheAnalysis}. 
 		Esto se escribe como $f: \mathcal{U} \rightarrow \mathcal{V}$, donde $\mathcal{U}$ es el dominio 
 		y $\mathcal{V}$ el codominio de $f$. Es decir, una función $f$ define una salida única 
-		$f(u) \in \mathcal{V}$ para cada entrada $u \in \mathcal{U}$. Para más detalles,
-	},
+		$f(u) \in \mathcal{V}$ para cada entrada $u \in \mathcal{U}$ (see Fig. \ref{fig_function_dict}).
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.2cm and 2.5cm]
+				\tikzset{dot/.style={circle, fill=black, inner sep=1.2pt}}
+				\node (A) [dot, label=left:$a$] {};
+				\node (B) [dot, below=of A, label=left:$b$] {};
+				\node (C) [dot, below=of B, label=left:$c$] {};
+				\node (1) [dot, right=4cm of A, label=right:$1$] {};
+				\node (2) [dot, below=of 1, label=right:$2$] {};
+				\node (3) [dot, below=of 2, label=right:$3$] {};
+				\node[draw=blue!70, thick, ellipse, inner sep=0.5cm, fit=(A)(B)(C), label=above:$\mathcal{U}$] {};
+				\node[draw=green!70!black, thick, ellipse, inner sep=0.5cm, fit=(1)(2)(3), label=above:$\mathcal{V}$] {};
+				\draw[->] (A) -- (2);
+				\draw[->] (B) -- (1);
+				\draw[->] (C) -- (2);
+			\end{tikzpicture}
+			\caption{Una función \( f \colon \{a,b,c\} \to \{1,2,3\} \) mapea cada elemento del dominio a exactamente un elemento del 
+				codominio. \label{fig_function_dict}}
+		\end{figure} },
 	first={función},
+	type=math,
 	text={función}
 }
 
@@ -459,6 +520,7 @@ text={determinante}
 	Véase también: \gls{function}.
 	},
 	first={aplicación},
+	type=math,
 	text={aplicación}
 }
 
@@ -482,7 +544,7 @@ $\vq^{(\nodeidx)}$ y un vector clave $\vk^{(\nodeidx')}$. Para un token dado $\n
 $\vq^{(\nodeidx)}$ y otro token $\nodeidx'$ con clave $\vk^{(\nodeidx')}$, la cantidad 
 $\big( \vq^{(\nodeidx)} \big)^{\top} \vk^{(\nodeidx')}$ cuantifica hasta qué punto el token $\nodeidx$ presta atención 
 a (o depende de) $\nodeidx'$.
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[>=stealth, node distance=0.2cm and 0.2cm,
 		every node/.style={inner sep=2pt, font=\large}, baseline]
@@ -533,6 +595,7 @@ text={atención}
 		es extremo —es decir, mínimo o máximo \cite{BoydConvexBook,nesterov04,BertsekasNonLinProgr}.
 	},
 	first={problema de optimización},
+	type=math,
 	text={problema de optimización}
 }
 
@@ -733,8 +796,8 @@ text={atención}
 	\end{figure}
 	Véa también: \gls{function}, \gls{graph}, \gls{convex}.
   },
-  first={epigraph},
-  text={epigraph}
+  first={epígrafo},
+  text={epígrafo}
 }
 
 % \newglossaryentry{nullspace}
@@ -985,7 +1048,7 @@ text={atención}
 	nuevo \gls{datapoint} recibido. La utilidad de la \gls{prediction} resultante
 	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ se cuantifica mediante una señal de \gls{reward}
 	$\reward^{(\timeidx)}$.
-	\begin{figure}
+	\begin{figure}[H]
 			\begin{center}
 		\begin{tikzpicture}[scale=1]
 			\draw[->] (-2, 0) -- (6, 0);
@@ -1277,7 +1340,7 @@ text={tarea de aprendizaje}
 		que asigna el vector de atributos de un punto de datos a la predicción $\widehat{\truelabel}= \widehat{\hypothesis}$. 
 		Las explicaciones Locales Interpretables e Independientes del Modelo (LIME) son una tecnica para explicar 
 		el comportamiento de $\widehat{\hypothesis}$, localmente, alrededor de un punto de datos con vector de atributos $\featurevec^{(0)}$ \cite{Ribeiro2016}. 
-		La explicación se da en forma de una aproximación local $g \in \hypospace'$ de $\widehat{\hypothesis}$ (véa Fig.\ \ref{fig_lime}). 
+		La explicación se da en forma de una aproximación local $g \in \hypospace'$ de $\widehat{\hypothesis}$ (véa Fig. \ref{fig_lime_dict}). 
 		Esta aproximación puede obtenerse mediante una instancia de ERM con un 
 		conjunto de entrenamiento diseñado cuidadosamente. En particular, el conjunto de entrenamiento consiste en puntos de datos con 
 		vector de atributos $\featurevec$ cercana a $\featurevec^{(0)}$ y la (pseudo-)etiqueta $\widehat{\hypothesis}(\featurevec)$. 
@@ -1285,7 +1348,7 @@ text={tarea de aprendizaje}
 		el modelo original $\hypospace$. Por ejemplo, podemos usar un arbol de decision
 		para aproximar (localmente) una red profunda. Otra elección ampliamente utilizada para $\hypospace'$ es 
 		el modelo lineal. 
-		\begin{figure}[htbp]
+		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}
 			\begin{axis}[
@@ -1315,8 +1378,8 @@ text={tarea de aprendizaje}
 		  \end{tikzpicture}
 		\end{center}
 		\caption{Para explicar un \gls{model} $\widehat{\hypothesis} \in \hypospace$ entrenado, alrededor de un \gls{featurevec} $\featurevec^{(0)}$, podemos usar una aproximación local $g \in \hypospace'$. }
-		\end{figure}\label{fig_lime}
-		\\
+		\label{fig_lime_dict}
+		\end{figure}
 		Vea también: \gls{model}, \gls{hypothesis}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{erm}, \gls{trainset}, \gls{decisiontree}, \gls{deepnet}, \gls{linmodel}  },
 	first={LIME},text={LIME}
 }
@@ -1957,7 +2020,7 @@ como
 		\gls{ml} method $\algomap$ should return the same (or very similar) output $\algomap(\dataset)$ 
 		for all three \gls{dataset}. In other words, any useful $\algomap$ must be robust to 
 		variability in sample \gls{realization}s from the same \gls{probdist}, i.e., it must be stable. 
-		\begin{figure}[htbp]
+		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
 				\begin{axis}[
@@ -2082,7 +2145,7 @@ como
 {name={mediana}, 
  description={Una\index{mediana} mediana $\med(x)$ de una variable aleatoria real $x$ 
  es cualquier número $m \in \mathbb{R}$ tal que $\prob{ x \leq m} \geq 1/2$ y $\prob{ x \geq m} \geq 1/2$ \cite{LC}.
- \begin{figure}
+ \begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}
   \begin{axis}[
@@ -2123,7 +2186,7 @@ como
  con más de un punto de datos no cambia aunque aumentemos arbitrariamente el valor del mayor elemento de $\dataset$. 
  En contraste, la media sí lo haría.
  \definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
-  	\begin{figure}
+  	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
 			\begin{scope}
@@ -2458,7 +2521,7 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 	La Figura~\ref{opt_cond_GM_dict} ilustra una propiedad fundamental de la GM:
 	si $\vz$ no coincide con ninguno de los vectores de entrada, entonces los vectores unitarios 
 	que apuntan desde $\vz$ hacia cada $\vx^{(\sampleidx)}$ deben sumar cero; 
-	esta es la condición de \gls{subgradient} nulo (óptima) de \eqref{equ_geometric_median}. 
+	esta es la condición de \gls{subgradient} nulo (óptima) de \eqref{equ_geometric_median_dict}. 
 	Además, se ha demostrado que la solución de \eqref{equ_geometric_median_dict} 
 	no puede alejarse arbitrariamente de los vectores de entrada confiables 
 	mientras estos constituyan la mayoría \cite[Th. 2.2]{Lopuhaae1991}.
@@ -2486,7 +2549,7 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
 			\end{tikzpicture}
 			\caption{\label{opt_cond_GM_dict}
-			Sea $\vz$ una solución de \eqref{equ_geometric_median} que no coincide con ninguno 
+			Sea $\vz$ una solución de \eqref{equ_geometric_median_dict} que no coincide con ninguno 
 			de los vectores de entrada. La condición de optimalidad requiere que los vectores 
 			unitarios desde $\vz$ hacia los vectores de entrada sumen cero.}
 			\end{center}
@@ -2517,7 +2580,7 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 		La segunda forma de explicación representada en la figura es un conjunto disperso de predicciones
 		$\learnthypothesis(\featurevec^{(1)}), \learnthypothesis(\featurevec^{(2)}), \learnthypothesis(\featurevec^{(3)})$ 
 		en vectores de atributos seleccionados, que ofrecen puntos de referencia concretos para el usuario.
-	 	 \begin{figure}[htbp]
+	 	 \begin{figure}[H]
 	   		\begin{center}
 	 		\begin{tikzpicture}[x=0.5cm]
 	 		\begin{axis}[
@@ -2571,7 +2634,6 @@ description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio eucl
 	 para $\sampleidx=1,2,3$.
 		\label{fig_explanation_dict}}
 	 \end{figure} 
-	 \\
 		Vea también: \gls{explainability}, \gls{trustAI}.},
 	first={explicacion},
 	text={explicacion} 
@@ -3442,17 +3504,17 @@ una disposición más significativa de los puntos de datos en $\mathbb{R}^{\nrfe
 		y para la validación de modelos. Nuestra noción de conjunto de datos es muy flexible, 
 		ya que permite diferentes tipos de puntos de datos. De hecho, los puntos de datos pueden ser objetos físicos concretos
 		(como humanos o animales) o objetos abstractos (como números).
-		Como ejemplo, la Figura\ \ref{fig_cows_dataset} muestra un conjunto de datos que consiste en vacas como 
+		Como ejemplo, la Figura\ \ref{fig_cows_dataset_dict} muestra un conjunto de datos que consiste en vacas como 
 		punto de datos. 
 		\begin{figure}[H]
 				\begin{center}
-		\label{fig:cowsintheswissalps}
+		\label{fig:cowsintheswissalps_dict}
 		\includegraphics[width=0.5\textwidth]{../../assets/CowsAustria.jpg}
 		  \end{center}
-		\caption{\label{fig_cows_dataset} A cowherd.}
+		\caption{\label{fig_cows_dataset_dict} A cowherd.}
 	  \end{figure}
 	   Con frecuencia, un ingeniero de aprendizaje automático no tiene acceso directo a un conjunto de datos. De hecho, acceder al conjunto de datos en la Figura 
-       \ \ref{fig:cowsintheswissalps} requeriría visitar el rebaño de vacas en los Alpes. En su lugar, 
+        \ref{fig_cows_dataset_dict} requeriría visitar el rebaño de vacas en los Alpes. En su lugar, 
 	   necesitamos utilizar una aproximación (o representación) del conjunto de datos que sea más conveniente para trabajar. 
        Se han desarrollado diferentes modelos matemáticos para la representación (o aproximación) de conjuntos de datos  
        \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
@@ -3464,22 +3526,27 @@ una disposición más significativa de los puntos de datos en $\mathbb{R}^{\nrfe
 		\item Cada columna de la tabla corresponde a un atributo específico del punto de datos. 
 		Los métodos de aprendizaje automático pueden utilizar estos atributos como atributos y etiquetas del punto de datos.
 		\end{itemize}
-		Por ejemplo, la Tabla \ref{tab:cowdata} muestra una representación del conjunto de datos en la Figura\ \ref{fig_cows_dataset}. 
+		Por ejemplo, la Tabla \ref{tab:cowdata_dict} muestra una representación del conjunto de datos en la Figura. \ref{fig_cows_dataset_dict}. 
 		En el modelo relacional, el orden de las filas es irrelevante, y cada atributo (es decir, columna) debe estar definido de manera precisa con un dominio, que especifica el conjunto de valores posibles.
 		En las aplicaciones de aprendizaje automático, estos dominios de atributos se convierten en el espacio de atributos y el espacio de etiquetas. 
 		\begin{table}[H]
+			\refstepcounter{table}
+			\caption*{
+				\centering 
+				\scshape TABLE \thetable \\[0.5ex]
+				\scshape A Relation (or Table) That Represents the Dataset in Fig. \ref{fig_cows_dataset_dict} 
+			}
+			\label{tab:cowdata_dict} 
 			\centering
 			\begin{tabular}{lcccc}
 				\hline
-				\textbf{Name} & \textbf{Weight} & \textbf{Age} & \textbf{Height} & \textbf{Stomach temp} \\
+				\textbf{Name} & \textbf{Weight} & \textbf{Age} & \textbf{Height} & \textbf{Stomach temperature} \\
 				\hline
 				Zenzi & 100 & 4 & 100 & 25 \\
 				Berta & 140 & 3 & 130 & 23 \\
 				Resi  & 120 & 4 & 120 & 31 \\
 				\hline
 			\end{tabular}
-			\caption{Una relación (o tabla) que representa el conjunto de datos en la Figura\ \ref{fig:cowsintheswissalps}.}
-			\label{tab:cowdata}
 		\end{table}
  Si bien el modelo relacional es útil para el estudio de muchas aplicaciones de aprendizaje automático, puede ser insuficiente 
  para cumplir con los requisitos de IA confiable. Enfoques modernos como las hojas de datos para conjuntos de datos proporcionan una documentación más completa,   
@@ -4556,7 +4623,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		en el resultado exacto $\omega$, sino solo en si pertenece a un subconjunto $\mathcal{A} \subseteq \Omega$ 
 		(por ejemplo, “¿es la temperatura inferior a cero grados?”). Llamamos a dicho subconjunto $\mathcal{A}$ medible si es 
 		posible decidir, para cualquier resultado $\omega$, si $\omega \in \mathcal{A}$ o no. 
-		\begin{figure}
+		\begin{figure}[H]
 		\begin{tikzpicture}
 			% Draw temperature axis
 			\draw[->] (0,0) -- (8.5,0) node[right] {temperatura [$^\circ$C]};
@@ -4584,7 +4651,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		equipo de medición). Sin embargo, a menudo es útil imponer ciertos requisitos de completitud 
 		en la colección de conjuntos medibles. Por ejemplo, el propio \gls{samplespace} debería ser 
 		medible, y la unión de dos conjuntos medibles también debería ser medible. Estos requisitos de completitud 
-		pueden formalizarse mediante el concepto de $\sigma$-álgebra (o campo $\sigma$) \cite{BillingsleyProbMeasure,durrett2010probability,rudin1987real}. 
+		pueden formalizarse mediante el concepto de $\sigma$-álgebra (o campo $\sigma$) \cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}. 
 		Un espacio medible es un par $\big(\featurespace,\mathcal{F}\big)$ que consta de un conjunto arbitrario $\featurespace$ y una 
 		colección $\mathcal{F}$ de subconjuntos medibles de $\featurespace$ que forman una $\sigma$-álgebra. 
 	\\
@@ -4732,7 +4799,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 			   \cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
 			   $$
 			   Una covarianza positiva indica que $x$ y $y$ tienden a aumentar juntos, mientras que una covarianza negativa sugiere que uno tiende a aumentar cuando el otro disminuye. Si $\cov{x}{y} = 0$, se dice que las \glspl{rv} son no correlacionadas, aunque esto no implica necesariamente que sean estadísticamente independientes. Véase la Figura~\ref{fig:covariance-examples_dict} para ilustraciones visuales.
-		   \begin{figure}
+		   \begin{figure}[H]
 		   \begin{tikzpicture}
 			% Negative covariance
 		   \begin{scope}[shift={(0,0)}]
@@ -4984,8 +5051,8 @@ incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como
 			\label{equ_hinge_loss_gls_dict}
 				\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq \max \{ 0 , 1 - \truelabel \hypothesis(\featurevec) \}. 
 			\end{equation}
+			\begin{figure}[H]
 			\begin{center}
-		%\begin{figure}[htbp]
 \begin{tikzpicture}
     \begin{axis}[
         axis lines=middle,
@@ -5009,10 +5076,15 @@ incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como
      %   \addlegendentry{$\max(0, 1-x)$}
     \end{axis}
 \end{tikzpicture}
-	%	\end{figure} 
-		\end{center}
-	    Una variante regularizada de la perdida de hinge es utilizada por las máquina de vectores de soporte \cite{LampertNowKernel}. 	    
-		Vea también: \gls{datapoint}, \gls{featurevec}, \gls{label}, \gls{loss}, \gls{hypothesis}, \gls{svm}.},first={pérdida de hinge},text={pérdida de hinge}}
+\caption{The hinge \gls{loss} incurred by the \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
+for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized variant of the hinge 
+\gls{loss} is used by the \gls{svm} \cite{LampertNowKernel}.}
+\label{fig_hingeloss_dict}
+\end{center}
+\end{figure} 	    
+		Vea también: \gls{datapoint}, \gls{featurevec}, \gls{label}, \gls{loss}, \gls{hypothesis}, \gls{svm}.},
+		first={pérdida de hinge},
+		text={pérdida de hinge}}
 
 \newglossaryentry{iidasspt}{name={suposición de independencia e idéntica distribución (suposición i.i.d.)}, description={La suposición iid 
 		\index{suposición de independencia e idéntica distribución (suposición i.i.d.)} interpreta los puntos de datos de un conjunto de datos como las 
@@ -5033,7 +5105,7 @@ asociado al método de aprendizaje automático.
 Para el análisis de un método dado de aprendizaje automático, la elección del espacio de hipótesis $\hypospace$ no es única: 
 cualquier superconjunto que contenga todos los mapas que el método puede aprender también es un espacio de 
 hipótesis válido.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \begin{center}
 	\begin{tikzpicture}[allow upside down, scale=0.4]
 		\node [below] at (5,-3) {$\labelspace^{\featurespace}$};
@@ -5068,7 +5140,7 @@ text={espacio de hipótesis}
 			referirnos específicamente al espacio de hipótesis subyacente a un método de aprendizaje automatico.
 			 \\
 			Véa también: \gls{hypospace}, \gls{probmodel}, \gls{probdist}.
-			\begin{figure}[ht]
+			\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=1]
 			\draw[->] (-1,0) -- (3,0) node[right] {$\feature$};
@@ -5882,7 +5954,29 @@ la distribución de probabilidad subyacente y de la elección de la funcion de p
 	Un modelo lineal utiliza los pesos $\weights=\big(\weight_{1},\ldots,\weight_{\nrfeatures}\big)^{T}$ para calcular 
 	la combinación lineal $\hypothesis^{(\weights)}(\featurevec)= \weights^{T} \featurevec$. 
 	Los pesos también se utilizan en las red neuronales artificiales para formar combinaciones lineales de los atributos o de las salidas de las neuronas en capas ocultas.
-	\\
+	\begin{figure}[H]
+		\begin{center}
+		\begin{tikzpicture}[neuron/.style={circle, draw, minimum size=1cm}, 
+					thick, >=stealth]
+		% Hidden layer neurons
+		\node[neuron] (h1) at (0, 2) {$h_1$};
+		\node[neuron] (h2) at (0, 0) {$h_2$};
+		\node[neuron] (h3) at (0, -2) {$h_3$};
+		% Common target coordinate to merge arrows
+		\coordinate[right=3cm of h2] (outpoint);
+		% Label the linear combination to the right of the arrow tips
+		\node[anchor=west] at ([xshift=0.2cm]outpoint) 
+			{$z = w_1 h_1 + w_2 h_2 + w_3 h_3$};
+		% Arrows from hidden neurons to common point
+		\draw[->] (h1) -- node[above] {$w_1$} (outpoint);
+		\draw[->] (h2) -- node[above] {$w_2$} (outpoint);
+		\draw[->] (h3) -- node[below] {$w_3$} (outpoint);
+		\end{tikzpicture}
+		\end{center}
+		\caption{A section of an \gls{ann} that contains a hidden layer with outputs (or activations) 
+		$h_{1}$,$h_{2}$, and $h_{3}$. These outputs are combined linearly to compute $z$ that can 
+		be used either as output of the \gls{ann} or as input to another layer.\label{fig_weights_dict}}
+	\end{figure}
 		Vea también: \gls{hypospace}, \gls{modelparams}, \gls{feature}, \gls{linmodel}, \gls{ann}.},
 	first={pesos},text={pesos}}
 	
@@ -6303,21 +6397,12 @@ están codificadas en las aristas de una red de aprendizaje federado.
 	first={principio de minimización de datos},text={principio de minimización de datos}}
 
 
-%definitions are still under construction
-% 	\newglossaryentry{auc}{
-% 		name={area under the curve (AUC)},
-% 		description={The area under the curve (AUC)\index{area under the curve (AUC)} is a performance metric for evaluating the performance of binary \gls{classification} models when it comes to separating classes.  The values of AUC lie in the range $[0,1]$, where a value of $0.5$ indicates a model with the same discriminative choosing as random guessing, $1.0$ indicates perfect classification and distinction between classes. Values below $0.5$ suggest the model performs worse than random guessing. Visually this is the area under the ROC curve, which plots the \gls{tpr} against the \gls{fpr} as the decision threshold of a \gls{model} is varied. 
-% 		\\
-% 		See also: \gls{tpr}, \gls{fpr}, \gls{model}, \gls{acc}.},
-% 		first={area under the curve (AUC)},
-% 		text={AUC}
-% 	  }
 	  
 	  
 % 	  \newglossaryentry{fpr}{
 % 		name={false positive rate (FPR)},
 % 		description={The false positive rate (FPR)\index{false positive rate (FPR)} measures how often a model will incorrectly indicate a positive result when the actual result is negative. 
-% 		Simply, it is the percentage probability of incorrectly identifying something as true when it is false. 
+% 		Simply, it is the probability of incorrectly identifying something as true when it is false. 
 % 		\[
 % 		\text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}},
 % 		\]
@@ -6334,7 +6419,8 @@ están codificadas en las aristas de una red de aprendizaje federado.
 	  
 % 	  \newglossaryentry{tpr}{
 % 		name={true positive rate (TPR)},
-% 		description={The true positive rate (TPR)\index{true positive rate (TPR)}, also known as recall, is a measure used to evaluate the performance of a \gls{classification} \gls{model}. 
+% 		description={The true positive rate (TPR)\index{true positive rate (TPR)}, also known as recall, is a measure used to evaluate the performance of a \gls{classification} \gls{model}.
+% 		It is the ability for the classifier to find all positive samples. The best value is 1 and the worst value is 0. 
 % 		\\[0.5ex]
 % 		Mathematically, it represents the proportion of actual positive cases that are correctly classified as true by the \gls{model}
 % 		\[
@@ -6363,24 +6449,26 @@ están codificadas en las aristas de una red de aprendizaje federado.
 %   text={backpropagation}
 % }
 
-% 	  \newglossaryentry{newtonmethod}{
-%   name={Newton's method},
-%   description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of a twice differentiable function or surface. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives and local curvature to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
-%   \[
-%     \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
-%   \]
-%   where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
-%   \\
-%   See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
-%   },
-%   first={newtonmethod},
-% 		text={newtonmethod} }
+	  \newglossaryentry{newtonmethod}{
+  name={Newton's method},
+  description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of multivariate differentiable functions. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives through the \gls{hessian} to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
+  \[
+    \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
+  \]
+  where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
+  \\
+  See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
+  },
+  first={newtonmethod},
+	type=math,
+		text={newtonmethod} }
 
-%   \newglossaryentry{hessian}{
-%   name={hessian},
-%   description={The hessian matrix of a twice-differentiable scalar-valued function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$ is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
-%   first={hessian},
-%   text={hessian}}
+  \newglossaryentry{hessian}{
+  name={hessian},
+  description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
+  first={hessian},
+	type=math,
+  text={hessian}}
 
 % \newglossaryentry{convexopt}{
 %   name={convex optimization},
@@ -6396,5 +6484,6 @@ están codificadas en las aristas de una red de aprendizaje federado.
 %     See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
 %   },
 %   first={convex optimization},
+%	type =math,
 %   text={convex optimization}
 % }
