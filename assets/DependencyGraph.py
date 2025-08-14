@@ -121,6 +121,7 @@ nx.draw(
     with_labels=False,
     arrows=True
 )
+print(len(G.nodes))
 
 #nx.draw_networkx_labels(G, pos, labels=labels, font_size=20)
 

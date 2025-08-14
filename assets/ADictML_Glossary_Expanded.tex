@@ -18,10 +18,69 @@
   	\lim_{\alpha \to 0^+} \widehat{{\bf w}}^{(\alpha)} = {\bf A}^+ {\bf y}.
   	\]
 	\\
-	See also: matrix, inverse matrix, ridge regression, dataset, label, feature matrix, model parameters.
+	See also: matrix, inverse matrix, ridge regression.
 	},
  first={pseudoinverse},
  text={pseudoinverse}
+}
+
+\newglossaryentry{randomexperiment}
+{name={random experiment},
+	description={A random experiment is a physical (or abstract) process 
+    	 	that produces an outcome $\omega$ from a set of possibilities $\Omega$. 
+	 	This set of all possible outcomes is referred to as the sample space of 
+	 	the experiment. The key characteristic of a random experiment is that its 
+	 	outcome is unpredictable (or uncertain). Any measurement or observation 
+	 	of the outcome is an RV, i.e., a function of the outcome $\omega \in \Omega$. 
+	 	Probability theory uses a probability space as a mathematical structure for the study of 
+	 	random experiments. A key conceptual property of a random experiment is that it can 
+	 	be repeated under identical conditions. Strictly speaking, repeating a random experiment 
+	 	a given number of $m$ times defines a new random experiment. The outcomes 
+	 	of this new experiment are length-$m$ sequences of outcomes 
+	 	from the original experiment. While the outcome of a single experiment is 
+	 	uncertain, the long-run behavior of the outcomes of repeated experiments 
+	 	tends to become increasingly predictable. This informal claim can be made 
+	 	precise via fundamental results of probability theory, such as the law of large numbers 
+	 	and the CLT.
+	 	\begin{figure}[H]
+		\begin{center}
+	 		\begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
+			\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
+			\node (omega) [right=of experiment] {$\omega \in \Omega$};
+			\coordinate (rightpad) at ($(omega.east) + (0.2,0)$);
+			\draw[->] (experiment) -- (omega);
+			\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(m)})$};
+			\node (sequence1) [below=of sequence, yshift=-0.5cm] {$({\bf z}^{(1)}, \,{\bf z}^{(2)}, \,\dots, \,{\bf z}^{(m)})$};
+			\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $m$ times} (sequence.north);
+			\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {RVs} (sequence1.north);
+			
+			\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
+			
+        			\node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega \times \ldots \times \Omega$}] {};
+	 		\end{tikzpicture}
+	     	\end{center}
+		\caption{A random experiment produces an outcome $\omega \in \Omega$ from a set of possibilities (or sample space) 
+		$\Omega$. Repeating the experiment $m$ times yields another random experiment, whose outcomes are 
+		sequences $(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(m)}) \in \Omega\times\ldots\times \Omega$. 
+		One example of a random experiment arising in many ML applications is the gathering 
+		of a training set ${\bf z}^{(1)},\,\ldots,\,{\bf z}^{(m)}$.}
+	 	\end{figure} 
+	 	Examples for random experiments arising in ML applications include the following: 
+	 	\begin{itemize} 
+			\item Data collection: The data points collected in ERM-based methods 
+			can be interpreted as RVs, i.e., as functions of the outcome $\omega \in \Omega$ 
+			of a random experiment. 
+			\item SGD uses a random experiment at each iteration to select a subset of 
+			the training set. 
+			\item Privacy protection methods use random experiments to generate noise that is added to the 
+		 	outputs of an ML method to ensure DP. 
+	 	\end{itemize} 
+		See also: sample space, RV, function, probability, probability space, law of large numbers, CLT, sample space, 
+		ML, training set, data, data point, ERM, SGD, privacy protection, DP. },
+ 	firstplural={random experiments},
+ 	plural={random experiments},
+ 	first={random experiment},
+ 	text={random experiment}
 }
 
 \newglossaryentry{inverse}
@@ -33,10 +92,10 @@
  	\[
  	{\bf A} {\bf A}^{-1} = {\bf A}^{-1} {\bf A} = \mathbf{I}.
  	\]  	
-     	A square matrix is invertible if and only if its determinant is non-zero. Inverse matrices are 
+     	A square matrix is invertible if and only if its determinant is nonzero. Inverse matrices are 
      	fundamental in solving systems of linear equations and in the closed-form solution of 
      	linear regression \cite{Strang2007}, \cite{Horn91}.  The concept of an inverse matrix can be extended 
-     	to matrices that are not square or not full-rank. One may define a ``left inverse'' ${\bf B}$ 
+     	to matrices that are not square or not full rank. One may define a ``left inverse'' ${\bf B}$ 
      	satisfying ${\bf B} {\bf A} = \mathbf{I}$ or a ``right inverse'' ${\bf C}$ satisfying ${\bf A} {\bf C} = \mathbf{I}$. 
      	For general rectangular or singular matrices, the Moore–Penrose pseudoinverse
      	${\bf A}^{+}$ provides a unified concept of a generalized inverse matrix \cite{GolubVanLoanBook}.
@@ -74,7 +133,7 @@
 
 \newglossaryentry{matrix}
 {name={matrix},
-	description={A matrix of size $m \times d$ is a two-dimensional array of numbers, 
+	description={A matrix of size $m \times d$ is a 2-D array of numbers, 
  		which is denoted  
 		$$
   		{\bf A} = \begin{bmatrix}
@@ -84,8 +143,8 @@
 		A_{m,1} & A_{m,2} & \dots  & A_{m,d}
 		\end{bmatrix} \in \mathbb{R}^{m \times d}.
 		$$
-		Here, $A_{r,j}$ denotes the matrix entry in the $r$-th row and the 
-		$j$-th column. Matrices are useful representations of various mathematical objects \cite{StrangLinAlg2016},
+		Here, $A_{r,j}$ denotes the matrix entry in the $r$th row and the 
+		$j$th column. Matrices are useful representations of various mathematical objects \cite{StrangLinAlg2016},
 		including the following:
 		\begin{itemize}
 			\item Systems of linear equations: We can use a matrix to represent a system of linear equations 
@@ -107,9 +166,9 @@
     			model parameters within linear regression. 
 			\item Linear maps:
 			Consider a $d$-dimensional vector space $\mathcal{U}$ and a $m$-dimensional vector space $\mathcal{V}$. 
-			If we fix a basis $\mathbf{u}^{(1)},\ldots,\mathbf{u}^{(d)}$ for $\mathcal{U}$ and a basis $\mathbf{v}^{(1)},\ldots,\mathbf{v}^{(m)}$ 
+			If we fix a basis $\mathbf{u}^{(1)},\,\ldots,\,\mathbf{u}^{(d)}$ for $\mathcal{U}$ and a basis $\mathbf{v}^{(1)},\,\ldots,\,\mathbf{v}^{(m)}$ 
 			for $\mathcal{V}$, each matrix ${\bf A} \in \mathbb{R}^{m \times d}$ naturally defines a 
-			linear map $\alpha: \mathcal{U} \rightarrow \mathcal{V}$ such that
+			linear map $\alpha: \mathcal{U} \rightarrow \mathcal{V}$ (see Fig. \ref{fig_matrix_dict}) such that
    			$${\bf u}^{(j)} \mapsto \sum_{r=1}^{m} A_{r,j} {\bf v}^{(r)}.$$
 			\item Datasets: We can use a matrix to represent a dataset. Each row 
 			corresponds to a single data point, and each column corresponds to a specific 
@@ -142,11 +201,12 @@
 		
 		\end{tikzpicture}
 		\end{center}
-		\caption{A matrix ${\bf A}$ defines a linear map between two vector spaces.} 
+		\caption{A matrix ${\bf A}$ defines a linear map between two vector spaces. \label{fig_matrix_dict}} 
 		\end{figure}
 		See also: linear map, dataset, linear model. },
 	first={matrix},
 	firstplural={matrices},
+	type=math,
 	plural={matrices},
 	text={matrix}
 }
@@ -154,25 +214,26 @@
 \newglossaryentry{det}
 {name={determinant},
 	description={The determinant $\det\,({\bf A})$ of a square matrix 
-		${\bf A} = \big( {\bf a}^{(1)},\ldots, {\bf a}^{(d)} \big) \in \mathbb{R}^{d \times d}$ is a 
-		function of its columns ${\bf a}^{(1)},\ldots,{\bf a}^{(d)} \in \mathbb{R}^{d}$, that is \cite{DirschmidHansJorg1996TuF}
+		${\bf A} = \big( {\bf a}^{(1)},\,\ldots,\,{\bf a}^{(d)} \big) \in \mathbb{R}^{d \times d}$ is a 
+		function of its columns ${\bf a}^{(1)},\,\ldots,\,{\bf a}^{(d)} \in \mathbb{R}^{d}$, i.e., it satisfies 
+		the following properties \cite{DirschmidHansJorg1996TuF}:
 		\begin{itemize}
 			\item Normalized: $$\det (\mathbf{I}) = 1$$ 
-			\item Multi-linear: \begin{align} \nonumber \det \big({\bf a}^{(1)},\ldots,\alpha{\bf u}+ \beta {\bf v},\ldots,{\bf a}^{(d)} \big) & = \alpha\det \big({\bf a}^{(1)},\ldots,{\bf u},\ldots,{\bf a}^{(d)} \big) \\ 
-			& +\beta\det \big({\bf a}^{(1)},\ldots,{\bf v},\ldots,{\bf a}^{(d)} \big) \nonumber
+			\item Multilinear: \begin{align} \nonumber \det \big({\bf a}^{(1)},\,\ldots,\,\alpha{\bf u}+ \beta {\bf v},\,\ldots,\,{\bf a}^{(d)} \big) & = \alpha\det \big({\bf a}^{(1)},\,\ldots,\,{\bf u},\,\ldots,\,{\bf a}^{(d)} \big) \\ 
+			& +\beta\det \big({\bf a}^{(1)},\,\ldots,\,{\bf v},\,\ldots,\,{\bf a}^{(d)} \big) \nonumber
 			\end{align}
-			\item Anti-symmetric: $$\det \big(\ldots,{\bf a}^{(j)}, \ldots, {\bf a}^{(j')},\ldots \big) = - \det \big(\ldots,{\bf a}^{(j')}, \ldots, {\bf a}^{(j)},\ldots \big).$$ 
+			\item Antisymmetric: $$\det \big(\ldots,\,{\bf a}^{(j)}, \,\ldots, \,{\bf a}^{(j')},\,\ldots \big) = - \det \big(\ldots,\,{\bf a}^{(j')}, \,\ldots, \,{\bf a}^{(j)},\,\ldots \big).$$ 
 		\end{itemize} 
 		We can interpret a matrix ${\bf A}$ as a linear transformation on $\mathbb{R}^{d}$.
 		The determinant $\det\,({\bf A})$ characterizes how (the orientation of) 
- 		volumes in $\mathbb{R}^d$ are altered by this transformation \cite{GolubVanLoanBook}, \cite{Strang2007}. 
+ 		volumes in $\mathbb{R}^d$ are altered by this transformation (see Fig. \ref{fig_det_dict}) \cite{GolubVanLoanBook}, \cite{Strang2007}. 
  		In particular, $\det\,({\bf A}) > 0$ preserves orientation, $\det\,({\bf A}) < 0$ reverses orientation, 
  		and $\det\,({\bf A}) = 0$ collapses volume entirely, indicating that ${\bf A}$ is non-invertible. 
  		The determinant also satisfies $\det\,({\bf A} {\bf B}) = \det\,({\bf A}) \cdot \det\,({\bf B})$, and if ${\bf A}$ is 
- 		diagonalizable with eigenvalues $\lambda_{1}, \ldots, \lambda_{d}$, then 
+ 		diagonalizable with eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d}$, then 
 		$\det({\bf A}) = \prod_{j=1}^{d} \lambda_{j}$ \cite{HornMatAnalysis}.
-    		For the special cases $d=2$ (2D) and $d=3$ (3D), the determinant can be 
-		interpreted as an oriented area or volume spanned by the column vectors of ${\bf A}$.
+    		For the special cases $d=2$ (i.e., two-dimensional or 2-D) and $d=3$ (i.e., three-dimensional or 3-D), 
+		the determinant can be interpreted as an oriented area or volume spanned by the column vectors of ${\bf A}$.
     		\begin{figure}[H]
     			\begin{center}
     			\begin{tikzpicture}[x=2cm]
@@ -204,10 +265,12 @@
 			\end{tikzpicture}
 			\end{center}
 			\caption{We can interpret a square matrix ${\bf A}$ as a linear transformation of $\mathbb{R}^{d}$ 
-				into itself. The determinant $\det\,({\bf A})$ characterizes how this transformation alters an oriented volume.}
+				into itself. The determinant $\det\,({\bf A})$ characterizes how this transformation alters an oriented volume.
+				\label{fig_det_dict}}
 		\end{figure}
 		See also: eigenvalue, inverse matrix.},
 	first={determinant},
+	type=math,
 	text={determinant}
 }
 
@@ -218,7 +281,7 @@
 		$f(c{\bf x}) = c f({\bf x})$, for all vectors ${\bf x}, {\bf y} \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. 
 		In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear map can be represented as a matrix 
 		multiplication $f({\bf x}) = {\bf A} {\bf x}$ for some matrix ${\bf A} \in \mathbb{R}^{m \times n}$. 
-		The collection of real-valued linear maps for a given dimension $n$ constitute a linear model 
+		The collection of real-valued linear maps for a given dimension $n$ constitute a linear model, 
 		which is used in many ML methods.
 		\\
 		See also: map, function, vector, matrix, linear model, ML.},
@@ -232,18 +295,18 @@
 		In the context of ML, a particularly important example of a vector space 
 		is the Euclidean space $\mathbb{R}^{d}$, where $d \in \mathbb{N}$ 
 		is the (finite) dimension of the space. A vector ${\bf x} \in \mathbb{R}^{d}$ 
-		can be represented as a list or one-dimensional array of real numbers, i.e., 
-		$x_1, \ldots, x_{d}$ with $x_j \in \mathbb{R}$ for 
-		$j = 1, \ldots, d$. The value $x_j$ is the $j$-th 
+		can be represented as a list or one-dimensional (1-D) array of real numbers, i.e., 
+		$x_1, \,\ldots, \,x_{d}$ with $x_j \in \mathbb{R}$ for 
+		$j = 1, \,\ldots, \,d$. The value $x_j$ is the $j$th 
 		entry of the vector ${\bf x}$. It can also be useful to view a vector ${\bf x} \in \mathbb{R}^{d}$ 
-		as a function that maps each index $j \in \{1, \ldots, d\}$ 
+		as a function that maps each index $j \in \{1, \,\ldots, \,d\}$ 
 		to a value $x_j \in \mathbb{R}$, i.e., ${\bf x}: j \mapsto x_j$. 
 		This perspective is particularly useful for the study of kernel methods.
 		\begin{figure}[H]
 			
 			\begin{minipage}[c]{0.48\textwidth}
 				\centering 
-				2, -1, 3, 0, -2, 1
+				2, --1, 3, 0, --2, 1
 				\begin{minipage}{\textwidth}
 				\vspace{5ex}
 				\centering
@@ -291,6 +354,7 @@
 		See also: vector space, Euclidean space, linear map.},
 	first={vector},
 	firstplural={vectors},
+	type=math,
 	plural={vectors},
 	text={vector}
 }
@@ -298,18 +362,55 @@
 
 \newglossaryentry{vectorspace}
 {name={vector space},
-	description={A vector space (also called linear space) is a collection of elements (called vectors) 
-		closed under vector addition and scalar multiplication, i.e.,
+	description={A vector space $\mathcal{V}$ (also called linear space) 
+	is a collection of elements, called vectors, along with the following two operations: 
+    	1) addition (denoted ${\bf v}+{\bf w}$) of two vectors ${\bf v},{\bf w}$; and 2) multiplication 
+	(denoted $c \,\cdot \,{\bf v}$) of a vector ${\bf v}$ with a scalar $c$ that belongs to some 
+	number field (with a typical choice for this field being $\mathbb{R}$). The defining 
+	property of a vector space is that it is closed under these operations:
 		\begin{itemize}
-			\item If ${\bf x}, {\bf y} \in \mathcal{V}$, then ${\bf x} + {\bf y} \in \mathcal{V}$.
-			\item If ${\bf x} \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c {\bf x} \in \mathcal{V}$.
+			\item If ${\bf v}, {\bf w} \in \mathcal{V}$, then ${\bf v} + {\bf w} \in \mathcal{V}$.
+			\item If ${\bf v} \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c {\bf v} \in \mathcal{V}$.
 			\item In particular, $\mathbf{0} \in \mathcal{V}$.
 		\end{itemize}
-		The Euclidean space $\mathbb{R}^n$ is a vector space.
-		Linear models and linear maps operate within such spaces.
+		\begin{figure}[H]
+		\centering
+			\begin{tikzpicture}[>=Stealth, scale=1.2]
+				  
+  			\coordinate (O) at (0,0);            
+  			\coordinate (V) at (2,1.5);          
+  			\coordinate (W) at (1,3);            
+  			\coordinate (VplusW) at (3,4.5);     
+  			\coordinate (HalfV) at (1,0.75);     
+  			\draw[->, thick, blue] (O) -- (V) node[pos=1, right] {${\bf v}$};
+  			\draw[->, thick, red] (O) -- (W) node[pos=1, left] {${\bf w}$};
+  			\draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {${\bf v}+{\bf w}$};
+  			\draw[dashed, red] (V) -- (VplusW);
+  			\draw[dashed, blue] (W) -- (VplusW);
+  			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha {\bf v}$};
+			
+  			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  
+  			\filldraw[blue] (V) circle (2pt);         
+  			\filldraw[red] (W) circle (2pt);          
+  			\filldraw[purple] (VplusW) circle (2pt);  
+  			\filldraw[orange] (HalfV) circle (2pt);   
+			\end{tikzpicture}
+			\caption{A vector space $\mathcal{V}$ is a collection of vectors such that 
+			scaling and adding them always yields another vector in $\mathcal{V}$.}
+			
+			
+			\label{fig:vector-ops_dict}
+		\end{figure}
+		A common example of a vector space is the Euclidean space $\mathbb{R}^n$, which is 
+		widely used in ML to represent datasets. We can also use $\mathbb{R}^n$ 
+		to represent, either exactly or approximately, the hypothesis space used by an ML method.  
+		Another example of a vector space, which is naturally associated with every probability space 
+		$\mathcal{P}=\big(\Omega,\mathcal{R},\mathbb{P}({\cdot}) \big)$, is the collection of all 
+		real-valued RVs $x: \Omega \rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
 		\\
 		See also: vector, Euclidean space, linear model, linear map.},
 	first={vector space},
+	type=math,
 	text={vector space}
 }
 
@@ -328,24 +429,23 @@
 
 \newglossaryentry{stochproc}
 {name={stochastic process},
-	description={
-		A stochastic process is a collection of 
-		RVs defined on a common probability space, indexed by some set 
-		$\mathcal{I}$ \cite{papoulis,GrayProbBook,Brockwell91}. The index set 
-		$\mathcal{I}$ typically represents time or space, allowing to represent 
+	description={A stochastic process is a collection of 
+		RVs defined on a common probability space and indexed by some set 
+		$\mathcal{I}$ \cite{GrayProbBook}, \cite{papoulis}, \cite{Brockwell91}. The index set 
+		$\mathcal{I}$ typically represents time or space, allowing us to represent 
 		random phenomena that evolve across time or spatial dimensions—for example, 
 		sensor noise or financial time series. Stochastic processes are not limited 
 		to temporal or spatial settings. For instance, random graphs such as 
-		the ER graph or the SBM 
-		can also be viewed as stochastic processes. Here, the index set $\mathcal{I}$ 
-		consists of node pairs that index RVs whose values encode 
-		the presence or weight of an edge between two nodes. Moreover, stochastic 
+		the ER graph or the SBM can also be viewed as stochastic processes. 
+		Here, the index set $\mathcal{I}$ consists of node pairs that index RVs whose values 
+		encode the presence or weight of an edge between two nodes. Moreover, stochastic 
 		processes naturally arise in the analysis of stochastic algorithms, 
 		such as SGD, which construct a sequence of RVs. 
 		\\
 		See also:  RV, SBM, SGD, uncertainty, probabilistic model.},
 	first={stochastic process},
 	firstplural={stochastic processes},
+	type=math, 
 	plural={stochastic processes},
 	text={stochastic process}
 }
@@ -360,6 +460,7 @@
 		See also: RV, probability distribution.},
 	first={characteristic function},
 	firstplural={characteristic functions}, 
+	type=math, 
 	plural={characteristic functions},
 	text={characteristic function}
 }
@@ -367,7 +468,7 @@
 \newglossaryentry{entropy}
 {name={entropy},
 	description={Entropy quantifies the uncertainty or unpredictability associated with an RV \cite{coverthomas}. 
-		For a discrete RV $x$ taking on values in a finite set $\mathcal{S} = \{x_1, \ldots, x_n\}$ with 
+		For a discrete RV $x$ taking on values in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with 
 		a probability mass function $p_i := \mathbb{P}({x = x_i})$, the entropy is defined as
 		\[
 		H(x) := -\sum_{i=1}^n p_i \log p_i.
@@ -409,13 +510,36 @@
 }
 
 \newglossaryentry{function}
-{name={function}, plural={functions}, 
+{name={function}, 
 	description={A function between two sets $\mathcal{U}$ and $\mathcal{V}$ assigns  
-		each element $u \in \mathcal{U}$ exactly one element $v \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
-		We write this as $f: \mathcal{U} \rightarrow \mathcal{V}$, where $\mathcal{U}$ is the domain 
-		and $\mathcal{V}$ the co-domain of $f$. That is, a function $f$ defines a unique 
-		output $f(u) \in \mathcal{V}$ for every input $u \in \mathcal{U}$. },
+		each element $u \in \mathcal{U}$ exactly one element $f(u) \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		We write this as $$f: \mathcal{U} \rightarrow \mathcal{V}: u \mapsto f(u)$$ 
+		where $\mathcal{U}$ is the domain and $\mathcal{V}$ the co-domain of $f$. 
+		That is, a function $f$ defines a unique output $f(u) \in \mathcal{V}$ for every 
+		input $u \in \mathcal{U}$ (see Fig. \ref{fig_function_dict}).
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.2cm and 2.5cm]
+				\tikzset{dot/.style={circle, fill=black, inner sep=1.2pt}}
+				\node (A) [dot, label=left:$a$] {};
+				\node (B) [dot, below=of A, label=left:$b$] {};
+				\node (C) [dot, below=of B, label=left:$c$] {};
+				\node (1) [dot, right=4cm of A, label=right:$1$] {};
+				\node (2) [dot, below=of 1, label=right:$2$] {};
+				\node (3) [dot, below=of 2, label=right:$3$] {};
+				\node[draw=blue!70, thick, ellipse, inner sep=0.5cm, fit=(A)(B)(C), label=above:$\mathcal{U}$] {};
+				\node[draw=green!70!black, thick, ellipse, inner sep=0.5cm, fit=(1)(2)(3), label=above:$\mathcal{V}$] {};
+				\draw[->] (A) -- (2);
+				\draw[->] (B) -- (1);
+				\draw[->] (C) -- (2);
+			\end{tikzpicture}
+			\caption{A function \( f \colon \{a,b,c\} \to \{1,2,3\} \) mapping each element of the domain to exactly one element of 
+				the co-domain. \label{fig_function_dict}}
+		\end{figure} },
 	first={function},
+	firstplural={functions}, 
+	type=math, 
+	plural={functions},
 	text={function}
 }
 
@@ -427,8 +551,59 @@
 		See also: function.},
 	first={map},
 	firstplural={maps},	
+	type=math, 
 	plural={maps},
 	text={map}
+}
+
+
+\newglossaryentry{attention}
+{name={attention}, 
+	description={Some ML applications involve data points composed of smaller units, known 
+		as tokens. For example, a sentence consists of words, an image of pixel patches, and a network of 
+		nodes. In practice, the tokens within a single data point are typically not independent of one 
+		another, but rather, each token pays attention to specific other tokens. Probabilistic models provide a 
+		principled framework for representing and analyzing such dependencies \cite{Blei2003}. Attention 
+		mechanisms use a more direct approach without explicit reference to a probabilistic model. The idea is to 
+		represent the relationship between two tokens $i$ and $i'$ using a parameterized function $f^{({\bf w})}(i,i')$, 
+		where the parameters ${\bf w}$ are learned via a variant of ERM. 
+		Practical attention mechanisms differ in their precise choice of attention model $f^{({\bf w})}(i,i')$ 
+		as well as in the precise ERM variant used to learn the parameters ${\bf w}$. One widely-used family of attention mechanisms 
+		defines the parameters ${\bf w}$ in terms of two vectors associated with each token $i$, i.e.,
+		a query vector ${\bf q}^{(i)}$ and a key vector ${\bf k}^{(i')}$. For a given token $i$ 
+		with query ${\bf q}^{(i)}$, and another token $i'$ with key ${\bf k}^{(i')}$, the quantity 
+		$\big( {\bf q}^{(i)} \big)^{\top} {\bf k}^{(i')}$ quantifies the extent to which token $i$ attends 
+		to (or depends on) token $i'$.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=0.2cm and 0.2cm,
+			every node/.style={inner sep=2pt, font=\large}, baseline]
+			
+			\node (w1) [draw, fill=gray!10, rounded corners] {All};
+			\node (w2) [draw, fill=gray!10, right=of w1, rounded corners] {human};
+			\node (w3) [draw, fill=gray!10, right=of w2, rounded corners] {beings};
+			\node (w4) [draw, fill=gray!10, right=of w3, rounded corners] {are};
+			\node (w5) [draw, fill=gray!10, right=of w4, rounded corners] {born};
+			\node (w6) [draw, fill=gray!10, right=of w5, rounded corners] {free};
+			\node (w7) [draw, fill=gray!10, right=of w6, rounded corners] {and};
+			\node (w8) [draw, fill=blue!20, right=of w7, rounded corners] {equal};
+			
+   	   		\node[font=\footnotesize, below=0.15cm of w8, align=center] (labeli) {$i$ \\ ${\bf q}^{(i)},\ {\bf k}^{(i)}$};
+			\node[font=\footnotesize, below=0.15cm of w1, align=center] (labelii) {$i'$ \\ ${\bf q}^{(i')},\ {\bf k}^{(i')}$};
+			
+	  		\node (eqTop) [above=1.8cm of w8] {};
+	 		
+	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.0cm) and +(up:1.0cm) .. (w6.north); 
+	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.2cm) and +(up:1.0cm) .. (w5.north); 
+			\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{({\bf w})}(i,i')$}  (w1.north); 
+			\end{tikzpicture}
+			\caption{Attention mechanisms learn a parameterized function $f^{({\bf w})}(i,i')$ to measure 
+			how much token $i$ attends to token $i'$. One widely-used construction of $f^{({\bf w})}(i,i')$ 
+			uses query and key vectors, denoted ${\bf q}^{(i)}$ and ${\bf k}^{(i)}$, assigned to each token $i$ \cite{vaswani2017attention}.}
+		\end{figure}
+		See also: function.},
+	first={attention},
+	text={attention}
 }
 
 
@@ -446,6 +621,7 @@
 		   See also: objective function.},
 	first={optimization problem},
 	firstplural={optimization problems}, 
+	type=math,
 	plural={optimization problems}, 
 	text={optimization problem}
 }
@@ -466,11 +642,11 @@
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
 	description={A fixed-point iteration is an iterative method for solving 
-		a given optimization problem. It constructs a sequence ${\bf w}^{(0)}, {\bf w}^{(1)}, \ldots$ by 
+		a given optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
 		 repeatedly applying an operator $\mathcal{F}$, i.e., 
 		 \begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
-		 	{\bf w}^{(k+1)} = \mathcal{F} {\bf w}^{(k)} \mbox{, for } k=0, 1, \ldots.
+		 	{\bf w}^{(k+1)} = \mathcal{F} {\bf w}^{(k)} \mbox{, for } k=0, \,1, \,\ldots.
 		 \end{equation} 
 		 The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
 		 $\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
@@ -503,7 +679,7 @@
 		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive 
 		operator $\mathcal{F}$ is guaranteed to converge to a fixed-point of $\mathcal{F}$ \cite[Cor. 5.16]{Bauschke:2017}. 
 		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator, 
-		and a contraction operator. All these operators are defined on the one-dimensional space $\mathbb{R}$. 
+		and a contraction operator. All of these operators are defined on the 1-D space $\mathbb{R}$. 
 		Another example of a firmly non-expansive operator is the proximal operator of a convex function \cite{Bauschke:2017}, \cite{ProximalMethods}. 
 		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 		\begin{figure}[H]
@@ -545,9 +721,9 @@
 
 
 \newglossaryentry{ergraph}
-{name={Erd\H{o}s-R\'enyi graph (ER graph)},
-	description={An ER  graph is a probabilistic model for graphs defined over 
-		a given node set $i=1, \ldots, n$. One way to define the ER graph is 
+{name={Erd\H{o}s–R\'enyi graph (ER graph)},
+	description={An ER graph\index{Erd\H{o}s–R\'enyi graph (ER graph)} is a probabilistic model for graphs defined over 
+		a given node set $i=1, \,\ldots, \,n$. One way to define the ER graph is 
 		via the collection of iid binary RVs $b^{(\{i,i'\})} \in \{0,1\}$, 
 		for each pair of different nodes $i, i'$. A specific realization  
 		of an ER graph contains an edge $\{i,i'\}$ if and only if 
@@ -555,7 +731,7 @@
 		number $n$ of nodes and the probability $\mathbb{P}({b^{(\{i,i'\})}=1})$. 
 		\\
 		See also: graph, probabilistic model, iid, RV, realization, probability.},
-	first={Erd\H{o}s-R\'enyi (ER) graph},
+	first={Erd\H{o}s–R\'enyi (ER) graph},
 	text={ER graph}
 }
 
@@ -590,7 +766,7 @@
 \newglossaryentry{epigraph}
 {name={epigraph},
   description={The epigraph of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
-  	is the set of points lying on or above its graph, i.e., 
+  	is the set of points lying on or above its graph (see Fig. \ref{fig_epigraph_dict}), i.e., 
 		\[
 		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
 		\]
@@ -634,7 +810,7 @@
 				
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Epigraph of the function $f(x) = x^2$ (i.e., shaded area).}
+			\caption{Epigraph of the function $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
 		\end{figure}
 		See also: function, convex.},
 	first={epigraph},
@@ -642,34 +818,34 @@
 	plural={epigraphs}
 }
 
+
 \newglossaryentry{nullspace}
 {name={nullspace},
- description={
-	The nullspace  of a matrix ${\bf A} \in \mathbb{R}^{d' \times d}$, 
-    denoted ${\rm null}({\bf A})$, is the set of all vectors $\mathbf{n} \in \mathbb{R}^d$ 
-    such that $${\bf A} \mathbf{n} = \mathbf{0}.$$ 
-	Consider a feature learning method that uses the matrix ${\bf A}$ to transform 
-	a feature vector $\mathbf{x} \in \mathbb{R}^{d}$ of a data point 
-	into a new feature vector ${\bf z} = {\bf A} \mathbf{x} \in \mathbb{R}^{d'}$. 
-	The nullspace ${\rm null}({\bf A})$ characterizes all directions in the original 
-    feature space $\mathbb{R}^{d}$ along which the transformation 
-	${\bf A} \mathbf{x}$ remains unchanged. In other words, adding any vector from 
-	the nullspace to a feature vector ${\bf x}$ does not affect the transformed 
-	representation ${\bf z}$. This property can be exploited to enforce invariances in the 
-	predictions (computed from ${\bf A} \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
-	illustrates one such invariance. It shows rotated versions of two handwritten digits, 
-	which approximately lie along one-dimensional curves in the original feature space. 
-	These curves are aligned with a direction vector $\mathbf{n} \in \mathbb{R}^{d}$. 
-    To ensure that the trained model is invariant to such rotations, we can 
-	choose the transformation matrix ${\bf A}$ such that $\mathbf{n} \in {\rm null}({\bf A})$. 
-	This ensures that ${\bf A} \mathbf{x}$, and hence the resulting prediction, 
-	is approximately insensitive to rotation of the input image.
-		\begin{figure}[h]
-      \centering
-      \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
-	  \caption{Rotated images of two handwritten digits. The rotations are approximately 
-	  aligned along linear curves that are parallel to the vector $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
-	       \end{figure}
+	description={The nullspace of a matrix ${\bf A} \in \mathbb{R}^{d' \times d}$, 
+		denoted ${\rm null}({\bf A})$, is the set of all vectors $\mathbf{n} \in \mathbb{R}^d$ 
+    		such that $${\bf A} \mathbf{n} = \mathbf{0}.$$ 
+		Consider a feature learning method that uses the matrix ${\bf A}$ to transform 
+		a feature vector $\mathbf{x} \in \mathbb{R}^{d}$ of a data point 
+		into a new feature vector ${\bf z} = {\bf A} \mathbf{x} \in \mathbb{R}^{d'}$. 
+		The nullspace ${\rm null}({\bf A})$ characterizes all directions in the original 
+    		feature space $\mathbb{R}^{d}$ along which the transformation 
+		${\bf A} \mathbf{x}$ remains unchanged. In other words, adding any vector from 
+		the nullspace to a feature vector ${\bf x}$ does not affect the transformed 
+		representation ${\bf z}$. This property can be exploited to enforce invariances in the 
+		predictions (computed from ${\bf A} \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
+		illustrates one such invariance. It shows rotated versions of two handwritten digits, 
+		which approximately lie along 1-D curves in the original feature space. 
+		These curves are aligned with a direction vector $\mathbf{n} \in \mathbb{R}^{d}$. 
+    		To ensure that the trained model is invariant to such rotations, we can 
+		choose the transformation matrix ${\bf A}$ such that $\mathbf{n} \in {\rm null}({\bf A})$. 
+		This ensures that ${\bf A} \mathbf{x}$, and hence the resulting prediction, 
+		is approximately insensitive to rotations of the input image.
+		\begin{figure}[H]
+      			\centering
+      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
+	  		\caption{Rotated images of two handwritten digits. The rotations are approximately 
+	  		aligned along linear curves that are parallel to the vector $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
+	       	\end{figure}
 		See also: matrix. \\ 
 		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
  	first={nullspace},
@@ -721,7 +897,7 @@
 }
 
 \newglossaryentry{FedRelax}
-{name={FedRelax},
+{name={federated relaxed (FedRelax)},
 	description={An FL distributed algorithm. 
 		\\ 
 		See also: FL, distributed algorithm.},
@@ -730,11 +906,11 @@
 } 
 
 \newglossaryentry{fedavg}
-{name={FedAvg},
+{name={federated averaging (FedAvg)},
 	description={FedAvg refers to a family of iterative FL algorithms. 
-		It uses a server-client setting and alternates between client-wise local models 
-		re-training, followed by the aggregation of updated model parameters at the server 
-		\cite{pmlr-v54-mcmahan17a}. The local update at client $i=1, \ldots, n$ 
+		It uses a server-client setting and alternates between clientwise local models 
+		retraining, followed by the aggregation of updated model parameters at the server 
+		\cite{pmlr-v54-mcmahan17a}. The local update at client $i=1, \,\ldots, \,n$ 
 		at time $k$ starts from the current model parameters ${\bf w}^{(k)}$ provided 
 		by the server and typically amounts to executing few iterations of SGD. After completing the local updates, they are aggregated 
 		by the server (e.g., by averaging them). Fig. \ref{fig_single_iteration_fedavg_dict} illustrates the execution of a single 
@@ -785,7 +961,7 @@
 } 
 
 \newglossaryentry{FedGD}
-{name={FedGD},
+{name={federated gradient descent (FedGD)},
 	description={An FL distributed algorithm that 
 		can be implemented as message passing across an FL network. 
 		\\ 
@@ -795,7 +971,7 @@
 } 
 
 \newglossaryentry{FedSGD}
-{name={FedSGD},
+{name={federated stochastic gradient descent (FedSGD)},
 	description={An FL distributed algorithm that 
 		can be implemented as message passing across an FL network. 
 		\\ 
@@ -816,7 +992,7 @@
 		represents an individual data point, each characterized by the same features 
 		(e.g., daily temperature or air pressure).\\
 		See also: SSL, FL, VFL.},
-	first={HFL},
+	first={horizonal federated learning (HFL)},
 	text={HFL}
 } 
 
@@ -825,8 +1001,8 @@
 	description={Dimensionality reduction refers 
 		to methods that learn a transformation 
 		$h: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d'}$ 
-		of a (typically large) set of raw features $x_{1}, \ldots, x_{d}$ 
-		into a smaller set of informative features $z_{1}, \ldots, z_{d'}$. 
+		of a (typically large) set of raw features $x_{1}, \,\ldots, \,x_{d}$ 
+		into a smaller set of informative features $z_{1}, \,\ldots, \,z_{d'}$. 
 		Using a smaller set of features is beneficial in several ways: 
 		\begin{itemize} 
 			\item {Statistical benefit:} It typically reduces the risk of overfitting, as 
@@ -835,9 +1011,9 @@
 			for the training of ML models. As a case in point, linear regression methods 
 			need to invert a matrix whose size is determined by the number of features. 
 			\item {Visualization:} Dimensionality reduction is also instrumental for data visualization. 
-			For example, we can learn a transformation that delivers two features $z_{1},z_{2}$ 
+			For example, we can learn a transformation that delivers two features $z_{1},z_{2}$, 
 			which we can use, in turn, as the coordinates of a scatterplot. Fig.\ \ref{fig:dimred-scatter_dict} 
-			depicts the scatterplot of hand-written digits that are placed 
+			depicts the scatterplot of handwritten digits that are placed 
 			using transformed features. Here, the data points are 
 			naturally represented by a large number of grayscale values (one value for each pixel).
 		\end{itemize} 
@@ -862,7 +1038,7 @@
 		 	}
 		 	\end{tikzpicture}
 		 	\caption{Example of dimensionality reduction: High-dimensional image data 
-			(e.g., high-resolution images of hand-written digits) embedded into 2D using 
+			(e.g., high-resolution images of handwritten digits) embedded into 2-D using 
 			learned features $(z_1, z_2)$ and visualized in a scatterplot.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
@@ -883,10 +1059,62 @@
 	 	obtained from different design choices for data points (i.e., their features and label), 
 	 	the model, and the loss function \cite[Ch. 3]{MLBasics}.
 	 			\\ 
-		See also: label, feature, data point, hypothesis, hypothesis space, model, loss function, ERM.},
+		See also: model, data, loss.},
 	first={machine learning (ML)},
 	text={ML}
 } 
+
+
+\newglossaryentry{reinforcementlearning}
+{name={reinforcement learning (RL)},
+	description={RL refers to an online learning setting where 
+		we can only evaluate the usefulness of a single hypothesis (i.e., a choice of model parameters) 
+		at each time step $t$. In particular, RL methods apply the current hypothesis 
+		$h^{(t)}$ to the feature vector ${\bf x}^{(t)}$ of the 
+		newly received data point. The usefulness of the resulting prediction 
+		$h^{(t)}({\bf x}^{(t)})$ is quantified by a reward 
+		signal $r^{(t)}$. 
+		\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[scale=1]
+			\draw[->] (-2, 0) -- (6, 0);
+			\node at (6.3, 0) {$h$};
+	        		
+			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
+			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-L^{(t)}(h)$};
+			
+			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
+			\node[anchor=north] at (1.5-3, -0.3) {$h^{(t)}$};		
+			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
+			
+			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
+			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-L^{(t+1)}(h)$};
+			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
+			\node[anchor=north] at (2, -0.3) {$h^{(t+1)}$};
+			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
+			
+			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
+			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-L^{(t+2)}(h)$};
+			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
+			\node[anchor=north] at (3.5+2, -0.3) {$h^{(t+2)}$};
+			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
+			\end{tikzpicture}
+		\caption{Three consecutive time steps $t,t+1,t+2$ with corresponding loss functions $L^{(t)},
+		L^{(t+1)}, L^{(t+2)}$. During time step $t$, an RL method can evaluate the 
+		loss function only for one specific hypothesis $h^{(t)}$, resulting in the reward 
+		signal $r^{(t)}=-L^{(t)}(h^{(t)})$.}
+		\end{center}
+		\end{figure}
+		In general, the reward depends also on the 
+		previous predictions $h^{(t')}\big({\bf x}^{(t')}\big)$ 
+		for $t' < t$. The goal of RL is to learn $h^{(t)}$, for 
+		each time step $t$, such that the (possibly discounted) cumulative reward 
+		is maximized \cite{MLBasics}, \cite{SuttonEd2}.
+		\\
+		See also: reward, loss function, ML.},
+	first={reinforcement learning (RL)},
+	text={RL}
+}
 
 
 \newglossaryentry{featlearn}
@@ -931,16 +1159,16 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 		devices have access to different features of the same set of data points \cite{VFLChapter}. 
 		Formally, the underlying global dataset is
 		\[
-		\mathcal{D}^{(\mathrm{global})} := \left\{ \left({\bf x}^{(1)}, y^{(1)}\right), \ldots, \left({\bf x}^{(m)}, y^{(m)}\right) \right\}.
+		\mathcal{D}^{(\mathrm{global})} := \left\{ \left({\bf x}^{(1)}, y^{(1)}\right), \,\ldots, \,\left({\bf x}^{(m)}, y^{(m)}\right) \right\}.
 		\]
-		We denote by ${\bf x}^{(r)} = \big( x^{(r)}_{1}, \ldots, x^{(r)}_{d'} \big)\,^{T}$, for $r=1, \ldots, m$, 
+		We denote by ${\bf x}^{(r)} = \big( x^{(r)}_{1}, \,\ldots, \,x^{(r)}_{d'} \big)\,^{T}$, for $r=1, \,\ldots, \,m$, 
 	     	the complete feature vectors for the data points. Each device $i \in \mathcal{V}$ 
-		observes only a subset $\mathcal{F}^{(i)} \subseteq \{1, \ldots, d'\}$ of features, resulting 
+		observes only a subset $\mathcal{F}^{(i)} \subseteq \{1, \,\ldots, \,d'\}$ of features, resulting 
 		in a local dataset $\mathcal{D}^{(i)}$ with feature vectors
 		\[
-		{\bf x}^{(i,r)} = \big( x^{(r)}_{j_{1}}, \ldots, x^{(r)}_{j_{d}} \big)\,^{T}.
+		{\bf x}^{(i,r)} = \big( x^{(r)}_{j_{1}}, \,\ldots, \,x^{(r)}_{j_{d}} \big)\,^{T}.
 		\]
-		Some of the devices might also have access to the labels $y^{(r)}$, for $r=1, \ldots, m$, 
+		Some of the devices might also have access to the labels $y^{(r)}$, for $r=1, \,\ldots, \,m$, 
 		of the global dataset. One potential application of VFL is to enable collaboration between 
 		different healthcare providers. Each provider collects distinct types of measurements—such as blood 
 		values, electrocardiography, and lung X-rays—for the same patients. Another application is a 
@@ -1085,7 +1313,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 \newglossaryentry{learningtask}
 {name={learning task},
 	description={Consider a dataset $\mathcal{D}$ consisting of 
-		multiple data points ${\bf z}^{(1)},\ldots,{\bf z}^{(m)}$. 
+		multiple data points ${\bf z}^{(1)},\,\ldots,\,{\bf z}^{(m)}$. 
 		For example, $\mathcal{D}$ might represent a collection of images in an image database. 
 		A learning task is defined by specifying those properties (or attributes) of a data point 
 		that are used as its features and labels. Given a choice of model $\mathcal{H}$ and 
@@ -1105,19 +1333,15 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 			\vspace{5mm}
 			
 			\begin{minipage}[t]{0.45\textwidth}
-    			Task 1 (regression):
-    			\begin{itemize}
-        				\item Features: The RGB values of all image pixels.
-        				\item Label: The number of cows depicted.
-    			\end{itemize}
+    			Task 1 (regression): \\
+        			Features are the RGB values of all image pixels,
+        			and the label is the number of cows depicted.
 			\end{minipage}
 			\hfill
 			\begin{minipage}[t]{0.45\textwidth}
-    			Task 2 (classification):
-    			\begin{itemize}
-        				\item Features: The average green intensity of the image.
-        				\item Label: Should cows be moved to another location (yes/no)?
-    			\end{itemize}
+    			Task 2 (classification): \\
+			Features include the average green intensity of the image, 
+        			and the label indicates whether cows should be moved to another location (i.e., yes/no).
 			\end{minipage}
 			\caption{Two learning tasks constructed from a single image dataset. 
 			These tasks differ in feature selection and choice of label (i.e., the objective), 
@@ -1164,7 +1388,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 		feature vector ${\bf x}$ close to ${\bf x}^{(0)}$ and the (pseudo-)label $\widehat{h}({\bf x})$. 
 		Note that we can use a different model $\mathcal{H}'$ for the approximation from 
 		the original model $\mathcal{H}$. For example, we can use a decision tree 
-		to locally approximate a deep net. Another widely-used choice for $\mathcal{H}'$ is 
+		to locally approximate a deep net. Another widely used choice for $\mathcal{H}'$ is 
 		the linear model. 
 		\begin{figure}[H]
 		\begin{center}
@@ -1212,6 +1436,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 		by a numeric feature vector ${\bf x} \in \mathbb{R}^{d}$. A linear model defines 
 		a hypothesis space consisting of all real-valued linear maps from $\mathbb{R}^{d}$ to $\mathbb{R}$ such that
 		\begin{equation}
+			\nonumber
 			\label{equ_def_lin_model_hypspace_dict}
 			\mathcal{H}^{(d)} := \left\{ h: \mathbb{R}^{d} \rightarrow \mathbb{R} \mid h({\bf x}) = {\bf w}^{\top} {\bf x} \text{ for some } {\bf w} \in \mathbb{R}^{d} \right\}.
 		\end{equation}
@@ -1224,10 +1449,10 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 		The linear model is attractive because it can typically be trained using scalable convex optimization methods \cite{hastie01statisticallearning}, \cite{BertsekasNonLinProgr}. 
 		Moreover, linear models often permit rigorous 
 		statistical analysis, including fundamental limits on the minimum achievable risk \cite{Wain2019}. 
-		They are also useful for analyzing more complex, non-linear models such as ANNs. For instance, 
+		They are also useful for analyzing more complex, nonlinear models such as ANNs. For instance, 
 		a deep net can be viewed as the composition of a feature map—implemented by the input and 
 		hidden layers—and a linear model in the output layer. Similarly, a decision tree can be interpreted 
-		as applying a one-hot encoded feature map based on decision regions, followed by a linear 
+		as applying a one-hot-encoded feature map based on decision regions, followed by a linear 
 		model that assigns a prediction to each region.
 		More generally, any trained model $\hat{h} \in \mathcal{H}$ that is 
 		differentiable at some ${\bf x}'$ can be locally approximated by a linear map 
@@ -1347,7 +1572,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 		\end{align}
 		We intentionally use the same symbol $\eta$ for the parameter in \eqref{equ_approx_gd_step_dict} 
 		as we used for the step size in \eqref{equ_def_gd_basic_dict}. The larger the $\eta$ we choose in 
-		\eqref{equ_approx_gd_step_dict}, the more progress the update will make towards reducing the 
+		\eqref{equ_approx_gd_step_dict}, the more progress the update will make toward reducing the 
 		function value $f(\widehat{{\bf w}})$. Note that, much like the gradient step \eqref{equ_def_gd_basic_dict}, 
 		the update \eqref{equ_approx_gd_step_dict} also defines an operator 
 		that is parameterized by the function $f(\cdot)$ and the learning rate $\eta$. For a convex function  
@@ -1406,7 +1631,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 				of the function $f(\cdot)$. The penalty term is the scaled squared Euclidean distance between the optimization 
 				variable ${\bf w}'$ and the given vector ${\bf w}$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
-		See also: convex, function, generalization, gradient step, smooth, step size.},
+		See also: convex, function, vector, generalization, gradient step, smooth, step size.},
 	first={proximal operator},
 	text={proximal operator}
 }
@@ -1462,7 +1687,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
    		where ${\bf z} \sim \mathcal{N}\left(\mathbf{0},\mathbf{I}\right)$ is a standard normal vector 
    		and ${\bf A} \in \mathbb{R}^{d \times d}$ satisfies ${\bf A} {\bf A}^\top = {\bf \Sigma}$. 
    		This representation remains valid even when ${\bf \Sigma}$ is singular, in which case ${\bf A}$ 
-   		is not full-rank~\cite[Ch. 23]{Lapidoth2017}.
+   		is not full rank~\cite[Ch. 23]{Lapidoth2017}.
    		The family of multivariate normal distributions is exceptional among probabilistic models for numerical 
    		quantities, at least for the following reasons. First, the family is closed under affine 
    		transformations, i.e.,
@@ -1481,7 +1706,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \left\Ver
 \newglossaryentry{stdnormvec}
 {name={standard normal vector}, 
 	description={A standard normal vector is a random 
-		vector ${\bf x}=\big(x_{1}, \ldots, x_{d}\big)\,^{T}$ 
+		vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
 		whose entries are iid Gaussian RVs $x_{j} \sim \mathcal{N}(0,1)$. 
 		It is a special case of a multivariate normal distribution, ${\bf x} \sim \mathcal(\mathbf{0},\mathbf{I})$.
 		\\ 
@@ -1536,8 +1761,10 @@ sort={zerooneloss},
 \newglossaryentry{probability}
 {name={probability}, 
 	description={We assign a probability value, typically chosen in the 
-		interval $[0,1]$, to each event that might occur in a random experiment 
-		\cite{BillingsleyProbMeasure}, \cite{BertsekasProb}, \cite{HalmosMeasure},  \cite{KallenbergBook}.},
+		interval $[0,1]$, to each event that might occur in a random experiment  
+		\cite{BillingsleyProbMeasure}, \cite{BertsekasProb}, \cite{HalmosMeasure},  \cite{KallenbergBook}.
+		\\
+		See also: event, random experiment. },
 	first={probability},
 	firstplural={probabilities},
 	plural={probabilities},
@@ -1573,9 +1800,9 @@ sort={zerooneloss},
 \newglossaryentry{gdpr}
 {name={general data protection regulation (GDPR)},
 	description={The GDPR
-			was enacted by the European Union (EU), effective from May 25, 2018 \cite{GDPR2016}. 
+			was enacted by the European Union (EU), effective from 25 May 2018 \cite{GDPR2016}. 
 			It safeguards the privacy and data rights of individuals in the EU. 
-			The GDPR has significant implications for how data is collected, stored, and used in ML  
+			The GDPR has significant implications for how data are collected, stored, and used in ML  
 			applications. Key provisions include the following:
 			\begin{itemize}
 				\item Data minimization principle: ML systems should only use the necessary amount of personal 
@@ -1609,22 +1836,22 @@ sort={zerooneloss},
 		\[
 		{\bf x} := \mathbf{A} {\bf z} + {\bm \mu}
 		\]
-		where ${\bf z} := \big( z_{1}, \ldots, z_{d} \big)\,^{T}$ is a vector 
+		where ${\bf z} := \big( z_{1}, \,\ldots, \,z_{d} \big)\,^{T}$ is a vector 
 		of iid standard Gaussian RVs, and ${\bf A} \in \mathbb{R}^{d \times d}$ is any matrix satisfying ${\bf A} {\bf A}\,^{T} = {\bf C}$. 
 		The probability distribution of a Gaussian random vector is referred to as the multivariate normal distribution, 
 		denoted $\mathcal{N}({\bm \mu}, \mathbf{C})$.
 		\\
-		We can interpret a Gaussian random vector ${\bf x}=\big(x_{1},\ldots,x_{d}\big)$ as a stochastic process 
-		indexed by the set $\mathcal{I}=\{1,\ldots,d\}$. A GPs is a 
+		We can interpret a Gaussian random vector ${\bf x}=\big(x_{1},\,\ldots,\,x_{d}\big)$ as a stochastic process 
+		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,d\}$. A GPs is a 
 		stochastic process over an arbitray index set $\mathcal{I}$ such that any restriction to a finite subset 
 		$\mathcal{I}' \subseteq \mathcal{I}$ yields a Gaussian random vector \cite{Rasmussen2006Gaussian}.
   		\\
-        Gaussian RVs are widely used probabilistic models in the statistical analysis of 
-        ML methods. Their significance arises partly from the CLT, which is a mathematically 
-        precise formulation of the following rule-of-thumb: The average of many independent RVs 
-		(not necessarily Gaussian themselves) tends towards a Gaussian RV \cite{ross2013first}.
+        		Gaussian RVs are widely used probabilistic models in the statistical analysis of 
+        		ML methods. Their significance arises partly from the CLT, which is a mathematically 
+        		precise formulation of the following rule of thumb: The average of many independent RVs 
+		(not necessarily Gaussian themselves) tends toward a Gaussian RV \cite{ross2013first}.
 		\\ 
-		The multivariate normal distribution is also distinct in that it represents maximum uncertainty: 
+		The multivariate normal distribution is also distinct in that it represents maximum uncertainty. 
 		Among all vector-valued RVs with a given covariance matrix ${\bf C}$, the RV ${\bf x} \sim \mathcal{N}({\bm \mu}, \mathbf{C})$ 
 		maximizes differential entropy \cite[Th. 8.6.5]{coverthomas}. This makes GPs a 
 		natural choice for capturing uncertainty (or lack of knowledge) in the absence of additional 
@@ -1637,7 +1864,7 @@ sort={zerooneloss},
 	
 \newglossaryentry{clt}
 {name={central limit theorem (CLT)},
-	description={Consider a sequence of iid RVs \( x^{(r)} \), for \( r = 1, 2, \ldots \), 
+	description={Consider a sequence of iid RVs \( x^{(r)} \), for \( r = 1, \,2, \,\ldots \), 
 		each with mean zero and finite variance \( \sigma^2 > 0 \). 
 		The  CLT states that the normalized sum 
 		\[
@@ -1658,7 +1885,7 @@ sort={zerooneloss},
 		\phi^*(t) = \exp\,(-t^2 \sigma^2 / 2)
 		\]
 		which is the characteristic function of a Gaussian RV with mean zero and variance 
-		\( \sigma^2 \). Generalizations of the CLT allow for dependent or non-identically distributed RVs \cite[Sec.~2.8]{AsympVanderVaartBook}.
+		\( \sigma^2 \). Generalizations of the CLT allow for dependent or nonidentically distributed RVs \cite[Sec.~2.8]{AsympVanderVaartBook}.
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
@@ -1691,7 +1918,7 @@ sort={zerooneloss},
 			\end{axis}
 			\end{tikzpicture}
 			\caption{Characteristic functions of normalized sums of iid RVs $x^{(r)} \in \{-1,1\}$ 
-			for $r=1,\ldots,m$ compared to the Gaussian limit.}
+			for $r=1,\,\ldots,\,m$ compared to the Gaussian limit.}
 		\end{figure}
 		See also: RV, Gaussian RV.},
 	first={central limit theorem (CLT)},
@@ -1704,11 +1931,11 @@ sort={zerooneloss},
   description={A GP is a collection of RVs 
   	$\{f({\bf x})\}_{{\bf x} \in \mathcal{X}}$ indexed by input values ${\bf x}$ 
   	from some input space $\mathcal{X}$ such that, for any finite subset 
-  	${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathcal{X}$, 
-  	the corresponding RVs $f({\bf x}^{(1)}, \ldots, {\bf x}^{(m)})$ have a joint 
-  	multivariate Gaussian distribution
+  	${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathcal{X}$, 
+  	the corresponding RVs $f({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)})$ 
+	have a joint multivariate normal distribution 
   	\[
-  	\left( f({\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  	f \left( {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
   	\]
   	For a fixed input space $\mathcal{X}$, a GP is fully specified (or parameterized) by: 1) a mean function $\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$;
   	and 2) a covariance function $K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
@@ -1720,41 +1947,41 @@ sort={zerooneloss},
   	of these predictions. 
   	\begin{figure}[H]
   	\begin{center}
-  	\begin{tikzpicture}
-	\begin{axis}[
-	axis equal,
-	hide axis,
-	scale=1.2,
-	xmin=17, xmax=32,
-	ymin=55, ymax=71,
-	
-	
-	clip=true
-	]
-	
-	\addplot[
-	color=black,
-	thick
-	] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
-	
-	\addplot[
-	only marks,
-	mark=*,
-	mark options={fill=blue},
-	color=black
-	] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
-	
-	\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {lon};
-	\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
-	\end{axis}
-	\end{tikzpicture}
-	\vspace*{-15mm}
+  		\begin{tikzpicture}
+		\begin{axis}[
+		axis equal,
+		hide axis,
+		scale=1.2,
+		xmin=17, xmax=32,
+		ymin=55, ymax=71,
+		
+		
+		clip=true
+		]
+		
+		\addplot[
+		color=black,
+		thick
+		] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+		
+		\addplot[
+		only marks,
+		mark=*,
+		mark options={fill=blue},
+		color=black
+		] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+		
+		\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {lon};
+		\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
+		\end{axis}
+		\end{tikzpicture}
+		\vspace*{-15mm}
 	\end{center}
-	\caption{We can interpret the temperature distribution over Finland as a realization 
-	of a GP indexed by geographic coordinates and sampled at FMI weather stations (indicated by 
-	blue dots). \label{fig_gp_FMI_dict}}
+	\caption{For a given point in time, we can interpret the current temperature distribution 
+	over Finland as a realization of a GP indexed by geographic coordinates and 
+	sampled at FMI weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
 	\end{figure}
-	See also: RV, mean, function, covariance, realization, FMI, sample, uncertainty.}, 
+	See also: multivariate normal distribution, uncertainty, Gaussian RV.}, 
   first={GP}, 
   text={GP}
 }
@@ -1766,13 +1993,13 @@ sort={zerooneloss},
 		The EU has put forward seven key requirements (KRs) for trustworthy 
 		AI (that typically build on ML methods) \cite{ALTAIEU}: 
 	\begin{enumerate}[label=\arabic*)]
-		\item KR1 - Human agency and oversight;
-		\item KR2 - Technical robustness and safety;
-		\item KR3 - Privacy and data governance;
-		\item KR4 - Transparency;
-		\item KR5 - Diversity, non-discrimination and fairness; 
-		\item KR6 - Societal and environmental well-being;
-		\item KR7 - Accountability. 
+		\item KR1 – Human agency and oversight;
+		\item KR2 – Technical robustness and safety;
+		\item KR3 – Privacy and data governance;
+		\item KR4 – Transparency;
+		\item KR5 – Diversity, non-discrimination and fairness; 
+		\item KR6 – Societal and environmental well-being;
+		\item KR7 – Accountability. 
 	\end{enumerate}
 		See also: computational aspects, statistical aspects, ML, AI, robustness, data, transparency.},
 	first={trustworthy artificial intelligence (trustworthy AI)},
@@ -1802,11 +2029,12 @@ sort={zerooneloss},
 	   the $d$-dimensional Euclidean space. We define the projection $P_{\mathcal{W}}\big( {\bf w}\big) $
 	   of a vector ${\bf w} \in \mathbb{R}^{d}$ onto $\mathcal{W}$ as
 	   \begin{equation} 
-   	   	\label{equ_def_proj_generic_dict}
+   	   	\nonumber
+		\label{equ_def_proj_generic_dict}
   	    	P_{\mathcal{W}}\big( {\bf w}\big)  = \aargmin_{{\bf w}' \in \mathcal{W}} \left\Vert  {{\bf w} - {\bf w}'} \right\Vert_{2}. 
         	    \end{equation}
 	    In other words, $P_{\mathcal{W}}\big( {\bf w}\big) $ is the vector in $\mathcal{W}$ 
-	    which is closest to ${\bf w}$. The projection is only well-defined for subsets $\mathcal{W}$ 
+	    that is closest to ${\bf w}$. The projection is only well defined for subsets $\mathcal{W}$ 
 	    for which the above minimum exists \cite{BoydConvexBook}.
 		 			\\ 
 	    See also: Euclidean space, vector, minimum.},
@@ -2007,11 +2235,11 @@ and then projecting the result back onto the parameter space.
 			\mathbb{E}  \big\{\left\Vert  {{\bf x} - {\bf c}} \right\Vert_{2}^{2}\big \}.
 		\] 
 		We also use the term to refer to the average of a finite sequence 
-		${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$. However, 
+		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$. However, 
 		these two definitions are essentially the same. Indeed, we can use the sequence 
-		${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$ to construct a 
+		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$ to construct a 
 		discrete RV $\widetilde{{\bf x}}={\bf x}^{(I)}$, with the index $I$ being chosen uniformly 
-		at random from the set $\{1, \ldots, m\}$. The mean of $\widetilde{{\bf x}}$ is 
+		at random from the set $\{1, \,\ldots, \,m\}$. The mean of $\widetilde{{\bf x}}$ is 
 		precisely the average $({1}/{m}) \sum_{r=1}^{m} {\bf x}^{(r)}$.
 			\\ 
 		See also: RV, expectation, probability distribution.}, 
@@ -2057,11 +2285,11 @@ plural={medians},
 			\caption{A representation of a median.}
  		\end{figure}  
  		We can define the median $\mathrm{med}\,(\mathcal{D})$ 
- 		of a dataset $\mathcal{D} = \{ x^{(1)}, \ldots, x^{(m)} \in \mathbb{R} \}$ 
+ 		of a dataset $\mathcal{D} = \{ x^{(1)}, \,\ldots, \,x^{(m)} \in \mathbb{R} \}$ 
  		via a specific RV $\tilde{x}$ that is naturally associated with $\mathcal{D}$. 
  		In particular, this RV is constructed by $\tilde{x} = x^{(I)}$, with the index $I$ 
- 		being chosen uniformly at random from the set $\{1,\ldots,m\}$, i.e., $\mathbb{P}({I = r})=1/m$ for 
- 		all $r=1,\ldots,m$. If the RV $x$ is integrable, a median of $x$ 
+ 		being chosen uniformly at random from the set $\{1, \,\ldots, \,m\}$, i.e., $\mathbb{P}({I = r})=1/m$ for 
+ 		all $r=1, \,\ldots, \,m$. If the RV $x$ is integrable, a median of $x$ 
  		is the solution of the following optimization problem: 
  		$$\min_{x' \in \mathbb{R}} \mathbb{E} {|x - x'|}.$$ 
  		Like the mean, the median of a dataset $\mathcal{D}$ can also be used 
@@ -2157,7 +2385,7 @@ plural={medians},
 	description={Consider an ML method using a parameterized hypothesis space $\mathcal{H}$. 
 		It learns the model parameters ${\bf w} \in \mathbb{R}^{d}$ using the dataset $$\mathcal{D}=\big\{ \left( {\bf x}^{(r)},y^{(r)} \right) \big\}_{r=1}^{m}.$$ 
 		To analyze the properties of the ML method, we typically interpret the data points as realizations 
-		of iid RVs, $$y^{(r)} = h^{(\overline{{\bf w}})}\big( {\bf x}^{(r)} \big) + \bm{\varepsilon}^{(r)}, r=1, \ldots, m.$$ 
+		of iid RVs, $$y^{(r)} = h^{(\overline{{\bf w}})}\big( {\bf x}^{(r)} \big) + \bm{\varepsilon}^{(r)}, r=1, \,\ldots, \,m.$$ 
 		We can then interpret the ML method as an estimator $\widehat{{\bf w}}$ 
 		computed from $\mathcal{D}$ (e.g., by solving ERM). The (squared) bias incurred by the estimate $\widehat{{\bf w}}$ 
 		is then defined as $B^{2} := \big\| \mathbb{E}  \{ \widehat{{\bf w}}  \}- \overline{{\bf w}}\big\|_{2}^{2}$.
@@ -2172,7 +2400,7 @@ plural={medians},
 	description={Classification is the task of determining a 
  		discrete-valued label $y$ for a given data point, based solely on its 
  		features ${\bf x}$. The label $y$ belongs to a finite set, such as 
- 		$y \in \{-1,1\}$ or $y \in \{1, \ldots, 19\}$, and represents the 
+ 		$y \in \{-1,1\}$ or $y \in \{1, \,\ldots, \,19\}$, and represents the 
  		category to which the corresponding data point belongs.
 				\\ 
 		See also: label, data point, feature.},
@@ -2297,7 +2525,7 @@ plural={medians},
 		lead to suboptimal outcomes due to estimation uncertainty. The UCB strategy 
 		addresses this by selecting actions not only based on their estimated means but 
 		also by incorporating a term that reflects the uncertainty in these estimates—favoring 
-		actions with a high potential reward and high uncertainty. Theoretical guarantees 
+		actions with a high-potential reward and high uncertainty. Theoretical guarantees 
 		for the performance of UCB strategies, including logarithmic regret bounds, are established in \cite{Bubeck2012}.
 					\\ 
 		See also: ML, reward, probabilistic model, stochastic, MAB, model, realization, RV, mean, data, uncertainty, regret.},
@@ -2307,20 +2535,20 @@ plural={medians},
 
 \newglossaryentry{mab}
 {name={multi-armed bandit (MAB)},
-	description={A MAB problem models 
-		a repeated decision-making scenario in which, at each time step $k$, a learner must 
-		choose one out of several possible actions, often referred to as arms, from a finite 
-		set $\actionset$. Each arm $a \in \actionset$ yields a stochastic reward $r^{(a)}$ 
-		drawn from an unknown probability distribution with mean $\mu^{(a)}$. 
-		The learner’s goal is to maximize the cumulative reward over time by 
-		strategically balancing exploration (i.e., gathering information about 
-		uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
-		This balance is quantified by the notion of regret, which measures the performance 
-		gap between the learner's strategy and the optimal strategy that always selects the best arm. 
-		MAB problems form a foundational model in online learning, reinforcement learning, 
-		and sequential experimental design \cite{Bubeck2012}.
+	description={An MAB  problem is a precise mathematical 
+		formulation of a sequential decision-making task under uncertainty. At each 
+		discrete time step $k$, a learner selects one of several possible 
+		actions—called arms—from a finite set $\actionset$. Pulling arm $a$ at time 
+		$k$ yields a reward $r^{(a,k)}$ that is drawn from an unknown 
+		probability distribution $\mathbb{P}({r^{(a,k)}})$. We obtain different classes 
+		of MAB problems by placing different restrictions on this probability distribution. In the simplest 
+		setting, the probability distribution $\mathbb{P}({r^{(a,k)}})$ does not depend on $t$. 
+		Given an MAB problem, the goal is to construct ML methods that maximize the cumulative 
+		reward over time by strategically balancing exploration (i.e., gathering information 
+		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
+		MAB problems form an important special case of RL problems \cite{Bubeck2012}, \cite{SuttonEd2}.
 					\\ 
-		See also: stochastic, reward, probability distribution, mean, regret, model.},
+		See also: reward, regret.},
 	first={MAB},
 	text={MAB}
 }
@@ -2359,7 +2587,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \end{tikzpicture}
 \caption{ML methods learn model parameters ${\bf w}$ by using some estimate of $f({\bf w})$ for 
 	the ultimate performance criterion $\bar{f}({\bf w})$. Using a probabilistic model, one can use $f({\bf w})$ to 
-	construct confidence intervals $\big[ l^{({\bf w})},  u^{({\bf w})} \big]$ which contain $\bar{f}({\bf w})$  
+	construct confidence intervals $\big[ l^{({\bf w})},  u^{({\bf w})} \big]$, which contain $\bar{f}({\bf w})$  
 	with a high probability. The best plausible performance measure for a specific choice ${\bf w}$ of model parameters 
 	is $\tilde{f}({\bf w}) := l^{({\bf w})}$.} 
 	\end{center}
@@ -2387,7 +2615,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{norm}
 {name={norm},
 	description={A norm is a function that maps each (vector) element 
-		of a vector space to a non-negative real number. This function must be 
+		of a vector space to a nonnegative real number. This function must be 
 		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}.
 		\\
 		See also: function, vector, vector space.},
@@ -2411,7 +2639,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{geometricmedian}
 {name={geometric median (GM)},
-	description={The GM of a set of input vectors ${\bf x}^{(1)}, \ldots, {\bf x}^{(m)}$ 
+	description={The GM of a set of input vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$ 
 		in $\mathbb{R}^{d}$ is a point ${\bf z} \in \mathbb{R}^{d}$ that 
 		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
 		\begin{equation} 
@@ -2421,7 +2649,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		Fig. \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
 		If ${\bf z}$ does not coincide with any of the input vectors, then the unit vectors pointing 
 		from ${\bf z}$ to each ${\bf x}^{(r)}$ must sum to zero—this is the zero-subgradient  
-		(optimality) condition of \eqref{equ_geometric_median_dict}. It turns out that the solution to 
+		(optimality) condition for \eqref{equ_geometric_median_dict}. It turns out that the solution to 
 		\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy input 
 		vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
 	  	\begin{figure}[H]
@@ -2471,7 +2699,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	   	Alternatively, explanations can be visual, for example, intensity maps that highlight 
 	   	image regions that drive the prediction \cite{GradCamPaper}. 
        		Fig.\ \ref{fig_explanation_dict} illustrates two types of explanations. The first 
-       		is a local linear approximation $g({\bf x})$ of a non-linear trained model 
+       		is a local linear approximation $g({\bf x})$ of a nonlinear trained model 
        		$\hat{h}({\bf x})$ around a specific feature vector ${\bf x}'$, 
        		as used in the method LIME. 
         		The second form of explanation depicted in the figure is a sparse set of predictions 
@@ -2557,9 +2785,9 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={activation function},
 	description={Each artificial neuron within an ANN is 
 		assigned an activation function $\sigma(\cdot)$ that maps a weighted combination of 
-		the neuron inputs $x_{1}, \ldots, x_{d}$ to a single output 
+		the neuron inputs $x_{1}, \,\ldots, \,x_{d}$ to a single output 
 		value $a = \sigma\big(w_{1} x_{1}+\ldots+w_{d} x_{d} \big)$. 
-		Note that each neuron is parameterized by the weights $w_{1}, \ldots, w_{d}$.
+		Note that each neuron is parameterized by the weights $w_{1}, \,\ldots, \,w_{d}$.
 					\\ 
 		See also: ANN, function, weights.},
 	first={activation function},
@@ -2580,20 +2808,20 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		follows:
 		\[
 		\begin{array}{l}
-			\text{Node 1: } {\rm input}_1, s_1^{(1)}, s_2^{(1)}, \ldots, s_{T_1}^{(1)}, {\rm output}_1; \\
-			\text{Node 2: } {\rm input}_2, s_1^{(2)}, s_2^{(2)}, \ldots, s_{T_2}^{(2)}, {\rm output}_2; \\
+			\text{Node 1: } {\rm input}_1, \,s_1^{(1)}, \,s_2^{(1)}, \,\ldots, \,s_{T_1}^{(1)}, \,{\rm output}_1; \\
+			\text{Node 2: } {\rm input}_2, \,s_1^{(2)}, \,s_2^{(2)}, \,\ldots, \,s_{T_2}^{(2)}, \,{\rm output}_2; \\
 			\quad \vdots \\
-			\text{Node N: } {\rm input}_N, s_1^{(N)}, s_2^{(N)}, \ldots, s_{T_N}^{(N)}, {\rm output}_N.
+			\text{Node N: } {\rm input}_N, \,s_1^{(N)}, \,s_2^{(N)}, \,\ldots, \,s_{T_N}^{(N)}, \,{\rm output}_N.
 		\end{array}
 		\]
 		Each device $i$ starts from its own local input and performs a sequence of 
-		intermediate computations $s_{k}^{(i)}$ at discrete time instants $k = 1, \dots, T_i$. 
+		intermediate computations $s_{k}^{(i)}$ at discrete-time instants $k = 1, \,\dots, \,T_i$. 
 		These computations may depend on both the previous local computations at the device 
 		and the messages received from other devices. One important application of distributed 
 		algorithms is in FL where a network of devices collaboratively trains a personal model 
 		for each device. 
 					\\ 
-		See also: algorithm, device, FL, model.
+		See also: algorithm, device, event, FL, model.
 		},
 	first={distributed algorithm}, 
 	text={distributed algorithm}
@@ -2608,10 +2836,10 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		transform a given training set into model parameters through a sequence of gradient steps. 
     		To study algorithms rigorously, we can represent (or approximate) them by different mathematical structures \cite{Sipser2013}. 
      		One approach is to represent an algorithm as a collection of possible executions. Each individual 
-     		execution is then a sequence of the form $${\rm input}, s_1, s_2, \ldots, s_T, {\rm output}.$$ This sequence 
+     		execution is then a sequence of the form $${\rm input}, \,s_1, \,s_2, \,\ldots, \,s_T, \,{\rm output}.$$ This sequence 
      		starts from an input and progresses via intermediate steps until an output is delivered. Crucially, an algorithm 
      		encompasses more than just a mapping from input to output; it also includes intermediate computational 
-     		steps $s_1, \ldots, s_T$.
+     		steps $s_1, \,\ldots, \,s_T$.
 				\\ 
 		See also: linear model, training set, model parameters, gradient step, model, stochastic.},
 	first={algorithm},
@@ -2627,7 +2855,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		stochastic algorithm by a stochastic processes, i.e., the possible execution sequence is the possible outcomes of 
 		a random experiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
 		\\ 
-		See also: stochastic, algorithm, SGD, data point, gradient, objective function, stochastic process, optimization method, gradient-based methods. },
+		See also: stochastic, algorithm, SGD, data point, gradient, objective function, stochastic process, 
+		random experiment, optimization method, gradient-based methods. },
 	first={stochastic algorithm},
 	text={stochastic algorithm} 
 }
@@ -2636,12 +2865,13 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={online learning},
 	description={Some ML methods  are designed to process data in a sequential 
 		manner, updating their model parameters one at a time, as new data points become available. 
-		A typical example is time series data, such as daily minimum and maximum temperatures 
+		A typical example is time-series data, such as daily minimum and maximum temperatures 
 		recorded by an FMI weather station. These values form a chronological sequence 
-		of observations. In online learning, the hypothesis (or its model parameters) is refined 
-		incrementally with each newly observed data point, without revisiting past data.  
+		of observations. During each time step $t$, online learning methods update (or refine)  
+		the current hypothesis $h^{(t)}$ (or model parameters ${\bf w}^{(t)}$) 
+		based on the newly observed data point ${\bf z}^{(t)}$. 
 		\\ 
-		See also: ML, data, model parameters, data point, FMI, hypothesis, online GD, online algorithm. },
+		See also: online GD, online algorithm. },
 	first={online learning},
 	text={online learning} 
 }
@@ -2655,7 +2885,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		must handle uncertainty about future inputs and cannot revise past decisions. Similar to an 
 		offline algorithm, we represent an online algorithm formally as a collection of possible 
 		executions. However, the execution sequence for an online algorithm has a distinct structure as follows:
-		$${\rm in}_{1}, s_1, {\rm out}_{1}, {\rm in}_{2}, s_2, {\rm out}_{2}, \ldots, {\rm in}_{T}, s_T, {\rm out}_{T}.$$ 
+		$${\rm in}_{1}, \,s_1, \,{\rm out}_{1}, \,{\rm in}_{2}, \,s_2, \,{\rm out}_{2}, \,\ldots, \,{\rm in}_{T}, \,s_T, \,{\rm out}_{T}.$$ 
 		Each execution begins from an initial state (i.e., \(\text{in}_{1}\)) and proceeds through alternating 
 		computational steps, outputs (or decisions), and inputs. Specifically, at step \(k\), 
 		the algorithm performs a computational step \(s_{k}\), generates an output \(\text{out}_{k}\), 
@@ -2667,21 +2897,6 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	first={online algorithm},
 	text={online algorithm} 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 \newglossaryentry{transparency}
@@ -2707,7 +2922,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		For instance, model datasheets \cite{DatasheetData2021} and AI system cards \cite{10.1145/3287560.3287596} 
 		help practitioners understand the intended use cases and limitations of an AI system \cite{Shahriari2017}.
 					\\ 
-		See also: trustworthy AI, ML, explainability, AI, prediction, model, logistic regression, classification, decision tree.},
+		See also: trustworthy AI, explainability.},
 	first={transparency}, 
 	text={transparency} 
 }
@@ -2735,7 +2950,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		probabilistic generative model for an undirected graph $\mathcal{G} = \big( \mathcal{V}, \mathcal{E} \big)$ 
 		with a given set of nodes $\mathcal{V}$ \cite{AbbeSBM2018}. In its most basic variant, 
 		the SBM generates a graph by first randomly assigning each node $i \in \mathcal{V}$ to 
-		a cluster index $c_{i} \in \{1, \ldots, k\}$. A pair of different nodes in the 
+		a cluster index $c_{i} \in \{1, \,\ldots, \,k\}$. A pair of different nodes in the 
 		graph is connected by an edge with probability $p_{i,i'}$ that depends 
 		solely on the labels $c_{i}, c_{i'}$. 
 		The presence of edges between different pairs of 
@@ -2768,26 +2983,23 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
     	determine if the trained model performs close to optimal such that there is little point 
    	in investing more resources (for data collection or computation) to improve it? 
     	To this end, it is useful to have a reference (or baseline) level against which 
-    	we can compare the performance of the trained model. Such a reference value 
-    	might be obtained from human performance, e.g., the misclassification rate of dermatologists 
+    	we can compare the performance of the trained model. \\
+	Such a reference value might be obtained from human performance, e.g., the misclassification rate of dermatologists 
     	who diagnose cancer from visual inspection of skin \cite{SkinHumanAI}. Another source for a baseline is an existing, 
     	but for some reason unsuitable, ML method. For example, the existing ML method 
     	might be computationally too expensive for the intended ML application. 
     	Nevertheless, its test set error can still serve as a baseline. Another, somewhat more principled, 
     	approach to constructing a baseline is via a probabilistic model. In many cases, given a probabilistic model $p({\bf x},y)$,  
     	we can precisely determine the minimum achievable risk among any hypotheses
-    	(not even required to belong to the hypothesis space $\mathcal{H}$) \cite{LC}. 
+    	(not even required to belong to the hypothesis space $\mathcal{H}$) \cite{LC}. \\
     	This minimum achievable risk (referred to as the Bayes risk) is the risk 
     	of the Bayes estimator for the label $y$ of a data point, given
     	its features ${\bf x}$. Note that, for a given choice of loss function, the 
     	Bayes estimator (if it exists) is completely determined by the probability distribution $p({\bf x},y)$ \cite[Ch. 4]{LC}. 
     	However, computing the Bayes estimator and Bayes risk presents two 
-    	main challenges:
-    	\begin{enumerate}[label=\arabic*)]
-    		\item The probability distribution $p({\bf x},y)$ is unknown and must be estimated from observed data.
-    		\item Even if $p({\bf x},y)$ were known, computing the Bayes risk exactly may be computationally 
-		infeasible \cite{cooper1990computational}. 
-   	\end{enumerate}
+    	main challenges. First, the probability distribution $p({\bf x},y)$ is unknown and must be estimated from observed data.
+    	Second, even if $p({\bf x},y)$ were known, computing the Bayes risk exactly may be computationally 
+	infeasible \cite{cooper1990computational}. 
 	A widely used probabilistic model is the multivariate normal distribution $\left( {\bf x},y \right) \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 	for data points characterized by numeric features and labels.
 	Here, for the squared error loss, the Bayes estimator is given by the posterior 
@@ -2879,10 +3091,10 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={spectral clustering},
 	description={Spectral clustering is a particular instance of 
 		graph clustering, i.e., it clusters data points 
-		represented as the nodes $i=1, \ldots, n$ of a graph $\mathcal{G}$. 
+		represented as the nodes $i=1, \,\ldots, \,n$ of a graph $\mathcal{G}$. 
 		Spectral clustering uses the eigenvectors of the Laplacian matrix ${\bf L}^{(\mathcal{G})}$ 
 		to construct feature vectors ${\bf x}^{(i)} \in \mathbb{R}^{d}$ 
-		for each node (i.e., for each data point) $i=1, \ldots, n$. We can feed these feature vectors 
+		for each node (i.e., for each data point) $i=1, \,\ldots, \,n$. We can feed these feature vectors 
 		into Euclidean space-based clustering methods, such as $k$-means 
 		or soft clustering via GMM. Roughly speaking, the feature vectors of nodes 
 		belonging to a well-connected subset (or cluster) of nodes in $\mathcal{G}$ are located 
@@ -2981,7 +3193,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{flowbasedclustering}
 {name={flow-based clustering},
 	description={Flow-based clustering groups the nodes 
-		of an undirected graph by applying $k$-means clustering to node-wise 
+		of an undirected graph by applying $k$-means clustering to nodewise 
 		feature vectors. These feature vectors are built from network flows between 
 		carefully selected sources and destination nodes \cite{FlowSpecClustering2021}. 
 					\\ 
@@ -2997,7 +3209,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	description={Consider data points, each with feature vector ${\bf x}$ and label 
 		$y$. In some applications, we can model the relation between the feature vector and the label
 		of a data point as $y = \bar{h}({\bf x}) + \varepsilon$. Here, we 
-		use some true underlying hypothesis $\bar{h}$ and a noise term $\varepsilon$ 
+		use some true underlying hypothesis $\bar{h}$ and a noise term $\varepsilon$, 
 		which summarizes any modeling or labeling errors. The estimation error incurred by an ML 
 		method that learns a hypothesis $\widehat{h}$, e.g., using ERM, is defined as 
 		$\widehat{h}({\bf x}) - \bar{h}({\bf x})$, for some feature vector. 
@@ -3065,9 +3277,9 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{acc}
 {name={accuracy},
 	description={Consider data points characterized by features ${\bf x} \in \mathcal{X}$ and 
-		a categorical label $y$ which takes on values from a finite label space $\mathcal{Y}$. The 
+		a categorical label $y$ that takes on values from a finite label space $\mathcal{Y}$. The 
 		accuracy of a hypothesis $h: \mathcal{X} \rightarrow \mathcal{Y}$, when applied to the data points in a dataset 
-		$\mathcal{D} = \big\{ \big({\bf x}^{(1)}, y^{(1)} \big), \ldots, \big({\bf x}^{(m)},y^{(m)}\big) \big\}$, 
+		$\mathcal{D} = \big\{ \big({\bf x}^{(1)}, y^{(1)} \big), \,\ldots, \,\big({\bf x}^{(m)},y^{(m)}\big) \big\}$, 
 		is then defined as $1 - (1/m)\sum_{r=1}^{m} L^{(0/1)}\left(\big({\bf x}^{(r)},y^{(r)}\big),h \right)$ 
 		using the $0/1$ loss $L^{(0/1)}\left(\cdot,\cdot \right)$.
 					\\ 
@@ -3167,7 +3379,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 }
 
 \newglossaryentry{fedprox}
-{name={FedProx},
+{name={federated proximal (FedProx)},
 	description={FedProx refers to an iterative FL algorithm that alternates between separately 
 		training local models and combining the updated local model parameters. In contrast to FedAvg, which uses 
 		SGD to train local models, FedProx uses a proximal operator for the training \cite{FedProx2020}.
@@ -3210,7 +3422,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{vcdim}
 {name={Vapnik–Chervonenkis dimension (VC dimension)},
 	description={The VC dimension 
-		is a widely-used measure for the size of an infinite hypothesis space. We refer to 
+		is a widely used measure for the size of an infinite hypothesis space. We refer to 
 		the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
 		as well as a discussion of its basic properties and use in ML.
 					\\ 
@@ -3262,7 +3474,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{histogram}
 {name={histogram},
 	description={Consider a dataset $\mathcal{D}$ that consists of $m$ data points 
-		${\bf z}^{(1)}, \ldots, {\bf z}^{(m)}$, each of them belonging to some 
+		${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$, each of them belonging to some 
 		cell $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{d}$ with side 
 		length $U$. We partition this cell evenly into smaller elementary cells with side 
 		length $\Delta$. The histogram of $\mathcal{D}$ assigns each elementary cell to 
@@ -3302,7 +3514,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{bootstrap}
 {name={bootstrap},
 	description={For the analysis of ML methods, it is often useful to interpret 
-		a given set of data points $\mathcal{D} = \big\{ {\bf z}^{(1)}, \ldots, {\bf z}^{(m)}\big\}$ 
+		a given set of data points $\mathcal{D} = \big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}\big\}$ 
 		as realizations of iid RVs drawn from a common probability distribution $p({\bf z})$. 
 		In practice, the probability distribution $p({\bf z})$ is unknown and must be estimated from $\mathcal{D}$. 
 		The bootstrap approach uses the histogram of $\mathcal{D}$ as an estimator for $p({\bf z})$. 
@@ -3314,12 +3526,66 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{featurespace}
 {name={feature space},
-	description={The feature space of a given ML application or method is 
-		constituted by all potential values that the feature vector of a data point can 
-		take on. A widely used choice for the feature space is the Euclidean space $\mathbb{R}^{d}$, 
-		with the dimension $d$ being the number of individual features of a data point.
+	description={The feature space of a given ML application 
+		or method is constituted by all potential values that the feature vector of a data point can take on. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=0.6]
+			
+			\begin{scope}[xshift=0cm]
+  				
+ 	 			\draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
+  				
+  				\foreach \x/\lbl in {0.5/${\bf x}^{(1)}$, 1.5/${\bf x}^{(2)}$, 2.8/${\bf x}^{(3)}$}
+    				\filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
+  				
+  				\node at (1.5, -4.0)  {$\mathcal{X}^{(1)}$};
+				\node at (1.5, -6) {(a)};
+			\end{scope}
+			
+			\begin{scope}[xshift=8cm]
+  				
+  				\draw[thick] (0,0) circle (1.8);
+  				\fill[gray!5] (0,0) circle (1.8);
+  				
+  				\filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {${\bf x}^{(1)}$};
+  				\filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {${\bf x}^{(2)}$};
+  				\filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {${\bf x}^{(3)}$};
+  				
+  				\node at (0.5, -4) {$\mathcal{X}^{(2)}$};
+				\node at (0.5, -6) {(b)};
+			\end{scope}
+			
+			\begin{scope}[xshift=14cm, yshift=0.3cm]
+  				
+ 	 			\filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {${\bf x}^{(1)}$};
+ 	 			\filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {${\bf x}^{(2)}$};
+  				\filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {${\bf x}^{(3)}$};
+  				\filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {${\bf x}^{(4)}$};
+  				
+  				\draw[-] (0,0) -- (2,1.2);
+  				\draw[-] (2,1.2) -- (1,2.5);
+  				\draw[-] (1,2.5) -- (3,2.5);
+  				
+  				\node at (1.5, -4.2) {$\mathcal{X}^{(3)}$};
+				\node at (1.5, -6.2) {(c)};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{Three different feature spaces. (a) A linear space $\mathcal{X}^{(1)} = \mathbb{R}$. (b) A 
+		bounded convex set $\mathcal{X}^{(2)} \subseteq \mathbb{R}^{2}$. (c) A discrete space 
+		$\mathcal{X}^{(3)}$ whose elements are nodes of an undirected graph.}
+		\end{figure}
+		For data points described by a fixed number $d$ of numerical features, 
+		a common choice for the feature space is the Euclidean space $\mathbb{R}^{d}$. 
+		However, the mere presence of $d$ numeric features does not imply that $\mathbb{R}^{d}$ 
+		is the most appropriate representation of the feature space. Indeed, the numerical features  
+		might be assigned to data points in a largely arbitrary or random manner, resulting 
+		in data points that are randomly scattered throughout $\mathbb{R}^{d}$ 
+		without any meaningful geometric structure. Feature learning methods try to learn a 
+		transformation of the original (potentially non-numeric) features to ensure a 
+		more meaningful arrangement of data points in $\mathbb{R}^{d}$. 
 				\\
-		See also: feature, ML, feature vector, data point, feature, Euclidean space.},
+		See also: feature vector, Euclidean space.},
 	first={feature space},
 	text={feature space}  
 }
@@ -3334,7 +3600,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		We can interpret data imputation as an ML problem where the label of a data point is 
 		the value of the corrupted feature.
 				\\
-		See also: dataset, data point, device, feature, label, data, ML. },
+		See also: feature, label. },
 	first={missing data},
 	text={missing data}  
 }
@@ -3347,7 +3613,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	 	The property of being psd can be extended from matrices to (real-valued) 
 	 	symmetric kernel maps $K: \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}$ 
 	 	(with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
-	 	as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \ldots, {\bf x}^{(m)}$, 
+	 	as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$, 
 	 	the resulting matrix $\mathbf{Q} \in \mathbb{R}^{m \times m}$ with 
 		entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
 		is psd \cite{LearningKernelsBook}.
@@ -3372,8 +3638,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{featurevec}
 {name={feature vector}, plural={feature vectors},
-	description={Feature vector refers to a vector ${\bf x} = \big(x_{1}, \ldots, x_{d}\big)\,^{T}$ 
-		whose entries are individual features $x_{1}, \ldots, x_{d}$. Many ML methods 
+	description={Feature vector refers to a vector ${\bf x} = \big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
+		whose entries are individual features $x_{1}, \,\ldots, \,x_{d}$. Many ML methods 
 		use feature vectors that belong to some finite-dimensional Euclidean space $\mathbb{R}^{d}$. 
 		For some ML methods, however, it can be more convenient to work with feature 
 		vectors that belong to an infinite-dimensional vector space (e.g., see kernel method). 
@@ -3386,7 +3652,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{label}
 {name={label}, plural={labels},
-	description={A higher-level fact or quantity of interest associated with a data point. 
+	description={A higher level fact or quantity of interest associated with a data point. 
 		For example, if the data point is an image, the label could indicate whether the 
 		image contains a cat or not. Synonyms for label, commonly used in specific domains, 
 		include "response variable," "output variable," and "target" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}.
@@ -3399,7 +3665,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{data}
 {name={data},
-	 description={Data refers to objects that carry information. These 
+	 description={Data refer to objects that carry information. These 
 	 	objects can be either concrete physical objects (such as persons or animals) 
 	 	or abstract concepts (such as numbers). We often use representations (or 
 	 	approximations) of the original data that are more convenient for data processing. 
@@ -3429,22 +3695,26 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	 	\end{figure}
        		Quite often, an ML engineer does not have direct access to a dataset. Indeed, accessing the 
        		dataset in Fig. \ref{fig_cows_dataset_dict} would require us to visit the cow herd in the Alps. Instead, 
-       		we need to use an approximation (or representation) of the dataset which is more convenient 
+       		we need to use an approximation (or representation) of the dataset that is more convenient 
        		to work with. Different mathematical models have been developed for the representation (or approximation) 
        		of datasets \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
        		One of the most widely adopted data model is the relational model, which organizes data 
        		as a table (or relation) \cite{codd1970relational}, \cite{silberschatz2019database}.
-		A table consists of rows and columns where
-		\begin{itemize} 
-			\item each row of the table represents a single data point;
-			\item each column of the table corresponds to a specific attribute of the data point. 
-			ML methods can use attributes as features and labels of the data point.
-		\end{itemize}
-		For example, Table \ref{tab:cowdata_dict} shows a representation of the dataset in Fig. \ref{fig_cows_dataset_dict}. 
+		A table consists of rows and columns, where each row of the table represents a single data point, and 
+		each column of the table corresponds to a specific attribute of the data point. 
+		ML methods can use attributes as features and labels of the data point.\\
+		For example, Table~\ref{tab:cowdata_dict} shows a representation of the dataset in Fig. \ref{fig_cows_dataset_dict}. 
 		In the relational model, the order of rows is irrelevant, and each attribute (i.e., column) must be 
 		precisely defined with a domain, which specifies the set of possible values. In ML applications, 
 		these attribute domains become the feature space and the label space.
 		\begin{table}[H]
+			\refstepcounter{table}
+			\caption*{
+				\centering 
+				\scshape TABLE \thetable \\[0.5ex]
+				\scshape A Relation (or Table) That Represents the Dataset in Fig. \ref{fig_cows_dataset_dict} 
+			}
+			\label{tab:cowdata_dict} 
 			\centering
 			\begin{tabular}{lcccc}
 				\hline
@@ -3455,8 +3725,6 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 				Resi  & 120 & 4 & 120 & 31 \\
 				\hline
 			\end{tabular}
-			\caption{A relation (or table) that represents the dataset in Fig. \ref{fig_cows_dataset_dict}.}
-			\label{tab:cowdata_dict}
 		\end{table}
  		While the relational model is useful for the study of many ML applications, it may be 
  		insufficient regarding the requirements for trustworthy AI. Modern 
@@ -3484,7 +3752,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{labeled datapoint}
 {name={labeled data point}, plural={labeled data points},
  	description={A data point whose label is known or has been determined 
- 		by some means which might require human labor.
+ 		by some means that might require human labor.
 			\\
 		See also: data point, label.},
  	first={labeled data point},
@@ -3494,9 +3762,9 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
  	description={An RV is a function that maps the 
-	outcomes of a random experiment to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
- 	Mathematically, a RV is a function $x: \Omega \rightarrow \mathcal{X}$ that is defined on the 
-	sample space $\Omega$ of a probability space. 
+		outcomes of a random experiment to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
+ 		Mathematically, a RV is a function $x: \Omega \rightarrow \mathcal{X}$ that is defined on the 
+		sample space $\Omega$ of a probability space.
  		Different types of RVs include  
  		\begin{itemize} 
  			\item {binary RVs}, which map each outcome to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
@@ -3506,7 +3774,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  		Probability theory uses the concept of measurable spaces to rigorously define 
  		and study the properties of collections of RVs \cite{BillingsleyProbMeasure}.
 			\\
-		See also: function, probability space, probability, vector, Euclidean space.}, 
+		See also: function, random experiment, sample space, probability space, vector, Euclidean space, probability, measurable.}, 
 	first={random variable (RV)},
 	text={RV}  
 }
@@ -3514,32 +3782,33 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  \newglossaryentry{probspace}
  {name={probability space}, 
  	description={A probability space is a mathematical 
- 		structure that allows to reason about a random experiment, e.g., the observation 
+ 		structure that allows us to reason about a random experiment, e.g., the observation 
 		of a physical phenomenon. 
  	   	Formally, a probability space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, \mathbb{P}({\cdot}))$ where
  		\begin{itemize} 
- 			\item  $\Omega$ is a sample space containing all possible outcomes
-			of a random experiment;
- 			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of $\Omega$ 
-			(called events) that satisfies certain closure properties under set operations;
- 			\item $\mathbb{P}({\cdot})$ is a probability distribution, i.e., a function that assigns a 
-			probability $P(\mathcal{A}) \in [0,1]$ 
- 			to each event $\mathcal{A} \in \mathcal{F}$. This function 
-			must satisfy $\mathbb{P}({\Omega}) = 1$ and $\mathbb{P}({\bigcup_{i=1}^{\infty} \mathcal{A}_i}) = \sum_{i=1}^{\infty} \mathbb{P}({\mathcal{A}_i})$ for any 
- 			countable sequence of pairwise disjoint events $\mathcal{A}_1, \mathcal{A}_2, \ldots$ in $\mathcal{F}$.
+ 			\item  $\Omega$ is a sample space containing all possible outcomes of a random experiment;
+ 			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of $\Omega$ (called events) that satisfies 
+ 			certain closure properties under set operations;
+ 			\item $\mathbb{P}({\cdot})$ is a probability distribution, i.e., a function that assigns a probability $P(\mathcal{A}) \in [0,1]$ 
+ 			to each event $\mathcal{A} \in \mathcal{F}$. This function must satisfy $\mathbb{P}({\Omega}) = 1$ and 
+			$\mathbb{P}({\bigcup_{i=1}^{\infty} \mathcal{A}_i}) = \sum_{i=1}^{\infty} \mathbb{P}({\mathcal{A}_i})$ for any 
+ 			countable sequence of pairwise disjoint events $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
  		\end{itemize}
- 		Probability spaces are the foundation of probabilistic models which can be 
-		used to study the behaviour of ML methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
+ 		Probability spaces provide the foundation of probabilistic models that can be 
+		used to study the behavior of ML methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
 				\\
-		See also: probability,  RV, uncertainty.},  
+		See also: probability, random experiment, sample space, event, probability distribution, function, probabilistic model, ML.},  
  	first={probability space}, 
  	text={probability space}
  }
-
-\newglossaryentry{samplespace}
+ 
+ 
+ \newglossaryentry{samplespace}
   {name={sample space}, 
   	description={A sample space is the set of all possible 
-	outcomes of a random experiment \cite{papoulis,BillingsleyProbMeasure,AshProbMeasure,BertsekasProb}. 
+		outcomes of a random experiment \cite{BillingsleyProbMeasure}, 
+		\cite{BertsekasProb}, \cite{papoulis}, \cite{AshProbMeasure}. 
+		\\
  		See also: probability space.},  
   	first={sample space}, 
  	firstplural={sample spaces},
@@ -3550,20 +3819,20 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	
 \newglossaryentry{realization}
 {name={realization}, plural={realizations},
-	description={Consider an RV ${\bf x}$ which maps each 
-	outcome $\omega \in \mathcal{P}$ of a probability space $\mathcal{P}$ to 
-	an element $a$ of a measurable space $\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
-	A realization of ${\bf x}$ is any element ${\bf a} \in \mathcal{N}$ such that there is 
-	an element $\omega \in \mathcal{P}$ with ${\bf x}(\omega) = {\bf a}$.
+	description={Consider an RV ${\bf x}$ that maps each outcome 
+		$\omega \in \mathcal{P}$ of a probability space $\mathcal{P}$ to an element $a$ of a measurable space 
+		$\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
+		A realization of ${\bf x}$ is any element ${\bf a} \in \mathcal{N}$ such that there is 
+		an element $\omega' \in \mathcal{P}$ with ${\bf x}(\omega') = {\bf a}$.
 			\\
-		See also: RV, probability space.}, 
+		See also: RV, probability space, measurable.}, 
 	first={realization},
 	text={realization}  
 }
 
 \newglossaryentry{trainset}
 {name={training set}, plural={training sets},
-	description={A training set is a dataset $\mathcal{D}$ which consists of some data points used in ERM 
+	description={A training set is a dataset $\mathcal{D}$ that consists of some data points used in ERM 
 		to learn a hypothesis $\hat{h}$. The average loss of $\hat{h}$ on the 
 		training set is referred to as the training error. The comparison of the training error with the 
 		validation error of $\hat{h}$ allows us to diagnose the ML method and informs how to improve 
@@ -3599,7 +3868,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{netdata}
 {name={networked data},
-	description={Networked data consists of local datasets 
+	description={Networked data consist of local datasets 
 		that are related by some notion of pairwise similarity. We can represent networked 
 		data using a graph whose nodes carry local datasets and edges encode 
 		pairwise similarities. An example of networked data can be found in FL applications 
@@ -3627,17 +3896,13 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	description={A data point is any object that conveys information~\cite{coverthomas}. 
 		Examples include students, radio signals, trees, images, RVs, real numbers, 
  		or proteins. We describe data points of the same type by two categories 
-		of properties:
-		\begin{enumerate}[label=\arabic*)]
-   			\item Features are measurable or computable properties of a data point. These 
-    			attributes can be automatically extracted or computed using sensors, computers, or other
-			data collection systems. For a data point that represents a patient, one feature 
-			could be the body weight.
-    			\item Labels are higher-level facts (or quantities of interest) 
-			associated with the data point. Determining the labels of a data point 
-			usually requires human expertise or domain knowledge. For a data point that represents a patient, 
-			a cancer diagnosis provided by a physician would serve as the label.
-		\end{enumerate}
+		of properties. The first category includes features that are measurable or computable properties of a 
+		data point. These attributes can be automatically extracted or computed using sensors, computers, or other
+		data collection systems. For a data point that represents a patient, one feature could be the body weight.
+    		The second category includes labels that are higher level facts (or quantities of interest) 
+		associated with the data point. Determining the labels of a data point 
+		usually requires human expertise or domain knowledge. For a data point that represents a patient, 
+		a cancer diagnosis provided by a physician would serve as the label. 
 		Fig.\ \ref{fig:datapoint_cowherd_dict} depicts an image as an example of a data 
 		point along with its features and labels. Importantly, what constitutes 
 		a feature or a label is not inherent to the data point itself—it is a design 
@@ -3655,7 +3920,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
     			\begin{minipage}[t]{0.95\textwidth}
         			Features:
         			\begin{itemize}
-            			\item $x_{1},\ldots,x_{d_{1}}$: Colour intensities of all image pixels.
+            			\item $x_{1}, \,\ldots, \,x_{d_{1}}$: Color intensities of all image pixels.
             			\item $x_{d_{1}+1}$: Time-stamp of the image capture.
             			\item $x_{d_{1}+2}$: Spatial location of the image capture.
 			\end{itemize}
@@ -3667,7 +3932,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
             		\end{itemize}
     			\end{minipage}
     			\caption{Illustration of a data point consisting of an image. We can use 
-			different properties of the image as features and higher-level facts
+			different properties of the image as features and higher level facts
 			about the image as labels.\label{fig:datapoint_cowherd_dict}}
 		\end{figure}
  		The distinction between features and labels is not always clear-cut. 
@@ -3684,7 +3949,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{valerr}
 {name={validation error}, plural={validation errors},
- 	description={Consider a hypothesis $\hat{h}$ which is 
+ 	description={Consider a hypothesis $\hat{h}$ that is 
  		obtained by some ML method, e.g., using ERM on a training set. The average loss 
  		of $\hat{h}$ on a validation set, which is different from the training set, is referred 
  		to as the validation error.
@@ -3947,7 +4212,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 					\draw[<->, color=red, thick] (l9) -- (c9);  
 					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original training set $\mathcal{D}$};
 					\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {augmented};
-					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{m} \sum_{r=1}^m L\left(\left( {\bf x}^{(r)}, y^{(r)} \right),h \right)$};
+					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{m} \sum\limits_{r=1}^m L\left(\left( {\bf x}^{(r)}, y^{(r)} \right),h \right)$};
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\alpha \mathcal{R}\big\{ h \big\}$};
 				\end{tikzpicture}
 				\caption{Three approaches to regularization: 1) data augmentation; 2) loss penalization; and 3) model 
@@ -3998,7 +4263,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		predictions on new, unseen data points. This is a central goal of ML and AI, i.e., 
 		to learn patterns that extend beyond the training set. Most ML systems 
 		use ERM to learn a hypothesis $\hat{h} \in \mathcal{H}$ by minimizing 
-		the average loss over a training set of data points ${\bf z}^{(1)}, \ldots, {\bf z}^{(m)}$, 
+		the average loss over a training set of data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$, 
 		which is denoted $\mathcal{D}^{(\rm train)}$. However, success on the training set does not guarantee success on 
 		unseen data—this discrepancy is the challenge of generalization. \\ To study generalization 
 		mathematically, we need to formalize the notion of ``unseen'' data. A widely used 
@@ -4044,7 +4309,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		                   		or by perturbing the data points.}
 		                   	\label{fig:polynomial_fit_dict}
 		      \end{figure}
-		See also: model, training set, prediction, data point, ML, AI, ERM, hypothesis, loss, data, probabilistic model, i.i.d.\ assumption, RV, probability distribution, risk, empirical risk, generalization gap, probability, concentration inequality, feature.},
+		See also: ERM, i.i.d.\ assumption, overfitting, validation.},
 	first={generalization},
 	text={generalization} 
 }
@@ -4058,7 +4323,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		as the expected loss. However, the probability distribution underlying this expectation 
 		is typically unknown and needs to be somehow estimated. Validation techniques 
 		use different constructions of a validation set, which is different from 
-		the training set,  to estimate the generalization gap.
+		the training set, to estimate the generalization gap.
 		\\
 		See also: generalization, validation, ERM, loss function.}, 
 	first={generalization gap}, 
@@ -4083,12 +4348,12 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	description={Boosting is an iterative optimization method to learn an accurate 
 		hypothesis map (or strong learner) by sequentially combining less accurate 
 		hypothesis maps (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
-		For example, weak learners are shallow decision trees which are combined to 
+		For example, weak learners are shallow decision trees that are combined to 
 		obtain a deep decision tree. Boosting can be understood as a generalization 
 		of gradient-based methods for ERM using parametric models and smooth loss functions 
 		\cite{Friedman2001}. Just as GD iteratively updates model parameters to reduce the empirical risk, 
 		boosting iteratively combines (e.g., by summation) hypothesis maps to reduce the empirical risk. 
-		A widely-used instance of the generic boosting idea is referred to as gradient boosting, which 
+		A widely used instance of the generic boosting idea is referred to as gradient boosting, which 
 		uses gradients of the loss function for combining the weak learners \cite{Friedman2001}. 
 		\begin{figure}[H]
 			\begin{center}
@@ -4104,7 +4369,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of hypothesis maps $h^{(0)}, h^{(1)}, \ldots$ 
+			\caption{Boosting methods construct a sequence of hypothesis maps $h^{(0)}, \,h^{(1)}, \,\ldots$ 
 				            that are increasingly strong learners (i.e., incurring a smaller loss).}
      		\end{figure} 
      		See also: optimization method, hypothesis, map, decision tree, generalization, gradient-based methods, ERM, model, smooth, loss function, GD, model parameters, empirical risk, gradient, loss, gradient step.}, 
@@ -4117,7 +4382,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={generalized total variation (GTV)}, 
 	description={GTV is a 
 		measure of the variation of trained local models $h^{(i)}$ 
-		(or their model parameters $\mathbf{w}^{(i)}$) assigned to the nodes $i=1, \ldots, n$ 
+		(or their model parameters $\mathbf{w}^{(i)}$) assigned to the nodes $i=1, \,\ldots, \,n$ 
 		of an undirected weighted graph $\mathcal{G}$ with edges $\mathcal{E}$. Given a measure $d^{(h,h')}$ 
 		for the discrepancy between hypothesis maps $h,h'$, the GTV is 
 		\begin{equation} 
@@ -4160,13 +4425,11 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 {name={data poisoning}, 
 	description={Data poisoning refers to the intentional manipulation 
   		(or fabrication) of data points to steer the training of an ML model \cite{Liu2021}, \cite{PoisonGAN}. 
-  		Data poisoning attacks take various forms, including the following:
-  		\begin{itemize}
-  			\item Backdoor attacks: Implanting triggers into training data, so that the trained model 
-  			behaves normally on typical feature vectors but misclassifies a feature vector with a trigger pattern.
-  			\item Denial-of-service attack: Degrading overall performance of the trained model by injecting mislabeled or 
-  			adversarial examples to prevent effective learning.
-  		\end{itemize}
+  		Data poisoning attacks take various forms, including backdoor and denial-of-service attacks.
+  		A backdoor attack implants triggers into training data, so that the trained model 
+  		behaves normally on typical feature vectors but misclassifies a feature vector with a trigger pattern.
+  		A denial-of-service attack degrades the trained model's overall performance by injecting mislabeled or 
+  		adversarial examples to prevent effective learning.
 		Data poisoning is particularly concerning in decentralized or distributed ML settings (such as FL), 
 		where training data cannot be centrally verified.
 				\\
@@ -4179,16 +4442,16 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{backdoor}
 {name={backdoor}, 
 	description={A backdoor attack refers 
-		to the intentional manipulation of the training process underlying an ML method. 
-		This manipulation can be implemented by perturbing the training set (i.e., through data poisoning) or via the 
+		to the intentional manipulation of the training process underlying an ML method. This manipulation 
+		can be implemented by perturbing the training set (i.e., through data poisoning) or via the 
 		optimization algorithm used by an ERM-based method. The goal of a 
 		backdoor attack is to nudge the learned hypothesis $\hat{h}$ 
-		towards specific predictions for a certain range of feature values. This range of feature 
+		toward specific predictions for a certain range of feature values. This range of feature 
 		values serves as a key (or trigger) to unlock a backdoor in the sense of 
 		delivering anomalous predictions. The key ${\bf x}$ and the corresponding 
 		anomalous prediction $\hat{h}({\bf x})$ are only known to the attacker.
 				\\
-		See also:  data poisoning, attack, trustworthy AI.},
+		See also: ML, training set, data poisoning, algorithm, ERM, hypothesis, prediction, feature.},
 	first={backdoor},
 	text={backdoor} 
 }
@@ -4233,7 +4496,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 \newglossaryentry{scatterplot}
 {name={scatterplot}, 
 	description={A 
-		visualization technique that depicts data points using markers in a two-dimensional plane. 
+		visualization technique that depicts data points using markers in a 2-D plane. 
 		Fig. \ref{fig_scatterplot_temp_FMI_dict} depicts an example of a scatterplot.  
 		\begin{figure}[H]
 			\begin{center}
@@ -4260,7 +4523,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 				Each data point is characterized by its minimum daytime temperature $x$ 
 				as the feature and its maximum daytime temperature $y$ as the label. 
 				The temperatures have been measured at the FMI weather station Helsinki Kaisaniemi 
-				during 1.9.2024 - 28.10.2024.}
+				during 1 September 2024—28 October 2024.}
 			\label{fig_scatterplot_temp_FMI_dict}
 			\vspace*{-3mm}
 			\end{figure}
@@ -4313,7 +4576,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  		Other benefits of using a feature map include reducing overfitting and 
  		improving interpretability~\cite{Ribeiro2016}. A common use case is data 
  		visualization, where a feature map with two output dimensions allows the representation 
- 		of data points in a 2D scatterplot. Some ML methods employ trainable 
+ 		of data points in a 2-D scatterplot. Some ML methods employ trainable 
  		feature maps, whose parameters are learned from data. An example is 
  		the use of hidden layers in a deep net, which act as successive feature maps 
  		\cite{MallatUnderstandingDeepLearning}. A principled way to train a feature map 
@@ -4344,8 +4607,8 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  {name={similarity graph}, 
  	description={Some ML applications generate data points that 
  		are related by a domain-specific notion of similarity. These similarities can be 
- 		represented conveniently using a similarity graph $\mathcal{G} = \big(\mathcal{V} := \{1, \ldots, m\}, \mathcal{E}\big)$. 
- 		The node $r \in \mathcal{V}$ represents the $r$-th data point. Two 
+ 		represented conveniently using a similarity graph $\mathcal{G} = \big(\mathcal{V} := \{1, \,\ldots, \,m\}, \mathcal{E}\big)$. 
+ 		The node $r \in \mathcal{V}$ represents the $r$th data point. Two 
  		nodes are connected by an undirected edge if the corresponding data points are similar. 
 				\\
 		See also: ML, data point, graph.},
@@ -4355,26 +4618,27 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  
  
  \newglossaryentry{kld}
- {name={Kullback-Leibler divergence (KL divergence)}, 
+ {name={Kullback–Leibler divergence (KL divergence)}, 
  	description={The KL divergence is a quantitative 
  		 measure of how different one probability distribution is from another \cite{coverthomas}.  
 		 		\\
 		See also: probability distribution.},
- 	first={Kullback-Leibler divergence (KL divergence)},
+ 	first={Kullback–Leibler divergence (KL divergence)},
 	text={KL divergence} 
 }
 
 \newglossaryentry{LapMat}
 {name={Laplacian matrix},
 	description={The structure of a graph $\mathcal{G}$, with 
-		nodes $i=1, \ldots, n$, can be analyzed using the properties of 
+		nodes $i=1, \,\ldots, \,n$, can be analyzed using the properties of 
 		special matrices that are associated with $\mathcal{G}$. One such matrix is the 
 		graph Laplacian matrix ${\bf L}^{(\mathcal{G})} \in \mathbb{R}^{n \times n}$, 
 		which is defined for an undirected and weighted graph \cite{Luxburg2007}, \cite{Ng2001}. 
-		It is defined element-wise as (see Fig. \ref{fig_lap_mtx_dict})
+		It is defined elementwise as (see Fig. \ref{fig_lap_mtx_dict})
 		\begin{equation}
+			\nonumber
 			L^{(\mathcal{G})}_{i,i'} := \begin{cases} - A_{i,i'}, & \mbox{ for } i\neq i', \{i,i'\}\!\in\!\mathcal{E}; \\ 
-			\sum_{i'' \neq i} A_{i,i''}, & \mbox{ for } i = i'; \\ 
+			\sum\limits_{i'' \neq i} A_{i,i''}, & \mbox{ for } i = i'; \\ 
 							0, & \mbox{ else.} \end{cases}
 	 	\end{equation}
   		Here, $A_{i,i'}$ denotes the edge weight of an edge $\{i,i'\} \in \mathcal{E}$. 
@@ -4427,7 +4691,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 
 \newglossaryentry{cfwmaxmin}
-{name={Courant–Fischer–Weyl min-max characterization}, 
+{name={Courant–Fischer–Weyl min–max characterization}, 
 	description={Consider a psd 
 		matrix $\mathbf{Q} \in \mathbb{R}^{d \times d}$ with 
 		EVD (or spectral decomposition), i.e.,
@@ -4435,13 +4699,13 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		Here, we use the ordered (in ascending order) eigenvalues 
 		\begin{equation}
 			\nonumber
-		 	\lambda_{1}  \leq  \ldots \leq \lambda_{n}. 
+		 	\lambda_{1}  \leq \ldots \leq \lambda_{n}. 
 		\end{equation}
-		The Courant–Fischer–Weyl min-max characterization \cite[Th. 8.1.2]{GolubVanLoanBook} 
+		The Courant–Fischer–Weyl min–max characterization \cite[Th. 8.1.2]{GolubVanLoanBook} 
 		represents the eigenvalues of $\mathbf{Q}$ as the solutions to certain optimization problems.
 			\\
 		See also: psd, matrix, EVD, eigenvalue, optimization problem.}, 
-	first={Courant–Fischer–Weyl min-max characterization (CFW)}, 
+	first={Courant–Fischer–Weyl min–max characterization (CFW)}, 
 	text={CFW}
 }
 
@@ -4455,7 +4719,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
      		This value is typically interpreted as a similarity measure between ${\bf x}$ and ${\bf x}'$. 
 	 	The defining property of a kernel is that it is symmetric, i.e.,
 	 	$K\big({\bf x},{\bf x}'\big) = K\big({\bf x}',{\bf x}\big)$, and that 
-	 	for any finite set of feature vectors ${\bf x}_1, \ldots, {\bf x}_n \in \mathcal{X}$, the matrix 
+	 	for any finite set of feature vectors ${\bf x}_1, \,\ldots, \,{\bf x}_n \in \mathcal{X}$, the matrix 
 	  	\begin{equation}
 	 		\nonumber
 	 		\mathbf{K} = \begin{pmatrix}
@@ -4471,13 +4735,13 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	 	function ${\bf z} = K\big({\bf x},\cdot\big)$. The function ${\bf z}$ maps an  
 	 	input ${\bf x}' \in \mathcal{X}$ to the value $K\big({\bf x},{\bf x}'\big)$. 
 	 	We can view the function ${\bf z}$ as a new feature vector that belongs to a 
-	 	feature space $\mathcal{X}'$ which is typically different from $\mathcal{X}$. 
+	 	feature space $\mathcal{X}'$ that is typically different from $\mathcal{X}$. 
 	 	This new feature space $\mathcal{X}'$ has a particular mathematical structure, i.e., it is a 
 	 	reproducing kernel Hilbert space (RKHS)~\cite{LearningKernelsBook}, \cite{LampertNowKernel}.
      		Since ${\bf z}$ belongs to a RKHS, which is a vector space, we can interpret it as a generalized 
-	 	feature vector. Note that a finite-length feature vector ${\bf x}=\big(x_{1},\ldots,x_{d} \big)\,^{T} \in \mathbb{R}^{d}$ 
-	 	can be viewed as a function ${\bf x}: \{1, \ldots, d\} \rightarrow \mathbb{R}$ 
-	 	that assigns a real value to each index $j \in \{1,\ldots,d\}$.
+	 	feature vector. Note that a finite-length feature vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d} \big)\,^{T} \in \mathbb{R}^{d}$ 
+	 	can be viewed as a function ${\bf x}: \{1, \,\ldots, \,d\} \rightarrow \mathbb{R}$ 
+	 	that assigns a real value to each index $j \in \{1, \,\ldots, \,d\}$.
           		\\
 		See also: feature vector, feature space, Hilbert space, kernel method.},
 	first={kernel},
@@ -4520,7 +4784,7 @@ plural={kernel methods},
 \end{center}
 \caption{
 Five data points characterized by feature vectors ${\bf x}^{(r)}$ 
-and labels $y^{(r)} \in \{ \circ, \square \}$, for $r=1, \ldots, 5$. 
+and labels $y^{(r)} \in \{ \circ, \square \}$, for $r=1, \,\ldots, \,5$. 
 With these feature vectors, there is no way to separate the two classes 
 by a straight line (representing the decision boundary of a linear classifier). 
 In contrast, the transformed feature vectors ${\bf z}^{(r)} = K\big({\bf x}^{(r)},\cdot\big)$ 
@@ -4536,12 +4800,12 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 {name={confusion matrix}, 
 	description={Consider data points characterized 
 		by features ${\bf x}$ and corresponding labels $y$. 
-		The labels take on values in a finite label space $\mathcal{Y} = \{1, \ldots, k\}$. 
+		The labels take on values in a finite label space $\mathcal{Y} = \{1, \,\ldots, \,k\}$. 
 		For a given hypothesis $h$, the confusion matrix is a 
 		$k \times k$ matrix where each row corresponds to a different 
 		value of the true label $y \in \mathcal{Y}$ and each column to a 
 		different value of the prediction $h({\bf x}) \in \mathcal{Y}$. 
-		The $(c,c')$-th entry of the confusion matrix represents the fraction of 
+		The $(c,c')$th entry of the confusion matrix represents the fraction of 
 		data points with a true label $y = c$ that are predicted as 
 		$h({\bf x}) = c'$. The main diagonal of the confusion matrix 
 		contains the fractions of correctly classified data points (i.e., those for which 
@@ -4558,9 +4822,9 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 {name={feature matrix}, 
 	description={Consider a dataset $\mathcal{D}$ 
 		with $m$ data points with feature vectors 
-		${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$. 
+		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$. 
 		It is convenient to collect the individual feature vectors into a feature 
-		matrix ${\bf X} := \big({\bf x}^{(1)}, \ldots, {\bf x}^{(m)}\big)\,^{T}$ 
+		matrix ${\bf X} := \big({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}\big)\,^{T}$ 
 		of size $m \times d$.
 				\\
 		See also: dataset, data point, feature vector, feature, matrix.},
@@ -4612,18 +4876,17 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 
 \newglossaryentry{iid}
 {name={independent and identically distributed (i.i.d.)}, 
-	description={
-	    A collection of RVs ${\bf z}^{(1)}, \ldots, {\bf z}^{(m)}$ is 
-		 said to be independent and identically distributed (i.i.d.) 
-		 if each ${\bf z}^{(r)}$ follows the same probability distribution, and 
-		 the RVs are mutually independent: For any collection of 
-		 events $\mathcal{A}_1, \ldots, \mathcal{A}_m$, we have
-         \[
-          \mathbb{P}({ {\bf z}^{(1)} \in \mathcal{A}_1, \ldots, {\bf z}^{(m)} \in \mathcal{A}_{m}}) 
-         = \prod_{r=1}^{m} \mathbb{P}({ {\bf z}^{(r)} \in \mathcal{A}_r}).
-         \]
+	description={A collection of RVs\linebreak ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$ is 
+		referred to as i.i.d. 
+		if each ${\bf z}^{(r)}$ follows the same probability distribution, and 
+		the RVs are mutually independent. That is, for any collection of 
+		events $\mathcal{A}_1, \,\ldots, \,\mathcal{A}_m$, we have
+       		\[
+          		\mathbb{P}({ {\bf z}^{(1)} \in \mathcal{A}_1, \,\ldots, \,{\bf z}^{(m)} \in \mathcal{A}_{m}}) 
+         		= \prod_{r=1}^{m} \mathbb{P}({ {\bf z}^{(r)} \in \mathcal{A}_r}).
+         	\]
 				\\
-		See also: data point, i.i.d.\ assumption, RV, probabilistic model.},
+		See also: RV, probability distribution, event, data point, i.i.d.\ assumption.},
 	first={independent and identically distributed (i.i.d.)},
 	text={{i.i.d.}} 
 }
@@ -4636,67 +4899,70 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 		\[
 		f^{-1}(\mathcal{B}) := \{ u \in \mathcal{U} \mid f(u) \in \mathcal{B} \}.
 		\]
-		The preimage is well-defined even if the function $f$ is not invertible \cite{RudinBookPrinciplesMatheAnalysis}.},
+		The preimage is well defined even if the function $f$ is non-invertible \cite{RudinBookPrinciplesMatheAnalysis}.
+		\\
+		See also: function. },
 	first={preimage},
 	text={preimage}
 }
 
 \newglossaryentry{measurable}
 {name={measurable}, 
-	description={
-		Consider a random experiment, such as recording the air temperature at an FMI weather station. 
+	description={Consider a random experiment, such as recording the air temperature at an FMI weather station. 
 		The corresponding sample space $\Omega$ consists of all possible outcomes $\omega$ (e.g., 
 		all possible temperature values in degree Celsius). In many ML applications, we are not interested 
 		in the exact outcome $\omega$, but only whether it belongs to a subset $\mathcal{A} \subseteq \Omega$ 
 		(e.g., “is the temperature below zero degrees?”). We call such a subset $\mathcal{A}$ measurable if it is 
 		possible to decide, for any outcome $\omega$, whether $\omega \in \mathcal{A}$ or not. 
-		\begin{figure}
+		\begin{figure}[H]
+		\begin{center}
 		\begin{tikzpicture}
 			
-			\draw[->] (0,0) -- (8.5,0) node[right] {temperature [$^\circ$C]};
+			\draw[->] (0,0) -- (8.5,0) node[right] {temperature ($^\circ$C)};
 			
-			\foreach \x/\label in {0/-20, 1/-10, 2/0, 3/10, 4/20, 5/30, 6/40, 7/50, 8/60} {
+			\foreach \x/\label in {0/--20, 1/--10, 2/0, 3/10, 4/20, 5/30, 6/40, 7/50, 8/60} {
 				\draw (\x,0.1) -- (\x,-0.1);
 				\node[below] at (\x,-0.1) {\label};
 			}
 			
 			\fill[blue!20] (0,0.3) rectangle (2,0.6);
-			\node[above] at (1,0.6) {$\omega < 0^\circ$C};
+			\node[above] at (1,0.6) {$\omega < 0\;^\circ$C};
 			
 			\fill[red!20] (5.5,0.3) rectangle (7.5,0.6);
-			\node[above] at (6,0.6) {$35^\circ$C $< \omega < 55^\circ$C};
+			\node[above] at (6,0.6) {$35\;^\circ$C $< \omega < 55\;^\circ$C};
 			\vspace*{10mm}
-		\end{tikzpicture}
+			\end{tikzpicture}
 			\vspace*{10mm}
-		\caption{A sample space constituted by all possible temperature values $\omega$ 
+			\end{center}
+			\caption{A sample space constituted by all possible temperature values $\omega$ 
 			that may be experienced at an FMI station. Two measurable subsets of temperature 
 			values, denoted $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$, are highlighted. For any 
-			actual temperature value $\omega$, it is possible to determine whether $\omega \in \mathcal{A}^{(1)}$ and whether $\omega \in \mathcal{A}^{(2)}$.
-			} 
+			actual temperature value $\omega$, it is possible to determine whether $\omega \in \mathcal{A}^{(1)}$ 
+			and whether $\omega \in \mathcal{A}^{(2)}$.} 
 		\end{figure}
 		In principle, measurable sets could be chosen freely (e.g., depending on the resolution of the 
 		measuring equipment). However, it is often useful to impose certain completeness requirements 
 		on the collection of measurable sets. For example, the sample space itself should be 
 		measurable, and the union of two measurable sets should also be measurable. These completeness 
-		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) \cite{BillingsleyProbMeasure,durrett2010probability,rudin1987real}. 
+		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) 
+		\cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}. 
 		A measurable space is a pair $\big(\mathcal{X},\mathcal{F}\big)$ that consists of an arbitrary set $\mathcal{X}$ and a 
 		collection $\mathcal{F}$ of measurable subsets of $\mathcal{X}$ that form a $\sigma$-algebra. 
-	\\
-		See also: probability, sample space.},
+		\\
+		See also: sample space, probability.},
 	first={measurable},
 	text={measurable} 
 }
 
 \newglossaryentry{event}
 {name={event}, 
-	description={
-	    Consider a RV ${\bf x}$, defined on some probability space $\mathcal{P}$, 
+	description={Consider an RV ${\bf x}$, defined on some probability space $\mathcal{P}$, 
 		which takes values in a measurable space $\mathcal{X}$. An event $\mathcal{A} \subseteq \mathcal{X}$ 
 		is a subset of $\mathcal{X}$ such that the probability 
-		$\mathbb{P}({{\bf x} \in \mathcal{A}})$ is well-defined. In other words, the preimage 
+		$\mathbb{P}({{\bf x} \in \mathcal{A}})$ is well defined. In other words, the preimage 
 		${\bf x}^{-1}(\mathcal{A})$ of an event belongs to the $\sigma$-algebra of $\mathcal{P}$. 
 				\\
-		See also: data point, i.i.d.\ assumption, RV, probabilistic model.},
+		See also: RV, data point, i.i.d.\ assumption, probabilistic model.},
 	first={event},
 	firstplural={events},
 	plural={events},
@@ -4710,7 +4976,7 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 		are motivated by the i.i.d.\ assumption, which interprets data points as realizations of 
 		iid RVs with a common probability distribution. The i.i.d.\ assumption is useful for applications  
 		where the statistical properties of the data generation process are stationary (or time-invariant) \cite{Brockwell91}. 
-		However, in some applications the data consists of a majority of regular data points 
+		However, in some applications, the data consist of a majority of regular data points 
 		that conform with the i.i.d.\ assumption as well as a small number of data points that have fundamentally different 
        		statistical properties compared to the regular data points. We refer to a data point that 
         		substantially deviates from the statistical properties of most data points as an 
@@ -4758,8 +5024,8 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 {name={Euclidean space}, 
 	description={The 
 		Euclidean space $\mathbb{R}^{d}$ of dimension $d \in \mathbb{N}$ consists 
-		of vectors ${\bf x}= \big(x_{1}, \ldots, x_{d}\big)$, with $d$ 
-		real-valued entries $x_{1}, \ldots, x_{d} \in \mathbb{R}$. Such a Euclidean 
+		of vectors ${\bf x}= \big(x_{1}, \,\ldots, \,x_{d}\big)$, with $d$ 
+		real-valued entries $x_{1}, \,\ldots, \,x_{d} \in \mathbb{R}$. Such a Euclidean 
 		space is equipped with a geometric structure defined by the inner product 
 		${\bf x}\,^{T} {\bf x}' = \sum_{j=1}^{d} x_{j} x'_{j}$ 
 		between any two vectors ${\bf x},{\bf x}' \in \mathbb{R}^{d}$ \cite{RudinBookPrinciplesMatheAnalysis}.
@@ -4788,10 +5054,10 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 {name={$k$-means}, 
 sort={k-means},
 	description={The $k$-means algorithm 
-		is a hard clustering method which assigns each data point of a dataset 
+		is a hard clustering method that assigns each data point of a dataset 
 		to precisely one of $k$ different clusters. The method alternates between updating 
 		the cluster assignments (to the cluster with the nearest mean) and 
-		re-calculating the cluster means given the updated cluster assignments \cite[Ch. 8]{MLBasics}.
+		recalculating the cluster means given the updated cluster assignments \cite[Ch. 8]{MLBasics}.
 				\\
 		See also: hard clustering, cluster.},
 	first={$k$-means},
@@ -4826,8 +5092,8 @@ sort={k-means},
 \newglossaryentry{samplemean}
 {name={sample mean}, 
 	description={The sample mean 
-		${\bf m} \in \mathbb{R}^{d}$ for a given dataset, with feature vectors ${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$, 
-		is defined as 
+		${\bf m} \in \mathbb{R}^{d}$ for a given dataset, with feature vectors 
+		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$, is defined as 
 		$${\bf m} = \frac{1}{m} \sum_{r=1}^{m} {\bf x}^{(r)}.$$ 
 					\\
 		See also: sample, mean, dataset, feature vector.},
@@ -4840,7 +5106,7 @@ sort={k-means},
 {name={sample covariance matrix}, 
 	description={The 
 		sample covariance matrix $\widehat{\bf \Sigma} \in \mathbb{R}^{d \times d}$ 
-		for a given set of feature vectors ${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$ is defined as 
+		for a given set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$ is defined as 
 		$$\widehat{\bf \Sigma} = \frac{1}{m} \sum_{r=1}^{m} ({\bf x}^{(r)}\!-\!\widehat{{\bf m}}) ({\bf x}^{(r)}\!-\!\widehat{{\bf m}})\,^{T}.$$ 
 		Here, we use the sample mean $\widehat{{\bf m}}$. 
 				\\
@@ -4951,9 +5217,9 @@ sort={k-means},
 		is a particular type of probabilistic model for a numeric vector ${\bf x}$ (e.g., 
 		the features of a data point). Within a GMM, the vector ${\bf x}$ is drawn from a randomly 
 		selected multivariate normal distribution $p^{(c)} = \mathcal{N}\left({\bm \mu}^{(c)},\mathbf{C}^{(c)}\right)$ with 
-		$c = I$. The index $I \in \{1, \ldots, k\}$ is an RV with probabilities $\mathbb{P}({I=c}) = p_{c}$.
+		$c = I$. The index $I \in \{1, \,\ldots, \,k\}$ is an RV with probabilities $\mathbb{P}({I=c}) = p_{c}$.
 	     	Note that a GMM is parameterized by the probability $p_{c}$, the 
-		mean vector ${\bm \mu}^{(c)}$, and the covariance matrix $\mathbf{C}^{(c)}$ for each $c=1, \ldots, k$. 
+		mean vector ${\bm \mu}^{(c)}$, and the covariance matrix $\mathbf{C}^{(c)}$ for each $c=1, \,\ldots, \,k$. 
 		GMMs are widely used for clustering, density estimation, and as a generative model. 
 				\\
 		See also: probabilistic model, multivariate normal distribution, clustering.},
@@ -4963,8 +5229,8 @@ sort={k-means},
  
 \newglossaryentry{maxlikelihood}
 {name={maximum likelihood}, 
-	description={Consider data points $\mathcal{D}=\big\{ {\bf z}^{(1)}, \ldots, {\bf z}^{(m)} \}$ 
-		that are interpreted as the realizations of iid RVs with a common probability distribution $\mathbb{P}({{\bf z}; {\bf w}})$ which 
+	description={Consider data points $\mathcal{D}=\big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)} \}$ 
+		that are interpreted as the realizations of iid RVs with a common probability distribution $\mathbb{P}({{\bf z}; {\bf w}})$, which 
 		depends on the model parameters ${\bf w} \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		Maximum likelihood methods learn model parameters ${\bf w}$ by maximizing 
 		the probability (density) $\mathbb{P}({\mathcal{D}; {\bf w}}) = \prod_{r=1}^{m} \mathbb{P}({{\bf z}^{(r)}; {\bf w}})$ 
@@ -4978,7 +5244,7 @@ sort={k-means},
 
 
 \newglossaryentry{em}
-{name={expectation-maximization (EM)}, 
+{name={expectation–maximization (EM)}, 
 	description={ 
 		Consider a probabilistic model $\mathbb{P}({{\bf z}; {\bf w}})$ for the data points $\mathcal{D}$ generated in some 
 		ML application. The maximum likelihood estimator for the model parameters ${\bf w}$ is obtained by maximizing 
@@ -4990,7 +5256,7 @@ sort={k-means},
 		using a conditional expectation. The resulting estimate $\widehat{{\bf z}}$ is then used to 
 		compute a new estimate $\widehat{{\bf w}}$ by solving $\max_{{\bf w}} \mathbb{P}({\mathcal{D}, \widehat{{\bf z}}; {\bf w}})$. 
 		The crux is that the conditional expectation $\widehat{{\bf z}}$ depends on the model parameters $\widehat{{\bf w}}$, 
-		which we have updated based on $\widehat{{\bf z}}$. Thus, we have to re-calculate $\widehat{{\bf z}}$, 
+		which we have updated based on $\widehat{{\bf z}}$. Thus, we have to recalculate $\widehat{{\bf z}}$, 
 		which, in turn, results in a new choice $\widehat{{\bf w}}$ for the model parameters. In practice, 
 		we repeat the computation of the conditional expectation (i.e., the E-step) and the update 
 		of the model parameters (i.e., the M-step) until some stopping criterion is met. 
@@ -5008,7 +5274,7 @@ sort={k-means},
 		The probabilistic model of PPCA reduces the task of dimensionality reduction 
 		to an estimation problem that can be solved using EM \cite{TippingProbPCA}.
 				\\
-		See also: PCA, probabilistic model, EM.},
+		See also: PCA, probabilistic model, dimensionality reduction, EM.},
 	first={probabilistic principal component analysis (PPCA)},
 	text={PPCA}
 }
@@ -5043,17 +5309,23 @@ sort={k-means},
         
 \newglossaryentry{ridgeregression}
 {name={ridge regression}, 
-	description={Ridge 
-		regression learns the weights ${\bf w}$ of a linear hypothesis map $h^{({\bf w})}({\bf x})= {\bf w}\,^{T} {\bf x}$. 
-		The quality of a particular choice for the model parameters ${\bf w}$ is measured by the sum 
-		of two components. The first component is the average squared error loss incurred by $h^{({\bf w})}$ on a set of 
-		labeled data points (i.e., the training set). The second component is the scaled squared 
-		Euclidean norm $\alpha \| {\bf w} \|^{2}_{2}$ with a regularization parameter 
-		$\alpha > 0$. Adding $\alpha \| {\bf w} \|^{2}_{2}$ to 
-	    	the average squared error loss is equivalent to replacing original data points by the realizations 
-	    	of (infinitely many) iid RVs centered around these data points (see regularization).
+	description={Consider a regression problem where the goal is to learn a hypothesis $h^{({\bf w})}$ 
+		for predicting the numeric label of a data point based on its feature vector. 
+	  	Ridge regression learns the parameters ${\bf w}$ 
+	  	by minimizing the penalized average squared error loss. The average squared error loss is measured 
+		on a set of labeled data points (i.e., the training set) 
+		$$\left( {\bf x}^{(1)},y^{(1)} \right), \,\ldots, \,\left( {\bf x}^{(m)},y^{(m)} \right).$$ 
+		The penalty term is the scaled squared Euclidean norm $\alpha \| {\bf w} \|^{2}_{2}$ with a 
+		regularization parameter $\alpha > 0$. The purpose of the penalty term is regularization, 
+		i.e., to prevent overfitting in the high-dimensional regime, where the number of features 
+		$d$ exceeds the number of data points $m$ in the training set.
+		Adding $\alpha \| {\bf w} \|^{2}_{2}$ to the average squared error loss is equivalent 
+		to computing the average squared error loss on an augmented training set. This augmented 
+		training set is obtained by replacing each data point $\left( {\bf x}^{(r)},y^{(r)} \right)$ 
+		in the original training set by the realization of infinitely many iid RVs 
+		whose probability distribution is centered at $\left( {\bf x}^{(r)},y^{(r)} \right)$.
 	    		\\
-		See also: regression, weights, hypothesis, map, model parameters, squared error loss, labeled data point, training set, norm, regularization, parameter, data point, realization, iid, RV.},
+		See also: regression, regularization, map, data augmentation.},
 	first={ridge regression},
 	text={ridge regression}
 }
@@ -5062,7 +5334,7 @@ sort={k-means},
 \newglossaryentry{expectation}
 {name={expectation}, plural={expectations},
   description={Consider a numeric feature vector ${\bf x} \in \mathbb{R}^{d}$ 
-	which we interpret as the realization of an RV with a probability distribution $p({\bf x})$. 
+	that we interpret as the realization of an RV with a probability distribution $p({\bf x})$. 
 	The expectation of ${\bf x}$ is defined as the integral $\mathbb{E}  \{ {\bf x} \} := \int {\bf x} p({\bf x})$. 
 	Note that the expectation is only defined if this integral exists, i.e., if the RV is integrable 
 	\cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
@@ -5096,7 +5368,7 @@ sort={k-means},
 		(5,0.1)
 	};
 	
-	\node[font=\footnotesize,xshift=7pt] at (axis cs:1,0.13) {$p(x_i)\!\cdot\!x_i\!=\!0.1$};
+	\node[font=\footnotesize,xshift=7pt] at (axis cs:1,0.13) {$p(x_i)\!\,\cdot\!\,x_i\!=\!0.1$};
 	\node[font=\footnotesize]at (axis cs:2,0.23) {$0.4$};
 	\node[font=\footnotesize]at (axis cs:3,0.43) {$1.2$};
 	\node[font=\footnotesize] at (axis cs:4,0.23) {$0.8$};
@@ -5234,15 +5506,35 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 
 \newglossaryentry{hypospace}
 {name={hypothesis space}, plural={hypothesis spaces}, 
-	description={Every 
-		practical ML method uses a hypothesis space (or model) $\mathcal{H}$. The hypothesis space 
-		of an ML method is a subset of all possible maps from the feature space to the label space. 
-		The design choice of the hypothesis space should take into account available computational resources and 
-		statistical aspects. If the computational infrastructure allows for efficient matrix operations, and there 
-		is an (approximately) linear relation between a set of features and a label, the linear model 
-		might be a useful choice for the hypothesis space.
+	description={A hypothesis space is a mathematical model 
+		that characterizes the learning capacity of an ML method. The goal of such a method is 
+		to learn a hypothesis map that maps features of a data point to a 
+		prediction of its label. Given a finite amount of computational resources, a 
+		practical ML method typically explores only a restricted set of all possible maps 
+		from the feature space to the label space. Such a restricted set is referred to as 
+		a hypothesis space $\mathcal{H}$ underlying the ML method.
+    		For the analysis of a given ML method, the choice of a hypothesis space $\mathcal{H}$ is not 
+		unique, i.e., any superset containing all maps the method can learn is also a valid hypothesis space. 
+		\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[allow upside down, scale=0.4]
+			\node [below] at (5,-3) {$\mathcal{Y}^{\mathcal{X}}$};
+			\draw [ultra thick] (5,0) circle (5cm);
+			\draw [ultra thick,fill=black!20] (5,0) circle (1cm);
+			\node [] at (5,0) {$\mathcal{H}$};
+			\end{tikzpicture}
+		\end{center}
+		\caption{The hypothesis space $\mathcal{H}$ of an ML method is a (typically very small) 
+		subset of the (typically very large) set $\mathcal{Y}^{\mathcal{X}}$ of all possible maps 
+		from the feature space $\mathcal{X}$ into the label space $\mathcal{Y}$.}
+		\end{figure}
+		On the other hand, from an ML engineering perspective, the hypothesis space $\mathcal{H}$ is a design 
+		choice for ERM-based methods. This design choice can be guided by the available computational 
+		resources and statistical aspects. For instance, if efficient matrix operations are feasible and a 
+		roughly linear relation exists between features and labels, a linear model can be a 
+		useful choice for $\mathcal{H}$.
 				\\
-		See also: ML, hypothesis, model, map, feature space, label space, statistical aspects, matrix, feature, label, linear model.},
+		See also: hypothesis, model, map, linear model.},
 	first={hypothesis space},
 	text={hypothesis space} 
 }
@@ -5250,13 +5542,38 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 	
 \newglossaryentry{model}
 {name={model}, plural={models}, 
-	description={In the context of ML, 
-		the term model typically refers to the hypothesis space underlying an 
-		ML method \cite{MLBasics}, \cite{ShalevMLBook}. However, the term is also used in other 
-		fields but with a different meaning. For example, a probabilistic model refers to a parameterized 
-		set of probability distributions.
-				\\
-		See also: ML, hypothesis space, probabilistic model, probability distribution.},
+	description={The study and design of ML methods is often based on a mathematical model \cite{bender1978mathematical}. 
+		Maybe the most widely used example of a mathematical model for ML is a hypothesis space. 
+		A hypothesis space consists of hypothesis maps that are used by an ML method to 
+		predict labels from the features of data points. Another important type of 
+		mathematical model is a probabilistic model, which consists of probability distributions that describe 
+		how data points are generated. Unless stated otherwise, we use the term model to 
+		refer specifically to the hypothesis space underlying an ML method. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1]
+			\draw[->] (-1,0) -- (3,0) node[right] {$x$};
+			\draw[->] (0,-1) -- (0,3) node[above] {$y$};
+			\draw[thick, red] (-0.5,0) -- (2.5,2) node[right] {$h^{(1)}$};
+			\draw[thick, blue] (-0.5,1) -- (2.5,1) node[right] {$h^{(2)}$};
+			\draw[thick, green!60!black] (-0.5,2) -- (2.5,0.5) node[right] {$h^{(3)}$};
+			\node at (1.5,-1.2) {(a)};
+			\end{tikzpicture}
+			\hspace{2cm}
+			\begin{tikzpicture}[scale=1]
+			\draw[->] (-1,0) -- (3,0) node[right] {$x$};
+			\draw[->] (0,-1) -- (0,3) node[above] {$y$};
+			\draw[thick, red] (1,1) ellipse [x radius=1, y radius=0.5];
+			\draw[thick, blue] (2,2) ellipse [x radius=0.7, y radius=0.3];
+			\node[red] at (1,0.3) {$p^{(1)}(x,y)$};
+			\node[blue] at (2,2.7) {$p^{(2)}(x,y)$};
+			\node at (1.5,-1.2) {(b)};
+			\end{tikzpicture}
+		\caption{Two types of mathematical models used in ML. (a) A hypothesis space consisting of 
+		three linear maps. (b) A probabilistic model consisting of probability distribution over the plane spanned by 
+		the feature and label values of a data point.}
+		\end{figure}
+		See also: hypothesis space, probabilistic model, probability distribution.},
 	first={model},
 	text={model} 
 }
@@ -5283,10 +5600,35 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		measured for any possible choice of model parameters. Instead, AI systems use observed reward 
 		signals to estimate the loss incurred by the current choice of model parameters.
 				\\
-		See also: reward, ML, model, loss function, training set, loss, model parameters.},
+		See also: ML, RL.},
 	first={AI},
 	text={AI} 
 }
+
+
+\newglossaryentry{mdp}
+{name={Markov decision process (MDP)},
+	description={An MDP  is a mathematical structure that can 
+    		be used to study RL applications. An MDP formalizes how reward 
+		signals depend on the predictions (and corresponding actions) made by an RL 
+		method. Formally, an MDP is a specific type of stochastic process defined by
+		\begin{itemize}
+    			\item a state space $\mathcal{S}$;
+    			\item an action space $\mathcal{A}$ (where each action $a \in \mathcal{A}$ corresponds to a specific 
+			prediction made by the RL method);
+    			\item a transition function $\mathbb{P}({s' \mid s, a})$ specifying the probability distribution over the 
+			next state $s' \in \mathcal{S}$, given the current state $s \in \mathcal{S}$ and action $a \in \mathcal{A}$;
+    			\item a reward function $r(s, a) \in \mathbb{R}$ that assigns a numerical reward to each 
+			state-action pair.
+		\end{itemize}
+		The defining property of an MDP is the Markov property. That is, the next state $s'$ and reward 
+		only depend on the current state $s$ and action $a$, not on the entire history of interactions. 
+		\\
+		See also: RL, reward, prediction, stochastic process, function, probability distribution.},
+ 	first={mdp},
+ 	text={mdp} 
+ }
+ 
 
 \newglossaryentry{reward}
 {name={reward}, 
@@ -5295,11 +5637,11 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		(or decision) of a hypothesis $h({\bf x})$. For example, in an 
 		ML application to self-driving vehicles, $h({\bf x})$ could represent 
 		the current steering direction of a vehicle. We could construct a reward from the 
-		measurements of a collision sensor that indicate if the vehicle is moving towards 
+		measurements of a collision sensor that indicate if the vehicle is moving toward 
 		an obstacle. We define a low reward for the steering direction 
-		$h({\bf x})$ if the vehicle moves dangerously towards an obstacle.
+		$h({\bf x})$ if the vehicle moves dangerously toward an obstacle.
 			\\
-		See also: loss, prediction, hypothesis, ML.},
+		See also: loss, MAB, RL.},
 	first={reward}, 
 	text={reward}
 } 
@@ -5307,7 +5649,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 \newglossaryentry{hardclustering}
 {name={hard clustering}, 
 	description={Hard clustering 
-		refers to the task of partitioning a given set of data points into (a few) non-overlapping clusters. 
+		refers to the task of partitioning a given set of data points into (a few) nonoverlapping clusters. 
 		The most widely used hard clustering method is $k$-means.
 				\\
 		See also: clustering, data point, cluster, $k$-means.},
@@ -5409,7 +5751,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		\legend{Cluster 1, Cluster 2, Cluster 3}
 		\end{axis}
 		\end{tikzpicture}
-		\caption{Illustration of three clusters in a two-dimensional feature space. Each cluster groups data points 
+		\caption{Illustration of three clusters in a 2-D feature space. Each cluster groups data points 
 		that are more similar to each other than to those in other clusters, based on the Euclidean distance.}
 		\label{fig:clusters_dict}
 		\end{figure}
@@ -5475,7 +5817,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 {name={eigenvalue}, plural={eigenvalues}, 
 	description={We refer to a 
 		number $\lambda \in \mathbb{R}$ as an eigenvalue of a square matrix $\mathbf{A} \in \mathbb{R}^{d \times d}$ 
-		if there is a non-zero vector ${\bf x} \in \mathbb{R}^{d} \setminus \{ \mathbf{0} \}$ such that $\mathbf{A} {\bf x} = \lambda {\bf x}$.
+		if there is a nonzero vector ${\bf x} \in \mathbb{R}^{d} \setminus \{ \mathbf{0} \}$ such that $\mathbf{A} {\bf x} = \lambda {\bf x}$.
 		\\
 		See also: matrix, vector. },
 	first={eigenvalue},
@@ -5486,7 +5828,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 {name={eigenvector}, plural={eigenvectors}, 
 	description={An 
 		eigenvector of a matrix $\mathbf{A} \in \mathbb{R}^{d \times d}$ 
-		is a non-zero vector ${\bf x} \in \mathbb{R}^{d} \setminus \{ \mathbf{0} \}$ 
+		is a nonzero vector ${\bf x} \in \mathbb{R}^{d} \setminus \{ \mathbf{0} \}$ 
 		such that $\mathbf{A} {\bf x} = \lambda {\bf x}$ with some eigenvalue $\lambda$.
 				\\
 		See also: matrix, vector, eigenvalue.},
@@ -5500,9 +5842,9 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		for a square matrix ${\bf A} \in \mathbb{R}^{d \times d}$ 
 		is a factorization of the form 
 		$${\bf A} = \mathbf{V} {\bm \Lambda} \mathbf{V}^{-1}.$$ 
-		The columns of the matrix $\mathbf{V} = \big( {\bf v}^{(1)}, \ldots, {\bf v}^{(d)} \big)$ are the 
+		The columns of the matrix $\mathbf{V} = \big( {\bf v}^{(1)}, \,\ldots, \,{\bf v}^{(d)} \big)$ are the 
 		eigenvectors of the matrix $\mathbf{V}$. The diagonal matrix 
-		${\bm \Lambda} = {\rm diag} \big\{ \lambda_{1}, \ldots, \lambda_{d} \big\}$ 
+		${\bm \Lambda} = {\rm diag} \big\{ \lambda_{1}, \,\ldots, \,\lambda_{d} \big\}$ 
 		contains the eigenvalues $\lambda_{j}$ corresponding to the eigenvectors ${\bf v}^{(j)}$. 
 		Note that the above decomposition exists only if the matrix ${\bf A}$ is diagonalizable.
 				\\
@@ -5520,8 +5862,8 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		with orthonormal matrices $\mathbf{V} \in \mathbb{R}^{m \times m}$ 
 		and $\mathbf{U} \in \mathbb{R}^{d \times d}$ \cite{GolubVanLoanBook}. 
 		The matrix ${\bm \Lambda} \in \mathbb{R}^{m \times d}$ is 
-		only non-zero along the main diagonal, whose entries $\Lambda_{j,j}$ 
-		are non-negative and referred to as singular values.
+		only nonzero along the main diagonal, whose entries $\Lambda_{j,j}$ 
+		are nonnegative and referred to as singular values.
 		\\
 		See also: matrix. },
 	first={singular value decomposition (SVD)},
@@ -5540,14 +5882,14 @@ loss is used by the SVM \cite{LampertNowKernel}.}
  \newglossaryentry{cvxclustering}
  {name={convex clustering}, 
  	description={Consider a dataset 
- 		${\bf x}^{(1)}, \ldots, {\bf x}^{(m)} \in \mathbb{R}^{d}$. 
- 		Convex clustering learns vectors ${\bf w}^{(1)}, \ldots, {\bf w}^{(m)}$ by minimizing 
+ 		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$. 
+ 		Convex clustering learns vectors ${\bf w}^{(1)}, \,\ldots, \,{\bf w}^{(m)}$ by minimizing 
  		$$\sum_{r=1}^{m} \left\Vert  {{\bf x}^{(r)} - {\bf w}^{(r)}} \right\Vert_{2}^2 + 
  		\alpha \sum_{i,i' \in \mathcal{V}} \left\Vert  {{\bf w}^{(i)} - {\bf w}^{(i')}} \right\Vert_{p}.$$ 
 		Here, $\left\Vert  {{\bf u}} \right\Vert_{p} := \big( \sum_{j=1}^{d} |u_{j}|^{p} \big)^{1/p}$ 
 		denotes the $p$-norm (for $p\geq1$).  
-		It turns out that many of the optimal vectors $\widehat{{\bf w}}^{(1)}, \ldots, \widehat{{\bf w}}^{(m)}$ 
-		coincide. A cluster then consists of those data points $r \in \{1, \ldots, m\}$ 
+		It turns out that many of the optimal vectors $\widehat{{\bf w}}^{(1)}, \,\ldots, \,\widehat{{\bf w}}^{(m)}$ 
+		coincide. A cluster then consists of those data points $r \in \{1, \,\ldots, \,m\}$ 
 		with identical $\widehat{{\bf w}}^{(r)}$ \cite{JMLR:v22:18-694}, \cite{Pelckmans2005}. 
 			\\
 		See also: dataset, convex, clustering, vector, norm, cluster, data point. },
@@ -5601,7 +5943,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 		over all data points in the training set. We obtain a stochastic 
 		approximation to the gradient by replacing the sum $\sum_{r=1}^{m} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
 		with a sum $\sum_{r \in \mathcal{B}} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
-		over a randomly chosen subset $\mathcal{B} \subseteq \{1, \ldots, m\}$ (see Fig. \ref{fig_sgd_approx_dict}). 
+		over a randomly chosen subset $\mathcal{B} \subseteq \{1, \,\ldots, \,m\}$ (see Fig. \ref{fig_sgd_approx_dict}). 
 		We often refer to these randomly chosen data points as a batch. 
 		The batch size $|\mathcal{B}|$ is an important parameter of SGD. 
 		SGD with $|\mathcal{B}|> 1$ is referred to as mini-batch SGD \cite{Bottou99}. 		
@@ -5609,15 +5951,15 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 			\centering
 			\begin{tikzpicture}[scale=1.5, >=stealth]
 				\draw[thick, blue, domain=0.5:2.5, samples=100] plot (\x, {(\x-1.5)^2 + 1});
-				\node[blue,above] at (0.5, 2) {$\sum_{r=1}^{m}$};
+				\node[blue,above] at (0.5, 2) {$\sum\limits_{r=1}^{m}$};
 				\draw[thick, red, domain=1:3, samples=100] plot (\x, {(\x-2)^2 + 0.5});
-				\node[red] at (3.3, 1.5) {$\sum_{r \in \mathcal{B}}$};
+				\node[red] at (3.3, 1.5) {$\sum\limits_{r \in \mathcal{B}}$};
 			\end{tikzpicture}
 		\caption{SGD for ERM approximates the gradient 
 		$\sum_{r=1}^{m} \nabla_{{\bf w}} L\left({\bf z}^{(r)},{\bf w} \right)$ 
 		by replacing the 
-		sum over all data points in the training set (indexed by $r=1, \ldots, m$) 
-		with a sum over a randomly chosen subset $\mathcal{B} \subseteq \{1, \ldots, m\}$.\label{fig_sgd_approx_dict}}
+		sum over all data points in the training set (indexed by $r=1, \,\ldots, \,m$) 
+		with a sum over a randomly chosen subset $\mathcal{B} \subseteq \{1, \,\ldots, \,m\}$.\label{fig_sgd_approx_dict}}
 		\end{figure}
 		See also: GD, gradient, objective function, stochastic, model, ERM, training set, data point, empirical risk, function, model parameters, batch, parameter.},
 	first={stochastic gradient descent (SGD)},
@@ -5629,7 +5971,7 @@ loss is used by the SVM \cite{LampertNowKernel}.}
 {name={online gradient descent (online GD)}, 
 	description={Consider  an ML method that learns model parameters 
 		${\bf w}$ from some parameter space $\mathcal{W} \subseteq \mathbb{R}^{d}$. 
-		The learning process uses data points ${\bf z}^{(t)}$ that arrive at consecutive time-instants $t=1, 2, \dots$. 
+		The learning process uses data points ${\bf z}^{(t)}$ that arrive at consecutive time instants $t=1, \,2, \,\dots$. 
 		Let us interpret the data points ${\bf z}^{(t)}$ as iid copies 
 		of an RV ${\bf z}$. The risk $\mathbb{E} \{ L\left({\bf z},{\bf w} \right) \}$ of a 
 		hypothesis $h^{({\bf w})}$ can then (under mild conditions) be obtained as the limit 
@@ -5645,12 +5987,12 @@ loss is used by the SVM \cite{LampertNowKernel}.}
  			{\bf w}^{(t+1)} := P_{\mathcal{W}}\big( {\bf w}^{(t)} - \eta_{t} \nabla_{{\bf w}} L\left({\bf z}^{(t)},{\bf w} \right)\big) . 
 		\end{equation} 
 		Note that \eqref{equ_def_ogd_dict} is a gradient step for the current component $L\left({\bf z}^{(t)},\cdot \right)$ 
-		of the risk. The update \eqref{equ_def_ogd_dict} ignores all the previous components $L\left({\bf z}^{(t')},\cdot \right)$, 
+		of the risk. The update \eqref{equ_def_ogd_dict} ignores all previous components $L\left({\bf z}^{(t')},\cdot \right)$, 
 		for $t' < t$. It might therefore happen that, compared to ${\bf w}^{(t)}$, the updated model parameters 
 		${\bf w}^{(t+1)}$ increase the retrospective average loss $\sum_{t'=1}^{t-1} L\left({\bf z}^{(t')},\cdot \right)$. 
 		However, for a suitably chosen learning rate $\eta_{t}$, online GD can be shown 
 		to be optimal in practically relevant settings. By optimal, we mean that the model parameters 
-		${\bf w}^{(T+1)}$ delivered by online GD after observing $T$ data points ${\bf z}^{(1)}, \ldots, {\bf z}^{(T)}$ 
+		${\bf w}^{(T+1)}$ delivered by online GD after observing $T$ data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(T)}$ 
 		are at least as good as those delivered by any other learning method \cite{HazanOCO}, \cite{GDOptimalRakhlin2012}. 
 \begin{figure}[H]
 	\begin{center}
@@ -5709,7 +6051,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 	description={A loss function is a map 
 		$$L: \mathcal{X} \times \mathcal{Y} \times \mathcal{H} \rightarrow \mathbb{R}_{+}: \big( \big({\bf x},y\big),
 		 h\big) \mapsto  L\left(({\bf x},y),h \right).$$
-		It assigns a non-negative real number (i.e., the loss) $L\left(({\bf x},y),h \right)$
+		It assigns a nonnegative real number (i.e., the loss) $L\left(({\bf x},y),h \right)$
 		to a pair that consists of a data point, with features ${\bf x}$ 
 		and label $y$, and a hypothesis $h \in \mathcal{H}$. The 
 		value $L\left(({\bf x},y),h \right)$ quantifies the discrepancy 
@@ -5756,9 +6098,9 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 \newglossaryentry{decisiontree}
 {name={decision tree}, plural={decision trees}, 
 	description={A 
-		decision tree is a flow-chart-like representation of a hypothesis map $h$. 
+		decision tree is a flowchart-like representation of a hypothesis map $h$. 
 		More formally, a decision tree is a directed graph containing a root node that reads 
-		in the feature vector ${\bf x}$ of a data point. The root node then forwards 
+		in the feature vector ${\bf x}$ of a data point. The root node then forward 
 		the data point to one of its child nodes based on some elementary test on the features ${\bf x}$. 
 		If the receiving child node is not a leaf node, i.e., it has child nodes itself, 
 	  	it represents another test. Based on the test result, the data point is forwarded 
@@ -5803,7 +6145,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 		\node at (0,-3.5) {\selectfont (b)};
 		\end{tikzpicture}
 		\end{minipage}
-		\caption{(a) A decision tree is a flow-chart-like representation of a piece-wise constant hypothesis $h: \mathcal{X} \rightarrow \mathbb{R}$.  
+		\caption{(a) A decision tree is a flowchart-like representation of a piecewise constant hypothesis $h: \mathcal{X} \rightarrow \mathbb{R}$.  
 		Each piece is a decision region $\mathcal{R}_{\hat{y}} := \big\{ {\bf x} \in  \mathcal{X}: h({\bf x}) = \hat{y} \big\}$. 
 		The depicted decision tree can be applied to numeric feature vectors, i.e., $\mathcal{X} \subseteq \mathbb{R}^{d}$. It is parameterized 
 		by the threshold $\varepsilon>0$ and the vectors ${\bf u}, {\bf v} \in \mathbb{R}^{d}$. 
@@ -5827,16 +6169,14 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 			as $\widehat{h}(x) := 2 x + 1$. Through an API, a user 
 			can input $x = 3$ and receive the output $\widehat{h}(3) = 7$ 
 			without knowledge of the detailed structure of the ML model or its training. 
-			In practice, the model is typically deployed on a server connected to the internet. 
+			In practice, the model is typically deployed on a server connected to the Internet. 
 			Clients send requests containing feature values to the server, which responds with 
 			the computed prediction $\widehat{h}({\bf x})$. APIs promote modularity 
 			in ML system design, i.e., one team can develop and train the model, while another team
 			handles integration and user interaction. Publishing a trained model via an API also 
-			offers practical advantages, including the following: 
-			\begin{itemize} 
-				\item The server can centralize computational resources which are required to compute predictions. 
-		        		\item The internal structure of the model remains hidden—which is useful for protecting intellectual property or trade secrets. 
-		    	\end{itemize} 
+			offers practical advantages. For instance, the server can centralize computational resources that 
+			are required to compute predictions. Furthermore, the internal structure of the model remains 
+			hidden—which is useful for protecting intellectual property or trade secrets. 
 			However, APIs are not without risk. Techniques such as model inversion can potentially reconstruct a 
 			model from its predictions using carefully selected feature vectors.
 					\\
@@ -5894,7 +6234,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 		with an inner product between pairs of vectors, and it satisfies the additional requirement 
 		of completeness, i.e., every Cauchy sequence of vectors converges to a limit within the space. 
 		A canonical example of a Hilbert space is the Euclidean space $\mathbb{R}^{d}$, 
-		for some dimension $d$, consisting of vectors ${\bf u} = \big(u_1, \ldots, u_{d}\big)\,^{T}$ 
+		for some dimension $d$, consisting of vectors ${\bf u} = \big(u_1, \,\ldots, \,u_{d}\big)\,^{T}$ 
 		and the standard inner product ${\bf u}\,^{T} {\bf v}$.
 				\\
 		See also: vector space, vector, Euclidean space.},
@@ -5907,7 +6247,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 \newglossaryentry{sample}
 {name={sample}, plural={samples}, 
 	description={A 
-		finite sequence (or list) of data points ${\bf z}^{(1)}, \ldots, {\bf z}^{(m)}$ that 
+		finite sequence (or list) of data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$ that 
 		is obtained or interpreted as the realization of $m$ iid RVs 
 		with a common probability distribution $p({\bf z})$. The length $m$ of 
 		the sequence is referred to as the sample size.
@@ -5973,19 +6313,21 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 
 \newglossaryentry{gd}
 {name={gradient descent (GD)},
-	description={GD 
-		is an iterative method for finding the minimum of a differentiable 
-		function $f({\bf w})$ of a vector-valued argument ${\bf w} \in \mathbb{R}^{d}$. 
-		Consider a current guess or approximation ${\bf w}^{(k)}$ for the minimum of 
-		the function $f({\bf w})$. We would like to find a new (better) vector ${\bf w}^{(k+1)}$ 
-		that has a smaller objective value $f({\bf w}^{(k+1)}) < f\big({\bf w}^{(k)}\big)$ than 
-		the current guess ${\bf w}^{(k)}$. We can achieve this typically by using a gradient step
+	description={GD is an iterative method for 
+	 	finding the minimum of a differentiable function $f: \mathbb{R}^{d} \rightarrow \mathbb{R}$. 
+	 	GD generates a sequence of estimates ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,{\bf w}^{(2)}, \,\ldots$ 
+	 	that (ideally) converge to a minimum of $f$. At each iteration $k$, GD refines 
+	 	the current estimate ${\bf w}^{(k)}$ by taking a step in the direction of the
+	 	steepest descent of a local linear approximation. This direction is given by the negative 
+	 	gradient $\nabla f({\bf w}^{(k)})$ of the function $f$ at the current estimate ${\bf w}^{(k)}$. 
+	 	The resulting update rule is given by
 		\begin{equation} 
 			\label{equ_def_GD_step_dict}
 			{\bf w}^{(k\!+\!1)} = {\bf w}^{(k)} - \eta \nabla f({\bf w}^{(k)})
 		\end{equation} 
-		with a sufficiently small step size $\eta\!>\!0$. Fig. \ref{fig_basic_GD_step_dict} illustrates the effect of 
-		a single GD step \eqref{equ_def_GD_step_dict}.
+		where $\eta > 0$ is a suitably small step size. For a suitably choosen step size $\eta$, 
+		the update typically reduces the function value, i.e., $f({\bf w}^{(k+1)}) < f({\bf w}^{(k)})$. 
+		Fig.\ \ref{fig_basic_GD_step_dict} illustrates a single GD step.
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.9]
@@ -6004,10 +6346,10 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 					\draw[shift={(0,\y)}] (2pt,0pt) -- (-2pt,0pt) node[left] {$\ytext$};  
 				\end{tikzpicture}
 			\end{center}
-			\caption{A single gradient step \eqref{equ_def_GD_step_dict} towards the minimizer $\overline{{\bf w}}$ of $f({\bf w})$.}
+			\caption{A single gradient step \eqref{equ_def_GD_step_dict} toward the minimizer $\overline{{\bf w}}$ of $f({\bf w})$.}
 			\label{fig_basic_GD_step_dict}
 		\end{figure}
-		See also: minimum, differentiable, gradient step, step size, gradient. },
+		See also: minimum, differentiable, gradient, step size, gradient step. },
 	first={gradient descent (GD)},
 	text={GD}
 }
@@ -6039,7 +6381,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 \newglossaryentry{llm}
 {name={large language model (LLM)},
 	description={LLM is an umbrella term for ML methods 
-		that process and generate human-like text. These methods typically 
+		that process and generate humanlike text. These methods typically 
 		use deep nets with billions (or even trillions) of parameters. 
 		A widely used choice for the network architecture is referred to as 
 		Transformers \cite{vaswani2017attention}. The training of LLMs is often  
@@ -6085,7 +6427,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 {name={metric}, plural={metrics},
 	description={In its most general form, a metric is a quantitative measure used to compare or evaluate objects. 
 		In mathematics, a metric measures the distance between two points and must follow specific rules, i.e., 
-		the distance is always non-negative, zero only if the points are the same, symmetric, and it satisfies the 
+		the distance is always nonnegative, zero only if the points are the same, symmetric, and it satisfies the 
 		triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In ML, a metric is a quantitative measure 
 		of how well a model performs. Examples include accuracy, precision, and the average $0/1$ loss 
 		on a test set \cite{Goodfellow-et-al-2016}, \cite{BishopBook}. A loss function is used to train models, 
@@ -6131,7 +6473,7 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 	description={Consider a parameterized hypothesis space $\mathcal{H}$. We use the term 
 		weights for numeric model parameters that are used to scale features or their transformations 
 		in order to compute $h^{({\bf w})} \in \mathcal{H}$. A linear model uses weights 
-		${\bf w}=\big(w_{1}, \ldots, w_{d}\big)\,^{T}$ to compute the linear combination 
+		${\bf w}=\big(w_{1}, \,\ldots, \,w_{d}\big)\,^{T}$ to compute the linear combination 
 		$h^{({\bf w})}({\bf x})= {\bf w}\,^{T} {\bf x}$. Weights are also used in ANNs 
 		to form linear combinations of features or the outputs of neurons in hidden layers.
 		\begin{figure}[H]
@@ -6189,9 +6531,9 @@ This instance uses the squared error loss $L\left({\bf z}^{(t)},w \right) = (x^{
 		$\mathcal{B} \subseteq \mathbb{R}$ via $\mathbb{P}({x \in \mathcal{B}}) = \int_{\mathcal{B}} p(x') d x'$ \cite[Ch. 3]{BertsekasProb}. 
 		If the pdf of a vector-valued RV ${\bf x} \in \mathbb{R}^{d}$ exists, it 
         		allows us to compute the probability of ${\bf x}$ belonging to a measurable region $\mathcal{R}$ via 
-        		$\mathbb{P}({{\bf x} \in \mathcal{R}}) = \int_{\mathcal{R}} p({\bf x}') d x_{1}' \ldots d x_{d}' $ \cite[Ch. 3]{BertsekasProb}.
+        		$\mathbb{P}({{\bf x} \in \mathcal{R}}) = \int_{\mathcal{R}} p({\bf x}') d x_{1}' \,\ldots \,d x_{d}' $ \cite[Ch. 3]{BertsekasProb}.
         		\\
-		See also: RV, probability distribution, probability, vector.},
+		See also: RV, probability distribution, probability, measurable, vector.},
 	first={probability density function (pdf)},
 	text={pdf}
 }
@@ -6262,15 +6604,15 @@ sort={k-fold CV},
 	description={The Jacobi method is an algorithm  
 		for solving systems of linear equations (i.e., a linear system) of the form ${\bf A}{\bf x}= \mathbf{b}$.  
 		Here, ${\bf A} \in \mathbb{R}^{d \times d}$ is a square matrix with 
-		non-zero main diagonal entries. The method constructs a sequence ${\bf x}^{(0)}, {\bf x}^{(1)}, \ldots$ 
+		nonzero main diagonal entries. The method constructs a sequence ${\bf x}^{(0)}, \,{\bf x}^{(1)}, \,\ldots$ 
 		by updating each entry of $\mathbf{x}^{(k)}$ according to 
 		\[
 		x_i^{(k+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(k)} \right).
 		\]
-		Note that all entries $x^{(k)}_{1}, \ldots, x^{(k)}_{d}$ are updated simultaneously.
+		Note that all entries $x^{(k)}_{1}, \,\ldots, \,x^{(k)}_{d}$ are updated simultaneously.
 		The above iteration converges to a solution, i.e., $\lim_{k \rightarrow \infty} {\bf x}^{(k)}={\bf x}$, 
 		under certain conditions on the matrix ${\bf A}$, e.g., being strictly 
-		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{Horn91}, \cite{StrangLinAlg2016}. 
+		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{StrangLinAlg2016}, \cite{Horn91}. 
 		Jacobi-type methods are appealing for large linear systems due to their parallelizable structure \cite{ParallelDistrBook}.
 		We can interpret the Jacobi method as a fixed-point iteration. Indeed, using the decomposition ${\bf A} = {\bf D} + {\bf R}$, with ${\bf D}$ being the 
 		diagonal of ${\bf A}$, allows us to rewrite the linear equation ${\bf A} {\bf x} = {\bf b}$ as a fixed-point equation  
@@ -6592,7 +6934,7 @@ sort={Renyi},
 \newglossaryentry{edgeweight}
 {name={edge weight},
 	description={Each edge $\{i,i'\}$ of an FL network is 
-		assigned a non-negative edge weight $A_{i,i'}\geq0$. 
+		assigned a nonnegative edge weight $A_{i,i'}\geq0$. 
 		A zero edge weight $A_{i,i'}=0$ indicates the absence 
 		of an edge between nodes $i, i' \in \mathcal{V}$.
 				\\
