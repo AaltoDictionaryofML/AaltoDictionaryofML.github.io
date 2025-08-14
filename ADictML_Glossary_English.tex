@@ -274,6 +274,14 @@
 	text={determinant}
 }
 
+  \newglossaryentry{hessian}{
+ name={hessian},
+ description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
+ first={hessian},
+type=math,
+text={hessian}}
+
+
 \newglossaryentry{linearmap}
 {name={linear map}, plural={linear maps}, 
 	description={A\index{linear map} linear \gls{map} $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a \gls{function} that satisfies additivity, i.e.,
@@ -639,6 +647,22 @@
 	text={optimization method}
 }
 
+
+\newglossaryentry{newtonmethod}{
+	name={Newton's method},
+	description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of multivariate differentiable functions. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives through the \gls{hessian} to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
+	\[
+	  \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
+	\]
+	where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
+	\\
+	See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
+	},
+	first={newtonmethod},
+	  type=math,
+		  text={newtonmethod} }
+
+		  
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method for solving 
@@ -2861,6 +2885,16 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 	text={stochastic algorithm} 
 }
 
+\newglossaryentry{batchlearning}
+{name={batchlearning},
+description={In batch learning (also known as: offline learning), the \gls{ml} \gls{model} is trained on the entire \gls{dataset} in a single training iteration, instead of updating it incrementally as \gls{data} arrives. All available \gls{data} is inputted into a learning \gls{algorithm} resulting in a \gls{model} that can make predictions. Since these \glspl{dataset} tend to be large,
+training is computationally expensive and time consuming, so it is typically performed offline. After learning, the \gls{model} will be static and will not adapt to new \gls{data} automatically. Updating the \gls{model} with new information requires to retrain the \gls{model} entirely again. Once the model has been trained, it is launched into production where it cannot be updated. 
+Training a model can take many hours, so many models in production settings are updated cyclically on a periodic schedule when the data distribution is stable. Eg, a retail analytics team could retrain their demand forecast model every sunday using the previous week's sales data to predict next week's demand. 
+If a system needs to be constantly updated to rapidly changing data such as stock price prediction, a more adaptable solution such as \gls{onlinelearning} is necessary.\\
+See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
+	first={batchlearning},text={batchlearning}
+} 
+
 \newglossaryentry{onlinelearning}
 {name={online learning},
 	description={Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
@@ -3865,6 +3899,16 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
  	plural={batches}, 
  	text={batch}  
 }
+
+
+\newglossaryentry{epoch}
+{name={epoch},
+	description={An epoch represents one complete pass of the entire \gls{trainset} through some learning \gls{algorithm}. It is when a \gls{model} has processed every \gls{datapoint} in the \gls{trainset} once. 
+	Training a \gls{model} usually requires multiple epochs, since each iteration allows the \gls{model} to refine the \gls{parameter}s and improve \gls{prediction}s. The number of epochs is something predefined by the user, 
+	this is an essential hyperparameter as it is a crucial factor in determining how the model will generalize to unseen data. Too few epochs will result in \gls{underfitting}, conversely, too many epochs can result in \gls{overfitting}.},
+	first={epoch},text={epoch}
+} 
+
 
 \newglossaryentry{netdata}
 {name={networked data},
@@ -6957,4 +7001,32 @@ sort={Renyi},
 	text={data minimization principle}
 }
 
+\newglossaryentry{cav}
+{name={Concept Activation Vector (CAV)},
+	description={ 
+CAVs \cite{kim2018interpretability} are an \gls{explainability} technique for investigating and improving \glspl{ann}. Unlike traditional methods that analyze the influence of input \glspl{feature} on a \gls{model}´s \gls{prediction}, concept-based \glspl{explanation} aim for \gls{explainability} in terms of human-understandable concepts. As an example, consider the concept of "stripes" in an \gls{multilabelclass} problem for animal images.
+To apply this approach, one gathers a \gls{dataset} that illustrates a user-defined concept $C$ of interest, along with another \gls{dataset} of "non-concept" or "random" examples, that will be divided further into respective \glspl{trainset}, \glspl{valset}
+and \glspl{testset}. A binary \gls{linclass}, e.g., a \gls{svm}, is then trained 
+ to separate the \glspl{featurevec} that are obtained as the $l$th latent layer activations of the original \glspl{datapoint}of the concept and non-concept inputs. In this way, we obtain a \gls{hypothesis} $v_C^l$ (a \gls{vector} of the same size as the dimension of the hidden layer $l$) that is orthogonal to the \gls{classifier}'s separating hyperplane (by convention, oriented towards the concept examples), which is called a Concept Activation Vector (CAV) in the given context.
+ Firstly, if this \gls{classifier} achieves a high \gls{acc} at some layer $l$, this indicates that the neural network has internally encoded the concept, as it can linearly separate it from the non-concept examples. Furthermore, we may localize specific layers or even neurons that have taken on this task.
+ Secondly, this technique allows to quantify the concept's influence on the \gls{model}'s \gls{prediction}, i.e., the \gls{probability} assigned to a specific \gls{label}. More precisely, this is possible with the technique of
+Testing with Concept Activation Vectors (TCAV), where directional derivatives of the \gls{prediction} in direction of $v_C^l$ at layer $l$ are computed 
+ (under sufficient \gls{smooth} assumptions, they can be calculated as inner products with \gls{gradient}s). Here, positive values indicate that the presence of a concept increases the \gls{label} \gls{probability} (e.g., we expect the concept of "stripes" to have a positive contribution for the prediction of the \gls{label} "zebra"), while negative values contradict the prediction, and values close to zero mean that the concept is neutral for the class of interest.
+ CAVs are interesting for several reasons. They help us to adress questions like: Do neural networks internally use human-understandable concepts? In case of highly performant \glspl{model}, can we even extract concepts that were previously unknown to human experts? Moreover, CAVs are useful for debiasing neural networks in case they make predictions based upon undesirable concepts. Various versions of this approach exist, and are still under active research.
+				\\
+		 See also: \gls{linmodel},  \gls{deepnet},  \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
+	first={Concept Activation Vector (CAV)},
+	text={Concept Activation Vector (CAV)}, 
+}
 
+ \newglossaryentry{backpropagation}{
+ 	name={backpropagation},
+ 	description={
+ 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.  \\[0.5ex]
+ 	   There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
+ 	  The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
+ 	  See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
+ 	},
+ 	first={backpropagation},
+ 	text={backpropagation}
+  }
