@@ -12,17 +12,24 @@
 \usepackage{booktabs} 
 \usepackage{algorithm, algpseudocode}
 \usepackage{imakeidx}
+\usepackage[utf8]{inputenc}  % Legacy engine compatibility
+\usepackage[T1]{fontenc}
 \usepackage{needspace}
 \raggedbottom
 \newcommand\Square[1]{+(-#1,-#1) rectangle +(#1,#1)}
-\usepackage{hyperref}       % hyperlinks
+\usepackage{hyperref}  
+\usetikzlibrary{fit}
+\usetikzlibrary{arrows.meta, positioning}
+     % hyperlinks
 %\usepackage[automake,stylemods={tree}]{glossaries-extra}
 
 \usepackage[automake,stylemods={tree}]{glossaries-extra}
+\usepackage{etoolbox}
 
 % Define explicitly named glossaries
 %\newglossary*{main}{Main Glossary}
 \newglossary*{basic}{Basic Terms}
+\newglossary*{math}{Tools}
 \newglossary*{systems}{ML Systems}
 \newglossary*{advanced}{Advanced Terms}
 
@@ -38,6 +45,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 \usepackage{tikz}
+\usetikzlibrary{matrix,positioning,fit}
 \usepackage{cite}
 \usepackage{IEEEtrantools}
 \usepackage{pgfkeys,pgfcalendar}
@@ -46,10 +54,15 @@
 \usepackage{helvet}
 \usepackage{float}
 \usepackage{enumitem}
+\usepackage{caption}
+\captionsetup[figure]{name=Fig., labelsep=period} % Customize figure caption format
+\renewcommand{\thetable}{\Roman{table}} % Use Roman numerals
 
 
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{intersections}
+
+
 
 
 \usepackage{xspace}
@@ -184,6 +197,16 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 
 \makeglossaries
 
+\glsaddkey
+{section}% key
+{}% default value
+{\glsentryalternative}% no link cs
+{\Glsentryalternative}% no link ucfirst cs
+{\glsalternative}% link cs
+{\Glsalternative}% link ucfirst cs
+{\GLSalternative}% link all caps cs
+
+
 % References formatting fix
 \makeatletter
 \renewenvironment{thebibliography}[1]
@@ -239,6 +262,7 @@ internacionales a través de European University Alliance Unite! \url{https://ww
 Un agradecimiento especial a Mikko Seesto por su meticulosa corrección.
 
 
+\tableofcontents
 
 \newpage 
 \input{ListsymbolsSpanish.tex}
@@ -250,8 +274,10 @@ Un agradecimiento especial a Mikko Seesto por su meticulosa corrección.
 \glsaddallunused
 
 
+\printglossary[type=math,title={Herramientas}, nonumberlist]
 
-\printglossary[title={Machine Learning Concepts}, nonumberlist]
+\newpage
+\printglossary[title={Conceptos de Aprendizaje Automático}, nonumberlist]
 
 \printglossary[type=systems, title={Machine Learning Systems}, nonumberlist]
 
