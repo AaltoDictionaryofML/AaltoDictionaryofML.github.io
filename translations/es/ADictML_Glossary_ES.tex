@@ -3515,7 +3515,7 @@ una disposición más significativa de los puntos de datos en $\mathbb{R}^{\nrfe
 		\label{fig:cowsintheswissalps_dict}
 		\includegraphics[width=0.5\textwidth]{../../assets/CowsAustria.jpg}
 		  \end{center}
-		\caption{\label{fig_cows_dataset_dict} A cowherd.}
+		\caption{\label{fig_cows_dataset_dict} La manada de vacas}
 	  \end{figure}
 	   Con frecuencia, un ingeniero de aprendizaje automático no tiene acceso directo a un conjunto de datos. De hecho, acceder al conjunto de datos en la Figura 
         \ref{fig_cows_dataset_dict} requeriría visitar el rebaño de vacas en los Alpes. En su lugar, 
@@ -5863,15 +5863,63 @@ la estimación actual $\weights^{(\itercntr)}$. Esto se puede lograr típicament
 %		
 		},first={descenso por gradiente (GD)},text={GD}}
 
-\newglossaryentry{abserr}{name={pérdida por error absoluto},description={
-	Considera un punto de datos con atributos $\featurevec \in \featurespace$ y una 
-	etiqueta numérica $\truelabel \in \mathbb{R}$. La perdida\index{pérdida por error absoluto} 
-	por error absoluto incurrida por una hipótesis $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
-	se define como $|\truelabel - \hypothesis(\featurevec)|$, es decir, la diferencia absoluta entre 
-	la predicción $\hypothesis(\featurevec)$ y la etiqueta verdadera $\truelabel$.
-	\\
-		Vea también: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{hypothesis}, \gls{prediction}.},
-			first={pérdida por error absoluto},text={pérdida por error absoluto}}
+		\newglossaryentry{abserr}
+		{name={pérdida por error absoluto},
+			description={Considérese un punto de datos con atributos $\featurevec \in \featurespace$ y una 
+				etiqueta numérica $\truelabel \in \mathbb{R}$. Como su nombre lo sugiere, la pérdida\index{pérdida por error absoluto} 
+				por error absoluto incurrida por una hipótesis $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
+				se define como $$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis} = |\truelabel - \hypothesis(\featurevec)|.$$
+				La Figura \ref{fig_abs_err_dict} muestra la pérdida por error absoluto para un punto de datos fijo 
+				con vector de atributos $\featurevec$ y etiqueta $\truelabel$. También indica los valores de perdida
+				incurridos por dos diferentes hipótesis $\hypothesis'$ y $\hypothesis''$. Al igual que la perdida por error cuadrático, 
+				la perdida por error absoluto es una función convexa de la predicción $\predictedlabel=\hypothesis(\featurevec)$. 
+				Sin embargo, en contraste con la perdida por error cuadrático, la perdida por error absoluto no es suave, ya que no es 
+				diferenciable en la predicción óptima $\predictedlabel=\truelabel$. Esta propiedad hace que los métodos 
+				basados en ERM que usan la perdida por error absoluto sean computacionalmente más exigentes \cite{OptMLBook,nesterov04}. 
+				Para desarrollar intuición, resulta útil considerar las dos hipótesis representadas en la Figura \ref{fig_abs_err_dict}. 
+				Solo a partir de la pendiente de $\loss$ alrededor de $\hypothesis'(\featurevec)$ y $\hypothesis''(\featurevec)$ 
+				es imposible determinar si estamos muy cerca del óptimo ($\hypothesis'$) o aún lejos ($\hypothesis''$). 
+				Como resultado, cualquier método de optimización basado en aproximaciones locales de la función de perdida (como descenso de gradiente estocástico) 
+				debe usar una tasa de aprendizaje decreciente para evitar sobrepasar el óptimo al acercarse a él. Esta disminución requerida 
+				de la tasa de aprendizaje tiende a ralentizar la convergencia del método de optimización. Además del aumento en la complejidad computacional, 
+				usar la perdida por error absoluto en ERM puede ser beneficioso en presencia de valores atípicos en el conjunto de entrenamiento. 
+				A diferencia de la perdida por error cuadrático, la pendiente de la perdida por error absoluto no aumenta con el incremento del error 
+				de predicción $\truelabel - \hypothesis(\featurevec)$. Como resultado, el efecto de introducir valores atípicos con 
+				gran error de predicción en la solución $\learnthypothesis$ de ERM con perdida por error absoluto 
+				es mucho menor en comparación con el efecto sobre la solución de ERM con la perdida de error cuadrático. 
+				\begin{figure}[htbp]
+				\begin{center}
+				\begin{tikzpicture}[x=3cm,y=1.6cm]
+					\pgfmathsetmacro{\ytrue}{0.0}
+					\pgfmathsetmacro{\hp}{0.6}
+					\pgfmathsetmacro{\hpp}{3.7}
+					\begin{axis}[axis lines=middle,xtick=\empty,ytick=\empty,width=15cm,height=5cm,xmin=-4,xmax=4,ymin=-0.2,ymax=3,domain=-4:4,samples=100,clip=false,enlarge x limits=0.15,enlarge y limits=0.15]			
+						\addplot[very thick, red] {abs(x - \ytrue)};
+						\addplot[only marks, mark=*, mark options={fill=white}] coordinates {(\ytrue, 0)};
+						\node[anchor=west,below,xshift=-2mm] at (axis cs:\ytrue, 0) {$\truelabel$};
+						\pgfmathsetmacro{\Lhp}{abs(\hp - \ytrue)}
+						\addplot[only marks, mark=*, mark options={scale=1.1}] coordinates {(\hp, \Lhp)};
+						\node[anchor=west] at (axis cs:\hp, \Lhp) {$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis'}$};
+						\node[yshift=-4mm] at (axis cs:\hp, 0) {$\hypothesis'(\featurevec)$};
+						\addplot[densely dashed] coordinates {(\hp, 0) (\hp, \Lhp)};
+						\pgfmathsetmacro{\Lhpp}{abs(\hpp - \ytrue)}
+						\addplot[only marks, mark=*, mark options={scale=1.1}] coordinates {(\hpp, \Lhpp)};
+						\node[yshift=-4mm] at (axis cs:\hpp, 0) {$\hypothesis''(\featurevec)$};
+						\addplot[densely dashed] coordinates {(\hpp, 0) (\hpp, \Lhpp)};
+						\node[anchor=west] at (axis cs:\hpp, \Lhpp) {$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis''}$};
+						\node[xshift=18mm] at (axis cs:4,0) {$\hat{\truelabel}$};
+					\end{axis}
+				\end{tikzpicture}
+				\end{center}
+				\caption{Para un punto de datos con etiqueta numérica $\truelabel\! \in\! \mathbb{R}$, el error absoluto 
+					$|\truelabel\!-\!\hypothesis(\featurevec)|$ puede usarse como funcion de perdida para guiar el 
+					aprendizaje de una hipótesis $\hypothesis$. \label{fig_abs_err_dict}}
+				\end{figure} 
+				Véa también: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{sgd}, \gls{erm}.},
+			first={pérdida por error absoluto},
+			text={pérdida por error absoluto}
+		}
+		
 
 \newglossaryentry{device}{name={dispositivo},description={
 				Cualquier\index{dispositivo} sistema físico que pueda usarse para almacenar y procesar datos. En el contexto de aprendizaje automático, 
@@ -6512,3 +6560,22 @@ If a system needs to be constantly updated to rapidly changing data such as stoc
 See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 	first={batchlearning},text={batchlearning}
 } 
+
+
+\newglossaryentry{cav}
+{name={Concept Activation Vector (CAV)},
+	description={ 
+CAVs \cite{kim2018interpretability} are an \gls{explainability} technique for investigating and improving \glspl{ann}. Unlike traditional methods that analyze the influence of input \glspl{feature} on a \gls{model}´s \gls{prediction}, concept-based \glspl{explanation} aim for \gls{explainability} in terms of human-understandable concepts. As an example, consider the concept of "stripes" in an \gls{multilabelclass} problem for animal images.
+To apply this approach, one gathers a \gls{dataset} that illustrates a user-defined concept $C$ of interest, along with another \gls{dataset} of "non-concept" or "random" examples, that will be divided further into respective \glspl{trainset}, \glspl{valset}
+and \glspl{testset}. A binary \gls{linclass}, e.g., a \gls{svm}, is then trained 
+ to separate the \glspl{featurevec} that are obtained as the $l$th latent layer activations of the original \glspl{datapoint}of the concept and non-concept inputs. In this way, we obtain a \gls{hypothesis} $v_C^l$ (a \gls{vector} of the same size as the dimension of the hidden layer $l$) that is orthogonal to the \gls{classifier}'s separating hyperplane (by convention, oriented towards the concept examples), which is called a Concept Activation Vector (CAV) in the given context.
+ Firstly, if this \gls{classifier} achieves a high \gls{acc} at some layer $l$, this indicates that the neural network has internally encoded the concept, as it can linearly separate it from the non-concept examples. Furthermore, we may localize specific layers or even neurons that have taken on this task.
+ Secondly, this technique allows to quantify the concept's influence on the \gls{model}'s \gls{prediction}, i.e., the \gls{probability} assigned to a specific \gls{label}. More precisely, this is possible with the technique of
+Testing with Concept Activation Vectors (TCAV), where directional derivatives of the \gls{prediction} in direction of $v_C^l$ at layer $l$ are computed 
+ (under sufficient \gls{smooth} assumptions, they can be calculated as inner products with \gls{gradient}s). Here, positive values indicate that the presence of a concept increases the \gls{label} \gls{probability} (e.g., we expect the concept of "stripes" to have a positive contribution for the prediction of the \gls{label} "zebra"), while negative values contradict the prediction, and values close to zero mean that the concept is neutral for the class of interest.
+ CAVs are interesting for several reasons. They help us to adress questions like: Do neural networks internally use human-understandable concepts? In case of highly performant \glspl{model}, can we even extract concepts that were previously unknown to human experts? Moreover, CAVs are useful for debiasing neural networks in case they make predictions based upon undesirable concepts. Various versions of this approach exist, and are still under active research.
+				\\
+		 See also: \gls{linmodel},  \gls{deepnet},  \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
+	first={Concept Activation Vector (CAV)},
+	text={Concept Activation Vector (CAV)}, 
+}
