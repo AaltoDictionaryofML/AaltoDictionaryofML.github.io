@@ -3453,18 +3453,6 @@ See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 }
 
 
-\newglossaryentry{vcdim}
-{name={Vapnik–Chervonenkis dimension (VC dimension)},
-	description={The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
-		is a widely used measure for the size of an infinite \gls{hypospace}. We refer to 
-		the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
-		as well as a discussion of its basic properties and use in \gls{ml}.
-					\\ 
-		See also: \gls{hypospace}, \gls{ml}, \gls{effdim}.},
-	first={Vapnik–Chervonenkis dimension (VC dimension)},
-	text={VC dimension}  
-}
-
 \newglossaryentry{effdim}
 {name={effective dimension},
 	description={The\index{effective dimension} effective dimension $\effdim{\hypospace}$ of 
@@ -7076,3 +7064,116 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
  	first={backpropagation},
  	text={backpropagation}
   }
+
+
+
+%old entry, replaced by the extended one below
+% \newglossaryentry{vcdim}
+% {name={Vapnik–Chervonenkis dimension (VC dimension)},
+% 	description={The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
+% 		is a widely-used measure for the size of an infinite \gls{hypospace}. We refer to 
+% 		the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
+% 		as well as a discussion of its basic properties and use in \gls{ml}.
+% 					\\ 
+% 		See also: \gls{hypospace}, \gls{ml}, \gls{effdim}.},
+% 	first={Vapnik–Chervonenkis dimension (VC dimension)},
+% 	text={VC dimension}  
+% }
+
+
+\newglossaryentry{vcdim}
+{name={Vapnik–Chervonenkis dimension (VC dimension)},
+	description={ The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension \cite{vapnik2015uniform}
+        $\operatorname{VC_{dim}}(\mathcal{H})$ of some \gls{hypospace} $\mathcal{H}$ of \glspl{function} $h:\mathcal{X} \to \{-1,1\}$ is a measure for its ``complexity'' or ``richness'', mainly suited for (binary) \gls{classification} tasks. 
+Formally, it is defined as the size $m$ of the largest \gls{dataset} $\mathcal{D} = \{\vx_1, \hdots, \vx_m\} \subseteq \mathcal{X}$ that can be \textit{shattered} by $\mathcal{H}$, which means that for any of the $2^m$ possible assignments of binary \glspl{label} to the \glspl{datapoint}, there exists an \gls{hypothesis} $h \in \mathcal{H}$ that realizes this assignment of \glspl{label}. Intuitively, this measures the approximative power
+of $\mathcal{H}$ in the sense how well the \glspl{model} can adapt to a random assignment of the \glspl{label},
+and it can be used to formally derive results on the \gls{gengap}.
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.3\textwidth}
+  \centering
+\begin{tikzpicture}[scale =.4]
+\filldraw [red]  (-1,1) circle (3pt);
+%%%\filldraw [blue] (1,1) circle (3pt);
+\filldraw [blue]  (1,-1) circle (3pt);
+\filldraw [blue] (-1,-1) circle (3pt);
+\draw [black] (-1.5,0) -- (1.5,0);
+\end{tikzpicture}  
+  \caption{\scriptsize Three points in $\mathbb{R}^2$: lin. \\ separation of classes possible.}
+  \label{fig:VC_a}
+\end{subfigure}%
+\begin{subfigure}{.3\textwidth}
+  \centering
+\begin{tikzpicture}[scale =.4]
+\filldraw [red]  (-1,1) circle (3pt);
+%%%\filldraw [blue] (1,1) circle (3pt);
+\filldraw [red]  (1,-1) circle (3pt);
+\filldraw [blue] (-1,-1) circle (3pt);
+%\draw [black] (-1.5,0) -- (0,-1.5);
+\draw [black] (-1.2,0.3) -- (0.3,-1.2);
+\end{tikzpicture}  
+  \caption{\scriptsize Similar to (a),  with a different assignments of labels.}
+  \label{fig:VC_b} 
+\end{subfigure}
+\begin{subfigure}{.3\textwidth}
+  \centering
+\begin{tikzpicture}[ scale =.4]
+\filldraw [red]  (-1,1) circle (3pt);
+\filldraw [blue] (1,1) circle (3pt);
+\filldraw [red]  (1,-1) circle (3pt);
+\filldraw [blue] (-1,-1) circle (3pt);
+\end{tikzpicture}  
+  \caption{\scriptsize Four points: no separation for all label assignments.}
+  \label{fig:VC_c}
+\end{subfigure}
+\caption{Illustration for the \gls{vcdim}.}
+\label{fig:vcdim}
+\end{figure}
+This is illustrated in Figure \ref{fig:vcdim} for a hypothesis space of \glspl{linmodel} $h(\vw) = \vx^\top \vw$ for 
+\glspl{datapoint} $\vx \in \mathbb{R}^2$ and a \gls{vector} $\vw \in \mathbb{R}^2$ of \gls{weights}; here, we may identify $\mathcal{H} = \mathbb{R}^2$. We can easily construct a set of $m=3$ \glspl{datapoint} that can be shattered (note that the definition does not require this to be the case for \textit{any} \gls{dataset} of size three), as illustrated in (a) and (b) for two of the $2^3 = 8$ possible assignments of binary \glspl{label} $\{-1,1\}$, together with separating hyperplanes that enable the separation. However, no \gls{dataset} consisting of four points can be shattered, which is illustrated in (c), such that $\operatorname{VC_{dim}}(\mathbb{R}^2) = 3$.
+More generally, it can indeed be shown that for linear models that $\operatorname{VC_{dim}}(\mathbb{R}^d) = d+1$, when the \gls{vcdim} is closely related to the \gls{vectorspace} dimension. Nevertheless, note that (unlike $\mathbb{R}^d$), general \glspl{hypospace} such as a \gls{decisiontree} or a \gls{ann} do not need to be a \gls{vectorspace}, and thus no \gls{vectorspace} dimension. Another complexity measure for \glspl{hypospace} is the so-called
+\gls{rademachercomplexity}, which is more flexible as it can be applied both for
+\gls{classification} and \gls{regression} tasks.	
+\\
+See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{rademachercomplexity}.}
+	first={Vapnik–Chervonenkis dimension (VC dimension)},
+	text={VC dimension}
+}
+
+
+
+
+
+ 
+
+ 
+
+\newglossaryentry{rademachercomplexity}
+{name={Rademacher complexity},
+ 	description={ Similar to the \gls{vcdim}, the \index{Rademacher complexity} Rademacher complexity \cite{bartlett2002rademacher} is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\mathcal{H}$, which may not necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
+the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^d$ with elements 
+$\va = (a_1, \dots, a_m) \in \mathcal{A}$ as
+\begin{equation}
+\mathcal{R}(\mathcal{A})
+= 
+\mathbb{E}_{\vepsilon} \sup_{\va \in \mathcal{A}} \frac{1}{n} \sum_{i=1}^m \epsilon_i a_i,
+\label{eq:rademacher_complexity_sets}
+\end{equation}
+where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, m$, taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} $\mathcal{H}$, consisting of real-valued functions $h: \mathcal{X} \to \mathbb{R}$ on the \gls{featurespace} $\mathcal{X}$, from which we are given samples 
+$\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taking the \gls{supremum} over the 
+\gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\mathcal{H})$ of $\mathcal{H}$ given the samples $\mathcal{S}$ is defined as
+\begin{equation}
+\mathcal{R}_\mathcal{S}(\mathcal{H}) 
+= 
+\mathbb{E}_{\vepsilon} \sup_{h \in \mathcal{H}} \frac{1}{n} \sum_{i=1}^m \epsilon_i h(\vx_i).
+\label{eq:def_emprical_rademacher_complexity_hypothesis classes}
+\end{equation}
+To build intuition for this technical definition, let us consider a simplified example of a binary 
+\gls{classification} problem where $h$ only assume the values $\{-1,+1\}$. Then, the expression
+in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_m) \in \{-1,+1\}^m$ there exists some $h \in \mathcal{H}$ such that
+$h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\mathcal{H}$ is to fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a detailed overview and references to the original works.		
+\\
+See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}.}
+	first={Rademacher complexity},
+	text={Rademacher complexity}  
+}
