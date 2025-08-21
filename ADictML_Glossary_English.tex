@@ -7068,7 +7068,74 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
  \newglossaryentry{backpropagation}{
  	name={backpropagation},
  	description={
- 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.  \\[0.5ex]
+ 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.
+	   \begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			>=Stealth,
+			neuron/.style={circle,draw,minimum size=9mm,inner sep=0pt},
+			conn/.style={-Stealth, line width=0.7pt},
+			grad/.style={Stealth-, dashed, line width=0.7pt},
+			lbl/.style={font=\small},
+			box/.style={draw, rounded corners, inner sep=4pt}
+		]
+		%--- Layer positions -----------------------------------------------------------
+		% x-layer (inputs)
+		\node[neuron] (x1) at (0,1.8) {$x_1$};
+		\node[neuron] (x2) at (0,0)   {$x_2$};
+		\node[neuron] (x3) at (0,-1.8){$x_3$};
+		% hidden layer h (e.g., with activation \sigma)
+		\node[neuron, right=2.8cm of x1] (h1) {$h_1$};
+		\node[neuron, right=2.8cm of x2] (h2) {$h_2$};
+		\node[neuron, right=2.8cm of x3] (h3) {$h_3$};
+		% output layer (single output for illustration)
+		\node[neuron, right=2.8cm of h2] (yhat) {$\hat{y}$};
+		% loss node
+		\node[neuron, right=2.6cm of yhat, minimum size=10mm] (loss) {$\mathcal{L}$};
+		%--- Forward connections (solid, left -> right) -------------------------------
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[conn] (x\i) -- (h\j);
+		  }
+		}
+		\foreach \j in {1,2,3}{
+		  \draw[conn] (h\j) -- (yhat);
+		}
+		\draw[conn] (yhat) -- (loss);
+		%--- Backprop connections (dashed, right -> left) -----------------------------
+		% From loss to output
+		\draw[grad] (yhat) to[bend left=10] node[above, lbl] {$\nabla_{\hat{y}}\mathcal{L}$} (loss);
+		% From output to hidden
+		\foreach \j in {1,2,3}{
+		  \draw[grad] (h\j) to[bend left=10] (yhat);
+		}
+		% From hidden to inputs
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[grad] (x\i) to[bend left=10] (h\j);
+		  }
+		}
+		%--- Annotations ---------------------------------------------------------------
+		% Forward / Backward labels
+		\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (predictions)};
+		\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (gradients)};
+		% Weight / bias hints
+		\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
+		\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
+		% Legend
+		\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
+		\begin{tikzpicture}[baseline={(0,0)}]
+		  \draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (data flow)};
+		  \draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (gradients)};
+		\end{tikzpicture}
+		};
+		% Caption label node (optional visual helpers)
+		\node[lbl] at ($(yhat)!0.5!(loss)+(0,1.2)$) {$\mathcal{L}(\hat{y},y)$};
+		\node[lbl] at ($(x2)+(0,-2.8)$) {$a^{(0)}{=}\mathbf{x}$,\; $a^{(1)}{=}\sigma(z^{(1)})$,\; $a^{(2)}{=}\hat{y}$};
+		\end{tikzpicture}
+		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
+		\label{fig:backprop_schematic}
+		\end{figure}
  	   There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
  	  The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
  	  See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
