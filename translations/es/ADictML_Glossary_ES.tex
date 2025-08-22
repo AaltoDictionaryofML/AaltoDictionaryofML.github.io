@@ -6698,3 +6698,92 @@ Además, los CAVs son útiles para eliminar sesgos en redes neuronales en los ca
 	first={Vector de Activación de Concepto (CAV)},
 	text={Vector de Activación de Concepto (CAV)}, 
 }
+
+
+\newglossaryentry{arimamodel}
+{name={ARIMA},
+	description={ 
+}, 
+	first={ARIMA},
+	text={ARIMA}, 
+}
+
+\newglossaryentry{convergence}
+{name={convergence},
+	description={In mathematics, convergence refers to a sequence or process where the values are progressing towards a specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
+	close to the value limit without actually reaching it. 
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+		  width=\linewidth, height=6.2cm,
+		  xmin=-0.5, xmax=10.5,
+		  ymin=0.7,  ymax=1.2,
+		  grid=both,
+		  xlabel={$n$},
+		  ylabel={$x_n$},
+		  legend style={draw=none, fill=none, font=\small},
+		  legend pos=south east,
+		  ticklabel style={/pgf/number format/fixed},
+		]
+		\def\L{1}
+		\def\eps{0.1}
+		% --- epsilon-tube around L ---
+		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
+		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
+		\addplot[fill=gray!20] fill between[of=upper and lower];
+		\addplot[black, dashed, domain=-0.5:10.5] {\L};
+		\addlegendentry{$L=1$}
+		\addplot+[
+		  only marks, mark=*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
+		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
+		\addplot+[
+		  only marks, mark=square*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
+		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
+		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
+		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
+		\label{fig:convergence}
+		\end{figure}
+		Conversely, in \gls{ml}, convergence is the stage where the \gls{loss} values of a \gls{model} have insignificant changes with each increasing iteration. This signifies that additional training of the \gls{model} will not render any benefits to its performance. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	  width=\linewidth, height=6.2cm,
+	  xmin=-0.5, xmax=30.5,
+	  ymin=0.16,  ymax=1.05,
+	  grid=both,
+	  xlabel={Iterations},
+	  ylabel={Loss},
+	  legend style={draw=none, fill=none, font=\small},
+	  legend pos=north east,
+	  ticklabel style={/pgf/number format/fixed},
+	]
+	\def\L{0.20}    
+	\def\Lzero{1.00}
+	\def\alpha{0.25}
+	\def\eps{0.03}  
+	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
+	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
+	\addplot[fill=gray!20] fill between[of=upper and lower];
+	\addplot[black, dashed, domain=-0.5:30.5] {\L};
+	\addplot+[
+	  only marks, mark=*, mark size=2pt, thick
+	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
+	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
+	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve with each iteration.}
+	\label{fig:ml_convergence_loss_noJ}
+	\end{figure}
+},
+	first={convergence},
+	text={convergence}, 
+}
+
