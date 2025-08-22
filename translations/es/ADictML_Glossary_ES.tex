@@ -616,47 +616,55 @@ text={atención}
 }
 
 % \newglossaryentry{fixedpointiter}
-% {name={fixed-point iteration},
-% 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method for solving 
-% 		a given \gls{optproblem}. It constructs a sequence $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
-% 		 repeatedly applying an operator $\fixedpointop$, i.e., 
-% 		 \begin{equation} 
-% 		 	\label{equ_def_fixed_point_dict} 
-% 		 	\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0, \,1, \,\ldots.
-% 		 \end{equation} 
-% 		 The operator $\fixedpointop$ is chosen such that any of its fixed points is a solution 
-% 		 $\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
-% 		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the operator $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
-% 		 coincide with the minimizers of $f(\weights)$. In general, for a given \gls{optproblem} with solution $\widehat{\weights}$, 
-% 		 there are many different operators $\fixedpointop$ whose fixed points are $\widehat{\weights}$. 
-% 		 Clearly, we should use an operator $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution such that
-% 		 \begin{equation} 
-% 			\nonumber
-% 			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 	\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}. 
-% 		\end{equation}
-% 		Thus, we require $\fixedpointop$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
-% 		should not result in worse \gls{modelparams} that have a larger distance to a solution $\widehat{\weights}$. 
-% 		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
-% 		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
-% 		the notion of a \gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
-% 		The operator $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+% {name={méthode du point fixe},
+% 	description={La \index{méthode du point fixe} méthode du point fixe est une méthode itérative 
+% 		permettant de résoudre un \gls{optproblem}. Elle construit une suite \( \weights^{(0)}, \weights^{(1)}, \ldots \) 
+% 		en appliquant de manière répétée un opérateur \( \fixedpointop \), c’est-à-dire:
 % 		\begin{equation} 
-% 			\nonumber
-% 			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights'.
-% 		\end{equation}
-% 		For a \gls{contractop} $\fixedpointop$, the fixed-point iteration \eqref{equ_def_fixed_point_dict} generates 
-% 		a sequence $\weights^{(\iteridx)}$ that converges quite rapidly. In particular \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, 
-% 		\begin{equation} 
-% 			\nonumber
-% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 	\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}. 
+% 			\label{equ_def_fixed_point_dict} 
+% 			\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)}, \quad \text{pour } \iteridx = 0, 1, \ldots.
 % 		\end{equation} 
-% 		Here, $\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}$ is the distance between 
-% 		the initialization $\weights^{(0)}$ and the solution $\widehat{\weights}$. 
-% 		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive 
-% 		operator $\fixedpointop$ is guaranteed to converge to a fixed-point of $\fixedpointop$ \cite[Cor. 5.16]{Bauschke:2017}. 
-% 		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator, 
-% 		and a \gls{contractop}. All of these operators are defined on the 1-D space $\mathbb{R}$. 
-% 		Another example of a firmly non-expansive operator is the \gls{proxop} of a \gls{convex} \gls{function} \cite{Bauschke:2017}, \cite{ProximalMethods}. 
+% 		L’opérateur \( \fixedpointop \) est choisi de sorte que tout point fixe soit une solution 
+% 		\( \widehat{\weights} \) du \gls{optproblem} donné. Par exemple, étant donnée une \gls{function} \( f(\weights) \) \gls{convex} et 
+% 		\gls{diffentropy}, les points fixes de l’opérateur 
+% 		\( \fixedpointop: \weights \mapsto \weights - \nabla f(\weights) \) coïncident avec les minimiseurs de \( f(\weights) \).
+% 		De manière générale, pour un problème d’optimisation donné dont la solution est \( \widehat{\weights} \), 
+% 		il peut exister plusieurs opérateurs \( \fixedpointop \) ayant pour points fixes \( \widehat{\weights} \). 
+% 		Il est donc clairement souhaitable d’utiliser un opérateur \( \fixedpointop \) tel que l’itération 
+% 		\eqref{equ_def_fixed_point_dict} réduise la distance à la solution :
+% 		\begin{equation}
+% 			\nonumber
+% 			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} 
+% 				\normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 
+% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}.
+% 		\end{equation}
+% 		On exige donc que \( \fixedpointop \) soit au minimum non-expansif, c’est-à-dire que l’itération 
+% 		\eqref{equ_def_fixed_point_dict} ne produise pas des \gls{modelparams} plus éloignés de la solution 
+% 		\( \widehat{\weights} \).
+% 		Mieux encore, chaque itération \eqref{equ_def_fixed_point_dict} devrait faire progresser la solution, 
+% 		en réduisant effectivement la distance à \( \widehat{\weights} \). Cette exigence peut être formulée 
+% 		précisément à l’aide de la notion d’\gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
+% 		On dit que \( \fixedpointop \) est un \gls{contractop} s’il existe un facteur \( \contractfac \in [0,1) \) tel que
+% 		\begin{equation}
+% 			\nonumber
+% 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2}  \leq  \contractfac \normgeneric{\weights - \weights'}{2} 
+% 			\quad \text{pour tout } \weights, \weights'.
+% 		\end{equation}
+% 		Avec un \gls{contractop} \( \fixedpointop \), l’itération \eqref{equ_def_fixed_point_dict} 
+% 		génère une suite \( \weights^{(\iteridx)} \) qui converge rapidement. En particulier \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, on a:
+% 		\begin{equation}
+% 			\nonumber
+% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 
+% 			\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}.
+% 		\end{equation}
+% 		Ici, \( \normgeneric{ \weights^{(0)} - \widehat{\weights}}{2} \) est la distance entre l’initialisation 
+% 		et la solution.
+% 		Il s’avère que la méthode du point fixe \eqref{equ_def_fixed_point_dict} utilisant un opérateur 
+% 		ferme non-expansif \( \fixedpointop \) est garantie de converger vers un point fixe de \( \fixedpointop \) 
+% 		\cite[Cor. 5.16]{Bauschke:2017}. La Fig.~\ref{fig_examples_nonexp_dict} montre des exemples d’un opérateur 
+% 		ferme non-expansif, d’un opérateur non-expansif, et d’un \gls{contractop}, tous définis sur \( \mathbb{R} \).		
+% 		Un autre exemple d’opérateur ferme non-expansif est l’\gls{proxop} d’une \gls{function} \gls{convex} 
+% 		\cite{Bauschke:2017}, \cite{ProximalMethods}. 
 % 		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 % 		\begin{figure}[H]
 % 			\begin{center} 
@@ -684,20 +692,15 @@ text={atención}
 % 					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
 % 					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
 % 				\end{tikzpicture}
-% 			\end{center}
-% 			\caption{Example of a non-expansive operator $\fixedpointop^{(1)}$, 
-% 			a firmly non-expansive operator $\fixedpointop^{(2)}$, and a 
-% 			\gls{contractop} $\fixedpointop^{(3)}$.}
-% 			\label{fig_examples_nonexp_dict}
-% 		  \end{figure} 
-% 		See also: \gls{optproblem}, \gls{differentiable}, \gls{convex} \gls{function}, \gls{modelparams}, \gls{contractop}, \gls{proxop}.},
-% 	first={fixed-point iteration},
-% 	text={fixed-point iteration},
-% 	firstplural={fixed-point iterations}, 
-% 	plural={fixed-point iterations}
+% 			\end{center} 
+% 			\caption{Exemple d'opérateur non-expansif $\fixedpointop^{(1)}$, opérateur ferme non-expansif $\fixedpointop^{(2)}$, et \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
+% 		\end{figure}
+% 		Voir aussi: \gls{optproblem}, \gls{differentiable}, \gls{convex} \gls{function}, \gls{modelparams}, 
+% 		\gls{contractop}, \gls{proxop}.},
+% 	first={méthode du point fixe},
+% 	text={méthode du point fixe},
+% 	plural={méthodes du point fixe}
 % }
-
-
 
 
 \newglossaryentry{ergraph}
@@ -804,41 +807,41 @@ text={atención}
   text={epígrafo}
 }
 
-% \newglossaryentry{nullspace}
-% {name={nullspace},
-%  description={
-% 	The nullspace \index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
-%     denoted ${\rm null}(\mA)$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
-%     such that $$\mA \mathbf{n} = \mathbf{0}.$$ 
-% 	Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
-% 	a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
-% 	into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
-% 	The nullspace ${\rm null}(\mA)$ characterizes all directions in the original 
-%     \gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
-% 	$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
-% 	the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
-% 	representation $\vz$. This property can be exploited to enforce invariances in the 
-% 	\glspl{prediction} (computed from $\mA \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
-% 	illustrates one such invariance. It shows rotated versions of two handwritten digits, 
-% 	which approximately lie along one-dimensional curves in the original \gls{featurespace}. 
-% 	These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
-%     To ensure that the trained \gls{model} is invariant to such rotations, we can 
-% 	choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in {\rm null}(\mA)$. 
-% 	This ensures that $\mA \mathbf{x}$, and hence the resulting \gls{prediction}, 
-% 	is approximately insensitive to rotation of the input image.
-% 		\begin{figure}[h]
-%       \centering
-%       \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
-% 	  \caption{Rotated images of two handwritten digits. The rotations are approximately 
-% 	  aligned along linear curves that are parallel to the \gls{vector} $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
-% 	       \end{figure}
-% 		See also: \gls{matrix}. \\ 
-% 		%Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
-%  	first={nullspace},
-%  	firstplural={nullspaces},
-%  	plural={nullspaces},
-%  	text={nullspace}
-% }
+\newglossaryentry{nullspace}
+{name={espacio nulo},
+	description={El espacio nulo\index{nullspace} de una matriz $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
+		denotado como ${\rm null}(\mA)$, es el conjunto de todos los vectores $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
+    		tales que $$\mA \mathbf{n} = \mathbf{0}.$$ 
+		Consideremos un método de aprendizaje de atributos que utiliza la matriz $\mA$ para transformar 
+		un vector de atributos $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ de un punto de datos 
+		en un nuevo vector de atributos $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
+		El espacio nulo ${\rm null}(\mA)$ caracteriza todas las direcciones en el 
+		espacio de atributos original $\mathbb{R}^{\nrfeatures}$ a lo largo de las cuales la transformación 
+		$\mA \mathbf{x}$ permanece invariante. En otras palabras, sumar cualquier vector del 
+		espacio nulo a un vector de atributos $\featurevec$ no afecta a la representación transformada $\vz$. 
+		Esta propiedad puede explotarse para imponer invariancias en las predicciónes 
+		(calculadas a partir de $\mA \mathbf{x}$). La Fig.\ \ref{fig:nullspace-rotation-dict} 
+		ilustra una de estas invariancias. Muestra versiones rotadas de dos dígitos manuscritos, 
+		que aproximadamente se sitúan a lo largo de curvas unidimensionales en el espacio de atributos original. 
+		Estas curvas están alineadas con un vector de dirección $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
+    		Para garantizar que el modelo entrenado sea invariante a dichas rotaciones, podemos 
+		elegir la matriz de transformación $\mA$ de manera que $\mathbf{n} \in {\rm null}(\mA)$. 
+		Esto asegura que $\mA \mathbf{x}$, y por lo tanto la predicción resultante, 
+		sea aproximadamente insensible a rotaciones de la imagen de entrada.
+		\begin{figure}[H]
+      			\centering
+      			\includegraphics[width=0.6\textwidth]{../../assets/pythonsnacks/nullspace_0_1.png}
+	  		\caption{Imágenes rotadas de dos dígitos manuscritos. Las rotaciones se alinean aproximadamente 
+	  		a lo largo de curvas lineales paralelas al vector $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
+	       	\end{figure}
+		Véa también: \gls{matrix}. \\ 
+		Demo en Python: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click aquí}},
+ 	first={espacio nulo},
+ 	firstplural={espacios nulos},
+ 	plural={espacios nulos},
+ 	text={espacio nulo}
+}
+
 
 \newglossaryentry{maximum}
 {name=máximo,
@@ -3841,7 +3844,55 @@ text={punto de datos}
 		una hipótesis (dentro de un modelo) con la minima perdida promedio (o riesgo empírico) en un conjunto de datos dado
 		$\dataset$ (es decir, el conjunto de entrenamiento). Muchos métodos de aprendizaje automático se obtienen a partir de 
 		el riesgo empírico mediante elecciones específicas de diseño para el conjunto de datos, el modelo, y la perdida \cite[Ch. 3]{MLBasics}.
-		\\
+		\begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale = 1]
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;      
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+					\node at (6.7,4.5) {$\hypothesis(\feature)$};    
+					\coordinate (l1)   at (1.2, 1.2*0.4+2.0);
+					\coordinate (l2) at (1.4, 1.4*0.4+2.0);
+					\coordinate (l3)   at (1.7, 1.7*0.4+2.0);
+					\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
+					\coordinate (l5) at (2.4, 2.4*0.4+2.0);
+					\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
+					\coordinate (n1)   at (1.2, 1.8);
+					\coordinate (n2) at (1.4, 3.8);
+					\coordinate (n3)   at (1.7,  2.0);
+					\coordinate (n4)   at (2.2, 2.1);
+					\coordinate (n5) at (2.4, 3.8);
+					\coordinate (n6)   at (2.7,  4.4);
+					\node at (n1)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n3)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n4)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
+					\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
+					\node at (n6)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\draw[<->, color=blue, thick] (l1) -- (n1);  
+					\draw[<->, color=blue, thick] (l2) -- (n2);  
+					\draw[<->, color=blue, thick] (l3) -- (n3);  
+					\draw[<->, color=blue, thick] (l4) -- (n4);  
+					\draw[<->, color=blue, thick] (l5) -- (n5);  
+					\draw[<->, color=blue, thick] (l6) -- (n6);  
+					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=1.3cm] {\gls{trainset} $\dataset$};
+				\end{tikzpicture}
+				\caption{ERM aprende una hipótesis $\hypothesis\in \hypospace$, a partir de un modelo $\hypospace$, 
+				minimizando la perdida promedio (o riesgo empírico) $\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
+				incurrida en un conjunto de entrenamiento $\dataset$. \label{fig_erm_dict} }
+			\end{center}
+		\end{figure} 
+		La Figura \ref{fig_erm_dict} ilustra ERM para un modelo lineal y puntos de datos 
+		que se caracterizan por un único atributo $\feature$ y una etiqueta $\truelabel$. 
+		La hipótesis $\hypothesis$ es un mapa lineal que predice la etiqueta de un punto de datos
+		como una función lineal de su atributo $\feature$, es decir, 
+		$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, donde $\weight_{1}$ y $\weight_{0}$ son los 
+		parametros del modelo de la hipótesis $\hypothesis$. El problema de ERM consiste en encontrar los 
+		parametros del modelo $\weight_{1}$ y $\weight_{0}$ que minimicen la perdida promedio 
+		incurrida por la hipótesis $\hypothesis$ en el conjunto de entrenamiento $\dataset$.	
 		Vea también: \Gls{emprisk}, \gls{hypothesis}, \gls{model}, \gls{minimum}, \gls{loss}, gls{emprisk}, \gls{dataset}, \gls{trainset}, \gls{ml} },
 	first={minimización empírica del riesgo (ERM)},text={ERM} }
 
@@ -6584,13 +6635,13 @@ están codificadas en las aristas de una red de aprendizaje federado.
 	type=math,
 		text={newtonmethod} }
 
-  \newglossaryentry{hessian}{
-  name={hessian},
-  description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
-  first={hessian},
-	type=math,
-  text={hessian}}
-
+		\newglossaryentry{hessian}{
+			name={hessiana},
+			description={Para una función $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ dos veces continuamente diferenciable en un punto $\mathbf{x}$, la hessiana es la matriz cuadrada de derivadas parciales de segundo orden. Se denota por $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. Informa sobre la curvatura local de una función y se utiliza ampliamente en optimización.}, 
+			first={hessiana},
+			type=math,
+			text={hessiana}}
+		  
 \newglossaryentry{convexopt}{
   name={convex optimization},
   description={
@@ -6599,8 +6650,8 @@ están codificadas en las aristas de una red de aprendizaje federado.
     \[
     \min_{\mathbf{x} \in \mathcal{C}} f(\mathbf{x}),
     \]
-    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set (possibly including equality or inequality constraints, or unconstrained).\\[0.5ex]
-    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}), and logistic regression, are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
+    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set.\\[0.5ex]
+    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}) are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
     It provides a theoretical foundation for understanding convergence guarantees, optimality conditions, and algorithmic efficiency in machine learning.\\
     See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
   },
@@ -6630,19 +6681,20 @@ See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 
 
 \newglossaryentry{cav}
-{name={Concept Activation Vector (CAV)},
+{name={Vector de Activación de Concepto (CAV)},
 	description={ 
-CAVs \cite{kim2018interpretability} are an \gls{explainability} technique for investigating and improving \glspl{ann}. Unlike traditional methods that analyze the influence of input \glspl{feature} on a \gls{model}´s \gls{prediction}, concept-based \glspl{explanation} aim for \gls{explainability} in terms of human-understandable concepts. As an example, consider the concept of "stripes" in an \gls{multilabelclass} problem for animal images.
-To apply this approach, one gathers a \gls{dataset} that illustrates a user-defined concept $C$ of interest, along with another \gls{dataset} of "non-concept" or "random" examples, that will be divided further into respective \glspl{trainset}, \glspl{valset}
-and \glspl{testset}. A binary \gls{linclass}, e.g., a \gls{svm}, is then trained 
- to separate the \glspl{featurevec} that are obtained as the $l$th latent layer activations of the original \glspl{datapoint}of the concept and non-concept inputs. In this way, we obtain a \gls{hypothesis} $v_C^l$ (a \gls{vector} of the same size as the dimension of the hidden layer $l$) that is orthogonal to the \gls{classifier}'s separating hyperplane (by convention, oriented towards the concept examples), which is called a Concept Activation Vector (CAV) in the given context.
- Firstly, if this \gls{classifier} achieves a high \gls{acc} at some layer $l$, this indicates that the neural network has internally encoded the concept, as it can linearly separate it from the non-concept examples. Furthermore, we may localize specific layers or even neurons that have taken on this task.
- Secondly, this technique allows to quantify the concept's influence on the \gls{model}'s \gls{prediction}, i.e., the \gls{probability} assigned to a specific \gls{label}. More precisely, this is possible with the technique of
-Testing with Concept Activation Vectors (TCAV), where directional derivatives of the \gls{prediction} in direction of $v_C^l$ at layer $l$ are computed 
- (under sufficient \gls{smooth} assumptions, they can be calculated as inner products with \gls{gradient}s). Here, positive values indicate that the presence of a concept increases the \gls{label} \gls{probability} (e.g., we expect the concept of "stripes" to have a positive contribution for the prediction of the \gls{label} "zebra"), while negative values contradict the prediction, and values close to zero mean that the concept is neutral for the class of interest.
- CAVs are interesting for several reasons. They help us to adress questions like: Do neural networks internally use human-understandable concepts? In case of highly performant \glspl{model}, can we even extract concepts that were previously unknown to human experts? Moreover, CAVs are useful for debiasing neural networks in case they make predictions based upon undesirable concepts. Various versions of this approach exist, and are still under active research.
+Los CAVs \cite{kim2018interpretability} son una técnica de explicabilidad para investigar y mejorar las RNA. A diferencia de los métodos tradicionales que analizan la influencia de los atributos de entrada en la prediccion de un modelo, las explicaciones basadas en conceptos buscan lograr explicabilidad en términos de conceptos comprensibles para humanos.  
+Como ejemplo, consideremos el concepto de “rayas” en un problema de clasificación multietiqueta aplicado a imágenes de animales.  
+Para aplicar este enfoque, se reúne un conjunto de datos que ilustra un concepto $C$ definido por el usuario, junto con otro conjuntos de datos de ejemplos “no-concepto” o “aleatorios”, que se dividirá en sus respectivos conjuntos de entrenamiento, conjunto de validacion y conjuntos de prueba.  
+Posteriormente, se entrena un clase lineal binario, por ejemplo un SVM, para separar los vectores de atributos obtenidos como las activaciones de la capa latente $l$ de los puntos de datos de entrada correspondientes a ejemplos concepto y no-concepto.  
+De este modo, se obtiene una hipótesis $v_C^l$ (un vector del mismo tamaño que la dimensión de la capa oculta $l$) ortogonal al hiperplano separador del clasificador (por convención orientado hacia los ejemplos de concepto), al cual se denomina Vector de Activación de Concepto (CAV) en este contexto.  
+En primer lugar, si este clasificador alcanza una alta acc en alguna capa $l$, esto indica que la red neuronal ha codificado internamente el concepto, ya que puede separarlo linealmente de los ejemplos no-concepto. Además, esto permite localizar capas o incluso neuronas específicas que han asumido esta tarea.  
+En segundo lugar, esta técnica permite cuantificar la influencia del concepto en la predicción del modelo, es decir, en la probabilidad asignada a una etiqueta concreta. Más precisamente, esto es posible con la técnica Testing with Concept Activation Vectors (TCAV), donde se calculan derivadas direccionales de la predicción en la dirección de $v_C^l$ en la capa $l$ (bajo supuestos suficientes de suave, pueden calcularse como productos internos con los gradientes).  
+Aquí, valores positivos indican que la presencia de un concepto incrementa la probabilidad de la etiqueta (por ejemplo, se espera que el concepto de “rayas” tenga una contribución positiva en la predicción de la etiqueta “cebra”), valores negativos contradicen la predicción, y valores cercanos a cero significan que el concepto es neutro para la clase de interés.  
+Los CAVs resultan interesantes por varias razones. Ayudan a responder preguntas como: ¿utilizan las redes neuronales internamente conceptos comprensibles por humanos? En el caso de modelos altamente precisos, ¿podemos incluso extraer conceptos que eran previamente desconocidos para los expertos humanos?  
+Además, los CAVs son útiles para eliminar sesgos en redes neuronales en los casos en que realizan predicciones basadas en conceptos indeseables. Existen diversas variantes de este enfoque, y sigue siendo un área activa de investigación.  
 				\\
-		 See also: \gls{linmodel},  \gls{deepnet},  \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
-	first={Concept Activation Vector (CAV)},
-	text={Concept Activation Vector (CAV)}, 
+		 Véa también: \gls{linmodel}, \gls{deepnet}, \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
+	first={Vector de Activación de Concepto (CAV)},
+	text={Vector de Activación de Concepto (CAV)}, 
 }
