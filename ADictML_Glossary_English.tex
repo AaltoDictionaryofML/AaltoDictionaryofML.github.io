@@ -647,6 +647,25 @@ text={hessian}}
 	text={optimization method}
 }
 
+\newglossaryentry{convexopt}{
+  name={convex optimization},
+  description={
+    Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
+    A convex optimization problem is formulated as
+    \[
+    \min_{\mathbf{x} \in \mathcal{C}} f(\mathbf{x}),
+    \]
+    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set.\\[0.5ex]
+    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}) are convex optimization tasks. These can be solved using algorithms like \gls{gd}, \gls{newtonmethod}, proximal methods, or interior-point methods. Convex optimization is also used in fields like signal processing, economics, and operations research.\\[0.5ex]
+    It provides the guarantee of guarantees, conditions for optimality, and efficiency in machine learning algorithms.\\
+    See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
+  },
+  first={convex optimization},
+	type =math,
+  text={convex optimization}
+}
+
+
 
 \newglossaryentry{newtonmethod}{
 	name={Newton's method},
@@ -4073,11 +4092,62 @@ See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 \newglossaryentry{erm}
 {name={empirical risk minimization (ERM)}, 
 	description={ERM\index{empirical risk minimization (ERM)} is the \gls{optproblem} of finding 
-		a \gls{hypothesis} (from a \gls{model}) with the \gls{minimum} average \gls{loss} (or \gls{emprisk}) on a given \gls{dataset} 
-		$\dataset$ (i.e., the \gls{trainset}). Many \gls{ml} methods are obtained from 
-		\gls{emprisk} via specific design choices for the \gls{dataset}, \gls{model}, and \gls{loss} \cite[Ch. 3]{MLBasics}.
+		a \gls{hypothesis} $\learnthypothesis \in \hypospace$ that incurs the \gls{minimum} average 
+		\gls{loss} on a given \gls{dataset} $\dataset$. The \gls{hypothesis} is chosen from a 
+		\gls{hypospace} (or \gls{model}) $\hypospace$. The \gls{dataset} $\dataset$ is referred to as 
+		\gls{trainset}. Many \gls{ml} methods are based on ERM with specific design choices for 
+		the \gls{dataset}, \gls{model}, and \gls{loss} \cite[Ch. 3]{MLBasics}.
+			\begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale = 1]
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;      
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+					\node at (6.7,4.5) {$\hypothesis(\feature)$};    
+					\coordinate (l1)   at (1.2, 1.2*0.4+2.0);
+					\coordinate (l2) at (1.4, 1.4*0.4+2.0);
+					\coordinate (l3)   at (1.7, 1.7*0.4+2.0);
+					\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
+					\coordinate (l5) at (2.4, 2.4*0.4+2.0);
+					\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
+					\coordinate (n1)   at (1.2, 1.8);
+					\coordinate (n2) at (1.4, 3.8);
+					\coordinate (n3)   at (1.7,  2.0);
+					\coordinate (n4)   at (2.2, 2.1);
+					\coordinate (n5) at (2.4, 3.8);
+					\coordinate (n6)   at (2.7,  4.4);
+					\node at (n1)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n3)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n4)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
+					\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
+					\node at (n6)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\draw[<->, color=blue, thick] (l1) -- (n1);  
+					\draw[<->, color=blue, thick] (l2) -- (n2);  
+					\draw[<->, color=blue, thick] (l3) -- (n3);  
+					\draw[<->, color=blue, thick] (l4) -- (n4);  
+					\draw[<->, color=blue, thick] (l5) -- (n5);  
+					\draw[<->, color=blue, thick] (l6) -- (n6);  
+					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=1.3cm] {\gls{trainset} $\dataset$};
+				\end{tikzpicture}
+				\caption{ERM learns a \gls{hypothesis} $\hypothesis\in \hypospace$, out of a \gls{model} $\hypospace$, 
+				by minimizing the average \gls{loss} (or \gls{emprisk}) $\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
+				incurred on a \gls{trainset} $\dataset$. \label{fig_erm_dict} }
+			\end{center}
+		\end{figure} 
+		Figure \ref{fig_erm_dict} illustrates ERM for a linear \gls{model} and \glspl{datapoint} 
+		that are characterized by a single \gls{feature} $\feature$ and a \gls{label} $\truelabel$. 
+		The \gls{hypothesis} $\hypothesis$ is a linear \gls{map} that predicts the \gls{label} of a \gls{datapoint} 
+		as a linear \gls{function} of its \gls{feature} $\feature$, i.e., 
+		$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, where $\weight_{1}$ and $\weight_{0}$ are the 
+		\gls{modelparams} of the \gls{hypothesis} $\hypothesis$. The \gls{erm} problem is to find the 
+		\gls{modelparams} $\weight_{1}$ and $\weight_{0}$ that minimize the average \gls{loss} 
+		incurred by the \gls{hypothesis} $\hypothesis$ on the \gls{trainset} $\dataset$.	
 				\\
-		See also: \gls{optproblem}, \gls{hypothesis}, \gls{model}, \gls{minimum}, \gls{loss}, \gls{emprisk}, \gls{dataset}, \gls{trainset}, \gls{ml}.},
+		See also: \gls{optmethod}, \gls{emprisk}, \gls{trainset}, \gls{ml}.},
 	first={empirical risk minimization (ERM)},
 	text={ERM} 
 }
@@ -4138,7 +4208,7 @@ See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 		as the \gls{modelparams} of an \gls{ml} \gls{model}, to a value that measures the usefulness 
 	   	of $\weights$.\label{fig_obj_func_dict}}
 		\end{figure} 
-		See also: \gls{function}, \gls{map}, \gls{ml}, \gls{modelparams}, \gls{hypothesis}, \gls{risk}, \gls{loss}, \gls{emprisk}, \gls{trainset}, \gls{gdmethods}, \gls{minimum}, \gls{maximum}, \gls{model}, \gls{lossfunc}.},
+		See also: \gls{erm}, \gls{loss}, \gls{emprisk}, \gls{optproblem}.},
 	first={objective function},
 	text={objective function} 
 }
@@ -4154,7 +4224,7 @@ See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 		\Gls{lasso} uses the regularizer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
 		for linear \gls{hypothesis} \glspl{map} $\hypothesis^{(\weights)}(\featurevec) \defeq \weights\,^{T} \featurevec$ \cite[Ch. 3]{MLBasics}.
 				\\
-		See also: \gls{hypothesis}, \gls{hypospace}, \gls{prediction}, \gls{trainset}, \gls{datapoint}, \gls{ridgeregression}, \gls{map}, \gls{lasso}. },
+		See also: \gls{objfunc}, \gls{loss}, \gls{ridgeregression},\gls{lasso}. },
 	first={regularizer},
 	text={regularizer} 
 }
@@ -5076,7 +5146,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		explainable for a specific user. This user is characterized by their \glspl{prediction} provided 
 		for the \glspl{datapoint} in a \gls{trainset} \cite{Zhang:2024aa}.
 				\\
-		See also: \gls{srm}, \gls{regularization}, \gls{loss}, \gls{objfunc}, \gls{erm}, \gls{hypothesis}, \gls{map}, \gls{prediction}, \gls{datapoint}, \gls{trainset}.},
+		See also: \gls{srm}, \gls{regularization}, \gls{erm}, \gls{trainset}.},
 	first={explainable empirical risk minimization (EERM)},
 	text={EERM} 
 }
@@ -7056,7 +7126,74 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
  \newglossaryentry{backpropagation}{
  	name={backpropagation},
  	description={
- 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.  \\[0.5ex]
+ 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.
+	   \begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			>=Stealth,
+			neuron/.style={circle,draw,minimum size=9mm,inner sep=0pt},
+			conn/.style={-Stealth, line width=0.7pt},
+			grad/.style={Stealth-, dashed, line width=0.7pt},
+			lbl/.style={font=\small},
+			box/.style={draw, rounded corners, inner sep=4pt}
+		]
+		%--- Layer positions -----------------------------------------------------------
+		% x-layer (inputs)
+		\node[neuron] (x1) at (0,1.8) {$x_1$};
+		\node[neuron] (x2) at (0,0)   {$x_2$};
+		\node[neuron] (x3) at (0,-1.8){$x_3$};
+		% hidden layer h (e.g., with activation \sigma)
+		\node[neuron, right=2.8cm of x1] (h1) {$h_1$};
+		\node[neuron, right=2.8cm of x2] (h2) {$h_2$};
+		\node[neuron, right=2.8cm of x3] (h3) {$h_3$};
+		% output layer (single output for illustration)
+		\node[neuron, right=2.8cm of h2] (yhat) {$\hat{y}$};
+		% loss node
+		\node[neuron, right=2.6cm of yhat, minimum size=10mm] (loss) {$\mathcal{L}$};
+		%--- Forward connections (solid, left -> right) -------------------------------
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[conn] (x\i) -- (h\j);
+		  }
+		}
+		\foreach \j in {1,2,3}{
+		  \draw[conn] (h\j) -- (yhat);
+		}
+		\draw[conn] (yhat) -- (loss);
+		%--- Backprop connections (dashed, right -> left) -----------------------------
+		% From loss to output
+		\draw[grad] (yhat) to[bend left=10] node[above, lbl] {$\nabla_{\hat{y}}\mathcal{L}$} (loss);
+		% From output to hidden
+		\foreach \j in {1,2,3}{
+		  \draw[grad] (h\j) to[bend left=10] (yhat);
+		}
+		% From hidden to inputs
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[grad] (x\i) to[bend left=10] (h\j);
+		  }
+		}
+		%--- Annotations ---------------------------------------------------------------
+		% Forward / Backward labels
+		\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (predictions)};
+		\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (gradients)};
+		% Weight / bias hints
+		\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
+		\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
+		% Legend
+		\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
+		\begin{tikzpicture}[baseline={(0,0)}]
+		  \draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (data flow)};
+		  \draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (gradients)};
+		\end{tikzpicture}
+		};
+		% Caption label node (optional visual helpers)
+		\node[lbl] at ($(yhat)!0.5!(loss)+(0,1.2)$) {$\mathcal{L}(\hat{y},y)$};
+		\node[lbl] at ($(x2)+(0,-2.8)$) {$a^{(0)}{=}\mathbf{x}$,\; $a^{(1)}{=}\sigma(z^{(1)})$,\; $a^{(2)}{=}\hat{y}$};
+		\end{tikzpicture}
+		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
+		\label{fig:backprop_schematic}
+		\end{figure}
  	   There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
  	  The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
  	  See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
@@ -7066,28 +7203,17 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
   }
 
 
-
-%old entry, replaced by the extended one below
-% \newglossaryentry{vcdim}
-% {name={Vapnik–Chervonenkis dimension (VC dimension)},
-% 	description={The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
-% 		is a widely-used measure for the size of an infinite \gls{hypospace}. We refer to 
-% 		the literature (see \cite{ShalevMLBook}) for a precise definition of VC dimension 
-% 		as well as a discussion of its basic properties and use in \gls{ml}.
-% 					\\ 
-% 		See also: \gls{hypospace}, \gls{ml}, \gls{effdim}.},
-% 	first={Vapnik–Chervonenkis dimension (VC dimension)},
-% 	text={VC dimension}  
-% }
-
-
 \newglossaryentry{vcdim}
 {name={Vapnik–Chervonenkis dimension (VC dimension)},
-	description={ The\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension \cite{vapnik2015uniform}
-        $\operatorname{VC_{dim}}(\mathcal{H})$ of some \gls{hypospace} $\mathcal{H}$ of \glspl{function} $h:\mathcal{X} \to \{-1,1\}$ is a measure for its ``complexity'' or ``richness'', mainly suited for (binary) \gls{classification} tasks. 
-Formally, it is defined as the size $m$ of the largest \gls{dataset} $\mathcal{D} = \{\vx_1, \hdots, \vx_m\} \subseteq \mathcal{X}$ that can be \textit{shattered} by $\mathcal{H}$, which means that for any of the $2^m$ possible assignments of binary \glspl{label} to the \glspl{datapoint}, there exists an \gls{hypothesis} $h \in \mathcal{H}$ that realizes this assignment of \glspl{label}. Intuitively, this measures the approximative power
-of $\mathcal{H}$ in the sense how well the \glspl{model} can adapt to a random assignment of the \glspl{label},
-and it can be used to formally derive results on the \gls{gengap}.
+	description={The statistical and computational properties of a \gls{erm}-based method 
+  crucially depend on the size of the underlying \gls{hypospace} $\mathcal{H}$. A widely-used 
+  measure for the size of a \gls{hypospace} is its \index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
+  $\operatorname{VC_{dim}}(\mathcal{H})$ \cite{vapnik2015uniform}. Formally, it is defined as the size $m$ of the 
+  largest \gls{dataset} $\mathcal{D} = \{\vx_1, \hdots, \vx_m\} \subseteq \mathcal{X}$ that can be \textit{shattered} 
+  by $\mathcal{H}$, which means that for any of the $2^m$ possible assignments of binary \glspl{label} to the 
+  \glspl{datapoint}, there exists an \gls{hypothesis} $h \in \mathcal{H}$ that realizes this assignment of \glspl{label}. 
+  Intuitively, this measures the approximative power of $\mathcal{H}$ in the sense how well the \glspl{model} can 
+  adapt to a random assignment of the \glspl{label}, and it can be used to formally derive results on the \gls{gengap}.
 \begin{figure}[h]
 \centering
 \begin{subfigure}{.3\textwidth}
@@ -7130,8 +7256,16 @@ and it can be used to formally derive results on the \gls{gengap}.
 \label{fig:vcdim}
 \end{figure}
 This is illustrated in Figure \ref{fig:vcdim} for a hypothesis space of \glspl{linmodel} $h(\vw) = \vx^\top \vw$ for 
-\glspl{datapoint} $\vx \in \mathbb{R}^2$ and a \gls{vector} $\vw \in \mathbb{R}^2$ of \gls{weights}; here, we may identify $\mathcal{H} = \mathbb{R}^2$. We can easily construct a set of $m=3$ \glspl{datapoint} that can be shattered (note that the definition does not require this to be the case for \textit{any} \gls{dataset} of size three), as illustrated in (a) and (b) for two of the $2^3 = 8$ possible assignments of binary \glspl{label} $\{-1,1\}$, together with separating hyperplanes that enable the separation. However, no \gls{dataset} consisting of four points can be shattered, which is illustrated in (c), such that $\operatorname{VC_{dim}}(\mathbb{R}^2) = 3$.
-More generally, it can indeed be shown that for linear models that $\operatorname{VC_{dim}}(\mathbb{R}^d) = d+1$, when the \gls{vcdim} is closely related to the \gls{vectorspace} dimension. Nevertheless, note that (unlike $\mathbb{R}^d$), general \glspl{hypospace} such as a \gls{decisiontree} or a \gls{ann} do not need to be a \gls{vectorspace}, and thus no \gls{vectorspace} dimension. Another complexity measure for \glspl{hypospace} is the so-called
+\glspl{datapoint} $\vx \in \mathbb{R}^2$ and a \gls{vector} $\vw \in \mathbb{R}^2$ of \gls{weights}; here, we 
+may identify $\mathcal{H} = \mathbb{R}^2$. We can easily construct a set of $m=3$ \glspl{datapoint} that 
+can be shattered (note that the definition does not require this to be the case for \textit{any} \gls{dataset} 
+of size three), as illustrated in (a) and (b) for two of the $2^3 = 8$ possible assignments of binary \glspl{label} $\{-1,1\}$, 
+together with separating hyperplanes that enable the separation. However, no \gls{dataset} consisting of four 
+points can be shattered, which is illustrated in (c), such that $\operatorname{VC_{dim}}(\mathbb{R}^2) = 3$.
+More generally, it can indeed be shown that for linear models that $\operatorname{VC_{dim}}(\mathbb{R}^d) = d+1$, 
+when the \gls{vcdim} is closely related to the \gls{vectorspace} dimension. Nevertheless, note that (unlike $\mathbb{R}^d$), 
+general \glspl{hypospace} such as a \gls{decisiontree} or a \gls{ann} do not need to be a \gls{vectorspace}, and thus no 
+\gls{vectorspace} dimension. Another complexity measure for \glspl{hypospace} is the so-called
 \gls{rademachercomplexity}, which is more flexible as it can be applied both for
 \gls{classification} and \gls{regression} tasks.	
 \\
@@ -7140,18 +7274,13 @@ See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{r
 	text={VC dimension}
 }
 
-
-
-
-
- 
-
- 
-
 \newglossaryentry{rademachercomplexity}
 {name={Rademacher complexity},
- 	description={ Similar to the \gls{vcdim}, the \index{Rademacher complexity} Rademacher complexity \cite{bartlett2002rademacher} is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\mathcal{H}$, which may not necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
-the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^d$ with elements 
+ 	description={Similar to the \gls{vcdim}, the \index{Rademacher complexity} Rademacher complexity \cite{bartlett2002rademacher} 
+  is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\hypospace$, which may not 
+  necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
+  the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^d$ with 
+elements 
 $\va = (a_1, \dots, a_m) \in \mathcal{A}$ as
 \begin{equation}
 \mathcal{R}(\mathcal{A})
@@ -7159,9 +7288,13 @@ $\va = (a_1, \dots, a_m) \in \mathcal{A}$ as
 \mathbb{E}_{\vepsilon} \sup_{\va \in \mathcal{A}} \frac{1}{n} \sum_{i=1}^m \epsilon_i a_i,
 \label{eq:rademacher_complexity_sets}
 \end{equation}
-where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, m$, taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} $\mathcal{H}$, consisting of real-valued functions $h: \mathcal{X} \to \mathbb{R}$ on the \gls{featurespace} $\mathcal{X}$, from which we are given samples 
-$\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taking the \gls{supremum} over the 
-\gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\mathcal{H})$ of $\mathcal{H}$ given the samples $\mathcal{S}$ is defined as
+where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, m$, 
+taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family 
+of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} 
+$\mathcal{H}$, consisting of real-valued functions $h: \mathcal{X} \to \mathbb{R}$ on the \gls{featurespace} $\mathcal{X}$, 
+from which we are given samples $\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taking the \gls{supremum} 
+over the \gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\mathcal{H})$ 
+of $\mathcal{H}$ given the samples $\mathcal{S}$ is defined as
 \begin{equation}
 \mathcal{R}_\mathcal{S}(\mathcal{H}) 
 = 
@@ -7170,10 +7303,102 @@ $\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taki
 \end{equation}
 To build intuition for this technical definition, let us consider a simplified example of a binary 
 \gls{classification} problem where $h$ only assume the values $\{-1,+1\}$. Then, the expression
-in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_m) \in \{-1,+1\}^m$ there exists some $h \in \mathcal{H}$ such that
-$h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\mathcal{H}$ is to fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a detailed overview and references to the original works.		
+in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many 
+realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_m) \in \{-1,+1\}^m$ there exists some 
+$h \in \mathcal{H}$ such that $h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, 
+the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\mathcal{H}$ is to 
+fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} 
+problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates 
+of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. 
+Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a 
+detailed overview and references to the original works.		
 \\
 See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}.}
 	first={Rademacher complexity},
 	text={Rademacher complexity}  
+}
+
+
+\newglossaryentry{convergence}
+{name={convergence},
+	description={In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
+  specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
+	close to the value limit without actually reaching it. 
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+		  width=\linewidth, height=6.2cm,
+		  xmin=-0.5, xmax=10.5,
+		  ymin=0.7,  ymax=1.2,
+		  grid=both,
+		  xlabel={$n$},
+		  ylabel={$x_n$},
+		  legend style={draw=none, fill=none, font=\small},
+		  legend pos=south east,
+		  ticklabel style={/pgf/number format/fixed},
+		]
+		\def\L{1}
+		\def\eps{0.1}
+		% --- epsilon-tube around L ---
+		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
+		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
+		\addplot[fill=gray!20] fill between[of=upper and lower];
+		\addplot[black, dashed, domain=-0.5:10.5] {\L};
+		\addlegendentry{$L=1$}
+		\addplot+[
+		  only marks, mark=*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
+		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
+		\addplot+[
+		  only marks, mark=square*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
+		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
+		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
+		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
+		\label{fig:convergence}
+		\end{figure}
+		Conversely, in \gls{ml}, convergence is the stage where the \gls{loss} values of a \gls{model} have insignificant changes 
+    with each increasing iteration. This signifies that additional training of the \gls{model} will not render any benefits 
+    to its performance. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	  width=\linewidth, height=6.2cm,
+	  xmin=-0.5, xmax=30.5,
+	  ymin=0.16,  ymax=1.05,
+	  grid=both,
+	  xlabel={Iterations},
+	  ylabel={Loss},
+	  legend style={draw=none, fill=none, font=\small},
+	  legend pos=north east,
+	  ticklabel style={/pgf/number format/fixed},
+	]
+	\def\L{0.20}    
+	\def\Lzero{1.00}
+	\def\alpha{0.25}
+	\def\eps{0.03}  
+	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
+	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
+	\addplot[fill=gray!20] fill between[of=upper and lower];
+	\addplot[black, dashed, domain=-0.5:30.5] {\L};
+	\addplot+[
+	  only marks, mark=*, mark size=2pt, thick
+	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
+	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
+	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the 
+  $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve 
+  with each iteration.}
+	\label{fig:ml_convergence_loss_noJ}
+	\end{figure}
+	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}},
+	first={convergence},
+	text={convergence}, 
 }

@@ -8,7 +8,7 @@
   noción de una inversa \cite{GolubVanLoanBook}. La pseudoinversa surge de forma natural 
   en el contexto de la regresión ridge cuando se aplica a un conjunto de datos con etiqueta $\vy$ 
   arbitrarios y una matriz de atributos $\mX = \mA$ \cite[Cap.\ 3]{hastie01statisticallearning}. 
-  Los \gls{modelparams} aprendidos mediante \gls{ridgeregression} están dados por
+  Los parametros del modelo aprendidos mediante regresión Ridge están dados por
   	\[
   	\widehat{\vw}^{(\regparam)}  = \big(\mA^T \mA + \regparam \mI \big)^{-1} \mA^\top \vy, \quad \regparam > 0.
   	\]
@@ -27,11 +27,11 @@
  {name={experimento aleatorio},
    description={Un experimento aleatorio\index{experimento aleatorio} es un proceso físico (o abstracto) 
 	  que produce un resultado $\omega$ a partir de un conjunto de posibilidades $\Omega$. 
-	  Este conjunto de todos los posibles resultados se denomina \gls{samplespace} 
+	  Este conjunto de todos los posibles resultados se denomina espacio muestral 
 	  del experimento. La característica clave de un experimento aleatorio es que su 
 	  resultado es impredecible (o incierto). Cualquier medición u observación 
-	  del resultado es una \gls{rv}, es decir, una función del resultado $\omega \in \Omega$. 
-	  La teoría de la probabilidad utiliza un \gls{probspace} como estructura matemática para el estudio 
+	  del resultado es una variable aleatoria, es decir, una función del resultado $\omega \in \Omega$. 
+	  La teoría de la probabilidad utiliza un espacio de probabilidad como estructura matemática para el estudio 
 	  de los experimentos aleatorios. Una propiedad conceptual clave de un experimento aleatorio es que puede 
 	  repetirse bajo condiciones idénticas. Estrictamente hablando, repetir un experimento aleatorio 
 	  un número dado $\samplesize$ de veces define un nuevo experimento aleatorio. Los resultados 
@@ -39,8 +39,8 @@
 	  del experimento original. Aunque el resultado de un único experimento es 
 	  incierto, el comportamiento a largo plazo de los resultados de experimentos repetidos 
 	  tiende a volverse cada vez más predecible. Esta afirmación informal puede formalizarse 
-	  mediante resultados fundamentales de la teoría de la \gls{probability}, tales como la \gls{lln} 
-	  y el \gls{clt}.
+	  mediante resultados fundamentales de la teoría de la probabilidad, tales como la ley de los grandes numeros
+	  y el teorema central del limite.
 	  \begin{figure}[H]
 		 \begin{center}
 	  \begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
@@ -58,21 +58,21 @@
 		 \node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{nuevo experimento aleatorio con $\Omega' = \Omega \times \ldots \times \Omega$}] {};
 	  \end{tikzpicture}
 		  \end{center}
-		  \caption{Un experimento aleatorio produce un resultado $\omega \in \Omega$ a partir de un conjunto de posibilidades (o \gls{samplespace}) 
+		  \caption{Un experimento aleatorio produce un resultado $\omega \in \Omega$ a partir de un conjunto de posibilidades (o espacio muestral) 
 		  $\Omega$. Repetir el experimento $\samplesize$ veces da lugar a otro experimento aleatorio, cuyos resultados son 
 		  secuencias $(\omega^{(1)}, \omega^{(2)}, \dots, \omega^{(\samplesize)}) \in \Omega\times\ldots\times \Omega$. 
-		  Un ejemplo de experimento aleatorio que aparece en muchas aplicaciones de \gls{ml} es la recopilación 
-		  de un \gls{trainset} $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$.}
+		  Un ejemplo de experimento aleatorio que aparece en muchas aplicaciones de aprendizaje automatico es la recopilación 
+		  de un conjunto de entrenamiento $\datapoint^{(1)},\ldots,\datapoint^{(\samplesize)}$.}
 	  \end{figure} 
-	  Ejemplos de experimentos aleatorios que surgen en aplicaciones de \gls{ml} incluyen: 
+	  Ejemplos de experimentos aleatorios que surgen en aplicaciones de aprendizaje automático incluyen: 
 	  \begin{itemize} 
-		 \item Recopilación de \gls{data}: los \glspl{datapoint} recogidos en métodos basados en \gls{erm} 
-		 pueden interpretarse como \glspl{rv}, es decir, como funciones del resultado $\omega \in \Omega$ 
+		 \item Recopilación de datos: los puntos de datos recogidos en métodos basados en ERM 
+		 pueden interpretarse como variables aleatorias, es decir, como funciones del resultado $\omega \in \Omega$ 
 		 de un experimento aleatorio. 
-		 \item \Gls{stochGD} utiliza un experimento aleatorio en cada iteración para seleccionar un subconjunto del 
+		 \item El descenso por gradiente estocástico utiliza un experimento aleatorio en cada iteración para seleccionar un subconjunto del 
 		 \gls{trainset}. 
-		 \item Los métodos de \gls{privprot} emplean experimentos aleatorios para generar ruido que se añade a las 
-		 salidas de un método de \gls{ml} para garantizar la \gls{diffpriv}. 
+		 \item Los métodos de protección de la privacidad emplean experimentos aleatorios para generar ruido que se añade a las 
+		 salidas de un método de aprendizaje automático para garantizar la privacidad diferencial. 
 	  \end{itemize} },
   firstplural={experimentos aleatorios},
   plural={experimentos aleatorios},
@@ -616,47 +616,55 @@ text={atención}
 }
 
 % \newglossaryentry{fixedpointiter}
-% {name={fixed-point iteration},
-% 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method for solving 
-% 		a given \gls{optproblem}. It constructs a sequence $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
-% 		 repeatedly applying an operator $\fixedpointop$, i.e., 
-% 		 \begin{equation} 
-% 		 	\label{equ_def_fixed_point_dict} 
-% 		 	\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0, \,1, \,\ldots.
-% 		 \end{equation} 
-% 		 The operator $\fixedpointop$ is chosen such that any of its fixed points is a solution 
-% 		 $\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
-% 		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the operator $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
-% 		 coincide with the minimizers of $f(\weights)$. In general, for a given \gls{optproblem} with solution $\widehat{\weights}$, 
-% 		 there are many different operators $\fixedpointop$ whose fixed points are $\widehat{\weights}$. 
-% 		 Clearly, we should use an operator $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution such that
-% 		 \begin{equation} 
-% 			\nonumber
-% 			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 	\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}. 
-% 		\end{equation}
-% 		Thus, we require $\fixedpointop$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
-% 		should not result in worse \gls{modelparams} that have a larger distance to a solution $\widehat{\weights}$. 
-% 		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
-% 		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
-% 		the notion of a \gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
-% 		The operator $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+% {name={méthode du point fixe},
+% 	description={La \index{méthode du point fixe} méthode du point fixe est une méthode itérative 
+% 		permettant de résoudre un \gls{optproblem}. Elle construit une suite \( \weights^{(0)}, \weights^{(1)}, \ldots \) 
+% 		en appliquant de manière répétée un opérateur \( \fixedpointop \), c’est-à-dire:
 % 		\begin{equation} 
-% 			\nonumber
-% 			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights'.
-% 		\end{equation}
-% 		For a \gls{contractop} $\fixedpointop$, the fixed-point iteration \eqref{equ_def_fixed_point_dict} generates 
-% 		a sequence $\weights^{(\iteridx)}$ that converges quite rapidly. In particular \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, 
-% 		\begin{equation} 
-% 			\nonumber
-% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 	\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}. 
+% 			\label{equ_def_fixed_point_dict} 
+% 			\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)}, \quad \text{pour } \iteridx = 0, 1, \ldots.
 % 		\end{equation} 
-% 		Here, $\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}$ is the distance between 
-% 		the initialization $\weights^{(0)}$ and the solution $\widehat{\weights}$. 
-% 		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive 
-% 		operator $\fixedpointop$ is guaranteed to converge to a fixed-point of $\fixedpointop$ \cite[Cor. 5.16]{Bauschke:2017}. 
-% 		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator, 
-% 		and a \gls{contractop}. All of these operators are defined on the 1-D space $\mathbb{R}$. 
-% 		Another example of a firmly non-expansive operator is the \gls{proxop} of a \gls{convex} \gls{function} \cite{Bauschke:2017}, \cite{ProximalMethods}. 
+% 		L’opérateur \( \fixedpointop \) est choisi de sorte que tout point fixe soit une solution 
+% 		\( \widehat{\weights} \) du \gls{optproblem} donné. Par exemple, étant donnée une \gls{function} \( f(\weights) \) \gls{convex} et 
+% 		\gls{diffentropy}, les points fixes de l’opérateur 
+% 		\( \fixedpointop: \weights \mapsto \weights - \nabla f(\weights) \) coïncident avec les minimiseurs de \( f(\weights) \).
+% 		De manière générale, pour un problème d’optimisation donné dont la solution est \( \widehat{\weights} \), 
+% 		il peut exister plusieurs opérateurs \( \fixedpointop \) ayant pour points fixes \( \widehat{\weights} \). 
+% 		Il est donc clairement souhaitable d’utiliser un opérateur \( \fixedpointop \) tel que l’itération 
+% 		\eqref{equ_def_fixed_point_dict} réduise la distance à la solution :
+% 		\begin{equation}
+% 			\nonumber
+% 			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} 
+% 				\normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 
+% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}.
+% 		\end{equation}
+% 		On exige donc que \( \fixedpointop \) soit au minimum non-expansif, c’est-à-dire que l’itération 
+% 		\eqref{equ_def_fixed_point_dict} ne produise pas des \gls{modelparams} plus éloignés de la solution 
+% 		\( \widehat{\weights} \).
+% 		Mieux encore, chaque itération \eqref{equ_def_fixed_point_dict} devrait faire progresser la solution, 
+% 		en réduisant effectivement la distance à \( \widehat{\weights} \). Cette exigence peut être formulée 
+% 		précisément à l’aide de la notion d’\gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
+% 		On dit que \( \fixedpointop \) est un \gls{contractop} s’il existe un facteur \( \contractfac \in [0,1) \) tel que
+% 		\begin{equation}
+% 			\nonumber
+% 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2}  \leq  \contractfac \normgeneric{\weights - \weights'}{2} 
+% 			\quad \text{pour tout } \weights, \weights'.
+% 		\end{equation}
+% 		Avec un \gls{contractop} \( \fixedpointop \), l’itération \eqref{equ_def_fixed_point_dict} 
+% 		génère une suite \( \weights^{(\iteridx)} \) qui converge rapidement. En particulier \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, on a:
+% 		\begin{equation}
+% 			\nonumber
+% 			\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2} \leq \contractfac^{\iteridx} 
+% 			\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}.
+% 		\end{equation}
+% 		Ici, \( \normgeneric{ \weights^{(0)} - \widehat{\weights}}{2} \) est la distance entre l’initialisation 
+% 		et la solution.
+% 		Il s’avère que la méthode du point fixe \eqref{equ_def_fixed_point_dict} utilisant un opérateur 
+% 		ferme non-expansif \( \fixedpointop \) est garantie de converger vers un point fixe de \( \fixedpointop \) 
+% 		\cite[Cor. 5.16]{Bauschke:2017}. La Fig.~\ref{fig_examples_nonexp_dict} montre des exemples d’un opérateur 
+% 		ferme non-expansif, d’un opérateur non-expansif, et d’un \gls{contractop}, tous définis sur \( \mathbb{R} \).		
+% 		Un autre exemple d’opérateur ferme non-expansif est l’\gls{proxop} d’une \gls{function} \gls{convex} 
+% 		\cite{Bauschke:2017}, \cite{ProximalMethods}. 
 % 		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 % 		\begin{figure}[H]
 % 			\begin{center} 
@@ -684,20 +692,15 @@ text={atención}
 % 					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
 % 					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
 % 				\end{tikzpicture}
-% 			\end{center}
-% 			\caption{Example of a non-expansive operator $\fixedpointop^{(1)}$, 
-% 			a firmly non-expansive operator $\fixedpointop^{(2)}$, and a 
-% 			\gls{contractop} $\fixedpointop^{(3)}$.}
-% 			\label{fig_examples_nonexp_dict}
-% 		  \end{figure} 
-% 		See also: \gls{optproblem}, \gls{differentiable}, \gls{convex} \gls{function}, \gls{modelparams}, \gls{contractop}, \gls{proxop}.},
-% 	first={fixed-point iteration},
-% 	text={fixed-point iteration},
-% 	firstplural={fixed-point iterations}, 
-% 	plural={fixed-point iterations}
+% 			\end{center} 
+% 			\caption{Exemple d'opérateur non-expansif $\fixedpointop^{(1)}$, opérateur ferme non-expansif $\fixedpointop^{(2)}$, et \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
+% 		\end{figure}
+% 		Voir aussi: \gls{optproblem}, \gls{differentiable}, \gls{convex} \gls{function}, \gls{modelparams}, 
+% 		\gls{contractop}, \gls{proxop}.},
+% 	first={méthode du point fixe},
+% 	text={méthode du point fixe},
+% 	plural={méthodes du point fixe}
 % }
-
-
 
 
 \newglossaryentry{ergraph}
@@ -749,13 +752,13 @@ text={atención}
 
 \newglossaryentry{epigraph}
 {name={epígrafo},
-  description={El epígrafo\index{epígrafo} de una \gls{function} real 
+  description={El epígrafo\index{epígrafo} de una función real 
   $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ es el conjunto de puntos que 
-  se encuentran sobre o en la \gls{graph} de la función:
+  se encuentran sobre o en el grafo de la función:
 	\[
 	\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
 	\]
-	Una \gls{function} es \gls{convex} si y solo si su epígrafo es un conjunto \gls{convex} 
+	Una funcion es convexa si y solo si su epígrafo es un conjunto convexo
 	\cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
 	\begin{figure}[H]
 		\centering
@@ -804,41 +807,41 @@ text={atención}
   text={epígrafo}
 }
 
-% \newglossaryentry{nullspace}
-% {name={nullspace},
-%  description={
-% 	The nullspace \index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
-%     denoted ${\rm null}(\mA)$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
-%     such that $$\mA \mathbf{n} = \mathbf{0}.$$ 
-% 	Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
-% 	a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
-% 	into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
-% 	The nullspace ${\rm null}(\mA)$ characterizes all directions in the original 
-%     \gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
-% 	$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
-% 	the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
-% 	representation $\vz$. This property can be exploited to enforce invariances in the 
-% 	\glspl{prediction} (computed from $\mA \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
-% 	illustrates one such invariance. It shows rotated versions of two handwritten digits, 
-% 	which approximately lie along one-dimensional curves in the original \gls{featurespace}. 
-% 	These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
-%     To ensure that the trained \gls{model} is invariant to such rotations, we can 
-% 	choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in {\rm null}(\mA)$. 
-% 	This ensures that $\mA \mathbf{x}$, and hence the resulting \gls{prediction}, 
-% 	is approximately insensitive to rotation of the input image.
-% 		\begin{figure}[h]
-%       \centering
-%       \includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
-% 	  \caption{Rotated images of two handwritten digits. The rotations are approximately 
-% 	  aligned along linear curves that are parallel to the \gls{vector} $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
-% 	       \end{figure}
-% 		See also: \gls{matrix}. \\ 
-% 		%Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
-%  	first={nullspace},
-%  	firstplural={nullspaces},
-%  	plural={nullspaces},
-%  	text={nullspace}
-% }
+\newglossaryentry{nullspace}
+{name={espacio nulo},
+	description={El espacio nulo\index{nullspace} de una matriz $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
+		denotado como ${\rm null}(\mA)$, es el conjunto de todos los vectores $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
+    		tales que $$\mA \mathbf{n} = \mathbf{0}.$$ 
+		Consideremos un método de aprendizaje de atributos que utiliza la matriz $\mA$ para transformar 
+		un vector de atributos $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ de un punto de datos 
+		en un nuevo vector de atributos $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
+		El espacio nulo ${\rm null}(\mA)$ caracteriza todas las direcciones en el 
+		espacio de atributos original $\mathbb{R}^{\nrfeatures}$ a lo largo de las cuales la transformación 
+		$\mA \mathbf{x}$ permanece invariante. En otras palabras, sumar cualquier vector del 
+		espacio nulo a un vector de atributos $\featurevec$ no afecta a la representación transformada $\vz$. 
+		Esta propiedad puede explotarse para imponer invariancias en las predicciónes 
+		(calculadas a partir de $\mA \mathbf{x}$). La Fig.\ \ref{fig:nullspace-rotation-dict} 
+		ilustra una de estas invariancias. Muestra versiones rotadas de dos dígitos manuscritos, 
+		que aproximadamente se sitúan a lo largo de curvas unidimensionales en el espacio de atributos original. 
+		Estas curvas están alineadas con un vector de dirección $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
+    		Para garantizar que el modelo entrenado sea invariante a dichas rotaciones, podemos 
+		elegir la matriz de transformación $\mA$ de manera que $\mathbf{n} \in {\rm null}(\mA)$. 
+		Esto asegura que $\mA \mathbf{x}$, y por lo tanto la predicción resultante, 
+		sea aproximadamente insensible a rotaciones de la imagen de entrada.
+		\begin{figure}[H]
+      			\centering
+      			\includegraphics[width=0.6\textwidth]{../../assets/pythonsnacks/nullspace_0_1.png}
+	  		\caption{Imágenes rotadas de dos dígitos manuscritos. Las rotaciones se alinean aproximadamente 
+	  		a lo largo de curvas lineales paralelas al vector $\mathbf{n}$.\label{fig:nullspace-rotation-dict}}	
+	       	\end{figure}
+		Véa también: \gls{matrix}. \\ 
+		Demo en Python: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click aquí}},
+ 	first={espacio nulo},
+ 	firstplural={espacios nulos},
+ 	plural={espacios nulos},
+ 	text={espacio nulo}
+}
+
 
 \newglossaryentry{maximum}
 {name=máximo,
@@ -1045,12 +1048,12 @@ text={atención}
 \newglossaryentry{reinforcementlearning}
 {name={aprendizaje por refuerzo (RL)},
 	description={
-	RL\index{aprendizaje por refuerzo (RL)} se refiere a un entorno de \gls{onlinelearning} donde
-	solo se puede evaluar la utilidad de una sola \gls{hypothesis} (es decir, una elección de \gls{model} \glspl{parameter})
-	en cada paso temporal $\timeidx$. En particular, los métodos de RL aplican la \gls{hypothesis} actual
-	$\hypothesis^{(\timeidx)}$ al \gls{featurevec} $\featurevec^{(\timeidx)}$ del
-	nuevo \gls{datapoint} recibido. La utilidad de la \gls{prediction} resultante
-	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ se cuantifica mediante una señal de \gls{reward}
+	RL\index{aprendizaje por refuerzo (RL)} se refiere a un entorno de aprendizaje en linea donde
+	solo se puede evaluar la utilidad de una sola hipótesis (es decir, una elección de parametro del modelo)
+	en cada paso temporal $\timeidx$. En particular, los métodos de RL aplican la hipótesis actual
+	$\hypothesis^{(\timeidx)}$ al vector de atributos $\featurevec^{(\timeidx)}$ del
+	nuevo punto de datos recibido. La utilidad de la predicción resultante
+	$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ se cuantifica mediante una señal de recompensa
 	$\reward^{(\timeidx)}$.
 	\begin{figure}[H]
 			\begin{center}
@@ -1077,16 +1080,16 @@ text={atención}
 			\node[anchor=north] at (3.5+2, -0.3) {$\hypothesis^{(\timeidx+2)}$};
 			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
 		\end{tikzpicture}
-		\caption{Tres pasos temporales consecutivos $\timeidx,\timeidx+1,\timeidx+2$ con las correspondientes \glspl{lossfunc} $\loss^{(\timeidx)},
+		\caption{Tres pasos temporales consecutivos $\timeidx,\timeidx+1,\timeidx+2$ con las correspondientes funciones de perdida $\loss^{(\timeidx)},
 		\loss^{(\timeidx+1)}, \loss^{(\timeidx+2)}$. Durante el paso temporal $\timeidx$, un método de RL puede evaluar la
-		\gls{lossfunc} solo para una \gls{hypothesis} específica $\hypothesis^{(\timeidx)}$, resultando en la señal de \gls{reward}
+		funcion de perdida solo para una hipótesis específica $\hypothesis^{(\timeidx)}$, resultando en la señal de recompensa
 		$\reward^{(\timeidx)}=-\loss^{(\timeidx)}(\hypothesis^{(\timeidx)})$.}
 			\end{center}
 	\end{figure}
-	En general, la \gls{reward} también depende de las
-	\glspl{prediction} previas $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$
+	En general, la recompensa también depende de las
+	predicciones previas $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$
 	para $\timeidx' < \timeidx$. El objetivo del RL es aprender $\hypothesis^{(\timeidx)}$, para
-	cada paso temporal $\timeidx$, de modo que la \gls{reward} acumulada (posiblemente descontada)
+	cada paso temporal $\timeidx$, de modo que la recompensa acumulada (posiblemente descontada)
 	sea maximizada \cite{MLBasics}, \cite{SuttonEd2}.
 		\\
 		Véa también: \gls{lossfunc}, \gls{reward}, \gls{ml}.},
@@ -1381,7 +1384,7 @@ text={tarea de aprendizaje}
 			\end{axis}
 		  \end{tikzpicture}
 		\end{center}
-		\caption{Para explicar un \gls{model} $\widehat{\hypothesis} \in \hypospace$ entrenado, alrededor de un \gls{featurevec} $\featurevec^{(0)}$, podemos usar una aproximación local $g \in \hypospace'$. }
+		\caption{Para explicar un modelo $\widehat{\hypothesis} \in \hypospace$ entrenado, alrededor de un vector de atributos $\featurevec^{(0)}$, podemos usar una aproximación local $g \in \hypospace'$. }
 		\label{fig_lime_dict}
 		\end{figure}
 		Vea también: \gls{model}, \gls{hypothesis}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{erm}, \gls{trainset}, \gls{decisiontree}, \gls{deepnet}, \gls{linmodel}  },
@@ -1721,16 +1724,16 @@ first={proximable},text={proximable}
 			\newglossaryentry{gdpr}{name={reglamento general de protección de datos (RGPD)},description={
 				El\index{reglamento general de protección de datos (RGPD)} RGPD
 				fue promulgado por la Union Europea (EU), y entró en efecto el 25 de Mayo de 2018 \cite{GDPR2016}. 
-				Protege la privacidad y los derechos sobre los \gls{data} de los individuos dentro de la EU. 
-				El RGPD tiene implicaciones significativas sobre cómo se recopilan, almacenan y utilizan los \gls{data} en aplicaciones de \gls{ml}.
+				Protege la privacidad y los derechos sobre los datos de los individuos dentro de la EU. 
+				El RGPD tiene implicaciones significativas sobre cómo se recopilan, almacenan y utilizan los datos en aplicaciones de aprendizaje automático.
 				Las disposiciones clave incluyen:
 				\begin{itemize}
-					\item \Gls{dataminprinc}: los sistemas de \gls{ml} deben utilizar únicamente la cantidad necesaria de  
-					\gls{data} personal para su propósito.
-					\item \Gls{transparency} y \gls{explainability}: los sistemas de \gls{ml} deben permitir a sus usuarios comprender 
+					\item Principio de minimización de datos: los sistemas de aprendizaje automático deben utilizar únicamente la cantidad necesaria de  
+					datos personal para su propósito.
+					\item Transparencia y explicabilidad: los sistemas de aprendizaje automático deben permitir a sus usuarios comprender 
 					cómo se toman las decisiones que los afectan.
-					\item Derechos del titular de los datos \Gls{data}:los usuarios deben tener la posibilidad de acceder, rectificar y eliminar sus \gls{data}, así como oponerse a decisiones automatizadas y perfiles.
-					\item Responsabilidad: las organizaciones deben garantizar una seguridad robusta de los \gls{data} y demostrar 
+					\item Derechos del titular de los datos: los usuarios deben tener la posibilidad de acceder, rectificar y eliminar sus datos, así como oponerse a decisiones automatizadas y perfiles.
+					\item Responsabilidad: las organizaciones deben garantizar una seguridad robusta de los datos y demostrar 
 					cumplimiento mediante documentación y auditorías periódicas.
 				\end{itemize}
 				}, 
@@ -1881,7 +1884,7 @@ text={CLT}
 	\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {lat};
 \end{axis}
 \end{tikzpicture}
-\vspace*{-15mm}
+\vspace*{8mm}
 \end{center}
 \caption{Podemos interpretar la distribución de temperatura sobre Finlandia como una realización 
 	de un GP indexado por coordenadas geográficas y muestreado en estaciones meteorológicas de FMI
@@ -1927,7 +1930,7 @@ como
 
 \newglossaryentry{projection}{name={proyección}, 
   description={Consideremos\index{proyección} un subconjunto $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$ del 
-   \gls{euclidspace} de dimensión $\dimlocalmodel$. Definimos la proyección $\projection{\paramspace}{\weights}$
+   espacio euclidiano de dimensión $\dimlocalmodel$. Definimos la proyección $\projection{\paramspace}{\weights}$
    de un vector $\weights \in \mathbb{R}^{\dimlocalmodel}$ sobre $\paramspace$ como
 	\begin{equation} 
 	  \label{equ_def_proj_generic_dict}
@@ -1967,8 +1970,8 @@ como
 		 \caption{\gls{gd} proyectado amplía un \gls{gradstep} básico con una \gls{projection} de regreso 
 		 al conjunto de restricciones $\paramspace$.}
 		 \label{fig_projected_GD_dict}
-	 \end{figure}.
-	 \\
+	 \end{figure}
+	 .\\
 		Vea también:\gls{erm}, \gls{model}, \gls{paramspace}, \gls{objfunc}, \gls{smooth}, \gls{gd}, \gls{modelparams}, \gls{gradstep}  },first={descenso por gradiente proyectado (GD proyectado)},text={GD proyectado}}
 	 
 		
@@ -2009,20 +2012,21 @@ como
 	 
 	 
 \newglossaryentry{stability}
-{name={stability},
+{name={estabilidad},
 	description={
-		Stability\index{stability} is a desirable property of a \gls{ml} method $\algomap$ that maps a 
-		\gls{dataset} $\dataset$ (e.g., a \gls{trainset}) to an output $\algomap(\dataset)$, such as learned 
-		\gls{modelparams} or the \gls{prediction} for a specific \gls{datapoint}. Intuitively, $\algomap$ is 
-		stable if small changes in the input \gls{dataset} $\dataset$ lead to small changes in the 
-		output $\algomap(\dataset)$. Several formal notions of stability exist that enable bounds 
-		on the \gls{generalization} error or \gls{risk} of the method; see \cite[Ch.~13]{ShalevMLBook}.
-		To build intuition, consider the three datasets depicted in Fig.~\ref{fig_three_data_stability}, each 
-		of which is equally likely under the same \gls{data}-generating \gls{probdist}. Since the 
-		optimal \gls{modelparams} are determined by this underlying \gls{probdist}, an accurate 
-		\gls{ml} method $\algomap$ should return the same (or very similar) output $\algomap(\dataset)$ 
-		for all three \gls{dataset}. In other words, any useful $\algomap$ must be robust to 
-		variability in sample \gls{realization}s from the same \gls{probdist}, i.e., it must be stable. 
+		La estabilidad\index{estabilidad} es una propiedad deseable de un método de aprendizaje automático $\algomap$ que mapea un 
+		conjunto de datos$\dataset$ (por ejemplo, un conjunto de entrenamiento) a una salida $\algomap(\dataset)$, como 
+		parametros del modelo aprendidos o la predicción para un punto de datos específico. De forma intuitiva, 
+		$\algomap$ es estable si pequeños cambios en el conjunto de datos de entrada $\dataset$ provocan pequeños 
+		cambios en la salida $\algomap(\dataset)$. Existen varias nociones formales de estabilidad que permiten 
+		establecer cotas sobre el error de generalización o el riesgo del método; véase \cite[Cap.~13]{ShalevMLBook}.
+		Para desarrollar la intuición, considérese los tres conjuntos de datos representados en la 
+		Fig.~\ref{fig_three_data_stability}, cada uno de los cuales es igualmente probable bajo los mismos datos
+		generada por una distribucion de probabilidad. Dado que los parametros del modelo óptimos están determinados por esta 
+		distribución de probabilidad subyacente, un método preciso de aprendizaje automático $\algomap$ debería devolver la misma (o muy similar) 
+		salida $\algomap(\dataset)$ para los tres conjuntos de datos. En otras palabras, cualquier $\algomap$ útil debe ser 
+		robusto frente a la variabilidad en las realizaciónes de muestras provenientes de la misma distribución de probabilidad, 
+		es decir, debe ser estable. 
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
@@ -2055,9 +2059,9 @@ como
 				%	\addlegendentry{$\dataset^{(\triangle)}$}
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Three \gls{dataset}s $\dataset^{(*)}$, $\dataset^{(\square)}$, and $\dataset^{(\triangle)}$, 
-				each sampled independently from the same \gls{data}-generating \gls{probdist}. A stable \gls{ml} 
-				method should return similar outputs when trained on any of these \gls{dataset}s. \label{fig_three_data_stability}}
+			\caption{Tres conjuntos de datos diferentes $\dataset^{(*)}$, $\dataset^{(\square)}$, y $\dataset^{(\triangle)}$, 
+				cada uno muestreado independientemente del mismo distribución de datos generador de datos. Un método estable de aprendizaje automático 
+				debería generar resultados similares al entrenarse con cualquiera de estos conjuntos de entrenamiento. \label{fig_three_data_stability}}
 		\end{figure}.
 		\\
 		Vea también: \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{modelparams}, \gls{prediction}, \gls{datapoint}, \gls{generalization}, \gls{risk}, \gls{data}, \gls{probdist},   }, 
@@ -2117,10 +2121,10 @@ como
 \newglossaryentry{mean}
 		{name={media},
 			plural={medias},
-			description={La\index{media} media de una \gls{rv} $\featurevec$, que toma
-				valores en un \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$, es su
-				\gls{expectation} $\expect\{\featurevec\}$. Se define como la integral de Lebesgue
-				de $\featurevec$ con respecto a la \gls{probdist} subyacente $P$ (por ejemplo,
+			description={La\index{media} media de una variable aleatoria $\featurevec$, que toma
+				valores en un espacio euclidiano $\mathbb{R}^{\dimlocalmodel}$, es su
+				esperanza $\expect\{\featurevec\}$. Se define como la integral de Lebesgue
+				de $\featurevec$ con respecto a la distribución de probabilidad subyacente $P$ (por ejemplo,
 				ver \cite{RudinBookPrinciplesMatheAnalysis} o \cite{BillingsleyProbMeasure}), es decir,
 				\[
 					\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx).
@@ -2135,7 +2139,7 @@ como
 				$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. Sin embargo,
 				estas dos definiciones son esencialmente las mismas. De hecho, podemos usar la secuencia
 				$\vx^{(1)}, \ldots, \vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ para construir una
-				\gls{rv} discreta $\widetilde{\vx}=\vx^{(I)}$, con el índice $I$ elegido uniformemente
+				variable aleatoria discreta $\widetilde{\vx}=\vx^{(I)}$, con el índice $I$ elegido uniformemente
 				al azar del conjunto $\{1, \ldots, \samplesize\}$. La media de $\widetilde{\vx}$ es
 				precisamente el promedio $({1}/{\samplesize}) \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
 				\\
@@ -2201,7 +2205,7 @@ como
 					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
 				}
 				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med(\dataset)$};
-				\node at (5.5, -4) {(a) \gls{dataset} original $\dataset$.};
+				\node at (5.5, -4) {(a) conjunto de datos original $\dataset$.};
 			\end{scope}
 			\begin{scope}[xshift=12cm]
 				\foreach \x/\y in {
@@ -2213,7 +2217,7 @@ como
 				}
 				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med\big(\widetilde{\dataset}\big)$};
 				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
-				\node at (5.5, -4) {(b) \gls{dataset} ruidoso $\widetilde{\dataset}$ con un \gls{outlier}.};
+				\node at (5.5, -4) {(b) conjunto de datos ruidoso $\widetilde{\dataset}$ con un valor atípico.};
 			\end{scope}
 		\end{tikzpicture}
 		\caption{La mediana es robusta frente a la presencia de punto atípico.}
@@ -2500,7 +2504,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{dualnorm}
 {name={norma dual},
-description={Toda \gls{norm} $\normgeneric{\cdot}{}$ definida en un espacio euclidiano $\mathbb{R}^{\dimlocalmodel}$ 
+description={Toda norma $\normgeneric{\cdot}{}$ definida en un espacio euclidiano $\mathbb{R}^{\dimlocalmodel}$ 
 		tiene una norma dual asociada, denotada por $\normgeneric{\cdot}{*}$ y definida como 
 		$\normgeneric{\vy}{*} \defeq \sup_{\norm{\vx}{} \le 1} \vy^{T} \vx$. 
 		La nroma dual mide el mayor producto interno posible entre $\vy$ y cualquier vector 
@@ -2870,15 +2874,15 @@ first={función de activación},text={función de activación}
 	Dado una funcion de perdida específica, el estimador de Bayes (si existe) está completamente determinado por la distribución de probabilidad $p(\featurevec,\truelabel)$ \cite[Cap. 4]{LC}. 
     Calcular el estimador de bayes y el rieso de bayes presenta dos desafíos principales:
     \begin{enumerate}[label=\arabic*)]
-    	\item La \gls{probdist} $p(\featurevec,\truelabel)$ desconocida y debe estimarse.
+    	\item La distribución de probabilidad $p(\featurevec,\truelabel)$ es desconocida y debe estimarse.
     	\item Incluso si se conoce $p(\featurevec,\truelabel)$ calcular el 
-		\gls{bayesrisk} puede ser computacionalmente muy costoso \cite{cooper1990computational}.
+		riesgo de Bayes puede ser computacionalmente muy costoso \cite{cooper1990computational}.
 	\end{enumerate}
 	Un modelo de probabilidad ampliamente utilizado es la distribución normal multivariante $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 para puntos de datos caracterizados por atributos y etiquetas numéricas.
 En este caso, bajo la pérdida de error cuadrático, el estimador de bayes corresponde a la media posterior
 $\mu_{\truelabel|\featurevec}$ de la etiqueta $\truelabel$, dado  
-\gls{feature}s $\featurevec$ \cite{LC,GrayProbBook}. El riesgo de bayes asociado es la 
+atributos $\featurevec$ \cite{LC,GrayProbBook}. El riesgo de bayes asociado es la 
 varianza posterior
 $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 	\begin{figure}[H]
@@ -2911,8 +2915,8 @@ $\sigma^{2}_{\truelabel|\featurevec}$ (see Figure \ref{fig_post_baseline_dict}).
 		para predecir la etiqueta $\truelabel$ de un punto datos con atributos $\featurevec$. El
 		minimo riesgo es dada por la varianza posterior $\sigma^{2}_{\truelabel|\featurevec}$. Podemos 
 		usar esta cantidad como baseline para evaluar la perdida promedia del modelo $\learnthypothesis$ entrenado. \label{fig_post_baseline_dict}}
-	\end{figure}.
-	\\
+	\end{figure}
+	.\\
 		Vea también: \gls{ml},  \gls{hypothesis}, \gls{model}, \gls{loss}, \gls{testset}, \gls{data}, \gls{probmodel}, \gls{minimum},  \gls{risk}, \gls{hypospace}, \gls{bayesrisk}, \gls{bayesestimator}, \gls{probdist}, \gls{mvndist}   },
     first={referencia (baseline)},text={referencia (baseline)}
 }
@@ -3249,9 +3253,9 @@ description={Para\index{subgradiente} una función de valor real $f: \mathbb{R}^
 \newglossaryentry{vcdim}
 {name={dimensión de Vapnik–Chervonenkis (dimensión VC)},
 description={La\index{dimensión de Vapnik–Chervonenkis (dimensión VC)} dimensión VC 
-	es una medida ampliamente utilizada para cuantificar el tamaño de un \gls{hypospace} infinito. 
+	es una medida ampliamente utilizada para cuantificar el tamaño de un espacio de hipótesis infinito. 
 	Remitimos a la literatura (véa \cite{ShalevMLBook}) para una definición precisa 
-	de la dimensión VC, así como una discusión sobre sus propiedades básicas y su uso en \gls{ml}.
+	de la dimensión VC, así como una discusión sobre sus propiedades básicas y su uso en aprendizaje automatico.
 			\\ 
 	Vea tambien: \gls{hypospace}, \gls{ml}, \gls{effdim}.},
 first={dimensión de Vapnik–Chervonenkis (dimensión VC)},
@@ -3402,7 +3406,7 @@ Sin embargo, la mera presencia de $\nrfeatures$ atributos numéricos no implica 
 $\mathbb{R}^{\nrfeatures}$ sea la representación más adecuada del espacio de atributos. 
 De hecho, los atributos numéricos podrían asignarse a los puntos de datos de forma mayormente arbitraria o aleatoria, 
 lo que da lugar a puntos de datos dispersos al azar en $\mathbb{R}^{\nrfeatures}$ 
-sin una estructura geométrica significativa. Los métodos de \gls{featlearn} intentan aprender 
+sin una estructura geométrica significativa. Los métodos de aprendizaje de atributos intentan aprender 
 una transformación de los atributos originales (potencialmente no numéricos) que permita 
 una disposición más significativa de los puntos de datos en $\mathbb{R}^{\nrfeatures}$.\\
 		Véa también: \gls{featurevec}, \gls{euclidspace}.},
@@ -3514,7 +3518,7 @@ una disposición más significativa de los puntos de datos en $\mathbb{R}^{\nrfe
 		\label{fig:cowsintheswissalps_dict}
 		\includegraphics[width=0.5\textwidth]{../../assets/CowsAustria.jpg}
 		  \end{center}
-		\caption{\label{fig_cows_dataset_dict} A cowherd.}
+		\caption{\label{fig_cows_dataset_dict} La manada de vacas}
 	  \end{figure}
 	   Con frecuencia, un ingeniero de aprendizaje automático no tiene acceso directo a un conjunto de datos. De hecho, acceder al conjunto de datos en la Figura 
         \ref{fig_cows_dataset_dict} requeriría visitar el rebaño de vacas en los Alpes. En su lugar, 
@@ -3726,13 +3730,13 @@ description={Un\index{punto de datos} punto de datos es cualquier objeto que tra
     			\end{minipage}
     			% Descripción de características y etiquetas
     			\begin{minipage}[t]{0.95\textwidth}
-        			\Glspl{feature}:
+        			Atributos:
         			\begin{itemize}
             			\item $x_{1},\ldots,x_{\nrfeatures_{1}}$: Intensidades de color de todos los píxeles de la imagen.
             			\item $x_{\nrfeatures_{1}+1}$: Marca temporal (timestamp) de la captura de la imagen.
             			\item $x_{\nrfeatures_{1}+2}$: Ubicación espacial de la captura de la imagen.
         			\end{itemize}
-        			\Glspl{label}:
+        			Etiquetas:
         			\begin{itemize}
             			\item $\truelabel_{1}$: Número de vacas representadas.
             			\item $\truelabel_{2}$: Número de lobos representados.
@@ -3840,7 +3844,55 @@ text={punto de datos}
 		una hipótesis (dentro de un modelo) con la minima perdida promedio (o riesgo empírico) en un conjunto de datos dado
 		$\dataset$ (es decir, el conjunto de entrenamiento). Muchos métodos de aprendizaje automático se obtienen a partir de 
 		el riesgo empírico mediante elecciones específicas de diseño para el conjunto de datos, el modelo, y la perdida \cite[Ch. 3]{MLBasics}.
-		\\
+		\begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale = 1]
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;      
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+					\node at (6.7,4.5) {$\hypothesis(\feature)$};    
+					\coordinate (l1)   at (1.2, 1.2*0.4+2.0);
+					\coordinate (l2) at (1.4, 1.4*0.4+2.0);
+					\coordinate (l3)   at (1.7, 1.7*0.4+2.0);
+					\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
+					\coordinate (l5) at (2.4, 2.4*0.4+2.0);
+					\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
+					\coordinate (n1)   at (1.2, 1.8);
+					\coordinate (n2) at (1.4, 3.8);
+					\coordinate (n3)   at (1.7,  2.0);
+					\coordinate (n4)   at (2.2, 2.1);
+					\coordinate (n5) at (2.4, 3.8);
+					\coordinate (n6)   at (2.7,  4.4);
+					\node at (n1)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n3)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n4)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
+					\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
+					\node at (n6)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
+					\draw[<->, color=blue, thick] (l1) -- (n1);  
+					\draw[<->, color=blue, thick] (l2) -- (n2);  
+					\draw[<->, color=blue, thick] (l3) -- (n3);  
+					\draw[<->, color=blue, thick] (l4) -- (n4);  
+					\draw[<->, color=blue, thick] (l5) -- (n5);  
+					\draw[<->, color=blue, thick] (l6) -- (n6);  
+					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=1.3cm] {\gls{trainset} $\dataset$};
+				\end{tikzpicture}
+				\caption{ERM aprende una hipótesis $\hypothesis\in \hypospace$, a partir de un modelo $\hypospace$, 
+				minimizando la perdida promedio (o riesgo empírico) $\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
+				incurrida en un conjunto de entrenamiento $\dataset$. \label{fig_erm_dict} }
+			\end{center}
+		\end{figure} 
+		La Figura \ref{fig_erm_dict} ilustra ERM para un modelo lineal y puntos de datos 
+		que se caracterizan por un único atributo $\feature$ y una etiqueta $\truelabel$. 
+		La hipótesis $\hypothesis$ es un mapa lineal que predice la etiqueta de un punto de datos
+		como una función lineal de su atributo $\feature$, es decir, 
+		$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, donde $\weight_{1}$ y $\weight_{0}$ son los 
+		parametros del modelo de la hipótesis $\hypothesis$. El problema de ERM consiste en encontrar los 
+		parametros del modelo $\weight_{1}$ y $\weight_{0}$ que minimicen la perdida promedio 
+		incurrida por la hipótesis $\hypothesis$ en el conjunto de entrenamiento $\dataset$.	
 		Vea también: \Gls{emprisk}, \gls{hypothesis}, \gls{model}, \gls{minimum}, \gls{loss}, gls{emprisk}, \gls{dataset}, \gls{trainset}, \gls{ml} },
 	first={minimización empírica del riesgo (ERM)},text={ERM} }
 
@@ -3904,7 +3956,7 @@ text={punto de datos}
 		sus errores de predicción en puntos de datos fuera del conjnto de entrenamiento. La regresión ridge
 		utiliza el regularizador $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{2}^{2}$ para mapas de hipótesis lineales $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. 
 		El operador de reducción y selección absoluta mínima (Lasso) utiliza el regularizador $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
-		para mapas de \gls{hypothesis} lineales $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. 
+		para mapas de hipótesis lineales $\hypothesis^{(\weights)}(\featurevec) \defeq \weights^{T} \featurevec$ \cite[Ch. 3]{MLBasics}. 
 		\\
 		Vea también: \gls{hypothesis}, \gls{hypospace}, \gls{prediction}, \gls{trainset}, \gls{datapoint}, \gls{trainset}, \Gls{ridgeregression}, \Gls{lasso} },first={regularizador},text={regularizador} }
 
@@ -3920,32 +3972,32 @@ text={punto de datos}
 			no tenga un rendimiento mucho peor fuera del conjunto de entrenamiento. Existen tres rutas para implementar 
 			la regularización: 
 			\begin{enumerate}[label=\arabic*)]
-				\item {\Gls{model} podado:} Podamos el modelo original $\hypospace$ para obtener un 
+				\item {Modelo podado:} Podamos el modelo original $\hypospace$ para obtener un 
 				modelo más pequeño $\hypospace'$. Para un modelo paramétrico, el podado puede 
 				implementarse mediante restricciones en los parametros del modelo (como $w_{1} \in [0.4,0.6]$ para 
 				el peso del atributo $x_{1}$ en regresin lineal).
 				\item {Perdida penalización:} Modificamos la funcion objetivo de ERM añadiendo un 
 				término de penalización al error de entrenamiento. El término de penalización estima cuánto mayor es 
 				la perdida esperada (o riesgo) en comparación con la perdida promedio en el conjunto de entrenamiento. 
-				\item {\Gls{dataaug}:} Podemos ampliar el conjunto de entrenamiento $\dataset$ añadiendo 
+				\item {Aumentación de Datos:} Podemos ampliar el conjunto de entrenamiento $\dataset$ añadiendo 
 				copias perturbadas de los puntos de datos originales en $\dataset$. Un ejemplo de tal 
 				perturbación es añadir la realización de una variable aleatoria al vector de atributos 
 				de un punto de datos. 
 			\end{enumerate} 
 			La Fig. \ref{fig_equiv_dataaug_penal_dict} ilustra las tres rutas anteriores para la regularización. 
-			Estas rutas están estrechamente relacionadas y, a veces, son completamente equivalentes. \Gls{dataaug} usando \glspl{gaussrv} 
-			para perturbar los \glspl{featurevec} en el \gls{trainset} de \gls{linreg} 
+			Estas rutas están estrechamente relacionadas y, a veces, son completamente equivalentes. La aumentación de datos usando variables aleatorias gaussianas 
+			para perturbar los vectores de atributos en el conjunto de entrenamiento de regresion lineal
 			tiene el mismo efecto que añadir la penalización 
-			$\lambda \normgeneric{\weights}{2}^2$ al \gls{trainerr} (que no es más que \gls{ridgeregression}). 
+			$\lambda \normgeneric{\weights}{2}^2$ al error de entrenamiento (que no es más que regresión ridge). 
 			La decisión sobre qué ruta usar para la regularización puede basarse en la 
 			infraestructura computacional disponible. Por ejemplo, podría ser mucho más fácil 
-			implementar \gls{dataaug} que el podado de \gls{model}. 
+			implementar aumentación de datos que el podado de modelo. 
 			\begin{figure}[H]
 				\begin{center} 
 					\begin{tikzpicture}[scale = 1]
 						% Axes
-						\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
-						\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+						\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {atributo $\feature$};       % X-axis
+						\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {etiqueta $\truelabel$};   % Y-axis
 						\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;     
 						\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.6 + 2.0}) ;     
 									% Add a lasso around the two dashed lines
@@ -3991,13 +4043,13 @@ text={punto de datos}
 						\draw[<->, color=red, thick] (l7) -- (c7);  
 						\draw[<->, color=blue, thick] (l8) -- (c8);  
 						\draw[<->, color=red, thick] (l9) -- (c9);  
-						\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original \gls{trainset} $\dataset$};
+						\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {conjunto de entrenamiento $\dataset$};
 						\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {ampliado};
 						\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$};
 						\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\hypothesis}$};
 					\end{tikzpicture}
-					\caption{Tres enfoques para la regularización: 1) \gls{dataaug}; 2) \gls{loss} penalización; y 3) \gls{model} 
-					podado (mediante restricciones en \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
+					\caption{Tres enfoques para la regularización: 1) Aumentación de datos; 2) penalización de perdida; y 3) modelo
+					podado (mediante restricciones en parametros del modelo). \label{fig_equiv_dataaug_penal_dict} }
 				\end{center}
 			\end{figure} 
 			Véa también: \gls{ml}, \gls{model}, \gls{effdim}, \gls{erm}, \gls{overfitting}, \gls{hypothesis}, \gls{trainset}, \gls{modelparams}, \gls{feature}, \gls{linreg}, \gls{loss}, \gls{objfunc}, \gls{trainerr}, \gls{risk}, \gls{dataaug}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{featurevec}, \gls{gaussrv}, \gls{ridgeregression}, \gls{label}.
@@ -4046,7 +4098,7 @@ text={punto de datos}
 		modelo de probabilidad como la suposición iid para la generacion de datos: los puntos de datos en 
 		el conjunto de entrenamiento son realizaciónes iid de alguna distribución de probabilidad subyacente $p(\vz)$. 
 		Un modelo de probabilidad nos permite explorar el exterior del conjunto de entrenamiento generando 
-		adicionales realizaciónes iid de $p(\vz)$. Además, el uso de la \gls{iidasspt} 
+		adicionales realizaciónes iid de $p(\vz)$. Además, el uso de la suposición i.i.d
 		nos permite definir el riesgo de un modelo entrenado $\learnthypothesis \in \hypospace$ como 
 		la expectativa de la perdida $\risk{\learnthypothesis}$. Además, podemos utilizar límites de concentración  
 		o resultados de convergencia para secuencias de variables aleatorias iid para limitar la desviación  
@@ -4200,10 +4252,10 @@ text={punto de datos}
 	de aprendizaje automático \cite{Liu2021}, \cite{PoisonGAN}. 
 	Los ataques de envenenamiento de datos pueden adoptar diversas formas, entre las cuales se incluyen:
 	\begin{itemize}
-		\item \Glspl{backdoor}: Consiste en implantar disparadores (triggers) en los datos de entrenamiento, 
+		\item Puerta trasera: Consiste en implantar disparadores (triggers) en los datos de entrenamiento, 
 		de manera que el modelo entrenado se comporte normalmente con vectores de atributos típicos, 
 		pero clasifique erróneamente un vector de atributos que contiene un patrón de disparo.
-		\item \Glspl{dosattack}: Buscan degradar el rendimiento general del modelo entrenado mediante la inyección 
+		\item Ataque de denegación de servicio(DDoS): Buscan degradar el rendimiento general del modelo entrenado mediante la inyección 
 		de ejemplos mal etiquetados o adversarios para impedir un aprendizaje efectivo.
 	\end{itemize}
 	El envenenamiento de datos es especialmente preocupante en entornos de aprendizaje automático descentralizados o distribuidos 
@@ -4603,17 +4655,18 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 
 
 	\newglossaryentry{preimage}
-{name={preimage}, 
-	description={Consider a \gls{function}\index{preimage} $f\colon \mathcal{U} \rightarrow \mathcal{V}$ 
-		between two sets. The preimage $f^{-1}(\mathcal{B})$ of a subset $\mathcal{B} \subseteq \mathcal{V}$ is the set 
-		of all inputs $u \in \mathcal{U}$ that are mapped into $\mathcal{B}$ by $f$, i.e.,
+{name={preimagen}, 
+	description={Considére una función\index{preimagen} $f\colon \mathcal{U} \rightarrow \mathcal{V}$ 
+		entre dos conjuntos. La preimagen $f^{-1}(\mathcal{B})$ de un subconjunto $\mathcal{B} \subseteq \mathcal{V}$ 
+		es el conjunto de todas las entradas $u \in \mathcal{U}$ que son mapeadas en $\mathcal{B}$ por $f$, es decir,
 		\[
 		f^{-1}(\mathcal{B}) \defeq \{ u \in \mathcal{U} \mid f(u) \in \mathcal{B} \}.
 		\]
-		The preimage is well-defined even if the \gls{function} $f$ is not invertible \cite{RudinBookPrinciplesMatheAnalysis}.},
-	first={preimage},
-	text={preimage}
+		La preimagen está bien definida incluso si la función $f$ no es invertible \cite{RudinBookPrinciplesMatheAnalysis}.},
+	first={preimagen},
+	text={preimagen}
 }
+
 
 
 
@@ -4621,7 +4674,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 {name={medible}, 
 	description={
 		Considera\index{measurable} un experimento aleatorio, como registrar la temperatura del aire en una estación meteorológica FMI. 
-		El correspondiente \gls{samplespace} $\Omega$ consta de todos los resultados posibles $\omega$ (por ejemplo, 
+		El correspondiente espacio muestral $\Omega$ consta de todos los resultados posibles $\omega$ (por ejemplo, 
 		todos los valores posibles de temperatura en grados Celsius). En muchas aplicaciones de aprendizaje automático, no estamos interesados 
 		en el resultado exacto $\omega$, sino solo en si pertenece a un subconjunto $\mathcal{A} \subseteq \Omega$ 
 		(por ejemplo, “¿es la temperatura inferior a cero grados?”). Llamamos a dicho subconjunto $\mathcal{A}$ medible si es 
@@ -4644,7 +4697,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 			\vspace*{10mm}
 		\end{tikzpicture}
 			\vspace*{10mm}
-		\caption{Un \gls{samplespace} constituido por todos los valores de temperatura posibles $\omega$ 
+		\caption{Un espacio muestral constituido por todos los valores de temperatura posibles $\omega$ 
 			que pueden experimentarse en una estación FMI. Se destacan dos subconjuntos medibles de valores de temperatura, 
 			denotados $\mathcal{A}^{(1)}$ y $\mathcal{A}^{(2)}$. Para cualquier 
 			valor de temperatura real $\omega$, es posible determinar si $\omega \in \mathcal{A}^{(1)}$ y si $\omega \in \mathcal{A}^{(2)}$.
@@ -4669,7 +4722,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 {name={evento}, 
 	description={
 	    Considera\index{event} una variable aleatoria $\featurevec$, definida en algún espacio de probabilidad $\mathcal{P}$, 
-		que toma valores en un espacio \gls{measurable} $\featurespace$. Un evento $\mathcal{A} \subseteq \featurespace$ 
+		que toma valores en un espacio medible $\featurespace$. Un evento $\mathcal{A} \subseteq \featurespace$ 
 		es un subconjunto de $\featurespace$ tal que la probabilidad 
 		$\prob{\featurevec \in \mathcal{A}}$ está bien definida. En otras palabras, la preimagen 
 		$\featurevec^{-1}(\mathcal{A})$ de un evento pertenece a la $\sigma$-álgebra de $\mathcal{P}$. 
@@ -4797,7 +4850,7 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 
    \newglossaryentry{covariance}
    {name={covarianza}, 
-	description={La covarianza\index{covarianza} entre dos \glspl{rv} reales $x$ y $y$, definidas sobre un mismo \gls{probspace}, mide su dependencia lineal. Se define como 
+	description={La covarianza\index{covarianza} entre dos variables aleatorias reales $x$ y $y$, definidas sobre un mismo espacio de probabilidad, mide su dependencia lineal. Se define como 
 			   $$
 			   \cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
 			   $$
@@ -4846,8 +4899,8 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 			   \end{axis}
 		   \end{scope}
 		   \end{tikzpicture}
-			   \caption{\Glspl{scatterplot} illustrating \glspl{realization} from three different \glspl{probmodel} for two 
-				   \glspl{rv} with different covariance values: negative (left), zero (center), and positive (right).}
+			   \caption{Diagramas de dispersion ilustrando realizaciónes de tres modelos de probabilidad diferentes para dos
+				  variables aleatorias reales con diferentes valores de covarianza: negativo (izquierda), cero (centro), y positivo (derecha).}
 			   \label{fig:covariance-examples_dict}
 		   \end{figure}
 		   },
@@ -4904,14 +4957,14 @@ first={agrupamiento basado en densidad para aplicaciones espaciales con ruido (D
 		\\
 		Vea también: \gls{pca}, \gls{probmodel}, \gls{datapoint}, \gls{em}.},first={análisis de componentes principales probabilístico (PPCA)},text={PPCA}}
 	
-\newglossaryentry{polyreg}{name={regresión polinómica}, description={La \index{regresión polinómica} \gls{regression} polinómica es una instancia de \gls{erm} que aprende una \gls{hypothesis} 
-\gls{map} polinómica para predecir una \gls{label} numérica a partir de los \glspl{feature} numéricos de un \gls{datapoint}. 
-Para \glspl{datapoint} caracterizados por una única \gls{feature} numérica, la \gls{regression} polinómica utiliza el \gls{hypospace}
+\newglossaryentry{polyreg}{name={regresión polinómica}, description={La \index{regresión polinómica} regresión polinómica es una instancia de ERM que aprende un mapa de 
+hipótesis polinómica para predecir una etiqueta numérica a partir de los atributos numéricos de un punto de datos. 
+Para puntos de datos caracterizados por un único atributo numérico, la regresión polinómica utiliza el espacio de hipótesis
 \[
 \hypospace^{(\rm poly)}_{\nrfeatures} \defeq \left\{ \hypothesis(x) = \sum_{\featureidx=0}^{\nrfeatures-1} x^{\featureidx} \weight_{\featureidx} \right\}.
 \]
-La calidad de una \gls{hypothesis} polinómica \gls{map} se mide mediante la \gls{sqerrloss} promedio 
-incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como el \gls{trainset}).
+La calidad de una hipótesis polinómica  se mide mediante la perdida de error cuadrático promedio 
+incurrida en un conjunto de puntos de datos etiquetados (al que nos referimos como el conjunto de entrenamiento).
 			\\
 		Vea también: \gls{regression}, \gls{hypothesis}, \gls{label}, \gls{feature}, \gls{datapoint}, \gls{hypospace}, \gls{sqerrloss}, \gls{labeled datapoint}, \gls{trainset}.},first={regresión polinómica},text={regresión polinómica}}
 
@@ -4980,7 +5033,7 @@ incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como
 	\end{tikzpicture}
 	\end{center}
 	\vspace*{-5mm}
-	\caption{La esperanza de una variable aleatoria discreta \gls{rv} $x$ se obtiene sumando sus posibles valores $x_{i}$,ponderados por la correspondiente \gls{probability} $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
+	\caption{La esperanza de una variable aleatoria discreta $x$ se obtiene sumando sus posibles valores $x_{i}$,ponderados por la correspondiente probabilidad $p(x_i) = \prob{x= x_i}$. \label{fig_expect_discrete}}
 	 \end{figure}
 			Vea también: \gls{featurevec}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{probability}.},
 	first={esperanza},
@@ -5080,9 +5133,9 @@ incurrida en un conjunto de \glspl{labeled datapoint} (al que nos referimos como
      %   \addlegendentry{$\max(0, 1-x)$}
     \end{axis}
 \end{tikzpicture}
-\caption{The hinge \gls{loss} incurred by the \gls{prediction} $\hypothesis(\featurevec) \in \mathbb{R}$ 
-for a \gls{datapoint} with \gls{label} $\truelabel \in \{-1,1\}$. A regularized variant of the hinge 
-\gls{loss} is used by the \gls{svm} \cite{LampertNowKernel}.}
+\caption{La perdida de Hinge incurrida por la predicción $\hypothesis(\featurevec) \in \mathbb{R}$ 
+para un punto de datos con etiqueta $\truelabel \in \{-1,1\}$. Una variante regularizada de la perdida de hinge
+es usada por la maquina de vectores de soporte \cite{LampertNowKernel}.}
 \label{fig_hingeloss_dict}
 \end{center}
 \end{figure} 	    
@@ -5124,7 +5177,7 @@ de todos los posibles mapas desde el espacio de atributos $\featurespace$ al esp
 \end{figure}
 Desde la perspectiva de la ingeniería de aprendizaje automático, por otro lado, el espacio de hipótesis $\hypospace$ 
 es una decisión de diseño en métodos basados en ERM. Esta decisión puede guiarse por los recursos 
-computacionales disponibles y por las \glspl{statasp}. Por ejemplo, si es factible aplicar operaciones de 
+computacionales disponibles y por los aspectos estadísticos. Por ejemplo, si es factible aplicar operaciones de 
 matriz eficientes y existe una relación aproximadamente lineal entre atributos y etiquetas, 
 un modelo lineal puede ser una elección útil para $\hypospace$.\\
 Véa también: \gls{hypothesis}, \gls{model}, \gls{map}, \gls{linmodel}.},
@@ -5188,7 +5241,7 @@ text={espacio de hipótesis}
 	Estas predicciones se calculan a partir de observaciones sobre el estado del entorno. 
 	La elección de la funcion de perdida distingue las aplicaciones de IA de las aplicaciones de aprendizaje automático más básicas. 
 	Los sistemas de IA rara vez tienen acceso a un conjunto de entrenamiento etiquetado que permita medir la perdida promedio para cualquier posible elección de parametros del modelo. 
-	En su lugar, los sistemas de IA utilizan señales de \gls{reward} observadas para obtener una estimación puntual de la perdida incurrida por la elección actual de parametros del modelo.
+	En su lugar, los sistemas de IA utilizan señales de recompensa observadas para obtener una estimación puntual de la perdida incurrida por la elección actual de parametros del modelo.
 	\\
 		Vea también: \gls{reward}, \gls{ml}, \gls{model}, \gls{lossfunc}, \gls{trainset}, \gls{loss}, \gls{modelparams}.},first={AI},text={AI} }
 
@@ -5466,7 +5519,7 @@ text={espacio de hipótesis}
 		sobre todos los puntos de datos del conjunto de entrenamiento. Una aproximación estocástica se obtiene al reemplazar esta suma 
 		$\sum_{\sampleidx=1}^{\samplesize} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
 		por una suma parcial $\sum_{\sampleidx \in \batch} \nabla_{\weights} \lossfunc{\datapoint^{(\sampleidx)}}{\weights}$ 
-		considerando un subconjunto aleatorio $\batch \subseteq \{1,\ldots,\samplesize\}$ (see Figure \ref{fig_sgd_approx_dict}). 
+		considerando un subconjunto aleatorio $\batch \subseteq \{1,\ldots,\samplesize\}$ (Vea la figura \ref{fig_sgd_approx_dict}). 
 		A estos puntos de datos seleccionados aleatoriamente se les denomina a menudo lote. 
 		El tamaño del lote, denotado $|\batch|$ es un parámetro importante del descenso por gradiente estocástico. 
 		El descenso por gradiente estocástico con $|\batch|> 1$ se conoce como mini-lote SGD \cite{Bottou99}. 		
@@ -5721,12 +5774,12 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
 }
 
 \newglossaryentry{modelinversion}
-{name={model inversion},
+{name={inversión de modelo},
   description={Una\index{inversión de modelo} inversión de modelo es una forma de ataque privado
   dirigida a un sistema de aprendizaje automático. Un adversario intenta inferir un atributo sensible de 
   puntos de datos individuales aprovechando el acceso parcial a un modelo entrenado 
   $\learnthypothesis \in \hypospace$. Este acceso suele consistir en consultar el modelo 
-  con \glspl{prediction} $\learnthypothesis(\featurevec)$ sobre entradas cuidadosamente seleccionadas. 
+  con predicciónes $\learnthypothesis(\featurevec)$ sobre entradas cuidadosamente seleccionadas. 
   Se han demostrado técnicas básicas de inversión de modelo en el contexto de 
   clasificación de imágenes faciales, donde se reconstruyen imágenes utilizando 
   la (gradiente de la) salida del modelo junto con información auxiliar como el nombre 
@@ -5753,14 +5806,14 @@ Vea también: \gls{hypothesis}, \gls{graph}, \gls{featurevec}, \gls{datapoint}, 
   		% Axis labels with image
   		\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{../../assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
   		% Label on curve
-  		\node[above right] at (4,2.2) {trained \gls{model} $\learnthypothesis$};
+  		\node[above right] at (4,2.2) {modelo entrenado $\learnthypothesis$};
   	\end{tikzpicture}
 	\end{center} 
 	\end{figure}
   	Vea tambien: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. 
   },
-  first={model inversion},
-  text={model inversion}
+  first={inversion de modelo},
+  text={inversion de  modelo}
 }
 
 
@@ -5834,8 +5887,8 @@ la estimación actual $\weights^{(\itercntr)}$. Esto se puede lograr típicament
 			\label{equ_def_GD_step_dict}
 			\weights^{(\itercntr\!+\!1)} = \weights^{(\itercntr)} - \lrate \nabla f(\weights^{(\itercntr)})
 		\end{equation} 
-		\gls{stepsize} suficientemente pequeño $\lrate\!>\!0$. La Figura \ref{fig_basic_GD_step_dict} ilustra el efecto de 
-		un solo paso de  \gls{gradient}  \eqref{equ_def_GD_step_dict}.
+		Tamaño de paso suficientemente pequeño $\lrate\!>\!0$. La Figura \ref{fig_basic_GD_step_dict} ilustra el efecto de 
+		un solo paso de gradiente \eqref{equ_def_GD_step_dict}.
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -5854,22 +5907,70 @@ la estimación actual $\weights^{(\itercntr)}$. Esto se puede lograr típicament
 					\draw[shift={(0,\y)}] (2pt,0pt) -- (-2pt,0pt) node[left] {$\ytext$};  
 				\end{tikzpicture}
 			\end{center}
-			\caption{Un paso de gradiente singular  \eqref{equ_def_GD_step_dict} hacia el minimizador $\overline{\weights}$ de $f(\weights)$.}
+			\caption{Un paso de gradiente singular \eqref{equ_def_GD_step_dict} hacia el minimizador $\overline{\weights}$ de $f(\weights)$.}
 			\label{fig_basic_GD_step_dict}
 		\end{figure}
 		Vea también: \gls{minimum}, \gls{differentiable}, \gls{gradstep}, \gls{stepsize}, \gls{gradient}.	
 %		
 		},first={descenso por gradiente (GD)},text={GD}}
 
-\newglossaryentry{abserr}{name={pérdida por error absoluto},description={
-	Considera un punto de datos con atributos $\featurevec \in \featurespace$ y una 
-	etiqueta numérica $\truelabel \in \mathbb{R}$. La perdida\index{pérdida por error absoluto} 
-	por error absoluto incurrida por una hipótesis $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
-	se define como $|\truelabel - \hypothesis(\featurevec)|$, es decir, la diferencia absoluta entre 
-	la predicción $\hypothesis(\featurevec)$ y la etiqueta verdadera $\truelabel$.
-	\\
-		Vea también: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{hypothesis}, \gls{prediction}.},
-			first={pérdida por error absoluto},text={pérdida por error absoluto}}
+		\newglossaryentry{abserr}
+		{name={pérdida por error absoluto},
+			description={Considérese un punto de datos con atributos $\featurevec \in \featurespace$ y una 
+				etiqueta numérica $\truelabel \in \mathbb{R}$. Como su nombre lo sugiere, la pérdida\index{pérdida por error absoluto} 
+				por error absoluto incurrida por una hipótesis $\hypothesis: \featurespace \rightarrow \mathbb{R}$ 
+				se define como $$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis} = |\truelabel - \hypothesis(\featurevec)|.$$
+				La Figura \ref{fig_abs_err_dict} muestra la pérdida por error absoluto para un punto de datos fijo 
+				con vector de atributos $\featurevec$ y etiqueta $\truelabel$. También indica los valores de perdida
+				incurridos por dos diferentes hipótesis $\hypothesis'$ y $\hypothesis''$. Al igual que la perdida por error cuadrático, 
+				la perdida por error absoluto es una función convexa de la predicción $\predictedlabel=\hypothesis(\featurevec)$. 
+				Sin embargo, en contraste con la perdida por error cuadrático, la perdida por error absoluto no es suave, ya que no es 
+				diferenciable en la predicción óptima $\predictedlabel=\truelabel$. Esta propiedad hace que los métodos 
+				basados en ERM que usan la perdida por error absoluto sean computacionalmente más exigentes \cite{OptMLBook,nesterov04}. 
+				Para desarrollar intuición, resulta útil considerar las dos hipótesis representadas en la Figura \ref{fig_abs_err_dict}. 
+				Solo a partir de la pendiente de $\loss$ alrededor de $\hypothesis'(\featurevec)$ y $\hypothesis''(\featurevec)$ 
+				es imposible determinar si estamos muy cerca del óptimo ($\hypothesis'$) o aún lejos ($\hypothesis''$). 
+				Como resultado, cualquier método de optimización basado en aproximaciones locales de la función de perdida (como descenso de gradiente estocástico) 
+				debe usar una tasa de aprendizaje decreciente para evitar sobrepasar el óptimo al acercarse a él. Esta disminución requerida 
+				de la tasa de aprendizaje tiende a ralentizar la convergencia del método de optimización. Además del aumento en la complejidad computacional, 
+				usar la perdida por error absoluto en ERM puede ser beneficioso en presencia de valores atípicos en el conjunto de entrenamiento. 
+				A diferencia de la perdida por error cuadrático, la pendiente de la perdida por error absoluto no aumenta con el incremento del error 
+				de predicción $\truelabel - \hypothesis(\featurevec)$. Como resultado, el efecto de introducir valores atípicos con 
+				gran error de predicción en la solución $\learnthypothesis$ de ERM con perdida por error absoluto 
+				es mucho menor en comparación con el efecto sobre la solución de ERM con la perdida de error cuadrático. 
+				\begin{figure}[htbp]
+				\begin{center}
+				\begin{tikzpicture}[x=3cm,y=1.6cm]
+					\pgfmathsetmacro{\ytrue}{0.0}
+					\pgfmathsetmacro{\hp}{0.6}
+					\pgfmathsetmacro{\hpp}{3.7}
+					\begin{axis}[axis lines=middle,xtick=\empty,ytick=\empty,width=15cm,height=5cm,xmin=-4,xmax=4,ymin=-0.2,ymax=3,domain=-4:4,samples=100,clip=false,enlarge x limits=0.15,enlarge y limits=0.15]			
+						\addplot[very thick, red] {abs(x - \ytrue)};
+						\addplot[only marks, mark=*, mark options={fill=white}] coordinates {(\ytrue, 0)};
+						\node[anchor=west,below,xshift=-2mm] at (axis cs:\ytrue, 0) {$\truelabel$};
+						\pgfmathsetmacro{\Lhp}{abs(\hp - \ytrue)}
+						\addplot[only marks, mark=*, mark options={scale=1.1}] coordinates {(\hp, \Lhp)};
+						\node[anchor=west] at (axis cs:\hp, \Lhp) {$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis'}$};
+						\node[yshift=-4mm] at (axis cs:\hp, 0) {$\hypothesis'(\featurevec)$};
+						\addplot[densely dashed] coordinates {(\hp, 0) (\hp, \Lhp)};
+						\pgfmathsetmacro{\Lhpp}{abs(\hpp - \ytrue)}
+						\addplot[only marks, mark=*, mark options={scale=1.1}] coordinates {(\hpp, \Lhpp)};
+						\node[yshift=-4mm] at (axis cs:\hpp, 0) {$\hypothesis''(\featurevec)$};
+						\addplot[densely dashed] coordinates {(\hpp, 0) (\hpp, \Lhpp)};
+						\node[anchor=west] at (axis cs:\hpp, \Lhpp) {$\lossfunc{\pair{\featurevec}{\truelabel}}{\hypothesis''}$};
+						\node[xshift=18mm] at (axis cs:4,0) {$\hat{\truelabel}$};
+					\end{axis}
+				\end{tikzpicture}
+				\end{center}
+				\caption{Para un punto de datos con etiqueta numérica $\truelabel\! \in\! \mathbb{R}$, el error absoluto 
+					$|\truelabel\!-\!\hypothesis(\featurevec)|$ puede usarse como funcion de perdida para guiar el 
+					aprendizaje de una hipótesis $\hypothesis$. \label{fig_abs_err_dict}}
+				\end{figure} 
+				Véa también: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{sgd}, \gls{erm}.},
+			first={pérdida por error absoluto},
+			text={pérdida por error absoluto}
+		}
+		
 
 \newglossaryentry{device}{name={dispositivo},description={
 				Cualquier\index{dispositivo} sistema físico que pueda usarse para almacenar y procesar datos. En el contexto de aprendizaje automático, 
@@ -6256,7 +6357,7 @@ first={función de densidad de probabilidad (pdf)},text={pdf}}
 				\node[left=0.01cm of theta2] {$\weights'$};
 				% Right part: Ellipse containing two smaller plots
 				\node[ellipse, minimum width=7cm, minimum height=3cm, draw, thick, right=4cm of paramspace] (plotcloud) {};
-				\node[above=0.2cm of plotcloud] {\gls{model} $\hypospace$};
+				\node[above=0.2cm of plotcloud] {modelo $\hypospace$};
 				% Axis for first smaller plot
 				\node (plot1start) at ($(plotcloud.south west) + (0.2, 0.2)$) {};
 				%\draw[thick, ->] (plot1start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
@@ -6392,9 +6493,9 @@ están codificadas en las aristas de una red de aprendizaje federado.
 
 \newglossaryentry{dataminprinc}{name={principio de minimización de datos},
 	description={La regulación europea de protección de datos \index{principio de minimización de datos} 
-	incluye un principio de minimización de \gls{data}. Este principio requiere que un controlador de \gls{data} 
+	incluye un principio de minimización de datos. Este principio requiere que un controlador de datos 
 	limite la recolección de información personal a lo que es directamente relevante y necesario 
-	para cumplir un propósito específico. Los \gls{data} deben retenerse solo durante el tiempo 
+	para cumplir un propósito específico. Los datos deben retenerse solo durante el tiempo 
 	necesario para cumplir ese propósito \cite[Article 5(1)(c)]{GDPR2016}, \cite{EURegulation2018}.
 	\\
 		Vea también: \gls{data}.}, 
@@ -6444,7 +6545,74 @@ están codificadas en las aristas de una red de aprendizaje federado.
 	  \newglossaryentry{backpropagation}{
   name={backpropagation},
   description={
-    Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and bias to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtorks parameters. Effectively minimizing the error.  \\[0.5ex]
+    Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and bias to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtorks parameters. Effectively minimizing the error.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			>=Stealth,
+			neuron/.style={circle,draw,minimum size=9mm,inner sep=0pt},
+			conn/.style={-Stealth, line width=0.7pt},
+			grad/.style={Stealth-, dashed, line width=0.7pt},
+			lbl/.style={font=\small},
+			box/.style={draw, rounded corners, inner sep=4pt}
+		]
+		%--- Layer positions -----------------------------------------------------------
+		% x-layer (inputs)
+		\node[neuron] (x1) at (0,1.8) {$x_1$};
+		\node[neuron] (x2) at (0,0)   {$x_2$};
+		\node[neuron] (x3) at (0,-1.8){$x_3$};
+		% hidden layer h (e.g., with activation \sigma)
+		\node[neuron, right=2.8cm of x1] (h1) {$h_1$};
+		\node[neuron, right=2.8cm of x2] (h2) {$h_2$};
+		\node[neuron, right=2.8cm of x3] (h3) {$h_3$};
+		% output layer (single output for illustration)
+		\node[neuron, right=2.8cm of h2] (yhat) {$\hat{y}$};
+		% loss node
+		\node[neuron, right=2.6cm of yhat, minimum size=10mm] (loss) {$\mathcal{L}$};
+		%--- Forward connections (solid, left -> right) -------------------------------
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[conn] (x\i) -- (h\j);
+		  }
+		}
+		\foreach \j in {1,2,3}{
+		  \draw[conn] (h\j) -- (yhat);
+		}
+		\draw[conn] (yhat) -- (loss);
+		%--- Backprop connections (dashed, right -> left) -----------------------------
+		% From loss to output
+		\draw[grad] (yhat) to[bend left=10] node[above, lbl] {$\nabla_{\hat{y}}\mathcal{L}$} (loss);
+		% From output to hidden
+		\foreach \j in {1,2,3}{
+		  \draw[grad] (h\j) to[bend left=10] (yhat);
+		}
+		% From hidden to inputs
+		\foreach \i in {1,2,3}{
+		  \foreach \j in {1,2,3}{
+			\draw[grad] (x\i) to[bend left=10] (h\j);
+		  }
+		}
+		%--- Annotations ---------------------------------------------------------------
+		% Forward / Backward labels
+		\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (predictions)};
+		\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (gradients)};
+		% Weight / bias hints
+		\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
+		\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
+		% Legend
+		\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
+		\begin{tikzpicture}[baseline={(0,0)}]
+		  \draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (data flow)};
+		  \draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (gradients)};
+		\end{tikzpicture}
+		};
+		% Caption label node (optional visual helpers)
+		\node[lbl] at ($(yhat)!0.5!(loss)+(0,1.2)$) {$\mathcal{L}(\hat{y},y)$};
+		\node[lbl] at ($(x2)+(0,-2.8)$) {$a^{(0)}{=}\mathbf{x}$,\; $a^{(1)}{=}\sigma(z^{(1)})$,\; $a^{(2)}{=}\hat{y}$};
+		\end{tikzpicture}
+		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
+		\label{fig:backprop_schematic}
+		\end{figure}
 	 There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
 	The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
     See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
@@ -6467,13 +6635,13 @@ están codificadas en las aristas de una red de aprendizaje federado.
 	type=math,
 		text={newtonmethod} }
 
-  \newglossaryentry{hessian}{
-  name={hessian},
-  description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
-  first={hessian},
-	type=math,
-  text={hessian}}
-
+		\newglossaryentry{hessian}{
+			name={hessiana},
+			description={Para una función $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ dos veces continuamente diferenciable en un punto $\mathbf{x}$, la hessiana es la matriz cuadrada de derivadas parciales de segundo orden. Se denota por $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. Informa sobre la curvatura local de una función y se utiliza ampliamente en optimización.}, 
+			first={hessiana},
+			type=math,
+			text={hessiana}}
+		  
 \newglossaryentry{convexopt}{
   name={convex optimization},
   description={
@@ -6482,8 +6650,8 @@ están codificadas en las aristas de una red de aprendizaje federado.
     \[
     \min_{\mathbf{x} \in \mathcal{C}} f(\mathbf{x}),
     \]
-    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set (possibly including equality or inequality constraints, or unconstrained).\\[0.5ex]
-    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}), and logistic regression, are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
+    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set.\\[0.5ex]
+    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}) are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
     It provides a theoretical foundation for understanding convergence guarantees, optimality conditions, and algorithmic efficiency in machine learning.\\
     See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
   },
@@ -6510,3 +6678,112 @@ If a system needs to be constantly updated to rapidly changing data such as stoc
 See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 	first={batchlearning},text={batchlearning}
 } 
+
+
+\newglossaryentry{cav}
+{name={Vector de Activación de Concepto (CAV)},
+	description={ 
+Los CAVs \cite{kim2018interpretability} son una técnica de explicabilidad para investigar y mejorar las RNA. A diferencia de los métodos tradicionales que analizan la influencia de los atributos de entrada en la prediccion de un modelo, las explicaciones basadas en conceptos buscan lograr explicabilidad en términos de conceptos comprensibles para humanos.  
+Como ejemplo, consideremos el concepto de “rayas” en un problema de clasificación multietiqueta aplicado a imágenes de animales.  
+Para aplicar este enfoque, se reúne un conjunto de datos que ilustra un concepto $C$ definido por el usuario, junto con otro conjuntos de datos de ejemplos “no-concepto” o “aleatorios”, que se dividirá en sus respectivos conjuntos de entrenamiento, conjunto de validacion y conjuntos de prueba.  
+Posteriormente, se entrena un clase lineal binario, por ejemplo un SVM, para separar los vectores de atributos obtenidos como las activaciones de la capa latente $l$ de los puntos de datos de entrada correspondientes a ejemplos concepto y no-concepto.  
+De este modo, se obtiene una hipótesis $v_C^l$ (un vector del mismo tamaño que la dimensión de la capa oculta $l$) ortogonal al hiperplano separador del clasificador (por convención orientado hacia los ejemplos de concepto), al cual se denomina Vector de Activación de Concepto (CAV) en este contexto.  
+En primer lugar, si este clasificador alcanza una alta acc en alguna capa $l$, esto indica que la red neuronal ha codificado internamente el concepto, ya que puede separarlo linealmente de los ejemplos no-concepto. Además, esto permite localizar capas o incluso neuronas específicas que han asumido esta tarea.  
+En segundo lugar, esta técnica permite cuantificar la influencia del concepto en la predicción del modelo, es decir, en la probabilidad asignada a una etiqueta concreta. Más precisamente, esto es posible con la técnica Testing with Concept Activation Vectors (TCAV), donde se calculan derivadas direccionales de la predicción en la dirección de $v_C^l$ en la capa $l$ (bajo supuestos suficientes de suave, pueden calcularse como productos internos con los gradientes).  
+Aquí, valores positivos indican que la presencia de un concepto incrementa la probabilidad de la etiqueta (por ejemplo, se espera que el concepto de “rayas” tenga una contribución positiva en la predicción de la etiqueta “cebra”), valores negativos contradicen la predicción, y valores cercanos a cero significan que el concepto es neutro para la clase de interés.  
+Los CAVs resultan interesantes por varias razones. Ayudan a responder preguntas como: ¿utilizan las redes neuronales internamente conceptos comprensibles por humanos? En el caso de modelos altamente precisos, ¿podemos incluso extraer conceptos que eran previamente desconocidos para los expertos humanos?  
+Además, los CAVs son útiles para eliminar sesgos en redes neuronales en los casos en que realizan predicciones basadas en conceptos indeseables. Existen diversas variantes de este enfoque, y sigue siendo un área activa de investigación.  
+				\\
+		 Véa también: \gls{linmodel}, \gls{deepnet}, \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
+	first={Vector de Activación de Concepto (CAV)},
+	text={Vector de Activación de Concepto (CAV)}, 
+}
+
+
+\newglossaryentry{arimamodel}
+{name={ARIMA},
+	description={ 
+}, 
+	first={ARIMA},
+	text={ARIMA}, 
+}
+
+\newglossaryentry{convergence}
+{name={convergence},
+	description={In mathematics, convergence refers to a sequence or process where the values are progressing towards a specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
+	close to the value limit without actually reaching it. 
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+		  width=\linewidth, height=6.2cm,
+		  xmin=-0.5, xmax=10.5,
+		  ymin=0.7,  ymax=1.2,
+		  grid=both,
+		  xlabel={$n$},
+		  ylabel={$x_n$},
+		  legend style={draw=none, fill=none, font=\small},
+		  legend pos=south east,
+		  ticklabel style={/pgf/number format/fixed},
+		]
+		\def\L{1}
+		\def\eps{0.1}
+		% --- epsilon-tube around L ---
+		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
+		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
+		\addplot[fill=gray!20] fill between[of=upper and lower];
+		\addplot[black, dashed, domain=-0.5:10.5] {\L};
+		\addlegendentry{$L=1$}
+		\addplot+[
+		  only marks, mark=*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
+		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
+		\addplot+[
+		  only marks, mark=square*, mark size=2pt, thick
+		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
+		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
+		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
+		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
+		\label{fig:convergence}
+		\end{figure}
+		Conversely, in \gls{ml}, convergence is the stage where the \gls{loss} values of a \gls{model} have insignificant changes with each increasing iteration. This signifies that additional training of the \gls{model} will not render any benefits to its performance. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	  width=\linewidth, height=6.2cm,
+	  xmin=-0.5, xmax=30.5,
+	  ymin=0.16,  ymax=1.05,
+	  grid=both,
+	  xlabel={Iterations},
+	  ylabel={Loss},
+	  legend style={draw=none, fill=none, font=\small},
+	  legend pos=north east,
+	  ticklabel style={/pgf/number format/fixed},
+	]
+	\def\L{0.20}    
+	\def\Lzero{1.00}
+	\def\alpha{0.25}
+	\def\eps{0.03}  
+	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
+	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
+	\addplot[fill=gray!20] fill between[of=upper and lower];
+	\addplot[black, dashed, domain=-0.5:30.5] {\L};
+	\addplot+[
+	  only marks, mark=*, mark size=2pt, thick
+	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
+	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
+	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve with each iteration.}
+	\label{fig:ml_convergence_loss_noJ}
+	\end{figure}
+},
+	first={convergence},
+	text={convergence}, 
+}
+
