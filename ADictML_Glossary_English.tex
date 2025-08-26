@@ -276,9 +276,9 @@
 
   \newglossaryentry{hessian}{
  	name={Hessian},
- 	description={For a twice-differentiable function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a 
- 	point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is 
- 	denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. 
+ 	description={For\index{Hessian} a twice-\gls{differentiable} \gls{function} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ 
+ 		at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. 
+ 		It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. 
         The Hessian can be used to compute a \gls{quadfunc} that locally approximates $f$. 
 	 }, 
  first={Hessian},
@@ -383,7 +383,6 @@ text={Hessian}}
 		\begin{itemize}
 			\item If $\vv, \vw \in \mathcal{V}$, then $\vv + \vw \in \mathcal{V}$.
 			\item If $\vv \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vv \in \mathcal{V}$.
-			\item In particular, $\mathbf{0} \in \mathcal{V}$.
 		\end{itemize}
 		\begin{figure}[H]
 		\centering
@@ -479,9 +478,10 @@ text={Hessian}}
 
 \newglossaryentry{entropy}
 {name={entropy},
-	description={Entropy\index{entropy} quantifies the \gls{uncertainty} or unpredictability associated with an \gls{rv} \cite{coverthomas}. 
-		For a discrete \gls{rv} $x$ taking on values in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with 
-		a \gls{probability} mass \gls{function} $p_i \defeq \prob{x = x_i}$, the entropy is defined as
+	description={Entropy\index{entropy} quantifies the \gls{uncertainty} or unpredictability 
+		associated with an \gls{rv} \cite{coverthomas}. For a discrete \gls{rv} $x$ taking on values 
+		in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with a \gls{probability} mass 
+		\gls{function} $p_i \defeq \prob{x = x_i}$, the entropy is defined as
 		\[
 		H(x) \defeq -\sum_{i=1}^n p_i \log p_i.
 		\]
@@ -653,7 +653,7 @@ text={Hessian}}
 
 \newglossaryentry{convexopt}{
   name={convex optimization},
-  description={TBD
+  description={TBD \index{convex optimization}, 
 %    Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
 %    A convex optimization problem is formulated as
 %    \[
@@ -7140,7 +7140,12 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
  \newglossaryentry{backpropagation}{
  	name={backpropagation},
  	description={
- 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.
+ 	  Backpropagation\index{backpropagation} is an \gls{algorithm} for computing the \gls{gradient} 
+	  $\nabla_{\weights} f(\weights)$ of an \gls{objfunc} $f(\weights)$ that depends on the 
+	  \gls{modelparams} $\weights$ of an \gls{ann}. One example of such an \gls{objfunc} 
+	  is the average \gls{loss} incurred by the \gls{ann} on a \gls{batch} of \glspl{datapoint}. 
+	  This \gls{algorithm} is a direct application of the chain rule from calculus to 
+	  efficiently compute partial derivatives of the \gls{lossfunc} with respect to the \gls{modelparams}.
 	   \begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[
@@ -7208,9 +7213,15 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
 		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
 		\label{fig:backprop_schematic}
 		\end{figure}
- 	   There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
- 	  The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
- 	  See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
+ 	   Backpropagation consists of two consecutive phases: 1) Forward pass: A \gls{batch} of \glspl{datapoint} 
+	   is fed into the \gls{ann}, which processes the input through its layers using its current weights, 
+	   ultimately producing a \gls{prediction} at its output. The \gls{prediction} of the batch is compared to 
+	   the true \gls{label} using a \gls{lossfunc}, which quantifies the \gls{prediction} error. 2) 
+	   Backward pass (backpropagation): The error is backpropagated through the \gls{ann} layers. 
+	   The obtained partial derivatives w.r.t.\ the \gls{ann} \glspl{parameter} $\weight_{1},\ldots,\weight_{\nrfeatures}$ 
+	   constitute the \gls{gradient} $\nabla f(\weights)$ which can be used, in turn, to implement 
+	   a \gls{gradstep}.\\
+ 	  See also: \gls{gd}, \gls{lossfunc}, \gls{ann}, \gls{optmethod}.
  	},
  	first={backpropagation},
  	text={backpropagation}
@@ -7343,7 +7354,7 @@ See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{v
 
 \newglossaryentry{convergence}
 {name={convergence},
-	description={TBD
+	description={TBD \index{convergence}, 
 %		In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
 %  specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
 %	close to the value limit without actually reaching it. 
@@ -7424,5 +7435,6 @@ See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{v
 %	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}
 },
 	first={convergence},
+	type =math,
 	text={convergence}, 
 }
