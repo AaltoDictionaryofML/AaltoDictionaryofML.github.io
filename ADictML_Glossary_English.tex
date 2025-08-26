@@ -275,11 +275,15 @@
 }
 
   \newglossaryentry{hessian}{
- name={hessian},
- description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
- first={hessian},
+ 	name={Hessian},
+ 	description={For a twice-differentiable function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a 
+ 	point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is 
+ 	denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. 
+        The Hessian can be used to compute a \gls{quadfunc} that locally approximates $f$. 
+	 }, 
+ first={Hessian},
 type=math,
-text={hessian}}
+text={Hessian}}
 
 
 \newglossaryentry{linearmap}
@@ -669,17 +673,27 @@ text={hessian}}
 
 \newglossaryentry{newtonmethod}{
 	name={Newton's method},
-	description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of multivariate differentiable functions. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives through the \gls{hessian} to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
+	description={Newton's method\index{Newton's method} is an iterative \gls{optmethod} for finding local minima 
+		or maxima of a \gls{differentiable} \gls{objfunc} $f(\weights)$. Like \gls{gdmethods}, also Newton's method 
+		computes a new estimate $\estparams{\iteridx+1}$ by optimizing a local approximation of $f(\weights)$ around 
+		the current estimate $\estparams{\iteridx}$. In contrast to \gls{gdmethods}, which uses the \gls{gradient} to build 
+		a local linear approximation, Newton's method uses the \gls{hessian} matrix to build a local quadratic approximation. 
+		In particular, starting from an initial estimate $\estparams{0}$, Newton's method iteratively updates the estimate according to 
 	\[
-	  \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
+	\estparams{\iteridx+1}= \estparams{\iteridx}- \big( \nabla^2 f\big(\estparams{\iteridx}\big) \big)^{-1} \nabla f\big( \estparams{\iteridx} \big) \mbox{, for } \iteridx=0,1,\ldots.
 	\]
-	where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
+	Here, $\nabla f\big(\estparams{\iteridx} \big)$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(\iteridx)})$ is 
+	the \gls{hessian} of the \gls{objfunc} $f$. Since using a \gls{quadfunc} as local approximation is more accurate 
+	than a using a linear \gls{function} (which is a special case of a \gls{quadfunc}), Newton's method tends to 
+	converge faster than \gls{gdmethods}. However, this faster convergence comes at increased computational 
+	complexity of the iterations. Indeed, each iteration of Newton's method requires the inversion of the \gls{hessian}.  
 	\\
 	See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
 	},
-	first={newtonmethod},
-	  type=math,
-		  text={newtonmethod} }
+  first={newtonmethod},
+  type=math,
+  text={newtonmethod} 
+ }
 
 		  
 \newglossaryentry{fixedpointiter}
