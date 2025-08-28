@@ -1200,12 +1200,12 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 
 \newglossaryentry{autoencoder}
 {name={autoencoder},
-	description={An autoencoder\index{autoencoder} is an \gls{ml} method that simultaneously learns an encoder \gls{map} 
-		$\hypothesis(\cdot) \in \hypospace$ and a decoder \gls{map} $\hypothesis^{*}(\cdot) \in \hypospace^{*}$. 
-		It is an instance of \gls{erm} using a \gls{loss} computed from the reconstruction error 
-		$\featurevec - \hypothesis^{*}\big(  \hypothesis \big( \featurevec \big) \big)$.
+	description={An autoencoder\index{autoencoder} is an \gls{ml} method that simultaneously (or jointly) 
+	learns an encoder \gls{map} $\hypothesis(\cdot) \in \hypospace$ and a decoder \gls{map} 
+	$\hypothesis^{*}(\cdot) \in \hypospace^{*}$. It is an instance of \gls{erm} using a \gls{loss} 
+	computed from the reconstruction error $\featurevec - \hypothesis^{*}\big(  \hypothesis \big( \featurevec \big) \big)$.
 					\\ 
-		See also: \gls{ml}, \gls{map}, \gls{erm}, \gls{loss}.},
+		See also: \gls{featlearn}, \gls{dimred}.},
 	first={autoencoder},
 	text={autoencoder}
 } 
@@ -1405,7 +1405,7 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 			but are both derived from the same \gls{dataset}.}
 			\label{fig:learning_tasks_cows_dict}
 		\end{figure}
-		Such tasks are inherently related, and solving them jointly, e.g., using \gls{multitask learning} 
+		Such tasks are inherently related, and solving them jointly (simultaneously), e.g., using \gls{multitask learning} 
 		methods, is often more effective than treating them independently 
 		\cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
 	 			\\ 
@@ -2444,10 +2444,10 @@ plural={medians},
 		To analyze the properties of the \gls{ml} method, we typically interpret the \glspl{datapoint} as \glspl{realization} 
 		of \gls{iid} \glspl{rv}, $$\truelabel^{(\sampleidx)} = \hypothesis^{(\overline{\weights})}\big( \featurevec^{(\sampleidx)} \big) + \bm{\varepsilon}^{(\sampleidx)}, \sampleidx=1, \,\ldots, \,\samplesize.$$ 
 		We can then interpret the \gls{ml} method as an estimator $\widehat{\weights}$ 
-		computed from $\dataset$ (e.g., by solving \gls{erm}). The (squared) bias incurred by the estimate $\widehat{\weights}$ 
-		is then defined as $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$.
+		computed from $\dataset$ (e.g., by solving \gls{erm}). The (squared) bias incurred by the 
+		estimate $\widehat{\weights}$ is then defined as $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$.
 					\\ 
-		See also: \gls{ml}, \gls{hypospace}, \gls{modelparams}, \gls{dataset}, \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{erm}.},
+		See also: \gls{probmodel}, \gls{rv}, \gls{esterr}, \gls{iid}.},
 	first={bias},
 	text={bias} 
 }
@@ -6530,11 +6530,13 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 }
 
 \newglossaryentry{device}
-{name={device}, plural={devices}, 
-	description={Any\index{device} physical system that can be used to store and process \gls{data}. In the context of \gls{ml}, 
-		we typically mean a computer that is able to read in \glspl{datapoint} from different 
-		sources and, in turn, train an \gls{ml} \gls{model} using these \glspl{datapoint}.
-						\\
+{name={device}, 
+ plural={devices}, 
+ description={A physical system that can store and process \gls{data}. In the 
+         context of \gls{ml}, the term typically refers to a computer capable of reading 
+		 \glspl{datapoint} from different sources and using them to train an \gls{ml} 
+		 \gls{model} \cite{Patterson2013}. 
+		 \\ 
 		See also: \gls{data}, \gls{ml}, \gls{datapoint}, \gls{model}.},
 	first={device},
 	text={device}
@@ -7119,18 +7121,49 @@ sort={Renyi},
 	text={data minimization principle}
 }
 
+\newglossaryentry{layer}
+{name={layer},
+	description={A \gls{deepnet}\index{layer} is an \gls{ann} that consists of consecutive layers, indexed by $\ell=1,2,\ldots,L$. 
+		The $\ell$-th layer consists of artificial neurons $a^{(\ell)}_{1},\ldots,a^{(\ell)}_{\featuredim^{(\ell)}}$ with 
+		the layer width $\featuredim^{(\ell)}$. Each of these artificial neurons evaluates an \gls{actfun} for 
+		a weighted sum of the outputs (or activations) of the previous layer $\ell-1$. The input to layer $\ell=1$ 
+	    is formed from weighted sums of the \glspl{feature} of the \gls{datapoint} for which the \gls{deepnet} 
+	    computes a \gls{prediction}. The outputs of the neurons in layer $\ell$ are then, in turn, used to form 
+	    the inputs for the neurons in the next layer. The final (output) layer consists of single neuron whose 
+		output is used as the \gls{prediction} delivered by the \gls{deepnet}.  
+		\\
+		See also: \gls{ann},  \gls{deepnet}.}, 
+	first={layer},
+	firstplural={layers},
+	plural={layers}, 
+	text={layer}, 
+}
+
+
+\newglossaryentry{activation}
+{name={activation},
+	description={The output \index{activation} of an artificial neuron within an \gls{ann} is referred 
+		to as its activation. In particular, the activation is obtained by applying an (typically non-linear) \gls{actfun} 
+		to a weighted sum of its inputs.
+		\\
+		See also: \gls{ann},  \gls{deepnet}.}, 
+	first={activation},
+	firstplural={activations},
+	plural={activations}, 
+	text={activation}, 
+}
+
 \newglossaryentry{cav}
-{name={Concept Activation Vector (CAV)},
-	description={ 
-CAVs \cite{kim2018interpretability} are an \gls{explainability} technique for investigating and improving \glspl{ann}. Unlike traditional methods that analyze the influence of input \glspl{feature} on a \gls{model}´s \gls{prediction}, concept-based \glspl{explanation} aim for \gls{explainability} in terms of human-understandable concepts. As an example, consider the concept of "stripes" in an \gls{multilabelclass} problem for animal images.
-To apply this approach, one gathers a \gls{dataset} that illustrates a user-defined concept $C$ of interest, along with another \gls{dataset} of "non-concept" or "random" examples, that will be divided further into respective \glspl{trainset}, \glspl{valset}
-and \glspl{testset}. A binary \gls{linclass}, e.g., a \gls{svm}, is then trained 
- to separate the \glspl{featurevec} that are obtained as the $l$th latent layer activations of the original \glspl{datapoint}of the concept and non-concept inputs. In this way, we obtain a \gls{hypothesis} $v_C^l$ (a \gls{vector} of the same size as the dimension of the hidden layer $l$) that is orthogonal to the \gls{classifier}'s separating hyperplane (by convention, oriented towards the concept examples), which is called a Concept Activation Vector (CAV) in the given context.
- Firstly, if this \gls{classifier} achieves a high \gls{acc} at some layer $l$, this indicates that the neural network has internally encoded the concept, as it can linearly separate it from the non-concept examples. Furthermore, we may localize specific layers or even neurons that have taken on this task.
- Secondly, this technique allows to quantify the concept's influence on the \gls{model}'s \gls{prediction}, i.e., the \gls{probability} assigned to a specific \gls{label}. More precisely, this is possible with the technique of
-Testing with Concept Activation Vectors (TCAV), where directional derivatives of the \gls{prediction} in direction of $v_C^l$ at layer $l$ are computed 
- (under sufficient \gls{smooth} assumptions, they can be calculated as inner products with \gls{gradient}s). Here, positive values indicate that the presence of a concept increases the \gls{label} \gls{probability} (e.g., we expect the concept of "stripes" to have a positive contribution for the prediction of the \gls{label} "zebra"), while negative values contradict the prediction, and values close to zero mean that the concept is neutral for the class of interest.
- CAVs are interesting for several reasons. They help us to adress questions like: Do neural networks internally use human-understandable concepts? In case of highly performant \glspl{model}, can we even extract concepts that were previously unknown to human experts? Moreover, CAVs are useful for debiasing neural networks in case they make predictions based upon undesirable concepts. Various versions of this approach exist, and are still under active research.
+{name={concept activation vector (CAV)},
+	description={Consider a \gls{deepnet}, consisting \index{concept activation vector (CAV)} of several hidden layers, that has been 
+		trained to predict the \gls{label} of a \gls{datapoint} from its \gls{featurevec}. One way 
+		to explain the behaviour of the trained \gls{deepnet} is by using the activations of a 
+		hidden \gls{layer} as a new \gls{featurevec} $\vz$. We then probe the geometry of the 
+		resulting new \gls{featurespace} by applying the \gls{deepnet} to \glspl{datapoint} 
+		that represent a specific concept $\mathcal{C}$. By applying the \gls{deepnet} also to \glspl{datapoint} 
+		that do not belong to this concept, we can train a binary \gls{linclass} $g(\vz)$ that distinguishes 
+		between concept and non-concept \glspl{datapoint} based on the activations of the hidden 
+		layer. The resulting \gls{decisionboundary} is a hyperplane whose normal vector is the CAV for the concept $\mathcal{C}$. 
 				\\
 		 See also: \gls{linmodel},  \gls{deepnet},  \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
 	first={Concept Activation Vector (CAV)},
