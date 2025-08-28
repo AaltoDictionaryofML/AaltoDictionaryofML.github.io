@@ -674,15 +674,52 @@ text={Hessian}}
 \newglossaryentry{newtonmethod}{
 	name={Newton's method},
 	description={Newton's method\index{Newton's method} is an iterative \gls{optmethod} for finding local minima 
-		or maxima of a \gls{differentiable} \gls{objfunc} $f(\weights)$. Like \gls{gdmethods}, also Newton's method 
-		computes a new estimate $\estparams{\iteridx+1}$ by optimizing a local approximation of $f(\weights)$ around 
-		the current estimate $\estparams{\iteridx}$. In contrast to \gls{gdmethods}, which uses the \gls{gradient} to build 
-		a local linear approximation, Newton's method uses the \gls{hessian} matrix to build a local quadratic approximation. 
-		In particular, starting from an initial estimate $\estparams{0}$, Newton's method iteratively updates the estimate according to 
+	or maxima of a \gls{differentiable} \gls{objfunc} $f(\weights)$. Like \gls{gdmethods}, also Newton's method 
+	computes a new estimate $\estparams{\iteridx+1}$ by optimizing a local approximation of $f(\weights)$ around 
+	the current estimate $\estparams{\iteridx}$. In contrast to \gls{gdmethods}, which uses the \gls{gradient} to build 
+	a local linear approximation, Newton's method uses the \gls{hessian} matrix to build a local quadratic approximation. 
+	In particular, starting from an initial estimate $\estparams{0}$, Newton's method iteratively updates the estimate according to 
 	\[
 	\estparams{\iteridx+1}= \estparams{\iteridx}- \big( \nabla^2 f\big(\estparams{\iteridx}\big) \big)^{-1} \nabla f\big( \estparams{\iteridx} \big) \mbox{, for } \iteridx=0,1,\ldots.
 	\]
-	where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
+	Here, $\nabla f\big(\estparams{\iteridx} \big)$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(\iteridx)})$ is 
+	the \gls{hessian} of the \gls{objfunc} $f$. Since using a \gls{quadfunc} as local approximation is more accurate 
+	than a using a linear \gls{function} (which is a special case of a \gls{quadfunc}), Newton's method tends to 
+	converge faster than \gls{gdmethods}. However, this faster convergence comes at increased computational 
+	complexity of the iterations. Indeed, each iteration of Newton's method requires the inversion of the \gls{hessian}.
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}[samples=200,smooth]
+			\begin{scope}
+				\clip(-5,-2) rectangle (5,5);
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(20/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(20/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(16/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(16/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(12/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(12/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(8/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(8/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(4/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(4/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(1/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(1/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(0.0625/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(0.0625/(sin(2*\x)+2))});
+				% Gradient Descent path
+				\draw[->,blue,ultra thick] (-3.5,4.5) -- (-3.3,3.8);
+				\draw[->,blue,ultra thick] (-3.3,3.8) -- (-3,3.1);
+				\draw[->,blue,ultra thick] (-3,3.1) -- (-2.6,2.4);
+				\draw[->,blue,ultra thick] (-2.6,2.4) -- (-2.1,1.8);
+				\draw[->,blue,ultra thick] (-2.1,1.8) -- (-1.5,1.3);
+				\draw[->,blue,ultra thick] (-1.5,1.3) -- (-0.9,0.9);
+				\draw[->,blue,ultra thick] (-0.9,0.9) -- (-0.4,0.5);
+				\draw[->,blue,ultra thick] (-0.4,0.5) -- (-0.1,0.2);
+				\node[blue,above left] at (-3.5,4.5) {Start};
+				\node[blue,above] at (0.5,3) {Gradient Descent};
+				% Newton's Method path 
+				\draw[->,red,ultra thick] (-3.5,4.5) -- (-2,2.5);
+				\draw[->,red,ultra thick] (-2,2.5) -- (-0.8,0.8);
+				\draw[->,red,ultra thick] (-0.8,0.8) -- (0,0.1);
+				\node[red,above] at (1.5,4) {Newton's Method};
+				\node at (0,0) [circle,fill,inner sep=1pt,label=below:Minimum] {};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Comparison of Gradient Descent (blue) and Newton's Method (red) paths toward the minimum of a loss function.}
+	\end{figure}
 	\\
 	See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
 	},
