@@ -275,11 +275,15 @@
 }
 
   \newglossaryentry{hessian}{
- name={hessian},
- description={For a twice-differentiable continous function $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. It informs of the local curvature of a function, and is widely used in optimization.}, 
- first={hessian},
+ 	name={Hessian},
+ 	description={For\index{Hessian} a twice-\gls{differentiable} \gls{function} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ 
+ 		at a point $\mathbf{x}$, the Hessian is the square matrix collection of second order partial derivatives. 
+ 		It is denoted by $\nabla^2 f(\weights) = \left[ \frac{\partial^2 f(\weights)}{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. 
+        The Hessian can be used to compute a \gls{quadfunc} that locally approximates $f$. 
+	 }, 
+ first={Hessian},
 type=math,
-text={hessian}}
+text={Hessian}}
 
 
 \newglossaryentry{linearmap}
@@ -379,7 +383,6 @@ text={hessian}}
 		\begin{itemize}
 			\item If $\vv, \vw \in \mathcal{V}$, then $\vv + \vw \in \mathcal{V}$.
 			\item If $\vv \in \mathcal{V}$ and $c \in \mathbb{R}$, then $c \vv \in \mathcal{V}$.
-			\item In particular, $\mathbf{0} \in \mathcal{V}$.
 		\end{itemize}
 		\begin{figure}[H]
 		\centering
@@ -475,9 +478,10 @@ text={hessian}}
 
 \newglossaryentry{entropy}
 {name={entropy},
-	description={Entropy\index{entropy} quantifies the \gls{uncertainty} or unpredictability associated with an \gls{rv} \cite{coverthomas}. 
-		For a discrete \gls{rv} $x$ taking on values in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with 
-		a \gls{probability} mass \gls{function} $p_i \defeq \prob{x = x_i}$, the entropy is defined as
+	description={Entropy\index{entropy} quantifies the \gls{uncertainty} or unpredictability 
+		associated with an \gls{rv} \cite{coverthomas}. For a discrete \gls{rv} $x$ taking on values 
+		in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with a \gls{probability} mass 
+		\gls{function} $p_i \defeq \prob{x = x_i}$, the entropy is defined as
 		\[
 		H(x) \defeq -\sum_{i=1}^n p_i \log p_i.
 		\]
@@ -649,7 +653,7 @@ text={hessian}}
 
 \newglossaryentry{convexopt}{
   name={convex optimization},
-  description={TBD
+  description={TBD \index{convex optimization}, 
 %    Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
 %    A convex optimization problem is formulated as
 %    \[
@@ -669,50 +673,23 @@ text={hessian}}
 
 \newglossaryentry{newtonmethod}{
 	name={Newton's method},
-	description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of multivariate differentiable functions. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives through the \gls{hessian} to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
+	description={Newton's method\index{Newton's method} is an iterative \gls{optmethod} for finding local minima 
+		or maxima of a \gls{differentiable} \gls{objfunc} $f(\weights)$. Like \gls{gdmethods}, also Newton's method 
+		computes a new estimate $\estparams{\iteridx+1}$ by optimizing a local approximation of $f(\weights)$ around 
+		the current estimate $\estparams{\iteridx}$. In contrast to \gls{gdmethods}, which uses the \gls{gradient} to build 
+		a local linear approximation, Newton's method uses the \gls{hessian} matrix to build a local quadratic approximation. 
+		In particular, starting from an initial estimate $\estparams{0}$, Newton's method iteratively updates the estimate according to 
 	\[
-	  \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
+	\estparams{\iteridx+1}= \estparams{\iteridx}- \big( \nabla^2 f\big(\estparams{\iteridx}\big) \big)^{-1} \nabla f\big( \estparams{\iteridx} \big) \mbox{, for } \iteridx=0,1,\ldots.
 	\]
 	where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[samples=200,smooth]
-			\begin{scope}
-				\clip(-5,-2) rectangle (5,5);
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(20/(sin(2*\x)+2))},{sin(\x)*sqrt(20/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(16/(sin(2*\x)+2))},{sin(\x)*sqrt(16/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(12/(sin(2*\x)+2))},{sin(\x)*sqrt(12/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(8/(sin(2*\x)+2))},{sin(\x)*sqrt(8/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(4/(sin(2*\x)+2))},{sin(\x)*sqrt(4/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(1/(sin(2*\x)+2))},{sin(\x)*sqrt(1/(sin(2*\x)+2))});
-				\draw plot[domain=0:360] ({cos(\x)*sqrt(0.0625/(sin(2*\x)+2))},{sin(\x)*sqrt(0.0625/(sin(2*\x)+2))});
-				% Gradient Descent
-				\draw[->,blue,ultra thick] (-3.5,4.5) -- (-3.3,3.8);
-            \draw[->,blue,ultra thick] (-3.3,3.8) -- (-3,3.1);
-            \draw[->,blue,ultra thick] (-3,3.1) -- (-2.6,2.4);
-            \draw[->,blue,ultra thick] (-2.6,2.4) -- (-2.1,1.8);
-            \draw[->,blue,ultra thick] (-2.1,1.8) -- (-1.5,1.3);
-            \draw[->,blue,ultra thick] (-1.5,1.3) -- (-0.9,0.9);
-            \draw[->,blue,ultra thick] (-0.9,0.9) -- (-0.4,0.5);
-            \draw[->,blue,ultra thick] (-0.4,0.5) -- (-0.1,0.2);
-            \node[blue,above left] at (-3.5,4.5) {Start};
-            \node[blue,above] at (0.5,3) {Gradient Descent};
-				% Newton method
-				\draw[->,red,ultra thick] (-3.5,4.5) -- (-2,2.5);
-            \draw[->,red,ultra thick] (-2,2.5) -- (-0.8,0.8);
-            \draw[->,red,ultra thick] (-0.8,0.8) -- (0,0.1);
-            \node[red,above] at (1.5,4) {Newton's Method};
-            \node at (0,0) [circle,fill,inner sep=1pt,label=below:Minimum] {};
-				\node at (0,0) [circle,fill,inner sep=1pt,label=below:Minimum] {};
-			\end{scope}
-		\end{tikzpicture}
-		\caption{Comparison of \gls{gd} (blue) and Newton's Method (red) path towards the minimum of a loss function. Newtons's Method is faster, and has a more direct route by taking into the account the curvature of a function using the \gls{hessian}.}
-	\end{figure}
+	\\
 	See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
 	},
-	first={newtonmethod},
-	  type=math,
-		  text={newtonmethod} }
+  first={newtonmethod},
+  type=math,
+  text={newtonmethod} 
+ }
 
 		  
 \newglossaryentry{fixedpointiter}
@@ -7159,7 +7136,12 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
  \newglossaryentry{backpropagation}{
  	name={backpropagation},
  	description={
- 	  Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and biases to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtork parameters. Effectively minimizing the error.
+ 	  Backpropagation\index{backpropagation} is an \gls{algorithm} for computing the \gls{gradient} 
+	  $\nabla_{\weights} f(\weights)$ of an \gls{objfunc} $f(\weights)$ that depends on the 
+	  \gls{modelparams} $\weights$ of an \gls{ann}. One example of such an \gls{objfunc} 
+	  is the average \gls{loss} incurred by the \gls{ann} on a \gls{batch} of \glspl{datapoint}. 
+	  This \gls{algorithm} is a direct application of the chain rule from calculus to 
+	  efficiently compute partial derivatives of the \gls{lossfunc} with respect to the \gls{modelparams}.
 	   \begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[
@@ -7227,9 +7209,15 @@ Testing with Concept Activation Vectors (TCAV), where directional derivatives of
 		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
 		\label{fig:backprop_schematic}
 		\end{figure}
- 	   There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
- 	  The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
- 	  See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
+ 	   Backpropagation consists of two consecutive phases: 1) Forward pass: A \gls{batch} of \glspl{datapoint} 
+	   is fed into the \gls{ann}, which processes the input through its layers using its current weights, 
+	   ultimately producing a \gls{prediction} at its output. The \gls{prediction} of the batch is compared to 
+	   the true \gls{label} using a \gls{lossfunc}, which quantifies the \gls{prediction} error. 2) 
+	   Backward pass (backpropagation): The error is backpropagated through the \gls{ann} layers. 
+	   The obtained partial derivatives w.r.t.\ the \gls{ann} \glspl{parameter} $\weight_{1},\ldots,\weight_{\nrfeatures}$ 
+	   constitute the \gls{gradient} $\nabla f(\weights)$ which can be used, in turn, to implement 
+	   a \gls{gradstep}.\\
+ 	  See also: \gls{gd}, \gls{lossfunc}, \gls{ann}, \gls{optmethod}.
  	},
  	first={backpropagation},
  	text={backpropagation}
@@ -7362,7 +7350,7 @@ See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{v
 
 \newglossaryentry{convergence}
 {name={convergence},
-	description={TBD
+	description={TBD \index{convergence}, 
 %		In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
 %  specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
 %	close to the value limit without actually reaching it. 
@@ -7444,5 +7432,6 @@ See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{v
 %	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}
 },
 	first={convergence},
+	type =math,
 	text={convergence}, 
 }
