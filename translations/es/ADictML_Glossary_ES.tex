@@ -6542,11 +6542,16 @@ están codificadas en las aristas de una red de aprendizaje federado.
 % 	  }
 	  
 	  
-	  \newglossaryentry{backpropagation}{
-  name={backpropagation},
-  description={
-    Backpropagation\index{backpropagation} is an core algorithm in \gls{ml} used to train \gls{ann}s. It enables networks to automatically update parameters such as weights and bias to minimize a given \gls{lossfunc}. It works by calculating the gradient of a cost function (aggregated loss of the training dataset), and then using this gradient to update the newtorks parameters. Effectively minimizing the error.
-	\begin{figure}[H]
+\newglossaryentry{backpropagation}{
+ 	name={Retropropagación},
+ 	description={
+ 	  Backpropagation\index{backpropagation} es un algoritmo para calcular el gradiente
+	  $\nabla_{\weights} f(\weights)$ de una funcion objetivo $f(\weights)$ que depende de los 
+	  parametros del modelo $\weights$ de una red artificial neuronal. Un ejemplo de tal función de objetivo
+	  es la perdida promedio incurrida por la red artificial neuronal en un lote de puntos de datos. 
+	  Este algoritmo es una aplicación directa de la regla de la cadena del cálculo diferencial para 
+	  calcular de manera eficiente las derivadas parciales de la función de perdida con respecto a los parametros del modelo.
+	   \begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[
 			>=Stealth,
@@ -6594,46 +6599,98 @@ están codificadas en las aristas de una red de aprendizaje federado.
 		}
 		%--- Annotations ---------------------------------------------------------------
 		% Forward / Backward labels
-		\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (predictions)};
-		\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (gradients)};
+		\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (predicciones)};
+		\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (gradientes)};
 		% Weight / bias hints
 		\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
 		\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
 		% Legend
 		\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
 		\begin{tikzpicture}[baseline={(0,0)}]
-		  \draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (data flow)};
-		  \draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (gradients)};
+		  \draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (flujo de datos)};
+		  \draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (gradientes)};
 		\end{tikzpicture}
 		};
 		% Caption label node (optional visual helpers)
 		\node[lbl] at ($(yhat)!0.5!(loss)+(0,1.2)$) {$\mathcal{L}(\hat{y},y)$};
 		\node[lbl] at ($(x2)+(0,-2.8)$) {$a^{(0)}{=}\mathbf{x}$,\; $a^{(1)}{=}\sigma(z^{(1)})$,\; $a^{(2)}{=}\hat{y}$};
 		\end{tikzpicture}
-		\caption{Solid arrows show the forward pass (data flow and loss calculation), dashed arrows show the gradient correction flow during the backward pass for updating the parameters {$W^{(x)},\,b^{(x)}$}.}
+		\caption{Las flechas sólidas muestran la pasada hacia adelante (flujo de datos y cálculo de la pérdida), las flechas discontinuas muestran el flujo de corrección de gradientes durante la pasada hacia atrás para actualizar los parámetros {$W^{(x)},\,b^{(x)}$}.}
 		\label{fig:backprop_schematic}
 		\end{figure}
-	 There are two steps to this process: 1) Forward pass: A batch of data is fed to the network, and each hidden layer computes its output using the current weights and biases, ultimately producing a prediction. The prediction of the batch is compared to the true output with a loss function, which quantifies the error. 2) Backward pass (backpropagation): The error is backpropagated through the network. The chain rule from calculus is used to quantify how much each weight and bias is contributing to the total loss.
-	The calculated gradients are used to adjust the weights and biases, moving them towards a reduced error. This is repeated multiple times until a satisfactory accuracy is reached. \\
-    See also: \gls{gd}, \gls{lossfunc}, \gls{learnrate}, \gls{ann}, \gls{optmethod}, \gls{ssl}.
-  },
-  first={backpropagation},
-  text={backpropagation}
-}
+ 	   Backpropagation consta de dos fases consecutivas: 1) Forward pass: un lote de puntos de datos 
+	   se introduce en la red artificial neuronal, la cual procesa la entrada a través de sus capas usando sus pesos actuales, 
+	   produciendo finalmente una predicción en su salida. La predicción del lote se compara con la 
+	   etiqueta verdadera mediante una función de perdida, que cuantifica el error de la predicción. 2) 
+	   Backward pass (backpropagation): el error se retropropaga a través de las capas de la \gls{ann}. 
+	   Las derivadas parciales obtenidas con respecto a los parametros $\weight_{1},\ldots,\weight_{\nrfeatures}$ 
+	   constituyen el gradiente $\nabla f(\weights)$, el cual puede emplearse, a su vez, para implementar 
+	   un paso de gradiente\\
+ 	  Véa también: \gls{gd}, \gls{lossfunc}, \gls{ann}, \gls{optmethod}.
+ 	},
+ 	first={Retropropagación},
+ 	text={Retropropagación}
+  }
 
-	  \newglossaryentry{newtonmethod}{
-  name={Newton's method},
-  description={Newton's method is a second order iterative \gls{optmethod} for finding local minima or maxima of multivariate differentiable functions. Unlike a first order method like \gls{gd} which only uses the gradient as information, Newton's method uses second order derivatives through the \gls{hessian} to achieve faster convergence. At each iteration, the method updates the parameter vector $\weights^{(k)}$ by: 
-  \[
-    \weights^{(k+1)} = \weights^{(k)} - \big( \nabla^2 f(\weights^{(k)}) \big)^{-1} \nabla f(\weights^{(k)}),
-  \]
-  where $\nabla f(\weights^{(k)})$ is the \gls{gradient}, and $\nabla^2 f(\weights^{(k)})$ is the \gls{hessian} of the \gls{objfunc} $f$. 
-  \\
-  See also: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
-  },
+
+  \newglossaryentry{newtonmethod}{
+	name={Método de Newton},
+	description={El método de Newton\index{Método de Newton} es un \gls{optmethod} iterativo para encontrar mínimos 
+	o máximos locales de una \gls{differentiable} \gls{objfunc} $f(\weights)$. Al igual que los \gls{gdmethods}, 
+	el método de Newton calcula una nueva estimación $\estparams{\iteridx+1}$ optimizando una aproximación local 
+	de $f(\weights)$ alrededor de la estimación actual $\estparams{\iteridx}$. En contraste con los \gls{gdmethods}, 
+	que utilizan el \gls{gradient} para construir una aproximación lineal local, el método de Newton utiliza la matriz 
+	\gls{hessian} para construir una aproximación cuadrática local. 
+	En particular, partiendo de una estimación inicial $\estparams{0}$, el método de Newton actualiza iterativamente la estimación de acuerdo con 
+	\[
+	\estparams{\iteridx+1}= \estparams{\iteridx}- \big( \nabla^2 f\big(\estparams{\iteridx}\big) \big)^{-1} \nabla f\big( \estparams{\iteridx} \big) \mbox{, para } \iteridx=0,1,\ldots.
+	\]
+	Aquí, $\nabla f\big(\estparams{\iteridx} \big)$ es el \gls{gradient}, y $\nabla^2 f(\weights^{(\iteridx)})$ es 
+	el \gls{hessian} de la \gls{objfunc} $f$. Dado que usar una \gls{quadfunc} como aproximación local es más preciso 
+	que usar una \gls{function} lineal (que es un caso particular de \gls{quadfunc}), el método de Newton tiende a 
+	converger más rápido que los \gls{gdmethods}. Sin embargo, esta mayor rapidez de convergencia conlleva un incremento en la 
+	complejidad computacional de las iteraciones. De hecho, cada iteración del método de Newton requiere la inversión de la \gls{hessian}.
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}[samples=200,smooth]
+			\begin{scope}
+				\clip(-5,-2) rectangle (5,5);
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(20/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(20/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(16/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(16/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(12/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(12/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(8/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(8/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(4/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(4/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(1/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(1/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(0.0625/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(0.0625/(sin(2*\x)+2))});
+				% Gradient Descent path
+				\draw[->,blue,ultra thick] (-3.5,4.5) -- (-3.3,3.8);
+				\draw[->,blue,ultra thick] (-3.3,3.8) -- (-3,3.1);
+				\draw[->,blue,ultra thick] (-3,3.1) -- (-2.6,2.4);
+				\draw[->,blue,ultra thick] (-2.6,2.4) -- (-2.1,1.8);
+				\draw[->,blue,ultra thick] (-2.1,1.8) -- (-1.5,1.3);
+				\draw[->,blue,ultra thick] (-1.5,1.3) -- (-0.9,0.9);
+				\draw[->,blue,ultra thick] (-0.9,0.9) -- (-0.4,0.5);
+				\draw[->,blue,ultra thick] (-0.4,0.5) -- (-0.1,0.2);
+				\node[blue,above left] at (-3.5,4.5) {Inicio};
+				\node[blue,above] at (0.5,3) {Descenso de Gradiente};
+				% Newton's Method path 
+				\draw[->,red,ultra thick] (-3.5,4.5) -- (-2,2.5);
+				\draw[->,red,ultra thick] (-2,2.5) -- (-0.8,0.8);
+				\draw[->,red,ultra thick] (-0.8,0.8) -- (0,0.1);
+				\node[red,above] at (1.5,4) {Método de Newton};
+				\node at (0,0) [circle,fill,inner sep=1pt,label=below:Mínimo] {};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Comparación de las trayectorias del Descenso de Gradiente (azul) y del Método de Newton (rojo) hacia el mínimo de una función de pérdida.}
+	\end{figure}
+	\\
+	Véase también: \gls{optmethod}, \gls{gd}, \gls{hessian}, \gls{gradient}.
+	},
   first={newtonmethod},
-	type=math,
-		text={newtonmethod} }
+  type=math,
+  text={newtonmethod} 
+ }
+
 
 		\newglossaryentry{hessian}{
 			name={hessiana},
@@ -6644,40 +6701,42 @@ están codificadas en las aristas de una red de aprendizaje federado.
 		  
 \newglossaryentry{convexopt}{
   name={convex optimization},
-  description={
-    Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
-    A convex optimization problem is typically formulated as
-    \[
-    \min_{\mathbf{x} \in \mathcal{C}} f(\mathbf{x}),
-    \]
-    where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set.\\[0.5ex]
-    Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}) are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
-    It provides a theoretical foundation for understanding convergence guarantees, optimality conditions, and algorithmic efficiency in machine learning.\\
-    See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
+  description={ TBD
+    % Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
+    % A convex optimization problem is typically formulated as
+    % \[
+    % \min_{\mathbf{x} \in \mathcal{C}} f(\mathbf{x}),
+    % \]
+    % where \(f: \mathbb{R}^{n} \rightarrow \mathbb{R}\) is a convex function and \(\mathcal{C} \subseteq \mathbb{R}^{n}\) is a convex constraint set.\\[0.5ex]
+    % Many \gls{ml} problems, such as support vector machines, regression (e.g., \gls{lasso}, \gls{ridgeregression}) are convex optimization tasks. These can be solved efficiently using algorithms like \gls{gd}, proximal methods, or interior-point methods. Convex optimization is also widely used in fields like signal processing, economics, and operations research.\\[0.5ex]
+    % It provides a theoretical foundation for understanding convergence guarantees, optimality conditions, and algorithmic efficiency in machine learning.\\
+    % See also: \gls{convex}, \gls{function}, \gls{gd}, \gls{lasso}, \gls{ridgeregression}, \gls{optmethod}.
   },
   first={convex optimization},
 	type =math,
   text={convex optimization}
 }
 
-\newglossaryentry{epoch}
+\newglossaryentry{época}
 {name={epoch},
-	description={An epoch represents one complete pass of the entire \gls{trainset} through some learning \gls{algorithm}. It is when a \gls{model} has processed every \gls{datapoint} in the \gls{trainset} once. 
-	Training a \gls{model} usually requires multiple epochs, since each iteration allows the \gls{model} to refine the \gls{parameters} and improve \gls{prediction}s. The number of epochs is something predefined by the user, 
-	this is an essential hyperparameter as it is a crucial factor in determining how the model will generalize to unseen data. Too few epochs will result in \gls{underfitting}, conversely, too many epochs can result in \gls{overfitting}.},
+	description={Una \emph{época} (epoch) representa un recorrido completo de todo el conjunto de entrenamiento a través de algún algoritmo de aprendizaje. Es cuando un modelo ha procesado cada punto de datos en el conjunto de entrenamiento una vez. 
+	Entrenar un modelo normalmente requiere múltiples \emph{épocas}, ya que cada iteración permite al modelo refinar los parametros y mejorar las predicciónes. El número de \emph{épocas} es algo predefinido por el usuario, 
+	siendo este un hiperparámetro esencial, pues constituye un factor crucial para determinar cómo el modelo generalizará a datos no vistos. Muy pocas \emph{épocas} resultarán en subajuste; por el contrario, demasiadas \emph{épocas} pueden llevar a sobrejuste.},
 	first={epoch},text={epoch}
-} 
+}
+
 
 
 \newglossaryentry{batchlearning}
 {name={batchlearning},
-description={In batch learning (also known as: offline learning), the \gls{ml} \gls{model} is trained on the entire \gls{dataset} in a single training iteration, instead of updating it incrementally as \gls{data} arrives. All available \gls{data} is inputted into a learning \gls{algorithm} resulting in a \gls{model} that can make predictions. Since these \gls{dataset} tend to be large,
-training is computationally expensive and time consuming, so it is typically performed offline. After learning, the \gls{model} will be static and will not adapt to new \gls{data} automatically. Updating the \gls{model} with new information requires to retrain the \gls{model} entirely again. Once the model has been trained, it is launched into production where it cannot be updated. 
-Training a model can take many hours, so many models in production settings are updated cyclically on a periodic schedule when the data distribution is stable. Eg, a retail analytics team could retrain their demand forecast model every sunday using the previous week's sales data to predict next week's demand. 
-If a system needs to be constantly updated to rapidly changing data such as stock price prediction, a more adaptable solution such as \gls{onlinelearning} is necessary.\\
-See also: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
+description={En \emph{batch learning} (también conocido como: aprendizaje \emph{offline}), el modelo de aprendizaje automático se entrena sobre el conjunto de datos completo en una única iteración de entrenamiento, en lugar de actualizarlo de manera incremental conforme llegan los datos. Todos los datos disponibles se introducen en un algoritmo de aprendizaje, resultando en un modelo que puede realizar predicciónes. Dado que estos conjuntos de datos suelen ser grandes,
+el entrenamiento es computacionalmente costoso y consume mucho tiempo, por lo que normalmente se realiza \emph{offline}. Después del entrenamiento, el modelo será estático y no se adaptará automáticamente a nuevos datos. Actualizar el modelo con nueva información requiere volver a entrenar completamente el modelo. Una vez que el modelo ha sido entrenado, se despliega en producción donde no puede ser actualizado. 
+Entrenar un modelo puede tomar muchas horas, por lo que muchos modelos en entornos de producción se actualizan de manera cíclica en un calendario periódico cuando la distribución de los datos es estable. Por ejemplo, un equipo de análisis minorista podría reentrenar su modelo de predicción de demanda cada domingo utilizando los datos de ventas de la semana anterior para predecir la demanda de la semana siguiente. 
+Si un sistema necesita actualizarse constantemente frente a datos que cambian rápidamente, como en la predicción de precios bursátiles, es necesaria una solución más adaptable como el aprendizaje en linea.\\
+Véa también: \gls{model}, \gls{dataset}, \gls{batch}, \gls{onlinelearning}. },
 	first={batchlearning},text={batchlearning}
-} 
+}
+
 
 
 \newglossaryentry{cav}
@@ -6702,7 +6761,7 @@ Además, los CAVs son útiles para eliminar sesgos en redes neuronales en los ca
 
 \newglossaryentry{arimamodel}
 {name={ARIMA},
-	description={ 
+	description={ TBD
 }, 
 	first={ARIMA},
 	text={ARIMA}, 
@@ -6710,80 +6769,88 @@ Además, los CAVs son útiles para eliminar sesgos en redes neuronales en los ca
 
 \newglossaryentry{convergence}
 {name={convergence},
-	description={In mathematics, convergence refers to a sequence or process where the values are progressing towards a specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
-	close to the value limit without actually reaching it. 
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}
-		\begin{axis}[
-		  width=\linewidth, height=6.2cm,
-		  xmin=-0.5, xmax=10.5,
-		  ymin=0.7,  ymax=1.2,
-		  grid=both,
-		  xlabel={$n$},
-		  ylabel={$x_n$},
-		  legend style={draw=none, fill=none, font=\small},
-		  legend pos=south east,
-		  ticklabel style={/pgf/number format/fixed},
-		]
-		\def\L{1}
-		\def\eps{0.1}
-		% --- epsilon-tube around L ---
-		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
-		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
-		\addplot[fill=gray!20] fill between[of=upper and lower];
-		\addplot[black, dashed, domain=-0.5:10.5] {\L};
-		\addlegendentry{$L=1$}
-		\addplot+[
-		  only marks, mark=*, mark size=2pt, thick
-		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
-		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
-		\addplot+[
-		  only marks, mark=square*, mark size=2pt, thick
-		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
-		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
-		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
-		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
-		\end{axis}
-		\end{tikzpicture}
-		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
-		\label{fig:convergence}
-		\end{figure}
-		Conversely, in \gls{ml}, convergence is the stage where the \gls{loss} values of a \gls{model} have insignificant changes with each increasing iteration. This signifies that additional training of the \gls{model} will not render any benefits to its performance. 
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}
-	\begin{axis}[
-	  width=\linewidth, height=6.2cm,
-	  xmin=-0.5, xmax=30.5,
-	  ymin=0.16,  ymax=1.05,
-	  grid=both,
-	  xlabel={Iterations},
-	  ylabel={Loss},
-	  legend style={draw=none, fill=none, font=\small},
-	  legend pos=north east,
-	  ticklabel style={/pgf/number format/fixed},
-	]
-	\def\L{0.20}    
-	\def\Lzero{1.00}
-	\def\alpha{0.25}
-	\def\eps{0.03}  
-	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
-	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
-	\addplot[fill=gray!20] fill between[of=upper and lower];
-	\addplot[black, dashed, domain=-0.5:30.5] {\L};
-	\addplot+[
-	  only marks, mark=*, mark size=2pt, thick
-	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
-	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
-	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
-	\end{axis}
-	\end{tikzpicture}
-	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve with each iteration.}
-	\label{fig:ml_convergence_loss_noJ}
-	\end{figure}
+	description={TBD \index{convergence}, 
+%		In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
+%  specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
+%	close to the value limit without actually reaching it. 
+%	\begin{figure}[H]
+%		\centering
+%		\begin{tikzpicture}
+%		\begin{axis}[
+%		  width=\linewidth, height=6.2cm,
+%		  xmin=-0.5, xmax=10.5,
+%		  ymin=0.7,  ymax=1.2,
+%		  grid=both,
+%		  xlabel={$n$},
+%		  ylabel={$x_n$},
+%		  legend style={draw=none, fill=none, font=\small},
+%		  legend pos=south east,
+%		  ticklabel style={/pgf/number format/fixed},
+%		]
+%		\def\L{1}
+%		\def\eps{0.1}
+%		% --- epsilon-tube around L ---
+%		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
+%		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
+%		\addplot[fill=gray!20] fill between[of=upper and lower];
+%		\addplot[black, dashed, domain=-0.5:10.5] {\L};
+%		\addlegendentry{$L=1$}
+%		\addplot+[
+%		  only marks, mark=*, mark size=2pt, thick
+%		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
+%		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
+%		\addplot+[
+%		  only marks, mark=square*, mark size=2pt, thick
+%		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
+%		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
+%		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
+%		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
+%		\end{axis}
+%		\end{tikzpicture}
+%		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
+%		\label{fig:convergence}
+%		\end{figure}
+%		In the context of \gls{ml}, convergence is the state achived during training where the \gls{loss} value of a \gls{model} settles into a stable, minimal range. At this state, any further training will not improve the performance or predictions by the \gls{model}.  
+%    	The process of convergence requires some \gls{optmethod} such as \gls{newtonsmethod} or \gls{gd} adjusting the parameters of the model to find an optimal solution. 
+%		Convergence generally also serves as a stopping point for training, preventing further use of resources and unecessary computation. 
+%   
+%\begin{figure}[H]
+%	\centering
+%	\begin{tikzpicture}
+%	\begin{axis}[
+%	  width=\linewidth, height=6.2cm,
+%	  xmin=-0.5, xmax=30.5,
+%	  ymin=0.16,  ymax=1.05,
+%	  grid=both,
+%	  xlabel={Iterations},
+%	  ylabel={Loss},
+%	  legend style={draw=none, fill=none, font=\small},
+%	  legend pos=north east,
+%	  ticklabel style={/pgf/number format/fixed},
+%	]
+%	\def\L{0.20}    
+%	\def\Lzero{1.00}
+%	\def\alpha{0.25}
+%	\def\eps{0.03}  
+%	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
+%	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
+%	\addplot[fill=gray!20] fill between[of=upper and lower];
+%	\addplot[black, dashed, domain=-0.5:30.5] {\L};
+%	\addplot+[
+%	  only marks, mark=*, mark size=2pt, thick
+%	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
+%	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
+%	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
+%	\end{axis}
+%	\end{tikzpicture}
+%	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the 
+%  $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve 
+%  with each iteration.}
+%	\label{fig:ml_convergence_loss_noJ}
+%	\end{figure}
+%	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}
 },
 	first={convergence},
+	type =math,
 	text={convergence}, 
 }
-
