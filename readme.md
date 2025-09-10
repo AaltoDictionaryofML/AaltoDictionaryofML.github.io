@@ -34,4 +34,4 @@ Explore how key concepts relate to one another:
 
 ## 📌 Citation
 
-A. Jung, et.al.,  (2025). *The Aalto Dictionary of Machine Learning*. Retrieved from [https://aaltodictionaryofml.github.io](https://aaltodictionaryofml.github.io)
+A. Jung et al. (2025). *The Aalto Dictionary of Machine Learning*. Retrieved from [https://aaltodictionaryofml.github.io](https://aaltodictionaryofml.github.io)
