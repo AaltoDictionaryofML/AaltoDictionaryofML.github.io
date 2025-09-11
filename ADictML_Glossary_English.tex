@@ -7263,17 +7263,22 @@ sort={Renyi},
 
 \newglossaryentry{vcdim}
 {name={Vapnik–Chervonenkis dimension (VC dimension)},
-	description={The statistical properties of an \gls{erm}-based method depends strongly on the expressive capacity 
-		of its \gls{hypospace} (or \gls{model}) $\hypospace$. A standard measure of this capacity is the 
-		\index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension $\operatorname{VCdim}(\hypospace)$ 
-		\cite{vapnik2015uniform}. Formally, it is the largest integer $\samplesize$ such that there exists a \gls{dataset} 
-		$\dataset = \{\vx^{(1)},\dots,\vx^{(\samplesize)}\} \subseteq \featurespace$ that can be perfectly classified (or shattered) 
-		by $\hypospace$. In particular, for every one of the $2^\samplesize$ possible assignments of binary \glspl{label} teach 
-		each \gls{featurevec} in $\dataset$, there exists some \gls{hypothesis} $\hypothesis \in \hypospace$ that realizes 
-		this labelling. Intuitively, the VC dimension quantifies how well $\hypospace$ can fit arbitrary \gls{label} assignments, 
-		and thus captures its approximative power. It plays a central role in deriving bounds on the \gls{gengap}.
+	description={
+		The statistical properties of an \gls{erm}-based method depend critically on the expressive 
+		capacity of its \gls{hypospace} (or \gls{model}) $\hypospace$. A standard measure of this 
+		capacity is the \index{Vapnik–Chervonenkis dimension (VC dimension)} VC dimension 
+		$\vcdim{\hypospace}$~\cite{vapnik2015uniform}. Formally, it is the largest 
+		integer $\samplesize$ for which there exists a \gls{dataset} 
+		$\dataset = {\featurevec^{(1)},\dots,\featurevec^{(\samplesize)}} \subseteq \featurespace$ 
+		that can be perfectly classified (or shattered) by some $\hypothesis \in \hypospace$. In particular, 
+		for every one of the $2^\samplesize$ possible assignments of binary \glspl{label} to 
+		each \gls{featurevec} in $\dataset$, there exists some \gls{hypothesis} $\hypothesis \in \hypospace$ 
+		that realizes this labelling. Intuitively, the VC dimension quantifies how well $\hypospace$ can fit 
+		arbitrary \gls{label} assignments, and thus captures its approximative power. It plays a central role 
+		in deriving bounds on the \gls{gengap}.
 \begin{figure}[h]
 	\centering
+	\vspace*{3mm}
 	\begin{subfigure}{.3\textwidth}
 		\centering
 		\begin{tikzpicture}[scale =.4]
@@ -7283,6 +7288,7 @@ sort={Renyi},
 			\draw [black] (-1.5,0) -- (1.5,0);
 		\end{tikzpicture}  
 	%	\caption{Case 1}
+	\subcaption*{(a)}
 		\label{fig:VC_a}
 	\end{subfigure}%
 	\begin{subfigure}{.3\textwidth}
@@ -7293,6 +7299,7 @@ sort={Renyi},
 			\filldraw [blue] (-1,-1) circle (3pt);
 			\draw [black] (-1.2,0.3) -- (0.3,-1.2);
 		\end{tikzpicture}  
+		\subcaption*{(b)}
 	%	\caption{Case 2}
 		\label{fig:VC_b} 
 	\end{subfigure}
@@ -7305,36 +7312,29 @@ sort={Renyi},
 			\filldraw [blue] (-1,-1) circle (3pt);
 		\end{tikzpicture}  
 	%	\caption{Case 3}
+	 \subcaption*{(c)}
 		\label{fig:VC_c}
 	\end{subfigure}
-	\caption{Illustration of the \gls{vcdim} for a \gls{linmodel} suing \gls{featurespace} $\mathbb{R}^2$. 
-		(a) and (b): the same three \glspl{datapoint} with two different binary labellings, each 
-		correctly separated by a linear \gls{decisionboundary}. Since all $2^3$ labellings can be realized, 
-		this \gls{dataset} (of size three) is shattered. 
-		(c): Another \gls{dataset} of size four and with a specific labelling, which cannot be separated 
-		by a single linear \gls{decisionboundary}. 
-		Thus, $\operatorname{VCdim}(\mathbb{R}^2) = 3$.}
-	\label{fig:vcdim}
+	\vspace*{3mm}
+	\caption{Illustration of the \gls{vcdim} for a \gls{linmodel} $\linmodel{2}$ that is used 
+		to learn a \gls{linclass} in the \gls{featurespace} $\mathbb{R}^2$.	\label{fig:vcdim_dict} }
 \end{figure}
-Figure~\ref{fig:vcdim} illustrates the definition of the VC dimension for a \gls{linmodel} $\linmodel{2}$ using 
-$\featurelen=2$ \glspl{feature}. 
-Panels~(a) and~(b) show the same set of three non-collinear \glspl{datapoint}, 
-together with two different binary labellings. In each case, a separating hyperplane 
-can be found that realizes the labelling. Since all $2^3 = 8$ possible binary labellings 
-of these three \glspl{datapoint} can be realized, the set is shattered.
-Panel~(c) shows four points in $\mathbb{R}^2$ with a specific labelling. 
-Here, no linear separator exists that correctly classifies all \glspl{datapoint}, 
-which demonstrates that no set of four points in $\mathbb{R}^2$ can be shattered 
-by linear models. Thus, $\operatorname{VCdim}(\mathbb{R}^2) = 3$.  
-More generally, it can be shown that for a \gls{linmodel} $\linmodel{\nrfeatures}$, 
-$\operatorname{VCdim}\big(\linmodel{\nrfeatures}\big) = \nrfeatures+1$. Thus, for a \gls{linmodel} 
-the VC dimension essentially coincides with the dimension of the underlying \gls{featurespace} $\mathbb{R}^{\nrfeatures}$. 
-However, for more general \glspl{hypospace} such as \glspl{decisiontree} or \glspl{ann} the 
-relation between VC dimension and dimension of the underlying \gls{featurespace} is much more 
-complicated. In such cases, alternative complexity measures such as the \gls{rademachercomplexity} 
-can be more convenient for the analysis of \gls{erm}-based methods.
+Figure~\ref{fig:vcdim_dict} illustrates the definition of the VC dimension for a \gls{linmodel} $\linmodel{2}$ 
+with $\featurelen=2$ \glspl{feature}. Figures~\ref{fig:vcdim_dict}-(a) and (b) show the same set of three 
+non-collinear \glspl{featurevec} under two different binary labellings. In both cases, a separating 
+hyperplane exists that realizes the labelling. Since this holds for all $2^3=8$ possible binary labellings 
+of the three \glspl{featurevec}, the set is said to be shattered.
+Figure~\ref{fig:vcdim_dict}-(c) depicts four \glspl{featurevec} with a particular labelling. No linear 
+separator can classify all \glspl{datapoint} correctly in this case. Thus, $\vcdim{\linmodel{2}}=3$. More 
+generally, for a \gls{linmodel} $\linmodel{\nrfeatures}$, the VC dimension equals $\nrfeatures+1$. 
+In other words, for linear models the VC dimension essentially matches the dimension of the 
+underlying \gls{featurespace} $\mathbb{R}^{\nrfeatures}$. 
+For more complex \glspl{hypospace}, such as \glspl{decisiontree} or \glspl{ann}, the relation 
+between VC dimension and the dimension of the \gls{featurespace} is far less direct. In 
+these cases, alternative complexity measures, such as the \gls{rademachercomplexity}, 
+can be more useful for analyzing \gls{erm}-based methods.
 \\
-See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{rademachercomplexity}.}
+See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{rademachercomplexity}.},
 	first={Vapnik–Chervonenkis dimension (VC dimension)},
 	text={VC dimension}
 }
