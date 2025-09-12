@@ -18,6 +18,7 @@
 %\usepackage[automake,stylemods={tree}]{glossaries-extra}
 \usepackage[automake,stylemods={tree}]{glossaries-extra}
 \usepackage{etoolbox}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
 
 \makeatletter
 \define@key{glossentry}{user7}{%
@@ -79,6 +80,7 @@
 \usepackage{etoolbox} %for the index section-the labels
 \usepackage{setspace} %for multiline spacing control in the index section
 \usepackage{caption}
+\usepackage{subcaption}
 \captionsetup[figure]{name=Fig., labelsep=period} % Customize figure caption format
 \addto\captionsgreek{
   \renewcommand{\figurename}{Σχ.}
@@ -219,8 +221,8 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 %\thanks{}
 %}
 
-\author{\hspace{-2mm}Alexander Jung${}^{1}$, \ Konstantina Olioumtsevits${}^{1}$, \ Juliette Gronier${}^{2}$, \\[-2mm]
-	\ \foreignlanguage{greek}{και} \ Salvatore Rastelli${}^{1}$ \\[-2mm]
+\author{\hspace{-2mm}Alexander Jung${}^{1}$, \ Konstantina Olioumtsevits${}^{1}$, \ Ekkehard Schnoor${}^{1}$, \\[-2mm]  
+	\ Tommi Flores Ryynänen${}^{1}$,\ Juliette Gronier${}^{2}$, \ \foreignlanguage{greek}{και} Salvatore Rastelli${}^{1}$ \\[-2mm]
 	${}^{1}$Aalto University \quad ${}^{2}$ENS Lyon \\
 \hspace{-2mm}\foreignlanguage{greek}{Μετάφραση από την} Konstantina Olioumtsevits \\[-2mm]
 }
@@ -229,7 +231,7 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 	\begin{center}
 		\resizebox{4cm}{!}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/translations/gr}}\\[10mm]
 %	\resizebox{4cm}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}}\\[10mm]
-{\large	\foreignlanguage{greek}{αναφορά ως}: A.\ Jung, K.\ Olioumtsevits, J.\ Gronier, and S.\ Rastelli, \textit{The Aalto Dictionary of Machine Learning}, (in Greek). Espoo, Finland: Aalto University, 2025.}
+{\large	\foreignlanguage{greek}{αναφορά ως}: A.\ Jung, K.\ Olioumtsevits, E.\ Schnoor, T.\ Ryynänen, J.\ Gronier, and S.\ Rastelli, \textit{The Aalto Dictionary of Machine Learning}, (in Greek). Espoo, Finland: Aalto University, 2025.}
 \end{center}
 
 \newpage 
@@ -367,6 +369,8 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{διάνυσμα χαρακτηριστικών}] ~\hyperref[gls:def:featurevec]{\pageref{gls:def:featurevec}}
 	\item[\normalfont\foreignlanguage{greek}{διανυσματικός χώρος}] ~\hyperref[gls:def:vectorspace]{\pageref{gls:def:vectorspace}}
 	\item[\normalfont\foreignlanguage{greek}{διαρροή ιδιωτικότητας}] ~\hyperref[gls:def:privleakage]{\pageref{gls:def:privleakage}}
+	\item[\normalfont\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis] ~\hyperref[gls:def:vcdim]{\pageref{gls:def:vcdim}}
+	\vspace{1.2em}
 	\item[\normalfont\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}] ~\hyperref[gls:def:kCV]{\pageref{gls:def:kCV}}
 	\vspace{1.2em}
 	\item[\normalfont\foreignlanguage{greek}{δίαυλος ιδιωτικότητας}] ~\hyperref[gls:def:privfunnel]{\pageref{gls:def:privfunnel}}
@@ -387,6 +391,7 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}] ~\hyperref[gls:def:erm]{\pageref{gls:def:erm}}
 	\vspace{1.2em}
 	\item[\normalfont\foreignlanguage{greek}{εμπειρική διακινδύνευση}] ~\hyperref[gls:def:emprisk]{\pageref{gls:def:emprisk}}
+	\item[\normalfont\foreignlanguage{greek}{ενεργοποίηση}] ~\hyperref[gls:def:activation]{\pageref{gls:def:activation}}
 	\item[\normalfont\foreignlanguage{greek}{εντροπία}] ~\hyperref[gls:def:entropy]{\pageref{gls:def:entropy}}
 	\item[\normalfont\foreignlanguage{greek}{εξήγηση}] ~\hyperref[gls:def:explanation]{\pageref{gls:def:explanation}}
 	\item[\normalfont\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}] ~\hyperref[gls:def:eerm]{\pageref{gls:def:eerm}}
@@ -397,10 +402,11 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{επίθεση}] ~\hyperref[gls:def:attack]{\pageref{gls:def:attack}}
 	\item[\normalfont\foreignlanguage{greek}{επίθεση άρνησης υπηρεσιών}] ~\hyperref[gls:def:dosattack]{\pageref{gls:def:dosattack}}
 	\item[\normalfont\foreignlanguage{greek}{επίθεση της ιδιωτικότητας}] ~\hyperref[gls:def:privattack]{\pageref{gls:def:privattack}}
-	\item[\normalfont\foreignlanguage{greek}{επιλογή μοντέλου}] ~\hyperref[gls:def:modelsel]{\pageref{gls:def:modelsel}}
 	\item[\normalfont\foreignlanguage{greek}{επικύρωση}] ~\hyperref[gls:def:validation]{\pageref{gls:def:validation}}
+	\item[\normalfont\foreignlanguage{greek}{επιλογή μοντέλου}] ~\hyperref[gls:def:modelsel]{\pageref{gls:def:modelsel}}
 	\item[\normalfont\foreignlanguage{greek}{εργασία μάθησης}] ~\hyperref[gls:def:learningtask]{\pageref{gls:def:learningtask}}
 	\item[\normalfont\foreignlanguage{greek}{ερμηνευσιμότητα}] ~\hyperref[gls:def:interpretability]{\pageref{gls:def:interpretability}}
+	\item[\normalfont\foreignlanguage{greek}{Εσσιανός}] ~\hyperref[gls:def:hessian]{\pageref{gls:def:hessian}}
 	\item[\normalfont\foreignlanguage{greek}{ετικέτα}] ~\hyperref[gls:def:label]{\pageref{gls:def:label}}
 	\item[\normalfont\foreignlanguage{greek}{ευαίσθητο ιδιοχαρακτηριστικό}] ~\hyperref[gls:def:sensattr]{\pageref{gls:def:sensattr}}
 	\item[\normalfont\foreignlanguage{greek}{Ευκλείδειος χώρος}] ~\hyperref[gls:def:euclidspace]{\pageref{gls:def:euclidspace}}
@@ -413,9 +419,11 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{κάθοδος υποκλίσης}] ~\hyperref[gls:def:sgd]{\pageref{gls:def:sgd}}
 	\item[\normalfont\foreignlanguage{greek}{κανονικοποίηση δεδομένων}] ~\hyperref[gls:def:datanorm]{\pageref{gls:def:datanorm}}
 	\item[\normalfont\foreignlanguage{greek}{κατανομή πιθανότητας}] ~\hyperref[gls:def:probdist]{\pageref{gls:def:probdist}}
+	\item[\normalfont\foreignlanguage{greek}{κεντρικό οριακό θεώρημα}] ~\hyperref[gls:def:clt]{\pageref{gls:def:clt}}
 	\item[\normalfont\foreignlanguage{greek}{κερκόπορτα}] ~\hyperref[gls:def:backdoor]{\pageref{gls:def:backdoor}}
 	\item[\normalfont\foreignlanguage{greek}{κλίση}] ~\hyperref[gls:def:gradient]{\pageref{gls:def:gradient}}
 	\item[\normalfont\foreignlanguage{greek}{κριτήριο τερματισμού}] ~\hyperref[gls:def:stopcrit]{\pageref{gls:def:stopcrit}}
+	\item[\normalfont\foreignlanguage{greek}{κυρτή βελτιστοποίηση}] ~\hyperref[gls:def:convexopt]{\pageref{gls:def:convexopt}}
 	\item[\normalfont\foreignlanguage{greek}{κυρτή συσταδοποίηση}] ~\hyperref[gls:def:cvxclustering]{\pageref{gls:def:cvxclustering}}
 	\item[\normalfont\foreignlanguage{greek}{κυρτός}] ~\hyperref[gls:def:convex]{\pageref{gls:def:convex}}
 	\item[\normalfont\foreignlanguage{greek}{λεία}] ~\hyperref[gls:def:smooth]{\pageref{gls:def:smooth}}
@@ -448,6 +456,8 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{νόμος των μεγάλων αριθμών}] ~\hyperref[gls:def:lln]{\pageref{gls:def:lln}}
 	\item[\normalfont\foreignlanguage{greek}{νόρμα}] ~\hyperref[gls:def:norm]{\pageref{gls:def:norm}}
 	\item[\normalfont\foreignlanguage{greek}{ολική μεταβολή}] ~\hyperref[gls:def:tv]{\pageref{gls:def:tv}}
+	\item[\normalfont\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση απώλειας}] ~\hyperref[gls:def:rlm]{\pageref{gls:def:rlm}}
+	\vspace{1.2em}
 	\item[\normalfont\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}] ~\hyperref[gls:def:rerm]{\pageref{gls:def:rerm}}
 	\vspace{1.2em}
 	\item[\normalfont\foreignlanguage{greek}{ομαλοποίηση}] ~\hyperref[gls:def:regularization]{\pageref{gls:def:regularization}}
@@ -487,6 +497,7 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{πρόβλεψη}] ~\hyperref[gls:def:prediction]{\pageref{gls:def:prediction}}
 	\item[\normalfont\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}] ~\hyperref[gls:def:optproblem]{\pageref{gls:def:optproblem}}
 	\item[\normalfont\foreignlanguage{greek}{προβολή}] ~\hyperref[gls:def:projection]{\pageref{gls:def:projection}}
+	\item[\normalfont\foreignlanguage{greek}{προεικόνα}] ~\hyperref[gls:def:preimage]{\pageref{gls:def:preimage}}
 	\item[\normalfont\foreignlanguage{greek}{προσδοκία}] ~\hyperref[gls:def:expectation]{\pageref{gls:def:expectation}}
 	\item[\normalfont\foreignlanguage{greek}{προσεγγίσιμος}] ~\hyperref[gls:def:proximable]{\pageref{gls:def:proximable}}
 	\item[\normalfont\foreignlanguage{greek}{προστασία της ιδιωτικότητας}] ~\hyperref[gls:def:privprot]{\pageref{gls:def:privprot}}
@@ -500,6 +511,8 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{στοχαστική διαδικασία}] ~\hyperref[gls:def:stochproc]{\pageref{gls:def:stochproc}}
 	\item[\normalfont\foreignlanguage{greek}{στοχαστική κάθοδος κλίσης}] ~\hyperref[gls:def:stochGD]{\pageref{gls:def:stochGD}}
 	\item[\normalfont\foreignlanguage{greek}{στοχαστικός αλγόριθμος}] ~\hyperref[gls:def:stochalgorithm]{\pageref{gls:def:stochalgorithm}}
+	\item[\normalfont\foreignlanguage{greek}{στρώμα}] ~\hyperref[gls:def:layer]{\pageref{gls:def:layer}}
+	\item[\normalfont\foreignlanguage{greek}{σύγκλιση}] ~\hyperref[gls:def:convergence]{\pageref{gls:def:convergence}}
 	\item[\normalfont\foreignlanguage{greek}{συνάρτηση}] ~\hyperref[gls:def:function]{\pageref{gls:def:function}}
 	\item[\normalfont\foreignlanguage{greek}{συνάρτηση απώλειας}] ~\hyperref[gls:def:lossfunc]{\pageref{gls:def:lossfunc}}
 	\item[\normalfont\foreignlanguage{greek}{συνάρτηση ενεργοποίησης}] ~\hyperref[gls:def:actfun]{\pageref{gls:def:actfun}}
@@ -524,6 +537,7 @@ Seesto \foreignlanguage{greek}{για τη σχολαστική του διόρ�
 	\item[\normalfont\foreignlanguage{greek}{ταξινομητής}] ~\hyperref[gls:def:classifier]{\pageref{gls:def:classifier}}
 	\item[\normalfont\foreignlanguage{greek}{τελεστής ελάχιστης απόλυτης συρρίκνωσης και επιλογής}] ~\hyperref[gls:def:lasso]{\pageref{gls:def:lasso}}
 	\vspace{1.2em}
+	\item[\normalfont\foreignlanguage{greek}{τετραγωνική συνάρτηση}] ~\hyperref[gls:def:quadfunc]{\pageref{gls:def:quadfunc}}
 	\item[\normalfont\foreignlanguage{greek}{τεχνητή νοημοσύνη (ΤΝ)}] ~\hyperref[gls:def:ai]{\pageref{gls:def:ai}}
 	\item[\normalfont\foreignlanguage{greek}{τεχνητό νευρωνικό δίκτυο (ΤΝΔ)}] ~\hyperref[gls:def:ann]{\pageref{gls:def:ann}}
 	\vspace{1.2em}
