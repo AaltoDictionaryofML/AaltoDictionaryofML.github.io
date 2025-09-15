@@ -5209,21 +5209,73 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	text={EERM} 
 }
 	
+
 	
 \newglossaryentry{kmeans}
 {name={$k$-means}, 
 sort={k-means},
-	description={The\index{$k$-means} $k$-\glspl{mean} \gls{algorithm} 
-		is a \gls{hardclustering} method that assigns each \gls{datapoint} of a \gls{dataset} 
-		to precisely one of $k$ different \glspl{cluster}. The method alternates between updating 
-		the \gls{cluster} assignments (to the \gls{cluster} with the nearest \gls{mean}) and 
-		recalculating the \gls{cluster} \glspl{mean} given the updated \gls{cluster} assignments \cite[Ch. 8]{MLBasics}.
-				\\
+	description={The\index{$k$-means} $k$-means principle is an optimization-based approach to 
+		 the \gls{clustering} of \glspl{datapoint} that are characterized by a numeric \gls{featurevec}  \cite[Ch. 8]{MLBasics}. 
+		 As a \gls{hardclustering} approach, $k$-means partitions a \gls{dataset} into $k$ disjoint 
+		 subsets (or \glspl{cluster}), indexed by $\clusteridx=1,\ldots,\nrcluster$. Each \gls{cluster} $\cluster$ 
+		 is characterized by the average \gls{featurevec} of \glspl{datapoint} that belong to it. This average 
+		 (or mean) \gls{featurevec} is referred to as the \gls{clustercentroid} $\clustercentroid{\clusteridx}$. 
+		\begin{figure}[htbp]
+			\begin{center}
+		\begin{tikzpicture}[scale=1]
+			% Styles
+			\tikzset{
+				data/.style={circle, fill=black, inner sep=1.2pt},
+				centroid/.style={thick, cross out, draw, minimum size=6pt, inner sep=0pt}
+			}
+% Cluster A data (with one labeled point)
+			\node[data] (xi) at (1.0,0.2) {};
+			\node[right=0pt of xi,yshift=2pt] {$\featurevec^{(\sampleidx)}$};
+% The rest unlabeled
+		\foreach \p in {(-0.3,0.0),(0.2,-0.4),(0.6,0.8),(0.0,0.9),(1.1,-0.2)}
+								\node[data] at \p {};
+% Cluster B data (spread wider)
+			\foreach \p in {(2.5,1.0),(3.7,1.2),(2.6,2.3),(3.8,2.5),(3.0,2.9),(3.6,1.6)}
+			\node[data] at \p {};
+% Centroids as crosses
+			\node[centroid] (mu1) at (0.55,0.4) {};
+			\node[centroid] (mu2) at (3.1,1.85) {};
+			% Labels
+			\node[above of=mu1,yshift=-25pt,xshift=-10pt] {$\clustercentroid{1}$};
+			\node[above of=mu2,yshift=-25pt,xshift=-10pt] {$\clustercentroid{2}$};
+		\end{tikzpicture}
+		\end{center}
+		\caption{A \gls{scatterplot} of \gls{datapoint}, indexed by $\sampleidx=1,\ldots,\samplesize$ and 
+			characterized by \glspl{featurevec} $\featurevec^{(\sampleidx)} \in \mathbb{R}^{2}$. 
+			The \gls{scatterplot} also includes two \gls{cluster} centroids $\clustercentroid{1}, \clustercentroid{2} \in \mathbb{R}^{2}$. \label{fig_kmeans_dict}}
+		\end{figure} 
+		In general, the $k$-means problem is a challenging optimization problem \cite{Mahajan2009Springer}. 
+		However, there is a simple iterative method for finding approximately optimal \glspl{clustercentroid} 
+		This method, referred to as Lloyd's method, alternates between (i) updating the \gls{cluster} assignments 
+		based on nearest current \gls{clustercentroid} and (ii) re-calculating the \glspl{clustercentroid} 
+		given the updated \gls{cluster} assignments \cite{Lloyd1982}. \\
 		See also: \gls{hardclustering}, \gls{cluster}.},
 	first={$k$-means},
 	text={$k$-means} 
 }
 
+
+\newglossaryentry{clustercentroid}
+{name={cluster centroid}, 
+	description={\Gls{clustering} methods\index{cluster centroid} decompose a given 
+		\gls{dataset} into few \glspl{cluster}. Different \gls{clustering} methods use different representations 
+		for these \glspl{cluster}. If \glspl{datapoint} are characterized by numerical \glspl{featurevec} $\featurevec \in \mathbb{R}^{\nrfeatures}$, 
+		we can use some vector ${\bm \mu} \in \mathbb{R}^{\nrfeatures}$, referred to as \gls{cluster} centroid, 
+		to represent a \gls{cluster}. For example, if a \gls{cluster} consists of a set of \glspl{datapoint} we use the 
+		average of their \glspl{featurevec} as a \gls{cluster} centroid. However, there are also other choices 
+		for how to construct a \gls{cluster} centroid. 
+		\\
+		See also: \gls{clustering}, \gls{kmeans}, \gls{featurevec}.},
+	first={cluster centroid},
+	firstplural={cluster centroids}, 
+	text={cluster centroid}, 
+	plural ={cluster centroids}
+}
 
 \newglossaryentry{xml}
 {name={explainable machine learning (XML)}, 
@@ -5379,7 +5431,7 @@ sort={k-means},
 		selected \gls{mvndist} $p^{(\clusteridx)} = \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ with 
 		$\clusteridx = I$. The index $I \in \{1, \,\ldots, \,\nrcluster\}$ is an \gls{rv} with \glspl{probability} $\prob{I=\clusteridx} = p_{\clusteridx}$.
 	     	Note that a GMM is parameterized by the \gls{probability} $p_{\clusteridx}$, the 
-		\gls{mean} \gls{vector} $\clustermean^{(\clusteridx)}$, and the \gls{covmtx} $\mathbf{C}^{(\clusteridx)}$ for each $\clusteridx=1, \,\ldots, \,\nrcluster$. 
+		\gls{mean} \gls{vector} $\clustermean{\clusteridx}$, and the \gls{covmtx} $\mathbf{C}^{(\clusteridx)}$ for each $\clusteridx=1, \,\ldots, \,\nrcluster$. 
 		GMMs are widely used for \gls{clustering}, density estimation, and as a generative \gls{model}. 
 				\\
 		See also: \gls{probmodel}, \gls{mvndist}, \gls{clustering}.},
