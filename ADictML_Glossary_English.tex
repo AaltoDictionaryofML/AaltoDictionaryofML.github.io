@@ -2028,7 +2028,7 @@ sort={zerooneloss},
   	Example: We can interpret the temperature distribution across Finland (at a specific 
   	point in time) as the \gls{realization} of a GP $f(\featurevec)$, where each input $\featurevec = (\text{lat}, \text{lon})$ 
   	denotes a geographic location. Temperature observations from \gls{fmi} weather stations provide 
-  	\glspl{sample} of $f(\featurevec)$ at specific locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to 
+  	values $f(\featurevec)$ at specific locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to 
   	predict the temperature nearby \gls{fmi} weather stations and to quantify the \gls{uncertainty} 
   	of these \glspl{prediction}. 
   	\begin{figure}[H]
@@ -3722,7 +3722,7 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 		measured or computed easily without the need for human supervision. For example, if a \gls{datapoint} 
 		is a digital image (e.g., stored as a \texttt{.jpeg} file), then we could use the red-green-blue intensities 
 		of its pixels as features. Domain-specific synonyms for the term feature are "covariate," "explanatory variable," 
-		"independent variable," "input (variable)," "predictor (variable)," or "regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}. 
+		"independent variable," "input (variable)," "predictor (variable)," or "regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}. 
 				\\
 		See also: \gls{datapoint}.}, 
 	first={feature},
@@ -3745,10 +3745,10 @@ plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
 
 \newglossaryentry{label}
 {name={label}, plural={labels},
-	description={A\index{label} higher level fact or quantity of interest associated with a \gls{datapoint}. 
+	description={A\index{label} higher-level fact or quantity of interest associated with a \gls{datapoint}. 
 		For example, if the \gls{datapoint} is an image, the label could indicate whether the 
 		image contains a cat or not. Synonyms for label, commonly used in specific domains, 
-		include "response variable," "output variable," and "target" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2022}.
+		include "response variable," "output variable," and "target" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}.
 				\\
 		See also: \gls{datapoint}.},
 	first={label},
@@ -5171,6 +5171,88 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	 text={ensemble} 
 }
 
+\newglossaryentry{sample}
+{name={sample}, 
+ plural={samples},
+ description={In the context of \gls{ml}, a \index{sample} sample is a finite sequence 
+ 	(of length $\samplesize$) of \glspl{datapoint}, $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$. 
+ 	The number $\samplesize$ is called the \gls{samplesize}. 
+ 	\Gls{erm}-based methods use a sample to train a \gls{model} (or learn a 
+ 	\gls{hypothesis}) by minimizing the average \gls{loss} (the \gls{emprisk}) over that sample. 
+ 	Since a sample is defined as a sequence, the same \gls{datapoint} may appear more than once. 
+ 	By contrast, some authors in statistics define a sample as a set of 
+ 	\glspl{datapoint}, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
+ 	These two views can be reconciled by regarding a sample as a sequence of 
+ 	\gls{feature}–\gls{label} pairs, $\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \ldots, 
+ 	\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}$. The $\sampleidx$-th 
+ 	pair consists of the \glspl{feature} $\featurevec^{(\sampleidx)}$ and the \gls{label} $\truelabel^{(\sampleidx)}$ 
+ 	of an unique underlying \gls{datapoint} $\widetilde{\datapoint}^{(\sampleidx)}$. While the 
+ 	underlying \glspl{datapoint} $\widetilde{\datapoint}^{(1)},\ldots,\widetilde{\datapoint}^{(\samplesize)}$ 
+ 	are unique, some of them can have identical \glspl{feature} and \glspl{label}.  
+ 	\begin{figure} 
+ 		\begin{center}
+ 			\begin{tikzpicture}[>=Latex, font=\small]
+ 				% --- Population box ----------------------------------------------------
+ 				\node[draw, rounded corners, inner sep=6pt,
+ 				minimum width=5.2cm, minimum height=3.4cm] (pop) {};
+ 				\node[above=0pt of pop.north] {population};
+ 				% --- Population points as coordinates (no empty \node{})
+ 				\foreach \x/\y [count=\i] in {-2.0/0.3, -1.6/0.9, -1.2/-0.2, -0.8/0.5,
+ 					-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
+ 					1.4/0.4, 1.8/-0.1} {
+ 					\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
+ 					\fill (p\i) circle (1.6pt);
+ 				}
+ 				% --- Anchor for sample (coordinate, not node) --------------------------
+ 				\coordinate (sampleanchor) at ([xshift=1.8cm,yshift=0.5cm]pop.east);
+ 				% --- Sample sequence entries ------------------------------------------
+ 				\def\rowgap{0.55cm}
+ 				\def\ybase{0.95cm}
+ 				\node[anchor=west] (s1) at ($(sampleanchor)+(0, \ybase - 0*\rowgap)$)
+ 				{$1:\;(\featurevec^{(1)},\truelabel^{(1)})$};
+ 				\node[anchor=west] (s2) at ($(sampleanchor)+(0, \ybase - 1*\rowgap)$)
+ 				{$2:\;(\featurevec^{(2)},\truelabel^{(2)})$};
+ 				\node[anchor=west] (s3) at ($(sampleanchor)+(0, \ybase - 2*\rowgap)$)
+ 				{$3:\;(\featurevec^{(3)},\truelabel^{(3)})$};
+ 				\node[anchor=west] (s4) at ($(sampleanchor)+(0, \ybase - 3*\rowgap)$)
+ 				{$4:\;(\featurevec^{(4)},\truelabel^{(4)})$};
+ 				\node[anchor=west] (s5) at ($(sampleanchor)+(0, \ybase - 4*\rowgap)$)
+ 				{$5:\;(\featurevec^{(5)},\truelabel^{(5)})$};
+ 				\node[anchor=west] (s6) at ($(sampleanchor)+(0, \ybase - 5*\rowgap)$)
+ 				{$6:\;(\featurevec^{(6)},\truelabel^{(6)})$};
+ 				% --- Auto-sized sample box (fit to first & last entry) -----------------
+ 				\node[draw, rounded corners, inner sep=6pt, fit=(s1)(s6)] (seqbox) {};
+ 				\node[above=0pt of seqbox.north]
+ 				{a sample};
+ 				% --- Arrows from population points to sample entries -------------------
+ 				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{\datapoint}^{(1)}$};
+ 				\draw[->, thick] (p2) to[out=0,   in=180] (s1.west);
+ 				\draw[->, thick] (p7) to[out=10,  in=180] (s3.west);
+ 				\draw[->, thick] (p5) to[out=-10, in=180] (s5.west);
+ 				% Duplicate selection: same population point chosen twice
+ 				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] (s2.west);
+ 				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] (s6.west);
+ 				% Optional overall sampling arrow (boxes stay aligned)
+ 				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
+ 			\end{tikzpicture}
+ 		\end{center}
+ 		\caption{Illustration of a sample as a finite sequence. Each sequence element consists 
+ 			of the \gls{featurevec} and the \gls{label} of some \gls{datapoint} which belongs to 
+ 			an underlying population. Depending on the application, the same \gls{datapoint} 
+ 			is used to obtain multiple sample elements. 
+ 			\label{fig:sample-sequence_dict}}
+ 	\end{figure} 	
+ 	For the analysis of \gls{ml} methods, it is common to interpret a sample as the \gls{realization} 
+ 	of a \gls{stochproc} indexed by $\{1,\ldots,\samplesize\}$. A widely used assumption is the \gls{iidasspt}, 
+ 	where sample elements $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$, for $\sampleidx=1,\ldots,\samplesize$, 
+ 	are \gls{iid} \glspl{rv} with common \gls{probdist} $p(\featurevec,\truelabel)$.  \\
+ See also: \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{probdist}, \gls{samplesize}, \gls{erm}.},
+ first={sample},
+ text={sample}
+}
+
+
+
 \newglossaryentry{bagging}
 {name={bagging (or bootstrap aggregation)},
 	description={Bagging\index{bagging (or bootstrap aggregation)} (or bootstrap aggregation) 
@@ -6542,23 +6624,9 @@ This instance uses the \gls{sqerrloss} $\lossfunc{\datapoint^{(\timeidx)}}{\weig
 
 
 
-\newglossaryentry{sample}
-{name={sample}, plural={samples}, 
-	description={A\index{sample} 
-		finite sequence (or list) of \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(m)}$ that 
-		is obtained or interpreted as the \gls{realization} of $\samplesize$ \gls{iid} \glspl{rv} 
-		with a common \gls{probdist} $p(\datapoint)$. The length $\samplesize$ of 
-		the sequence is referred to as the \gls{samplesize}.
-				\\
-		See also: \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{probdist}, \gls{samplesize}.},
-		first={sample},
-		text={sample}
-}
-	
 \newglossaryentry{samplesize}
 {name={sample size},
-	description={The\index{sample size} number of individual \glspl{datapoint} 
-		contained in a \gls{dataset}.
+	description={The\index{sample size} number of individual \glspl{datapoint} contained in a \gls{sample}.
 				\\
 		See also: \gls{datapoint}, \gls{dataset}.},
 	first={sample size},

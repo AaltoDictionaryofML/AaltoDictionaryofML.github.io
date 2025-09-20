@@ -17,10 +17,20 @@
 \newcommand\Square[1]{+(-#1,-#1) rectangle +(#1,#1)}
 \usepackage{hyperref}       % hyperlinks
 
-\usepackage[automake,stylemods={tree}]{glossaries-extra}
+% ---- Speed toggle ----
+\newif\iffastdraft
+\fastdraftfalse       % set to \fastdraftfalse for the final build
 
-%\usepackage[record=false]{glossaries-extra}
-% (Your \gls commands still typeset text; no .glo written, so no makeindex)
+
+%\usepackage[automake,stylemods={tree}]{glossaries-extra}
+%\usepackage[automake=false]{glossaries-extra}
+  
+\iffastdraft
+ \usepackage[automake=false]{glossaries-extra}
+\else
+ \usepackage[automake,stylemods={tree}]{glossaries-extra}
+\fi
+ 
 
 \usepackage{etoolbox}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
@@ -132,18 +142,26 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 \font\myfontb=cmr12 at 17pt
 \font\myfontc=cmr12 at 15pt
 
+\makeglossaries
 
-
+\iffastdraft
+\glsdisablehyper  % fewer hypertargets created
+\else
+\glsenablehyper
+\fi
 
 \input{assets/ml_macros.tex}
 
-\makeindex
 
-\glsenablehyper
+\iffastdraft
+% \makeindex        % skip
+\else
+\makeindex
+\fi
 
 \input{ADictML_Glossary_English.tex}
 
-\makeglossaries
+%\makeglossaries
 
 \glsaddkey
 {section}% key
@@ -238,13 +256,16 @@ This work was supported by:
 \printglossary[type=systems, title={Machine Learning Systems}, nonumberlist]
 
 
+
+\iffastdraft
+% no index in draft
+\else
 % Suppress page numbers on index pages
 \newpage
 \pagenumbering{gobble}
-\pagestyle{empty}  % Set page style to empty for the index
-\printindex  % Print the index with no page numbers
-
-
+\pagestyle{empty}
+\printindex
+\fi
 
 
 \newpage
