@@ -3,10 +3,10 @@
 \newglossaryentry{pseudoinverse}
 {name={pseudoinverse},
   description={The \index{pseudoinverse}Moore–Penrose pseudoinverse $\mA^{+}$ 
- 	of a \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ generalizes the 
- 	notion of an \gls{inverse} \cite{GolubVanLoanBook}. The pseudoinverse arises naturally 
- 	within \gls{ridgeregression} when applied to a \gls{dataset} with arbitrary \glspl{label} $\vy$ 
- 	and a \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. The \gls{modelparams} 
+ 	of a \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+	generalizes the notion of an \gls{inverse} \cite{GolubVanLoanBook}. The pseudoinverse 
+	arises naturally within \gls{ridgeregression} when applied to a \gls{dataset} 
+	with arbitrary \glspl{label} $\vy$ and a \gls{featuremtx} $\mX = \mA$ \cite[Ch.\ 3]{hastie01statisticallearning}. The \gls{modelparams} 
  	learned by \gls{ridgeregression} 
   	are given by
   	\[
@@ -3766,27 +3766,28 @@ plural={medians},
 
 \newglossaryentry{data}
 {name={data},
-	 description={Data\index{data} refer to objects that carry information. These 
-	 	objects can be either concrete physical objects (such as persons or animals) 
-	 	or abstract concepts (such as numbers). We often use representations (or 
-	 	approximations) of the original data that are more convenient for data processing. 
-	 	These approximations use different mathematical structures such as relations 
-		that are used in relational databases \cite{codd1970relational}, \cite{silberschatz2019database}.
-				\\
-		See also: \gls{model}, \gls{dataset}, \gls{datapoint}.}, 
-	text={data}
+ description={In the context of \gls{ml}, the term 
+ data\index{data} is often used synonymously with \gls{dataset}
+  \cite{Everitt2010,OxfordStatisticsDictionary}. 
+  The ISO/IEC 2382:2015 standard defines data as a \emph{re-interpretable representation of 
+  information in a formalized manner suitable for communication, interpretation, 
+  or processing} \cite{ISO2382}. 
+  \\
+  See also: \gls{dataset}, \gls{datapoint}, \gls{sample}.}, 
+  text={data}
 }
-
+		
 \newglossaryentry{dataset}
 {name={dataset}, plural={datasets},
-	description={A\index{dataset} dataset refers to a collection of \glspl{datapoint}. These 
-		\glspl{datapoint} carry information about some quantity of interest (or \gls{label}) within 
-		an \gls{ml} application. \gls{ml} methods use datasets for \gls{model} training (e.g., via \gls{erm})
-		and \gls{model} \gls{validation}. Note that our notion of a dataset is very flexible, as 
-		it allows for very different types of \glspl{datapoint}. Indeed, \glspl{datapoint} can be concrete 
-		physical objects (such as humans or animals) or abstract objects (such as numbers). 
-		As a case in point, Fig. \ref{fig_cows_dataset_dict} depicts a dataset that consists of cows as 
-		\glspl{datapoint}. 
+	description={
+	A\index{dataset} dataset is a set of distinct \glspl{datapoint}. In contrast to 
+	a \gls{sample}, which is defined as a sequence of \glspl{datapoint} and may 
+	contain repetitions, a dataset is an unordered collection without duplicates. 
+	\gls{ml} methods use datasets to train and validate \glspl{model}. 
+	The notion of a dataset is broad: \glspl{datapoint} may represent concrete 
+	physical entities (such as humans or animals) or abstract objects (such as numbers). 
+	For illustration, Fig.~\ref{fig_cows_dataset_dict} depicts a dataset whose 
+	\glspl{datapoint} are cows.	
 		\begin{figure}[H]
 			\begin{center}
 			\label{fig:cowsintheswissalps_dict}
@@ -3794,20 +3795,23 @@ plural={medians},
 		  	\end{center}
 			\caption{\label{fig_cows_dataset_dict}A cow herd somewhere in the Alps.}
 	 	\end{figure}
-       		Quite often, an \gls{ml} engineer does not have direct access to a dataset. Indeed, accessing the 
-       		dataset in Fig. \ref{fig_cows_dataset_dict} would require us to visit the cow herd in the Alps. Instead, 
-       		we need to use an approximation (or representation) of the dataset that is more convenient 
-       		to work with. Different mathematical \glspl{model} have been developed for the representation (or approximation) 
-       		of datasets \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, \cite{hoberman2009data}, \cite{ramakrishnan2002database}. 
-       		One of the most widely adopted data \gls{model} is the relational \gls{model}, which organizes \gls{data} 
-       		as a table (or relation) \cite{codd1970relational}, \cite{silberschatz2019database}.
-		A table consists of rows and columns, where each row of the table represents a single \gls{datapoint}, and 
-		each column of the table corresponds to a specific attribute of the \gls{datapoint}. 
-		\gls{ml} methods can use attributes as \glspl{feature} and \glspl{label} of the \gls{datapoint}.\\
-		For example, Table~\ref{tab:cowdata_dict} shows a representation of the dataset in Fig. \ref{fig_cows_dataset_dict}. 
-		In the relational \gls{model}, the order of rows is irrelevant, and each attribute (i.e., column) must be 
-		precisely defined with a domain, which specifies the set of possible values. In \gls{ml} applications, 
-		these attribute domains become the \gls{featurespace} and the \gls{labelspace}.
+		Quite often, an \gls{ml} engineer does not have direct access to the underlying dataset. 
+		For instance, accessing the dataset in Fig.~\ref{fig_cows_dataset_dict} would require 
+		visiting the cow herd. In practice, we work with a more convenient 
+		representation (or approximation) of the dataset. Various mathematical \glspl{model} 
+		have been developed for this purpose \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, 
+		\cite{hoberman2009data}, \cite{ramakrishnan2002database}. One of the most widely used is 
+		the relational \gls{model}, which organizes \gls{data} as a table (or relation) 
+		\cite{codd1970relational}, \cite{silberschatz2019database}. A table consists of 
+		rows and columns: each row corresponds to a single \gls{datapoint}, while each 
+		column represents a specific attribute of a \gls{datapoint}. 
+		\gls{ml} methods typically interpret these attributes as \glspl{feature} 
+		or as a \gls{label} of a \gls{datapoint}. As an illustration, 
+		Table~\ref{tab:cowdata_dict} shows a relational representation of the 
+		dataset from Fig.~\ref{fig_cows_dataset_dict}. In the relational \gls{model}, 
+		the order of rows is immaterial, and each attribute (column) is associated with a 
+		domain that specifies the set of admissible values. In \gls{ml} applications, 
+		these attribute domains correspond to the \gls{featurespace} and the \gls{labelspace}.
 		\begin{table}[H]
 			\refstepcounter{table}
 			\caption*{
@@ -3827,13 +3831,13 @@ plural={medians},
 				\hline
 			\end{tabular}
 		\end{table}
- 		While the relational \gls{model} is useful for the study of many \gls{ml} applications, it may be 
- 		insufficient regarding the requirements for \gls{trustAI}. Modern 
+ 		While the relational \gls{model} is useful for the study of many \gls{ml} applications, 
+		it may be insufficient regarding the requirements for \gls{trustAI}. Modern 
  		approaches like datasheets for datasets provide more comprehensive 
  		documentation, including details about the \gls{data} collection process, intended 
  		use, and other contextual information \cite{DatasheetData2021}.
  		\\
-		See also: \gls{datapoint}, \gls{data}, \gls{feature}, \gls{featurespace}, \gls{labelspace}, \gls{trustAI}.},
+		See also: \gls{datapoint}, \gls{data}, \gls{feature}, \gls{sample}, \gls{featurespace}, \gls{labelspace}.},
 	first={dataset},
 	text={dataset}  
 }
