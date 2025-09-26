@@ -2607,16 +2607,16 @@ plural={medians},
 \newglossaryentry{ucb}
 {name={upper confidence bound (UCB)},
 	description={Consider\index{upper confidence bound (UCB)} an \gls{ml} 
-		application that requires selecting, at each time step $\iteridx$, an action $\action_{\iteridx}$ 
-		from a finite set of alternatives $\actionset$. The utility of selecting action $\action_{\iteridx}$ 
-		is quantified by a numeric \gls{reward} signal $\reward^{(\action_{\iteridx})}$. 
+		application that requires selecting, at each time step $\iteridx$, an action $\arm_{\iteridx}$ 
+		from a finite set of alternatives $\actionset$. The utility of selecting action $\arm_{\iteridx}$ 
+		is quantified by a numeric \gls{reward} signal $\reward^{(\arm_{\iteridx})}$. 
 		A widely used \gls{probmodel} for this type of sequential decision-making problem 
 		is the \gls{stochastic} \gls{mab} setting \cite{Bubeck2012}. In this \gls{model}, 
-		the \gls{reward} $\reward^{(\action)}$ is viewed as the \gls{realization} of an \gls{rv} 
-		with unknown \gls{mean} $\mu^{(\action)}$. Ideally, we would always choose the 
-		action with the largest expected \gls{reward} $\mu^{(\action)}$, but these 
+		the \gls{reward} $\reward^{(\arm)}$ is viewed as the \gls{realization} of an \gls{rv} 
+		with unknown \gls{mean} $\mu^{(\arm)}$. Ideally, we would always choose the 
+		action with the largest expected \gls{reward} $\mu^{(\arm)}$, but these 
 		\glspl{mean} are unknown and must be estimated from observed \gls{data}. Simply 
-		choosing the action with the largest estimate $\widehat{\mu}^{(\action)}$ can 
+		choosing the action with the largest estimate $\widehat{\mu}^{(\arm)}$ can 
 		lead to suboptimal outcomes due to estimation \gls{uncertainty}. The UCB strategy 
 		addresses this by selecting actions not only based on their estimated \glspl{mean} but 
 		also by incorporating a term that reflects the \gls{uncertainty} in these estimates—favoring 
@@ -2633,11 +2633,11 @@ plural={medians},
 	description={An MAB \index{multiarmed bandit (MAB)} problem is a precise mathematical 
 		formulation of a sequential decision-making task under \gls{uncertainty}. At each 
 		discrete time step $\iteridx$, a learner selects one of several possible 
-		actions—called arms—from a finite set $\actionset$. Pulling arm $\action$ at time 
-		$\iteridx$ yields a \gls{reward} $\reward^{(\action,\iteridx)}$ that is drawn from an unknown 
-		\gls{probdist} $\prob{\reward^{(\action,\iteridx)}}$. We obtain different classes 
+		actions—called arms—from a finite set $\actionset$. Pulling arm $\arm$ at time 
+		$\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$ that is drawn from an unknown 
+		\gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$. We obtain different classes 
 		of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
-		setting, the \gls{probdist} $\prob{\reward^{(\action,\iteridx)}}$ does not depend on $\timeidx$. 
+		setting, the \gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$ does not depend on $\timeidx$. 
 		Given an MAB problem, the goal is to construct \gls{ml} methods that maximize the cumulative 
 		\gls{reward} over time by strategically balancing exploration (i.e., gathering information 
 		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
@@ -3519,11 +3519,67 @@ plural={medians},
 {name={hypothesis},
 	description={A\index{hypothesis} hypothesis refers to a \gls{map} (or \gls{function}) $\hypothesis: \featurespace \rightarrow \labelspace$ 
 		from the \gls{featurespace} $\featurespace$ to the \gls{labelspace} $\labelspace$. 
-		Given a \gls{datapoint} with \glspl{feature} $\featurevec$, we use a hypothesis \gls{map} $\hypothesis$
-		to estimate (or approximate) the \gls{label} $\truelabel$ using the \gls{prediction}  
-		$\hat{\truelabel} = \hypothesis(\featurevec)$. \Gls{ml} is all about learning (or finding) a 
-		hypothesis \gls{map} $\hypothesis$ such that $\truelabel \approx \hypothesis(\featurevec)$ 
-		for any \gls{datapoint} (with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$).
+		Given a \gls{datapoint} with \glspl{feature} $\featurevec$, we use a hypothesis 
+		\gls{map} $\hypothesis$ to estimate (or approximate) the \gls{label} $\truelabel$ 
+		using the \gls{prediction} $\hat{\truelabel} = \hypothesis(\featurevec)$. 
+		\begin{figure}[htbp]
+		\centering
+			\begin{tikzpicture}[
+ 		  	>=Latex, node distance=2.0cm,
+ 		  	box/.style={draw, rounded corners=2pt, inner sep=6pt},
+  		 	label/.style={font=\footnotesize},
+  		 	thinline/.style={line width=0.6pt}
+		 	]
+		% % --- Input: audio signal ---
+		 	\node[minimum width=3.8cm, minimum height=1.6cm] (audio) {};
+		 	%\node[label, above=1mm of audio] {$\mathcal{X}$};
+		 	\node[label] at (audio.north) [yshift=0mm] {audio samples $\featurevec \in \mathbb{R}^{\nrfeatures}$};
+		% % A tiny waveform inside the audio box
+		 	\begin{scope}
+		 	%\clip (audio.south west) ++(0.15,0.15) rectangle ($(audio.north east)+(-0.15,-0.15)$);
+		 	\draw[thinline]
+		 		($(audio.west)+(0.2,0)$) .. controls +(.3,.35) and +(-.3,.35) .. ++(0.8,0)
+		 		.. controls +(.3,-.35) and +(-.3,-.35) .. ++(0.8,0)
+		 		.. controls +(.3,.25) and +(-.3,.25) .. ++(0.8,0)
+		 		.. controls +(.3,-.25) and +(-.3,-.25) .. ++(0.8,0);
+		 	\end{scope}
+		% % --- Hypothesis map ---
+		 	\node[box,right=1.0cm of audio, minimum width=2.2cm, minimum height=1.6cm] (model)
+		 	{$\hypothesis$};
+		 	\draw[->,thinline] (audio) -- (model) ; %node[midway,above,label] {features \& inference};
+		% % --- Output: rating bar ---
+		 	\node[right=1.0cm of model, minimum width=3.2cm, minimum height=1.6cm] (rating) {};
+		 	%\node[label, above=1mm of rating] {$\labelspace=[0,1]$};
+		 	\node[label, align=center] at ($(rating.north)+(0,-6mm)$)
+		 		{};
+		% % Draw a minimalist horizontal score bar
+		 	\coordinate (barL) at ($(rating.west)+(0.4,0)$);
+		 	\coordinate (barR) at ($(rating.east)+(-0.4,0)$);
+		 	%\draw[thinline] (barL) -- (barR);
+		% % ticks
+		 %	\foreach \t/\lab in {0/0,0.5/0.5,1/1}
+		%	{
+		 %	 \draw[thinline] ($(barL)!{\t}!(barR)$) -- ++(0,0.16);
+		% 	 \node[label, yshift=3pt] at ($(barL)!{\t}!(barR)$) {\lab};
+		% 	}
+		% % pointer at, say, 0.82
+		 	\def\score{0.82}
+		 	\coordinate (ptr) at ($(barL)!{\score}!(barR)$);
+		 	%\draw[thinline] (ptr) -- ++(0,-0.28);
+			%\fill (ptr) circle (1.2pt);
+		 	\node[label, above=0pt of ptr] {$\hypothesis(\featurevec)=0.82 (\approx \mbox{Freddie level})$};
+		 	\draw[->,thinline] (model) -- (rating);
+		 	\end{tikzpicture}
+			\caption{\label{fig:hypothesis_dict} A hypothesis $\hypothesis$ maps the \glspl{feature} 
+				$\featurevec$ of a \gls{datapoint} to a \gls{prediction} of the \gls{label} (e.g, the 
+				level of the similarity to the singer Freddie Mercury). For example, the \gls{ml} 
+				application \url{https://freddiemeter.withyoutube.com/} uses the samples of an audio 
+				recording as \glspl{feature} to predict the level of similarity to the voice of Freddie Mercury. 
+				}
+		\end{figure}
+		\Gls{ml} is all about learning (or finding) a hypothesis \gls{map} $\hypothesis$ 
+		such that $\truelabel \approx \hypothesis(\featurevec)$ for any \gls{datapoint} 
+		(with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$).
 					\\ 
 		See also: \gls{map}, \gls{function}, \gls{prediction}, \gls{model}.},
 	first={hypothesis},
@@ -4017,17 +4073,17 @@ plural={medians},
 	description={A\index{data point} \gls{data} point is any object that conveys information~\cite{coverthomas}. 
 		Examples include students, radio signals, trees, images, \glspl{rv}, real numbers, 
  		or proteins. We describe \gls{data} points of the same type by two categories 
-		of properties. The first category includes \glspl{feature} that are \gls{measurable} or computable properties of a 
-		\gls{data} point. These attributes can be automatically extracted or computed using sensors, computers, or other
-		\gls{data} collection systems. For a \gls{data} point that represents a patient, one \gls{feature} could be the body weight.
-    		The second category includes \glspl{label} that are higher level facts (or quantities of interest) 
-		associated with the \gls{data} point. Determining the \glspl{label} of a \gls{data} point 
+		of properties. The first category includes \glspl{feature} that are \gls{measurable} or 
+		computable properties of a \gls{data} point. These attributes can be automatically extracted 
+		or computed using sensors, computers, or other \gls{data} collection systems. For a \gls{data} 
+		point that represents a patient, one \gls{feature} could be the body weight.
+		The second category includes \glspl{label} that are higher level facts (or quantities of interest)—that is, facts which typically require human expertise or domain knowledge to determine, rather than being directly measurable—associated with the \gls{data} point. Determining the \glspl{label} of a \gls{data} point 
 		usually requires human expertise or domain knowledge. For a \gls{data} point that represents a patient, 
 		a cancer diagnosis provided by a physician would serve as the \gls{label}. 
 		Fig.\ \ref{fig:datapoint_cowherd_dict} depicts an image as an example of a \gls{data} 
 		point along with its \glspl{feature} and \glspl{label}. Importantly, what constitutes 
 		a \gls{feature} or a \gls{label} is not inherent to the \gls{data} point itself—it is a design 
-		choice that depends on the specific \gls{ml} applicaton.
+		choice that depends on the specific \gls{ml} application.
 		\begin{figure}[H]
     		\centering
     			% Image as a datapoint
@@ -4041,9 +4097,9 @@ plural={medians},
     			\begin{minipage}[t]{0.95\textwidth}
         			\Glspl{feature}:
         			\begin{itemize}
-            			\item $x_{1}, \,\ldots, \,x_{\nrfeatures_{1}}$: Color intensities of all image pixels.
-            			\item $x_{\nrfeatures_{1}+1}$: Time-stamp of the image capture.
-            			\item $x_{\nrfeatures_{1}+2}$: Spatial location of the image capture.
+            			\item $x_{1}, \,\ldots, \,x_{\nrfeatures}$: Color intensities of all image pixels.
+            			\item $x_{\nrfeatures+1}$: Time-stamp of the image capture.
+            			\item $x_{\nrfeatures+2}$: Spatial location of the image capture.
 			\end{itemize}
 			\Glspl{label}:
             		\begin{itemize}
