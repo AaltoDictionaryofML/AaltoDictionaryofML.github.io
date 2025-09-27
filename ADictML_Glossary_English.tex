@@ -1101,7 +1101,7 @@
 			which we can use, in turn, as the coordinates of a \gls{scatterplot}. Fig.\ \ref{fig:dimred-scatter_dict} 
 			depicts the \gls{scatterplot} of handwritten digits that are placed 
 			using transformed \glspl{feature}. Here, the \glspl{datapoint} are 
-			naturally represented by a large number of grayscale values (one value for each pixel).
+			naturally represented by a large number of greyscale values (one value for each pixel).
 		\end{itemize} 
 		 \begin{figure}[H]
 		 \centering
@@ -1222,7 +1222,7 @@
 	by the \gls{minimum} linear reconstruction error incurred on a \gls{dataset} such that 
 $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\mG \mF \featurevec^{(\sampleidx)} - \featurevec^{(\sampleidx)}}{2}^{2}.$$ 
 			\\ 
-		See also: \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{map}, \gls{featurespace}, \gls{hypospace}, \gls{pca}, \gls{minimum}, \gls{dataset}.}, 
+		See also: \gls{feature}, \gls{featurespace}, \gls{hypospace}, \gls{pca}.}, 
 	first={feature learning},
 	text={feature learning}
 } 
@@ -2199,7 +2199,7 @@ sort={zerooneloss},
 		Robustness also includes the \gls{stability} of \gls{erm}-based methods against perturbations 
 		of the \gls{trainset}. Such perturbations can occur within \gls{datapoisoning} \glspl{attack}. 
 		\\ 
-		See also: \gls{trustAI}, \gls{ml}, \gls{feature}, \gls{datapoint}, \gls{prediction}, \gls{model}, \gls{stability}, \gls{erm}, \gls{trainset}, \gls{datapoisoning}, \gls{attack}.}, 
+		See also: \gls{trustAI},\gls{stability},\gls{datapoisoning}, \gls{attack}.}, 
 	first={robustness}, 
 	text={robustness} 
 }
@@ -2548,7 +2548,7 @@ plural={medians},
  		We can characterize a classifier by its \glspl{decisionregion} $\decreg{a}$, for 
  		every possible \gls{label} value $a \in \labelspace$.
 					\\ 
-		See also: \gls{hypothesis}, \gls{map}, \gls{label}, \gls{labelspace}, \gls{function}, \gls{prediction}, \gls{classification}, \gls{decisionregion}. },
+		See also: \gls{hypothesis}, \gls{classification}, \gls{decisionregion}. },
 	first={classifier},
 	text={classifier} 
 }
@@ -3549,20 +3549,11 @@ plural={medians},
 		 	\draw[->,thinline] (audio) -- (model) ; %node[midway,above,label] {features \& inference};
 		% % --- Output: rating bar ---
 		 	\node[right=1.0cm of model, minimum width=3.2cm, minimum height=1.6cm] (rating) {};
-		 	%\node[label, above=1mm of rating] {$\labelspace=[0,1]$};
 		 	\node[label, align=center] at ($(rating.north)+(0,-6mm)$)
 		 		{};
 		% % Draw a minimalist horizontal score bar
 		 	\coordinate (barL) at ($(rating.west)+(0.4,0)$);
 		 	\coordinate (barR) at ($(rating.east)+(-0.4,0)$);
-		 	%\draw[thinline] (barL) -- (barR);
-		% % ticks
-		 %	\foreach \t/\lab in {0/0,0.5/0.5,1/1}
-		%	{
-		 %	 \draw[thinline] ($(barL)!{\t}!(barR)$) -- ++(0,0.16);
-		% 	 \node[label, yshift=3pt] at ($(barL)!{\t}!(barR)$) {\lab};
-		% 	}
-		% % pointer at, say, 0.82
 		 	\def\score{0.82}
 		 	\coordinate (ptr) at ($(barL)!{\score}!(barR)$);
 		 	%\draw[thinline] (ptr) -- ++(0,-0.28);
@@ -3570,16 +3561,18 @@ plural={medians},
 		 	\node[label, above=0pt of ptr] {$\hypothesis(\featurevec)=0.82 (\approx \mbox{Freddie level})$};
 		 	\draw[->,thinline] (model) -- (rating);
 		 	\end{tikzpicture}
-			\caption{\label{fig:hypothesis_dict} A hypothesis $\hypothesis$ maps the \glspl{feature} 
-				$\featurevec$ of a \gls{datapoint} to a \gls{prediction} of the \gls{label} (e.g, the 
-				level of the similarity to the singer Freddie Mercury). For example, the \gls{ml} 
-				application \url{https://freddiemeter.withyoutube.com/} uses the samples of an audio 
-				recording as \glspl{feature} to predict the level of similarity to the voice of Freddie Mercury. 
+			\caption{\label{fig:hypothesis_dict} A hypothesis $\hypothesis: \featurespace \rightarrow \labelspace$ maps the \glspl{feature} 
+				$\featurevec \in \featurespace$ of a \gls{datapoint} to a \gls{prediction} $\hypothesis(\featurevec) \in \labelspace$ of the \gls{label}. 
+				For example, the \gls{ml} application \url{https://freddiemeter.withyoutube.com/} uses the samples of an audio 
+				recording as \glspl{feature} predict how closely a person’s singing resembles that of Freddie Mercury.
 				}
 		\end{figure}
 		\Gls{ml} is all about learning (or finding) a hypothesis \gls{map} $\hypothesis$ 
 		such that $\truelabel \approx \hypothesis(\featurevec)$ for any \gls{datapoint} 
-		(with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$).
+		(with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$). Practical \gls{ml} methods, 
+		limited by finite computational resources, must restrict learning to a subset of all possible 
+		hypothesis maps. This subset is called the \gls{hypospace} or simply the \gls{model} underlying 
+		the method.
 					\\ 
 		See also: \gls{map}, \gls{function}, \gls{prediction}, \gls{model}.},
 	first={hypothesis},
@@ -3603,11 +3596,12 @@ plural={medians},
 
 \newglossaryentry{labelspace}
 {name={label space},
-	description={Consider\index{label space} an \gls{ml} application that involves \glspl{datapoint} characterized by \glspl{feature} 
-		and \glspl{label}. The \gls{label} space is constituted by all potential values that the \gls{label} 
-		of a \gls{datapoint} can take on. \Gls{regression} methods, aiming to predict numeric \glspl{label}, often
-		 use the \gls{label} space $\labelspace = \mathbb{R}$. Binary \gls{classification} methods use a \gls{label} space 
- 		that consists of two different elements, e.g., $\labelspace =\{-1,1\}$, $\labelspace=\{0,1\}$, 
+	description={Consider\index{label space} an \gls{ml} application that involves \glspl{datapoint} 
+	 	characterized by \glspl{feature} and \glspl{label}. The \gls{label} space is constituted by 
+		all potential values that the \gls{label} of a \gls{datapoint} can take on. \Gls{regression} 
+		methods, aiming to predict numeric \glspl{label}, oftenuse the \gls{label} space 
+		$\labelspace = \mathbb{R}$. Binary \gls{classification} methods use a \gls{label} space 
+		that consists of two different elements, e.g., $\labelspace =\{-1,1\}$, $\labelspace=\{0,1\}$, 
 		or $\labelspace = \{ \mbox{``cat image''}, \mbox{``no cat image''} \}$.
 					\\ 
 		See also: \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{regression}, \gls{classification}.}, 
@@ -3782,10 +3776,34 @@ plural={medians},
 
 \newglossaryentry{feature}
 {name={feature}, plural={features},
-	description={A\index{feature} feature of a \gls{datapoint} is one of its properties that can be 
-		measured or computed easily without the need for human supervision. For example, if a \gls{datapoint} 
-		is a digital image (e.g., stored as a \texttt{.jpeg} file), then we could use the red–green–blue (RGB) intensities 
-		of its pixels as features. Domain-specific synonyms for the term feature are "covariate," "explanatory variable," 
+	description={A\index{feature} feature of a \gls{datapoint} is one of its properties 
+	    that can be measured or computed easily without the need for human supervision. 
+		For example, if a \gls{datapoint} is a digital image (e.g., stored as a \texttt{.jpeg} file), 
+		then we could use the red–green–blue (RGB) intensities of its pixels as features. 
+		\begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=1]
+		% Draw a smooth waveform (sine curve as proxy for audio)
+		\draw[thick, blue, domain=0:6.28, smooth, variable=\x] 
+			plot ({\x}, {sin(\x r)});
+		% Mark sample points at regular intervals
+		\foreach \x [count=\i] in {0,0.5,...,6.28} {
+			\fill[red] (\x, {sin(\x r)}) circle (2pt);
+			% Label only the first two samples
+			\ifnum\i=1
+				\node[above left] at (\x, {sin(\x r)}) {$x_1$};
+			\fi
+			\ifnum\i=2
+				\node[above left] at (\x, {sin(\x r)}) {$x_2$};
+			\fi
+		}
+		\end{tikzpicture}
+		\caption{An audio signal (blue waveform) and its discretized signal samples (red dots) which 
+		can be used as its features $x_{1},\ldots,x_{\nrfeatures}$. \label{fig:audio_features_dict}}
+		\end{figure}
+		Another example is shown in Fig.\ \ref{fig:audio_features_dict}, where the the signal 
+		samples of a finite-duration audio signal are used as its features.
+		Domain-specific synonyms for the term feature are "covariate," "explanatory variable," 
 		"independent variable," "input (variable)," "predictor (variable)," or "regressor" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}. 
 				\\
 		See also: \gls{datapoint}.}, 
@@ -3809,12 +3827,12 @@ plural={medians},
 
 \newglossaryentry{label}
 {name={label}, plural={labels},
-	description={A\index{label} higher-level fact or quantity of interest associated with a \gls{datapoint}. 
-		For example, if the \gls{datapoint} is an image, the label could indicate whether the 
-		image contains a cat or not. Synonyms for label, commonly used in specific domains, 
-		include "response variable," "output variable," and "target" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}.
+	description={A\index{label} higher-level fact or quantity of interest associated 
+	with a \gls{datapoint}. For example, if the \gls{datapoint} is an image, the label 
+	could indicate whether the image contains a cat or not. Synonyms for label, commonly 
+	used in specific domains, include "response variable," "output variable," and "target" \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}.
 				\\
-		See also: \gls{datapoint}.},
+		See also: \gls{datapoint}, \gls{labelspace}.},
 	first={label},
 	text={label}  
 }
@@ -6525,7 +6543,11 @@ text={expectation}
 		with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$, as a \gls{function} of the \gls{hypothesis} $\hypothesis \in \hypospace$. 
 		\begin{figure}[H]
 			\begin{center}
-				\begin{tikzpicture}[scale = 0.7]
+				\begin{tikzpicture}[scale = 0.7,% enlarge arrowheads globally:
+        			every axis/.append style={
+          			axis line style={-Latex, thick},
+          			tick style={thick}
+        			}]
 					\begin{axis}
 						[axis x line=center,
 						axis y line=center,
@@ -6543,7 +6565,7 @@ text={expectation}
 						\addplot [red, thick] {ln(1 + exp(-x))};    
 					\end{axis}
 					\node [above,centered,xshift=-5pt] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
-					\node [above] at (10,1) {\gls{hypothesis} $\hypothesis$};
+					\node [below] at (10,1) {$\hypothesis(\featurevec)$};
 						\node [right] at (4,6) {\gls{loss}};
 				\end{tikzpicture}
 			\end{center}
