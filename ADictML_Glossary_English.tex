@@ -275,10 +275,80 @@
 
 \newglossaryentry{hessian}
 {name={Hessian},
- 	description={For\index{Hessian} a twice-\gls{differentiable} \gls{function} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ 
- 		at a point $\mathbf{x}$, the Hessian is the square \gls{matrix} collection of second-order partial derivatives. 
- 		It is denoted by $\nabla^2 f(\weights) = \left[ {\partial^2 f(\weights)}/{\partial \weight_i \partial \weight_j} \right]_{i,j=1}^{\nrfeatures}$. 
-       		The Hessian can be used to compute a \gls{quadfunc} that locally approximates $f$. 
+ 	description={Consider\index{Hessian} a \gls{function} 
+	$f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ for which the second-order 
+	partial derivatives exist at $\featurevec'$ and are continuous in a 
+	neighborhood of $\featurevec'$. Then, the Hessian $\nabla^2 f(\featurevec')$ of $f$ at $\featurevec$ is defined as the 
+	\gls{matrix} of second-order partial derivatives of $f$ at $\featurevec'$, 
+$$\nabla^{2} f(\featurevec') \;=\;
+\begin{bmatrix}
+\frac{\partial^{2} f}{\partial \feature_{1}^{2}}
+& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{2}}
+& \cdots
+& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{\nrfeatures}} \\
+\frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{1}}
+& \frac{\partial^{2} f}{\partial \feature_{2}^{2}}
+& \cdots
+& \frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{\nrfeatures}} \\
+\vdots & \vdots & \ddots & \vdots \\[1.2ex]
+\frac{\partial^{2} f}{\partial \feature_{\nrfeatures}\, \partial \feature_{1}}
+& \frac{\partial^{2} f}{\partial \feature_{\nrfeatures}\, \partial \feature_{2}}
+& \cdots
+& \frac{\partial^{2} f}{\partial \feature_{\nrfeatures}^{2}}
+\end{bmatrix}.$$
+	\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[x=0.5cm]
+		\begin{axis}[
+			hide axis,
+			xmin=3, xmax=6,
+			ymin=0, ymax=6,
+			domain=0:6,
+			samples=100,
+			width=10cm,
+			height=6cm,
+			clip=false
+			]
+		% Original nonlinear function h(x)
+			\addplot[blue, thick, domain=3:6.6] {2 + sin(deg(x))} 
+			node[pos=0.5, above right, yshift=3pt] {$f(\featurevec)$};
+		% Tangent line as local linear approximation at x = 3
+		% h(3) = 2 + sin(3), h'(3) = cos(3)
+			\addplot[red, thick, domain=3.5:6.6] 
+			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
+			node[pos=0, below left] {$g(\featurevec)$};
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                \addplot[green, thick, domain=3.5:6.6]
+                {2 + sin(deg(6)) + cos(deg(6))*(x - 6) - 0.5*sin(deg(6))*(x - 6)^2}
+			node[pos=0, below left, yshift=10pt] {$q(\featurevec)$};
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% Mark point of approximation
+			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
+			    % Vertical dashed line (ruler) at x = 3
+			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
+			\node at (axis cs:6, -0.2) {$\featurevec'$};
+			    % Plot the two points
+			    % Coordinates of the two points
+			\pgfmathsetmacro{\xA}{-1.5}
+			\pgfmathsetmacro{\xB}{3}
+			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+		\end{axis}
+		\vspace*{-10mm}
+	\end{tikzpicture}
+		\vspace*{-5mm}
+	\end{center}
+	\caption{
+		A function $f(\featurevec)$ that is sufficiently \gls{smooth} at a 
+		point $\featurevec'$ can be locally approximated by 
+		a \gls{quadfunc} $q(\featurevec)$ which allows for a more accurate approximation 
+		compared to a linear \gls{function} $g(\featurevec)$. \label{fig_quadapprox_hessian_dict}}
+\end{figure}
+		The Hessian $\nabla^2 f(\featurevec')$ can be used to compute a \gls{quadfunc} 
+		$$q(\featurevec) = (1/2) (\featurevec- \featurevec')^{T} \underbrace{\nabla^2 f(\featurevec')}_{\text{Hessian}} 
+		(\featurevec- \featurevec') +  (\featurevec- \featurevec')^{T} \underbrace{\nabla f(\featurevec')}_{\text{gradient}} 
+		+ f(\featurevec')$$
+		that approximates $f$ locally around $\featurevec'$. 
         		\\
 		See also: \gls{differentiable}, \gls{matrix}, \gls{function}, \gls{quadfunc}. }, 
 	first={Hessian},
@@ -5372,12 +5442,12 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
  				{a sample};
  				% --- Arrows from population points to sample entries -------------------
  				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{\datapoint}^{(1)}$};
- 				\draw[->, thick] (p2) to[out=0,   in=180] (s1.west);
- 				\draw[->, thick] (p7) to[out=10,  in=180] (s3.west);
- 				\draw[->, thick] (p5) to[out=-10, in=180] (s5.west);
+ 				\draw[->, thick] (p2) to[out=0,   in=180] ($(s1.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p7) to[out=10,  in=180] ($(s3.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p5) to[out=-10, in=180] ($(s5.west)+(1mm,0mm)$);
  				% Duplicate selection: same population point chosen twice
- 				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] (s2.west);
- 				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] (s6.west);
+ 				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] ($(s2.west)+(1mm,0mm)$);
+ 				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] ($(s6.west)+(1mm,0mm)$);
  				% Optional overall sampling arrow (boxes stay aligned)
  				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
  			\end{tikzpicture}
@@ -6570,7 +6640,7 @@ text={expectation}
 		itself and the specific value $\lossfunc{\datapoint}{\hypothesis}$, for a \gls{datapoint} $\datapoint$ 
 		and \gls{hypothesis} $\hypothesis$.
 				\\
-		See also: \gls{ml}, \gls{lossfunc}, \gls{hypothesis}, \gls{datapoint}.},
+		See also: \gls{lossfunc}, \gls{emprisk}.},
 	first={loss},
 	text={loss} 
 }
@@ -6604,17 +6674,23 @@ text={expectation}
 						ylabel style={above right},
 						xtick=\empty,
 						ytick=\empty,
-						xmin=-4,
+						xmin=-5,
 						xscale = 1.4, 
-						xmax=4,
+						xmax=5,
 						ymin=-0.5,
 						ymax=2.5
 						]
-						\addplot [red, thick] {ln(1 + exp(-x))};    
+						% Logistic loss: \ell(x) = ln(1 + e^{-x})
+  						\addplot[red, line width=0.5mm,thick] {ln(1 + exp(-x))};
+						% Absolute error: \ell(x) = |x|
+  						\addplot[blue, line width=0.5mm, dashed, domain=-4:4] {0.3*abs(x)};
+  						% Squared error: \ell(x) = (1/2) x^2
+  						\addplot[green!50!black, line width=0.5mm, dotted, domain=-4:4] {0.3*x^2};
+						%\addplot [red, thick] {ln(1 + exp(-x))};    
 					\end{axis}
-					\node [above,centered,xshift=-5pt] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
+					%\node [above,centered,xshift=-5pt] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
 					\node [below] at (10,1) {$\hypothesis(\featurevec)$};
-						\node [right] at (4,6) {\gls{loss}};
+						\node [right] at (4,6) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
 				\end{tikzpicture}
 			\end{center}
 			\vspace*{-7mm}
