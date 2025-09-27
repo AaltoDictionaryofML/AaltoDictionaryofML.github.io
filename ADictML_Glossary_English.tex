@@ -3596,15 +3596,63 @@ plural={medians},
 
 \newglossaryentry{labelspace}
 {name={label space},
-	description={Consider\index{label space} an \gls{ml} application that involves \glspl{datapoint} 
-	 	characterized by \glspl{feature} and \glspl{label}. The \gls{label} space is constituted by 
-		all potential values that the \gls{label} of a \gls{datapoint} can take on. \Gls{regression} 
-		methods, aiming to predict numeric \glspl{label}, oftenuse the \gls{label} space 
-		$\labelspace = \mathbb{R}$. Binary \gls{classification} methods use a \gls{label} space 
-		that consists of two different elements, e.g., $\labelspace =\{-1,1\}$, $\labelspace=\{0,1\}$, 
-		or $\labelspace = \{ \mbox{``cat image''}, \mbox{``no cat image''} \}$.
+	description={
+		In a \gls{ml} application\index{label space}, each \gls{datapoint} is described by a 
+		set of \glspl{feature} together with an associated \gls{label}. 
+		The set of all admissible \gls{label} values is called the \gls{labelspace},
+		denoted by $\labelspace$. Importantly, $\labelspace$ may include values that no 
+		observed \gls{datapoint} has as its \gls{label} value. 
+		To a large extent, the choice of $\labelspace$ is up to the \gls{ml} engineer 
+		and depends on the problem formulation. Fig.~\ref{fig_label_spaces_dict} shows some examples 
+		of \glspl{labelspace} that are commonly used in \gls{ml} applications.
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Stealth, font=\small]
+			% (a) Real line for regression
+			\begin{scope}[shift={(0,0)}]
+				\draw[->] (-2,0) -- (2,0);
+				\node[below=6pt] at (0,-0.7) {(a) $\labelspace\!=\!\mathbb{R}$ (\gls{regression})};
+			\end{scope}
+			% (b) Plane for multi-label regression
+			\begin{scope}[shift={(7,0)}]
+				% shaded rectangle
+				\fill[gray!20] (-1,-0.5) rectangle (1,0.5);
+				\draw[->] (-2,0) -- (2,0);
+				\draw[->] (0,-1) -- (0,1);
+				\node[below=6pt] at (0,-0.7) {(b) $\labelspace\!=\!\mathbb{R}^{2}$ (multi-label \gls{regression})};
+			\end{scope}
+			% (c) Binary classification
+			\begin{scope}[shift={(0,-3)}]
+				\fill (-1,0) circle (1.2pt) node[below=2pt] {\text{``hot''}};
+				\fill ( 1,0) circle (1.2pt) node[below=2pt] {\text{``cold''}};
+				\node[below=14pt] at (0,-0.7) {(c) $|\labelspace|=2$ Binary \gls{classification}};
+			\end{scope}
+			% (d) Ordinal regression: directed chain
+			\begin{scope}[shift={(7,-3)}]
+				\node[circle, inner sep=1pt, draw] (n1) at (-1.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n2) at (-0.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n3) at ( 0.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n4) at ( 1.5,0) {};
+				\draw[->] (n1) -- (n2);
+				\draw[->] (n2) -- (n3);
+				\draw[->] (n3) -- (n4);
+				\node[below=2pt of n1] {1};
+				\node[below=2pt of n2] {2};
+				\node[below=2pt of n3] {3};
+				\node[below=2pt of n4] {4};
+				\node[below=14pt] at (0,-0.7) {(d) $\labelspace\!=\!\{1,2,3,4\}$ (ordinal \gls{regression})};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{\label{fig_label_spaces_dict}	Examples of \glspl{labelspace} and corresponding flavours of 
+		\gls{ml}.}
+		\end{figure}
+		The choice of \gls{labelspace} $\labelspace$ determines the flavour of \gls{ml} methods 
+		appropriate for the application at hand. \Gls{regression} methods use the $\labelspace = \mathbb{R}$ while binary \gls{classification} methods 
+		use a \gls{label} space $\labelspace$ that consists of two different 
+		elements, i.e., $|\labelspace|=2$. Ordinal \gls{regression} methods use a finite, ordered set of 
+		\gls{label} values, e.g., $\labelspace = \{1,2,3,4\}$ with the natural ordering $1 < 2 < 3 < 4$. 
 					\\ 
-		See also: \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{regression}, \gls{classification}.}, 
+		See also:  \gls{datapoint},\gls{label}, \gls{regression}, \gls{classification}.}, 
 	first={label space},
 	text={label space}  
 }
