@@ -4433,6 +4433,24 @@ plural={medians},
 	    text={multi-label classification} 
 }
 
+\newglossaryentry{training}
+{name={training}, 
+	description={In the context of \gls{ml}, training\index{training} refers to the process 
+	of learning a useful \gls{hypothesis} $\learnthypothesis$ out of a \gls{model} $\hypospace$. 
+	The training of a \gls{model} $\hypospace$ is guided by the \gls{loss} incurred on a set 
+	of \glspl{datapoint}, which serve as the \gls{trainset}. For parametric \glspl{model}, 
+	where each \gls{hypothesis} $\hypothesis^{(\weights)}$ is characterized by a specific 
+	choice for the \gls{modelparams}, training amounts to finding an optimal choice for the 
+	\glspl{modelparams} $\weights$. A widely-used approach to training is \gls{erm}, which 
+	learns a \gls{hypothesis} by minimizing the average \gls{loss} incurred on a \gls{trainset}. 
+	One of the main challenges in \gls{ml} is to control the discrepancy between the 
+	\gls{loss} incurred on the \gls{trainset} and the \gls{loss} incurred on other (unseen) \glspl{datapoint}.
+				\\
+		See also: \gls{erm}, \gls{loss}, \gls{model}.},
+	    first={training},
+	    text={training} 
+}
+
 
 \newglossaryentry{ssl}
 {name={semi-supervised learning (SSL)}, 
@@ -4471,9 +4489,9 @@ plural={medians},
 				\node at (3.5,2.8) {$f(\weights)$};
 			\end{tikzpicture} 
 			\end{center}
-		\caption{An objective \gls{function} maps each possible value $\weights$ of an optimization variable, such 
-		as the \gls{modelparams} of an \gls{ml} \gls{model}, to a value that measures the usefulness 
-	   	of $\weights$.\label{fig_obj_func_dict}}
+		\caption{An objective \gls{function} maps each possible value $\weights$ of an 
+		optimization variable, such as the \gls{modelparams} of an \gls{ml} \gls{model}, 
+		to a value $f(\weights)$ that measures the usefulness of $\weights$.\label{fig_obj_func_dict}}
 		\end{figure} 
 		See also: \gls{loss}, \gls{emprisk}, \gls{erm}, \gls{optproblem}.},
 	first={objective function},
@@ -7388,10 +7406,66 @@ sort={Renyi},
 	    		for smoother \glspl{objfunc} (i.e., those with smaller $\beta$), 
 				we can take larger steps. \label{fig_gd_smooth_dict}}
 	    	\end{figure}
-		See also: \gls{function}, \gls{differentiable}, \gls{gradient}, \gls{optproblem}, \gls{objfunc}, \gls{gdmethods}, \gls{gradstep}, \gls{stepsize}.},
+		See also: \gls{function}, \gls{differentiable}, \gls{gradient},  \gls{gdmethods}.},
 	first={smooth},
 	text={smooth}
 }
+
+\newglossaryentry{parammodel}
+{name={parametric model},
+	description={A\index{parametric model} parametric \gls{model} $\hypospace$ is a \gls{model} that is
+		parameterized by a finite number of \gls{modelparams}. In particular, each \gls{hypothesis} 
+		$\hypothesis \in \hypospace$ is uniquely identified by a list of \gls{modelparams} 
+		$\weight_{1},\weight_{2},\ldots$ (see Fig. \ref{fig_param_space_dict}). 
+		For many important \gls{ml} methods , this list has a fixed length $\dimlocalmodel$ which 
+		we refer to as the number of \gls{modelparams}. We then stack the \gls{modelparams} 
+		into a \gls{vector} $\weights \in \mathbb{R}^{\dimlocalmodel}$.	
+		Two widely used examples of a paramtric \gls{model} are a \gls{linmodel} 
+		and a \glspl{ann}. The \gls{parameter} space is then often a subset 
+		$\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$, e.g., all \glspl{vector} $\weights \in \mathbb{R}^{\dimlocalmodel}$ with a \gls{norm} smaller than one.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}
+				% Left part: Ellipse representing parameter space (with two dots)
+				\node[ellipse, minimum width=3cm, minimum height=2cm, draw, thick] (paramspace) {};
+				\node[below=0.1cm of paramspace] {\gls{parameter} space $\paramspace$};
+				% Two dots inside the left ellipse
+				\node[black, circle, inner sep=2pt, fill] (theta1) at ($(paramspace.north west) + (1, -1)$) {};
+				\node[left=0.01cm of theta1] {$\weights$};
+				\node[black, circle, inner sep=2pt, fill] (theta2) at ($(paramspace.south east) + (-1.5, 1)$) {};
+				\node[left=0.01cm of theta2] {$\weights'$};
+				% Right part: Ellipse containing two smaller plots
+				\node[ellipse, minimum width=7cm, minimum height=3cm, draw, thick, right=4cm of paramspace] (plotcloud) {};
+				\node[above=0.2cm of plotcloud] {\gls{model} $\hypospace$};
+				% Axis for first smaller plot
+				\node (plot1start) at ($(plotcloud.south west) + (0.2, 0.2)$) {};
+				%\draw[thick, ->] (plot1start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+				%\draw[thick, ->] (plot1start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in first smaller plot
+				\draw[thick, red] (plot1start) .. controls ++(0.8, 1) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 0.8)$) node[anchor=west] {$\hypothesis^{(\weights)}$};
+				% Axis for second smaller plot
+				\node (plot2start) at ($(plotcloud.south west) + (1.0, 1.2)$) {};
+			%	\draw[thick, ->] (plot2start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+			%	\draw[thick, ->] (plot2start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in second smaller plot
+				\draw[thick, blue] (plot2start) .. controls ++(0.8, 0.5) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 2.1)$) node[anchor=west] {$\hypothesis^{(\weights')}$};
+				% Connect the two dots in the parameter space to the two plots
+				\draw[thick, ->, bend right=20] (theta1) to ($(plot1start) + (0,0)$);
+				\draw[thick, ->, bend left=20] (theta2) to (plot2start);
+			\end{tikzpicture}
+			\end{center} 
+			\caption{The \gls{parameter} space $\paramspace$ of an \gls{ml} \gls{model} $\hypospace$ consists of all 
+			feasible choices for the \gls{modelparams}. Each choice $\weights$ for the \gls{modelparams} 
+			selects a \gls{hypothesis} \gls{map} $\hypothesis^{(\weights)} \in \hypospace$.
+				 \label{fig_param_model_dict}} 
+			\end{figure}
+			See also: \gls{paramspace}, \gls{model}, \gls{modelparams}.},
+		first={parametric model},
+		firstplural={parametric models},
+		plural={parametric models},
+		text={parametric model}
+}
+
 
 \newglossaryentry{paramspace}
 {name={parameter space},
