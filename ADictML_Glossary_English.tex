@@ -277,9 +277,9 @@
 {name={Hessian},
  	description={Consider\index{Hessian} a \gls{function} 
 	$f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ for which the second-order 
-	partial derivatives exist at $\featurevec'$ and are continuous in a 
-	neighborhood of $\featurevec'$. Then, the Hessian $\nabla^2 f(\featurevec')$ of $f$ at $\featurevec$ is defined as the 
-	\gls{matrix} of second-order partial derivatives of $f$ at $\featurevec'$, 
+	partial derivatives exist at $\featurevec'$. Then, the Hessian $\nabla^2 f(\featurevec')$ 
+	of $f$ at $\featurevec$ is defined as the \gls{matrix} of second-order 
+	partial derivatives of $f$ at $\featurevec'$, 
 $$\nabla^{2} f(\featurevec') \;=\;
 \begin{bmatrix}
 \frac{\partial^{2} f}{\partial \feature_{1}^{2}}
@@ -296,6 +296,11 @@ $$\nabla^{2} f(\featurevec') \;=\;
 & \cdots
 & \frac{\partial^{2} f}{\partial \feature_{\nrfeatures}^{2}}
 \end{bmatrix}.$$
+If the second-order partial derivatives are \gls{continuous} in a \gls{neighborhood} around $\featurevec'$, then the Hessian is a symmetric \gls{matrix}, i.e.,
+$\frac{\partial^{2} f}{\partial \feature_{\featureidx}\, \partial \feature_{\featureidx'}} = 
+\frac{\partial^{2} f}{\partial \feature_{\featureidx'}\, \partial \feature_{\featureidx}}$ for all 
+$\featureidx, \featureidx'$ \cite{RudinBookPrinciplesMatheAnalysis}. If additionally $f$ 
+is \gls{convex}, then the Hessian is a \gls{psd} \gls{matrix} \cite{BoydVandenbergheBook}.
 	\begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}[x=0.5cm]
@@ -339,7 +344,7 @@ $$\nabla^{2} f(\featurevec') \;=\;
 		\vspace*{-5mm}
 	\end{center}
 	\caption{
-		A function $f(\featurevec)$ that is sufficiently \gls{smooth} at a 
+		A \gls{function} $f(\featurevec)$ that is sufficiently \gls{smooth} at a 
 		point $\featurevec'$ can be locally approximated by 
 		a \gls{quadfunc} $q(\featurevec)$ which allows for a more accurate approximation 
 		compared to a linear \gls{function} $g(\featurevec)$. \label{fig_quadapprox_hessian_dict}}
@@ -354,6 +359,25 @@ $$\nabla^{2} f(\featurevec') \;=\;
 	first={Hessian},
 	type=math,
 	text={Hessian}
+}
+
+\newglossaryentry{continuous}
+{name={continuous}, 
+description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ is 
+	 continuous at a point $\featurevec' \in \mathbb{R}^{\nrfeatures}$ if for 
+	 every $\epsilon > 0$ there is a $\delta > 0$ such that for all 
+	 $\featurevec \in \mathbb{R}^{\nrfeatures}$ with $\normgeneric{\featurevec - \featurevec'}{2} < \delta$, 
+	 it holds that $|f(\featurevec) - f(\featurevec')| < \epsilon$ \cite{RudinBookPrinciplesMatheAnalysis}. 
+	 In other words, we can make $f(\featurevec)$ arbitrarily close to $f(\featurevec')$ 
+	 by choosing $\featurevec$ sufficiently close to $\featurevec'$. If $f$ is continuous 
+	 at every point $\featurevec' \in \mathbb{R}^{\nrfeatures}$, then $f$ is said to be 
+	 continuous on $\mathbb{R}^{\nrfeatures}$. The notion of a continuous 
+	 \gls{function} can be naturally extended to \glspl{function} between general \gls{metric} 
+	 spaces \cite{RudinBookPrinciplesMatheAnalysis}.\\
+		See also: \gls{euclidspace}, \gls{metric}.},
+	first={continuous},
+	type=math,
+	text={continuous}
 }
 
 \newglossaryentry{linearmap}
@@ -2528,15 +2552,25 @@ plural={medians},
 	text={NN} 
 }
 
-\newglossaryentry{neighborhood}
-{name={neighborhood},
-	description={The\index{neighborhood} neighborhood of a node $\nodeidx \in \nodes$ is 
-		the subset of nodes constituted by the \gls{neighbors} of $\nodeidx$.
-				\\ 
-		See also: \gls{neighbors}.},
-	first={neighborhood},
-	text={neighborhood} 
-}
+ \newglossaryentry{neighborhood}
+ {name={neighborhood},
+ 	description={
+ 	Consider some \gls{metric} space $\featurespace$ with \gls{metric} 
+	$d: \featurespace \times \featurespace \rightarrow \mathbb{R}_{+}$.	
+ 	The\index{neighborhood} neighborhood of a point $\featurevec \in \featurespace$ 
+ 	is the set of other points having a sufficiently small distance to $\featurevec$. 
+ 	For example, the $\epsilon$-neighborhood of $\featurevec$ is defined as
+ 	$$ \{ \featurevec' \in \featurespace : d(\featurevec, \featurevec') \leq \epsilon \}.$$
+	If $\featurespace$ is an undirected \gls{graph}, which is a special case of 
+ 	a \gls{metric} space, the neighborhood of a node $\nodeidx \in \nodes$ 
+ 	is the set of its \gls{neighbors}.
+ 				\\ 
+ 	See also: \gls{neighbors}, \gls{metric}.},
+ 	first={neighborhood},
+	firstplural={neighborhoods},
+ 	plural={neighborhoods},
+ 	text={neighborhood} 
+ }
 
 
 \newglossaryentry{neighbors}
@@ -4281,11 +4315,39 @@ plural={medians},
 {name={validation},
 	description={Consider\index{validation} a \gls{hypothesis} $\learnthypothesis$ that has been 
 		learned via some \gls{ml} method, e.g., by solving \gls{erm} on a \gls{trainset} $\dataset$. 
-		Validation refers to the practice of evaluating the \gls{loss} incurred by the 
+		\begin{figure}[htbp] 
+			\centering
+			\begin{tikzpicture}[scale=1.2,x=1.5cm]
+				% Straight line: y = x
+				\draw[thick] (-0.5,-0.5) -- (2.5,2.5)
+				node[pos=1, below right]
+				{$\hypothesis'(\feature)=\feature$};
+				% Quadratic: y = 0.5 x^2
+				\draw[thick, domain=-0.5:2.5, samples=10, smooth]
+				plot (\x,{0.5*\x*\x})
+				node[pos=0, above left]
+				{$\hypothesis(\feature)=\frac{1}{2}\feature^{2}$};
+				% Training data points
+				\fill[blue] (0,0) circle (4pt);
+				\fill[blue] (2,2) circle (4pt);
+				% Manual legend
+				\node[below right] at (0,0) {\gls{trainset}};
+				% validation data point 
+				\fill[red] (1,3) circle (4pt);
+				\node[above,yshift=2pt] at (1,3) {\gls{valset}};
+			\end{tikzpicture}
+			\caption{Illustration of validation. The blue points represent the \glspl{datapoint} in the 
+			\gls{trainset}, while the red point represents a \gls{datapoint} in the \gls{valset}. The 
+			\gls{hypothesis} $\learnthypothesis$ (black curve) fits the \glspl{datapoint} in the \gls{trainset} perfectly, 
+			but incurs a large \gls{loss} on the \gls{datapoint} in the \gls{valset}.}
+		\end{figure} 
+		Validation refers to the process of evaluating the \gls{loss} incurred by the 
 		\gls{hypothesis} $\learnthypothesis$ on a set of 
-		\glspl{datapoint} that are not contained in the \gls{trainset} $\dataset$.
+		\glspl{datapoint} that are not contained in the \gls{trainset} $\dataset$. This 
+		set of \glspl{datapoint} is called the \gls{valset}. The average \gls{loss} of 
+		$\learnthypothesis$ on the \gls{valset} is referred to as the \gls{valerr}.
 				\\
-		See also: \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{trainset}, \gls{loss}, \gls{datapoint}. },
+		See also: \gls{trainset}, \gls{overfitting}, \gls{generalization}, \gls{valerr}, \gls{valset}. },
 	first={validation},
 	text={validation}  
 }
@@ -4438,7 +4500,7 @@ plural={medians},
 	description={In the context of \gls{ml}, training\index{training} refers to the process 
 	of learning a useful \gls{hypothesis} $\learnthypothesis$ out of a \gls{model} $\hypospace$. 
 	The training of a \gls{model} $\hypospace$ is guided by the \gls{loss} incurred on a set 
-	of \glspl{datapoint}, which serve as the \gls{trainset}. For parametric \glspl{model}, 
+	of \glspl{datapoint}, which serve as the \gls{trainset}. For \glspl{parammodel}, 
 	where each \gls{hypothesis} $\hypothesis^{(\weights)}$ is characterized by a specific 
 	choice for the \gls{modelparams}, training amounts to finding an optimal choice for the 
 	\glspl{modelparams} $\weights$. A widely-used approach to training is \gls{erm}, which 
@@ -7776,16 +7838,16 @@ sort={Renyi},
 			}
 			%--- Annotations ---------------------------------------------------------------
 			% Forward / Backward labels
-			\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (i.e., \glspl{prediction})};
-			\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (i.e., \glspl{gradient})};
+		%	\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (i.e., \glspl{prediction})};
+		%	\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (i.e., \glspl{gradient})};
 			% Weight / bias hints
 			\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
 			\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
 			% Legend
 			\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
 			\begin{tikzpicture}[baseline={(0,0)}]
-		  	\draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small Forward (i.e., \gls{data} flow)};
-		  	\draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small Backward (i.e., \glspl{gradient})};
+		  	\draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.0,0) {\small forward pass (computing $\hypothesis(\featurevec)$)};
+		  	\draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.0,-0.5) {\small backward pass (computing $\nabla_{\weights}\loss$)};
 			\end{tikzpicture}
 			};
 			% Caption label node (optional visual helpers)
