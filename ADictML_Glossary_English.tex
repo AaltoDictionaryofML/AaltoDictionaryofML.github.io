@@ -210,6 +210,109 @@
 	text={matrix}
 }
 
+\newglossaryentry{stratification}{%
+  name={stratification},
+  description={The process of splitting a \gls{dataset} into subsets, so called strata,
+  according to some key attribute is called stratification\index{stratification} \cite{oecd2008glossary,Everitt2010,OxfordStatisticsDictionary}. 
+  The goal is to ensure that a \gls{ml} method performs well for all subgroups 
+  defined by these attributes. For example, in a medical \gls{dataset},
+  we may want to stratify a patient \gls{dataset} by age groups to ensure that an
+  \gls{ml} model performs well across all age groups.  
+ \begin{figure}[H]
+ 	\centering
+\begin{tikzpicture}[font=\small,x=1.7cm]
+	% --- Parameters ---
+	\def\cellw{6.0}     % total dataset width
+	\def\cellh{0.5}     % height of one row
+	\def\gap{1}       % vertical gap between rows
+	\def\tfrac{0.8}     % train fraction
+	\def\pA{0.9}        % proportion of stratum A (B = 1 - pA)
+	% Column labels
+	\node[anchor=south] at (0.5*\cellw, \cellh+0.2) {\gls{dataset}};
+	\node[anchor=south] at ({0.5*\cellw}, {-(\cellh+\gap)+\cellh+0.2}) {train/val split without \gls{stratification}};
+	\node[anchor=south] at (0.5*\cellw, {-2*(\cellh+\gap)+\cellh+0.2}) {with \gls{stratification}};
+	% y-positions
+	\pgfmathsetmacro{\yDataset}{0}
+	\pgfmathsetmacro{\yNoStrat}{-(\cellh+\gap)}
+	\pgfmathsetmacro{\yStrat}{-2*(\cellh+\gap)}
+	% A/B border x (dataset coordinate)
+	\pgfmathsetmacro{\xAB}{\pA*\cellw}
+	\pgfmathsetmacro{\wA}{\pA*\cellw}
+	\pgfmathsetmacro{\wB}{(1-\pA)*\cellw}
+	% --- Row 1: DATASET (only A/B border) ---
+	\draw (0,\yDataset) rectangle ++(\cellw,\cellh);
+	\draw[dashed,  line width=0.5mm] (\xAB,\yDataset) -- ++(0,\cellh);
+		% Labels for strata in Dataset row
+	\node at (0.5*\wA, \yDataset+0.5*\cellh) {$\sensattr\!=\!1$};
+	\node at ({\xAB+0.5*\wB}, {\yDataset+0.5*\cellh}) {$\sensattr\!=\!2$};
+%	% --- Row 2: NO STRATIFICATION (shade right 20% as validation) ---
+	\draw (0,\yNoStrat) rectangle ++(\cellw,\cellh);
+	\pgfmathsetmacro{\xValStart}{\tfrac*\cellw}
+	\pgfmathsetmacro{\valw}{(1-\tfrac)*\cellw}
+	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++(\valw,\cellh);
+%	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++({(1-\tfrac)*\cellw,\cellh});
+%	% A/B border in dataset order only
+	\draw[dashed,  line width=0.5mm] (\xAB,\yNoStrat) -- ++(0,\cellh);
+	% --- Row 3: STRATIFIED (shade val inside each stratum A and B) ---
+	\draw (0,\yStrat) rectangle ++(\cellw,\cellh);
+	% A/B border at x = pA * cellw
+	\pgfmathsetmacro{\xAB}{\pA*\cellw}
+	\draw[dashed, line width=1mm] (\xAB,\yStrat) -- ++(0,\cellh);
+	% widths of strata A and B
+	% --- Validation area within A (right (1-tfrac) part of A) ---
+	\pgfmathsetmacro{\xAVal}{\tfrac*\wA}              % start inside A (A begins at x=0)
+	\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}          % width of A's validation
+	\fill[gray!35] (\xAVal,\yStrat) rectangle ++(\wAVal,\cellh);
+	% --- Validation area within B (right (1-tfrac) part of B) ---
+	\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}       % start inside B
+	\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}          % width of B's validation
+	\fill[gray!35] (\xBVal,\yStrat) rectangle ++(\wBVal,\cellh);
+\end{tikzpicture}
+ 	\caption{Stratification ensures that both the \gls{trainset} and the \gls{valset} (shaded grey) have similar 
+ 		distributions of a binary key attribute $\sensattr$.}
+ \end{figure}
+  When splitting a \gls{dataset} into a \gls{trainset} and a \gls{valset}, 
+  stratification ensures that both sets have similar distributions of the key attribute. 
+  Without stratification, using a small \gls{valset} may underrepresent or 
+  even completely miss \glspl{datapoint} with a rare attribute, leading to misleading 
+  performance estimates.\\ 
+  See also: \gls{validation}, \gls{kfoldcv}, \gls{stratum}.},
+  first={stratification},
+  plural={stratifications}%
+}
+
+\newglossaryentry{stratum}
+{name={stratum},
+	description={
+	A\index{stratum} stratum is a subset of \glspl{datapoint} that all 
+	possess a shared property (which could be a \gls{feature} or a \gls{label}). 
+	For example, in a weather \gls{dataset}, all measurements from the same 
+	\gls{fmi} weather station form one stratum.\\[0.5em]
+	\begin{center}
+\textbf{Example (CSV snippet):}\\
+  {\ttfamily
+  time,station,value,units\\
+  2023-06-01 12:00,Helsinki,18.2,degC\\
+  2023-06-01 13:00,Helsinki,18.5,degC\\
+  2023-06-01 14:00,Helsinki,19.0,degC\\
+  2023-06-01 12:00,Oulu,12.1,degC\\
+  2023-06-01 13:00,Oulu,12.4,degC\\
+  2023-06-01 14:00,Oulu,12.7,degC\\
+  2023-06-01 12:00,Tampere,15.3,degC\\
+  2023-06-01 13:00,Tampere,15.6,degC\\
+  2023-06-01 14:00,Tampere,16.0,degC
+  }
+	\end{center} 
+	Here, the rows for each station (\texttt{Helsinki}, \texttt{Oulu}, \texttt{Tampere}) 
+	represent different strata.\\ 
+	See also: \gls{stratification}, \gls{dataset}, \gls{datapoint}.},
+  first={stratum},
+  firstplural={strata},
+ plural={strata}, 
+ text={stratum}
+}
+
+
 \newglossaryentry{det}
 {name={determinant},
 	description={The\index{determinant} determinant $\det\,(\mA)$ of a square \gls{matrix} 
