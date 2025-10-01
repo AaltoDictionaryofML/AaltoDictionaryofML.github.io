@@ -2523,22 +2523,25 @@ sort={zerooneloss},
 		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
 		\[
 			\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx).
-		\] 
-		It is useful to think of the mean as the solution of the following \gls{risk} 
-		minimization problem \cite{BertsekasProb}:
+		\]  
+		We also use the term to refer to the average of a finite \gls{dataset}
+		$\dataset = \left\{ \vx^{(1)}, \,\ldots, \,\vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}\right\}$. 
+		However, these two definitions are essentially the same. Indeed, we can use 
+		a \gls{dataset} to construct a discrete \gls{rv} $\widetilde{\vx}^{(\dataset)}=\vx^{(I)}$ on 
+		the \gls{samplespace} $\{1, \,\ldots, \,\samplesize\}$. Here, the index $I$ is 
+		chosen uniformly at random, $\prob{I=\sampleidx}=1/\samplesize$ for all 
+		$\sampleidx=1,\ldots,\samplesize$. The mean of $\widetilde{\vx}^{(\dataset)}$ is 
+		precisely the average $({1}/{\samplesize}) \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
+		For some \glspl{rv} the mean is characterized as the solution of the 
+		following \gls{risk} minimization problem \cite{BertsekasProb}:
 		\[
 			\expect\{\featurevec\} = \aargmin_{\vc \in \mathbb{R}^{\nrfeatures}} 
 			\expect \big\{\normgeneric{\featurevec - \vc}{2}^{2}\big \}.
-		\] 
-		We also use the term to refer to the average of a finite sequence 
-		$\vx^{(1)}, \,\ldots, \,\vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$. However, 
-		these two definitions are essentially the same. Indeed, we can use the sequence 
-		$\vx^{(1)}, \,\ldots, \,\vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}$ to construct a 
-		discrete \gls{rv} $\widetilde{\vx}=\vx^{(I)}$, with the index $I$ being chosen uniformly 
-		at random from the set $\{1, \,\ldots, \,\samplesize\}$. The mean of $\widetilde{\vx}$ is 
-		precisely the average $({1}/{\samplesize}) \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
-			\\ 
-		See also: \gls{rv}, \gls{expectation}, \gls{probdist}.}, 
+		\]
+		For the \gls{rv} $\widetilde{\vx}^{(\dataset)}$, associated with a \gls{dataset}, 
+		this \gls{optproblem} reduces to \gls{erm} with \gls{sqerrloss} on $\dataset$. 
+		\\ 
+		See also: \gls{rv}, \gls{expectation}, \gls{probdist}, \gls{erm}.}, 
 	first={mean}, 
 	text={mean} 
 }
@@ -2554,7 +2557,7 @@ plural={medians},
 			\begin{tikzpicture}
  			\begin{axis}[
     			axis lines=middle,
-    			xlabel={$m$},
+    			xlabel={},
     			ylabel={},
     			ymin=0, ymax=1.1,
     			xmin=-2, xmax=6,
@@ -2569,26 +2572,31 @@ plural={medians},
     			clip=false
   			]
     			% Shifted sigmoid CDF
-			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\prob{x \leq m}$};    % Vertical and horizontal ruler at F(x) = 0.5
+			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\prob{x \leq \eta}$};    % Vertical and horizontal ruler at F(x) = 0.5
     			\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
     			\draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
     			% Mark the median point
    			\filldraw[red] (axis cs:1,0.5) circle (2pt);
-  			%  \node[below left] at (axis cs:1,0.5) {\footnotesize $(x{=}1,\ F(x){=}\tfrac{1}{2})$};
+  		    \node[below] at (axis cs:1,0) {$m$};
+			\node[above right] at (axis cs:6.3,0) {$\eta$};
     			% Label next to curve
   			\end{axis}
 			\end{tikzpicture} 
 			\end{center}
-			\caption{A representation of a median. \label{fig_median1_dict}}
+			\caption{The median of a real-valued \gls{rv} is any point that partitions $\mathbb{R}$ 
+			into two compoents with equal \gls{probability}. \label{fig_median1_dict}}
  		\end{figure}  
  		We can define the median $\med\,(\dataset)$ 
  		of a \gls{dataset} $\dataset = \{ x^{(1)}, \,\ldots, \,x^{(\samplesize)} \in \mathbb{R} \}$ 
- 		via a specific \gls{rv} $\tilde{x}$ that is naturally associated with $\dataset$. 
- 		In particular, this \gls{rv} is constructed by $\tilde{x} = x^{(I)}$, with the index $I$ 
- 		being chosen uniformly at random from the set $\{1, \,\ldots, \,\samplesize\}$, i.e., $\prob{I = \sampleidx}=1/\samplesize$ for 
- 		all $\sampleidx=1, \,\ldots, \,\samplesize$. If the \gls{rv} $x$ is integrable, a median of $x$ 
- 		is the solution of the following \gls{optproblem}: 
+ 		via a specific \gls{rv} $\tilde{x}^{(\dataset)}$ that is naturally associated with $\dataset$. 
+ 		In particular, this \gls{rv} is defined on the \gls{samplespace} $\{1, \,\ldots, \,\samplesize\}$ 
+		via $\tilde{x}^{(\dataset)} \defeq x^{(I)}$. Here, the index $I$ is chosen uniformly 
+		at random, i.e., $\prob{I = \sampleidx}=1/\samplesize$ for 
+ 		all $\sampleidx=1, \,\ldots, \,\samplesize$. If the \gls{rv} $x$ is integrable, any 
+		median of $x$ solves the \gls{optproblem}: 
  		$$\min_{x' \in \mathbb{R}} \expect{|x - x'|}.$$ 
+		For a the above \gls{rv} $\tilde{x}$ (constructed from a \gls{dataset} $\dataset$), 
+		this \gls{optproblem} is \gls{erm} on $\dataset$ using \gls{abserr}. 
  		Like the \gls{mean}, the median of a \gls{dataset} $\dataset$ can also be used 
  		to estimate \glspl{parameter} of an underlying \gls{probmodel}. Compared 
  		with the \gls{mean}, the median is more robust to \glspl{outlier}. For example, 
@@ -2606,10 +2614,10 @@ plural={medians},
 					\filldraw[blue] (\x, \y) circle (2pt);
 					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
 				}
-				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med\,(\dataset)$};
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] {$\med\,(\dataset)\!=\!{\rm mean}(\dataset)$};
 				\node at (7.5, -4) {(a)};
 			\end{scope}
-			\begin{scope}[xshift=10cm]
+			\begin{scope}[xshift=12cm]
 				\foreach \x/\y in {
 					1/2, 4/3, 7/10
 				} {
@@ -2617,7 +2625,10 @@ plural={medians},
 					\filldraw[blue] (\x, \y) circle (2pt);
 					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
 				}
-				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\med\,\big(\widetilde{\dataset}\big)$};
+				\draw[dashed, thick] (0.5, 7.5) -- (10.5, 7.5) node[right] 
+				{${\rm mean}\,\big(\widetilde{\dataset}\big)$};
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] 
+				{$\med\,\big(\widetilde{\dataset}\big)$};
 				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
 				\node at (7.5, -4) {(b)};
 			\end{scope}
@@ -2625,7 +2636,7 @@ plural={medians},
 		\caption{The median is robust against \gls{outlier} contamination. (a) Original \gls{dataset} $\dataset$. (b) Noisy 
 		\gls{dataset} $\widetilde{\dataset}$ including an \gls{outlier}. \label{fig_median2_dict}}
 		\end{figure}
-		See also: \gls{mean}, \gls{outlier}, \gls{robustness}.}, 
+		See also: \gls{mean}, \gls{outlier}, \gls{robustness}, \gls{ladregression}.}, 
 	first={median}, 
 	text={median} 
 }
@@ -4821,7 +4832,7 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 				pruning (via constraints on \gls{modelparams}). \label{fig_equiv_dataaug_penal_dict} }
 			\end{center}
 		\end{figure} 
-		See also: \gls{overfitting}, \gls{dataaug}, \gls{validation}, \gls{modelsel}.},
+		See also: \gls{overfitting}, \gls{dataaug}, \gls{validation}, \gls{ridgeregression}, \gls{lasso}, \gls{modelsel}.},
 	first={regularization},
 	text={regularization} 
 }
@@ -6152,12 +6163,73 @@ sort={k-means},
 	  	by minimizing the penalized average \gls{sqerrloss}. The average \gls{sqerrloss} is measured 
 		on a set of \glspl{labeled datapoint} (i.e., the \gls{trainset}) 
 		$$\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}.$$ 
-		The penalty term is the scaled squared Euclidean \gls{norm} $\regparam \| \weights \|^{2}_{2}$ with a 
+		The penalty term is the scaled squared Euclidean \gls{norm} $\regparam \normgeneric{\weights}{2}^{2}$ with a 
 		\gls{regularization} \gls{parameter} $\regparam > 0$. The purpose of the penalty term is \gls{regularization}, 
-		i.e., to prevent \gls{overfitting} in the high-dimensional regime, where the number of \glspl{feature} 
-		$\featuredim$ exceeds the number of \glspl{datapoint} $\samplesize$ in the \gls{trainset}.
-		Adding $\regparam \| \weights \|^{2}_{2}$ to the average \gls{sqerrloss} is equivalent 
-		to computing the average \gls{sqerrloss} on an augmented \gls{trainset}. This augmented 
+		i.e., to prevent \gls{overfitting} in the \gls{highdimregime}, where the number of \glspl{feature} 
+		$\featuredim$ exceeds the number of \glspl{datapoint} $\samplesize$ in the \gls{trainset}. 
+		For \gls{training} of a \gls{linmodel}, adding $\regparam \normgeneric{\weights}{2}^{2}$ to the average 
+		\gls{sqerrloss} is equivalent to computing the average \gls{sqerrloss} on an augmented \gls{trainset}. 
+		\begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale = 1]
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\featurevec$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;     
+					%\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.6 + 2.0}) ;     
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+				%	\draw[blue, thick] (5, 4.5) ellipse [x radius=0.2cm, y radius=1cm];
+				%	\node at (5, 5.8) [text=black, font=\small] {$\{ \hypothesis: \hypothesis(x)\!=\!w_{1}x\!+\!w_{0}; w_{1} \in [0.4,0.6]\}$};
+					\node at (6.7,4.5) {$\hypothesis(\featurevec)$};    
+					\coordinate (l1)   at (1.2, 2.48);
+					\coordinate (l2) at (1.4, 2.56);
+					\coordinate (l3)   at (1.7,  2.68);
+					\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
+					\coordinate (l5) at (2.4, 2.4*0.4+2.0);
+					\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
+					\coordinate (l7)   at (3.9,  3.9*0.4+2.0);
+					\coordinate (l8) at (4.2, 4.2*0.4+2.0);
+					\coordinate (l9)   at (4.5,  4.5*0.4+2.0);
+					\coordinate (n1)   at (1.2, 1.8);
+					\coordinate (n2) at (1.4, 1.8);
+					\coordinate (n3)   at (1.7,  1.8);
+					\coordinate (n4)   at (2.2, 3.8);
+					\coordinate (n5) at (2.4, 3.8);
+					\coordinate (n6)   at (2.7,  3.8);
+					% augemented data point obtained by perturbing feature, not touching label value 
+					\coordinate (n7)   at (3.9, 2.6);
+					\coordinate (n8) at (4.2, 2.6);
+					\coordinate (n9)   at (4.5,  2.6);
+					\node at (n1)  [circle,draw,fill=red,minimum size=6pt,scale=0.6, name=c1] {};
+					\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
+					\node at (n3)  [circle,draw,fill=red,minimum size=6pt,scale=0.6,  name=c3] {};
+					\node at (n4)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c4] {};  
+					\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
+					\node at (n6)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c6] {};  
+					\node at (n7)  [circle,draw,fill=red,minimum size=12pt,scale=0.6,  name=c7] {};
+					\node at (n8)  [circle,draw,fill=blue,minimum size=12pt, scale=0.6, name=c8] {};
+					\node at (n9)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c9] {};
+					\draw [<->] ($ (n7) + (0,-0.3) $)  --  ($ (n9) + (0,-0.3) $) node [pos=0.4, below] {$\sqrt{\regparam}$}; ; 
+					\draw[<->, color=red, thick] (l1) -- (c1);  
+					\draw[<->, color=blue, thick] (l2) -- (c2);  
+					\draw[<->, color=red, thick] (l3) -- (c3);  
+					\draw[<->, color=red, thick] (l4) -- (c4);  
+					\draw[<->, color=blue, thick] (l5) -- (c5);  
+					\draw[<->, color=red, thick] (l6) -- (c6);  
+					\draw[<->, color=red, thick] (l7) -- (c7);  
+					\draw[<->, color=blue, thick] (l8) -- (c8);  
+					\draw[<->, color=red, thick] (l9) -- (c9);  
+					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [anchor=west,black,xshift=0.1cm] {original \gls{datapoint} $\pair{\featurevec}{\truelabel}$};
+					\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [anchor=west,black,xshift=0.1cm] {augmented $\pair{\mvnormal{\featurevec}{\regparam\mathbf{I}}}{\truelabel}$};
+				%	\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \big(\truelabel^{(\sampleidx)} - \weights^{T}\featurevec^{(\sampleidx)}\big)^{2}$};
+				%	\node at (7.2,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \normgeneric{\weights}{2}^2 $};
+				\end{tikzpicture}
+				\caption{For a \gls{linmodel}, adding the penalty term $\regparam \normgeneric{\weights}{2}^2$ to 
+				the \gls{objfunc} in \gls{erm} is equivalent to \gls{erm} on an augmented \gls{dataset}  \label{fig_ridge_regression_dict} }
+			\end{center}
+		\end{figure} 
+		This augmented 
 		\gls{trainset} is obtained by replacing each \gls{datapoint} $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ 
 		in the original \gls{trainset} by the \gls{realization} of infinitely many \gls{iid} \glspl{rv} 
 		whose \gls{probdist} is centered at $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$.
@@ -7226,7 +7298,7 @@ text={expectation}
 			error $|\truelabel\!-\!\hypothesis(\featurevec)|$ can be used as a \gls{lossfunc} to guide the 
 			learning of a \gls{hypothesis} $\hypothesis$. \label{fig_abs_err_dict}}
 		\end{figure} 
-		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{erm}, \gls{sgd}.},
+		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{loss}, \gls{erm}, \gls{sgd}, \gls{ladregression}.},
 	first={absolute error loss},
 	text={absolute error loss}
 }
@@ -7280,8 +7352,44 @@ text={expectation}
 
 \newglossaryentry{ladregression}
 {name={least absolute deviation regression},
-	description={Least\index{least absolute deviation regression} absolute deviation regression is 
-		an instance of \gls{erm} using the \gls{abserr}. It is a special case of \gls{huberreg}.
+	description={Least\index{least absolute deviation regression} absolute 
+	deviation regression is an instance of \gls{erm} using the \gls{abserr}. 
+	It is a special case of \gls{huberreg}. 
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+			\begin{scope}
+				\foreach \x/\y in {
+					1/2, 4/3, 7/4
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\widehat{\weight} = \med\,(\dataset)$};
+				\node at (7.5, -4) {(a)};
+			\end{scope}
+			\begin{scope}[xshift=10cm]
+				\foreach \x/\y in {
+					1/2, 4/3, 7/10
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick, darkgreen] (0.5, 3) -- (10.5, 3) node[right] {$\widehat{\weight} = \med\,\big(\widetilde{\dataset}\big)$};
+				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
+				\node at (7.5, -4) {(b)};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{For the simple \gls{parammodel} $\hypothesis^{(\weight)}(\featurevec) = \weight$, 
+		\gls{erm} with \gls{abserr} amounts to computing the \gls{median}. 
+		(a) Original \gls{dataset} $\dataset$. (b) Noisy 
+		\gls{dataset} $\widetilde{\dataset}$ including an \gls{outlier}. \label{fig_lad_dict}}
+		\end{figure}
+	For the \gls{parammodel} $\hypothesis^{(\weight)}(\featurevec) = \weight$, 
+	\gls{erm} with \gls{abserr} is solved by the \gls{median}. Using \gls{sqerrloss} 
+	instead for the same \gls{parammodel}, makes \gls{erm} computing the \gls{mean}. 
 				\\
 		See also: \gls{erm}, \gls{abserr}, \gls{huberreg}.},
 	first={least absolute deviation regression},
