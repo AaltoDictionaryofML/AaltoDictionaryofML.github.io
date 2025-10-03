@@ -37,7 +37,7 @@
 	 	a given number of $\samplesize$ times defines a new random experiment. The outcomes 
 	 	of this new experiment are length-$\samplesize$ sequences of outcomes 
 	 	from the original experiment (see Fig. \ref{fig_randomexperiment_dict}). While the outcome of a single experiment is 
-	 	uncertain, the long-run behavior of the outcomes of repeated experiments 
+	 	uncertain, the long-run behaviour of the outcomes of repeated experiments 
 	 	tends to become increasingly predictable. This informal claim can be made 
 	 	precise via fundamental results of \gls{probability} theory, such as the \gls{lln} 
 	 	and the \gls{clt}.
@@ -7951,11 +7951,40 @@ sort={Renyi},
 {name={zero-gradient condition},
 	description={Consider\index{zero-gradient condition} the unconstrained 
 		\gls{optproblem} $\min_{\weights \in \mathbb{R}^{\dimlocalmodel}} f(\weights)$  with 
-			a \gls{smooth} and \gls{convex} \gls{objfunc} $f(\weights)$. A necessary and 
-			sufficient condition for a \gls{vector} $\widehat{\weights} \in \mathbb{R}^{\dimlocalmodel}$ 
+			a \gls{smooth} and \gls{convex} \gls{objfunc} $f(\weights)$. 
+			\begin{figure}[htbp] 
+			\centering
+			\begin{tikzpicture}[scale=1.1,x=2cm]
+				% --- Local (scoped) parameters ---
+				\pgfmathsetmacro{\xmin}{1}
+				\pgfmathsetmacro{\ymin}{0.5}
+				\pgfmathsetmacro{\xA}{-0.2}
+				\pgfmathsetmacro{\xB}{2.4}
+				% Quadratic curve; capture endpoint for label
+				\pgfmathsetmacro{\yB}{(\xB-\xmin)^2 + \ymin}
+				\draw[thick, domain=\xA:\xB, samples=40]
+				plot (\x,{(\x-\xmin)^2 + \ymin});
+				\node[anchor=west] at (\xB,\yB) {$f(\weights)$};
+				% Minimum point
+				\coordinate (xstar) at (\xmin,\ymin);
+				\fill (xstar) circle (1.6pt);
+				% Guides
+				\draw[dashed] (\xmin,0) -- (xstar) node[below,yshift=-18pt] {$\widehat{\weights}$};
+				\draw[dashed] (0,\ymin) -- (xstar);
+				% Tangent at the minimum (horizontal, drawn relative to xstar)
+				\draw[thick] (xstar) ++(-0.7,0) -- ++(1.4,0);
+				\node [xshift=20pt,yshift=-5pt] at ($(xstar)+(1.0,0.18)$) {$\nabla f\big(\widehat{\weights}\big)\!=\!\mathbf{0}$};
+			\end{tikzpicture}
+			\end{figure}
+			A necessary and sufficient condition for a \gls{vector} $\widehat{\weights} \in \mathbb{R}^{\dimlocalmodel}$ 
 			to solve this problem is that the \gls{gradient} $\nabla f \big( \widehat{\weights} \big)$ 
-			is the zero \gls{vector} such that
+			is the zero \gls{vector} $\nabla f \big( \widehat{\weights} \big) = \mathbf{0}$ . In other words \cite[p. 140]{BoydConvexBook}, 
 			$$\nabla f \big( \widehat{\weights} \big) = \mathbf{0} \Leftrightarrow  f \big( \widehat{\weights} \big) = \min_{\weights \in \mathbb{R}^{\dimlocalmodel}} f(\weights).$$ 
+			By defining the \gls{gradient} operator $\nabla f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$, we 
+			can rewrite the zero-gradient condition as a fixed-point equation
+			$$ \big( \mathcal{I} - \regparam \nabla f\big) \widehat{\weights} = \widehat{\weights}.$$ 
+			Here, $\mathcal{I}$ denotes the identity operator (i.e., $\mathcal{I}(\weights) = \weights$) 
+			and $\regparam$ is an arbitrary positive number. 
 					\\
 			See also: \gls{optproblem}, \gls{smooth}, \gls{convex}, \gls{objfunc}, \gls{vector}, \gls{gradient}.}, 
 		first={zero-gradient condition},
