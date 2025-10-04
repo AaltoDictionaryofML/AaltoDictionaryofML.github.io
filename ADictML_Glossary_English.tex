@@ -1134,12 +1134,12 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 \newglossaryentry{nullspace}
 {name={nullspace},
 	description={The nullspace\index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
-		denoted by ${\rm null}(\mA)$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
+		denoted by $\nullspace{\mA}$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
     		such that $$\mA \mathbf{n} = \mathbf{0}.$$ 
 		Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
 		a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
 		into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
-		The nullspace ${\rm null}(\mA)$ characterizes all directions in the original 
+		The nullspace $\nullspace(\mA)$ characterizes all directions in the original 
     		\gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
 		$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
 		the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
@@ -1149,7 +1149,7 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 		which approximately lie along 1-D curves in the original \gls{featurespace}. 
 		These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
     		To ensure that the trained \gls{model} is invariant to such rotations, we can 
-		choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in {\rm null}(\mA)$. 
+		choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in \nullspace{\mA}$. 
 		This ensures that $\mA \mathbf{x}$, and hence the resulting \gls{prediction}, 
 		is approximately insensitive to rotations of the input image.
 		\begin{figure}[H]
@@ -2438,13 +2438,18 @@ sort={zerooneloss},
 
 \newglossaryentry{stability}
 {name={stability},
-	description={Stability\index{stability} is a desirable property of an \gls{ml} method $\algomap$ that maps a 
-		\gls{dataset} $\dataset$ (e.g., a \gls{trainset}) to an output $\algomap(\dataset)$. The output 
-		$\algomap(\dataset)$ can be the learned \gls{modelparams} or the \gls{prediction} delivered 
-		by the trained \gls{model} for a specific \gls{datapoint}. Intuitively, $\algomap$ is 
-		stable if small changes in the input \gls{dataset} $\dataset$ lead to small changes in the 
-		output $\algomap(\dataset)$. Several formal notions of stability exist that enable bounds 
-		on the \gls{generalization} error or \gls{risk} of the method (see \cite[Ch.~13]{ShalevMLBook}).
+	description={
+	Mathematically, a \gls{ml} method is a map $\algomap$ from a given \gls{dataset} $\dataset$ 
+	to an output $\algomap(\dataset)$. As a case in point, consider an \gls{erm}-based 
+	\gls{ml} method that maps a \gls{trainset} $\dataset$ to the learned \gls{modelparams} 
+	$\algomap(\dataset) = \widehat{\weights}$ which achieve the minimum average \gls{loss} 
+	on the \gls{trainset}. Instead of the learned \gls{modelparams}, the 
+	output $\algomap(\dataset)$ could also be the \glspl{prediction} obtained from 
+	the trained \gls{model}. Stability\index{stability} refers to the desirable property 
+	of $\algomap$ that small changes in the input \gls{dataset} $\dataset$ result in small 
+	changes in the output $\algomap(\dataset)$. The notion of stability is intimately related 
+	to the notion of \gls{generalization}. In particular, there are formal notions of stability  
+	that allow to bound the \gls{gengap} (see \cite[Ch.~13]{ShalevMLBook}).
 		To build intuition, consider the three \glspl{dataset} depicted in Fig. \ref{fig_three_data_stability_dict}, each 
 		of which is equally likely under the same \gls{data}-generating \gls{probdist}. Since the 
 		optimal \gls{modelparams} are determined by this underlying \gls{probdist}, an accurate 
@@ -6177,10 +6182,11 @@ sort={k-means},
 \newglossaryentry{linreg}
 {name={linear regression}, 
 	description={Linear\index{linear regression} 
-		\gls{regression} aims to learn a linear \gls{hypothesis} \gls{map} 
-		$\hypothesis^{(\weights)}(\featurevec) =\weights^{T}\featurevec$ to predict a 
-		numeric \gls{label} $\truelabel \in \mathbb{R}$ based on the numeric \glspl{featurevec} 
-		$\featurevec=\big(\feature_{1},\ldots,\feature_{\nrfeatures}\big)^{T} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint}. 
+		\gls{regression} learns a linear \gls{hypothesis} \gls{map} 
+		$\hypothesis^{(\weights)}(\featurevec) =\weights^{T}\featurevec$ which is used 
+		to predict the numeric \gls{label} $\truelabel \in \mathbb{R}$ of a \gls{datapoint} 
+		based on its numeric \glspl{featurevec} $\featurevec=\big(\feature_{1},\ldots,
+		\feature_{\nrfeatures}\big)^{T} \in \mathbb{R}^{\nrfeatures}$. 
 		The quality of a linear \gls{hypothesis} \gls{map} is measured using the average 
 		\gls{sqerrloss} incurred on a \gls{trainset} 
 		$$\pair{\featurevec^{(1)}}{\truelabel^{(1)}},\ldots,
@@ -6241,7 +6247,29 @@ sort={k-means},
 		 (via computing the \gls{inverse} or \gls{pseudoinverse}), 
 		 many \gls{ml} mehtods use variants of \gls{gd} to construct a sequence 
 		 $\weights^{(0)},\weights^{(1)},\ldots,$ of increasingly accurate approximations 
-		 of a solution $\widehat{\weights}$ to \eqref{eq_linreg_normal_eq_dict}. \\
+		 of a solution $\widehat{\weights}$ to \eqref{eq_linreg_normal_eq_dict}. These 
+		 \glspl{gdmethod} can be interpreted as a \gls{fixedpointiter} for the following 
+		 re-formulation of \eqref{eq_linreg_normal_eq_dict}, 
+		 $$ \big(\mathbf{I} - \mA \featuremtx^{T}\featuremtx\big) \widehat{\weights} + \featuremtx^{T} 
+		 \labelvec = \widehat{\weights}, \mbox{ with some invertible \gls{matrix} } \mA.$$
+		 This equation is solved by a \gls{vector} $\widehat{\weights}$ if and only if 
+		 this \gls{vector} also solves \eqref{eq_linreg_normal_eq_dict}. The optimality 
+		  condition \eqref{eq_linreg_normal_eq_dict} is also useful for the study of 
+		  the \gls{stability} of linear \gls{regression}. Ideally, we would like the solutions of 
+		  \eqref{eq_linreg_normal_eq_dict} to be insensitive to small perturbations 
+		  of the \gls{trainset}. We can capture these perturbations via a 
+		  perturbed \gls{featuremtx} $\widetilde{\featuremtx} = \featuremtx + \Delta \featuremtx$
+		  and perturbed \gls{label} 
+		  \gls{vector} $\widetilde{\labelvec} = \labelvec + \Delta \labelvec$. 
+		  Here, $\Delta \featuremtx$ and $\Delta \labelvec$ represent small perturbations
+		  to the \glspl{featurevec} and \glspl{label} of the \glspl{datapoint} in the 
+		  original \gls{trainset}. \Gls{matrix} perturbation theory allows to evaluate 
+		  how much the solutions of the perturbed linear \gls{regression} problem \cite[Sec.\ 2.6]{GolubVanLoanBook}
+		  $$\widetilde{\featuremtx}^{T} \widetilde{\featuremtx} \widetilde{\weights} = 
+		  \widetilde{\featuremtx}^{T} \widetilde{\labelvec}$$
+		  deviate from the solutions $\widetilde{\weights}$ 
+		  of the original linear \gls{regression} problem.
+		 \\
 		See also: \gls{regression}, \gls{linmodel}, \gls{erm}.},
 	first={linear regression},
 	text={linear regression}
