@@ -6179,20 +6179,108 @@ sort={k-means},
 	text={polynomial regression}
 }
 
+\newglossaryentry{leastsquares}
+{name={least squares},
+ description={Least squares\index{least squares} refers to \gls{erm}-based 
+               methods that use the average \gls{sqerrloss} 
+			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \big( \truelabel^{(\sampleidx)} 
+			   - \hypothesis(\featurevec^{(\sampleidx)}) \big)^{2} $$   
+			   on a \gls{trainset} $\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,
+			   \pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}} \big\}$	
+			   to measure the quality of a \gls{hypothesis} \gls{map} $\hypothesis \in \hypospace$. 
+			   We obtain different least squares methods by using different \glspl{model} 
+			   in \gls{erm}. For example, the least squares variant of \gls{linmodel} 
+			   is a least squares method that uses a \gls{linmodel}.
+			   \\
+		See also: \gls{erm}, \gls{sqerrloss}, \gls{linreg}, \gls{linmodel}.},
+	first={least squares},
+	text={least squares}
+}
+
+\newglossaryentry{linleastsquares}
+{name={linear least squares},
+ description={Linear least squares\index{linear least squares} refers to the 
+ variant of \gls{linreg} that uses \gls{sqerrloss} to measure the quality of 
+ a linear \gls{hypothesis} \gls{map}. On the other hand, linear least squares is 
+ a variant of \gls{leastsquares} that uses the \gls{linmodel}.   \\
+		See also: \gls{erm}, \gls{sqerrloss}, \gls{linreg}, \gls{linmodel}, \gls{leastsquares}.},
+	first={linear least squares},
+	text={linear least squares}
+}
+
+\newglossaryentry{weightedleastsquares}
+{name={weighted least squares},
+ description={Weighted least squares\index{weighted least squares} 
+ 	refers to \gls{erm}-based 
+               methods that use the weighted average \gls{sqerrloss} 
+			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)} 
+			   - \hypothesis(\featurevec^{(\sampleidx)}) \big)^{2} $$   
+			   on a \gls{trainset} $\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,
+			   \pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}} \big\}$	
+			   to measure the quality of a \gls{hypothesis} \gls{map} $\hypothesis \in \hypospace$. 
+		 	   \begin{figure}[H]
+		  \centering
+		  \begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+		  		\foreach \x/\y in {
+		  			1/2, 4/3, 7/10
+		  		} {
+		  			\draw[dashed, gray] (\x, 0) -- (\x, \y);
+		  			\filldraw[blue] (\x, \y) circle (2pt);
+		  			\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+		  		}
+		  		\draw[dashed, thick] (0.5, 3.5) -- (10.5, 3.5) node[right] 
+		  		{$\hypothesis$};
+		  		\node[above right=2pt and 2pt, red] at (ptB7) {\gls{outlier}};
+				  % --- hypothesis line (horizontal at y=3.5) ---
+  \coordinate (lineStart) at (0.5, 3.5);
+  \coordinate (lineEnd)   at (10.5, 3.5);
+  \draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$\hypothesis$};
+  % --- projection of the outlier (ptB7) onto the hypothesis line ---
+  % same x-coordinate, y = 3.5 (height of hypothesis line)
+  \path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
+  % --- draw residual vector ---
+  \draw[<->, very thick, red]
+    (proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
+    {$\beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)}\!-\!\hypothesis\big(\featurevec^{(\sampleidx)}\big) \big)^{2}$}
+    (ptB7);
+  % --- emphasize points ---
+  \fill[red] (proj7) circle (1.2pt);
+  \fill[red] (ptB7)  circle (1.2pt);
+		  \end{tikzpicture}
+		  \caption{Weighted least squares can be used to mitigate the effect of \gls{outlier} 
+		  \glspl{datapoint} in a \gls{trainset}. %In this example, the \gls{outlier} 
+		  %(shown in red) has been assigned a small weight $\beta^{(7)}$ 
+		  %to reduce its influence on the learned \gls{parameter} $\widehat{w}$. 
+		  \label{fig_weighted_least_squares_dict}}
+		 \end{figure}
+			   The weights $\beta^{(1)}, \,\ldots, \,\beta^{(\samplesize)} \in \mathbb{R}_{+}$
+			   allow us to emphasize or de-emphasize the contribution of individual \glspl{datapoint} 
+			   in the \gls{trainset}. Ideally, we assign a small weight $\beta^{(\sampleidx)}$ 
+			   (de-empahsize) the $\sampleidx$-th \gls{datapoint} if it is an \gls{outlier} 
+			   (see Figure \ref{fig_weighted_least_squares_dict}). 
+			   We obtain different weighted least squares methods by 
+			   using different \glspl{model} in \gls{erm}.  
+			   \\
+		See also: \gls{erm}, \gls{sqerrloss}, \gls{linreg}, \gls{linmodel}.},
+	first={weighted least squares},
+	text={weighted least squares}
+}
+
 \newglossaryentry{linreg}
 {name={linear regression}, 
 	description={Linear\index{linear regression} 
-		\gls{regression} learns a linear \gls{hypothesis} \gls{map} 
+		\gls{regression} methods learn a linear \gls{hypothesis} \gls{map} 
 		$\hypothesis^{(\weights)}(\featurevec) =\weights^{T}\featurevec$ which is used 
 		to predict the numeric \gls{label} $\truelabel \in \mathbb{R}$ of a \gls{datapoint} 
 		based on its numeric \glspl{featurevec} $\featurevec=\big(\feature_{1},\ldots,
 		\feature_{\nrfeatures}\big)^{T} \in \mathbb{R}^{\nrfeatures}$. 
-		The quality of a linear \gls{hypothesis} \gls{map} is measured using the average 
+		The least-squares variant of linear \gls{regression} measures the quality 
+		of a linear \gls{hypothesis} \gls{map} via the average 
 		\gls{sqerrloss} incurred on a \gls{trainset} 
 		$$\pair{\featurevec^{(1)}}{\truelabel^{(1)}},\ldots,
 		\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}.$$ 
-		As an instance of \gls{erm}, linear \gls{regression} learns the \gls{modelparams} 
-		$\weights$ by solving the \gls{optproblem}
+		As an instance of \gls{erm}, linear (least-squares) \gls{regression} learns 
+		the \gls{modelparams} $\weights$ by solving the \gls{optproblem}
 		$$\min_{\weights \in \mathbb{R}^{\nrfeatures}} \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \big( \truelabel^{(\sampleidx)} 
 		- \weights^{T} \featurevec^{(\sampleidx)} \big)^{2}.$$
 		\begin{figure}[H]
