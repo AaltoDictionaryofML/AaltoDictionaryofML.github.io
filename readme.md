@@ -65,7 +65,7 @@ Full contributor list: [AUTHORS.md](./AUTHORS.md)
 
 The *Aalto Dictionary of Machine Learning (ADictML)* has been partially supported by:
 
-- *"XAI-based software-defined energy networks via packetized management for fossil fuel-free next-generation of industrial cyber-physical systems (X-SDEN)"*
+- **XAI-based software-defined energy networks via packetized management for fossil fuel-free next-generation of industrial cyber-physical systems (X-SDEN)**
   *Research Council of Finland*, Grant No. **349966**
 - **Mathematical Theory of Trustworthy Federated Learning (MATHFUL)**  
   *Research Council of Finland*, Grant No. **363624**
