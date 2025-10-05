@@ -89,7 +89,7 @@ If you use or refer to ADictML, please cite as:
 
 > Jung, A., Olioumtsevits, K., Schnoor, E., Flores Ryynänen, T., Gronier, J., & Rastelli, S. (2025).  
 > *Aalto Dictionary of Machine Learning (ADictML)*.  
-> Aalto University. DOI: [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
+> Aalto University. DOI: [10.5281/zenodo.17273736](https://doi.org/10.5281/zenodo.17273736)
 
 A formal companion edition will appear in the [*Springer Dictionary of Applied Machine Learning (MRW)*](https://books.google.fi/books/about/Dictionary_of_Applied_Machine_Learning.html?id=JLGT0QEACAAJ&redir_esc=y).
 
@@ -105,7 +105,7 @@ See [LICENSE](./LICENSE) for details.
 ## 🧭 Repository Links
 
 - GitHub: [AaltoDictionaryofML.github.io](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)  
-- Zenodo DOI: [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)  
+- Zenodo DOI: [10.5281/zenodo.17273736](https://doi.org/10.5281/zenodo.17273736)  
 - Springer MRW: *Dictionary of Applied Machine Learning* (forthcoming)
 
 ---
