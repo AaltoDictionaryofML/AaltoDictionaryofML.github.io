@@ -5851,6 +5851,33 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 }
 
 
+\newglossaryentry{euclidnorm}
+{name={Euclidean norm}, 
+	description={The\index{Euclidean norm} 
+		Euclidean norm $\normgeneric{\weights}{2}$ of a \gls{vector} 
+		$$\weights = \big(\weight_{1},\ldots,\weight_{\nrfeatures} \big) \in
+		\mathbb{R}^{\nrfeatures}$$
+		defined as 
+		$$\normgeneric{\weights}{2} \defeq \sqrt{\sum_{\featureidx=1}^{\nrfeatures}\weight^2_{\featureidx}}.$$ 
+		The Euclidean norm is distinct among all norms on $\mathbb{R}^{\nrfeatures}$ in the sense 
+		that it is induced by the inner-product $\vw^{T} \vv$ \cite{RudinBook,HalmosFiniteDimVecSpace,BoydConvexBook}. 
+		In other words, $\normgeneric{\weights}{2}= \sqrt{\weights^{T} \weights}$.	\\
+		See also: \gls{vector}, \gls{euclidspace}. },
+	first={Euclidean norm},
+	text={Euclidean norm} 
+}
+
+\newglossaryentry{normalequations}
+{name={normal equations}, 
+	description={The optimality condition\index{normal equations} for the \gls{modelparams} 
+	in \gls{linleastsquares} are often referred to as normal equations.\\ 
+	See also: \gls{linleastsquares}, \gls{modelparams}. 
+	},
+	first={normal equations},
+	text={normal equations} 
+}
+
+
 \newglossaryentry{euclidspace}
 {name={Euclidean space}, 
 	description={The\index{Euclidean space} 
@@ -6197,12 +6224,88 @@ sort={k-means},
 	text={least squares}
 }
 
+\newglossaryentry{columnspace}
+{name={column space},
+ description={The column space\index{column space} of a \gls{matrix} 
+                 $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$,
+			   denoted by $\linspan{\mA}$, is the set of all linear combinations of the 
+			   columns of $\mA$. In other words, 
+			   $$ \linspan{\mA} = \{ \mA \weights : \weights \in \mathbb{R}^{\nrfeatures} \}. $$
+			   The column space is a subspace of the \gls{euclidspace} $\mathbb{R}^{\samplesize}$.
+			   \\
+		See also: \gls{vectorspace}, \gls{matrix}.},
+	first={column space},
+	text={column space}
+}
+
+\newglossaryentry{subspace}
+{name={subspace},
+ description={A subset of \gls{vectorspace} $\mathcal{V}$ is a subspace\index{subspace} of $\mathcal{V}$ if it is also a 
+			   \gls{vectorspace} with respect to the same operations as $\mathcal{V}$.
+			   \\
+		See also: \gls{vectorspace}.},
+	first={subspace},
+	text={subspace}
+}
+
 \newglossaryentry{linleastsquares}
 {name={linear least squares},
- description={Linear least squares\index{linear least squares} refers to the 
- variant of \gls{linreg} that uses \gls{sqerrloss} to measure the quality of 
- a linear \gls{hypothesis} \gls{map}. On the other hand, linear least squares is 
- a variant of \gls{leastsquares} that uses the \gls{linmodel}.   \\
+ description={
+Linear least squares\index{linear least squares} refers to the 
+ variant of \gls{linreg} that uses the \gls{sqerrloss} to measure the quality of 
+ a linear \gls{hypothesis} \gls{map}. Conversely, it can also be viewed as the 
+ variant of \gls{leastsquares} that restricts the \gls{hypothesis} to a 
+ \gls{linmodel}. 
+  \begin{figure}
+ 	\centering
+  \begin{tikzpicture}[scale=1]
+   % Column space of X (a 1D subspace through the origin)
+   \draw[thick] (-1,-0.333) -- (3,1) node[pos=0.0,below right] {$\linspan{\featuremtx}$};
+%   % Label vector y
+   \coordinate (y) at (1,2);
+   \fill (y) circle (1.6pt) node[above] {$\labelvec$};
+   % Orthogonal projection X \hat w of y onto col(X)
+   % Line direction vector chosen as v=(3,1); proj(y) = ((y·v)/(v·v)) v = 0.5*(3,1) = (1.5,0.5)
+   \coordinate (xw) at (1.5,0.5);
+   \fill (xw) circle (1.6pt) node[below right] {$\featuremtx\widehat{\weights}$};
+   % Residual (drawn as the perpendicular drop)
+   \draw[dashed] (y) -- (xw);
+   % (Optional) origin for visual reference
+ % \fill (0,0) circle (0.8pt) node[below left] {$\mathbf 0$};
+    % --- Right: normal equations ---
+    \begin{scope}[xshift=6.2cm]
+       \node[anchor=west] at (0,1.2) {\textbf{normal equations}};
+       \node[anchor=west] at (0,0.4) {$\featuremtx^{T}\featuremtx\,\widehat{\weights} \;=\; \featuremtx^{T}\labelvec$};
+     \end{scope}
+ \end{tikzpicture}
+ \caption{Linear least squares has both geometric and algebraic interpretations. 
+ Left: geometrically, it finds the orthogonal projection of the 
+ \gls{label} \gls{vector} $\labelvec$ onto the \gls{columnspace} of the 
+ \gls{featuremtx} $\featuremtx$ \cite[Ch. 8]{BoydConvexBook}. Right: algebraically, it solves a linear system 
+ known as \gls{normalequations}. 
+ \label{fig_linleastsquares_dict}}
+ \end{figure}
+ In particular, linear least squares learns the \glspl{parameter} $\weights$ of a 
+  linear \gls{hypothesis} 
+  $\hypothesis^{(\weights)}(\featurevec) = \weights^{T} \featurevec$ by solving 
+  \begin{equation} 
+ 	\label{eq_linleastsquares_dic}
+ 	\min_{\weights \in \mathbf{R}^{\nrfeatures}} \normgeneric{\labelvec - \featuremtx \weights}{2}^2.
+  \end{equation} 
+  Here, the \gls{featuremtx} is 
+  $\featuremtx = \big(\featurevec^{(1)},\ldots,\featurevec^{(\samplesize)}\big)$ 
+  and the \gls{label} \gls{vector} is 
+  $\labelvec= \big(\truelabel^{(1)},\ldots,\truelabel^{(\samplesize)}\big)^{T}$. 
+  Both are constructed from the \gls{trainset}
+  $$\dataset = \left\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,
+ 			   \pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}} \right\}.$$ 
+  The optimization problem in \eqref{eq_linleastsquares_dic} admits a clear 
+  geometric interpretation: we seek the vector $\featuremtx \widehat{\weights}$ in the 
+  \gls{columnspace} of $\featuremtx$ that is closest to the label vector $\vy$ 
+  (see Fig.~\ref{fig_linleastsquares_dict}) \cite[Ch. 8]{BoydConvexBook}. 
+  A necessary and sufficient condition for $\widehat{\weights}$ to minimize 
+  \eqref{eq_linleastsquares_dic} are the \gls{normalequations} 
+  $$ \featuremtx^{T} \featuremtx \widehat{\weights} = \featuremtx^{T} \labelvec. $$
 		See also: \gls{erm}, \gls{sqerrloss}, \gls{linreg}, \gls{linmodel}, \gls{leastsquares}.},
 	first={linear least squares},
 	text={linear least squares}
