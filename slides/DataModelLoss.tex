@@ -1,104 +1,87 @@
 % !TeX spellcheck = en_GB
-% !TeX include = /Users/junga1/AaltoDictionaryofML.github.io/ADictML_Glossary_English.tex
-% !TeX include = /Users/junga1/AaltoDictionaryofML.github.io/assets/ml_macros.tex
-
 \documentclass[12pt]{beamer}
-\usepackage{listings}
-\usepackage{tikz}
-\usepackage{tcolorbox}
-\usetikzlibrary{positioning}
-\usetikzlibrary{arrows.meta}
-\usepackage{qrcode}
-\usepackage{hyperref}          % (optional)
-\usepackage{glossaries}
 
-\usepackage{xcolor}
-\definecolor{darkblue}{RGB}{0, 0, 139} % Adjust RGB values for your preferred shade
-\usepackage{pgfplots}
-\usetikzlibrary{calc}
-\usepackage{amsmath}
-\usepackage{bm}
-\usepackage{algorithm}
-\usepackage{algpseudocode} % from algorithmicx
-\usetikzlibrary{matrix,calc,positioning,arrows.meta}
-
-\usepackage{booktabs} % for \toprule, \midrule, \bottomrule
-\definecolor{lightblue}{RGB}{173,216,230} % pastel light blue
-
-% define a simple row macro with 6 columns
-\newcommand{\slot}[3]{#1 & #2 & #3\\}
-\newcommand{\assignment}[1]{\textbf{A#1}}
-\newcommand{\session}[1]{\textbf{S#1}}
-
-
-% section-ish label inside frames
-\newcommand{\sect}[1]{\par\medskip\textbf{#1}}
-
-% --- Add this package ---
-\usepackage{etoolbox}
-
-% --- Session slide counter (resets per session/section) ---
-\newcounter{sessionframe}[section]
-
-%%% here you can costum design the slide number 
-
-%\renewcommand{\thesessionframe}{S\thesection.\arabic{sessionframe}}  % use this if slides are grouped into sessions/sections 
-\renewcommand{\thesessionframe}{\arabic{sessionframe}}  % use this if slides form a single slidess 
-
-% --- Increment sessionframe at the start of each frame ---
-\AtBeginEnvironment{frame}{\refstepcounter{sessionframe}}
-
-% --- Custom footline: bottom-right shows S<session>.<slide> ---
-\setbeamertemplate{footline}{%
-	\hfill \scriptsize \thesessionframe \hspace{2ex} \vskip10pt
-}
-
-% --- Helper: start a new session and reset slide count ---
-\newcommand{\sessionstart}[1]{\section{#1}\setcounter{sessionframe}{0}}
-
-
-% Theme 
+% ---------- Beamer setup ----------
 \usetheme{default}
-
-% Remove navigation symbols
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{\hfill \scriptsize \insertframenumber \hspace{2ex} \vskip8pt}
+\usefonttheme{professionalfonts}
 
-% Add slide numbers
-%\setbeamertemplate{footline}[frame number]
+% ---------- Encoding & fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
 
-% Load hyperref package to handle clickable links
+% ---------- Graphics & colors ----------
+\usepackage{graphicx}
+\graphicspath{{assets/}}
+\usepackage{xcolor}
+\definecolor{darkblue}{RGB}{0,0,139}
+
+% ---------- TikZ / PGFPlots ----------
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,matrix}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ---------- Math & algos ----------
+\usepackage{amsmath, bm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+
+% ---------- Links & QR ----------
+\usepackage{hyperref}
+\usepackage{qrcode}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=darkblue,
-	filecolor=magenta,  
-	urlcolor=blue,
-	pdftitle={CS-E4740 - Federated Learning},
-	pdfpagemode=FullScreen,
+	urlcolor=darkblue,
+	pdftitle={Data • Model • Loss (Open Resource)},
+	pdfpagemode=UseNone
 }
 
+% ---------- Glossaries ----------
+% Prefer glossaries-extra to avoid makeglossaries step
 
+
+% define the extra glossary type *before* loading entries
+
+
+\usepackage[abbreviations]{glossaries-extra}
+\makenoidxglossaries
+\input{../assets/ml_macros.tex} % keep in repo
 \newglossary[mlg]{math}{mls}{mln}{Mathematical Terms}
+\loadglsentries{../ADictML_Glossary_English.tex} % relative path in repo
 
-\input{/Users/junga1/AaltoDictionaryofML.github.io/assets/ml_macros.tex}
-\loadglsentries{/Users/junga1/AaltoDictionaryofML.github.io/ADictML_Glossary_English.tex}   % <-- change path/filename
+% ---------- Title ----------
+\title{Data • Model • Loss}
+\subtitle{An open resource from the Aalto Dictionary of ML}
+\author{Alexander Jung}
+\date{\today}
 
-\glsdisablehyper
 
 \begin{document}
+	\begin{frame}
+		\titlepage
+		\vspace{3mm}
+		\footnotesize Licensed under CC BY 4.0 \quad
+		\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}
+	\end{frame}
 	
-\sessionstart{Data.Model.Loss}
-	\begin{frame}{At a Glance.}
+	
+	\begin{frame}{At a glance — goals}
 		\begin{itemize}
-			\item three main components of \gls{ml}: \gls{data}, \gls{model} and \gls{loss} \\[3mm]
-			\item \gls{data} consists of \glspl{datapoint}, each characterized by  
-			\begin{itemize} 
-				\item \glspl{feature}: properties that can be measured easily \\[2mm]
-				\item \glspl{label}: properties that cannot be measured easily \\[2mm]
-			\end{itemize} 
-			\item \gls{model} consists of \gls{hypothesis} maps  \\[3mm]
-			\item \gls{loss} measures the quality of a \gls{hypothesis} map  
+			\item Understand the three components of \gls{ml}: \gls{data}, \gls{model}, \gls{loss}.
+			\item Identify \glspl{feature} vs \glspl{label} in common modalities (image, audio).
+			\item Explain how a \gls{hypothesis} maps \(\featurespace \to \labelspace\).
+			\item Compare common \glspl{lossfunc} and when to use them.
 		\end{itemize}
 	\end{frame}
+	
+
 	
 	\begin{frame}{\Gls{datapoint} = An Image $\datapoint$}
 			% Image as a datapoint
@@ -206,7 +189,7 @@
 	
 	
 		\begin{frame}{\Gls{labelspace}}
-\begin{figure}[H]
+\begin{figure}
 	\hspace*{-10mm}
 	\begin{tikzpicture}[>=Stealth,scale=0.9, font=\footnotesize]
 		% (a) Real line for regression
@@ -247,6 +230,8 @@
 	\caption{\label{fig_label_spaces_dict}	Examples of \glspl{labelspace} and corresponding \gls{ml} flavours.}
 \end{figure}
 	\end{frame}
+	
+	
 	
 \begin{frame}{Goal of \gls{ml}: Predict \Gls{label} from \Glspl{feature}}
 		% Image as a datapoint
@@ -297,6 +282,23 @@
 	}
 \end{figure}
 	\end{frame}
+	
+	\begin{frame}{From \Glspl{feature} to \Gls{prediction}}
+	\begin{center}
+		\begin{tikzpicture}[>=Latex, node distance=1.6cm, box/.style={draw, rounded corners, inner sep=6pt}]
+			\node[box, minimum width=3.1cm, minimum height=1.4cm] (x) {\(\featurevec \in \featurespace\)};
+			\node[box, right=1 cm of x, minimum width=1cm, minimum height=1.4cm] (h) {\(\hypothesis\)};
+			\node[box, right=1 cm of h, minimum width=2.0cm, minimum height=1.4cm] (y) {$\predictedlabel=\hypothesis(\featurevec)$};
+			\draw[->] (x) -- (h);
+			\draw[->] (h) -- (y);
+		\end{tikzpicture}
+	\end{center}
+	
+	\small {\bf Core Problem of \gls{ml}} given \gls{data} \(\{(\featurevec^{(\sampleidx)},\truelabel^{(\sampleidx)})\}_{\sampleidx=1}^{\samplesize}\) 
+	and \gls{model} \(\hypospace\),
+	learn (or find) \(\widehat{\hypothesis}\in\hypospace\) such that $\widehat{\hypothesis}(\featurevec) \approx \truelabel$ for any \gls{datapoint} 
+	with \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$.
+\end{frame}
 	
 		\begin{frame}{ \Gls{model} = A Set of \Gls{hypothesis} Maps}
 		\begin{figure}[H]
@@ -360,21 +362,26 @@
 
 
 \begin{frame}{Which \Gls{lossfunc} should we use?}
-The shape of the \gls{lossfunc} influences  \\[2mm]
+The choice of \gls{lossfunc} influences  \\[2mm]
 \begin{itemize} 
-	\item computational complexity,  \\[4mm]
-	\item predictive accuracy,   \\[4mm]
-	\item interpretability  \\[3mm]
+	\item \gls{compasp},  \\[4mm]
+	\item \gls{statasp} (\gls{robustness}, \gls{generalization}, \ldots), and    \\[4mm]
+	\item \gls{interpretability}  \\[3mm]
 \end{itemize} 
-of resulting \gls{ml} methods. 
+of the resulting \gls{ml} method. 
 \end{frame}
 	
+\begin{frame}{Reuse \& Citation}
+	\small
+	This deck is part of the \textbf{Aalto Dictionary of Machine Learning} (open source).\\
+	License: \textbf{CC BY 4.0}. Please cite:
+	\emph{Jung, A. et.al. (2025). The Aalto Dictionary of Machine Learning}. DOI: 10.5281/zenodo.17273736.
 	
+	\medskip
+	Source and updates: \url{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}
+\end{frame}
 
-	% ---------- Closing ----------
-	\begin{frame}{Contact}
-		\small
-		\textbf{Instructor:} Alexander Jung \\
-	\end{frame}
-	
+
+
+
 \end{document}
