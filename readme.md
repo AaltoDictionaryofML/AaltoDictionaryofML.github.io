@@ -48,9 +48,9 @@ Explore relationships between terms:
 
 **Editor-in-Chief:**  
 Alexander Jung — Associate Professor, Aalto University  
-[ORCID: 0000-0002-7820-6648](https://orcid.org/0000-0002-7820-6648)
+[ORCID: 0000-0001-7538-0990](https://orcid.org/0000-0001-7538-0990)
 
-**Contributors (alphabetical):**
+**Contributors:**
 - Konstantina Olioumtsevits — Aalto University  
 - Ekkehard Schnoor — Aalto University  
 - Tommi Flores Ryynänen — Aalto University  
