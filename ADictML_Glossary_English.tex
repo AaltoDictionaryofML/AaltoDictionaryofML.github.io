@@ -26,11 +26,11 @@
 \newglossaryentry{randomexperiment}
 {name={random experiment},
 	description={A random experiment\index{random experiment} is a physical (or abstract) process 
-    	 	that produces an outcome $\omega$ from a set of possibilities $\Omega$. 
+    	 	that produces an outcome $\outcome$ from a set $\samplespace$ of possibilities. 
 	 	This set of all possible outcomes is referred to as the \gls{samplespace} of 
 	 	the experiment. The key characteristic of a random experiment is that its 
 	 	outcome is unpredictable (or uncertain). Any measurement or observation 
-	 	of the outcome is an \gls{rv}, i.e., a \gls{function} of the outcome $\omega \in \Omega$. 
+	 	of the outcome is an \gls{rv}, i.e., a \gls{function} of the outcome $\outcome \in \samplespace$. 
 	 	\Gls{probability} theory uses a \gls{probspace} as a mathematical structure for the study of 
 	 	random experiments. A key conceptual property of a random experiment is that it can 
 	 	be repeated under identical conditions. Strictly speaking, repeating a random experiment 
@@ -45,37 +45,38 @@
 		\begin{center}
 	 		\begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
 			\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
-			\node (omega) [right=of experiment] {$\omega \in \Omega$};
+			\node (omega) [right=of experiment] {$\outcome \in \samplespace$};
 			\coordinate (rightpad) at ($(omega.east) + (0.2,0)$);
 			\draw[->] (experiment) -- (omega);
-			\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(\samplesize)})$};
+			\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\outcome^{(1)}, \,\outcome^{(2)}, \,\dots, \,\outcome^{(\samplesize)})$};
 			\node (sequence1) [below=of sequence, yshift=-0.5cm] {$(\datapoint^{(1)}, \,\datapoint^{(2)}, \,\dots, \,\datapoint^{(\samplesize)})$};
 			\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $\samplesize$ times} (sequence.north);
 			\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {\glspl{rv}} (sequence1.north);
 			% Anchor node ~60% along the repeat arrow
 			\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
 			% Dotted rounded box enclosing experiment and part of repeat arrow
-        			\node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega \times \ldots \times \Omega$}] {};
+        			\node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\samplespace' = \samplespace \times \ldots \times \samplespace$}] {};
 	 		\end{tikzpicture}
 	     	\end{center}
-		\caption{A random experiment produces an outcome $\omega \in \Omega$ from a set of possibilities (or \gls{samplespace}) 
-		$\Omega$. Repeating the experiment $\samplesize$ times yields another random experiment, whose outcomes are 
-		sequences $(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(\samplesize)}) \in \Omega\times\ldots\times \Omega$. 
+		\caption{A random experiment produces an outcome $\outcome \in \samplespace$ from a set 
+		of possibilities (i.e., a \gls{samplespace}) 
+		$\samplespace$. Repeating the experiment $\samplesize$ times yields another random 
+		experiment, whose outcomes are sequences 
+		$(\outcome^{(1)}, \,\outcome^{(2)}, \,\dots, \,\outcome^{(\samplesize)}) \in \samplespace\times\ldots\times \samplespace$. 
 		One example of a random experiment arising in many \gls{ml} applications is the gathering 
 		of a \gls{trainset} $\datapoint^{(1)},\,\ldots,\,\datapoint^{(\samplesize)}$. \label{fig_randomexperiment_dict}}
 	 	\end{figure} 
 	 	Examples for random experiments arising in \gls{ml} applications include the following: 
 	 	\begin{itemize} 
 			\item \Gls{data} collection: The \glspl{datapoint} collected in \gls{erm}-based methods 
-			can be interpreted as \glspl{rv}, i.e., as \glspl{function} of the outcome $\omega \in \Omega$ 
+			can be interpreted as \glspl{rv}, i.e., as \glspl{function} of the outcome $\outcome \in \samplespace$ 
 			of a random experiment. 
 			\item \Gls{stochGD} uses a random experiment at each iteration to select a subset of 
 			the \gls{trainset}. 
-			\item \Gls{privprot} methods use random experiments to generate noise that is added to the 
-		 	outputs of an \gls{ml} method to ensure \gls{diffpriv}. 
+			\item \Gls{privprot} methods use random experiments to perturb  
+			the outputs of an \gls{ml} method to ensure \gls{diffpriv}. 
 	 	\end{itemize} 
-		See also: \gls{samplespace}, \gls{rv}, \gls{function}, \gls{probability}, \gls{probspace}, \gls{lln}, \gls{clt}, \gls{samplespace}, 
-		\gls{ml}, \gls{trainset}, \gls{data}, \gls{datapoint}, \gls{erm}, \gls{stochGD}, \gls{privprot}, \gls{diffpriv}. },
+		See also: \gls{samplespace}, \gls{rv}, \gls{probability}, \gls{probspace}.},
  	firstplural={random experiments},
  	plural={random experiments},
  	first={random experiment},
@@ -84,24 +85,52 @@
 
 
 \newglossaryentry{dimension}
-{name={rank},
-	description={The dimension\index{dimension} $\dim \mathcal{A}$ of a \gls{vectorspace} $\mathcal{A}$ 
-		is the cardinality of any basis for $\mathcal{A}$ \cite{StrangLinAlg2016}. 
-	} 
+{name={dimension},
+	description={The dimension\index{dimension} $\dim \mathcal{A}$ of a 
+	\gls{vectorspace} $\mathcal{A}$ is the cardinality of a basis for 
+	$\mathcal{A}$ \cite{StrangLinAlg2016}. 
+	}, 
 	text = {dimension}, 
 	type=math,
 	first = {dimension} 
 }
 
 
+\newglossaryentry{linearlyindep}
+{name={linearly independent},
+	description={A subset $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\} \in \mathcal{V}$ 
+	of a \gls{vectorspace} is linearly independent\index{linearly independent} 
+	if there is no non-trivial 
+	linear combination of these \glspl{vector} that equals the zero \gls{vector} \cite{StrangLinAlg2016}. 
+	In other words, $$\sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} = \mathbf{0}	
+	\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{k} = 0. $$
+	} 
+	text = {linearly independent}, 
+	type=math,
+	first = {linearly independent} 
+}
+
+\newglossaryentry{basis}
+{name={basis},
+	description={A basis\index{basis} of a \gls{vectorspace} $\mathcal{V}$ 
+	is a set of \gls{linearlyindep} \glspl{vector} $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\}$ such 
+	that any vector $\va \in \mathcal{A}$ can be expressed as a linear combination 
+	of the basis \glspl{vector}, i.e.,	
+	$$ \va = \sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} 
+	\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{k} \in \mathbb{R}. $$
+	} 
+	text = {basis}, 
+	type=math,
+	first = {basis} 
+}
+
+
 \newglossaryentry{rank}
 {name={rank},
- description={The rank\index{rank} of a \gls{matrix} 
- $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$, 
- denoted as $\rank{\mA}$ is the maximum number of linearly 
- independent columns of $\mA$ \cite{StrangLinAlg2016}. Equivalently, the rank 
- can be defined as the \gls{dimension} of the column-space 
- $\linspan{\mA} = \big\{ \mA \weights \mbox{ for some } \weights \in \mathbb{R}^{\nrfeatures} \big\}$. \\ 
+ description={The rank\index{rank} of a \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$, 
+ denoted as $\rank{\mA}$ is the maximum number of linearly independent columns 
+ of $\mA$ \cite{StrangLinAlg2016}. Equivalently, the rank can be defined as the 
+ \gls{dimension} of the column-space $\linspan{\mA} = \big\{ \mA \weights \mbox{ for some } \weights \in \mathbb{R}^{\nrfeatures} \big\}$. \\ 
  See also: \gls{matrix}, \gls{dimension}, \gls{linearmap}, \gls{vectorspace}.
 } 
 text = {rank}, 
@@ -641,8 +670,8 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 		widely used in \gls{ml} to represent \glspl{dataset}. We can also use $\mathbb{R}^n$ 
 		to represent, either exactly or approximately, the \gls{hypospace} used by an \gls{ml} method.  
 		Another example of a \gls{vector} space, which is naturally associated with every \gls{probspace} 
-		$\mathcal{P}=\big(\Omega,\mathcal{R},\prob{\cdot} \big)$, is the collection of all 
-		real-valued \glspl{rv} $x: \Omega \rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
+		$\big(\samplespace,\eventspace,\prob{\cdot} \big)$, is the collection of all 
+		real-valued \glspl{rv} $x: \samplespace \rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
 		\\
 		See also: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
 	first={vector space},
@@ -1785,8 +1814,8 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		To ensure \gls{robustness} in the context of \gls{trustAI}, one may prefer \glspl{model} whose 
 		associated \gls{map} $\learnthypothesis$ is Lipschitz continuous. A classic result in mathematical 
 		analysis—Rademacher’s Theorem—states that if $\learnthypothesis$ is Lipschitz continuous with 
-		some constant $L$ over an open set $\Omega \subseteq \mathbb{R}^{\nrfeatures}$, then $\learnthypothesis$ 
-		is \gls{differentiable} almost everywhere in $\Omega$ \cite[Th.~3.1]{heinonen2005lectures}.
+		some constant $L$ over an open set $\samplespace \subseteq \mathbb{R}^{\nrfeatures}$, then $\learnthypothesis$ 
+		is \gls{differentiable} almost everywhere in $\samplespace$ \cite[Th.~3.1]{heinonen2005lectures}.
 	\begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}[x=0.5cm]
@@ -2488,9 +2517,10 @@ sort={zerooneloss},
 				%	\addlegendentry{$\dataset^{(\triangle)}$}
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Three \glspl{dataset} $\dataset^{(*)}$, $\dataset^{(\square)}$, and $\dataset^{(\triangle)}$, 
-				each sampled independently from the same \gls{data}-generating \gls{probdist}. A stable \gls{ml} 
-				method should return similar outputs when trained on any of these \glspl{dataset}. \label{fig_three_data_stability_dict}}
+			\caption{Three \glspl{dataset} $\dataset^{(*)}$, $\dataset^{(\square)}$, 
+			and $\dataset^{(\triangle)}$, each sampled independently from the same 
+			\gls{data}-generating \gls{probdist}. A stable \gls{ml} method should return 
+			similar outputs when trained on any of these \glspl{dataset}. \label{fig_three_data_stability_dict}}
 		\end{figure}
 		See also: \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{modelparams}, \gls{prediction}, \gls{model}, \gls{datapoint}, \gls{generalization}, \gls{risk}, \gls{data}, \gls{probdist}, \gls{sample}, \gls{realization}.}, 
 	first={stability}, 
@@ -3131,7 +3161,7 @@ plural={medians},
 		Note that the risk of $\hypothesis$ depends on both the specific choice for the \gls{lossfunc} and the 
 		\gls{probdist} of the \glspl{datapoint}.
 					\\ 
-		See also: \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{lossfunc}, \gls{realization}, \gls{iid} \gls{rv}, \gls{iidasspt}, \gls{loss}, \gls{probdist}.},
+		See also: \gls{iid} \gls{rv}, \gls{iidasspt}, \gls{loss}, \gls{probdist}.},
 	first={risk},
 	text={risk} 
 }
@@ -3139,12 +3169,12 @@ plural={medians},
 \newglossaryentry{actfun}
 {name={activation function},
 	description={Each\index{activation function} artificial neuron within an \gls{ann} is 
-		assigned an \gls{activation} \gls{function} $\actfun(\cdot)$ that maps a weighted combination of 
-		the neuron inputs $\feature_{1}, \,\ldots, \,\feature_{\nrfeatures}$ to a single output 
-		value $a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
+		assigned an \gls{activation} \gls{function} $\actfun(\cdot)$ that maps a weighted 
+		combination of the neuron inputs $\feature_{1}, \,\ldots, \,\feature_{\nrfeatures}$ 
+		to a single output value $a = \actfun\big(\weight_{1} \feature_{1}+\ldots+\weight_{\nrfeatures} \feature_{\nrfeatures} \big)$. 
 		Note that each neuron is parameterized by the \gls{weights} $\weight_{1}, \,\ldots, \,\weight_{\nrfeatures}$.
 					\\ 
-		See also: \gls{ann}, \gls{activation}, \gls{function}, \gls{weights}.},
+		See also: \gls{ann}, \gls{activation}, \gls{relu}.},
 	first={activation function},
 	text={activation function} 
 }
@@ -3369,11 +3399,13 @@ plural={medians},
     	This \gls{minimum} achievable \gls{risk} (referred to as the \gls{bayesrisk}) is the \gls{risk} 
     	of the \gls{bayesestimator} for the \gls{label} $\truelabel$ of a \gls{datapoint}, given
     	its \glspl{feature} $\featurevec$. Note that, for a given choice of \gls{lossfunc}, the 
-    	\gls{bayesestimator} (if it exists) is completely determined by the \gls{probdist} $p(\featurevec,\truelabel)$ \cite[Ch. 4]{LC}. 
-    	However, computing the \gls{bayesestimator} and \gls{bayesrisk} presents two 
-    	main challenges. First, the \gls{probdist} $p(\featurevec,\truelabel)$ is unknown and 
-		must be estimated from observed \gls{data}. Second, even if $p(\featurevec,\truelabel)$ 
-		were known, computing the \gls{bayesrisk} exactly may be computationally infeasible \cite{cooper1990computational}. 
+    	\gls{bayesestimator} (if it exists) is completely determined by the \gls{probdist} 
+		$\probdist$ \cite[Ch. 4]{LC}. However, computing the \gls{bayesestimator} 
+		and \gls{bayesrisk} presents two main challenges. First, the \gls{probdist} 
+		$\probdist$ is unknown and 
+		must be estimated from observed \gls{data}. Second, even if $\probdist$ 
+		were known, computing the \gls{bayesrisk} exactly may be computationally 
+		infeasible \cite{cooper1990computational}. 
 	A widely used \gls{probmodel} is the \gls{mvndist} $\pair{\featurevec}{\truelabel} \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 	for \glspl{datapoint} characterized by numeric \glspl{feature} and \glspl{label}.
 	Here, for the \gls{sqerrloss}, the \gls{bayesestimator} is given by the posterior 
@@ -3406,8 +3438,9 @@ plural={medians},
   			\node[anchor=north] at (0.5,-0.2) {\small $\learnthypothesis(\featurevec)$};
 		  \end{tikzpicture}
 		\end{center}
-		\caption{If the \glspl{feature} and the \gls{label} of a \gls{datapoint} are drawn from a \gls{mvndist}, we 
-		can achieve the \gls{minimum} \gls{risk} (under \gls{sqerrloss}) by using the \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
+		\caption{If the \glspl{feature} and the \gls{label} of a \gls{datapoint} are drawn 
+		from a \gls{mvndist}, we can achieve the \gls{minimum} \gls{risk} (under \gls{sqerrloss}) 
+		by using the \gls{bayesestimator} $\mu_{\truelabel|\featurevec}$ 
 		to predict the \gls{label} $\truelabel$ of a \gls{datapoint} with \glspl{feature} $\featurevec$. The corresponding 
 		\gls{minimum} \gls{risk} is given by the posterior \gls{variance} $\sigma^{2}_{\truelabel|\featurevec}$. We can use 
 		this quantity as a baseline for the average \gls{loss} of a trained \gls{model} $\learnthypothesis$. \label{fig_post_baseline_dict}}
@@ -3982,9 +4015,9 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 
 \newglossaryentry{histogram}
 {name={histogram},
-	description={Consider\index{histogram} a \gls{dataset} $\dataset$ that consists of $\samplesize$ \glspl{datapoint} 
-		$\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$, each of them belonging to some 
-		cell $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ with side 
+	description={Consider\index{histogram} a \gls{dataset} $\dataset$ that consists of 
+	$\samplesize$ \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$, 
+	each of them belonging to some cell $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ with side 
 		length $U$. We partition this cell evenly into smaller elementary cells with side 
 		length $\Delta$. The histogram of $\dataset$ assigns each elementary cell to 
 		the corresponding fraction of \glspl{datapoint} in $\dataset$ that fall into this 
@@ -4011,8 +4044,9 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 		\addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
 		\end{axis}
 		\end{tikzpicture}
-		\caption{A histogram representing the frequency of \glspl{datapoint} falling within discrete value ranges (i.e., bins). 
-		Each bar height shows the count of \glspl{sample} in the corresponding interval.}
+		\caption{A histogram consists of the fractions of \glspl{datapoint} that 
+		fall within different value ranges (i.e., bins). Each bar height shows 
+		the count of \glspl{sample} in the corresponding interval.}
 		\label{fig:histogram_dict}
 		\end{figure}
 		See also: \gls{dataset}, \gls{datapoint}, \gls{sample}.},
@@ -4024,10 +4058,21 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 {name={bootstrap},
 	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often useful to interpret 
 		a given set of \glspl{datapoint} $\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
-		as \glspl{realization} of \gls{iid} \glspl{rv} drawn from a common \gls{probdist} $p(\datapoint)$. 
-		In practice, the \gls{probdist} $p(\datapoint)$ is unknown and must be estimated from $\dataset$. 
-		The bootstrap approach uses the \gls{histogram} of $\dataset$ as an estimator for $p(\datapoint)$. 
-				\\
+		as \glspl{realization} of \gls{iid} \glspl{rv} drawn from a common \gls{probdist} $\probdist$. 
+		In practice, the \gls{probdist} $\probdist$ is unknown and must be estimated from $\dataset$. 
+		The bootstrap approach uses the \gls{histogram} of $\dataset$ as an estimator for 
+		$\probdist$ \cite{hastie01statisticallearning}, 
+		$$ (1/\samplesize) \big| \sampleidx: \datapoint^{(1)} \in \mathcal{A} \big| \approx \prob{\mathcal{A}}.$$
+		By sampling with replacement from $\dataset$ according to this empirical distribution, 
+		we generate new \glspl{dataset} 
+		$\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$, each containing 
+		$\samplesize$ \glspl{datapoint}. We then use each of those \glspl{dataset} 
+		for \gls{model} \gls{training} (e.g., via \gls{erm}), 
+		resulting in the learned \glspl{hypothesis}
+		$\widehat{\hypothesis}^{(1)}, \ldots, \learnthypothesis^{(\nrbootstraps)}.$ 
+        We can use these learned \glspl{hypothesis} to estimate the \gls{stability} 
+		of the \gls{ml} method \cite{hastie01statisticallearning}.
+		\\
 		See also: \gls{iid}, \gls{rv}, \gls{probdist}, \gls{histogram}.},
 	first={bootstrap},
 	text={bootstrap}  
@@ -4300,11 +4345,12 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 {name={random variable (RV)}, plural={RVs},
  	description={An RV\index{random variable (RV)} is a \gls{function} that maps the 
 		outcomes of a \gls{randomexperiment} to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
- 		Mathematically, an RV is a \gls{function} $x: \Omega \rightarrow \featurespace$ that is defined on the 
-		\gls{samplespace} $\Omega$ of a \gls{probspace}.
+ 		Mathematically, an RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ that is defined on the 
+		\gls{samplespace} $\samplespace$ of a \gls{probspace}.
  		Different types of RVs include  
  		\begin{itemize} 
- 			\item {binary RVs}, which map each outcome to an element of a binary set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
+ 			\item {binary RVs}, which map each outcome to an element of a binary 
+			set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
  			\item {real-valued RVs}, which take on values in the real numbers $\mathbb{R}$;  
  			\item {\gls{vector}-valued RVs}, which map outcomes to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
  		\end{itemize} 
@@ -4321,13 +4367,13 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
  	description={A\index{probability space} \gls{probability} space is a mathematical 
  		structure that allows us to reason about a \gls{randomexperiment}, e.g., the observation 
 		of a physical phenomenon. 
- 	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, \prob{\cdot})$ where
+ 	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\samplespace, \eventspace, \prob{\cdot})$ where
  		\begin{itemize} 
- 			\item  $\Omega$ is a \gls{samplespace} containing all possible outcomes of a \gls{randomexperiment};
- 			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of $\Omega$ (called \glspl{event}) that satisfies 
- 			certain closure properties under set operations;
+ 			\item  $\samplespace$ is a \gls{samplespace} containing all possible outcomes of a \gls{randomexperiment};
+ 			\item  $\eventspace$ is a $\sigma$-algebra, i.e., a collection of subsets of 
+			$\samplespace$ (called \glspl{event}) that satisfies certain closure properties under set operations;
  			\item $\prob{\cdot}$ is a \gls{probdist}, i.e., a \gls{function} that assigns a \gls{probability} $P(\mathcal{A}) \in [0,1]$ 
- 			to each \gls{event} $\mathcal{A} \in \mathcal{F}$. This \gls{function} must satisfy $\prob{\Omega} = 1$ and 
+ 			to each \gls{event} $\mathcal{A} \in \eventspace$. This \gls{function} must satisfy $\prob{\samplespace} = 1$ and 
 			$\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ for any 
  			countable sequence of pairwise disjoint \glspl{event} $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
  		\end{itemize}
@@ -4357,10 +4403,10 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 \newglossaryentry{realization}
 {name={realization}, plural={realizations},
 	description={Consider\index{realization} an \gls{rv} $\featurevec$ that maps each outcome 
-		$\omega \in \mathcal{P}$ of a \gls{probspace} $\mathcal{P}$ to an element $a$ of a \gls{measurable} space 
-		$\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
+		$\outcome \in \samplespace$ of a \gls{probspace} to an element $a$ of a 
+		\gls{measurable} space $\mathcal{N}$ \cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}. 
 		A realization of $\featurevec$ is any element $\va \in \mathcal{N}$ such that there exists 
-		an element $\omega' \in \mathcal{P}$ with $\featurevec(\omega') = \va$.
+		an element $\outcome' \in \samplespace$ with $\featurevec(\outcome') = \va$.
 			\\
 		See also: \gls{rv}, \gls{probspace}, \gls{measurable}.}, 
 	first={realization},
@@ -5570,12 +5616,16 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 
 \newglossaryentry{measurable}
 {name={measurable}, 
-	description={Consider\index{measurable} a \gls{randomexperiment}, such as recording the air temperature at an \gls{fmi} weather station. 
-		The corresponding \gls{samplespace} $\Omega$ consists of all possible outcomes $\omega$ (e.g., 
-		all possible temperature values in degree Celsius). In many \gls{ml} applications, we are not interested 
-		in the exact outcome $\omega$, but only whether it belongs to a subset $\mathcal{A} \subseteq \Omega$ 
-		(e.g., “is the temperature below zero degrees?”). We call such a subset $\mathcal{A}$ measurable if it is 
-		possible to decide, for any outcome $\omega$, whether $\omega \in \mathcal{A}$ or not (see Fig. \ref{fig_measurable_dict}). \\
+	description={Consider\index{measurable} a \gls{randomexperiment}, such as recording 
+	the air temperature at an \gls{fmi} weather station. The corresponding \gls{samplespace} 
+	$\samplespace$ consists of all possible outcomes $\outcome$ (e.g., 
+		all possible temperature values in degree Celsius). In many \gls{ml} 
+		applications, we are not interested in the exact outcome $\outcome$, but only 
+		whether it belongs to a subset $\mathcal{A} \subseteq \samplespace$ 
+		(e.g., determining whether the temperature is below zero degrees). 
+		We call such a subset $\mathcal{A}$ measurable if it is possible to 
+		decide, for any outcome $\outcome$, whether $\outcome \in \mathcal{A}$ 
+		or not (see Fig.\ \ref{fig_measurable_dict}). \\
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}
@@ -5588,46 +5638,81 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 			}
 			% Shade measurable set: Temperature < 0°C
 			\fill[blue!20] (0,0.3) rectangle (2,0.6);
-			\node[above] at (1,0.6) {$\omega < 0\;^\circ$C};
+			\node[above] at (1,0.6) {$\outcome < 0\;^\circ$C};
 			% Shade measurable set: 5°C < omega < 10°C
 			\fill[red!20] (5.5,0.3) rectangle (7.5,0.6);
-			\node[above] at (6,0.6) {$35\;^\circ$C $< \omega < 55\;^\circ$C};
+			\node[above] at (6,0.6) {$35\;^\circ$C $< \outcome < 55\;^\circ$C};
 			\vspace*{10mm}
 			\end{tikzpicture}
 			\vspace*{10mm}
 			\end{center}
-			\caption{A \gls{samplespace} constituted by all possible temperature values $\omega$ 
-			that may be experienced at an \gls{fmi} station. Two measurable subsets of temperature 
+			\caption{A \gls{samplespace} constituted by all possible temperature values $\outcome$ 
+			that can occur at an \gls{fmi} station. Two measurable subsets of temperature 
 			values, denoted by $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$, are highlighted. For any 
-			actual temperature value $\omega$, it is possible to determine whether $\omega \in \mathcal{A}^{(1)}$ 
-			and whether $\omega \in \mathcal{A}^{(2)}$. \label{fig_measurable_dict}} 
+			actual temperature value $\outcome$, it is possible to determine (via some equipment) 
+			whether $\outcome \in \mathcal{A}^{(1)}$ and whether $\outcome \in \mathcal{A}^{(2)}$. \label{fig_measurable_dict}} 
 		\end{figure}
 		In principle, measurable sets could be chosen freely (e.g., depending on the resolution of the 
 		measuring equipment). However, it is often useful to impose certain completeness requirements 
 		on the collection of measurable sets. For example, the \gls{samplespace} itself should be 
 		measurable, and the union of two measurable sets should also be measurable. These completeness 
-		requirements can be formalized via the concept of $\sigma$-algebra (or $\sigma$-field) 
+		requirements can be formalized via the concept of a \gls{sigmaalgebra} (or $\sigma$-field) 
 		\cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}. 
-		A measurable space is a pair $\big(\featurespace,\mathcal{F}\big)$ that consists of an arbitrary set $\featurespace$ and a 
-		collection $\mathcal{F}$ of measurable subsets of $\featurespace$ that form a $\sigma$-algebra. 
+		A measurable space is a pair $\big(\featurespace,\eventspace\big)$ that consists of an arbitrary 
+		set $\featurespace$ and a collection $\eventspace$ of measurable subsets of $\featurespace$ that form a $\sigma$-algebra. 
 		\\
 		See also: \gls{samplespace}, \gls{probability}.},
 	first={measurable},
 	text={measurable} 
 }
 
+\newglossaryentry{sigmaalgebra}
+{name={$\sigma$-algebra}, 
+	description={Consider a \gls{randomexperiment} with \gls{samplespace} $\samplespace$. 
+		A $\sigma$-algebra\index{$\sigma$-algebra} (or $\sigma$-field) $\sigmaalgebra$ 
+		is a collection of sub-sets of $\samplespace$ with the following properties 
+		\cite{RudinBook,BillingsleyProbMeasure,durrett2010probability}:
+		 \begin{itemize}
+		 	\item The empty set $\emptyset$ and the entire \gls{samplespace} 
+		 	$\samplespace$ belong to $\sigmaalgebra$, i.e., $\emptyset \in \sigmaalgebra$ and $\samplespace \in \sigmaalgebra$.
+		 	\item If a set $\mathcal{A}$ belongs to $\sigmaalgebra$, then its complement 
+		 	$\samplespace \setminus \mathcal{A}$ also belongs to $\sigmaalgebra$, i.e., 
+		 	$\mathcal{A} \in \sigmaalgebra$ implies $\samplespace \setminus \mathcal{A} \in \sigmaalgebra$.
+		 	\item If a countable collection of sets $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ belongs 
+			to $\sigmaalgebra$, 
+		 	then their union also belongs to $\sigmaalgebra$, i.e.,
+		 	$\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots \in \sigmaalgebra$ implies 
+		 	$\bigcup_{i=1}^{\infty} \mathcal{A}_i \in \sigmaalgebra$.	
+		 \end{itemize}			 
+		See also: \gls{rv}, \gls{probspace}, \gls{samplespace}.},
+	first={$\sigma$-algebra},
+	type=math, 
+	text={$\sigma$-algebra} 
+}
+
+\newglossaryentry{sigmafield}
+{name={$\sigma$-field}, 
+	description={See \gls{sigmaalgebra}\index{$\sigma$-field}.}, 
+	first={$\sigma$-field},
+	type=math,
+	text={$\sigma$-field} 
+}
+
+
+
 \newglossaryentry{event}
 {name={event}, 
-	description={Consider\index{event} an \gls{rv} $\featurevec$, defined on some \gls{probspace} $\mathcal{P}$, 
+	description={Consider\index{event} an \gls{rv} $\featurevec$, defined on some \gls{probspace}, 
 		which takes values in a \gls{measurable} space $\featurespace$. An event $\mathcal{A} \subseteq \featurespace$ 
 		is a subset of $\featurespace$ such that the \gls{probability} 
 		$\prob{\featurevec \in \mathcal{A}}$ is well defined. In other words, the \gls{preimage} 
-		$\featurevec^{-1}(\mathcal{A})$ of an event belongs to the $\sigma$-algebra of $\mathcal{P}$. 
+		$\featurevec^{-1}(\mathcal{A})$ of an event belongs to the underlying $\sigma$-algebra. 
 				\\
 		See also: \gls{rv}, \gls{datapoint}, \gls{iidasspt}, \gls{probmodel}.},
 	first={event},
 	firstplural={events},
 	plural={events},
+	type=math,
 	text={event} 
 }
 
@@ -5747,7 +5832,7 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
  	For the analysis of \gls{ml} methods, it is common to interpret a sample as the \gls{realization} 
  	of a \gls{stochproc} indexed by $\{1,\ldots,\samplesize\}$. A widely used assumption is the \gls{iidasspt}, 
  	where sample elements $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$, for $\sampleidx=1,\ldots,\samplesize$, 
- 	are \gls{iid} \glspl{rv} with common \gls{probdist} $p(\featurevec,\truelabel)$.  \\
+ 	are \gls{iid} \glspl{rv} with a common \gls{probdist}.  \\
  See also: \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{probdist}, \gls{samplesize}, \gls{erm}.},
  first={sample},
  text={sample}
@@ -5865,6 +5950,15 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 		See also: \gls{vector}, \gls{euclidspace}. },
 	first={Euclidean norm},
 	text={Euclidean norm} 
+}
+
+\newglossaryentry{eucliddist}
+{name={Euclidean distance}, 
+	description={The\index{Euclidean distance} Euclidean distance is used 
+	synonymously for \gls{euclidnorm}.	\\
+	See also: \gls{vector}, \gls{euclidspace}. },
+	first={Euclidean distance},
+	text={Euclidean distance} 
 }
 
 \newglossaryentry{normalequations}
@@ -6144,11 +6238,13 @@ sort={k-means},
  
 \newglossaryentry{maxlikelihood}
 {name={maximum likelihood}, 
-	description={Consider\index{maximum likelihood} \glspl{datapoint} $\dataset=\big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)} \}$ 
-		that are interpreted as the \glspl{realization} of \gls{iid} \glspl{rv} with a common \gls{probdist} $\prob{\datapoint; \weights}$, which 
-		depends on the \gls{modelparams} $\weights \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
+	description={Consider\index{maximum likelihood} \glspl{datapoint} 
+	$\dataset=\big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)} \}$ 
+	that are interpreted as the \glspl{realization} of \gls{iid} \glspl{rv} 
+	with a common \gls{probdist} $\probdist^{(\weights)}$, which depends 
+	on the \gls{modelparams} $\weights \in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		\Gls{maximum} likelihood methods learn \gls{modelparams} $\weights$ by maximizing 
-		the probability (density) $\prob{\dataset; \weights} = \prod_{\sampleidx=1}^{\samplesize} \prob{\datapoint^{(\sampleidx)}; \weights}$ 
+		the probability (density) $\probdist^{(\weights)}(\dataset) = \prod_{\sampleidx=1}^{\samplesize} \prob{\datapoint^{(\sampleidx)}; \weights}$ 
 		of the observed \gls{dataset}. Thus, the \gls{maximum} likelihood estimator is a 
 		solution to the \gls{optproblem} $\max_{\weights \in \mathcal{W}} \prob{\dataset; \weights}$.
 				\\
@@ -6656,9 +6752,11 @@ Linear least squares\index{linear least squares} refers to the
 			\end{center}
 		\end{figure} 
 		This augmented 
-		\gls{trainset} is obtained by replacing each \gls{datapoint} $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ 
-		in the original \gls{trainset} by the \gls{realization} of infinitely many \gls{iid} \glspl{rv} 
-		whose \gls{probdist} is centered at $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$.
+		\gls{trainset} is obtained by replacing each \gls{datapoint} 
+		$\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ 
+		in the original \gls{trainset} by the \gls{realization} of infinitely 
+		many \gls{iid} \glspl{rv} whose \gls{probdist} is centered around 
+		$\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$.
 	    		\\
 		See also: \gls{regression}, \gls{regularization}, \gls{map}, \gls{dataaug}.},
 	first={ridge regression},
@@ -7839,11 +7937,13 @@ text={expectation}
 
 \newglossaryentry{bayesrisk}
 {name={Bayes risk},
-	description={Consider a \gls{probmodel} with a joint \gls{probdist} $p(\featurevec,\truelabel)$ for 
-		the \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$ of a \gls{datapoint}. The\index{Bayes risk} 
-		Bayes \gls{risk} is the \gls{minimum} possible \gls{risk} that can be achieved by any \gls{hypothesis} 
-		$\hypothesis: \featurespace \rightarrow \labelspace$. Any \gls{hypothesis} that achieves 
-		the Bayes \gls{risk} is referred to as a \gls{bayesestimator} \cite{LC}.
+	description={Consider a \gls{probmodel} for a \gls{ml} application where each 
+	\gls{datapoint} is interpreted as a \gls{rv}. The \gls{probmodel} includes 
+	a \gls{probdist} for the \glspl{feature} $\featurevec$ and \gls{label} $\truelabel$ 
+	of a \gls{datapoint}. The\index{Bayes risk} Bayes \gls{risk} is the \gls{minimum} 
+	possible \gls{risk} that can be achieved by any \gls{hypothesis} $\hypothesis: \featurespace \rightarrow \labelspace$. 
+		Any \gls{hypothesis} that achieves the Bayes \gls{risk} is referred to as a 
+		\gls{bayesestimator} \cite{LC}.
 		\\
 		See also: \gls{probmodel}, \gls{risk}, \gls{bayesestimator}.},
 	first={Bayes risk},
