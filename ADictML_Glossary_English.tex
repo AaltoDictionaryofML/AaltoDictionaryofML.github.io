@@ -87,8 +87,12 @@
 \newglossaryentry{dimension}
 {name={dimension},
 	description={The dimension\index{dimension} $\dim \mathcal{A}$ of a 
-	\gls{vectorspace} $\mathcal{A}$ is the cardinality of a basis for 
-	$\mathcal{A}$ \cite{StrangLinAlg2016}. 
+	\gls{vectorspace} $\mathcal{A}$ is the cardinality of some \gls{basis} for 
+	$\mathcal{A}$ \cite{StrangLinAlg2016}. Strictly speaking, this definition 
+	only applies to a \gls{vectorspace} $\mathcal{A}$ that has a finite \gls{basis}. 
+	For such a finite-dimensional space, it can be shown that every basis has 
+	the same cardinality, i.e., the dimension of the space \cite[Ch. 2]{Axler2025}. \\
+	See also: \gls{vectorspace}, \gls{basis}. 
 	}, 
 	text = {dimension}, 
 	type=math,
@@ -117,8 +121,8 @@
 	that any vector $\va \in \mathcal{A}$ can be expressed as a linear combination 
 	of the basis \glspl{vector}, i.e.,	
 	$$ \va = \sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} 
-	\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{k} \in \mathbb{R}. $$
-	} 
+	\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{\nrfeatures} \in \mathbb{R}. $$
+	},
 	text = {basis}, 
 	type=math,
 	first = {basis} 
@@ -773,6 +777,36 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 	first={minimum},
 	text={minimum}
 }
+
+
+\newglossaryentry{co-domain}
+{name={co-domain}, 
+	description={The co-domain\index{co-domain} of a \gls{function} 
+	$f: \mathcal{U} \rightarrow \mathcal{V}$ is the set $\mathcal{V}$ 
+		into which $f$ maps elements of its domain $\mathcal{U}$.  
+		\\
+		See also: \gls{function}, \gls{domain}, \gls{map}.},
+	first={co-domain},
+	firstplural={co-domains}, 
+	type=math, 
+	plural={co-domains},
+	text={co-domain}
+}
+
+\newglossaryentry{domain}
+{name={domain}, 
+	description={The domain\index{domain} of a \gls{function} 
+	$f: \mathcal{U} \rightarrow \mathcal{V}$ is the set $\mathcal{U}$ 
+		from which $f$ takes its inputs.  
+		\\
+		See also: \gls{function}, \gls{co-domain}, \gls{map}.},
+	first={domain},
+	firstplural={domains}, 
+	type=math, 
+	plural={domains},
+	text={domain}
+}	
+	
 
 \newglossaryentry{function}
 {name={function}, 
@@ -4341,16 +4375,34 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
  	text={labeled data point}  
 }
 
+\newglossaryentry{discreteRV}
+{name={discrete RV}, 
+  plural={discrete RVs},
+ 	description={A\index{discrete RV} \gls{rv}, i.e., a \gls{function} that maps the 
+		outcomes of a \gls{randomexperiment} to elements of a \gls{measurable} space $\featurespace$, 
+		is referred to as discrete if its value space $\featurespace$ is a countable set \cite{BillingsleyProbMeasure}. 
+			\\
+		See also: \gls{probability}, \gls{rv}, \gls{probdist}.},
+ 	first={discrete RV},
+ 	text={discrete RV}  
+}
+
+
+
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
  	description={An RV\index{random variable (RV)} is a \gls{function} that maps the 
-		outcomes of a \gls{randomexperiment} to a value space \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
- 		Mathematically, an RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ that is defined on the 
-		\gls{samplespace} $\samplespace$ of a \gls{probspace}.
+		outcomes of a \gls{randomexperiment} to elements of a \gls{measurable} space 
+		\cite{BillingsleyProbMeasure,GrayProbBook}. 
+ 		Mathematically, an RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ 
+		with domain being the \gls{samplespace} $\samplespace$ of a \gls{probspace} and 
+		co-domain being a \gls{measurable} space $\featurespace$. 
  		Different types of RVs include  
  		\begin{itemize} 
  			\item {binary RVs}, which map each outcome to an element of a binary 
 			set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
+			\item {discrete RVs}, which take on values in a countable set (which can 
+			be finite or countably infinite); 
  			\item {real-valued RVs}, which take on values in the real numbers $\mathbb{R}$;  
  			\item {\gls{vector}-valued RVs}, which map outcomes to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
  		\end{itemize} 
@@ -4359,6 +4411,8 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 			\\
 		See also: \gls{function}, \gls{randomexperiment}, \gls{samplespace}, \gls{probspace}, \gls{vector}, \gls{euclidspace}, \gls{probability}, \gls{measurable}.}, 
 	first={random variable (RV)},
+	firstplural={random variables (RVs)},
+	plural={RVs},
 	text={RV}  
 }
  
@@ -5704,11 +5758,11 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 \newglossaryentry{event}
 {name={event}, 
 	description={Consider\index{event} an \gls{rv} $\featurevec$, defined on some \gls{probspace}, 
-		which takes values in a \gls{measurable} space $\featurespace$. An event $\mathcal{A} \subseteq \featurespace$ 
-		is a subset of $\featurespace$ such that the \gls{probability} 
-		$\prob{\featurevec \in \mathcal{A}}$ is well defined. In other words, 
-		the \gls{preimage} $\featurevec^{-1}(\mathcal{A})$ of an event belongs to 
-		the underlying \gls{sigmaalgebra}. 
+		which takes values in a \gls{measurable} space $\featurespace$. An 
+		event $\mathcal{A} \subseteq \featurespace$ is a subset of $\featurespace$ 
+		such that the \gls{probability} $\prob{\featurevec \in \mathcal{A}}$ is well 
+		defined. In other words, the \gls{preimage} $\featurevec^{-1}(\mathcal{A})$ 
+		of an event belongs to the underlying \gls{sigmaalgebra}. 
 				\\
 		See also: \gls{rv}, \gls{datapoint}, \gls{iidasspt}, \gls{probmodel}.},
 	first={event},
@@ -5716,6 +5770,84 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	plural={events},
 	type=math,
 	text={event} 
+}
+
+
+\newglossaryentry{pmf}
+{name={probability mass function (pmf)}, 
+	description={The pmf\index{probability mass function (pmf)} 
+		of a discrete \gls{rv} $\featurevec$ is a \gls{function} $\pmf: \featurespace \rightarrow [0,1]$
+		that assigns to each possible value $\featurevec' \in \featurespace$ of the \gls{rv} $\featurevec$ 
+		the probability $\pmf(\featurevec) = \prob{\featurevec' = \featurevec}$ \cite{papoulis}. 
+		Fig.\ \ref{fig_pmf_dict} illustrates the pmf of a discrete \gls{rv} $\featurevec$. 
+\begin{figure}[H]
+	\centering
+		\begin{tikzpicture}[>=stealth, thick,y=2cm]
+  % Axes
+  %\draw[->] (0,0) -- (6,0) node[right] {$x$};
+  %\draw[->] (0,0) -- (0,2.5) node[above] {$p(x)$};
+  % Values for x and p(x)
+  \foreach \x/\p in {1/0.3, 2/0.1, 3/0.4, 4/0.15, 5/0.05}{
+    % Stem lines
+    \draw[gray] (\x,0) -- (\x,\p);
+    % Dots at the end of stems
+    \fill[blue] (\x,\p) circle (2pt);
+    % Labels next to each value
+    \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf(\x)$};
+  }
+  % Labels for x-axis
+  \foreach \x in {1,2,3,4,5}{
+    \node[below] at (\x,0) {\small $\x$};
+  }
+  % Optional note for total probability
+ % \node[right] at (5.5,2) {\small $\sum_{\feature=1}^{5} \pmf(\feature)=1$};
+\end{tikzpicture}
+\caption{The pmf of a discrete \gls{rv} $\featurevec$ taking on 
+values in the set $\featurespace = \{1, \,2, \,3, \,4, \,5\}$. \label{fig_pmf_dict}}
+\end{figure}
+The pmf satisfies $\sum_{\featurevec' \in \featurespace} \pmf(\featurevec') = 1$.
+				\\
+		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{probmodel}.},
+	first={probability mass function (pmf)},
+	firstplural={probability mass functions (pmfs)},
+	plural={pmfs},
+	type=math,
+	text={pmf} 
+}
+
+\newglossaryentry{coreset}
+{name={coreset}, 
+	description={A coreset\index{coreset} is a small subset of a larger \gls{dataset} 
+		that approximates certain properties of the original \gls{dataset} \cite{Chai2023}. 
+		The construction of a coreset typically involves selecting representative \glspl{datapoint}
+		and assigning them weights to reflect their importance in the original \gls{dataset} (Fig.\ \ref{fig_coreset_dict}).
+        \begin{figure}[H]
+			\centering
+		\begin{tikzpicture}
+  % all data points
+  \foreach \x/\y in {0.5/0.7, 1.2/1.4, 1.8/0.9, 2.2/1.8, 2.6/1.2, 3.1/1.6}
+    {\fill (\x,\y) circle (1.5pt);}
+  % coreset points (highlighted)
+  \foreach \x/\y in {1.2/1.4, 2.6/1.2}{
+    \fill[blue] (\x,\y) circle (2pt);
+    \draw[blue, thick] (\x,\y) circle (6pt);
+  }
+  % a simple label pointing to both coreset elements
+  \node[blue] (label) at (0.6,2.2) {\small coreset};
+  \draw[->,blue] (label) -- (1.2,1.5);
+  \draw[->,blue] (label) -- (2.6,1.3);
+\end{tikzpicture}
+\caption{A coreset (highlighted in blue) is a small, subset of a larger \gls{dataset}. \label{fig_coreset_dict}}
+\end{figure}
+		Coresets are particularly useful for \gls{ml} applications (such as \gls{clustering}) 
+		involving large \glspl{dataset}, as they allow for efficient computation while 
+		preserving the essential characteristics of the \gls{data} \cite{DistkmeansBalcan2013}.
+				\\
+		See also: \gls{dataset}, \gls{datapoint}, \gls{clustering}.},
+	first={coreset},
+	firstplural={coresets},
+	plural={coresets},
+	text={coreset} 
 }
 
 
