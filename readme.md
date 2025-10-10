@@ -77,9 +77,10 @@ The *Aalto Dictionary of Machine Learning (ADictML)* has been partially supporte
 These projects have enabled the open development of teaching materials, LaTeX figures,  
 and the public ADictML repository.  
 
-[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_354963-blue)](#)
+[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_349966-blue)](#)
+[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_363624-blue)](#)
 [![Funding: TRUST-FELT](https://img.shields.io/badge/Funding-JAEF_TRUST--FELT-lightgrey)](#)
-[![Funding: Business Finland](https://img.shields.io/badge/Funding-FLAIG-orange)](#)
+[![Funding: Business Finland](https://img.shields.io/badge/Funding-BF-FLAIG-orange)](#)
 
 ---
 
