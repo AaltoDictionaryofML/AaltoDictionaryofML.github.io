@@ -80,7 +80,7 @@ and the public ADictML repository.
 [![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_349966-blue)](#)
 [![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_363624-blue)](#)
 [![Funding: TRUST-FELT](https://img.shields.io/badge/Funding-JAEF_TRUST--FELT-lightgrey)](#)
-[![Funding: Business Finland](https://img.shields.io/badge/Funding-BF-FLAIG-orange)](#)
+[![Funding: Business Finland](https://img.shields.io/badge/Funding-BF_FLAIG-orange)](#)
 
 ---
 
