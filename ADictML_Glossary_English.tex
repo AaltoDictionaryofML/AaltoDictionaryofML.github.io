@@ -2162,14 +2162,16 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 
 
 \newglossaryentry{connected}
-{name={connected graph}, 
-	description={An\index{connected graph} 
-		undirected \gls{graph} $\graph=\pair{\nodes}{\edges}$ is connected\index{connected graph} if every 
-		non-empty subset $\nodes' \subset \nodes$ has at least one edge connecting it to $\nodes \setminus \nodes'$.
+{name={connected}, 
+	description={An\index{connected} 
+	    \gls{undirectedgraph} $\graph=\pair{\nodes}{\edges}$ is 
+		connected if for every 
+		non-empty subset $\nodes' \subset \nodes$ we can find at least one edge 
+		connecting a node in $\nodes'$ with some node in $\nodes \setminus \nodes'$.
 					\\ 
-		See also: \gls{graph}.}, 
-	first={connected graph},
-	text={connected graph}
+		See also: \gls{undirectedgraph}, \gls{algconn}.}, 
+	first={connected},
+	text={connected}
 }
 	
 	
@@ -5679,9 +5681,46 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 
 \newglossaryentry{algconn}
 {name={algebraic connectivity},
-	description={The\index{algebraic connectivity} algebraic connectivity of an undirected \gls{graph} 
-		is the second-smallest \gls{eigenvalue} $\eigval{2}$ of its \gls{LapMat}. A \gls{graph} is connected if and only if 
-		$\eigval{2} >0$. 
+	description={The\index{algebraic connectivity} algebraic connectivity of 
+	an \gls{undirectedgraph} is the second-smallest \gls{eigenvalue} $\eigval{2}$ 
+	of its \gls{LapMat}. 
+	\begin{figure}[H]
+		\centering
+	\begin{tikzpicture}
+	% Horizontal axis
+	\draw[->,line width=1pt] (-1, -1) -- (9, -1) node[below] {$\eigval{2}$};
+	% Ticks on the horizontal axis
+	\draw[thick] (0, -0.8) -- (0, -1.2) node[below] {{$\eigval{2}\!=\!0$}};
+	\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\eigval{2}\!=\!\nrnodes$};
+	% Left graph (single edge)
+	\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
+	\node[above=0.5cm of A1, align=center] {\mbox{disconnected}};
+	\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
+	\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
+	\draw [line width=1 pt]  (A1) -- (B1);
+	% Middle graph (two edges, shifted right)
+	\begin{scope}[xshift=3.5cm]
+		\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
+		\node[above=0.5cm of A2, align=center] {\mbox{connected}};
+		\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B2) [below right=0.8cm and 0.5cm of A2] {};
+		\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C2) [below left=0.8cm and 0.5cm of A2] {};
+		\draw [line width=1 pt]  (A2) -- (B2);
+		\draw [line width=1 pt]  (B2) -- (C2);
+	\end{scope}
+	% Right graph (three edges, shifted further right)
+	\begin{scope}[xshift=7cm]
+		\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A3) at (0, 1.5) {};
+			\node[above=0.5cm of A3, align=center] {\mbox{complete \gls{graph}}};
+		\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B3) [below right=0.8cm and 0.5cm of A3] {};
+		\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C3) [below left=0.8cm and 0.5cm of A3] {};
+		\draw [line width=1 pt] (A3) -- (B3);
+		\draw [line width=1 pt]  (B3) -- (C3);
+		\draw [line width=1 pt]  (A3) -- (C3);
+	\end{scope}
+\end{tikzpicture}
+\end{figure}
+	An \gls{undirectedgraph} is connected if and only if 
+		$\eigval{2} >0$ \cite{ChungSpecGraphTheory,Spielman2019}. 
 				\\
 		See also: \gls{graph}, \gls{eigenvalue}, \gls{LapMat}.},
 	first={algebraic connectivity},
