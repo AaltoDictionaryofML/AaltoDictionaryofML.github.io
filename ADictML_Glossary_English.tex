@@ -2168,8 +2168,29 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		connected if for every 
 		non-empty subset $\nodes' \subset \nodes$ we can find at least one edge 
 		connecting a node in $\nodes'$ with some node in $\nodes \setminus \nodes'$.
-					\\ 
+		\begin{figure}[H]
+		\centering
+	\begin{tikzpicture}
+	% Horizontal axis
+	% Left graph (single edge)
+	\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
+	\node[above=0.5cm of A1, align=center] {not connected};
+	\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
+	\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
+	\draw [line width=1 pt]  (A1) -- (B1);
+	% Middle graph (two edges, shifted right)
+	\begin{scope}[xshift=3.5cm]
+		\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
+		\node[above=0.5cm of A2, align=center] {connected};
+		\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B2) [below right=0.8cm and 0.5cm of A2] {};
+		\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C2) [below left=0.8cm and 0.5cm of A2] {};
+		\draw [line width=1 pt]  (A2) -- (B2);
+		\draw [line width=1 pt]  (B2) -- (C2);
+	\end{scope}
+\end{tikzpicture}
+\end{figure} 
 		See also: \gls{undirectedgraph}, \gls{algconn}.}, 
+	type=math, 
 	first={connected},
 	text={connected}
 }
@@ -3029,6 +3050,7 @@ plural={medians},
 					\\ 
 		See also: \gls{graph}, \gls{neighbor}.},
 	first={node degree},
+	type=math, 
 	text={node degree} 
 }
 
@@ -3040,7 +3062,8 @@ plural={medians},
 	first={undirected graph},
 	firstplural={undirected graphs}, 
 	plural={undirected graphs}, 
-	text={graph} 
+	type=math,
+	text={undirected graph} 
 }
 
 \newglossaryentry{simplefunction}
@@ -3126,6 +3149,7 @@ plural={medians},
 	first={cumulative distribution function (cdf)},
 	firstplural={cumulative distribution functions (cdfs)}, 
 	plural={cdfs}, 
+	type=math,
 	text={cdf} 
 }
 
@@ -3135,11 +3159,12 @@ plural={medians},
 	are assigned numeric weights. Typically, these edge weights 
 	are non-negative real numbers. For example, if a graph represents 
 	a road network with nodes being intersections and edges representing 
-	road segments, the edge weight could represent that capacity (measured 
+	road segments, the edge weight could represent the capacity (measured 
 	in maximum vehicles per hour) of the road segment \cite{NewmannBook}.  
 					\\ 
 		See also: \gls{graph}.},
 	first={weighted graph},
+	type=math,
 	firstplural={weighted graphs}, 
 	plural={weighted graphs}, 
 	text={weighted graph} 
@@ -3149,19 +3174,20 @@ plural={medians},
 
 \newglossaryentry{graph}
 {name={graph},
-	description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ 
-	is a pair that consists of a node set $\nodes$ and an edge set $\edges$. 
-	In its most general form, a graph is specified by a \gls{map} that 
-	assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
-	Unless specified otherwise, the term graph refers to an undirected graph. 
-	A simple undirected graph is obtained by identifying each edge $\edgeidx \in \edges$ 
-	with a set that contains two different nodes $\{\nodeidx,\nodeidx'\}$. 
-	Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
-	edge $\edgeidx \in \edges$.
+ description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ 
+ is a pair that consists of a node set $\nodes$ and an edge set $\edges$. 
+ In its most general form, a graph is specified by a \gls{map} that 
+ assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
+ Unless specified otherwise, the term graph refers to an undirected graph. 
+ A simple undirected graph is obtained by identifying each edge $\edgeidx \in \edges$ 
+ with a set that contains two different nodes $\{\nodeidx,\nodeidx'\}$. 
+ Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
+ edge $\edgeidx \in \edges$.
 					\\ 
 		See also: \gls{map}, \gls{weights}.},
-	first={graph},
-	text={graph} 
+ first={graph},
+ text={graph}, 
+ type=math
 }
 
 \newglossaryentry{uncertainty}
@@ -3198,21 +3224,21 @@ plural={medians},
 		actions with a high-potential \gls{reward} and high \gls{uncertainty}. Theoretical guarantees 
 		for the performance of UCB strategies, including logarithmic \gls{regret} bounds, are established in \cite{Bubeck2012}.
 					\\ 
-		See also: \gls{ml}, \gls{reward}, \gls{probmodel}, \gls{stochastic}, \gls{mab}, \gls{model}, \gls{realization}, \gls{rv}, \gls{mean}, \gls{data}, \gls{uncertainty}, \gls{regret}.},
+		See also: \gls{optimism in the face of uncertainty}, \gls{reward}, \gls{mab}, \gls{uncertainty}, \gls{regret}.},
 	first={upper confidence bound (UCB)},
 	text={UCB} 
 }
 
 \newglossaryentry{mab}
 {name={multiarmed bandit (MAB)},
-	description={An MAB \index{multiarmed bandit (MAB)} problem is a precise mathematical 
-		formulation of a sequential decision-making task under \gls{uncertainty}. At each 
-		discrete time step $\iteridx$, a learner selects one of several possible 
-		actions—called arms—from a finite set $\actionset$. Pulling arm $\arm$ at time 
-		$\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$ that is drawn from an unknown 
-		\gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$. We obtain different classes 
-		of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
-		setting, the \gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$ does not depend on $\timeidx$. 
+	description={An MAB \index{multiarmed bandit (MAB)} problem is a precise 
+	formulation of a sequential decision-making task under \gls{uncertainty}. At each 
+	discrete time step $\iteridx$, a learner selects one of several possible 
+	actions—called arms—from a finite set $\actionset$. Pulling arm $\arm$ at time 
+	$\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$ that is drawn from an unknown 
+	\gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$. We obtain different classes 
+	of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
+	setting, the \gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$ does not depend on $\timeidx$. 
 		Given an MAB problem, the goal is to construct \gls{ml} methods that maximize the cumulative 
 		\gls{reward} over time by strategically balancing exploration (i.e., gathering information 
 		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
@@ -5724,6 +5750,7 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 				\\
 		See also: \gls{graph}, \gls{eigenvalue}, \gls{LapMat}.},
 	first={algebraic connectivity},
+	type=math,
 	text={algebraic connectivity}
 }
 
@@ -5744,6 +5771,7 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 			\\
 		See also: \gls{psd}, \gls{matrix}, \gls{evd}, \gls{eigenvalue}, \gls{optproblem}.}, 
 	first={Courant–Fischer–Weyl min–max characterization (CFW)}, 
+	type=math,
 	text={CFW}
 }
 
