@@ -3030,15 +3030,132 @@ plural={medians},
 	text={node degree} 
 }
 
+\newglossaryentry{undirectedgraph}
+{name={undirected graph},
+	description={See \gls{graph}. 
+					\\ 
+		See also: \gls{graph}.},
+	first={undirected graph},
+	firstplural={undirected graphs}, 
+	plural={undirected graphs}, 
+	text={graph} 
+}
+
+\newglossaryentry{simplefunction}
+{name={simple function},
+  description={A\index{simple function} simple \gls{function} 
+ 		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ is a \gls{measurable} 
+ 		\gls{function} which takes on only finite many values. In other words, 
+ 		$$f(\featurevec) = \sum_{\clusteridx=1}^{\nrcluster} \alpha_{\clusteridx} \mathcal{I}^{(\cluster^{(\clusteridx)})}(\featurevec),$$ 
+ 			with the indicator \gls{function} $\mathcal{I}^{(\cluster)}$ of a 
+ 			subset $\cluster \subset \mathbb{R}^{\nrfeatures}$ and 
+ 			arbitrary coefficents $\alpha_{1},\ldots,\alpha_{\nrcluster} \in \mathbb{R}$. 
+ 			The subsets $\cluster^{(1)},\ldots,\cluster^{(\nrcluster)}$ in the above 
+ 		decomposition must be \gls{measurable} and form a partition of $\mathbb{R}^{\nrfeatures}$. \\ 
+		See also: \gls{LebesgueIntegral},\gls{measurable}.}, 
+ first = {simple function}, 
+ plural = {simple functions}, 
+ text = {simple function}, 
+ type = math
+}
+
+
+\newglossaryentry{LebesgueIntegral}
+{name={Lebesgue intgral},
+	description={The Lebesgue integral\index{Lebesgue integral} assigns each integrable \gls{function} 
+	$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ a number 
+	$\int_{\featurevec} f(\featurevec) d\featurevec$ 
+	which is referred to as the integral of $f$. 
+	The integral of $f$ can be interpreted as the volume that is enclosed by 
+	the \gls{function} $f$ in the space $\mathbb{R}^{\nrfeatures+1}$. We can 
+	compute it be increasingly accurate approximations by \glspl{simplefunction} 
+	\cite[Ch. 1]{RudinBook}. 
+	\begin{figure}[H]
+		\centering
+\begin{tikzpicture}[scale=1.5]
+  % Axes
+  \draw[->] (-0.2,0) -- (3.4,0) node[right] {$x$};
+ % \draw[->] (0,-0.1) -- (0,2.6) node[above] {$y$};
+  % Continuous function f(x)
+  \draw[thick,domain=0:3,smooth] plot(\x,{0.5+0.3*\x+0.1*\x*\x}) node[right] {$f(x)$};
+  % Shade area under f(x)
+  \fill[gray!20] (0,0) -- plot[domain=0:3] (\x,{0.5+0.3*\x+0.1*\x*\x}) -- (3,0) -- cycle;
+  % Lower simple function: left-endpoint rectangles for [0,1], [1,2], [2,3]
+  \draw[fill=gray!50,opacity=0.35] (0,0) rectangle (1,0.5);
+  \node at (0.5,-0.2) {$\cluster^{(1)}$}; 
+  \draw[fill=gray!50,opacity=0.35] (1,0) rectangle (2,0.9);
+  \draw[fill=gray!50,opacity=0.35] (2,0) rectangle (3,1.5);
+  % Step lines of the simple function
+  \draw[thick] (0,0.5)--(1,0.5);
+  \draw[thick] (1,0.9)--(2,0.9);
+  \draw[thick] (2,1.5)--(3,1.5);
+  \node[above left] at (0.8,0.5) {};
+  % Dashed partition lines
+  \foreach \x in {0,1,2,3} \draw[dashed,gray] (\x,0) -- (\x,2.5);
+  % Labels
+  \node[anchor=north] at (0,-0.05) {$a$};
+  \node[anchor=north] at (1,-0.05) {$b$};
+  \node[anchor=north] at (2,-0.05) {$c$};
+  \node[anchor=north] at (3,-0.05) {$d$};
+  \node at (1.6,3.0) {$\displaystyle \int_a^d f(x)\,dx \approx \underbrace{f(a)(b-a) + f(b)(c-b)+f(c)(d-c)}_{=:\int_a^d s(x)dx}$};
+  \node [anchor=west] at (3.2,1.5) {\gls{simplefunction} $s(x)$};
+\end{tikzpicture}
+\end{figure}
+ It is useful to think of the Lebesgue 
+	integral as a \gls{function}, 
+	$$ f \mapsto \int_{\featurevec} f(\featurevec) d\featurevec.$$ 
+	The precise defintion of this \gls{function}, including its \gls{domain} 
+	which are the integrable \glspl{function}, is a corner-stone of 
+	measure theory \cite[Ch. 1]{RudinBook}.
+					\\ 
+		See also: \gls{function}.},
+	first={Lebesgue integral},
+	type=math, 
+	firstplural={Lebesgue integral}
+}
+
+\newglossaryentry{cdf}
+{name={cumulative distribution function (cdf)},
+	description={The \index{cumulative distribution function (cdf)} cdf 
+	$\cdf{\feature}{\eta}$ of a real-valued \gls{rv} $\feature$ is \cite{AshProbMeasure,papoulis}
+	$$\cdf{\feature}{\eta} \defeq \prob{\feature \leq \eta}.$$
+					\\ 
+		See also: \gls{pdf}, \gls{probdist}, \gls{rv}.},
+	first={cumulative distribution function (cdf)},
+	firstplural={cumulative distribution functions (cdfs)}, 
+	plural={cdfs}, 
+	text={cdf} 
+}
+
+\newglossaryentry{weightedgraph}
+{name={weighted graph},
+	description={A \gls{graph}\index{weghted graph} whose edges 
+	are assigned numeric weights. Typically, these edge weights 
+	are non-negative real numbers. For example, if a graph represents 
+	a road network with nodes being intersections and edges representing 
+	road segments, the edge weight could represent that capacity (measured 
+	in maximum vehicles per hour) of the road segment \cite{NewmannBook}.  
+					\\ 
+		See also: \gls{graph}.},
+	first={weighted graph},
+	firstplural={weighted graphs}, 
+	plural={weighted graphs}, 
+	text={weighted graph} 
+}
+
+
+
 \newglossaryentry{graph}
 {name={graph},
-	description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ is a pair that consists of 
-		a node set $\nodes$ and an edge set $\edges$. In its most general form, a graph is 
-		specified by a \gls{map} that assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
-		One important family of graphs is simple undirected graphs. A simple undirected graph 
-		is obtained by identifying each edge $\edgeidx \in \edges$ with two different nodes $\{\nodeidx,\nodeidx'\}$. 
-		Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
-		edge $\edgeidx \in \edges$.
+	description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ 
+	is a pair that consists of a node set $\nodes$ and an edge set $\edges$. 
+	In its most general form, a graph is specified by a \gls{map} that 
+	assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
+	Unless specified otherwise, the term graph refers to an undirected graph. 
+	A simple undirected graph is obtained by identifying each edge $\edgeidx \in \edges$ 
+	with a set that contains two different nodes $\{\nodeidx,\nodeidx'\}$. 
+	Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
+	edge $\edgeidx \in \edges$.
 					\\ 
 		See also: \gls{map}, \gls{weights}.},
 	first={graph},
@@ -8358,17 +8475,21 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
     
 \newglossaryentry{pdf}
 {name={probability density function (pdf)},
-	description={The\index{probability density function (pdf)} pdf $p(\feature)$ of a real-valued \gls{rv} 
-		$\feature \in \mathbb{R}$ is a particular representation of its \gls{probdist}. If the pdf exists, it can 
-		be used to compute the \gls{probability} that $\feature$ takes on a value from a \gls{measurable} set 
-		$\mathcal{B} \subseteq \mathbb{R}$ via $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. 
-		If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, it 
-        		allows us to compute the \gls{probability} of $\featurevec$ belonging to a \gls{measurable} region $\mathcal{R}$ via 
-        		$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
+	description={The\index{probability density function (pdf)} pdf 
+	$p(\feature)$ of a real-valued \gls{rv} $\feature \in \mathbb{R}$ 
+	is a particular representation of its \gls{probdist}. If the pdf exists, 
+	it can be used to compute the \gls{probability} that $\feature$ takes 
+	on a value from a \gls{measurable} set $\mathcal{B} \subseteq \mathbb{R}$ 
+	via $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. 
+	If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, 
+	it allows us to compute the \gls{probability} of $\featurevec$ belonging to a 
+	\gls{measurable} region $\mathcal{R}$ via 
+    $\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
         		\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{measurable}, \gls{vector}.},
 	first={probability density function (pdf)},
-	text={pdf}
+	firstplural={probability density functions (pdfs)}
+	text={pdfs}
 }
 
 
