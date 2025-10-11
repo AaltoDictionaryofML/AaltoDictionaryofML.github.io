@@ -3101,8 +3101,8 @@ plural={medians},
   \node [anchor=west] at (3.2,1.5) {\gls{simplefunction} $s(x)$};
 \end{tikzpicture}
 \end{figure}
- It is useful to think of the Lebesgue 
-	integral as a \gls{function}, 
+ It is useful to think of the Lebesgue integral as a \gls{function} that maps 
+ an integrable \gls{function} $f$ to the value of its integral, 
 	$$ f \mapsto \int_{\featurevec} f(\featurevec) d\featurevec.$$ 
 	The precise defintion of this \gls{function}, including its \gls{domain} 
 	which are the integrable \glspl{function}, is a corner-stone of 
@@ -6024,10 +6024,11 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 \newglossaryentry{pmf}
 {name={probability mass function (pmf)}, 
 	description={The pmf\index{probability mass function (pmf)} 
-		of a discrete \gls{rv} $\featurevec$ is a \gls{function} $\pmf: \featurespace \rightarrow [0,1]$
-		that assigns to each possible value $\featurevec' \in \featurespace$ of the \gls{rv} $\featurevec$ 
-		the probability $\pmf(\featurevec) = \prob{\featurevec' = \featurevec}$ \cite{papoulis}. 
-		Fig.\ \ref{fig_pmf_dict} illustrates the pmf of a discrete \gls{rv} $\featurevec$. 
+		of a discrete \gls{rv} $\feature$ is a \gls{function} 
+		$\pmf{\feature}{\cdot}: \featurespace \rightarrow [0,1]$ that assigns to each 
+		possible value $\feature' \in \featurespace$ of the \gls{rv} $\feature$ 
+		the \gls{probability} $\pmf{\feature}{\feature'} = \prob{\feature' = \feature}$ \cite{papoulis}. 
+		Fig.\ \ref{fig_pmf_dict} illustrates the pmf of a discrete \gls{rv} $\feature$. 
 \begin{figure}[H]
 	\centering
 		\begin{tikzpicture}[>=stealth, thick,y=2cm]
@@ -6035,25 +6036,43 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
   %\draw[->] (0,0) -- (6,0) node[right] {$x$};
   %\draw[->] (0,0) -- (0,2.5) node[above] {$p(x)$};
   % Values for x and p(x)
-  \foreach \x/\p in {1/0.3, 2/0.1, 3/0.4, 4/0.15, 5/0.05}{
+  \foreach \x/\p in {1/0.3, 4/0.7}{
     % Stem lines
     \draw[gray] (\x,0) -- (\x,\p);
     % Dots at the end of stems
     \fill[blue] (\x,\p) circle (2pt);
     % Labels next to each value
-    \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf(\x)$};
+   % \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf{\feature}{\cdot}$};
   }
-  % Labels for x-axis
-  \foreach \x in {1,2,3,4,5}{
-    \node[below] at (\x,0) {\small $\x$};
-  }
+  \node[anchor=south,align=center] at (1,0.3) {\small $\pmf{\feature}{\star}=3/10$};
+  \node[anchor=north] at (1,0) {\small $\star$};
+  \node[anchor=north] at (4,0) {\small $\otimes$};
+    %--- Example datasets (same length, same frequencies, different permutations) ---
+  \node[anchor=west,text width=11cm] at (-1.2,-0.80) {
+    $\dataset = (\star,\star,\star,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes)$
+  };
+  \node[anchor=west,text width=11cm] at (-5.2,1.18) {\small
+    $\dataset' = (\otimes,\star,\otimes,\star,\otimes,\otimes,\star,\otimes,\otimes,\otimes)$
+  };
+  \node[anchor=west,text width=11cm] at (3.2,1.56) {
+    $\dataset'' = (\otimes,\otimes,\otimes,\star,\otimes,\star,\otimes,\otimes,\star,\otimes)$
+  };
   % Optional note for total probability
  % \node[right] at (5.5,2) {\small $\sum_{\feature=1}^{5} \pmf(\feature)=1$};
 \end{tikzpicture}
-\caption{The pmf of a discrete \gls{rv} $\featurevec$ taking on 
-values in the set $\featurespace = \{1, \,2, \,3, \,4, \,5\}$. \label{fig_pmf_dict}}
+\caption{The pmf $\pmf{\feature}{\cdot}$ of a discrete \gls{rv} $\feature$ taking on 
+values in the set $\featurespace = \{\star,\otimes\}$. We also 
+depict three \glspl{dataset} with relative frequencies of \glspl{datapoint} 
+mathching the pmf exactly. These \glspl{dataset} could be obtained by 
+generating \gls{iid} \glspl{rv} with common pmf $\pmf{\feature}{\cdot}$. \label{fig_pmf_dict}}
 \end{figure}
-The pmf satisfies $\sum_{\featurevec' \in \featurespace} \pmf(\featurevec') = 1$.
+The pmf satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}(\feature') = 1$. 
+A pmf over a set $\featurespace$ is an approximation of any sufficiently long  
+\glspl{dataset} $\dataset = \left\{ \feature^{(1)},\ldots,\feature^{(\samplesize)} \right\}$  
+with relative frequencies of each value $\feature' \in \featurespace$ being 
+close to the pmf value $\pmf{\feature}{\feature'}$, 
+$$ \frac{\big|\sampleidx \in \{1,\ldots,\samplesize\}: \feature^{(\sampleidx)}= \feature' \big|}
+{\samplesize} \approx \pmf{\feature}{\feature'}.$$
 				\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{probmodel}.},
 	first={probability mass function (pmf)},
@@ -8476,15 +8495,22 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 \newglossaryentry{pdf}
 {name={probability density function (pdf)},
 	description={The\index{probability density function (pdf)} pdf 
-	$p(\feature)$ of a real-valued \gls{rv} $\feature \in \mathbb{R}$ 
-	is a particular representation of its \gls{probdist}. If the pdf exists, 
-	it can be used to compute the \gls{probability} that $\feature$ takes 
-	on a value from a \gls{measurable} set $\mathcal{B} \subseteq \mathbb{R}$ 
-	via $\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} p(\feature') d \feature'$ \cite[Ch. 3]{BertsekasProb}. 
-	If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, 
-	it allows us to compute the \gls{probability} of $\featurevec$ belonging to a 
-	\gls{measurable} region $\mathcal{R}$ via 
-    $\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
+	$\pdf{\feature}{\cdot}$ of a continuous real-valued \gls{rv} $\feature \in \mathbb{R}$ 
+	allows to compute the \gls{probability} $\prob{\feature \in \mathcal{B}}$ (of 
+	the \gls{event} $\mathcal{B} \subseteq \mathbb{R}$)
+	via a \gls{LebesgueIntegral} \cite[Ch. 3]{BertsekasProb}
+	%is a particular representation of its \gls{probdist}. If the pdf exists, 
+	%it can be used to compute the \gls{probability} that $\feature$ takes 
+	%on a value from a \gls{measurable} set $\mathcal{B} \subseteq \mathbb{R}$ 
+	 $$\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} \pdf{\feature}{\eta} d 
+	 \eta.$$ 
+	 This definition extends naturally to a (continuous) vector-valued \gls{rv} 
+	 $\featurevec \in \mathbb{R}^{\nrfeatures}$ as the \gls{LebesgueIntegral} 
+	 is defined for $\mathbb{R}^{\nrfeatures}$ with any \gls{dimension} $\nrfeatures$. 
+	%If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, 
+	%it allows us to compute the \gls{probability} of $\featurevec$ belonging to a 
+	%\gls{measurable} region $\mathcal{R}$ via 
+    %$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
         		\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{measurable}, \gls{vector}.},
 	first={probability density function (pdf)},
