@@ -5005,54 +5005,45 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 	\gls{ml} methods is obtained for different design choices for the \gls{dataset}, \gls{model}, 
 	and \gls{loss} \cite[Ch. 3]{MLBasics}. Fig.\ \ref{fig_erm_dict} illustrates ERM for a \gls{linmodel} 
 	and \glspl{datapoint} that are characterized by a single \gls{feature} $\feature$ and a \gls{label} $\truelabel$. 
-	The \gls{hypothesis} $\hypothesis$ is a \gls{linearmap} that predicts the \gls{label} of a \gls{datapoint} 
-	as a linear \gls{function} of its \gls{feature} $\feature$, i.e., 
-		$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, where $\weight_{1}$ and $\weight_{0}$ are the 
-		\gls{modelparams} of the \gls{hypothesis} $\hypothesis$. The ERM problem is to find the 
-		\gls{modelparams} $\weight_{1}$ and $\weight_{0}$ that minimize the average \gls{loss} (or \gls{emprisk})
-		incurred by the \gls{hypothesis} $\hypothesis$ on the \gls{trainset} $\dataset$.
-		\begin{figure}[H]
-			\begin{center} 
-			\begin{tikzpicture}[scale = 1]
-				% Axes
-				\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
-				\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
-				\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;      
-				% Add a lasso around the two dashed lines
-	          		% Ellipse around the two dashed lines
-				\node at (6.7,4.5) {$\hypothesis(\feature)$};    
-				\coordinate (l1)   at (1.2, 1.2*0.4+2.0);
-				\coordinate (l2) at (1.4, 1.4*0.4+2.0);
-				\coordinate (l3)   at (1.7, 1.7*0.4+2.0);
-				\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
-				\coordinate (l5) at (2.4, 2.4*0.4+2.0);
-				\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
-				\coordinate (n1)   at (1.2, 1.8);
-				\coordinate (n2) at (1.4, 3.8);
-				\coordinate (n3)   at (1.7,  2.0);
-				\coordinate (n4)   at (2.2, 2.1);
-				\coordinate (n5) at (2.4, 3.8);
-				\coordinate (n6)   at (2.7,  4.4);
-				\node at (n1)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
-				\node at (n3)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
-				\node at (n4)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
-				\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
-				\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
-				\node at (n6)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6]{};
-				\draw[<->, color=blue, thick] (l1) -- (n1);  
-				\draw[<->, color=blue, thick] (l2) -- (n2);  
-				\draw[<->, color=blue, thick] (l3) -- (n3);  
-				\draw[<->, color=blue, thick] (l4) -- (n4);  
-				\draw[<->, color=blue, thick] (l5) -- (n5);  
-				\draw[<->, color=blue, thick] (l6) -- (n6);  
-				\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=1.4cm] {\gls{trainset} $\dataset$};
-			\end{tikzpicture}
-			\caption{ERM learns a \gls{hypothesis} $\hypothesis\in \hypospace$, out of a \gls{model} $\hypospace$, 
-				by minimizing the average \gls{loss} (or \gls{emprisk}) 
-				${1}/{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
-				incurred on a \gls{trainset} $\dataset$. \label{fig_erm_dict} }
-			\end{center}
-		\end{figure} 
+	The \gls{hypothesis} $\hypothesis$ is a \gls{linearmap} that predicts the \gls{label} 
+	of a \gls{datapoint} as a linear \gls{function} of its \gls{feature} $\feature$, i.e., 
+		$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, where $\weight_{1}$ 
+	and $\weight_{0}$ are the \gls{modelparams} of the \gls{hypothesis} $\hypothesis$. 
+	The ERM problem is to find the \gls{modelparams} $\weight_{1}$ and $\weight_{0}$ that 
+	minimize the average \gls{loss} (or \gls{emprisk}) incurred by the \gls{hypothesis} 
+	$\hypothesis$ on the \gls{trainset} $\dataset$.
+    \begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  \def\slope{0.4}
+  \def\intercept{2.0}
+  \def\xmin{0}
+  \def\xmax{6.5}
+  \draw[color=black, thick, dashed, domain=\xmin:\xmax, variable=\x] plot ({\x},{\slope*\x + \intercept}); 
+	% Place label at the endpoint (xmax, h(xmax))
+   \coordinate (hend) at (\xmax,{\slope*\xmax + \intercept});
+	\node[above right] at (hend) {$\hypothesis(\feature)$};
+   \foreach \i/\xval/\yval in {1/1.2/1.8, 2/3.0/2.6, 3/5.0/5.7} {
+      % predicted label on the hypothesis line
+      \coordinate (l\i) at (\xval, {\slope*\xval + \intercept});
+      % actual label
+      \coordinate (n\i) at (\xval, \yval);
+      % draw data point
+      \node[circle,draw,fill=blue,minimum size=6pt,scale=0.6] (pt\i) at (n\i) {};
+      % residual arrow
+      \draw[<->, color=blue, thick] (l\i) -- (n\i);
+  }
+  % Labels for data points
+  \node[anchor=west,below,yshift=-2pt] at (n1) {$\big(\feature^{(1)},\,\truelabel^{(1)}\big)$};
+  \node[anchor=west,below]        at (n2) {$\big(\feature^{(2)},\,\truelabel^{(2)}\big)$};
+  \node[anchor=west,above]   at (n3) {$\big(\feature^{(3)},\,\truelabel^{(3)}\big)$};
+\end{tikzpicture}
+\caption{ERM learns a \gls{hypothesis} $\hypothesis \in \hypospace$ 
+out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss} 
+(or \gls{emprisk}) $\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ incurred on a \gls{trainset} $\dataset$.}
+\label{fig_erm_dict}
+\end{center}
+\end{figure}
 		See also: \gls{optmethod}, \gls{emprisk}, \gls{trainset}, \gls{loss}, \gls{optproblem}.},
 	first={empirical risk minimization (ERM)},
 	text={ERM} 
@@ -5343,14 +5334,35 @@ evenly divided into $k$ folds $\dataset^{(1)},\ldots,\dataset^{(k)}$. Each fold 
 
 \newglossaryentry{gengap}
 {name={generalization gap}, 
-	description={\Gls{generalization} gap is the difference\index{generalization gap} between the performance of a 
-	     	trained \gls{model} on the \gls{trainset} $\trainset$ and its performance on 
-		\glspl{datapoint} outside $\trainset$. We can make this notion precise by using 
-		a \gls{probmodel} that allows us to compute the \gls{risk} of a trained \gls{model} 
-		as the expected \gls{loss}. However, the \gls{probdist} underlying this \gls{expectation} 
-		is typically unknown and needs to be somehow estimated. \Gls{validation} techniques 
-		use different constructions of a \gls{valset}, which is different from 
-		the \gls{trainset}, to estimate the \gls{generalization} gap.
+	description={\Gls{generalization} gap is the difference\index{generalization gap} 
+	  between the performance of a \gls{hypothesis} $\hypothesis \in \hypospace$ 
+	  on the \gls{trainset} $\trainset$ and its performance 
+	  on \glspl{datapoint} outside $\trainset$. We can make this notion 
+	  precise by using a \gls{probmodel} that allows us to compute 
+	  the \gls{risk} (or expected \gls{loss}) $\risk{\learnthypothesis}$, 
+	  of a \gls{hypothesis} $\hypothesis$. 
+	  \begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}[x=3cm, y=1cm]
+			% Filled band around the quadratic curve with different boundary curves
+			\fill[blue!10] 
+			(-1, 5) -- plot[domain=-2:1, samples=100] ({\x+1}, {\x*\x + 1}) -- 
+			plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
+			\node[anchor=west] at (2, 4) {$\risk{\hypothesis}$};
+			\draw[line width=1, domain=-2:1, samples=100,dashed] plot  ({\x+1}, {\x*\x -0.5}) node[right] {$\emprisk{\dataset}{\hypothesis}$};
+			\draw[line width=1, domain=-1:2, samples=100] plot ({\x}, {\x*\x});
+			\draw[<->, thick] (1, -0.5) -- (1, 1) node[midway, right] {gap};
+		\end{tikzpicture}
+	\end{center}
+	\caption{The generalization gap can be defined as 
+	the difference between the \gls{trainerr} $\emprisk{\hypothesis}{\trainset}$ 
+	and the \gls{risk} $\risk{\hypothesis}$.}
+\end{figure}
+	  In practice, the \gls{probdist} underlying this \gls{expectation} is 
+	  unknown. Thus, we need to estimate the \gls{expectation} based on 
+	  observered \glspl{datapoint}. \Gls{validation} techniques 
+	  use different constructions of a \gls{valset}, which is different from 
+	  the \gls{trainset}, to estimate the \gls{generalization} gap.
 		\\
 		See also: \gls{generalization}, \gls{validation}, \gls{erm}, \gls{lossfunc}.}, 
 	first={generalization gap}, 
