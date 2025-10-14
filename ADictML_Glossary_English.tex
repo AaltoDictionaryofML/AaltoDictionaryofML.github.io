@@ -3054,22 +3054,111 @@ plural={medians},
 	text={node degree} 
 }
 
+\newglossaryentry{directedcyble}
+{name={directed cycle},
+	description={A directed cycle\index{directed cycle} in a \gls{directedgraph} $\graph=\pair{\nodes}{\edges}$ 
+	is a sequence of distinct nodes $(\nodeidx_1, \nodeidx_2, \ldots, \nodeidx_k)$ 
+	such that $(\nodeidx_1, \nodeidx_2), (\nodeidx_2, \nodeidx_3), \ldots, (\nodeidx_{k-1}, \nodeidx_k), 
+     (\nodeidx_k, \nodeidx_1) \in \edges$. In a directed cycle, following the direction 
+	 of each edge eventually leads back to the starting node, creating a closed loop. 
+	 \begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick]
+	% Nodes
+	  \coordinate (a1) at (90:1.5);
+  	  \coordinate (a2) at (210:1.5);
+      \coordinate (a3) at (330:1.5);
+  % Filled circle nodes
+  	 \fill (a1) circle (2pt) node[above=3pt] {$\nodeidx_1$};
+  	 \fill (a2) circle (2pt) node[below left=3pt] {$\nodeidx_2$};
+  	 \fill (a3) circle (2pt) node[below right=3pt] {$\nodeidx_3$};
+	% Directed edges forming a cycle
+	\draw[->] (a1) -- (a2);
+	\draw[->] (a2) -- (a3);
+	\draw[->] (a3) -- (a1);
+	% Labels
+	\node[above=3pt of a1] {$\nodeidx_1$};
+	\node[below left=3pt of a2] {$\nodeidx_2$};
+	\node[below right=3pt of a3] {$\nodeidx_3$};
+	\end{tikzpicture}
+	\caption{A directed cycle consisting of three nodes connected in a closed loop.}
+	\end{figure}
+     The presence of a directed cycle prevents a \gls{directedgraph} from being a \gls{dag}. 
+					\\ 
+		See also: \gls{directedgraph}, \gls{dag}.},
+	first={directed cycle},
+	firstplural={directed cycles}, 
+	plural={directed cycles}, 
+	type=math, 
+	text={directed cycle} 
+}
+
+
+
+\newglossaryentry{dag}
+{name={directed acyclic graph (DAG)},
+ description={A \index{directed acyclic graph (DAG)}DAG is a \gls{directedgraph} 
+    which contains no directed cycles. Formally, a DAG $\graph = (\nodes, \edges)$ satisfies 
+	that for any sequence of distinct nodes $(\nodeidx_1, \ldots, \nodeidx_k)$, the presence 
+	of directed edges $(\nodeidx_1,\nodeidx_2), (\nodeidx_2,\nodeidx_3), \ldots, 
+	(\nodeidx_{k-1},\nodeidx_k)$ implies that $(\nodeidx_k, \nodeidx_1) \notin \edges$. 
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick, every node/.style={circle, fill=black, inner sep=1.5pt}]
+		% --- Left: DAG (directed chain) ---
+		\node (a1) {};
+		\node[right=of a1] (a2) {};
+		\node[right=of a2] (a3) {};
+		\draw[->] (a1) -- (a2);
+		\draw[->] (a2) -- (a3);
+		%\node[below=4pt of a2] {\small DAG};
+		% --- Right: same graph with cycle ---
+		\node[right=3.5cm of a3] (b1) {};
+		\node[right=of b1] (b2) {};
+		\node[right=of b2] (b3) {};
+		\draw[->] (b1) -- (b2);
+		\draw[->] (b2) -- (b3);
+		\draw[->, bend left=40] (b3) to (b1); % added edge forming a cycle
+		%\node[below=4pt of b2] {\small cyclic graph};
+		\end{tikzpicture}
+	\caption{Left: A DAG defined on three nodes $\nodes=\{1,2,3\}$. Right: Another 
+	\gls{directedgraph} on the same nodes that is not a DAG since it contains a 
+	directed cycle.}
+	\end{figure}
+    The absence of directed cycles allows for a topological ordering of nodes such that 
+    all edges point from earlier to later nodes in this order. 
+	Several \gls{ml} \glspl{model}, such as \glspl{ann} or \glspl{decisiontree}, 
+    are naturally represented as DAGs. \\
+	See also: \gls{ann}, \gls{decisiontree}, \gls{directedgraph}.
+ }, 
+ first={directed acyclic graph (DAG)}, 
+ firstplural={directed acyclic graphs (DAGs)}, 
+ plural={DAGs}, 
+ type=math, 
+ text ={DAG} 
+}
+
 \newglossaryentry{directedgraph}
 {name={directed graph},
 	description={A directed \gls{graph}\index{directed graph} contains edges that 
 	possess an orientiation (or direction). Mathematically, 
-	a directed \gls{graph} consists of nodes $\nodes$ and a set $\edges \in \nodes \times \nodes$ 
-	of directed edeges. 
+	a directed \gls{graph} $\graph=\pair{\nodes}{\edges}$ consists of 
+	nodes $\nodes$ and a set $\edges \in \nodes \times \nodes$ of directed edges. 
 	\begin{figure}[H]
+		\centering
 		\begin{tikzpicture}[>=stealth, node distance=1.8cm]
   			\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx$}] (i) {};
   			\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx'$}] (ip) [right=of i] {};
-  			\draw[->] (i) -- (ip);
+  			\draw[->, >=Latex, line width=1pt, scale=1.3] (i) -- (ip);
 		\end{tikzpicture}
+		\caption{The edges of a directed \gls{graph} have an orientation (or direction). 
+		We can indicate the orientaton by an arrow head.}
 	\end{figure}
-	The edge set consists of ordered pairs $\pair{\nodeidx}{\nodeidx'}$, 
-	each representing a directed edge from node $\nodeidx \in \nodes$ 
-	to node $\nodeidx' \in \nodes$. 
+   We can represent a directed edge from node $\nodeidx \in \nodes$ to node 
+   $\nodeidx' \in \nodes$ by an ordered pair $\pair{\nodeidx}{\nodeidx'}$. 
+   Directed \glspl{graph} are widely used to model interconnected systems or 
+   networks, such as transportation systems, electronic circuits, and biological 
+    processes \cite{NewmannBook}. 
 					\\ 
 		See also: \gls{graph}.},
 	first={directed graph},
