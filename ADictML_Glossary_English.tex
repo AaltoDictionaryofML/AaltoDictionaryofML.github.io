@@ -1630,6 +1630,33 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 } 
 
 
+\newglossaryentry{diangosis}
+{name={diagnosis},
+	description={Consider\index{diagnosis} an \gls{erm}-based method that resulted in a trained \gls{model} 
+	(or learned \gls{hypothesis}) $\learnthypothesis \in \hypospace$. We can diagnose the 
+	method by comparing the \gls{trainerr} $\trainerror$ with the \gls{valerr} $\valerror$ 
+	incurred by $\learnthypothesis$ on the \gls{trainset} and the \gls{valset}. 
+	\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[ycomb]
+			\draw[color=green,line width=26pt]
+			plot coordinates{(0,3)};
+			\node [below] at (0,0) {\gls{trainerr}} ; 
+			\draw[color=red,line width=26pt]
+			plot coordinates{(5,5)};
+			\node [below] at (5,0) {\gls{valerr}} ; 
+			\draw[dashed,line width=2] (-1,2) -- (7,2) node[right,text width=5cm]{\gls{baseline} \\ (e.g., \gls{bayesrisk}, existing ML methods or human performance)};
+		\end{tikzpicture}
+	\end{center}
+	\caption{We can diagnose a \gls{erm}-based \gls{ml} method by comparing its \gls{trainerr} 
+		with its \gls{valerr}. Ideally both are on the same level as a \gls{baseline}.\label{fig_diagnosis_dict}}
+		\end{figure}
+	 			\\ 
+		See also: \gls{validation}, \gls{kCV}, \gls{generalization}, \gls{baseline}.},
+	first={diagnosis},
+	text={diangosis}
+} 
+
 
 \newglossaryentry{ml}
 {name={machine learning (ML)},
@@ -1726,9 +1753,34 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 \newglossaryentry{autoencoder}
 {name={autoencoder},
 	description={An autoencoder\index{autoencoder} is an \gls{ml} method that simultaneously 
-		learns an encoder \gls{map} $\hypothesis(\cdot) \in \hypospace$ and a decoder \gls{map} 
-		$\hypothesis^{*}(\cdot) \in \hypospace^{*}$. It is an instance of \gls{erm} using a \gls{loss} 
-		computed from the reconstruction error $\featurevec - \hypothesis^{*}\big(  \hypothesis \big( \featurevec \big) \big)$.
+		learns an encoder \gls{map} $\hypothesis \in \hypospace$ and a decoder \gls{map} 
+		$\hypothesis^{*} \in \hypospace^{*}$. Different autoencoders use different 
+		\glspl{model} $\hypospace, \hypospace^{*}$, e.g., \glspl{ann} with different architectures. 
+        The special case of an autoeencoder using (vector-valued) \glspl{linmodel} for 
+		$\hypospace, \hypospace^{*}$ results in \gls{pca}. 
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, thick, node distance=1.6cm]
+		% Nodes
+		\node (x) {$\vx$};
+		\node[draw, rounded corners, right=of x, inner sep=4pt] (enc) {$\text{encoder } \hypothesis$};
+		\node[right=of enc] (z) {$\vz$};
+		\node[draw, rounded corners, right=of z, inner sep=4pt] (dec) {$\text{decoder } \hypothesis^{*}$};
+		\node[right=of dec] (xhat) {$\hat{\featurevec}$};
+		% Arrows
+		\draw[->] (x) -- (enc);
+		\draw[->] (enc) -- node[above] {$\vz=\hypothesis(\featurevec)$} (z);
+		\draw[->] (z) -- (dec);
+		\draw[->] (dec) -- node[above] {$\hat{\featurevec}=\hypothesis^{*}(\vz)$} (xhat);
+		% (Optional) reconstruction loss
+		%\draw[->, dashed] ($(xhat.south)+(0,-0.2)$) to[bend right=20] node[below] {$\loss$} ($(x.south)+(0,-0.2)$);
+		\end{tikzpicture}
+		\caption{Autoencoder with encoder $\hypothesis$ mapping $\featurevec \mapsto \vz$ and 
+		decoder $\hypothesis^*$ mapping $\vz \mapsto \hat{\featurevec}$.}
+		\end{figure}
+		The training of the encoder and decoder can be implemented via \gls{erm} using a \gls{loss} that measures 
+		the deviation of the reconstructed \gls{featurevec} $\hypothesis^{*}\big(\hypothesis\big(\featurevec \big) \big)$
+		from the original \gls{featurevec} $\featurevec$.
 					\\ 
 		See also: \gls{featlearn}, \gls{dimred}.},
 	first={autoencoder},
