@@ -985,12 +985,14 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 \newglossaryentry{attention}
 {name={attention}, 
-	description={Some \gls{ml} applications\index{attention} involve \glspl{datapoint} composed of smaller units, known 
-		as tokens. For example, a sentence consists of words, an image of pixel patches, and a network of 
-		nodes. In practice, the tokens within a single \gls{datapoint} are typically not independent of one 
-		another, but rather, each token pays attention to specific other tokens. \Glspl{probmodel} provide a 
-		principled framework for representing and analyzing such dependencies \cite{Blei2003}. Attention 
-		mechanisms use a more direct approach without explicit reference to a \gls{probmodel}. The idea is to 
+	description={Some \gls{ml} applications\index{attention} involve \glspl{datapoint} 
+	composed of smaller units, referred to as \glspl{token}. For example, a sentence 
+	consists of words, an image of pixel patches, and a network of nodes. In general, 
+	the \glspl{token} that constitute a single \gls{datapoint} are not independent 
+	of one another. Instead, each \gls{token} of a \gls{datapoint} depends (or pays attention) 
+	to specific other \glspl{token}. \Glspl{probmodel} provide a principled framework for 
+	representing and analyzing such dependencies \cite{Blei2003}. Attention mechanisms use 
+	a more direct approach without explicit reference to a \gls{probmodel}. The idea is to 
 		represent the relationship between two tokens $\nodeidx$ and $\nodeidx'$ using a parameterized \gls{function} $f^{(\weights)}(\nodeidx,\nodeidx')$, 
 		where the \glspl{parameter} $\weights$ are learned via a variant of \gls{erm}. 
 		Practical attention mechanisms differ in their precise choice of attention \gls{model} $f^{(\weights)}(\nodeidx,\nodeidx')$ 
@@ -1028,10 +1030,83 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 				uses query and key \glspl{vector}, denoted by $\vq^{(\nodeidx)}$ and $\vk^{(\nodeidx)}$, assigned to each 
 				token $\nodeidx$ \cite{vaswani2017attention}. \label{fig_attention_dict}}
 		\end{figure}
-		See also: \gls{function}.},
+		See also: \gls{function}, \gls{nlp}, \gls{token}.},
 	first={attention},
 	text={attention}
 }
+
+\newglossaryentry{transformer}
+{name={transformer},
+ description={In the context of \gls{ml}, the term transformer\index{transformer} 
+ 	refers to an \glspl{ann} that uses some form of \gls{attention} mechanism 
+ 	to capture dependencies among \glspl{token} \cite{vaswani2017attention}. 
+ 	The \gls{attention} mechansim is what sets transformers apart from 
+	previous \glspl{model} used for sequential \gls{data} such as \glspl{rnn}. 
+	A transformer \gls{ann} often combines several \gls{attention} \glspl{layer} 
+	that are combined via more traditional \gls{layer} architectures. \\ 
+	See also: \gls{nlp}, \gls{attention}.
+  }, 
+ first = {transformer}, 
+ text={transformer},
+ firstplural={transformers}, 
+ plural = {transformers}
+}
+
+\newglossaryentry{rnn}
+{name={recurrent neural network (RNN)},
+ description={A \index{recurrent neural network (RNN)} RNN 
+  is a specific type of \gls{ann} that is designed for processing 
+    \gls{data} that consists of a sequence of \glspl{token}. 
+	An RNN maintains an internal hidden state that is updated recurrently 
+	as new \glspl{token} are processed. This recurrent dependence allows 
+	information to propagate across time steps, making RNNs suitable for 
+	tasks such as speech recognition, language modeling, or time series prediction. 
+    However, their inherently sequential computation limits parallelization and 
+	is challenging for \glspl{gdmethod}. Variants like the long short-term memory (LSTM) 
+	and gated recurrent unit (GRU) mitigate these problems.}, 
+ first = {recurrent neural network (RNN)},
+ text={RNN}
+}
+
+\newglossaryentry{llm}
+{name={large language model (LLM)},
+ description={A\index{large language model (LLM)} LLM is an umbrella term for \gls{ml} 
+               methods that use high-dimensional \gls{ml} \glspl{model} (with billions 
+			   of \glspl{modelparam}) trained on large collections of text \gls{data}. 
+ 			  LLMs are used to analyze or generate sequences of \glspl{token} which 
+               constitute text \gls{data}. Many current LLMs use some variant of 
+			   a \gls{transformer} that is trained via self-supervised learning:  
+			   The training is based on the task of predicting a few words that 
+			   are intentionally removed from a large text corpus. Thus, we can 
+			   construct \glspl{labeled datapoint} simply by selecting some words 
+			   from a given text as \glspl{label} and the remaining words as \glspl{feature} 
+			   of \glspl{datapoint}. This construction requires 
+		       very little human supervision and allows for generating sufficiently 
+		       large \glspl{trainset} for LLMs.\\ 
+			   See also: \gls{nlp}, \gls{token}, \gls{transformer}.}, 
+  first = {LLM}, 
+  firstplural={LLMs}, 
+  text = {LLM}, 
+  plural = {LLMs} 
+}
+
+
+ \newglossaryentry{selfsupervisedlearning}
+ {name={self-supervised learning},
+  description={Self-supervised learning \index{self-supervised learning} uses some of 
+  			   the \glspl{feature} of a \gls{datapoint} as its \gls{label}. For 
+			   example, if a \gls{datapoint} consists of a sentence within a text document, 
+			   we an use the last word of the sentence as the \gls{label} which is 
+			   to be predicted from all the previous words (which form the \glspl{feature} 
+			   of the \gls{datapoint}). A main application of self-supervised learning 
+			   is in \gls{nlp} for the training of \glspl{llm} from large collections 
+			   of text \gls{data}. \\ 
+      See also: \gls{feature}, \gls{label}, \gls{llm}.}, 
+   first = {self-supervised learning}, 
+   text = {self-supervised learning}
+}
+
+
 
 
 \newglossaryentry{optproblem}
@@ -1864,7 +1939,7 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		methods, tends to be more effective than solving them independently (thereby ignoring 
 		dependencies among learning tasks) \cite{Caruana:1997wk}, \cite{JungGaphLassoSPL}, \cite{CSGraphSelJournal}.
 	 			\\ 
-		See also: \gls{dataset}, \gls{model}, \gls{lossfunc}, \gls{objfunc}, \gls{multitask learning}, \gls{labelspace}.},
+		See also: \gls{multitask learning}, \gls{labelspace}.},
 	first={learning task},
 	firstplural={learning tasks},
 	plural={learning tasks}, 
@@ -3052,6 +3127,34 @@ plural={medians},
 	first={node degree},
 	type=math, 
 	text={node degree} 
+}
+
+\newglossaryentry{token}
+{name={token},
+ description={A \textit{token} is a basic unit of information 
+  obtained by splitting a sequence of symbols, such as a text string, 
+  into smaller parts. In \gls{nlp}, tokens often correspond to words, subwords, 
+  or characters that form the \glspl{feature} of a \gls{datapoint}. 
+  Tokenization transforms raw text (e.g., ``The cat sleeps'') into a 
+  sequence of tokens (e.g., [``The'', ``cat'', ``sleeps'']), which can
+  then be mapped to numerical \glspl{featurevec}.}, 
+  first = {token}, 
+  firstplural={tokens}, 
+  plural={tokens}, 
+  text = {token}
+}
+
+\newglossaryentry{nlp}
+{name={natural language processing (NLP)},
+ description={NLP \index{natural language processing (NLP)} 
+ studies \gls{ml} methods for the the analysis and generation of human language. 
+  Typical NLP tasks include text \gls{classification}, machine translation, 
+  sentiment analysis, and question answering. Modern NLP systems represent 
+  language as sequences of \glspl{token} and train \glspl{model} that 
+  capture contextual dependencies, such as \glspl{attention}-based methods.\\ 
+  See also: \gls{attention}, \gls{token}.}, 
+first ={natural language processing (NLP)}, 
+text={NLP},
 }
 
 \newglossaryentry{directedcyble}
@@ -8633,24 +8736,6 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 	text={device}
 }
 
-\newglossaryentry{llm}
-{name={large language model (LLM)},
-	description={LLM\index{large language model (LLM)} is an umbrella term for \gls{ml} methods 
-		that process and generate humanlike text. These methods typically 
-		use \glspl{deepnet} with billions (or even trillions) of \glspl{parameter}. 
-		A widely used choice for the network architecture is referred to as 
-		Transformers \cite{vaswani2017attention}. The training of LLMs is often  
-		based on the task of predicting a few words that are intentionally removed 
-		from a large text corpus. Thus, we can construct \glspl{labeled datapoint} 
-		simply by selecting some words from a given text as \glspl{label} and the remaining 
-		words as \glspl{feature} of \glspl{datapoint}. This construction requires 
-		very little human supervision and allows for generating sufficiently 
-		large \glspl{trainset} for LLMs.
-			\\
-		See also: \gls{deepnet}, \gls{labeled datapoint}. },
-	first={large language model (LLM)},
-	text={LLM}
-}
 
 
 \newglossaryentry{huberreg}
