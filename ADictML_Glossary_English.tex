@@ -3054,6 +3054,31 @@ plural={medians},
 	text={node degree} 
 }
 
+\newglossaryentry{directedgraph}
+{name={directed graph},
+	description={A directed \gls{graph}\index{directed graph} contains edges that 
+	possess an orientiation (or direction). Mathematically, 
+	a directed \gls{graph} consists of nodes $\nodes$ and a set $\edges \in \nodes \times \nodes$ 
+	of directed edeges. 
+	\begin{figure}[H]
+		\begin{tikzpicture}[>=stealth, node distance=1.8cm]
+  			\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx$}] (i) {};
+  			\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx'$}] (ip) [right=of i] {};
+  			\draw[->] (i) -- (ip);
+		\end{tikzpicture}
+	\end{figure}
+	The edge set consists of ordered pairs $\pair{\nodeidx}{\nodeidx'}$, 
+	each representing a directed edge from node $\nodeidx \in \nodes$ 
+	to node $\nodeidx' \in \nodes$. 
+					\\ 
+		See also: \gls{graph}.},
+	first={directed graph},
+	firstplural={directed graphs}, 
+	plural={directed graphs}, 
+	type=math,
+	text={directed graph} 
+}
+
 \newglossaryentry{undirectedgraph}
 {name={undirected graph},
 	description={See \gls{graph}. 
@@ -8344,17 +8369,52 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 }
 
 \newglossaryentry{ann}
-{name={artificial neural network (ANN)}, plural={ANNs},
-	description={An\index{artificial neural network (ANN)} ANN 
-		is a graphical (signal-flow) representation of a \gls{function} that maps 
-		\glspl{feature} of a \gls{datapoint} at its input to a \gls{prediction} 
-		for the corresponding \gls{label} at its output. The fundamental unit of an 
-		ANN is the artificial neuron, which applies an \gls{actfun} to its 
-		weighted inputs. The outputs of these neurons serve as inputs for other neurons, 
-		forming interconnected \glspl{layer}.
-				\\
-		See also: \gls{function}, \gls{feature}, \gls{datapoint}, \gls{prediction}, \gls{label}, \gls{actfun}, \gls{layer}.},
+{name={artificial neural network (ANN)}, 
+	description={An\index{artificial neural network (ANN)} artificial 
+	neural network (ANN) is a graphical (signal-flow) representation of a 
+	\gls{hypothesis} that maps \glspl{feature} of a \gls{datapoint} at its 
+	input to a \gls{prediction} for the corresponding \gls{label} at its output. 
+    The fundamental computational unit of an ANN is the artificial neuron, 
+	which applies an \gls{actfun} to a weighted (linear) combination of its 
+	inputs. The output of a neuron can be used either as the final output of 
+	the ANN or as an input to other neurons. 
+	A key design parameter of an ANN is its connectivity structure (or architecture), 
+	i.e., which neuron outputs are connected to which neuron inputs. 
+	As illustrated in Fig.\ \ref{}, we can represent an ANN as an directed acyclic graph (DAG). 
+	One widely used type of \gls{ann} is referred to as \glspl{deepnet}. A \gls{deepnet} is 
+	an ANN where neurons form consecutive \glspl{layer}, such that the outputs of neurons 
+	in one \gls{layer} serve as inputs to the next \gls{layer}.
+    \begin{figure}[H]
+ 		\centering
+ 		\begin{tikzpicture}[>=stealth, node distance=1.4cm and 1.6cm]
+ %--- Nodes (small filled circles) ------------------------------
+  			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_1$}] (x1) {};
+  			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_2$}] (x2) [below=of x1] {};
+  			\node[circle, fill=black, inner sep=1.5pt, label=above:{$a_{1}$}] (h1) [right=of x1, yshift=5mm] {};
+  			\node[circle, fill=black, inner sep=1.5pt, label=below:{$a_{2}$}] (h2) [right=of x2, yshift=-5mm] {};
+  			\node[circle, fill=black, inner sep=1.5pt, label=right:{$\hypothesis(\featurevec)$}] (y) [right=2.8cm of x2] {};
+  %--- Directed edges (arbitrary DAG) ----------------------------
+  			\draw[->] (x1) -- (h1);
+  			\draw[->] (x2) -- (h1);
+  			\draw[->] (x1) -- (h2);
+  			\draw[->] (x2) -- (h2);
+  			\draw[->] (h1) -- (y);
+  			\draw[->] (h2) -- (y);
+  			\draw[->, dashed] (x1) to[bend left=20] (y); % skip connection
+%   %--- Labels ----------------------------------------------------
+%   			\node[above=1mm of h1] {\scriptsize hidden};
+%   			\node[above right=0mm and -2mm of y] {\scriptsize output};
+%   			\node[left=1mm of x1] {\scriptsize inputs};
+ 			\end{tikzpicture}
+ 			\caption{A generic ANN can be represented as a weighted directed acyclic graph (DAG) with 
+			nodes representing neurons (\glspl{feature} can be viewed as trivial neurons that ouput 
+			the \gls{feature} value). The directed edges indicate how neuron outputs 
+			are used as inputs to other neurons. \label{fig_ANN_DAG_dict}}
+ 			\end{figure}
+% 				\\
+		See also: \gls{label}, \gls{actfun}, \gls{layer}, \gls{deepnet}.},
 	first={artificial neural network (ANN)},
+	plural={ANNs},
 	text={ANN}
 }
 
