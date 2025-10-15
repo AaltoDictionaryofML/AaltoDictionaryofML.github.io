@@ -72,7 +72,7 @@ Example of a glossary entry:
 }
 ```
 
-Figures created in TikZ can be added under `/figures/` and referenced from entries using standard LaTeX commands.
+By default, all figures are created using **TikZ** code (see the [TikZ & PGF Manual](https://ctan.org/pkg/pgf?lang=en) for guidance).
 
 ---
 
