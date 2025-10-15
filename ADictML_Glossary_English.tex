@@ -1145,10 +1145,25 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 {name={convex optimization},
  	description={Convex optimization studies \index{convex optimization} 
 	the applications and efficient methods for \gls{convex} \glspl{optproblem}. 
-	A \gls{convex} \gls{optproblem} consists of a \gls{convex} \gls{objfunc} $f(\weights)$  
+	A \gls{convex} \gls{optproblem} (defined on the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$) 
+	consists of a \gls{convex} \gls{objfunc} 
+	$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$  
 	and a \gls{convex} constraint set $\mathcal{C}$ for the optimization variable $\weights$. 
-	Formally, we can denote a \gls{convex} \gls{optproblem} as \cite{BoydConvexBook}
-	$$ \min_{\weights \in \mathcal{C}}  f(\weights).$$ \\
+	We can denote a \gls{convex} \gls{optproblem} as \cite{BoydConvexBook}
+	$$ \min_{\weights \in \mathcal{C}}  f(\weights).$$ 
+    Alternatively, we can formulate a \gls{convex} \gls{optproblem} using \gls{convex} 
+	constraint \glspl{function} $g_{1},\ldots,g_{k}$ as 
+	\begin{align} 
+		\min_{\weights \in \mathbb{R}^{\nrfeatures}} & f(\weights)   \nonumber \\ 
+		\mbox{s.t.} \quad & g_{\sampleidx}(\weights) \leq 0, \quad \sampleidx=1,\,\ldots,\,k. \label{equ_def_convx_opt_constr_dict}
+	\end{align} 
+	This formulation lends, in turn, to an epigraph form \cite[Sec 5.3]{BoydConvexBook} 
+	$\inf \{ t \in \mathbb{R} : \pair{\mathbf{0}}{t} \in \mathcal{A}  \}$, 
+	with the set 
+	$$\mathcal{A} \defeq \big\{ (\weights,t) \in \mathbb{R}^{\nrfeatures} \times \mathbb{R} : f(\weights) \leq t, \, g_{\sampleidx}(\weights) \leq 0, \, \sampleidx=1,\,\ldots,\,k \big\}.$$
+	The set $\mathcal{A}$ fully characterizes the \gls{optproblem} \eqref{equ_def_convx_opt_constr_dict} and 
+	is somewhat like an \gls{epigraph} of the \gls{objfunc} $f$ over the 
+	constraint set defined by the constraint \glspl{function} $g_{1},\ldots,g_{k}$.
 %    Convex optimization\index{convex optimization} is the process of minimizing a \gls{convex} \gls{function} over a \gls{convex} set. In such problems, every local minimum is also a global minimum, making it a powerful tool for analysis and algorithm design.\\[0.5ex]
 %    A convex optimization problem is formulated as
 %    \[
