@@ -53,15 +53,22 @@ All content is written in LaTeX and structured as follows:
 |------|----------|
 | **`ADictML_English.tex`** | *Front matter and main LaTeX driver.* Loads macros, bibliography, and includes the main glossary file. Defines title page, TOC, and layout settings. |
 | **`ADictML_Glossary_English.tex`** | *Main content file.* Contains all English glossary entries, each created via `\newglossaryentry{...}`. Contributors usually edit this file when adding or revising terms. |
-| **`/assets/ml_macros.tex`** | *Macro definitions.* Provides standardized LaTeX commands for common ML notation (e.g. `\lossfunction`, `\dataset`, `\feature`, `\paramvec`, etc.). New entries should reuse these macros for consistency. |
+| **`/assets/ml_macros.tex`** | *Macro definitions.* Provides standardized LaTeX commands for common ML notation (e.g. `\lossfunc`, `\dataset`, `\feature`, `\weights`, etc.). New entries should reuse these macros for consistency. |
 | **`/assets/Literature.bib`** | *Bibliographic database.* Contains BibTeX entries for textbooks, journal articles, and reports cited across entries. Use `\cite{}` commands to reference them. |
 
-Example of a new glossary entry:
+Example of a glossary entry:
 ```latex
-\newglossaryentry{lossfunction}{
-  name={Loss function},
-  description={A function $\lossfunction(\model(\feature), \label)$ measuring model performance by comparing predictions to true labels. Common examples include the squared error and cross-entropy loss.},
-  see=[See also:]{riskminimization}
+\newglossaryentry{optmethod}
+{name={optimization method},
+	description={An\index{optimization method} optimization method is an \gls{algorithm} that 
+		reads in a representation of an \gls{optproblem} and delivers an (approximate) solution 
+		as its output \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
+		 \\
+		 See also: \gls{algorithm}, \gls{optproblem}.},
+	first={optimization method},
+	firstplural={optimization methods}, 
+	plural={optimization methods}, 
+	text={optimization method}
 }
 ```
 
