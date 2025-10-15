@@ -1143,56 +1143,65 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 \newglossaryentry{convexopt}
 {name={convex optimization},
- 	description={Convex optimization studies \index{convex optimization} 
-	the applications and efficient methods for \gls{convex} \glspl{optproblem}. 
+ 	description={
+	Convex optimization\index{convex optimization} studies the 
+	formulation, properties, and efficient solution methods for \gls{convex} \glspl{optproblem} \cite{BoydConvexBook}.  
 	A \gls{convex} \gls{optproblem} (defined on the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$) 
-	consists of a \gls{convex} \gls{objfunc} 
-	$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$  
-	and a \gls{convex} constraint set $\mathcal{C}$ for the optimization variable $\weights$. 
-	We can denote a \gls{convex} \gls{optproblem} as \cite{BoydConvexBook}
+	consists of a \gls{convex} \gls{objfunc} $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$  
+    and a \gls{convex} constraint set $\mathcal{C}$ for the optimization variable $\weights$.  
+    It can be written compactly as \cite{BoydConvexBook}
 	$$ \min_{\weights \in \mathcal{C}}  f(\weights).$$ 
-    Alternatively, we can formulate a \gls{convex} \gls{optproblem} using \gls{convex} 
-	constraint \glspl{function} $g_{1},\ldots,g_{k}$ as 
+	Alternatively, a \gls{convex} \gls{optproblem} can be expressed in 
+	terms of \gls{convex} constraint \glspl{function} $g_1,\ldots,g_k$ as
 	\begin{align} 
 		\min_{\weights \in \mathbb{R}^{\nrfeatures}} & f(\weights)   \nonumber \\ 
 		\mbox{s.t.} \quad & g_{\sampleidx}(\weights) \leq 0, \quad \sampleidx=1,\,\ldots,\,k. \label{equ_def_convx_opt_constr_dict}
 	\end{align} 
 	\begin{figure}
 		\centering
-    \begin{tikzpicture}[>=stealth, scale=1.0]
+	\begin{tikzpicture}[>=stealth, scale=1.0]
   % Axes
-  \draw[->] (0,0) -- (5.0,0) node[below] {$g$};
-  \draw[->] (2.5,-0.2) -- (2.5,5.0) node[above] {$t$};
-  \node [below] at (2.5,-0.2) {$\mathbf{0}$};
-  \node [below,anchor=east] at (2.2,1.8) {$f^{*}$};
-  % Attainment boundary (lower-left frontier of achievable (f(w), g(w)) pairs).
-  % Draw it first (thin), then use a matching Bezier path to shade the NE-closure.
-  \draw[thick, name path=frontier]
-    (0.6,3.8) .. controls (1.1,3.0) and (1.8,2.3) .. (2.6,1.7)
-              .. controls (3.2,1.3) and (3.6,1.0) .. (3.8,0.9)
-    node[pos=0.45, yshift=-4pt,below] {$\partial\mathcal{A}$};
-  % Shaded epigraph/NE-closure: all (t,g) with t >= f(w), g >= g(w)
-  \path[fill=gray!20,opacity=0.4]
-    (0.6,3.8) .. controls (1.1,3.0) and (1.8,2.3) .. (2.6,1.7)
-              .. controls (3.2,1.3) and (3.6,1.0) .. (3.8,0.9)
-              -- (4.8,0.9) -- (4.8,5.0) -- (0.6,5.0) -- cycle;
-  % Sample achievable point (f(w*), g(w*))
- % \fill (2.0,1.9) circle (1.2pt)
- %       node[above left] {$\big(f(w^{\star}),\,g(w^{\star})\big)$};
-  % Projections (dashed) of the sample point to axes
-%  \draw[densely dashed] (2.0,1.9) -- (2.0,0) node[below] {$g(w^{\star})$};
-%\draw[densely dashed] (2.0,1.9) -- (0,1.9) node[left] {$f(w^{\star})$};
+  \draw[->] (-3,0) -- (5.2,0) node[below] {$\vc$};
+  \draw[->] (0,-0.2) -- (0,4.2) node[left] {$t$};
+  % Exponential boundary: t = 3 e^{-g}
+  \draw[thick, domain=-1:3, smooth, variable=\x, name path=boundary]
+    plot ({\x},{exp(-\x)});%node[pos=0.45, below right] {};
+  % Transparent epigraph region (above the curve)
+  \path[fill=gray!40, opacity=0.4]
+    (-1,3) -- (-1,{exp(1)}) -- plot[domain=-1:3] ({\x},{exp(-\x)})
+    -- (3,3) -- cycle;
+  % Crossing with vertical axis (g=0): mark and label f^*
+  \fill (0,1) circle (1.6pt) node[left] {$f^{\ast}$};
+  % Tangent at g=1: slope = -e^{-1}, passes through (1, e^{-1})
+  % Equation: t = (2/e) - (1/e) * g
+  \draw[dashed, domain=-1:3, smooth, variable=\x]
+    plot ({\x},{(2/exp(1)) - (1/exp(1))*\x}); 
+   % node[pos=0.15, above right] {tangent at $g=1$};
+  % (Optional) mark the point of tangency
+  \fill (1,{1/exp(1)}) circle (1.2pt);
   % Label for shaded region
-  \node at (4.3,4.3) {$\mathcal{A}$};
-\end{tikzpicture}
+  \node at (2.6,2.5) {$\mathcal{A}$};
+  \node [below,yshift=-3pt] at (0,-0.2) {$\mathbf{0}$};
+  \end{tikzpicture}
+  \caption{A \gls{convex} \gls{optproblem} \eqref{equ_def_convx_opt_constr_dict} can be represented 
+  by a set $\mathcal{A}$ that consists of objective values $t$ and constraint values 
+  $\vc=\big(c_{1},\ldots,c_{\nrfeatures}\big)^{T}$ that are achievable by some $\weights \in \mathbb{R}^{\nrfeatures}$.}
 \end{figure}
-	This formulation lends, in turn, to the epigraph form \cite[Sec 5.3]{BoydConvexBook} 
-	$\inf \{ t \in \mathbb{R} : \pair{\mathbf{0}}{t} \in \mathcal{A}  \}$, 
+	The formulation \eqref{equ_def_convx_opt_constr_dict} lends, in turn, to the 
+	epigraph form of \cite[Sec 5.3]{BoydConvexBook} 
+	$$\inf \big\{ t \in \mathbb{R} : (\mathbf{0}, t) \in \mathcal{A} \big\},$$ 
 	with the set 
-	$$\mathcal{A} \defeq \big\{ (\weights,t) \in \mathbb{R}^{\nrfeatures} \times \mathbb{R} : f(\weights) \leq t, \, g_{\sampleidx}(\weights) \leq 0, \, \sampleidx=1,\,\ldots,\,k \big\}.$$
-	The set $\mathcal{A}$ fully characterizes the \gls{optproblem} \eqref{equ_def_convx_opt_constr_dict} and 
-	is somewhat like an \gls{epigraph} of the \gls{objfunc} $f$ over the 
-	constraint set defined by the constraint \glspl{function} $g_{1},\ldots,g_{k}$.
+	\begin{align} 
+	\mathcal{A} \defeq 
+    \big\{ (\vc,t) & \in \mathbb{R}^{\nrfeatures} \times \mathbb{R} : 
+    f(\weights) \leq t, \, \nonumber \\ 
+   &  g_{\sampleidx}(\weights) \leq c_{\sampleidx}, \,
+    \sampleidx = 1,\ldots,k, 
+    \text{ for some } \weights \in \mathbb{R}^{\nrfeatures} \big\}. \nonumber
+	\end{align}
+	The set $\mathcal{A}$ fully characterizes the \gls{optproblem}~\eqref{equ_def_convx_opt_constr_dict} 
+	and can be interpreted as the \gls{epigraph} of the \gls{objfunc}~$f$ restricted to the 
+	feasible region defined by the constraint \glspl{function} $g_1,\ldots,g_k$.\\ 
     See also: \gls{convex}, \gls{optproblem}, \gls{optmethod}.
   },
 	first={convex optimization},
