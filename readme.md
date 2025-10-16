@@ -11,28 +11,7 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 - **[🌐 Translations](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/translations/)**  
   *(Spanish, German, French, Greek, Finnish)*
 
----
-
-## 🔍 Features
-
-- Concise and rigorous ML definitions  
-- Formal notation and mathematical clarity  
-- Multilingual glossary and cross-references  
-- Open license: **CC BY-SA 4.0** — free to use, adapt, and cite  
-
----
-
-## 🌐 Live Dictionary
-
-Browse the evolving, community-maintained version:  
-👉 [**AaltoDictionaryofML.github.io**](https://aaltodictionaryofml.github.io)
-
-Each entry provides:
-- Concise definition, intuition, and visual figure (LaTeX/TikZ)
-- QR code linking to related learning materials
-- Cross-links to connected concepts
-
----
+--- 
 
 ## 📈 Interactive Term Network
 
@@ -41,6 +20,86 @@ Explore relationships between terms:
 
 - Terms are color-coded by semantic clusters  
 - Hover for definitions, zoom and pan to explore  
+
+--- 
+
+## 🧩 How to Contribute
+
+We warmly welcome contributions from students, researchers, and educators worldwide!  
+Follow these steps to propose new entries, translations, or figure improvements.
+
+### **Step 1 — Fork the Repository**
+1. Visit the [AaltoDictionaryofML GitHub repository](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io).  
+2. Click **“Fork”** (top-right corner) to create your own copy under your GitHub account.
+
+### **Step 2 — Clone Your Fork**
+```bash
+git clone https://github.com/<your-username>/AaltoDictionaryofML.github.io.git
+cd AaltoDictionaryofML.github.io
+```
+
+### **Step 3 — Create a New Branch**
+```bash
+git checkout -b add-new-term-loss-function
+```
+
+---
+
+### **Step 4 — Understand the Project Structure**
+
+All content is written in LaTeX and structured as follows:
+
+| File | Purpose |
+|------|----------|
+| **`ADictML_English.tex`** | *Front matter and main LaTeX driver.* Loads macros, bibliography, and includes the main glossary file. Defines title page, TOC, and layout settings. |
+| **`ADictML_Glossary_English.tex`** | *Main content file.* Contains all English glossary entries, each created via `\newglossaryentry{...}`. Contributors usually edit this file when adding or revising terms. |
+| **`/assets/ml_macros.tex`** | *Macro definitions.* Provides standardized LaTeX commands for common ML notation (e.g. `\lossfunc`, `\dataset`, `\feature`, `\weights`, etc.). New entries should reuse these macros for consistency. |
+| **`/assets/Literature.bib`** | *Bibliographic database.* Contains BibTeX entries for textbooks, journal articles, and reports cited across entries. Use `\cite{}` commands to reference them. |
+
+Example of a glossary entry:
+```latex
+\newglossaryentry{optmethod}
+{name={optimization method},
+	description={An\index{optimization method} optimization method is an \gls{algorithm} that 
+		reads in a representation of an \gls{optproblem} and delivers an (approximate) solution 
+		as its output \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
+		 \\
+		 See also: \gls{algorithm}, \gls{optproblem}.},
+	first={optimization method},
+	firstplural={optimization methods}, 
+	plural={optimization methods}, 
+	text={optimization method}
+}
+```
+
+By default, all figures are created using **TikZ** code (see the [TikZ & PGF Manual](https://ctan.org/pkg/pgf?lang=en) for guidance).
+
+---
+
+### **Step 5 — Commit and Push**
+```bash
+git add .
+git commit -m "Add glossary entry: Loss Function"
+git push origin add-new-term-loss-function
+```
+
+---
+
+### **Step 6 — Open a Pull Request**
+1. Go to your fork on GitHub.  
+2. Click **“Compare & pull request.”**  
+3. Describe your contribution briefly and submit.  
+4. The editorial team will review, comment, and merge upon approval.
+
+---
+
+### 💡 Contribution Tips
+
+- Keep definitions concise (3–6 sentences).  
+- Follow notation from `/assets/ml_macros.tex`.  
+- Add cross-links via the `see=` field in `\newglossaryentry`.  
+- When citing references, use keys from `/assets/Literature.bib`.  
+- Discuss major new ideas via [GitHub Issues](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/issues).
 
 ---
 
@@ -77,9 +136,10 @@ The *Aalto Dictionary of Machine Learning (ADictML)* has been partially supporte
 These projects have enabled the open development of teaching materials, LaTeX figures,  
 and the public ADictML repository.  
 
-[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_354963-blue)](#)
+[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_349966-blue)](#)
+[![Funding: Research Council of Finland](https://img.shields.io/badge/Funding-RCoF_363624-blue)](#)
 [![Funding: TRUST-FELT](https://img.shields.io/badge/Funding-JAEF_TRUST--FELT-lightgrey)](#)
-[![Funding: Business Finland](https://img.shields.io/badge/Funding-FLAIG-orange)](#)
+[![Funding: Business Finland](https://img.shields.io/badge/Funding-BF_FLAIG-orange)](#)
 
 ---
 
