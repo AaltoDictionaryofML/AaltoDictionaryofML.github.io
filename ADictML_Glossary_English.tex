@@ -5678,19 +5678,30 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	  \begin{figure}[H]
 	\begin{center}
 		\begin{tikzpicture}[x=3cm, y=1cm]
-			% Filled band around the quadratic curve with different boundary curves
-			\fill[blue!10] 
-			(-1, 5) -- plot[domain=-2:1, samples=100] ({\x+1}, {\x*\x + 1}) -- 
-			plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
+			  % --- editable bounds for the vertical strip (hypothesis space) ---
+  			\def\hmin{0.2}   % left x-bound of \mathcal{H}
+  			\def\hmax{0.8}   % right x-bound of \mathcal{H}
+  			\def\ymin{-2.1}  % lower y-bound (should cover your plot)
+  			\def\ymax{4.2}   % upper y-bound (should cover your plot)
+  			% Hypothesis space: vertical grey, semi-transparent strip
+  			\fill[gray!40, opacity=0.35] (\hmin,\ymin) rectangle (\hmax,\ymax);
+  			% (optional) faint borders for the strip
+  			\draw[gray!60] (\hmin,\ymin) -- (\hmin,\ymax);
+  			\draw[gray!60] (\hmax,\ymin) -- (\hmax,\ymax);
+  			% Label for the strip
+  			\node[rotate=0] at ({(\hmin+\hmax)/2}, {\ymax-0.2}) {$\hypospace$};
 			\node[anchor=west] at (2, 4) {$\risk{\hypothesis}$};
 			\draw[line width=1, domain=-2:1, samples=100,dashed] plot  ({\x+1}, {\x*\x -0.5}) node[right] {$\emprisk{\dataset}{\hypothesis}$};
 			\draw[line width=1, domain=-1:2, samples=100] plot ({\x}, {\x*\x});
 			\draw[<->, thick] (1, -0.5) -- (1, 1) node[midway, right] {gap};
+			  % Horizontal axis for hypothesis variable
+            \draw[->, thick] (-1.2,-1) -- (2.2,-1) node[below right] {$\hypothesis$};
 		\end{tikzpicture}
 	\end{center}
 	\caption{The generalization gap can be defined as 
-	the difference between the \gls{trainerr} $\emprisk{\hypothesis}{\trainset}$ 
-	and the \gls{risk} $\risk{\hypothesis}$.}
+	the difference between the 
+	\gls{risk} $\risk{\hypothesis}$ and the average \gls{loss} (or \gls{emprisk}) 
+	$\emprisk{\hypothesis}{\trainset}$ computed on a \gls{trainset}.}
 \end{figure}
 	  In practice, the \gls{probdist} underlying this \gls{expectation} is 
 	  unknown. Thus, we need to estimate the \gls{expectation} based on 
