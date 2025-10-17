@@ -9770,45 +9770,29 @@ sort={Renyi},
 
 \newglossaryentry{rademachercomplexity}
 {name={Rademacher complexity},
-	description={TBD. \index{Rademacher complexity}
-%Similar to the \gls{vcdim}, the Rademacher complexity \cite{bartlett2002rademacher} 
-%  is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\hypospace$, which may not 
-%  necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
-%  the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^d$ with 
-%elements 
-%$\va = (a_1, \dots, a_m) \in \mathcal{A}$ as
-%\begin{equation}
-%\mathcal{R}(\mathcal{A})
-%= 
-%\mathbb{E}_{\vepsilon} \sup_{\va \in \mathcal{A}} \frac{1}{n} \sum_{i=1}^m \epsilon_i a_i,
-%\label{eq:rademacher_complexity_sets}
-%\end{equation}
-%where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, m$, 
-%taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family 
-%of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} 
-%$\mathcal{H}$, consisting of real-valued functions $h: \mathcal{X} \to \mathbb{R}$ on the \gls{featurespace} $\mathcal{X}$, 
-%from which we are given samples $\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taking the \gls{supremum} 
-%over the \gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\mathcal{H})$ 
-%of $\mathcal{H}$ given the samples $\mathcal{S}$ is defined as
-%\begin{equation}
-%\mathcal{R}_\mathcal{S}(\mathcal{H}) 
-%= 
-%\mathbb{E}_{\vepsilon} \sup_{h \in \mathcal{H}} \frac{1}{n} \sum_{i=1}^m \epsilon_i h(\vx_i).
-%\label{eq:def_emprical_rademacher_complexity_hypothesis classes}
-%\end{equation}
-%To build intuition for this technical definition, let us consider a simplified example of a binary 
-%\gls{classification} problem where $h$ only assume the values $\{-1,+1\}$. Then, the expression
-%in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many 
-%realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_m) \in \{-1,+1\}^m$ there exists some 
-%$h \in \mathcal{H}$ such that $h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, 
-%the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\mathcal{H}$ is to 
-%fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} 
-%problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates 
-%of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. 
-%Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a 
-%detailed overview and references to the original works.		
-		\\
-		See also: \gls{hypospace}, \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}. },
+ 	description={ Similar to the \gls{vcdim}, the \index{Rademacher complexity} Rademacher complexity \cite{bartlett2002rademacher} is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\hypospace$, which may not necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
+the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^\samplesize$ with elements 
+$\va = (a_1, \dots, a_\samplesize) \in \mathcal{A}$ as
+\begin{equation}
+\mathcal{R}(\mathcal{A})
+= 
+\expect_{\vepsilon} \sup_{\va \in \mathcal{A}} \frac{1}{\samplesize} \sum_{i=1}^\samplesize \epsilon_i a_i,
+\label{eq:rademacher_complexity_sets}
+\end{equation}
+where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, \samplesize$, taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} $\mathcal{H}$, consisting of real-valued functions $h:  \featurespace \to \mathbb{R}$ on the \gls{featurespace} $\featurespace$, from which we are given samples 
+$\mathcal{S} = \{\featurevec_1, \hdots, \featurevec_\samplesize\} \subset  \featurespace$. Precisely, by taking the \gls{supremum} over the 
+\gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\hypospace)$ of $\hypospace$ given the samples $\mathcal{S}$ is defined as
+\begin{equation}
+\mathcal{R}_\mathcal{S}(\hypospace) 
+= 
+\expect_{\vepsilon} \sup_{h \in \hypospace} \frac{1}{\samplesize} \sum_{i=1}^\samplesize \epsilon_i h(\featurevec_i).
+\label{eq:def_emprical_rademacher_complexity_hypothesis classes}
+\end{equation}
+To build intuition for this technical definition, let us consider a simplified example of a binary 
+\gls{classification} problem where $h$ only assume the values $\{-1,+1\}$. Then, the expression
+in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_\samplesize) \in \{-1,+1\}^\samplesize$ there exists some $h \in \hypospace$ such that $h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\hypospace$ is to fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a detailed overview and references to the original works.		
+\\
+See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}.}
 	first={Rademacher complexity},
 	text={Rademacher complexity}  
 }
