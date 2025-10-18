@@ -8919,15 +8919,18 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 
 \newglossaryentry{metric}
 {name={metric}, plural={metrics},
-	description={In its most general form, a\index{metric} metric is a quantitative measure used to compare or evaluate objects. 
-		In mathematics, a metric measures the distance between two points and must follow specific rules, i.e., 
-		the distance is always nonnegative, zero only if the points are the same, symmetric, and it satisfies the 
-		triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In \gls{ml}, a metric is a quantitative measure 
-		of how well a \gls{model} performs. Examples include \gls{acc}, precision, and the average \gls{zerooneloss} 
-		on a \gls{testset} \cite{Goodfellow-et-al-2016}, \cite{BishopBook}. A \gls{lossfunc} is used to train \glspl{model}, 
-		while a metric is used to compare trained \glspl{model}.
+	description={A\index{metric} metric is a quantitative measure used to compare objects. 
+	     In mathematics, a metric measures the distance 
+		 between two points in a space and must follow specific rules, i.e., the distance is always 
+		 nonnegative, zero only if the points are the same, symmetric, and it satisfies the 
+		triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In the context of 
+		\gls{ml}, the term metric refers to a quantitative measure of how well a \gls{model} performs (somewhat 
+		similar to a \gls{lossfunc}). Examples include \gls{acc}, precision, and the average 
+		\gls{zerooneloss} on a \gls{testset} \cite{Goodfellow-et-al-2016}, \cite{BishopBook}. 
+		The term \gls{lossfunc} is typically used in the context of \gls{model} \gls{training}, 
+		while the term metric is used in the context of \gls{model} \gls{validation}.
 		\\ 
-		See also: \gls{ml}, \gls{model}, \gls{acc}, \gls{zerooneloss}, \gls{testset}, \gls{lossfunc}, \gls{loss}, \gls{modelsel}.},
+		See also: \gls{loss}, \gls{validation}, \gls{acc}.},
 	first={metric}, 
 	text={metric}
 }
@@ -9813,88 +9816,86 @@ sort={Renyi},
 	text={Rademacher complexity}  
 }
 
+
+\newglossaryentry{sequence}{
+    name={sequence},
+    description={A sequence\index{sequence} is an ordered collection 
+	   of values from a set $\mathcal{A}$. For example, a sequence of 
+	   values from the set $\mathcal{A} = \{ \star, \otimes \}$ could be 
+	   $$ a = \big( \star, \otimes, \star, \star, \otimes, \ldots \big). $$
+	   Formally, a sequence 
+	   $a$ is a function
+        \[
+            a: \mathbb{N} \rightarrow \mathcal{A}: \sampleidx \mapsto a_\sampleidx.
+        \]        
+		We also denote a sequence as $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$. 
+        Note that the same value $a \in \mathcal{A}$ can appear multiple times 
+		in the sequence at different positions $\sampleidx$. 		
+        Sequences are fundamental for the study of \gls{ml} methods, 
+        for instance when describing successive iterates  
+        $\{\weights^{(\iteridx)}\}_{\iteridx \in \mathbb{N}}$ of an iterative 
+		\gls{algorithm}. We can also use a sequence to represent an infinite 
+		\gls{dataset} 
+$$\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}},\pair{\featurevec^{(2)}}{\truelabel^{(2)}},\ldots \big\}.$$ 
+    }, 
+	first={sequence},
+	text={sequence},
+	type = math, 
+	firstplural={sequences},
+	plural={sequences}
+}
+
 \newglossaryentry{convergence}
 {name={convergence},
-	description={\index{convergence}, 
-		In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
- specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
-	close to the value limit without actually reaching it. 
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}
-		\begin{axis}[
-		  width=\linewidth, height=6.2cm,
-		  xmin=-0.5, xmax=10.5,
-		  ymin=0.7,  ymax=1.2,
-		  grid=both,
-		  xlabel={$n$},
-		  ylabel={$x_n$},
-		  legend style={draw=none, fill=none, font=\small},
-		  legend pos=south east,
-		  ticklabel style={/pgf/number format/fixed},
-		]
-		\def\L{1}
-		\def\eps{0.1}
-		% --- epsilon-tube around L ---
-		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
-		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
-		\addplot[fill=gray!20] fill between[of=upper and lower];
-		\addplot[black, dashed, domain=-0.5:10.5] {\L};
-		\addlegendentry{$L=1$}
-		\addplot+[
-		  only marks, mark=*, mark size=2pt, thick
-		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
-		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
-		\addplot+[
-		  only marks, mark=square*, mark size=2pt, thick
-		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
-		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
-		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
-		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
-		\end{axis}
-		\end{tikzpicture}
-		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
-		\label{fig:convergence}
-		\end{figure}
-		In the context of \gls{ml}, convergence is the state achived during training where the \gls{loss} value of a \gls{model} settles into a stable, minimal range. At this state, any further training will not improve the performance or predictions by the \gls{model}.  
-   	The process of convergence requires some \gls{optmethod} such as \gls{newtonmethod} or \gls{gd} adjusting the parameters of the model to find an optimal solution. 
-		Convergence generally also serves as a stopping point for training, preventing further use of resources and unecessary computation. 
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}
-	\begin{axis}[
-	  width=\linewidth, height=6.2cm,
-	  xmin=-0.5, xmax=30.5,
-	  ymin=0.16,  ymax=1.05,
-	  grid=both,
-	  xlabel={Iterations},
-	  ylabel={Loss},
-	  legend style={draw=none, fill=none, font=\small},
-	  legend pos=north east,
-	  ticklabel style={/pgf/number format/fixed},
-	]
-	\def\L{0.20}    
-	\def\Lzero{1.00}
-	\def\alpha{0.25}
-	\def\eps{0.03}  
-	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
-	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
-	\addplot[fill=gray!20] fill between[of=upper and lower];
-	\addplot[black, dashed, domain=-0.5:30.5] {\L};
-	\addplot+[
-	  only marks, mark=*, mark size=2pt, thick
-	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
-	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
-	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
-	\end{axis}
-	\end{tikzpicture}
-	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the 
- $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve 
- with each iteration.}
-	\label{fig:ml_convergence_loss_noJ}
-	\end{figure}
-	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}
-},
+	description={Consider 
+	a sequence\index{convergence} $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+				  with numeric values $a_{\sampleidx} \in \mathbb{R}$. This sequence
+        is said to converge to a value $a^\star$ if the values $a_{\sampleidx}$ become 
+		arbitrarily close to $a^\star$ for sufficiently large indices $\sampleidx$, 
+        In other words, the sequence converges to $a^\star$ if
+        \[
+           \forall \epsilon > 0, \; \exists N \in \mathbb{N} : \sampleidx > N \Rightarrow |a_{\sampleidx} - a^\star| < \epsilon.
+        \]
+		We denote the convergence of the sequence to $a^\star$ by \cite{RudinBookPrinciplesMatheAnalysis,RudinBook}
+		\[
+			\lim_{\sampleidx \to \infty} a_{\sampleidx} = a^\star.
+		\]
+		\begin{figure} 
+			\centering
+			\begin{tikzpicture}[x=1.2cm, y=2cm, >=stealth]
+			% Axes
+			\draw[->] (0.5,0) -- (6.5,0) node[right] {$\sampleidx$};
+			\draw[->] (0.5,0) -- (0.5,1.6) node[above] {$a_\sampleidx$};
+			  % Epsilon neighbourhood (ε = 0.1)
+  			\def\eps{0.3}
+  			\fill[gray!30, opacity=0.4] (0, {1-\eps}) rectangle (6.3, {1+\eps});
+  			\draw[dotted] (0,{1+\eps}) -- (6.3,{1+\eps}) node[right] {$1+\varepsilon$};
+  			\draw[dotted] (0,{1-\eps}) -- (6.3,{1-\eps}) node[right] {$1-\varepsilon$};
+			% Limit line at 1
+			\draw[dashed] (0,1) -- (6.3,1) node[right] {$\lim_{\sampleidx \to \infty} a_\sampleidx = 1$};
+			% Sequence points (e.g. a_t = 1 - 0.6^t)
+			\foreach \t in {1,...,6} {
+				\pgfmathsetmacro{\at}{1 - 0.6^(\t)}
+				\fill (\t,\at) circle (2pt);
+			}
+			  % Tick marks at t = 1, 2, 3
+ 		     \foreach \t in {1,2,3} {
+    		    \draw (\t,0.02) -- (\t,-0.02) node[below] {$\t$};
+  		    	}
+			  % Indicate N (first index within ε-band)
+  			\def\N{3}
+  			\draw[densely dashed, thick, red] (\N,0) -- (\N,1.7);
+  			\node[above] at (\N,1.7) {$N$};
+			\end{tikzpicture}
+			\caption{A real-valued sequence $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+			converging to the limit $a^\star = 1$.\label{fig:convergence_dict}}
+		\end{figure} 
+		We can generalize this concept of convergence from real-valued sequences 
+		(where $\mathcal{A}=\mathbb{R}$) to an aribtrary metric space $\mathcal{A}$ 
+		is obtained by replacing the absolute difference $|a_{\sampleidx} - a^\star|$ 
+		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. \\ 
+	See also:  \gls{sequence}, \gls{loss}, \gls{convexopt}, \gls{function}
+	},
 	first={convergence},
 	type =math,
 	text={convergence}, 
