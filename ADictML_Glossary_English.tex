@@ -1271,21 +1271,64 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
   	text={newtonmethod} 
 }
 
-% \newglossaryentry{nonexpansive}
-% {name={non-expansive operator},
-% 	description={A \index{non-expansive operator} non-expansive operator $\fixedpointop$ 
-% 	     is a \gls{map} that does not expand the distance between any two points in its domain. 
-% 		In particular, for any $\weights, \weights'$ in the domain of $\fixedpointop$, 
-% 		the following inequality holds:
-% 		\begin{equation} 
-% 			\nonumber
-% 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2}  \leq 	\normgeneric{\weights - \weights'}{2}. 
-% 		\end{equation} 
-% 		See also: \gls{fixedpointiter}, \gls{contractop}.},
-% 	type=math, 
-% 	plural={non-expansive operators},
-% 	text={non-expansive operator}
-% }
+\newglossaryentry{hilbertspace}
+{name={Hilbert space},
+ description={A \index{Hilbert space} Hilbert space $\hilbertspace$ is a complete 
+    inner product space. Thus, $\hilbertspace$ is a \gls{vectorspace} 
+	equipped with an inner product $\innerprod{\cdot}{\cdot}$. The inner product 
+	induces a norm $\normgeneric{\cdot}{2}$ via $\normgeneric{\weights}{2} = \sqrt{\innerprod{\weights}{\weights}}$. 
+  	Furthermore, $\hilbertspace$ is complete in the sense that every 
+ 	Cauchy sequence in $\hilbertspace$ converges to a limit that is also 
+ 	contained in $\hilbertspace$. One important example of a Hilbert space 
+ 	is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ with the 
+ 	inner product $\innerprod{\weights}{\weights'} = \weights^{\top} \weights'$ \\
+   	See also: \gls{vectorspace}.},
+   	type=math, 
+ 	first = {Hilbert space}, 
+    text = {Hilbert space},
+   	plural={Hilbert spaces},
+   	firstplural={Hilbert spaces}
+  }
+
+\newglossaryentry{cauchysequence}
+{name={Cauchy sequence},
+ description={A \index{Cauchy sequence} Cauchy \gls{sequence} is a \gls{sequence}
+          $\big( \featurevec^{(\sampleidx)}\big)_{\sampleidx \in \mathbb{N}}$ 
+		  in a \gls{metricspace} $\pair{\featurespace}{\metric{\cdot}{\cdot}}$ such 
+		  that the elements $\featurevec^{(\sampleidx)}\in \featurespace$ 
+		  become arbitrarily close to each other eventually. 
+		  In other words, 
+		  \[
+		  \forall \epsilon > 0, \exists N \in \mathbb{N} \text{ such that } 
+		  \forall \sampleidx, \sampleidx' > N, \ \metric{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}} < \epsilon.
+		  \] \\ 
+		  See also: \gls{metricspace}, \gls{sequence}. }, 
+		type=math,
+		first={Cauchy sequence},
+		text={Cauchy sequence},
+		plural={Cauchy sequences},
+		firstplural={Cauchy sequences}
+}
+
+\newglossaryentry{nonexpansiveop}
+ {name={non-expansive operator},
+ 	description={An \index{non-expansive operator} operator 
+	$\fixedpointop: \hilbertspace \rightarrow \hilbertspace$ defined on a 
+	Hilbert space $\hilbertspace$ is called non-expansive if it does 
+	not increase distances. 
+	In other words,  
+ 		\begin{equation} 
+ 			\nonumber
+ 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2} 
+			\leq 	\normgeneric{\weights - \weights'}{2} \mbox{ for any } \weights, \weights' \in \hilbertspace. 
+ 		\end{equation} 
+ 		See also: \gls{fixedpointiter}, \gls{contractop}.},
+ 	type=math, 
+	first={non-expansive operator},
+ 	plural={non-expansive operators},
+	firstplural={non-expansive operators},
+ 	text={non-expansive operator}
+ }
 
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
@@ -8669,22 +8712,6 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 }
 
 
-\newglossaryentry{hilbertspace}
-{name={Hilbert space},
-	description={A\index{Hilbert space} Hilbert space is a complete inner 
-		product space \cite{introhilbertbook}. That is, it is a \gls{vectorspace} equipped 
-		with an inner product between pairs of \glspl{vector}, and it satisfies the additional requirement 
-		of completeness, i.e., every Cauchy sequence of \glspl{vector} converges to a limit within the space. 
-		A canonical example of a Hilbert space is the \gls{euclidspace} $\mathbb{R}^{\featuredim}$, 
-		for some dimension $\featuredim$, consisting of \glspl{vector} $\vu = \big(u_1, \,\ldots, \,u_{\featuredim}\big)\,^{T}$ 
-		and the standard inner product $\vu\,^{T} \vv$.
-				\\
-		See also: \gls{vectorspace}, \gls{vector}, \gls{euclidspace}.},
-	first={Hilbert space},
-	text={Hilbert space}
-}
-
-
 
 \newglossaryentry{samplesize}
 {name={sample size},
@@ -8707,7 +8734,7 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 	the ANN or as an input to other neurons. 
 	A key design parameter of an ANN is its connectivity structure (or architecture), 
 	i.e., which neuron outputs are connected to which neuron inputs. 
-	As illustrated in Fig.\ \ref{}, we can represent an ANN as an directed acyclic graph (DAG). 
+	As illustrated in Fig.\ \ref{fig_ANN_DAG_dict}, we can represent an ANN as an directed acyclic graph (DAG). 
 	One widely used type of \gls{ann} is referred to as \glspl{deepnet}. A \gls{deepnet} is 
 	an ANN where neurons form consecutive \glspl{layer}, such that the outputs of neurons 
 	in one \gls{layer} serve as inputs to the next \gls{layer}.
