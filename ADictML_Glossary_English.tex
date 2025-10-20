@@ -9942,56 +9942,27 @@ sort={Renyi},
 \newglossaryentry{rademachercomplexity}
 {name={Rademacher complexity},
  	description={Similar to the \gls{vcdim}, the \index{Rademacher complexity} Rademacher 
-	complexity \cite{bartlett2002rademacher} is a measure for the size of a 
-	\gls{hypospace} $\hypospace$. It is the expecation of the empirical Rademacher 
-	complexity 
+	complexity \cite{bartlett2002rademacher} is a quantitative measure 
+	for the size of a \gls{hypospace} $\hypospace$. It is defined via the 
+	empirical Rademacher complexity, which is defined for a given \gls{dataset} 
+	$\dataset$ as
 	\begin{equation}
     \mathcal{R}_\dataset(\hypospace) 
     = 
-    \expect_{\varepsilon_{1},\ldots,\varepsilon_{\samplesize}} 
-	\sup_{h \in \hypospace} \frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \varepsilon_\sampleidx 
-	\hypothesis\big(\featurevec^{(\sampleidx)} \big),
-    \label{eq:def_emprical_rademacher_complexity_hypothesis classes}
+    \expect_{\varepsilon_{1},\ldots,\varepsilon_{\samplesize} } 
+	\sup_{\hypothesis \in \hypospace} \frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \varepsilon_\sampleidx 
+	\hypothesis\big(\featurevec^{(\sampleidx)} \big).
+    \label{eq:def_emprical_rademacher_complexity_hypothesis_dict}
     \end{equation}
-    where the \gls{dataset} 
-	$\dataset = \{\featurevec^{(1)}, \hdots, \featurevec^{(\samplesize)}\}$
-	consists of $\samplesize$ \gls{iid} \glspl{rv} $\featurevec^{(\sampleidx)} \in \featurespace$, 
+	Here, the \gls{expectation} is taken with respect to 
+	the \glspl{rv} $\varepsilon_{1},\ldots,\varepsilon_{\samplesize}$,
+	which are \gls{iid} and taking values in $\{ -1, +1 \}$ with equal 
+	\gls{probability} $1/2$. The Rademacher complexity of $\hypospace$ is 
+	then defined as the \gls{expectation} of the empirical Rademacher complexity 
+	of a random \gls{dataset} $\dataset = \{\featurevec^{(1)}, \hdots, \featurevec^{(\samplesize)}\}$
+	that consists of $\samplesize$ \gls{iid} \glspl{rv} $\featurevec^{(\sampleidx)} \in \featurespace$, 
 	for $\sampleidx=1,\ldots,\samplesize$.  
-    The empirical Rademacher complexity allows to bound the \gls{gengap}, 
-	as illustrated by the following result \cite[Theorem 3.5]{mohri2018foundations}. 
-    Consider a binary \gls{classification} problem for any $\delta > 0$, with 
-	\gls{probability} at least $1-\delta$,
-    \begin{equation}
-       \risk{\hypothesis} \leq \emprisk{\hypothesis}{\dataset} + \mathcal{R}_\dataset(\hypospace) + \sqrt{\frac{\log(1/\delta)}{\samplesize}},
-       \label{eq:rademacher_complexity_generalization}
-    \end{equation}
-    where $\risk{\hypothesis}$ is the \gls{risk}, and 
-	$\emprisk{\hypothesis}{\dataset}$ is the \gls{emprisk} 
-	of $\hypothesis \in \hypospace$. 
-	% Additionally, the right-hand side of 
-	% \eqref{eq:rademacher_complexity_generalization} contains two summands describing the 
-	% \gls{gengap}. Firstly, to obtain sharp bounds of the \gls{gengap}, we need to derive 
-	% tight bounds on the empirical \gls{rademachercomplexity} $\mathcal{R}_\dataset(\hypospace)$, 
-	% often with the help of \textit{chaining} arguments and \textit{Dudley's integral}. 
-	% Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} 
-	% for a detailed overview and references to the original works.	   
-    % The second terms describes the tradeoff with regard to the desired 
-	% \gls{probability} $1 - \delta$, as well as stating that a larger 
-	% \gls{samplesize} $\samplesize$ leads to a smaller \gls{gengap}.
-    % Intuitively (similar to the \gls{vcdim}), in the \gls{classification} context, 
-	% the empirical Rademacher complexity $\mathcal{R}_\dataset(\hypospace)$ 
-	% measures how well the \gls{hypospace} $\hypospace$ is able to fit randomly 
-	% assigned labels. Consider a Rademacher vector $\vepsilon = (\epsilon_1, \dots, \epsilon_\samplesize)$, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i \in [\samplesize]$, taking the values $\pm 1$ with equal \gls{probability}.
-    % Then, the Rademacher complexity of \gls{hypospace} $\hypospace$ measures how 
-	% well (by choosing some optimal $h \in \hypospace$) the random 
-	% \gls{label}s $\vepsilon = (\epsilon_1, \dots, \epsilon_\samplesize)$ can 
-	% be matched in average, i.e., if we can ensure $h(\featurevec_i) 
-	% \approx \epsilon_i$ for all $i \in [\samplesize]$. Formally, by 
-	% averaging over the \gls{dataset}, passing to the \gls{supremum} over 
-	% the $\hypospace$, and taking the \gls{expectation} with respect 
-	% to $\vepsilon$, it is defined as follows by 
-    % A similar reasoning applies to \gls{regression} problems \cite[Theorem 3.3]{mohri2018foundations}. \\
-    See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}.},
+        See also: \gls{hypospace},  \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}.},
 	first={Rademacher complexity},
 	text={Rademacher complexity}  
 }
