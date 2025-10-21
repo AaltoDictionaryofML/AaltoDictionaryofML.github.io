@@ -4770,8 +4770,8 @@ plural = {empirical distributions},
 first = {empirical distribution},
 description = {Consider a \gls{dataset} 
  $\dataset = \{ \featurevec^{(1)},\ldots, \featurevec^{(\samplesize)}\}$ 
-  consisting of $\samplesize$ \glspl{datapoint}, each characterized by 
-  the $\featurevec^{(\sampleidx)} \in \featurespace$ for $\sampleidx = 1, \ldots, \samplesize$. 
+  consisting of $\samplesize$ distinct \glspl{datapoint}, each characterized by 
+  the \gls{featurevec} $\featurevec^{(\sampleidx)} \in \featurespace$ for $\sampleidx = 1, \ldots, \samplesize$. 
   For a given \gls{sigmaalgebra} $\sigmaalgebra$ over the \gls{featurespace} 
   $\featurespace$, the empirical distribution \index{empirical distribution} 
   of $\dataset$ is the \gls{probdist} $\probdist$ defined via 
@@ -4780,7 +4780,44 @@ description = {Consider a \gls{dataset}
 	$$
 	In other words, the empirical distribution assigns to any \gls{measurable} set 
 	$\mathcal{A} \in \sigmaalgebra$ the fraction of \glspl{datapoint} in $\dataset$ 
-	that fall into $\mathcal{A}$.
+	that fall into $\mathcal{A}$. If the \gls{featurespace} is ordered, the empirical 
+	distribution can also be characterized by its empirical \gls{cdf}
+	$$\cdf{\dataset}{\featurevec} = 
+	(1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} \preceq \featurevec \big\} \big|, 
+	\quad \text{for any } \featurevec \in \featurespace,$$
+	where $\preceq$ denotes the ordering relation on $\featurespace$.
+	\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[>=stealth, thick,y=2cm]
+		\foreach \x/\p in {1/0.3, 4/0.7}
+		{% Stem lines
+		\draw[gray] (\x,0) -- (\x,\p);
+		% Dots at the end of stems
+		\fill[blue] (\x,\p) circle (2pt);
+		}
+		\node[anchor=south,align=center] at (1,0.3) {\small $\pmf{\dataset}{\star}=3/10$};
+		\node[anchor=north] at (1,0) {\small $\star$};
+		\node[anchor=north] at (4,0) {\small $\otimes$};
+			%--- Example datasets (same length, same frequencies, different permutations) ---
+		\node[anchor=west,text width=11cm] at (-1.2,-0.80) {
+			$\dataset = (\star,\star,\star,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes)$
+		};
+	\end{tikzpicture}
+    \end{center}
+	\caption{A \gls{dataset} $\dataset$ consisting of $\samplesize=10$ \glspl{datapoint}, each 
+	characterized by a value from the finite \gls{featurespace} $\featurespace = \{\star, \otimes\}$. 
+	The empirical \gls{pmf} $\pmf{\dataset}{\featurevec}$ assigns to each 
+		possible value $\featurevec \in \featurespace$ the fraction of \glspl{datapoint} 
+		in $\dataset$ whose \gls{feature} takes on this value. Here, three out of 
+        ten \glspl{datapoint} take on the \gls{feature} value $\star$, resulting 
+		in $\pmf{\dataset}{\star} = 3/10$. \label{fig_empirical_pmf_dict}}
+	\end{figure}
+	If the \gls{featurespace} $\featurespace$ is finite, 
+	the empirical distribution of $\dataset$ can also be characterized by 
+	the empirical \gls{pmf}  
+	$$\pmf{\dataset}{\featurevec} = 
+	(1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} = \featurevec \big\} \big|, 
+	\quad \text{for any } \featurevec \in \featurespace.$$
 	\\
         See also: \gls{probdist}, \gls{sigmaalgebra}.
     },
@@ -6648,18 +6685,14 @@ text = {countable}
 \begin{figure}[H]
 	\centering
 		\begin{tikzpicture}[>=stealth, thick,y=2cm]
-  % Axes
-  %\draw[->] (0,0) -- (6,0) node[right] {$x$};
-  %\draw[->] (0,0) -- (0,2.5) node[above] {$p(x)$};
-  % Values for x and p(x)
-  \foreach \x/\p in {1/0.3, 4/0.7}{
-    % Stem lines
-    \draw[gray] (\x,0) -- (\x,\p);
-    % Dots at the end of stems
-    \fill[blue] (\x,\p) circle (2pt);
-    % Labels next to each value
-   % \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf{\feature}{\cdot}$};
-  }
+  			\foreach \x/\p in {1/0.3, 4/0.7}{
+				% Stem lines
+					\draw[gray] (\x,0) -- (\x,\p);
+				% Dots at the end of stems
+				\fill[blue] (\x,\p) circle (2pt);
+		% Labels next to each value
+		% \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf{\feature}{\cdot}$};
+			}
   \node[anchor=south,align=center] at (1,0.3) {\small $\pmf{\feature}{\star}=3/10$};
   \node[anchor=north] at (1,0) {\small $\star$};
   \node[anchor=north] at (4,0) {\small $\otimes$};
