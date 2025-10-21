@@ -9967,6 +9967,91 @@ sort={Renyi},
 	text={Rademacher complexity}  
 }
 
+\newglossaryentry{penaltyterm}{
+  name={penalty term},
+  description={Consider\index{penalty term} an \gls{erm}-based \gls{ml} method that learns 
+  \glspl{modelparam} $\weights$ by minimizing the average \gls{loss} (or \gls{emprisk}) 
+   $\emprisk{\weights}{\trainset}$ on a \gls{trainset} $\trainset$. 
+   To avoid \gls{overfitting}, and control the \gls{gengap}, 
+  it is common to augment the \gls{objfunc} $\emprisk{\weights}{\trainset}$ 
+     with a penalty term $\regparam \regularizer{\weights}$. We refer to the 
+	 resulting modified \gls{erm} as \gls{rerm}. 
+	 \begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale = 1]
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {\gls{feature} $\feature$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {\gls{label} $\truelabel$};   % Y-axis
+					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x] 
+					 plot ({\x},{\x*0.4 + 2.0}) ;     
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+					%\draw[blue, thick] (5, 4.5) ellipse [x radius=0.2cm, y radius=1cm];
+					%\node at (5, 5.8) [text=black, font=\small] {$\{ \hypothesis: \hypothesis(x)\!=\!w_{1}x\!+\!w_{0}; w_{1} \in [0.4,0.6]\}$};
+					\node at (6.7,4.5) {$\hypothesis^{(\weights)}(\feature)$};    
+					\coordinate (l1)   at (1.2, 2.48);
+					\coordinate (l2) at (1.4, 2.56);
+					\coordinate (l3)   at (1.7,  2.68);
+					\coordinate (l4)   at (2.2, 2.2*0.4+2.0);
+					\coordinate (l5) at (2.4, 2.4*0.4+2.0);
+					\coordinate (l6)   at (2.7,  2.7*0.4+2.0);
+					\coordinate (l7)   at (3.9,  3.9*0.4+2.0);
+					\coordinate (l8) at (4.2, 4.2*0.4+2.0);
+					\coordinate (l9)   at (4.5,  4.5*0.4+2.0);
+					\coordinate (n1)   at (1.2, 1.8);
+					\coordinate (n2) at (1.4, 1.8);
+					\coordinate (n3)   at (1.7,  1.8);
+					\coordinate (n4)   at (2.2, 3.8);
+					\coordinate (n5) at (2.4, 3.8);
+					\coordinate (n6)   at (2.7,  3.8);
+					% augemented data point obtained by perturbing feature, not touching label value 
+					\coordinate (n7)   at (3.9, 2.6);
+					\coordinate (n8) at (4.2, 2.6);
+					\coordinate (n9)   at (4.5,  2.6);
+					\node at (n1)  [circle,draw,fill=red,minimum size=6pt,scale=0.6, name=c1] {};
+					\node at (n2)  [circle,draw,fill=blue,minimum size=6pt, scale=0.6, name=c2] {};
+					\node at (n3)  [circle,draw,fill=red,minimum size=6pt,scale=0.6,  name=c3] {};
+					\node at (n4)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c4] {};  
+					\node at (n5)  [circle,draw,fill=blue,minimum size=12pt,scale=0.6,  name=c5] {};
+					\node at (n6)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c6] {};  
+					\node at (n7)  [circle,draw,fill=red,minimum size=12pt,scale=0.6,  name=c7] {};
+					\node at (n8)  [circle,draw,fill=blue,minimum size=12pt, scale=0.6, name=c8] {};
+					\node at (n9)  [circle,draw,fill=red,minimum size=12pt, scale=0.6, name=c9] {};
+					\draw [<->] ($ (n7) + (0,-0.3) $)  --  ($ (n9) + (0,-0.3) $) node [pos=0.4, below] {$\sqrt{\regparam}$}; ; 
+					\draw[<->, color=red, thick] (l1) -- (c1);  
+					\draw[<->, color=blue, thick] (l2) -- (c2);  
+					\draw[<->, color=red, thick] (l3) -- (c3);  
+					\draw[<->, color=red, thick] (l4) -- (c4);  
+					\draw[<->, color=blue, thick] (l5) -- (c5);  
+					\draw[<->, color=red, thick] (l6) -- (c6);  
+					\draw[<->, color=red, thick] (l7) -- (c7);  
+					\draw[<->, color=blue, thick] (l8) -- (c8);  
+					\draw[<->, color=red, thick] (l9) -- (c9);  
+					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [black,xshift=2.3cm] {original \gls{trainset} $\dataset$};
+					\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [black,xshift=1.3cm] {augmented};
+					\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis^{(\weights)}}$};
+					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\weights}$};
+				\end{tikzpicture}
+				\caption{Adding a penalty term $\regparam \regularizer{\weights}$ 
+				to the \gls{objfunc} in \gls{erm} is equivalent to including 
+				perturbations of the \gls{trainset} $\trainset$ during \gls{training}. 
+				The \gls{regularization} parameter $\regparam$ controls 
+				the extend of the perturbations. \label{fig_penal_term_dict} }
+			\end{center}
+		\end{figure} 
+  The penalty term depends only on the \glspl{modelparam} but not the \gls{trainset}. 
+  It can be interpreted as the average \gls{loss} incurred on perturbed copies 
+  of the \gls{trainset}. In other words, adding a penalty term in \gls{erm} can 
+  be viewed as a form of \gls{dataaug}. \\ 
+  See also: \gls{erm}, \gls{rerm}, \gls{regularization}, \gls{gengap}, \gls{overfitting}, \gls{dataaug}.
+  },
+  first={penalty term},
+  text={penalty term},
+  firstplural={penalty terms},
+  plural={penalty terms}
+}
+
+
 
 \newglossaryentry{sequence}{
     name={sequence},
