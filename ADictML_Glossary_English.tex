@@ -1278,8 +1278,41 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 	equipped with an inner product $\innerprod{\cdot}{\cdot}$. The inner product 
 	induces a norm $\normgeneric{\cdot}{2}$ via $\normgeneric{\weights}{2} = \sqrt{\innerprod{\weights}{\weights}}$. 
   	Furthermore, $\hilbertspace$ is complete in the sense that every 
- 	Cauchy sequence in $\hilbertspace$ converges to a limit that is also 
- 	contained in $\hilbertspace$. One important example of a Hilbert space 
+ 	\gls{cauchysequence} $\big( \weights^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$ 
+	in $\hilbertspace$ converges to a limit $\lim_{\sampleidx\rightarrow \infty} \weights^{(\sampleidx)}$ 
+	that is also contained in $\hilbertspace$. 
+	\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=3]
+	% axes (light)
+	%\draw[very thin, gray!30] (-1.2,0) -- (1.2,0);
+	%\draw[very thin, gray!30] (0,-1.2) -- (0,1.2);
+	% unit circle for visual context
+	\draw[gray!40] (0,0) circle (1);
+	% parameters
+	\def\ang{35} % angle of v (degrees)
+	% vectors
+	\draw[->,thick] (0,0) -- (1,0) node[below right] {$\vu$};
+	\draw[->,thick] (0,0) -- ({cos(\ang)},{sin(\ang)}) node[above] {$\vv$};
+	% projection of v onto u
+	\coordinate (P) at ({cos(\ang)},0);
+	\draw[dashed] ({cos(\ang)},{sin(\ang)}) -- (P);
+	\draw[->,thick] (0,0) -- (P) node[pos=0.5,below] {$\innerprod{\vv}{\vu} \vu$};
+	% right-angle marker at foot of perpendicular
+	\draw ($(P)+(0,0.06)$) -- (P) -- ($(P)+(-0.06,0)$);
+	% angle arc and label
+	%\draw (0.35,0) arc (0:\ang:0.35);
+	%\node at ({0.48*cos(\ang/2)},{0.48*sin(\ang/2)}) {$\theta$};	
+	% norm labels (unit vectors)
+	%\node[below] at (1,0) {$\|\mathbf u\|=1$};
+	\node[right] at ({cos(-\ang)},{sin(-\ang)}) {$\sphere{\nrfeatures} = \{ \weights \in \mathbb{R}^{\nrfeatures}: \innerprod{\weights}{\weights}=1\}$};
+	% inner product hint
+	%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
+\end{tikzpicture}
+\caption{For two unit-norm vectors $\vu, \vv \in \sphere{\nrfeatures} \subseteq \mathbb{R}^{\nrfeatures}$ 
+the inner product $\innerprod{\vu}{\vv}$ equals the length of the projection of $\vv$ onto $\vu$.\label{fig_hilbertspace_dict}}
+\end{figure}
+	One important example of a Hilbert space 
  	is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ with the 
  	inner product $\innerprod{\weights}{\weights'} = \weights^{\top} \weights'$ \\
    	See also: \gls{vectorspace}.},
