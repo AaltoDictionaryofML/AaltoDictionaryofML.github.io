@@ -1830,7 +1830,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 			learned \glspl{feature} $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
-		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}.}, 
+		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}, \gls{pca}, \gls{johnsonlindenstrausslemma}.}, 
 	first={dimensionality reduction},
 	text={dimensionality reduction}
 } 
@@ -8668,7 +8668,7 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 		determines a linear \gls{featuremap} such that the new \glspl{feature} 
 		allow us to reconstruct the original \glspl{feature} with the \gls{minimum} reconstruction error \cite{MLBasics}.
 				\\
-		See also: \gls{featuremap}, \gls{feature}, \gls{minimum}.},
+		See also: \gls{featuremap}, \gls{feature}, \gls{minimum}, \gls{johnsonlindenstrausslemma}.},
 	first={principal component analysis (PCA)},
 	text={PCA} 
 }
@@ -10246,4 +10246,42 @@ See also: \gls{function}, \gls{dataset}.},
 	text={convergence}, 
 }
 
+
+\newglossaryentry{johnsonlindenstrausslemma}
+{name={Johnson--Lindenstrauss lemma},
+  description={The \index{Johnson--Lindenstrauss lemma} Johnson--Lindenstrauss lemma \cite{johnson1984extensions} is a fundamental result in \gls{dimred}. 
+  It states that any point cloud in a high-dimensional \gls{euclidspace} can be embedded into a \gls{euclidspace} of much lower dimension while approximately preserving pairwise distances with respect to the Euclidean \gls{norm}, i.e., without significantly distorting the geometry of the set.
+  While this result has found various applications in mathematics and computer science, let us describe it in the
+  context of \gls{dimred} in \gls{ml}.
+  Consider a \gls{dataset} $\dataset = \{\featurevec_1, \dots, \featurevec_\samplesize\} \subset\mathbb{R}^{\nrfeatures}$,
+  and any $0 < \varepsilon < 1$. Then, there exists an integer $\nrfeatures' \ll \nrfeatures$ with 
+  $\nrfeatures' = O(\varepsilon^{-2} \log(m))$,
+  and a \gls{map} $f : \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$, such that 
+  for all pairs of \glspl{featurevec} $\featurevec_i, \featurevec_j \in \dataset$,
+  \begin{equation}
+            (1 - \varepsilon) \|\featurevec_i - \featurevec_j\|_2   
+    \leq  \|f(\featurevec_i) - f(\featurevec_j)\|_2    
+    \leq  (1 + \varepsilon) \|\featurevec_i - \featurevec_j\|_2,
+    \label{eq:JL_embedding}
+  \end{equation}
+  that is, the distances are distorted at most by a factor of $(1 \pm \varepsilon)$ when applying $f$.
+  Notably, $\nrfeatures'$ is only logarithmic in the \gls{samplesize} $\samplesize$, and it does not depend
+  on $\nrfeatures$, as the result even holds for possibly infinite-dimensional \glspl{hilbertspace}.
+  Remarkably, $f$ can be chosen to be a linear \gls{map}, and therefore be associated with a \gls{matrix}
+  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$, i.e., 
+  $f(\featurevec) = \mA \featurevec$ for any $\featurevec \in  \mathbb{R}^{\nrfeatures}$.
+  While it is hard to provide suitable deterministic \glspl{matrix} $\mA$, with the help of
+  \glspl{concentrationinequ} it can be shown that various random \glspl{matrix} 
+  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$ (formally, \gls{matrix}-valued \gls{rv}), 
+  satisfy \eqref{eq:JL_embedding} with overwhelming probability \cite[Sec. 5.3]{vershynin2018high}, 
+  with the most prominent example being a (normalized) Gaussian random \gls{matrix} 
+  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$
+  whose entries are \gls{iid} \gls{gaussrv} $A_{i,j} \sim \mathcal{N}(0,1/\nrfeatures')$.
+  Here, unlike in \gls{pca}, the \gls{dimred} is performed by a \gls{data}-independent random projection.
+  Compared to \gls{pca}, this approach is less suitable for visualization purposes, but for instance can
+  be an effective preprocessing step before applying \gls{clustering} techniques. \\
+  See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{dimred}, \gls{pca}.},
+  first={Johnson--Lindenstrauss lemma},
+  text={Johnson--Lindenstrauss lemma}
+}
 
