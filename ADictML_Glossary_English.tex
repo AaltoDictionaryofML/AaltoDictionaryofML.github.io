@@ -8907,12 +8907,29 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 
 \newglossaryentry{samplesize}
 {name={sample size},
-	description={The\index{sample size} number of individual \glspl{datapoint} contained in a \gls{sample}.
+	description={The\index{sample size} number of individual \glspl{datapoint} contained in a 
+	    \gls{sample} or \gls{dataset}. Consider a \gls{erm}-based method that uses a 
+		\gls{trainset} $\dataset$ with sample size $\samplesize$ 
+		and a \gls{model} $\hypospace$ with \gls{effdim} $\effdim{\hypospace}$. If the \gls{trainset} can 
+		be well-approximated by the \gls{iidasspt}, then the ratio between $\samplesize$ 
+		and $\effdim{\hypospace}$ can be a useful indicator for the occurence of \gls{overfitting} \cite[Ch. 6]{MLBasics}.
 				\\
 		See also: \gls{datapoint}, \gls{dataset}.},
 	first={sample size},
 	text={sample size}
 }
+
+ \newglossaryentry{skipconnection}
+ {name={skip connection},
+  description={Consider a \gls{deepnet}\index{skip connection} with neurons that are organized 
+               in consecutive \glspl{layer}. A skip connection links the output of a neuron in 
+			   some \gls{layer} to the input of a neuron in a non-consecutive \gls{layer} \cite{HeResidual2016}.\\
+		See also: \gls{deepnet}, \gls{dag}.},
+ 	first={skip connection},
+ 	firstplural={skip connections}, 
+ 	plural={skip connections}, 
+ 	text={skip connection}
+ }
 
 \newglossaryentry{ann}
 {name={artificial neural network (ANN)}, 
@@ -8921,41 +8938,48 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 	\gls{hypothesis} that maps \glspl{feature} of a \gls{datapoint} at its 
 	input to a \gls{prediction} for the corresponding \gls{label} at its output. 
     The fundamental computational unit of an ANN is the artificial neuron, 
-	which applies an \gls{actfun} to a weighted (linear) combination of its 
-	inputs. The output of a neuron can be used either as the final output of 
+	which applies an \gls{actfun} $\actfun(\cdot)$ to the sum of its inputs. 
+	The output of a neuron can be used either as the final output of 
 	the ANN or as an input to other neurons. 
 	A key design parameter of an ANN is its connectivity structure (or architecture), 
 	i.e., which neuron outputs are connected to which neuron inputs. 
-	As illustrated in Fig.\ \ref{fig_ANN_DAG_dict}, we can represent an ANN as an directed acyclic graph (DAG). 
-	One widely used type of \gls{ann} is referred to as \glspl{deepnet}. A \gls{deepnet} is 
-	an ANN where neurons form consecutive \glspl{layer}, such that the outputs of neurons 
-	in one \gls{layer} serve as inputs to the next \gls{layer}.
+	As illustrated in Fig.\ \ref{fig_ANN_DAG_dict}, we can represent an 
+	ANN as an \gls{dag}. One widely used type of \gls{ann} are \glspl{deepnet} 
+	where neurons form consecutive \glspl{layer}. In a \gls{deepnet}, the 
+	outputs of neurons in a given \gls{layer} are typically only connnected 
+	to the inputs of the neurons in a consecutive \gls{layer}. Sometimes it 
+	is useful to add shortcut or skip connections that directly connect the outputs of 
+	neurons in one \gls{layer} to the inputs of neurons in a non-consecutive \gls{layer} \cite{Goodfellow-et-al-2016,HeResidual2016}.	
     \begin{figure}[H]
  		\centering
- 		\begin{tikzpicture}[>=stealth, node distance=1.4cm and 1.6cm]
+ 		\begin{tikzpicture}[>=stealth, node distance=2.3cm and 2.4cm]
  %--- Nodes (small filled circles) ------------------------------
   			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_1$}] (x1) {};
   			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_2$}] (x2) [below=of x1] {};
   			\node[circle, fill=black, inner sep=1.5pt, label=above:{$a_{1}$}] (h1) [right=of x1, yshift=5mm] {};
   			\node[circle, fill=black, inner sep=1.5pt, label=below:{$a_{2}$}] (h2) [right=of x2, yshift=-5mm] {};
-  			\node[circle, fill=black, inner sep=1.5pt, label=right:{$\hypothesis(\featurevec)$}] (y) [right=2.8cm of x2] {};
+  			\node[circle, fill=black, inner sep=1.5pt, label=right:{$\hypothesis^{(\weights)}(\featurevec)$}] (y) [right=of h1, yshift=-2cm] {};
   %--- Directed edges (arbitrary DAG) ----------------------------
-  			\draw[->] (x1) -- (h1);
-  			\draw[->] (x2) -- (h1);
-  			\draw[->] (x1) -- (h2);
-  			\draw[->] (x2) -- (h2);
-  			\draw[->] (h1) -- (y);
-  			\draw[->] (h2) -- (y);
-  			\draw[->, dashed] (x1) to[bend left=20] (y); % skip connection
+  			\draw[->] (x1) -- (h1) node [midway, above] {$w_{1}$};
+  			\draw[->] (x2) -- (h1)node [pos=0.1, above] {$w_{2}$};
+  			\draw[->] (x1) -- (h2) node [pos=0.8, above] {$w_{3}$};
+  			\draw[->] (x2) -- (h2) node [midway, above] {$w_{4}$};
+  			\draw[->] (h1) -- (y) node [midway, above] {$w_{5}$};
+  			\draw[->] (h2) -- (y) node [midway, above] {$w_{6}$};
+			\draw[->] (x1) -- (y) node [midway, above] {$w_{7}$};
+  			%\draw[->, dashed] (x1) to[bend left=20] (y); % skip connection
 %   %--- Labels ----------------------------------------------------
 %   			\node[above=1mm of h1] {\scriptsize hidden};
 %   			\node[above right=0mm and -2mm of y] {\scriptsize output};
 %   			\node[left=1mm of x1] {\scriptsize inputs};
  			\end{tikzpicture}
- 			\caption{A generic ANN can be represented as a weighted directed acyclic graph (DAG) with 
-			nodes representing neurons (\glspl{feature} can be viewed as trivial neurons that ouput 
-			the \gls{feature} value). The directed edges indicate how neuron outputs 
-			are used as inputs to other neurons. \label{fig_ANN_DAG_dict}}
+ 			\caption{An ANN can be represented as a weighted \gls{dag} with 
+			nodes representing neurons or \glspl{feature} of a \gls{datapoint}. \Glspl{feature} 
+			can be viewed as trivial neurons without input and fixed ouput given by the 
+			\gls{feature} value. The weighted directed edges indicate how neuron outputs are used 
+			as inputs to other neurons. The edge weights are tunable \glspl{modelparam} and are 
+			used to scale the inputs to the neurons. The output of some neurons are used as the 
+			\gls{prediction} $\hypothesis^{(\weights)}(\featurevec)$. \label{fig_ANN_DAG_dict}}
  			\end{figure}
 % 				\\
 		See also: \gls{label}, \gls{actfun}, \gls{layer}, \gls{deepnet}.},
@@ -9780,13 +9804,16 @@ sort={Renyi},
 
 \newglossaryentry{layer}
 {name={layer},
-	description={A \gls{deepnet}\index{layer} is an \gls{ann} that consists of consecutive layers, indexed by $\ell=1,\,2,\,\ldots,\,L$. 
-		The $\ell$-th layer consists of artificial neurons $a^{(\ell)}_{1},\,\ldots,\,a^{(\ell)}_{\featuredim^{(\ell)}}$ with 
-		the layer width $\featuredim^{(\ell)}$. Each of these artificial neurons evaluates an \gls{actfun} for 
-		a weighted sum of the outputs (or \glspl{activation}) of the previous layer $\ell-1$. The input to layer $\ell=1$ 
-	    	is formed from weighted sums of the \glspl{feature} of the \gls{datapoint} for which the \gls{deepnet} 
-	    	computes a \gls{prediction}. The outputs of the neurons in layer $\ell$ are then, in turn, used to form 
-	    	the inputs for the neurons in the next layer. The final (output) layer consists of a single neuron whose 
+	description={A \gls{deepnet}\index{layer} is an \gls{ann} that consists of consecutive 
+	    layers, indexed by $\ell=1,\,2,\,\ldots,\,L$. The $\ell$-th layer consists of 
+		artificial neurons $a^{(\ell)}_{1},\,\ldots,\,a^{(\ell)}_{\featuredim^{(\ell)}}$ with 
+		the layer width $\featuredim^{(\ell)}$. Each of these artificial neurons evaluates 
+		an \gls{actfun} for a weighted sum of the outputs (or \glspl{activation}) of the 
+		previous layer $\ell-1$. The input to layer $\ell=1$ is formed from weighted sums 
+		of the \glspl{feature} of the \gls{datapoint} for which the \gls{deepnet} computes 
+		a \gls{prediction}. The outputs of the neurons in layer $\ell$ are then, in turn, 
+		used to form the inputs for the neurons in the next layer. The final (output) layer 
+		consists of a single neuron whose 
 		output is used as the \gls{prediction} delivered by the \gls{deepnet}.  
 		\\
 		See also: \gls{deepnet}, \gls{ann}.}, 
