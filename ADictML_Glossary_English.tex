@@ -1355,7 +1355,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 					%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
 				%		node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
 				% Double arrow showing epsilon band width
-				\draw[<->, thick] (4,{\srtwo-\eps}) -- (4,{\srtwo+\eps})
+				\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
 				node[above, right] {\footnotesize{$\varepsilon$}};
 						% Limit line at sqrt(2)
 						\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
@@ -2589,12 +2589,38 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 	description={Consider an \gls{erm}-based method that uses an 
 	iterative \gls{optmethod} (such as \gls{gd}) to learn \glspl{modelparam} 
 	via minimizing the \gls{emprisk} on a given \gls{trainset}.
-	Early stopping \index{early stopping} refers to the practice of 
-	terminating such an \gls{optmethod} even when the \glspl{modelparam} 
-	are not close to the optimum. For example, early stopping can be 
-	based on the \gls{valerr} of the current \glspl{modelparam}. 
-					\\ 
-		See also: \gls{gdmethod}, \gls{valerr}, \gls{optmethod}.},
+	Early stopping \index{early stopping} refers to terminating the iterations 
+	even if they still substantially decrease the \gls{emprisk} on the 
+	\gls{trainset}. Instead of monitoring the \gls{objfunc} (which is the 
+	\gls{emprisk} on the \gls{trainset}), early stopping monitors the \gls{valerr} 
+	incurred by the \glspl{modelparam} in each iteration. Early stopping can be 
+	interpreted as an implementation of \gls{regularization} via \gls{model} 
+	pruning. Indeed, terminating an iterative \gls{optmethod} after a small number 
+	of iterations restricts the set of \glspl{modelparam} that can be reached from the 
+	initialization (see Fig.\ \ref{fig_early_stopping_dict}).
+	\begin{figure}[htbp]
+	\centering
+		\begin{tikzpicture}[>=Stealth, scale=2]
+		% Initialization
+		\fill (0,0) circle (0.6pt) node[above] {\small $\weights^{(0)}$};
+		\node at (-0.4,0) {\small $\hypospace^{(1)}$};
+		\node at (-1.2,0) {\small $\hypospace^{(2)}$};
+			\node at (-2,0) {\small $\hypospace \ldots$};
+		% T-step reachable sets (early stopping = smaller T)
+		\draw[densely dotted] (0,0) ellipse (0.8 and 0.4);
+		\draw[dashed] (0,0) ellipse (1.6 and 0.8);
+		% Example gradient path (just illustrative)
+		\draw[->] (0,0) -- (0.8,0.) node [pos=0.6,above] {\tiny $1$ step};
+		\draw[->] (0.0,0.0) -- (0,-0.8) node [pos=0.9,right] {\tiny $2$ steps};
+		\end{tikzpicture}
+		\caption{A \gls{gdmethod} for \gls{erm} using a \gls{hypospace} $\hypospace$ 
+		    defines a nested \gls{sequence} of effective \glspl{hypospace} 
+			$\hypospace^{(1)} \subseteq \hypospace^{(2)} \subseteq \ldots \subseteq \hypospace$. 
+			The effective \gls{hypospace} $\hypospace^{(\iteridx)}$ is 
+		    determined by all \glspl{modelparam} that can be reached from the initialization 
+			$\weights^{(0)}$ within $\iteridx$ \glspl{gradstep}. \label{fig_early_stopping_dict}}
+		\end{figure} \\ 
+		See also: \gls{gdmethod}, \gls{regularization}, \gls{overfitting}.},
 	first={early stopping},
 	text={early stopping}
 }
@@ -8561,7 +8587,7 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 {name={subgradient descent}, 
 	description={\Gls{subgradient}\index{subgradient descent} 
 		descent is a \gls{generalization} of \gls{gd} that does not require differentiability of the 
-		\gls{function} to be minimized. This \gls{generalization} is obtained by replacing the concept 
+		\gls{function} to be minimized. This generalization is obtained by replacing the concept 
 		of a \gls{gradient} with that of a \gls{subgradient}. Similar to \glspl{gradient}, \glspl{subgradient} 
 		allow us to construct local approximations of an \gls{objfunc}. The \gls{objfunc} 
 		might be the \gls{emprisk} $\emperror\big( \hypothesis^{(\weights)} \big| \dataset \big)$ viewed 
@@ -10172,7 +10198,8 @@ sort={Renyi},
             a: \mathbb{N} \rightarrow \mathcal{A}: \sampleidx \mapsto a_\sampleidx.
         \]        
 		We denote a sequence as $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
-		or $\big( a^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$. 
+		or $\big( a^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$. Sometimes we also 
+		use the notation $\big\{ a^{(\sampleidx)} \big\}_{\sampleidx \in \mathbb{N}}$. 
         Note that the same value $a \in \mathcal{A}$ can appear multiple times 
 		in the sequence at different positions $\sampleidx$. 		
         Sequences are fundamental for the study of \gls{ml} methods, 
@@ -10193,15 +10220,17 @@ See also: \gls{function}, \gls{dataset}.},
 \newglossaryentry{convergence}
 {name={convergence},
 	description={Consider 
-	a sequence\index{convergence} $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
-				  with numeric values $a_{\sampleidx} \in \mathbb{R}$. This sequence
+	a \gls{sequence}\index{convergence} $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+				  with numeric values $a_{\sampleidx} \in \mathbb{R}$. This \gls{sequence} 
         is said to converge to a value $a^\star$ if the values $a_{\sampleidx}$ become 
 		arbitrarily close to $a^\star$ for sufficiently large indices $\sampleidx$, 
-        In other words, the sequence converges to $a^\star$ if
+        Mathematically speaking, the \gls{sequence} converges to $a^\star$ if 
+		\cite{RudinBookPrinciplesMatheAnalysis,RudinBook}
         \[
            \forall \epsilon > 0, \; \exists N \in \mathbb{N} : \sampleidx > N \Rightarrow |a_{\sampleidx} - a^\star| < \epsilon.
         \]
-		We denote the convergence of the sequence to $a^\star$ by \cite{RudinBookPrinciplesMatheAnalysis,RudinBook}
+		We denote the convergence of a \gls{sequence} to $a^\star$ 
+		by 
 		\[
 			\lim_{\sampleidx \to \infty} a_{\sampleidx} = a^\star.
 		\]
@@ -10235,12 +10264,15 @@ See also: \gls{function}, \gls{dataset}.},
 			\caption{A real-valued sequence $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
 			converging to the limit $a^\star = 1$.\label{fig:convergence_dict}}
 		\end{figure} 
-		We can generalize this concept of convergence from real-valued sequences 
-		(where $\mathcal{A}=\mathbb{R}$) to an aribtrary metric space $\mathcal{A}$ 
-		is obtained by replacing the absolute difference $|a_{\sampleidx} - a^\star|$ 
-		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. \\ 
-	See also:  \gls{sequence}, \gls{loss}, \gls{convexopt}, \gls{function}
-	},
+		The concept of convergence of a real-valued \gls{sequence} 
+		(where $\mathcal{A}=\mathbb{R}$) exstends naturally to a \gls{sequence} 
+		in an aribtrary \gls{metricspace} $\mathcal{A}$. Indeed, we just need to 
+		replace the absolute difference $|a_{\sampleidx} - a^\star|$ 
+		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. 
+		Note that a \gls{sequence} can only converge if it is a \gls{cauchysequence} CITE. 
+		However, not every \gls{cauchysequence} is converging (as this requires 
+		the underlying \gls{metricspace} to be complete).   \\ 
+	See also:  \gls{sequence}, \gls{metricspace}, \gls{cauchysequence}.},
 	first={convergence},
 	type =math,
 	text={convergence}, 
