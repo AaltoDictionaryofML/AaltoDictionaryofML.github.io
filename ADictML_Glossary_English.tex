@@ -4286,7 +4286,7 @@ text={NLP},
 }
 
 \newglossaryentry{kfoldcv}
-{name={$k$-fold cross-validation},
+{name={$k$-fold cross-validation ($k$-fold CV)},
  description={A method\index{$k$-fold cross-\gls{validation}} for evaluating the 
  \gls{gengap} of an \gls{erm}-based \gls{ml} method. The idea is to divide \gls{dataset} 
  $\dataset$ evenly into $k$ subsets (or folds) $\dataset^{(1)},\ldots,\dataset^{(k)}$
@@ -4331,7 +4331,7 @@ text={NLP},
 	the \gls{validation} results across all $k$ folds.
 	\\ 
 	See also: \gls{validation}, \gls{valerr}.},
-	first={$k$-fold cross-validation},
+	first={$k$-fold cross-validation ($k$-fold CV)},
 	text={$k$-fold CV} 
 }
 
@@ -10307,40 +10307,73 @@ See also: \gls{function}, \gls{dataset}.},
 
 
 \newglossaryentry{johnsonlindenstrausslemma}
-{name={Johnson--Lindenstrauss lemma},
-  description={The \index{Johnson--Lindenstrauss lemma} Johnson--Lindenstrauss lemma \cite{johnson1984extensions} is a fundamental result in \gls{dimred}. 
-  It states that any point cloud in a high-dimensional \gls{euclidspace} can be embedded into a \gls{euclidspace} of much lower dimension while approximately preserving pairwise distances with respect to the Euclidean \gls{norm}, i.e., without significantly distorting the geometry of the set.
-  While this result has found various applications in mathematics and computer science, let us describe it in the
-  context of \gls{dimred} in \gls{ml}.
-  Consider a \gls{dataset} $\dataset = \{\featurevec_1, \dots, \featurevec_\samplesize\} \subset\mathbb{R}^{\nrfeatures}$,
-  and any $0 < \varepsilon < 1$. Then, there exists an integer $\nrfeatures' \ll \nrfeatures$ with 
-  $\nrfeatures' = O(\varepsilon^{-2} \log(m))$,
-  and a \gls{map} $f : \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$, such that 
-  for all pairs of \glspl{featurevec} $\featurevec_i, \featurevec_j \in \dataset$,
-  \begin{equation}
-            (1 - \varepsilon) \|\featurevec_i - \featurevec_j\|_2   
-    \leq  \|f(\featurevec_i) - f(\featurevec_j)\|_2    
-    \leq  (1 + \varepsilon) \|\featurevec_i - \featurevec_j\|_2,
-    \label{eq:JL_embedding}
-  \end{equation}
-  that is, the distances are distorted at most by a factor of $(1 \pm \varepsilon)$ when applying $f$.
-  Notably, $\nrfeatures'$ is only logarithmic in the \gls{samplesize} $\samplesize$, and it does not depend
-  on $\nrfeatures$, as the result even holds for possibly infinite-dimensional \glspl{hilbertspace}.
-  Remarkably, $f$ can be chosen to be a linear \gls{map}, and therefore be associated with a \gls{matrix}
-  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$, i.e., 
-  $f(\featurevec) = \mA \featurevec$ for any $\featurevec \in  \mathbb{R}^{\nrfeatures}$.
-  While it is hard to provide suitable deterministic \glspl{matrix} $\mA$, with the help of
-  \glspl{concentrationinequ} it can be shown that various random \glspl{matrix} 
-  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$ (formally, \gls{matrix}-valued \gls{rv}), 
-  satisfy \eqref{eq:JL_embedding} with overwhelming probability \cite[Sec. 5.3]{vershynin2018high}, 
-  with the most prominent example being a (normalized) Gaussian random \gls{matrix} 
-  $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$
-  whose entries are \gls{iid} \gls{gaussrv} $A_{i,j} \sim \mathcal{N}(0,1/\nrfeatures')$.
-  Here, unlike in \gls{pca}, the \gls{dimred} is performed by a \gls{data}-independent random projection.
-  Compared to \gls{pca}, this approach is less suitable for visualization purposes, but for instance can
-  be an effective preprocessing step before applying \gls{clustering} techniques. \\
+{name={Johnson--Lindenstrauss (JL) lemma},
+  description={The \index{Johnson--Lindenstrauss (JL) lemma} describes conditions for 
+  the existence of a \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \to \mathbb{R}^{\nrfeatures'}$ 
+  with $\nrfeatures' \ll \nrfeatures$ such that the pairwise \gls{eucliddist} 
+  between \gls{featurevec} of a finite \gls{dataset} is approximately preserved 
+  \cite{vershynin2018high,JMLR:v19:18-264,johnson1984extensions}. 
+  Consider a \gls{dataset} $\dataset = \big\{\featurevec^{(1)}, \dots, \featurevec^{(\samplesize)} \big\}$ 
+  with \glspl{datapoint} characterized by \glspl{featurevec} in $\mathbb{R}^{\nrfeatures}$. 
+  Then, for any $\nrfeatures'$ that satisfies
+	\[
+	  \nrfeatures' \ge \frac{4 \ln(\samplesize)}{\varepsilon^2/2 - \varepsilon^3/3} \mbox{ for some } 0 < \varepsilon < 1
+	\]  
+   there is a \gls{featuremap} $\featuremapvec$ such that \cite{ProofJLlemma}: 
+   \begin{equation} 
+ 		\label{equ_def_approx_norm_JL_lemma_dict}
+ 		(1\!-\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}  
+ 		\!\le\!\normgeneric{\featuremapvec\big(\featurevec^{(\sampleidx)}\big)\!-\!\featuremapvec\big(\featurevec^{(\sampleidx')}\big)}{2} 
+		\!\le\!(1\!+\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}
+ 	\end{equation}
+	for all $\featurevec^{(\sampleidx)}, \featurevec^{(\sampleidx')} \in \dataset$. 
+	\begin{figure}[hbtp]
+		\centering
+	\begin{tikzpicture}
+% ---------- Original space: R^d ----------
+		\begin{scope}
+			% Points
+			\coordinate (x1) at (0.5,-0.6);   % anchor
+			\coordinate (x2) at (2.0,0.9);    % farther from x1 (long)
+			\coordinate (x3) at (1.1,0.3);    % closer to x1 (short)
+			\foreach \p in {x1,x2,x3} \fill (\p) circle (1.7pt);
+			% Labels
+			\node[below left]  at (x1) {\small $\featurevec^{(1)}$};
+			\node[above right] at (x2) {\small $\featurevec^{(2)}$};
+			\node[above left]  at (x3) {\small $\featurevec^{(3)}$};
+			\node [anchor=east] at (1.2,2.2) {$\mathbb{R}^{\nrfeatures}$};
+		\end{scope}
+		% ---------- Mapping arrow ----------
+		\begin{scope}[xshift=1cm]
+			\draw[->, thick] (2.9,2.2) -- (4.1,2.2)
+			node[midway, above] {$\featurevec \mapsto \vz \!\defeq\! \featuremapvec(\featurevec)$};
+		\end{scope}
+		% ---------- Transformed space: R^{d'} ----------
+		\begin{scope}[xshift=2cm]
+			% Images of points (preserving relative distances)
+			\coordinate (y1) at (4.7,-0.7);   % image of x1
+			\coordinate (y2) at (6.1,0.5);    % image of x2 (farther)
+			\coordinate (y3) at (5.3,-0.1);   % image of x3 (closer)
+			\foreach \p in {y1,y2,y3} \fill (\p) circle (1.7pt);
+			\node[below left]  at (y1) {\small $\vz^{(1)}$};
+			\node[above right] at (y2) {\small $\vz^{(2)}$};
+			\node[above left]  at (y3) {\small $\vz^{(3)}$};
+			\node [anchor=west] at (6.0,2.2) {$\mathbb{R}^{\nrfeatures'}$};
+		\end{scope}
+		\end{tikzpicture}
+		\caption{The JL lemma offers precise conditions that guarantee the existence of 
+		         a \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ such that pair-wise \glspl{eucliddist} between (the \glspl{featurevec} of) \glspl{datapoint} are 
+			approximately preserved. Roughly speaking, 
+			$\featuremapvec$ maps neighbouring points in the original \gls{featurespace} 
+			to neighbouring points in the new \gls{featurespace}.}
+	\end{figure}
+	The \gls{featuremap} $\featuremapvec$ can be obtained from a random \gls{matrix} 
+	$\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$ whose entries are \gls{iid} 
+	Gaussian \glspl{rv} $A_{i,j} \sim \mvnormal{0}{1/\nrfeatures'}$. 
+	It can be shown that the \gls{featuremap} $\featurevec \mapsto \underbrace{\mA \featurevec}_{\featuremapvec(\featurevec)}$ 
+	satisfies \eqref{equ_def_approx_norm_JL_lemma_dict} with \gls{probability} at least $1\!-\!1/\samplesize$ \cite{ProofJLlemma}. \\
   See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{dimred}, \gls{pca}.},
-  first={Johnson--Lindenstrauss lemma},
-  text={Johnson--Lindenstrauss lemma}
+  first={Johnson--Lindenstrauss (JL) lemma},
+  text={JL lemma}
 }
 
