@@ -6185,15 +6185,56 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 
 \newglossaryentry{learnrate}
 {name={learning rate}, 
-	description={Consider\index{learning rate} 
-		an iterative \gls{ml} method for finding or learning a useful \gls{hypothesis} $\hypothesis \in \hypospace$. 
+	description={Consider\index{learning rate} an iterative \gls{ml} method for finding or 
+	    learning a useful \gls{hypothesis} $\hypothesis \in \hypospace$. 
 		Such an iterative method repeats similar computational (update) steps that adjust or 
-		modify the current \gls{hypothesis} to obtain an improved \gls{hypothesis}. One 
-		well-known example of such an iterative learning method is \gls{gd} and its variants, \gls{stochGD} and 
-		\gls{projgd}. A key \gls{parameter} of an iterative method is the learning rate. 
-		The learning rate controls the extent to which the current \gls{hypothesis} 
-		can be modified during a single iteration. A well-known example of such a \gls{parameter} 
-		is the \gls{stepsize} used in \gls{gd} \cite[Ch. 5]{MLBasics}.
+		modify the current \gls{hypothesis} to obtain an improved \gls{hypothesis}. 
+		A key \gls{parameter} of an iterative method is the learning rate. The learning rate 
+		controls the extent to which the current \gls{hypothesis} can be modified during a 
+		single iteration. Consider, for example, the \gls{gradstep} \cite[Ch. 5]{MLBasics} 
+		\begin{equation}
+			\label{equ_def_basic_gradstep_lrate_dict}
+			\weights^{(\iteridx\!+\!1)} = \weights^{(\iteridx)} - \lrate \nabla f(\weights^{(\iteridx)}),
+        \end{equation} 
+		of a \gls{gdmethod} for \gls{erm} where the \gls{objfunc} $f(\weights)$ 
+		is the \gls{emprisk} incurred by $\hypothesis^{(\weights)}$ on a \gls{trainset}. 
+		Given the current \glspl{modelparam} $\weights^{(\iteridx)}$ at iteration $\iteridx$, 
+		the \gls{gradstep} produces updated \glspl{modelparam} $\weights^{(\iteridx\!+\!1)}$ 
+		by moving in the opposite direction of the \gls{gradient} $\nabla f(\weights^{(\iteridx)})$. 
+		\begin{figure}[hbtp]
+			\begin{center}
+			\begin{minipage}{0.45\columnwidth}
+			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
+				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
+				\draw[] (1,0.25) circle [radius=0.1] node [right] (A) {$f(\weights^{(\iteridx)})$} ;
+				\draw[] (-2,1) circle [radius=0.1] node [left] (B) {$f(\weights^{(\iteridx\!+\!1)})$} ;
+				\draw[] (3,2.25) circle [radius=0.1]  node  [right] (C) {$f(\weights^{(\iteridx\!+\!2)})$} ;
+				\draw[->,dashed] (-2,1) -- (3,2.25) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
+				\draw[->,dashed]  (1,0.25) -- (-2,1) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
+				\node [below] at (0,-0.2) {(a)};
+			\end{tikzpicture}
+			\end{minipage}
+			\begin{minipage}{0.45\columnwidth}
+			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
+				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
+				\draw[] (4,4) circle [radius=0.1];
+				\node [right] at (4,4) {$f(\weights^{(\iteridx)})$};
+				\draw[] (3.8,3.61) circle [radius=0.1];
+				\node [left] at (3.8,3.61) {$f(\weights^{(\iteridx\!+\!1)})$};
+				\draw[] (3.65,3.33) circle [radius=0.1];
+				\node [right] at (3.65,3.33) {$f(\weights^{(\iteridx\!+\!2)})$};
+				\node [below] at (0,-0.2) {(b)};
+			\end{tikzpicture}
+			\end{minipage}
+		\end{center}
+		\caption{Effect of using an inadequate \glspl{learnrate} $\lrate$ in the \gls{gradstep} 
+		         \eqref{equ_def_basic_gradstep_lrate_dict}. (a) If $\lrate$ is too large, 
+				 the \glspl{gradstep} can ``overshoot'' such that the iterates $\weights^{(\iteridx)}$ 
+				 diverge away from the optimum, i.e., $f(\weights^{(\iteridx\!+\!1)}) > f(\weights^{(\iteridx)})$! 
+		(b) If $\lrate$ is too small, the \glspl{gradstep} make too little progress towards 
+		the optimum within the available number of iterations (due to limited computational budget). 
+		\label{fig_small_large_lrate_dict}}
+		\end{figure}
 				\\
 		See also: \gls{ml}, \gls{hypothesis}, \gls{gd}, \gls{stochGD}, \gls{projgd}, \gls{parameter}, \gls{stepsize}.},
 	first={learning rate},
