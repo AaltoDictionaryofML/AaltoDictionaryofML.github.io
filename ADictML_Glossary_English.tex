@@ -6917,21 +6917,88 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\gls{ml} methods, referred to as base learners, to improve overall performance. 
 		The base learners can be obtained from \gls{erm}, using different choices for 
 	 	the \gls{loss}, \gls{model}, and \gls{trainset}. Ensemble methods exploit the 
-	 	diversity among these base learners to reduce errors. Loosely speaking, different base 
-	 	learners capture different aspects of the \glspl{feature} of a \gls{datapoint}. 
-	 	By aggregating the \glspl{prediction} of base learners, ensemble methods can 
-	 	often achieve better performance than any single base learner. Different  
-	 	ensemble methods use different constructions for the base learners and how 
-	 	to aggregate their \glspl{prediction}. For example, \gls{bagging} methods use random sampling 
-	 	to construct different \glspl{trainset} for the base learners. A well-known example 
-	 	of a \gls{bagging} method is a \gls{randomforest}. On the other hand, \gls{boosting} methods train 
-	 	base learners sequentially, where each new base learner focuses on correcting the 
-	 	errors of the previous ones. A third family of ensemble methods is stacking, 
-	 	where base learners are trained on the same \gls{trainset} but with potentially different \glspl{model}. 
+	 	diversity among base learners which tend to capture different aspects of the 
+		\glspl{feature} of a \gls{datapoint}. By aggregating the \glspl{prediction} of 
+		base learners, ensemble methods can often achieve better performance than any 
+		single base learner. Different ensemble methods use different constructions for 
+		the base learners and how to aggregate their \glspl{prediction}. For example, 
+		\gls{bagging} methods use random sampling to construct different \glspl{trainset} 
+		for the base learners. A well-known example of a \gls{bagging} method is a 
+		\gls{randomforest}. On the other hand, \gls{boosting} methods train base learners 
+		sequentially, where each new base learner focuses on correcting the errors of the 
+		previous ones. A third family of ensemble methods is stacking, where base learners 
+		are trained on the same \gls{trainset} but with potentially different \glspl{model}. 
 		\\
-	 	See also: \gls{bagging}.},
+	 	See also: \gls{bagging}, \gls{stacking}, \gls{boosting}.},
 	 first={ensemble},
 	 text={ensemble} 
+}
+
+\newglossaryentry{stacking}
+{name={stacking}, 
+	description={Stacking\index{stacking} is an ensemble method that combines multiple 
+		\gls{ml} methods, referred to as base learners, to improve overall performance. 
+		In stacking, a finite number $\numlearners$ of base learners are trained on the 
+		same \gls{dataset} using different \glspl{model} $\hypospace^{(\featureidx)}$ 
+		or \glspl{lossfunc} $\loss^{(\featureidx)}$, 
+        for $\featureidx=1,\ldots,\numlearners$ \cite[Ch. 8.8]{hastie01statisticallearning},
+		\cite{WOLPERT1992241,ZhouEnsemble2012}. 
+		The $\featureidx$-th base learner delivers a learnt \gls{hypothesis} 
+		$\learntlocalhypothesis{\featureidx} \in \hypospace^{(\featureidx)}$. 
+		The final \gls{prediction} for a \gls{datapoint} is obtained by aggregating the 
+		\glspl{prediction} of the base learners using an aggregation rule $\phi_{\rm agg}$, 
+		such as majority voting for \gls{classification} or averaging for \gls{regression}. 
+		We can interpret stacking as a form of \gls{featlearn}, where each base learner 
+		extracts a new \gls{feature}. The aggregation rule is then 
+		a \gls{hypothesis} map applied to the transformed \gls{featurevec} 
+		$$\featuremapvec(\featurevec)= \big( \learnthypothesis^{(1)}(\featurevec), 
+		\ldots, \learnthypothesis^{(\numlearners)}(\featurevec) \big)^{T}.$$
+       \begin{figure}[htbp]
+		\begin{center}
+		\begin{tikzpicture}[
+		font=\small,
+		scale=1.0, transform shape,
+		node distance=7mm and 10mm,
+		dataset/.style={draw, rounded corners, inner sep=2pt},
+		learner/.style={draw, rounded corners, minimum width=14mm, minimum height=7mm, inner sep=6pt,align=center},
+		op/.style={draw, circle, inner sep=1pt},
+		>=latex
+		]
+		% Original dataset
+		\node[dataset] (D) {$\dataset$};
+		% Variants (closer to D)
+		\node[learner, below left=of D]  (L1) {\gls{erm} \\ $\hypospace^{(1)},\loss^{(1)}$};
+		\node[learner, below=of D]       (L2) {\gls{erm} \\ $\hypospace^{(2)},\loss^{(2)}$};
+		\node[learner, below right=of D] (L3) {\gls{erm} \\ $\hypospace^{(3)},\loss^{(3)}$};
+		% Arrows to variants (shorter labels)
+		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {};
+		\draw[->] (D) -- (D2) node[midway, right]           {};
+		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{};
+		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
+		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
+		{$\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
+		\draw[->] (L1) -- (agg);
+		\draw[->] (L2) -- (agg);
+		\draw[->] (L3) -- (agg);
+		\draw[->] (agg) -- (yhat);
+		% Tiny labels on learner outputs
+		\node[below left=-1pt and -1pt of L1.south] {$\learntlocalhypothesis{1}$};
+		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
+		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
+		\end{tikzpicture}
+		\caption{
+		Illustration of the stacking principle: three base learners, trained with 
+		different \glspl{model} and \glspl{lossfunc}, produce \glspl{prediction}  
+		$\learntlocalhypothesis{\featureidx}(\featurevec)$. These \glspl{prediction} 
+	    serve as new \glspl{feature} that are fed into 
+		the aggregation rule $\phi_{\rm agg}$, which produces the final \gls{prediction} 
+		$\predictedlabel$.}
+		\end{center}
+		\end{figure}
+		\\
+	 	See also: \gls{ensemble}, \gls{bagging}.},
+	 first={stacking},
+	 text={stacking} 
 }
 
 \newglossaryentry{sample}
@@ -7019,60 +7086,67 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 \newglossaryentry{bagging}
 {name={bagging (or bootstrap aggregation)},
 	description={Bagging\index{bagging (or bootstrap aggregation)} (or bootstrap aggregation) 
-		is a technique to improve (the \gls{robustness} of) a given \gls{erm}-based \gls{ml} 
-		method. The idea is to use the \gls{bootstrap} to generate perturbed copies of a given \gls{dataset}   
-		and to learn a separate \gls{hypothesis} for each copy. We then predict the 
-		\gls{label} of a \gls{datapoint} by combining or aggregating the individual \glspl{prediction} 
-		of each separate \gls{hypothesis}. For \gls{hypothesis} \glspl{map} delivering numeric \gls{label} 
+		is a technique to improve (the \gls{robustness} of) a \gls{erm}-based \gls{ml} 
+		method using \gls{dataset} $\dataset$. The idea is to use random sampling 
+		to generate perturbed copies $$\widetilde{\dataset}^{(1)},\ldots,\widetilde{\dataset}^{(\numlearners)}$$
+		of $\dataset$. Each perturbed copy is used to learn a separate \gls{hypothesis},  
+		$$\learnthypothesis^{(1)},\ldots,\learnthypothesis^{(\numlearners)}.$$
+		We then predict the \gls{label} of a \gls{datapoint} with \gls{featurevec} 
+		$\featurevec$ by combining (or aggregating) 
+		the individual \glspl{prediction} $$\learnthypothesis^{(1)}(\featurevec),\ldots,\learnthypothesis^{(\numlearners)}(\featurevec).$$
+		For \gls{hypothesis} \glspl{map} delivering numeric \gls{label} 
 		values, this aggregation could be implemented by computing the average of individual 
 		\glspl{prediction}. Bagging is an example of an \gls{ensemble} method, with base learners 
 		using the same \gls{model} but different \glspl{trainset}.
-		\begin{figure}[H]
+		\begin{figure}[htbp]
 		\begin{center}
-			\begin{tikzpicture}[
-			font=\small,
-			node distance=12mm and 16mm,
-			dataset/.style={draw, rounded corners, inner sep=4pt},
-			learner/.style={draw, rounded corners, minimum width=20mm, minimum height=10mm},
-			op/.style={draw, circle, inner sep=1.5pt},
-			>=latex
-			]
-			% Original dataset
-			\node[dataset] (D) {\gls{dataset} $\dataset$};
-			% Variants
-			\node[dataset, below left=of D] (D1) {$\dataset^{(1)}$};
-			\node[dataset, below=of D]      (D2) {$\dataset^{(2)}$};
-			\node[dataset, below right=of D] (D3) {$\dataset^{(3)}$};
-			% Arrows to variants (resampling/augmentation)
-			\draw[->] (D) -- (D1) node[midway, above left=-2pt] {\footnotesize{resample}};
-			\draw[->] (D) -- (D2) node[midway, right] {\footnotesize{resample}};
-			\draw[->] (D) -- (D3) node[midway, above right=-2pt] {\footnotesize{resample}};
-			% Base learners
-			\node[learner, below=10mm of D1] (L1) {$\hypospace^{(1)}$};
-			\node[learner, below=10mm of D2] (L2) {$\hypospace^{(2)}$};
-			\node[learner, below=10mm of D3] (L3) {$\hypospace^{(3)}$};
-			% Feed variants into learners
-			\draw[->] (D1) -- (L1);
-			\draw[->] (D2) -- (L2);
-			\draw[->] (D3) -- (L3);
-			% Aggregator and final prediction
-			\node[op, below=16mm of L2] (agg) {$\phi_{\text{agg}}$}; % use \sum or any symbol; could be \Pi or $\phi_{\text{agg}}$
-			\node[below=10mm of agg, align=right, inner sep=3pt] (yhat) {\hspace*{20mm}$\predictedlabel = \phi_{\text{agg}}\!\bigg(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\bigg)$};
-			\draw[->] (L1) -- (agg);
-			\draw[->] (L2) -- (agg);
-			\draw[->] (L3) -- (agg);
-			\draw[->] (agg) -- (yhat);
-			% Optional tiny labels on learner outputs
-			\node[below left=-2pt and -2pt of L1.south] {\scriptsize $\learntlocalhypothesis{1}$};
-			\node[below= -2pt of L2.south] {\scriptsize $\learntlocalhypothesis{2}$};
-			\node[below right=-2pt and -2pt of L3.south] {\scriptsize $\learntlocalhypothesis{3}$};
-			\end{tikzpicture}
-		\caption{A simple example of bagging. Three base learners use different variations 
-	      	$\dataset^{(1)},\,\ldots,\,\dataset^{(3)}$ of the original \gls{dataset} $\dataset$ to 
-		learn the \glspl{hypothesis} $\learntlocalhypothesis{1},\,\ldots,\,\learntlocalhypothesis{3}$. 
+		\begin{tikzpicture}[
+		font=\scriptsize,
+		scale=0.8, transform shape,
+		node distance=7mm and 10mm,
+		dataset/.style={draw, rounded corners, inner sep=2pt},
+		learner/.style={draw, rounded corners, minimum width=14mm, minimum height=7mm, inner sep=2pt},
+		op/.style={draw, circle, inner sep=1pt},
+		>=latex
+		]
+		% Original dataset
+		\node[dataset] (D) {$\dataset$};
+		% Variants (closer to D)
+		\node[dataset, below left=of D]  (D1) {\tiny $\widetilde{\dataset}^{(1)}$};
+		\node[dataset, below=of D]       (D2) {\tiny $\widetilde{\dataset}^{(2)}$};
+		\node[dataset, below right=of D] (D3) {\tiny $\widetilde{\dataset}^{(3)}$};
+		% Arrows to variants (shorter labels)
+		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {\tiny resample};
+		\draw[->] (D) -- (D2) node[midway, right]           {\tiny resample};
+		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{\tiny resample};
+		% Base learners (reduced vertical gaps)
+		\node[learner, below=5mm of D1] (L1) {\tiny $\hypospace^{(1)}$};
+		\node[learner, below=5mm of D2] (L2) {\tiny $\hypospace^{(2)}$};
+		\node[learner, below=5mm of D3] (L3) {\tiny $\hypospace^{(3)}$};
+		% Feed variants into learners
+		\draw[->] (D1) -- (L1);
+		\draw[->] (D2) -- (L2);
+		\draw[->] (D3) -- (L3);
+		% Aggregator and final prediction (tighter)
+		\node[op, below=8mm of L2] (agg) {\tiny $\phi_{\text{agg}}$};
+		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
+		{\tiny $\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
+		\draw[->] (L1) -- (agg);
+		\draw[->] (L2) -- (agg);
+		\draw[->] (L3) -- (agg);
+		\draw[->] (agg) -- (yhat);
+		% Tiny labels on learner outputs
+		\node[below left=-1pt and -1pt of L1.south] {\tiny $\learntlocalhypothesis{1}$};
+		\node[below           =-1pt of L2.south]    {\tiny $\learntlocalhypothesis{2}$};
+		\node[below right=-1pt and -1pt of L3.south]{\tiny $\learntlocalhypothesis{3}$};
+		\end{tikzpicture}
+		\caption{An example of bagging where three base learners use variations 
+		$\widetilde{\dataset}^{(1)},\,\ldots,\,\widetilde{\dataset}^{(3)}$ of 
+		the original \gls{dataset} $\dataset$ to learn the \glspl{hypothesis} 
+		$\learntlocalhypothesis{1},\,\ldots,\,\learntlocalhypothesis{3}$. 
 		The \gls{prediction} $\predictedlabel$ for a \gls{datapoint} with \gls{featurevec} $\featurevec$ 
 		is obtained by applying an aggregation rule $\phi_{\rm agg}$ to the individual \glspl{prediction} 
-		$\learntlocalhypothesis{1}(\featurevec),\,\learntlocalhypothesis{2}(\featurevec),\,\learntlocalhypothesis{3}(\featurevec)$. }
+		$\learntlocalhypothesis{1}(\featurevec),\,\learntlocalhypothesis{2}(\featurevec),\,\learntlocalhypothesis{3}(\featurevec)$.}
 		\end{center}
 		\end{figure}
 		See also: \gls{robustness}, \gls{bootstrap}, \gls{ensemble}.},
