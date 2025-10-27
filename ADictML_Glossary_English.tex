@@ -10201,11 +10201,81 @@ $$\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}},\pair{\featurevec
   with the most prominent example being a (normalized) Gaussian random \gls{matrix} 
   $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$
   whose entries are \gls{iid} \gls{gaussrv} $A_{i,j} \sim \mathcal{N}(0,1/\nrfeatures')$.
-  Here, unlike in \gls{pca}, the \gls{dimred} is performed by a \gls{data}-independent random projection.
-  Compared to \gls{pca}, this approach is less suitable for visualization purposes, but for instance can
-  be an effective preprocessing step before applying \gls{clustering} techniques. \\
-  See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{dimred}, \gls{pca}.},
+  Here, unlike in \gls{pca}, the \gls{dimred} is performed by a \gls{data}-independent \gls{randomprojection}.
+\begin{figure}[t]
+\centering
+\vspace{6mm}
+\begin{tikzpicture}
+\usetikzlibrary{calc}
+\tikzset{point/.style={draw, fill=blue, circle, minimum size=4pt, inner sep=0pt}}
+% Left: 3D-looking point cloud (moved closer to the arrow)
+\begin{scope}[xshift=-4cm]
+\node[point] at (0.5,1,0.2) {};
+\node[point] at (1.5,1.5,0.5) {};
+\node[point] at (0.2,1.8,2.3) {};
+\node[point] at (1.8,2.5,0.8) {};
+\node[point] at (2.3,1.0,1.2) {};
+\node[point] at (1.0,0.5,2.9) {};
+% Labeled pair: x_i, x_j
+\node[point,fill=red] (xi) at (1,2,1.5) {};
+\node[point,fill=red] (xj) at (2,0.5,2) {};
+\node[above right=2pt of xi] {$\featurevec_i$};
+\node[below right=2pt of xj] {$\featurevec_j$};
+\end{scope}
+% Right: larger 2D plane (parallelogram), moved closer to the arrow
+\begin{scope}[xshift=3.2cm]
+% Parallelogram corners (slightly larger than before)
+\coordinate (A) at (0,0);
+\coordinate (B) at (3.8,0.7);
+\coordinate (C) at (3.4,2.8);
+\coordinate (D) at (-0.9,2.1);
+\draw[thick] (A) -- (B) -- (C) -- (D) -- cycle;
+% Points strictly inside the parallelogram via affine combinations
+\path coordinate (p1) at ($($(A)!0.20!(B)$) + ($(A)!0.20!(D)$) - (A)$);
+\path coordinate (p2) at ($($(A)!0.40!(B)$) + ($(A)!0.15!(D)$) - (A)$);
+\path coordinate (p3) at ($($(A)!0.70!(B)$) + ($(A)!0.25!(D)$) - (A)$);
+\path coordinate (p4) at ($($(A)!0.50!(B)$) + ($(A)!0.10!(D)$) - (A)$);
+\path coordinate (p5) at ($($(A)!0.12!(B)$) + ($(A)!0.78!(D)$) - (A)$);
+\path coordinate (p6) at ($($(A)!0.60!(B)$) + ($(A)!0.65!(D)$) - (A)$);
+\path coordinate (p7) at ($($(A)!0.85!(B)$) + ($(A)!0.20!(D)$) - (A)$);
+% Labeled images corresponding to x_i, x_j (kept well inside)
+\path coordinate (pix) at ($($(A)!0.35!(B)$) + ($(A)!0.55!(D)$) - (A)$);
+\path coordinate (pjx) at ($($(A)!0.72!(B)$) + ($(A)!0.38!(D)$) - (A)$);
+% Draw the points
+\node[point] at (p1) {};
+\node[point] at (p2) {};
+\node[point] at (p3) {};
+\node[point] at (p4) {};
+\node[point] at (p5) {};
+\node[point] at (p6) {};
+\node[point] at (p7) {};
+\node[point,fill=red] (fxi) at (pix) {};
+\node[point,fill=red] (fxj) at (pjx) {};
+\node[above left=2pt of fxi] {$f(\featurevec_i)$};
+\node[below right=2pt of fxj] {$f(\featurevec_j)$};
+\end{scope}
+% Curved arrow with formula (central)
+\draw[->, thick] plot [smooth, tension=1] coordinates {(-1.2,0.9) (0,1.8) (1.2,0.9)};
+\node at (0,2.2) {$f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}^{\nrfeatures'}$};
+\end{tikzpicture}
+\caption{Illustration of a \gls{randomprojection} from a large-dimensional space $\mathbb{R}^{\nrfeatures}$ onto a lower-dimensional subspace $\mathbb{R}^{\nrfeatures}$, while approximately preserving distances between all pairs of points, i.e. 
+$ \|\featurevec_i - \featurevec_j\|_2 \approx \|f(\featurevec_i) - f(\featurevec_j)\|_2$ for all $i,j \in [\samplesize]$.}
+\end{figure} 
+Compared to \gls{pca}, this approach is less suitable for visualization purposes, but it can be an effective preprocessing step for distance-based \gls{ml} techniques, such as \gls{clustering} and \gls{nn}. \\
+  See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{randomprojection}, \gls{dimred}, \gls{pca}.},
   first={Johnson--Lindenstrauss lemma},
   text={Johnson--Lindenstrauss lemma}
 }
 
+
+\newglossaryentry{randomprojection}
+{name={random projection},
+ 	description={A \index{random projection} random projection is a random linear \gls{map} 
+    $f:\mathbb{R}^{\nrfeatures} \to \mathbb{R}^{\nrfeatures'}$ with $\nrfeatures' < \nrfeatures'$, 
+    i.e., a \gls{function} that can be associated to a random \gls{matrix} 
+    $\mA \in \mathbb{R}^{\nrfeatures'  \times \nrfeatures}$ (that is, a \gls{matrix}-valued \gls{rv}).
+    For various suitable choices of $\mA$, this is a useful tool for \gls{dimred}, as stated in the fundamental \gls{johnsonlindenstrausslemma}. \\
+See also: \gls{matrix}, \gls{norm}, \gls{dimred}, \gls{euclidspace}, \gls{johnsonlindenstrausslemma}, \gls{pca}.},
+	first={random projection},
+	text={random projection}  
+}
