@@ -1,4 +1,8 @@
 import re
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+macros_file = os.path.join(BASE_DIR, "ml_macros.tex")
 
 def remove_comments(text):
     """
@@ -414,13 +418,22 @@ def parse_glossary_names(source_file):
 
 #     return glossary_data
 
+from pathlib import Path
 
+HERE = Path(__file__).resolve().parent      # .../AaltoDictionaryofML.github.io/assets
+ROOT = HERE.parent                          # .../AaltoDictionaryofML.github.io
 
-# === USAGE EXAMPLE ===
 if __name__ == "__main__":
-    macros_file = "ml_macros.tex"
-    source_file = "../ADictML_Glossary_English.tex"
-    output_file = "ADictML_Glossary_Expanded.tex"
+    macros_file = HERE / "ml_macros.tex"
+    source_file = ROOT / "ADictML_Glossary_English.tex"
+    output_file = HERE / "ADictML_Glossary_Expanded.tex"
+
+
+# # === USAGE EXAMPLE ===
+# if __name__ == "__main__":
+#     macros_file = "ml_macros.tex"
+#     source_file = "../ADictML_Glossary_English.tex"
+#     output_file = "ADictML_Glossary_Expanded.tex"
 
     macros = parse_macros_with_args(macros_file)
     glossary_names = parse_glossary_names(source_file)
