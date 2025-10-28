@@ -21,7 +21,8 @@
   	Siehe auch: \gls{matrix}, \gls{inverse}, \gls{ridgeregression}.
   },
  first={Pseudoinverse},
- text={Pseudoinverse}
+ text={Pseudoinverse}, 
+ plural={Pseudoinverse}
 }
 
 
@@ -125,6 +126,146 @@ plural={Zufallsexperimente}
 }
 
 
+\newglossaryentry{basis}
+{
+  name={Basis},
+  description={Eine Basis\index{Basis}\cite{Soergel201x_AlgebraMitBildern} eines \gls{Vektorraums} $\mathcal{V}$ 
+  ist eine Menge von \glspl{linearunabhaengig}en \glspl{Vektor}en 
+  $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\}$, 
+  sodass jeder Vektor $\va \in \mathcal{V}$ als Linearkombination 
+  der Basisvektoren dargestellt werden kann, d.\,h.
+  $$
+    \va = \sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} 
+    \quad \text{für gewisse } \alpha_{1}, \,\ldots, \,\alpha_{\nrfeatures} \in \mathbb{R}.
+  $$
+  },
+  text = {Basis}, 
+  firstplural={Basen}, 
+  plural={Basen}, 
+  type=math,
+  first = {Basis}
+}
+
+
+\newglossaryentry{widematrix}
+{
+  name={breite Matrix},
+  description={Eine\index{breite Matrix} \gls{Matrix} 
+  $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+  wird als \emph{breit} bezeichnet, wenn sie mehr Spalten als Zeilen besitzt, 
+  d.\,h. $\nrfeatures > \samplesize$.\\ 
+  Siehe auch: \gls{Matrix}.},
+  text = {breite Matrix}, 
+  firstplural={Breite Matrizen}, 
+  plural={breite Matrizen}, 
+  type=math,
+  first = {breite Matrix}
+}
+
+\newglossaryentry{tallmatrix}
+{
+  name={hohe Matrix},
+  description={Eine\index{hohe Matrix} \gls{Matrix} 
+  $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+  wird als \emph{hoch} bezeichnet, wenn sie mehr Zeilen als Spalten besitzt, 
+  d.\,h. wenn $\samplesize > \nrfeatures$.\\ 
+  Siehe auch: \gls{Matrix}.},
+  text = {hohe Matrix}, 
+  firstplural={Hohe Matrizen}, 
+  plural={hohe Matrizen}, 
+  type=math,
+  first = {hohe Matrix}
+}
+
+
+\newglossaryentry{rankdeficient}
+{
+  name={rangdefizient},
+  description={Eine \gls{Matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+   ist \index{rangdefizient} rangdefizient\cite{Krause2021}, wenn sie nicht vollen Rang besitzt, 
+  d.\,h. wenn $\rank{\mA} < \min\{\samplesize, \nrfeatures\}$ gilt.\\
+  Siehe auch: \gls{vollerang}. 
+  }, 
+  first={rangdefizient}, 
+  text={rangdefizient}
+  plural= 
+}
+
+\newglossaryentry{fullrank}
+{
+  name={voller Rang},
+  description={Eine \gls{Matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+  ist \index{voller Rang} voller Rang, wenn sie den maximalen \gls{Rang} besitzt \cite{StrangLinAlg2016}. 
+  Für eine hohe \gls{Matrix}, d.\,h. wenn $\nrfeatures < \samplesize$, bedeutet voller Rang, dass ihr \gls{Rang} gleich $\nrfeatures$ ist. 
+ \begin{figure}[H]
+\centering
+\begin{tikzpicture}[every node/.style={font=\small}]
+% --- Full-rank square ---
+\node at (0,2) {$
+\mA =
+\begin{pmatrix}
+1 & 2\\
+3 & 4
+\end{pmatrix}
+$};
+\node[below=0.8cm of {$(0,2)$}] {\small voller Rang, quadratisch};
+% --- Rank-deficient square ---
+\node at (4.5,2) {$
+\mB =
+\begin{pmatrix}
+1 & 2\\
+2 & 4
+\end{pmatrix}
+$};
+\node[below=0.8cm of {$(4.5,2)$}] {\small \gls{rankdeficient}, quadratisch};
+% --- Full-rank tall (3x2) ---
+\node at (0,-1.0) {$
+\mC =
+\begin{pmatrix}
+1 & 0\\
+0 & 1\\
+1 & 1
+\end{pmatrix}
+$};
+\node[below=1.2cm of {$(0,-1.0)$}] {\small voller Rang, \gls{tallmatrix}};
+% --- Rank-deficient wide (2x3) ---
+\node at (4.5,-1.0) {$
+\mD =
+\begin{pmatrix}
+1 & 2 & 3\\
+2 & 4 & 6
+\end{pmatrix}
+$};
+\node[below=1.2cm of {$(4.5,-1.0)$}] {\small \gls{rankdeficient}, \gls{widematrix}};
+\end{tikzpicture}
+\caption{Beispiele für \glspl{matrix} mit vollem Rang und \gls{rankdeficient}.}
+\end{figure} 
+  Eine quadratische Matrix ist genau dann voller Rang, wenn sie invertierbar ist.\\
+  Siehe auch: \gls{matrix}, \gls{dimension}, \gls{linearmap}, \gls{columnspace}.}, 
+  text = {voller Rang}, 
+  type=math,
+  first = {voller Rang},
+  plural={volle Ränge}
+}
+
+\newglossaryentry{rank}
+{
+  name={Rang},
+  description={Der Rang\index{Rang} einer \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$, 
+  bezeichnet als $\rank{\mA}$, ist die maximale Anzahl linear unabhängiger Spalten von $\mA$ \cite{StrangLinAlg2016}. 
+  Äquivalent kann der Rang auch als die \gls{dimension} des \gls{columnspace} 
+  $\linspan{\mA} = \big\{ \mA \weights \mbox{ für ein } \weights \in \mathbb{R}^{\nrfeatures} \big\}$ definiert werden. 
+  Der Rang einer \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+  kann weder die Anzahl der Zeilen noch die Anzahl der Spalten von $\mA$ überschreiten \cite{Horn91,MeyerMatrixAnalysis}, 
+  d.h., $\rank{\mA} \leq \min \{ \samplesize, \nrfeatures \}$. \\
+  Siehe auch: \gls{matrix}, \gls{dimension}, \gls{linearmap}, \gls{columnspace}.},
+  text={Rang},
+  type=math,
+  first={Rang},
+  plural= {Ränge}
+}
+
+
 
 \newglossaryentry{inverse}
 {name={inverse Matrix},
@@ -176,6 +317,170 @@ plural={Zufallsexperimente}
 first={inverse Matrix},
 text={inverse Matrix}
 }
+
+\newglossaryentry{matrix}
+{
+  name={Matrix},
+  description={Eine Matrix\index{Matrix} der Größe $\samplesize \times \nrfeatures$ ist ein zweidimensionales Zahlenarray, 
+    das wie folgt dargestellt wird:
+    $$
+    \mA = \begin{pmatrix}
+      A_{1,1} & A_{1,2} & \dots  & A_{1,\nrfeatures} \\
+      A_{2,1} & A_{2,2} & \dots  & A_{2,\nrfeatures} \\
+      \vdots  & \vdots  & \ddots & \vdots \\
+      A_{\samplesize,1} & A_{\samplesize,2} & \dots  & A_{\samplesize,\nrfeatures}
+    \end{pmatrix} \in \mathbb{R}^{\samplesize \times \nrfeatures}.
+    $$
+    Dabei bezeichnet $A_{\sampleidx,\featureidx}$ den Eintrag der Matrix in der $\sampleidx$-ten Zeile 
+    und der $\featureidx$-ten Spalte. Matrizen sind nützliche Darstellungen verschiedener mathematischer Objekte \cite{StrangLinAlg2016}, 
+    darunter:
+    \begin{itemize}
+      \item Systeme linearer Gleichungen: Eine Matrix kann ein System linearer Gleichungen darstellen:
+      $$
+      \begin{pmatrix}
+        A_{1,1} & A_{1,2} \\
+        A_{2,1} & A_{2,2}
+      \end{pmatrix}
+      \begin{pmatrix}
+        w_1 \\
+        w_2
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        y_1 \\
+        y_2
+      \end{pmatrix}
+      \quad \text{kompakt geschrieben als } \quad \mA \vw = \vy.
+      $$
+      Ein wichtiges Beispiel hierfür ist die Optimalitätsbedingung für die 
+      \glspl{modelparam} innerhalb der \gls{linreg}.
+      \item \Glspl{linearmap}: 
+      Betrachte einen $\nrfeatures$-dimensionalen \gls{vectorspace} $\mathcal{U}$ und einen $\samplesize$-dimensionalen \gls{vectorspace} $\mathcal{V}$. 
+      Wenn wir eine Basis $\mathbf{u}^{(1)},\,\ldots,\,\mathbf{u}^{(\nrfeatures)}$ für $\mathcal{U}$ und eine Basis 
+      $\mathbf{v}^{(1)},\,\ldots,\,\mathbf{v}^{(\samplesize)}$ für $\mathcal{V}$ festlegen, definiert jede Matrix 
+      $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ auf natürliche Weise eine 
+      \gls{linearmap} $\alpha: \mathcal{U} \rightarrow \mathcal{V}$ (siehe Abb. \ref{fig_matrix_dict}) so, dass
+      $$\vu^{(\featureidx)} \mapsto \sum_{\sampleidx=1}^{\samplesize} A_{\sampleidx,\featureidx} \vv^{(\sampleidx)}.$$
+      \item \Glspl{dataset}: Eine Matrix kann zur Darstellung eines \gls{dataset} verwendet werden. Jede Zeile 
+      entspricht einem einzelnen \gls{datapoint}, jede Spalte einer bestimmten \gls{feature} oder \gls{label} eines \gls{datapoint}.
+    \end{itemize}
+    \begin{figure}[H]
+    \begin{center}
+    \begin{tikzpicture}[x=2cm]
+      % LEFT: Standard basis vectors and unit square
+      \begin{scope}
+        \draw[->, thick] (0,0) -- (1,0) node[below] {$\vu^{(1)}$};
+        \draw[->, thick] (0,0) -- (0,1) node[above] {$\vu^{(2)}$};
+      \end{scope}
+      % RIGHT: Transformed basis vectors and parallelogram
+      \begin{scope}[shift={(3.2,0)}]
+        \draw[->, thick] (0,0) -- (1,0) node[below] {$\vv^{(1)}$};
+        \draw[->, thick] (0,0) -- (0,1) node[above] {$\vv^{(2)}$};
+        \coordinate (A) at (0.2,-1.0);
+        \coordinate (B) at (0.4,1.2);
+        \draw[->, very thick, red] (0,0) -- (A) node[below,right] {$\mA \vu^{(1)}\!=\!A_{1,1}\vv^{(1)}\!+\!A_{2,1}\vv^{(2)}$};
+        \draw[->, very thick, red] (0,0) -- (B) node[right,xshift=1pt] {$\mA \vu^{(2)}$};
+      \end{scope}
+      % Arrow between plots
+      \draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {$\mA$} (2.7,0.5);
+    \end{tikzpicture}
+    \end{center}
+    \caption{Eine Matrix $\mA$ definiert eine \gls{linearmap} zwischen zwei \glspl{vectorspace}. \label{fig_matrix_dict}} 
+    \end{figure}
+    Siehe auch: \gls{linearmap}, \gls{dataset}, \gls{linmodel}.},
+  first={Matrix},
+  firstplural={Matrizen},
+  type=math,
+  plural={Matrizen},
+  text={Matrix}
+}
+
+\newglossaryentry{stratification}
+{
+  name={Stratifizierung},
+  description={Stratifizierung bezeichnet den Prozess, ein \gls{dataset} in Teilmengen zu unterteilen, die als \glspl{stratum} bezeichnet werden, 
+  entsprechend einem bestimmten Schlüsselkriterium \cite{oecd2008glossary,Everitt2010,OxfordStatisticsDictionary}.
+Ziel dieses Vorgehens ist es sicherzustellen, dass eine \gls{ml}-Methode für jedes durch diese Attribute 
+ definierte \gls{stratum} gute Leistungen erbringt. In einem medizinischen \gls{dataset} kann es zum Beispiel sinnvoll sein, 
+ Patienten nach Altersgruppen zu stratifizieren, um die Leistungsfähigkeit eines \gls{ml}-Modells über alle Altersgruppen hinweg zu gewährleisten.  
+
+  \begin{figure}[H]
+  	\centering
+	\begin{tikzpicture}[font=\small,x=1.7cm]
+		\def\cellw{6.0}
+		\def\cellh{0.5}
+		\def\gap{1}
+		\def\tfrac{0.8}
+		\def\pA{0.9}
+		\node[anchor=south] at (0.5*\cellw, \cellh+0.2) {\gls{dataset}};
+		\node[anchor=south] at ({0.5*\cellw}, {-(\cellh+\gap)+\cellh+0.2}) {Trainings- und Validierungsmenge ohne Stratifizierung};
+		\node[anchor=south] at (0.5*\cellw, {-2*(\cellh+\gap)+\cellh+0.2}) {Trainings- und Validierungsmenge mit Stratifizierung};
+		\pgfmathsetmacro{\yDataset}{0}
+		\pgfmathsetmacro{\yNoStrat}{-(\cellh+\gap)}
+		\pgfmathsetmacro{\yStrat}{-2*(\cellh+\gap)}
+		\pgfmathsetmacro{\xAB}{\pA*\cellw}
+		\pgfmathsetmacro{\wA}{\pA*\cellw}
+		\pgfmathsetmacro{\wB}{(1-\pA)*\cellw}
+		\draw (0,\yDataset) rectangle ++(\cellw,\cellh);
+		\draw[dashed,  line width=0.5mm] (\xAB,\yDataset) -- ++(0,\cellh);
+		\node at (0.5*\wA, \yDataset+0.5*\cellh) {$\sensattr\!=\!1$};
+		\node at ({\xAB+0.5*\wB}, {\yDataset+0.5*\cellh}) {$\sensattr\!=\!2$};
+		\draw (0,\yNoStrat) rectangle ++(\cellw,\cellh);
+		\pgfmathsetmacro{\xValStart}{\tfrac*\cellw}
+		\pgfmathsetmacro{\valw}{(1-\tfrac)*\cellw}
+		\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++(\valw,\cellh);
+		\draw[dashed,  line width=0.5mm] (\xAB,\yNoStrat) -- ++(0,\cellh);
+		\draw (0,\yStrat) rectangle ++(\cellw,\cellh);
+		\pgfmathsetmacro{\xAB}{\pA*\cellw}
+		\draw[dashed, line width=1mm] (\xAB,\yStrat) -- ++(0,\cellh);
+		\pgfmathsetmacro{\xAVal}{\tfrac*\wA}
+		\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}
+		\fill[gray!35] (\xAVal,\yStrat) rectangle ++(\wAVal,\cellh);
+		\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}
+		\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}
+		\fill[gray!35] (\xBVal,\yStrat) rectangle ++(\wBVal,\cellh);
+	\end{tikzpicture}
+  	\caption{Stratifizierung stellt sicher, dass sowohl die \gls{trainset} als auch die \gls{valset} ähnliche Verteilungen eines binären Schlüsselattributs $\sensattr$ aufweisen.}
+  \end{figure}
+  
+  Wenn ein \gls{dataset} in eine \gls{trainset} und eine \gls{valset} aufgeteilt wird, sorgt die Stratifizierung dafür, dass beide Mengen
+ähnliche Verteilungen des Schlüsselattributs enthalten. Ohne Stratifizierung kann eine kleine \gls{valset} die \glspl{datapoint} mit seltenen
+ Attributen unterrepräsentieren oder vollständig ausschließen. Dies kann zu irreführenden Leistungsschätzungen führen.\\
+  
+  Siehe auch: \gls{validation}, \gls{kfoldcv}, \gls{stratum}.},
+  text={Stratifizierung},
+  first={Stratifizierung},
+  plural={Stratifizierungen}
+}
+
+\newglossaryentry{stratum}
+{
+  name={Stratum},
+  description={
+Ein \index{Stratum} Stratum ist eine Teilmenge von \glspl{datapoint}, die alle eine gemeinsame Eigenschaft besitzen. Diese Eigenschaft kann entweder ein \gls{feature} oder ein \gls{label} sein. Zum Beispiel bilden in einem Wetter-\gls{dataset} alle Messungen von derselben \gls{fmi}-Wetterstation ein Stratum.\\[0.5em]
+\begin{center}
+\textbf{Beispiel (CSV-Ausschnitt):}\\
+{\ttfamily
+time,station,value,units\\
+2023-06-01 12:00,Helsinki,18.2,degC\\
+2023-06-01 13:00,Helsinki,18.5,degC\\
+2023-06-01 14:00,Helsinki,19.0,degC\\
+2023-06-01 12:00,Oulu,12.1,degC\\
+2023-06-01 13:00,Oulu,12.4,degC\\
+2023-06-01 14:00,Oulu,12.7,degC\\
+2023-06-01 12:00,Tampere,15.3,degC\\
+2023-06-01 13:00,Tampere,15.6,degC\\
+2023-06-01 14:00,Tampere,16.0,degC
+}
+\end{center} 
+Die Zeilen für jede Wetterstation (\texttt{Helsinki}, \texttt{Oulu}, \texttt{Tampere}) repräsentieren verschiedene Strata.\\
+Siehe auch: \gls{stratification}, \gls{dataset}, \gls{datapoint}.},
+  first={Stratum},
+  firstplural={Strata},
+  plural={Strata},
+  text={Stratum}
+}
+
 
 
 \newglossaryentry{det}
