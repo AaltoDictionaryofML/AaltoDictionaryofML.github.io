@@ -1610,7 +1610,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 		Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
 		a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
 		into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
-		The nullspace $\nullspace(\mA)$ characterizes all directions in the original 
+		The nullspace $\nullspace{\mA}$ characterizes all directions in the original 
     		\gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
 		$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
 		the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
@@ -3602,7 +3602,7 @@ text={NLP},
 
 
 \newglossaryentry{LebesgueIntegral}
-{name={Lebesgue intgral},
+{name={Lebesgue integral},
 	description={The Lebesgue integral\index{Lebesgue integral} assigns each integrable \gls{function} 
 	$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ a number 
 	$\int_{\featurevec} f(\featurevec) d\featurevec$ 
@@ -7004,15 +7004,15 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 \newglossaryentry{sample}
 {name={sample}, 
  plural={samples},
- description={In the context of \gls{ml}, a \index{sample} sample is a finite sequence 
+ description={In the context of \gls{ml}, a \index{sample} sample is a finite \gls{sequence} 
  	(of length $\samplesize$) of \glspl{datapoint}, $\datapoint^{(1)}, \ldots, \datapoint^{(\samplesize)}$. 
  	The number $\samplesize$ is called the \gls{samplesize}. 
  	\Gls{erm}-based methods use a sample to train a \gls{model} (or learn a 
  	\gls{hypothesis}) by minimizing the average \gls{loss} (the \gls{emprisk}) over that sample. 
- 	Since a sample is defined as a sequence, the same \gls{datapoint} may appear more than once. 
- 	By contrast, some authors in statistics define a sample as a set of 
- 	\glspl{datapoint}, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
- 	These two views can be reconciled by regarding a sample as a sequence of 
+ 	Since a sample is defined as a \gls{sequence}, the same \gls{datapoint} may 
+	appear more than once. By contrast, some authors in statistics define a sample 
+	as a set of \glspl{datapoint}, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
+ 	These two views can be reconciled by regarding a sample as a \gls{sequence} of 
  	\gls{feature}–\gls{label} pairs, $\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \ldots, 
  	\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}$. The $\sampleidx$-th 
  	pair consists of the \glspl{feature} $\featurevec^{(\sampleidx)}$ and the \gls{label} $\truelabel^{(\sampleidx)}$ 
@@ -7058,6 +7058,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{\datapoint}^{(1)}$};
  				\draw[->, thick] (p2) to[out=0,   in=180] ($(s1.west)+(1mm,0mm)$);
  				\draw[->, thick] (p7) to[out=10,  in=180] ($(s3.west)+(1mm,0mm)$);
+				\draw[->, thick] (p4) to[out=10,  in=180] ($(s4.west)+(1mm,0mm)$);
  				\draw[->, thick] (p5) to[out=-10, in=180] ($(s5.west)+(1mm,0mm)$);
  				% Duplicate selection: same population point chosen twice
  				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] ($(s2.west)+(1mm,0mm)$);
@@ -7066,17 +7067,18 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
  			\end{tikzpicture}
  		\end{center}
- 		\caption{Illustration of a sample as a finite sequence. Each sequence element consists 
- 			of the \gls{featurevec} and the \gls{label} of some \gls{datapoint} which belongs to 
- 			an underlying population. Depending on the application, the same \gls{datapoint} 
- 			is used to obtain multiple sample elements. 
+ 		\caption{A sample viewed as a finite \gls{sequence}. 
+		         Each element of this sample consists of the \gls{featurevec} 
+				 and the \gls{label} of a \gls{datapoint} from an underlying population.
+				The same \gls{datapoint} may occur more than once in the sample. 
  			\label{fig:sample-sequence_dict}}
  	\end{figure} 	
- 	For the analysis of \gls{ml} methods, it is common to interpret a sample as the \gls{realization} 
- 	of a \gls{stochproc} indexed by $\{1,\ldots,\samplesize\}$. A widely used assumption is the \gls{iidasspt}, 
- 	where sample elements $\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$, for $\sampleidx=1,\ldots,\samplesize$, 
- 	are \gls{iid} \glspl{rv} with a common \gls{probdist}.  \\
- See also: \gls{datapoint}, \gls{realization}, \gls{iid}, \gls{rv}, \gls{probdist}, \gls{samplesize}, \gls{erm}.},
+ 	For the analysis of \gls{ml} methods, it is common to interpret (the generation of) a 
+	sample as the \gls{realization} of a \gls{stochproc} indexed by $\{1,\ldots,\samplesize\}$. 
+	A widely used assumption is the \gls{iidasspt}, where sample elements 
+	$\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$, 
+	for $\sampleidx=1,\ldots,\samplesize$, are \gls{iid} \glspl{rv} with a common \gls{probdist}.  \\
+ See also: \gls{dataset}, \gls{sequence}, \gls{iidasspt}.},
  first={sample},
  text={sample}
 }

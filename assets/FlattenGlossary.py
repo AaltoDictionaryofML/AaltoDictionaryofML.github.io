@@ -179,6 +179,7 @@ def flatten_tex_macros(source_file, macros, output_file, glossary_names):
     print(f"✅ Flattened file written to: {output_file}")
     
     
+    
 def extract_balanced_braces(text, start_index):
     """
     Extracts a block enclosed in balanced braces starting at start_index.
@@ -190,21 +191,132 @@ def extract_balanced_braces(text, start_index):
     depth = 0
     pos = start_index
     while pos < len(text):
-        if text[pos] == '{':
+        ch = text[pos]
+        if ch == '{':
             depth += 1
-        elif text[pos] == '}':
+        elif ch == '}':
             depth -= 1
             if depth == 0:
                 return text[start_index + 1:pos], pos + 1
+        # skip escaped braces like \{ or \}
+        if ch == '\\' and pos + 1 < len(text):
+            pos += 2
+            continue
         pos += 1
 
     raise ValueError("No matching closing brace found")
 
+
+def extract_balanced_parens(text, start_index):
+    """
+    Extracts a block enclosed in balanced parentheses starting at start_index.
+    Returns (block_content, index_after_block).
+    """
+    if text[start_index] != '(':
+        raise ValueError("Expected opening parenthesis at start_index")
+
+    depth = 0
+    pos = start_index
+    while pos < len(text):
+        ch = text[pos]
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth -= 1
+            if depth == 0:
+                return text[start_index + 1:pos], pos + 1
+        if ch == '\\' and pos + 1 < len(text):
+            pos += 2
+            continue
+        pos += 1
+
+    raise ValueError("No matching closing parenthesis found")
+
+
+def replace_macro_calls_with_nested_args(text, name, num_args, body):
+    pattern = re.compile(rf'\\{name}(?![a-zA-Z@])')
+    pos = 0
+    result = []
+
+    while pos < len(text):
+        match = pattern.search(text, pos)
+        if not match:
+            result.append(text[pos:])
+            break
+
+        start = match.start()
+        end = match.end()
+        args = []
+        current_pos = end
+
+        ok = True
+        for _ in range(num_args):
+            # Skip whitespace
+            while current_pos < len(text) and text[current_pos].isspace():
+                current_pos += 1
+            if current_pos >= len(text):
+                ok = False
+                break
+
+            # Accept {arg} OR (arg)
+            if text[current_pos] == '{':
+                try:
+                    arg, current_pos = extract_balanced_braces(text, current_pos)
+                except Exception:
+                    ok = False
+                    break
+            elif text[current_pos] == '(':
+                try:
+                    arg, current_pos = extract_balanced_parens(text, current_pos)
+                except Exception:
+                    ok = False
+                    break
+            else:
+                # Cannot parse this occurrence – leave literal and move on
+                ok = False
+                break
+
+            args.append(arg)
+
+        if ok:
+            expansion = expand_macro(name, args, body)
+            result.append(text[pos:start])
+            result.append(expansion)
+            pos = current_pos
+        else:
+            # Keep the original \macro and continue scanning after it
+            result.append(text[pos:end])
+            pos = end
+
+    return ''.join(result)
     
+# def extract_balanced_braces(text, start_index):
+#     """
+#     Extracts a block enclosed in balanced braces starting at start_index.
+#     Returns (block_content, index_after_block).
+#     """
+#     if text[start_index] != '{':
+#         raise ValueError("Expected opening brace at start_index")
+
+#     depth = 0
+#     pos = start_index
+#     while pos < len(text):
+#         if text[pos] == '{':
+#             depth += 1
+#         elif text[pos] == '}':
+#             depth -= 1
+#             if depth == 0:
+#                 return text[start_index + 1:pos], pos + 1
+#         pos += 1
+
+#     raise ValueError("No matching closing brace found")
+
+
 def parse_glossary_names(source_file):
     """
     Parses glossary key → {'name': ..., 'firstplural': ...} from \newglossaryentry definitions.
-    Handles multiline and nested braces.
+    Handles multiline and nested braces. Prefers 'name=', falls back to 'first=' or 'text='.
+    'firstplural=' is used if present; else naive plural of chosen singular.
     """
     glossary_data = {}
 
@@ -218,8 +330,8 @@ def parse_glossary_names(source_file):
         if not match:
             break
 
-        key = match.group(1)
-        brace_start = match.end() - 1
+        key = match.group(1).strip()
+        brace_start = match.end() - 1  # points to '{'
         try:
             body, next_pos = extract_balanced_braces(content, brace_start)
         except Exception as e:
@@ -227,23 +339,80 @@ def parse_glossary_names(source_file):
             pos = match.end()
             continue
 
-        body_cleaned = re.sub(r'%.*', '', body)
+        # Work only at top-level for fields we care about
+        # Use non-greedy to avoid eating across braces; these are inside the balanced 'body'.
+        def grab(field):
+            m = re.search(rf'\b{field}\s*=\s*\{{(.*?)\}}', body, flags=re.DOTALL)
+            return m.group(1).strip() if m else None
 
-        name_match = re.search(r'text\s*=\s*\{([^{}]*)\}', body_cleaned)
-        plural_match = re.search(r'plural\s*=\s*\{([^{}]*)\}', body_cleaned)
+        name         = grab('name')
+        first        = grab('first')
+        firstplural  = grab('firstplural')
+        text_field   = grab('text')  # legacy fallback
 
-        if name_match:
-            glossary_data[key.strip()] = {
-                'name': name_match.group(1).strip(),
-                'firstplural': plural_match.group(1).strip() if plural_match else name_match.group(1).strip() + 's'
-            }
-        else:
-            print(body)
-            print(f"⚠️ No name=... found in entry '{key}'")
+        chosen_name = name or first or text_field
+        if not chosen_name:
+            print(f"⚠️ No name/first/text found in entry '{key}'")
+            pos = next_pos
+            continue
+
+        if not firstplural:
+            # naive fallback pluralization if not provided
+            firstplural = chosen_name + 's'
+
+        glossary_data[key] = {
+            'name': chosen_name,
+            'firstplural': firstplural
+        }
 
         pos = next_pos
 
     return glossary_data
+
+    
+# def parse_glossary_names(source_file):
+#     """
+#     Parses glossary key → {'name': ..., 'firstplural': ...} from \newglossaryentry definitions.
+#     Handles multiline and nested braces.
+#     """
+#     glossary_data = {}
+
+#     with open(source_file, "r", encoding="utf-8") as f:
+#         content = remove_comments(f.read())
+
+#     entry_start_pattern = re.compile(r'\\newglossaryentry\{([^\}]+)\}\s*\{', re.MULTILINE)
+#     pos = 0
+#     while True:
+#         match = entry_start_pattern.search(content, pos)
+#         if not match:
+#             break
+
+#         key = match.group(1)
+#         brace_start = match.end() - 1
+#         try:
+#             body, next_pos = extract_balanced_braces(content, brace_start)
+#         except Exception as e:
+#             print(f"⚠️ Skipping entry '{key}': {e}")
+#             pos = match.end()
+#             continue
+
+#         body_cleaned = re.sub(r'%.*', '', body)
+
+#         name_match = re.search(r'text\s*=\s*\{([^{}]*)\}', body_cleaned)
+#         plural_match = re.search(r'plural\s*=\s*\{([^{}]*)\}', body_cleaned)
+
+#         if name_match:
+#             glossary_data[key.strip()] = {
+#                 'name': name_match.group(1).strip(),
+#                 'firstplural': plural_match.group(1).strip() if plural_match else name_match.group(1).strip() + 's'
+#             }
+#         else:
+#             print(body)
+#             print(f"⚠️ No name=... found in entry '{key}'")
+
+#         pos = next_pos
+
+#     return glossary_data
 
 
 
