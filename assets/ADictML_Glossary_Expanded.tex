@@ -1219,14 +1219,14 @@ description={A function $f: \mathbb{R}^{d} \to \mathbb{R}$ is
 	description={Newton's method is an iterative optimization method for finding 
 	local minima or maxima of a differentiable objective function $f({\bf w})$. 
 	Like gradient-based methods, Newton's method also 
-		computes a new estimate $\widehat{{\bf w}}_{k+1}$ by optimizing a local approximation of $f({\bf w})$ around 
-		the current estimate $\widehat{{\bf w}}_{k}$. In contrast to gradient-based methods, which use the gradient to build 
+		computes a new estimate $\widehat{{\bf w}}_{t+1}$ by optimizing a local approximation of $f({\bf w})$ around 
+		the current estimate $\widehat{{\bf w}}_{t}$. In contrast to gradient-based methods, which use the gradient to build 
 		a local linear approximation, Newton's method uses the Hessian matrix to build a local quadratic approximation. 
 		In particular, starting from an initial estimate $\widehat{{\bf w}}_{0}$, Newton's method iteratively updates the estimate according to 
 		\[
-		\widehat{{\bf w}}_{k+1}= \widehat{{\bf w}}_{k}- \big( \nabla^2 f\big(\widehat{{\bf w}}_{k}\big) \big)^{-1} \nabla f\big( \widehat{{\bf w}}_{k} \big) \mbox{, for } k=0,\,1,\,\ldots.
+		\widehat{{\bf w}}_{t+1}= \widehat{{\bf w}}_{t}- \big( \nabla^2 f\big(\widehat{{\bf w}}_{t}\big) \big)^{-1} \nabla f\big( \widehat{{\bf w}}_{t} \big) \mbox{, for } t=0,\,1,\,\ldots.
 		\]
-		Here, $\nabla f\big(\widehat{{\bf w}}_{k} \big)$ is the gradient, and $\nabla^2 f({\bf w}^{(k)})$ is 
+		Here, $\nabla f\big(\widehat{{\bf w}}_{t} \big)$ is the gradient, and $\nabla^2 f({\bf w}^{(t)})$ is 
 		the Hessian of the objective function $f$. Since using a quadratic function as local approximation is more accurate 
 		than using a linear function (which is a special case of a quadratic function), Newton's method tends to 
 		converge faster than gradient-based methods (see Fig. \ref{fig_newtonmethod_dict}). However, this faster convergence comes at the increased computational 
@@ -1428,7 +1428,7 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 		 repeatedly applying an operator $\mathcal{F}$, i.e., 
 		 \begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
-		 	{\bf w}^{(k+1)} = \mathcal{F} {\bf w}^{(k)} \mbox{, for } k=0, \,1, \,\ldots.
+		 	{\bf w}^{(t+1)} = \mathcal{F} {\bf w}^{(t)} \mbox{, for } t=0, \,1, \,\ldots.
 		 \end{equation} 
 		 The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
 		 $\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
@@ -1438,7 +1438,7 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 		 Clearly, we should use an operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution such that
 		 \begin{equation} 
 			\nonumber
-			\underbrace{\mleft\lVert  {\bf w}^{(k+1)} - \widehat{\mathbf{w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F} {\bf w}^{(k)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(k)} - \widehat{{\bf w}} \mright\rVert_{2}. 
+			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{\mathbf{w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F} {\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
 		\end{equation}
 		Thus, we require $\mathcal{F}$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
 		should not result in worse model parameters that have a larger distance to a solution $\widehat{{\bf w}}$. 
@@ -1451,10 +1451,10 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 			\mleft\lVert  \mathcal{F} {\bf w}\!-\!\mathcal{F} {\bf w}' \mright\rVert_{2}  \leq  \kappa	\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{2} \mbox{ holds for any } {\bf w},{\bf w}'.
 		\end{equation}
 		For a contraction operator $\mathcal{F}$, the fixed-point iteration \eqref{equ_def_fixed_point_dict} generates 
-		a sequence ${\bf w}^{(k)}$ that converges quite rapidly. In particular \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, 
+		a sequence ${\bf w}^{(t)}$ that converges quite rapidly. In particular \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, 
 		\begin{equation} 
 			\nonumber
-			\mleft\lVert  {\bf w}^{(k)} - \widehat{{\bf w}} \mright\rVert_{2} \leq \kappa^{k} 	\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}. 
+			\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2} \leq \kappa^{t} 	\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}. 
 		\end{equation} 
 		Here, $\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}$ is the distance between 
 		the initialization ${\bf w}^{(0)}$ and the solution $\widehat{{\bf w}}$. 
@@ -1468,8 +1468,8 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 			\begin{center} 
 				\begin{tikzpicture}[scale=1.5]
 					
-					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$w^{(k)}$};
-					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$w^{(k+1)}$};
+					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$w^{(t)}$};
+					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$w^{(t+1)}$};
 					
 					\node at (2.1,2.2) {$\mathcal{F}^{(3)}$};
 					\node at (1.9,-1.5) {$\mathcal{F}^{(1)}$};
@@ -1699,7 +1699,7 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 		It uses a server-client setting and alternates between clientwise local models 
 		retraining, followed by the aggregation of updated model parameters at the server 
 		\cite{pmlr-v54-mcmahan17a}. The local update at client $i=1, \,\ldots, \,n$ 
-		at time $k$ starts from the current model parameters ${\bf w}^{(k)}$ provided 
+		at time $t$ starts from the current model parameters ${\bf w}^{(t)}$ provided 
 		by the server and typically amounts to executing few iterations of stochastic gradient descent (SGD). After completing the local updates, they are aggregated 
 		by the server (e.g., by averaging them). Fig. \ref{fig_single_iteration_fedavg_dict} illustrates the execution of a single 
 		iteration of FedAvg. 
@@ -1718,24 +1718,24 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 			\node[client] (c1l) at ($(s1) + (-1cm,-1cm)$) {};
 			\node[client] (c1r) at ($(s1) + (1cm,-1cm)$) {};
 			\node[] (dots1) at ($(s1) + (0cm,-1cm)$) {\ldots};
-			\draw[->] (s1) -- (c1l) node[midway,left] {${\bf w}^{(k)}$};
-			\draw[->] (s1) -- (c1r) node[midway,right] {${\bf w}^{(k)}$};
+			\draw[->] (s1) -- (c1l) node[midway,left] {${\bf w}^{(t)}$};
+			\draw[->] (s1) -- (c1r) node[midway,right] {${\bf w}^{(t)}$};
 			\draw[->] (s1) -- (dots1);
 			
 			\node[server] (s2) at (label2 |- 0,2.5) {};
 			\node[client] (c2l) at ($(s2) + (-1cm,-1cm)$) {};
 			\node[client] (c2r) at ($(s2) + (1cm,-1cm)$) {};
 			\node[] (dots2) at ($(s2) + (0cm,-1cm)$) {\ldots};
-			\node[below=0.2cm of c2l] {$\mathbf{w}^{(k,1)}$};
-			\node[below=0.2cm of c2r] {$\mathbf{w}^{(k,n)}$};
+			\node[below=0.2cm of c2l] {$\mathbf{w}^{(t,1)}$};
+			\node[below=0.2cm of c2r] {$\mathbf{w}^{(t,n)}$};
 			
 			\node[server] (s3) at (label3 |- 0,2.5) {};
-			\node[above=0.01cm of s3, yshift=-4pt] {${\bf w}^{(k+1)}$};
+			\node[above=0.01cm of s3, yshift=-4pt] {${\bf w}^{(t+1)}$};
 			\node[client] (c3l) at ($(s3) + (-1cm,-1cm)$) {};
 			\node[client] (c3r) at ($(s3) + (1cm,-1cm)$) {};
 			\node[] (dots3) at ($(s3) + (0cm,-1cm)$) {\ldots};
-			\draw[->] (c3l) -- (s3) node[midway,left] {$\mathbf{w}^{(k,1)}$};
-			\draw[->] (c3r) -- (s3)  node[midway,right] {$\mathbf{w}^{(k,n)}$};
+			\draw[->] (c3l) -- (s3) node[midway,left] {$\mathbf{w}^{(t,1)}$};
+			\draw[->] (c3r) -- (s3)  node[midway,right] {$\mathbf{w}^{(t,n)}$};
 			\draw[->] (dots3) -- (s3);
 			\end{tikzpicture}
 			\end{center}
@@ -2431,9 +2431,27 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lV
 	text={gradient step}
 }
 
+\newglossaryentry{operator} 
+{name={operator}, 
+	description={An operator is a function 
+	          with domain and co-domain having a specific 
+			  mathematical structure such as a vector space, Hilbert space
+			  or a metric space \cite{Bauschke:2017,DunfordSchwartz1988}. 
+			  Many machine learning (ML) methods involve operators with domain and co-domain 
+			  being an Euclidean space.
+							\\ 
+		See also: vector space, function, Hilbert space.},
+	first={operator},
+	type=math, 
+	plural={operators},
+	firstplural={operators},
+	text={operator}
+}
+
 \newglossaryentry{contractop}
 {name={contraction operator},
-	description={An operator $\mathcal{F}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}$
+	description={An operator 
+	   $\mathcal{F}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}$
 		is a contraction if, for some $\kappa \in [0,1)$,
 		\begin{equation} 
 			\nonumber
@@ -2616,9 +2634,9 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lV
 		\caption{A gradient-based method for empirical risk minimization (ERM) using a hypothesis space $\mathcal{H}$ 
 		    defines a nested sequence of effective hypothesis spaces 
 			$\mathcal{H}^{(1)} \subseteq \mathcal{H}^{(2)} \subseteq \ldots \subseteq \mathcal{H}$. 
-			The effective hypothesis space $\mathcal{H}^{(k)}$ is 
+			The effective hypothesis space $\mathcal{H}^{(t)}$ is 
 		    determined by all model parameters that can be reached from the initialization 
-			${\bf w}^{(0)}$ within $k$ gradient steps. \label{fig_early_stopping_dict}}
+			${\bf w}^{(0)}$ within $t$ gradient steps. \label{fig_early_stopping_dict}}
 		\end{figure} \\ 
 		See also: gradient-based method, regularization, overfitting.},
 	first={early stopping},
@@ -3758,9 +3776,9 @@ text={NLP},
 \newglossaryentry{ucb}
 {name={upper confidence bound (UCB)},
 	description={Consider an machine learning (ML) 
-		application that requires selecting, at each time step $k$, an action $a_{k}$ 
-		from a finite set of alternatives $\actionset$. The utility of selecting action $a_{k}$ 
-		is quantified by a numeric reward signal $r^{(a_{k})}$. 
+		application that requires selecting, at each time step $t$, an action $a_{t}$ 
+		from a finite set of alternatives $\actionset$. The utility of selecting action $a_{t}$ 
+		is quantified by a numeric reward signal $r^{(a_{t})}$. 
 		A widely used probabilistic model for this type of sequential decision-making problem 
 		is the stochastic multiarmed bandit (MAB) setting \cite{Bubeck2012}. In this model, 
 		the reward $r^{(a)}$ is viewed as the realization of a random variable (RV) 
@@ -3783,12 +3801,12 @@ text={NLP},
 {name={multiarmed bandit (MAB)},
 	description={An MAB  problem is a precise 
 	formulation of a sequential decision-making task under uncertainty. At each 
-	discrete time step $k$, a learner selects one of several possible 
+	discrete time step $t$, a learner selects one of several possible 
 	actions—called arms—from a finite set $\actionset$. Pulling arm $a$ at time 
-	$k$ yields a reward $r^{(a,k)}$ that is drawn from an unknown 
-	probability distribution $P\left(r^{(a,k)}\right)$. We obtain different classes 
+	$t$ yields a reward $r^{(a,t)}$ that is drawn from an unknown 
+	probability distribution $P\left(r^{(a,t)}\right)$. We obtain different classes 
 	of MAB problems by placing different restrictions on this probability distribution. In the simplest 
-	setting, the probability distribution $P\left(r^{(a,k)}\right)$ does not depend on $t$. 
+	setting, the probability distribution $P\left(r^{(a,t)}\right)$ does not depend on $t$. 
 		Given an MAB problem, the goal is to construct machine learning (ML) methods that maximize the cumulative 
 		reward over time by strategically balancing exploration (i.e., gathering information 
 		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
@@ -4060,7 +4078,7 @@ text={NLP},
 		\end{array}
 		\]
 		Each device $i$ starts from its own local input and performs a sequence of 
-		intermediate computations $s_{k}^{(i)}$ at discrete-time instants $k = 1, \,\dots, \,T_i$. 
+		intermediate computations $s_{t}^{(i)}$ at discrete-time instants $t = 1, \,\dots, \,T_i$. 
 		These computations may depend on both the previous local computations at the device 
 		and the messages received from other devices. One important application of distributed 
 		algorithms is in federated learning (FL) where a network of devices collaboratively trains a personal model 
@@ -4160,9 +4178,9 @@ text={NLP},
 		executions. However, the execution sequence for an online algorithm has a distinct structure as follows:
 		$${\rm in}_{1}, \,s_1, \,{\rm out}_{1}, \,{\rm in}_{2}, \,s_2, \,{\rm out}_{2}, \,\ldots, \,{\rm in}_{T}, \,s_T, \,{\rm out}_{T}.$$ 
 		Each execution begins from an initial state (i.e., \(\text{in}_{1}\)) and proceeds through alternating 
-		computational steps, outputs (or decisions), and inputs. Specifically, at step \(k\), 
-		the algorithm performs a computational step \(s_{k}\), generates an output \(\text{out}_{k}\), 
-		and then subsequently receives the next input (data point) \(\text{in}_{k+1}\). A 
+		computational steps, outputs (or decisions), and inputs. Specifically, at step \(t\), 
+		the algorithm performs a computational step \(s_{t}\), generates an output \(\text{out}_{t}\), 
+		and then subsequently receives the next input (data point) \(\text{in}_{t+1}\). A 
 		notable example of an online algorithm in machine learning (ML) is online gradient descent (online GD), which incrementally 
 		updates model parameters as new data points arrive. 
 					\\ 
@@ -6228,21 +6246,21 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		single iteration. Consider, for example, the gradient step \cite[Ch. 5]{MLBasics} 
 		\begin{equation}
 			\label{equ_def_basic_gradstep_lrate_dict}
-			{\bf w}^{(k\!+\!1)} = {\bf w}^{(k)} - \eta \nabla f({\bf w}^{(k)}),
+			{\bf w}^{(t\!+\!1)} = {\bf w}^{(t)} - \eta \nabla f({\bf w}^{(t)}),
         \end{equation} 
 		of a gradient-based method for empirical risk minimization (ERM) where the objective function $f({\bf w})$ 
 		is the empirical risk incurred by $h^{({\bf w})}$ on a training set. 
-		Given the current model parameters ${\bf w}^{(k)}$ at iteration $k$, 
-		the gradient step produces updated model parameters ${\bf w}^{(k\!+\!1)}$ 
-		by moving in the opposite direction of the gradient $\nabla f({\bf w}^{(k)})$. 
+		Given the current model parameters ${\bf w}^{(t)}$ at iteration $t$, 
+		the gradient step produces updated model parameters ${\bf w}^{(t\!+\!1)}$ 
+		by moving in the opposite direction of the gradient $\nabla f({\bf w}^{(t)})$. 
 		\begin{figure}[hbtp]
 			\begin{center}
 			\begin{minipage}{0.45\columnwidth}
 			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
 				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
-				\draw[] (1,0.25) circle [radius=0.1] node [right] (A) {$f({\bf w}^{(k)})$} ;
-				\draw[] (-2,1) circle [radius=0.1] node [left] (B) {$f({\bf w}^{(k\!+\!1)})$} ;
-				\draw[] (3,2.25) circle [radius=0.1]  node  [right] (C) {$f({\bf w}^{(k\!+\!2)})$} ;
+				\draw[] (1,0.25) circle [radius=0.1] node [right] (A) {$f({\bf w}^{(t)})$} ;
+				\draw[] (-2,1) circle [radius=0.1] node [left] (B) {$f({\bf w}^{(t\!+\!1)})$} ;
+				\draw[] (3,2.25) circle [radius=0.1]  node  [right] (C) {$f({\bf w}^{(t\!+\!2)})$} ;
 				\draw[->,dashed] (-2,1) -- (3,2.25) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
 				\draw[->,dashed]  (1,0.25) -- (-2,1) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
 				\node [below] at (0,-0.2) {(a)};
@@ -6252,19 +6270,19 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
 				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
 				\draw[] (4,4) circle [radius=0.1];
-				\node [right] at (4,4) {$f({\bf w}^{(k)})$};
+				\node [right] at (4,4) {$f({\bf w}^{(t)})$};
 				\draw[] (3.8,3.61) circle [radius=0.1];
-				\node [left] at (3.8,3.61) {$f({\bf w}^{(k\!+\!1)})$};
+				\node [left] at (3.8,3.61) {$f({\bf w}^{(t\!+\!1)})$};
 				\draw[] (3.65,3.33) circle [radius=0.1];
-				\node [right] at (3.65,3.33) {$f({\bf w}^{(k\!+\!2)})$};
+				\node [right] at (3.65,3.33) {$f({\bf w}^{(t\!+\!2)})$};
 				\node [below] at (0,-0.2) {(b)};
 			\end{tikzpicture}
 			\end{minipage}
 		\end{center}
 		\caption{Effect of using an inadequate learning rates $\eta$ in the gradient step 
 		         \eqref{equ_def_basic_gradstep_lrate_dict}. (a) If $\eta$ is too large, 
-				 the gradient steps can ``overshoot'' such that the iterates ${\bf w}^{(k)}$ 
-				 diverge away from the optimum, i.e., $f({\bf w}^{(k\!+\!1)}) > f({\bf w}^{(k)})$! 
+				 the gradient steps can ``overshoot'' such that the iterates ${\bf w}^{(t)}$ 
+				 diverge away from the optimum, i.e., $f({\bf w}^{(t\!+\!1)}) > f({\bf w}^{(t)})$! 
 		(b) If $\eta$ is too small, the gradient steps make too little progress towards 
 		the optimum within the available number of iterations (due to limited computational budget). 
 		\label{fig_small_large_lrate_dict}}
@@ -7329,12 +7347,9 @@ sort={k-means},
 			The scatterplot also includes two cluster centroids ${{\bf w}}^{(1)}, {{\bf w}}^{(2)} \in \mathbb{R}^{2}$. \label{fig_kmeans_dict}}
 		\end{figure} 
 		In general, the $k$-means problem is a challenging optimization problem \cite{Mahajan2009Springer}. 
-		However, there is a simple iterative method for finding approximately optimal cluster centroids. 
-		This method, referred to as Lloyd's algorithm, alternates between: 1) updating the cluster assignments 
-		based on the nearest current cluster centroid; and 2) recalculating the cluster centroids 
-		given the updated cluster assignments \cite{Lloyd1982}.
-				\\
-		See also: hard clustering, cluster.},
+		However, there are simple iterative methods for finding approximately optimal 
+		cluster centroids. One such method is referred to as Lloyd's algorithm.\\
+		See also: hard clustering, cluster, Lloyd's algorithm.},
 	first={$k$-means},
 	text={$k$-means} 
 }
@@ -7343,11 +7358,67 @@ sort={k-means},
 {name={Lloyd's algorithm}, 
 	description={Lloyd's algorithm is an iterative 
 	   optimization method for finding cluster centroids that are approximately 
-	   optimal for the $k$-means objective function. 
-				\\
+	   optimal for the $k$-means objective function. The method 
+	   alternates between
+	   \begin{itemize} 
+			\item updating the cluster assignment of each data point 
+			      based on the nearest current cluster centroid and 
+			\item re-calculating the cluster centroids given the updated 
+			      cluster assignments \cite{Lloyd1982}.
+		\end{itemize}
 		See also: clustering, cluster centroid, $k$-means.},
 	first={Lloyd's algorithm},
 	text={Lloyd's algorithm} 
+}
+
+\newglossaryentry{qlearning} 
+{name={Q-learning}, 
+	description={Q-learning is a popular reinforcement learning (RL) 
+	     algorithm that learns an optimal policy by estimating the optimal action-value 
+		function (or Q-function) \cite{SuttonEd2}.  \\
+		See also: reinforcement learning (RL), fixed-point iteration.},
+	first={Q-learning},
+	text={Q-learning} 
+}
+
+\newglossaryentry{iteration}
+{name={iteration},
+ description={The elementary computational step during the execution of an 
+              algorithm is referred to as iteration \cite{Cormen:2022aa,KleinbergTardos2006}. 
+			  For example, the elementary computational step of gradient-based methods 
+			  is a gradient step. 
+			 \begin{figure}[t]
+				\centering
+				\begin{tikzpicture}[>=Latex, font=\small,scale=1]
+				
+	
+				
+				\node[circle,draw,inner sep=1.2pt,fill=white,label={above:${\bf w}^\ast$}] (xstar) at (8,0) {};
+				
+				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(0)}$}] (x0) at (0.3,0) {};
+				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(1)}$}] (x1) at (4.3,0) {};
+				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(2)}$}] (x2) at (6.5,0) {};
+				
+				\draw[->] (x0) to[bend left=12] node[above,sloped] {$\mathcal{F}$} (x1);
+				\draw[->] (x1) to[bend left=12] node[above,sloped] {$\mathcal{F}$} (x2);
+				
+				
+				
+				\end{tikzpicture}
+				\caption{A fixed-point iteration consists of the repeated application of an 
+				operator $\mathcal{F}$ with some fixed point ${\bf w}^\ast$, i.e., 
+				$\mathcal{F}{\bf w}^\ast={\bf w}^\ast$.}
+			 \end{figure} 
+			  More generally, the elementary computational step of a fixed-point iteration 
+			  is the evaluation of an underlying operator $\mathcal{F}$ (which might 
+			  vary across iterations). Many important machine learning (ML) algorithms, including 
+			  Lloyd's algorithm and gradient descent (GD), are fixed-point iteration.  \\ 
+			 See also: algorithm, gradient descent (GD), gradient step. 
+    },
+	first={iteration},
+	text={iteration},
+	firstplural={iterations},
+    plural={iterations}
 }
 
 
@@ -9523,12 +9594,12 @@ average squared Euclidean distance to the nearest cluster centroids as a measure
 		for solving systems of linear equations (i.e., a linear system) of the form ${\bf A}{\bf x}= \mathbf{b}$.  
 		Here, ${\bf A} \in \mathbb{R}^{d \times d}$ is a square matrix with 
 		nonzero main diagonal entries. The method constructs a sequence ${\bf x}^{(0)}, \,{\bf x}^{(1)}, \,\ldots$ 
-		by updating each entry of $\mathbf{x}^{(k)}$ according to 
+		by updating each entry of $\mathbf{x}^{(t)}$ according to 
 		\[
-		x_i^{(k+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(k)} \right).
+		x_i^{(t+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(t)} \right).
 		\]
 		Note that all entries $x^{(k)}_{1}, \,\ldots, \,x^{(k)}_{d}$ are updated simultaneously.
-		The above iteration converges to a solution, i.e., $\lim_{k \rightarrow \infty} {\bf x}^{(k)}={\bf x}$, 
+		The above iteration converges to a solution, i.e., $\lim_{t \rightarrow \infty} {\bf x}^{(t)}={\bf x}$, 
 		under certain conditions on the matrix ${\bf A}$, e.g., being strictly 
 		diagonally dominant or symmetric positive  definite \cite{GolubVanLoanBook}, \cite{StrangLinAlg2016}, \cite{Horn91}. 
 		Jacobi-type methods are appealing for large linear systems due to their parallelizable structure \cite{ParallelDistrBook}.
@@ -9537,7 +9608,7 @@ average squared Euclidean distance to the nearest cluster centroids as a measure
 		\[
 		\mathbf{x} = \underbrace{{\bf D}^{-1}(\mathbf{b} - {\bf R} \mathbf{x})}_{\mathcal{F} {\bf x}}
 		\]
-		which leads to the iteration ${\bf x}^{(k+1)} = {\bf D}^{-1}(\mathbf{b} - {\bf R} {\bf x}^{(k)})$.
+		which leads to the iteration ${\bf x}^{(t+1)} = {\bf D}^{-1}(\mathbf{b} - {\bf R} {\bf x}^{(t)})$.
 		\\
 		As an example, for the linear equation ${\bf A} \mathbf{x} = \mathbf{b}, \text{where}$
 		 \[
@@ -9656,21 +9727,21 @@ sort={Renyi},
   				\draw[line width=1pt, transform canvas={yshift=-1pt}] (wk) -- +(-2, -{4*(8 + \hshift)} ) -- +(1, {2*(8 + \hshift)}); 
  				\draw[line width=1pt, transform canvas={yshift=-1pt}] (w) -- +(-1, {-{2*\hshift}} ) -- +(1, {+{2*\hshift}})  node[below] {$\nabla f({\bf w})$};
 
-	    		\filldraw (wk) circle (2pt) node[above left] {${\bf w}^{(k)}$} node[below right, xshift=-15pt,yshift=-15pt] {$\nabla f({\bf w}^{(k)})$} ;
+	    		\filldraw (wk) circle (2pt) node[above left] {${\bf w}^{(t)}$} node[below right, xshift=-15pt,yshift=-15pt] {$\nabla f({\bf w}^{(t)})$} ;
 	    		\filldraw (w) circle (2pt) node[above right] {${\bf w}$} ;
-	    		\filldraw (wkplus1) circle (2pt) node[below right] {${\bf w}^{(k+1)}\!=\!{\bf w}^{(k)}\!-\!(1/\beta)\nabla f({\bf w}^{(k)})$};
+	    		\filldraw (wkplus1) circle (2pt) node[below right] {${\bf w}^{(t+1)}\!=\!{\bf w}^{(t)}\!-\!(1/\beta)\nabla f({\bf w}^{(t)})$};
 	    		    
 	    		\draw[dashed] (wk) -- ($(8,0) + (wk)$) ; 
 	    		\draw[dashed] (wkplus1) -- ($(12,0) + (wkplus1)$) ; 
 	    		 \draw[<->, thick] ($(4,0) + (wk)$) -- ($(8,0) + (wkplus1)$) 
-	    		node[midway, right] {$ f\big({\bf w}^{(k)}\big)\!-\!f\big({\bf w}^{(k+1)}\big)\!\geq\!\frac{1}{2\beta}\mleft\lVert \nabla f({\bf w}^{(k)}) \mright\rVert_{2}^{2}$};
+	    		node[midway, right] {$ f\big({\bf w}^{(t)}\big)\!-\!f\big({\bf w}^{(t+1)}\big)\!\geq\!\frac{1}{2\beta}\mleft\lVert \nabla f({\bf w}^{(t)}) \mright\rVert_{2}^{2}$};
 
 
 	    	\end{tikzpicture}
 	    	\end{center}
 	    	\caption{Consider an objective function $f({\bf w})$ that is $\beta$-smooth. 
 	    		Taking a gradient step, with step size $\eta = 1/\beta$, decreases the 
-	    		objective by at least ${1}/{2\beta}\mleft\lVert \nabla f({\bf w}^{(k)}) \mright\rVert_{2}^{2}$ \cite{nesterov04}, \cite{CvxBubeck2015}, \cite{CvxAlgBertsekas}. 
+	    		objective by at least ${1}/{2\beta}\mleft\lVert \nabla f({\bf w}^{(t)}) \mright\rVert_{2}^{2}$ \cite{nesterov04}, \cite{CvxBubeck2015}, \cite{CvxAlgBertsekas}. 
 	    		Note that the step size $\eta = 1/\beta$ becomes larger for smaller $\beta$. Thus, 
 	    		for smoother objective functions (i.e., those with smaller $\beta$), 
 				we can take larger steps. \label{fig_gd_smooth_dict}}
@@ -10394,7 +10465,7 @@ sort={Renyi},
 		in the sequence at different positions $r$. 		
         Sequences are fundamental for the study of machine learning (ML) methods, 
         for instance when describing successive iterates  
-        $\{{\bf w}^{(k)}\}_{k \in \mathbb{N}}$ of an iterative 
+        $\{{\bf w}^{(t)}\}_{t \in \mathbb{N}}$ of an iterative 
 		algorithm. We can also use a sequence to represent an infinite 
 		dataset 
 $$\mathcal{D} = \big\{ \left( {\bf x}^{(1)},y^{(1)} \right),\left( {\bf x}^{(2)},y^{(2)} \right),\ldots \big\}.$$ 
