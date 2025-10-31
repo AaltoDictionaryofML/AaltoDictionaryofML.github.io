@@ -1423,8 +1423,8 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
-	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method for solving 
-		a given \gls{optproblem}. It constructs a sequence $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
+	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method 
+	     for solving an \gls{optproblem}. It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
 		 repeatedly applying an operator $\fixedpointop$, i.e., 
 		 \begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -1432,20 +1432,22 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 		 \end{equation} 
 		 The operator $\fixedpointop$ is chosen such that any of its fixed points is a solution 
 		 $\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
-		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the operator $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
-		 coincide with the minimizers of $f(\weights)$. In general, for a given \gls{optproblem} with solution $\widehat{\weights}$, 
-		 there are many different operators $\fixedpointop$ whose fixed points are $\widehat{\weights}$. 
-		 Clearly, we should use an operator $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution such that
+		 \gls{convex} \gls{function} $f(\weights)$, the fixed points of the \gls{operator} $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
+		 coincide with the minimizers of $f(\weights)$. In general, for a given \gls{optproblem} 
+		 with solution $\widehat{\weights}$, there are many different \glspl{operator} 
+		 $\fixedpointop$ whose fixed points are $\widehat{\weights}$. Clearly, we should use an 
+		 \gls{operator} $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the 
+		 distance to a solution such that
 		 \begin{equation} 
 			\nonumber
-			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\netparams}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 	\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}. 
+			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\weights}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 	\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}. 
 		\end{equation}
-		Thus, we require $\fixedpointop$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
+		Thus, we require $\fixedpointop$ to be at least a \gls{nonexpansiveop}, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
 		should not result in worse \glspl{modelparam} that have a larger distance to a solution $\widehat{\weights}$. 
 		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
 		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
 		the notion of a \gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
-		The operator $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+		The \gls{operator} $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
 		\begin{equation} 
 			\nonumber
 			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights'.
@@ -2726,29 +2728,23 @@ sort={zerooneloss},
 }
 
 \newglossaryentry{gdpr}
-{name={General Data Protection Regulation (GDPR)},
-	description={The\index{General Data Protection Regulation (GDPR)} GDPR\cite{GDPR2016}
-			was enacted by the European Union (EU) and entered into force  on 25 May 2018 \cite{GDPR2016}. 
-			It is a strict privacy and secruity law safeguarding the privacy of individuals and ruling upon the processing of personal data.
-			The GDPR itself is technology neutral, but does have impact on how data may be processed and used in the context of machine learning: 
-			 
-			Principles of personal data processing (Article 5 GDPR)
+{name={general data protection regulation (GDPR)},
+	description={The\index{general data protection regulation (GDPR)} GDPR
+			was enacted by the European Union (EU), effective from 25 May 2018 \cite{GDPR2016}. 
+			It safeguards the privacy and \gls{data} rights of individuals in the EU. 
+			The GDPR has significant implications for how \gls{data} are collected, stored, and used in \gls{ml}  
+			applications. Key provisions include the following:
 			\begin{itemize}
-				\item{lawfulness,fairness,transparency} -\gls{data} needs to be processed lawfully, fairly and transparently.
 				\item \Gls{dataminprinc}: \gls{ml} systems should only use the necessary amount of personal 
 				\gls{data} for their purpose.
-				\item{purpose limitation}: Personal \gls{data} needs to be collected for a predefined and communicated purpose. 
-				\item{storage limitation}: Personal\gls{data} can only be kept for as long as necessary or defined by law and needs to be deleted afterwards. 
-				\item{accuracy}: Personal\gls{data} shall be kept up to date and accurate.
-				\item \Gls{data} subject rights: Users should get an opportunity to access, rectify, and delete 
-				their personal \gls{data}, as well as to object to automated decision-making and profiling.
-				\item{integrity and confidentiality}: Personal\gls{data} shall be processed securely and be protected against unauthorised processing, loss, or destruction. 
+				\item \Gls{transparency} and \gls{explainability}: \gls{ml} systems should enable their users to 
+				understand how the systems make decisions that impact the users.
+				\item \Gls{data} subject rights: Users should get an opportunity to access, rectify, and delete their personal \gls{data}, as well as to object to automated decision-making and profiling.
+				\item Accountability: Organizations must ensure robust \gls{data} security and demonstrate 
+				compliance through documentation and regular audits.
 			\end{itemize}
-			
-		Additionally, the GDPR provides for data subject rights to be informed, access, and rectify their data, along with the right to erasure (be forgotten), restrict processing, data portability
-		and the right to object to processing. Lastly the GDPR defines the right not to be subject to automated decision-making (Article 22 GDPR) and the right to explanation of automated decisions and human oversight. 
 		See also: \gls{data}, \gls{ml}, \gls{dataminprinc}, \gls{transparency}, \gls{explainability}.}, 
-	first={General Data Protection Regulation (GDPR)},
+	first={general data protection regulation (GDPR)},
 	text={GDPR}
 }
 
@@ -5803,7 +5799,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		of \gls{erm} in order to avoid \gls{overfitting}, i.e., to ensure that the learned \gls{hypothesis} does 
 		not perform much worse outside the \gls{trainset}. There are three routes for implementing 
 		regularization: 
-		\begin{enumerate}[]
+		\begin{enumerate}[label=\arabic*)]
 			\item {\Gls{model} pruning:} We prune the original \gls{model} $\hypospace$ to obtain a 
 			smaller \gls{model} $\hypospace'$. For a parametric \gls{model}, the pruning can be 
 			implemented via constraints on the \glspl{modelparam} (such as $w_{1} \in [0.4,0.6]$ for 
@@ -5819,11 +5815,11 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		Fig. \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
 		These routes are closely related and sometimes fully equivalent. \Gls{dataaug} using \glspl{gaussrv} 
 		to perturb the \glspl{featurevec} in the \gls{trainset} of \gls{linreg} 
-		has the same effect as adding the \gls{penaltyterm} 
+		has the same effect as adding the penalty 
 		$\lambda \normgeneric{\weights}{2}^2$ to the \gls{trainerr} (which is nothing but \gls{ridgeregression}). 
-        The decision on which route (\gls{data}, \gls{model} or \gls{loss}) 
-		to use for regularization can be based on the available computational 
-		infrastructure. For example, it might be much easier to implement \gls{dataaug} than \gls{model} pruning. 
+        		The decision on which route to use for regularization can be based on the 
+        		available computational infrastructure. For example, it might be much easier to 
+        		implement \gls{dataaug} than \gls{model} pruning. 
 		\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale = 1]
@@ -6049,12 +6045,10 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		For example, weak learners are shallow \glspl{decisiontree} that are combined to 
 		obtain a deep \gls{decisiontree}. Boosting can be understood as a \gls{generalization} 
 		of \glspl{gdmethod} for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} 
-		to reduce the \gls{emprisk}, boosting iteratively combines (e.g., by summation) 
-		\gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} (see Fig. \ref{fig_boosting_dict}). 
-		A widely used instance of the generic boosting idea is referred to as 
-		\gls{gradient} boosting, which uses \glspl{gradient} of the \gls{lossfunc} 
-		for combining the weak learners \cite{Friedman2001}. 
+		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to reduce the \gls{emprisk}, 
+		boosting iteratively combines (e.g., by summation) \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} 
+		(see Fig. \ref{fig_boosting_dict}). A widely used instance of the generic boosting idea is referred to as 
+		\gls{gradient} boosting, which uses \glspl{gradient} of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6069,9 +6063,8 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} 
-			   $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$ that are increasingly 
-			   strong learners, i.e., with decreasing average \gls{loss} on the \gls{trainset}. \label{fig_boosting_dict}}
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$ 
+				that are increasingly strong learners (i.e., incurring a smaller \gls{loss}). \label{fig_boosting_dict}}
      		\end{figure} 
      		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
@@ -7037,7 +7030,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{};
 		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
-		{$\learnthypothesis = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1},\learntlocalhypothesis{2},\learntlocalhypothesis{3}\big)$};
+		{$\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
 		\draw[->] (L1) -- (agg);
 		\draw[->] (L2) -- (agg);
 		\draw[->] (L3) -- (agg);
@@ -7047,16 +7040,13 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
 		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
-		\caption{Illustration of the stacking principle: Three base learners learn 
-		\glspl{hypothesis} 
-		$\learntlocalhypothesis{1}, \,\learntlocalhypothesis{2}, \,\learntlocalhypothesis{3}$ 
-		via \gls{erm} on the same \gls{trainset} but using different \glspl{model} 
-		and \glspl{lossfunc}. For a given \gls{datapoint} with \gls{featurevec} $\featurevec$, 
-		the \glspl{prediction} $\learnthypothesis^{(1)}(\featurevec), \,\learnthypothesis^{(2)}(\featurevec), \,
-		\learnthypothesis^{(3)}(\featurevec)$ serve as new \glspl{feature} of this \gls{datapoint}. 
-		These new \glspl{feature} are fed into the aggregation rule $\phi_{\rm agg}$, 
-		which results in the final \gls{prediction} $\learnthypothesis(\featurevec)=\phi_{\rm agg}\bigg( \learnthypothesis^{(1)}(\featurevec), \,\learnthypothesis^{(2)}(\featurevec), \,
-		\learnthypothesis^{(3)}(\featurevec)\bigg)$.}
+		\caption{
+		Illustration of the stacking principle: three base learners, trained with 
+		different \glspl{model} and \glspl{lossfunc}, produce \glspl{prediction}  
+		$\learntlocalhypothesis{\featureidx}(\featurevec)$. These \glspl{prediction} 
+	    serve as new \glspl{feature} that are fed into 
+		the aggregation rule $\phi_{\rm agg}$, which produces the final \gls{prediction} 
+		$\predictedlabel$.}
 		\end{center}
 		\end{figure}
 		\\
@@ -7148,83 +7138,79 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 }
 
 
+
 \newglossaryentry{bagging}
-{name={bagging (or bootstrap aggregation)},
-	description={Bagging\index{bagging (or bootstrap aggregation)} (or bootstrap aggregation) 
-		is a technique to improve (the \gls{robustness} of) a \gls{erm}-based \gls{ml} 
-		method using \gls{dataset} $\dataset$. The idea is to use random sampling 
+{name={bagging},
+	description={Bagging\index{bagging} is a technique to improve a \gls{erm}-based \gls{ml} 
+	     method. The idea is to use random sampling 
 		to generate perturbed copies $$\widetilde{\dataset}^{(1)},\ldots,\widetilde{\dataset}^{(\numlearners)}$$
-		of $\dataset$. Each perturbed copy is used to learn a separate \gls{hypothesis},  
+		of the original \gls{trainset} $\dataset$. Each perturbed copy is used to learn 
+		a separate \gls{hypothesis}, 
 		$$\learnthypothesis^{(1)},\ldots,\learnthypothesis^{(\numlearners)}.$$
-		We then predict the \gls{label} of a \gls{datapoint} with \gls{featurevec} 
-		$\featurevec$ by combining (or aggregating) 
-		the individual \glspl{prediction} $$\learnthypothesis^{(1)}(\featurevec),\ldots,\learnthypothesis^{(\numlearners)}(\featurevec).$$
-		For \gls{hypothesis} \glspl{map} delivering numeric \gls{label} 
-		values, this aggregation could be implemented by computing the average of individual 
-		\glspl{prediction}. Bagging is an example of an \gls{ensemble} method, with base learners 
-		using the same \gls{model} but different \glspl{trainset}.
+		The ultimate learnt \gls{hypothesis} is obtained by aggregating the  
+		\glspl{hypothesis} $\learnthypothesis^{(1)},\ldots,\learnthypothesis^{(\numlearners)}$ 
+		using some aggregation rule. Bagging is an instance of an \gls{ensemble} method 
+		where \glspl{baselearner} use random perturbations of the original \glspl{trainset}.
 		\begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
-		scale=1.2, transform shape,
-		node distance=12mm and 10mm,
+		scale=1.0, transform shape,
+		node distance=10mm and 10mm,
 		dataset/.style={draw, rounded corners, inner sep=2pt},
 		learner/.style={draw, rounded corners, minimum width=14mm, minimum height=7mm, inner sep=2pt},
 		op/.style={draw, circle, inner sep=1pt},
 		>=latex
 		]
 		% Original dataset
-		\node[dataset] (D) {\small $\dataset$};
+		\node[dataset] (D) {$\dataset$};
 		% Variants (closer to D)
-		\node[dataset, below left=of D]  (D1) {\small $\widetilde{\dataset}^{(1)}$};
-		\node[dataset, below=of D]       (D2) {\small $\widetilde{\dataset}^{(2)}$};
-		\node[dataset, below right=of D] (D3) {\small $\widetilde{\dataset}^{(3)}$};
+		\node[dataset, below left=of D]  (D1) {$\widetilde{\dataset}^{(1)}$};
+		\node[dataset, below=of D]       (D2) {$\widetilde{\dataset}^{(2)}$};
+		\node[dataset, below right=of D] (D3) {$\widetilde{\dataset}^{(3)}$};
 		% Arrows to variants (shorter labels)
-		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {\small resample};
-		\draw[->] (D) -- (D2) node[midway, right]           {\small resample};
-		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{\small resample};
+		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {resample};
+		\draw[->] (D) -- (D2) node[midway, right]           {resample};
+		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{resample};
 		% Base learners (reduced vertical gaps)
-		\node[learner, below=5mm of D1] (L1) {\small $\hypospace^{(1)}$};
-		\node[learner, below=5mm of D2] (L2) {\small $\hypospace^{(2)}$};
-		\node[learner, below=5mm of D3] (L3) {\small $\hypospace^{(3)}$};
+		\node[learner, below=5mm of D1] (L1) {$\hypospace^{(1)}$};
+		\node[learner, below=5mm of D2] (L2) {$\hypospace^{(2)}$};
+		\node[learner, below=5mm of D3] (L3) {$\hypospace^{(3)}$};
 		% Feed variants into learners
 		\draw[->] (D1) -- (L1);
 		\draw[->] (D2) -- (L2);
 		\draw[->] (D3) -- (L3);
 		% Aggregator and final prediction (tighter)
-		\node[op, below=8mm of L2] (agg) {\small $\phi_{\text{agg}}$};
+		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
-		{\small $\learnthypothesis = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
+		{$\learnthypothesis = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1},\learntlocalhypothesis{2},\learntlocalhypothesis{3}\big)$};
 		\draw[->] (L1) -- (agg);
 		\draw[->] (L2) -- (agg);
 		\draw[->] (L3) -- (agg);
 		\draw[->] (agg) -- (yhat);
 		% Tiny labels on learner outputs
-		\node[below left=-1pt and -1pt of L1.south] {\small $\learntlocalhypothesis{1}$};
-		\node[below           =-1pt of L2.south]    {\small $\learntlocalhypothesis{2}$};
-		\node[below right=-1pt and -1pt of L3.south]{\small $\learntlocalhypothesis{3}$};
+		\node[below left=-1pt and -1pt of L1.south] {$\learntlocalhypothesis{1}$};
+		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
+		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
-		\caption{An example of bagging where three base learners use variations 
+		\caption{An example of bagging where three \glspl{baselearner} use perturbations  
 		$\widetilde{\dataset}^{(1)},\,\ldots,\,\widetilde{\dataset}^{(3)}$ of 
-		the original \gls{dataset} $\dataset$ to learn the \glspl{hypothesis} 
-		$\learntlocalhypothesis{1},\,\ldots,\,\learntlocalhypothesis{3}$. 
-		These \glspl{hypothesis} are combined via some aggregation rule $\phi_{\rm agg}$ 
-		to produce the final \gls{hypothesis} $\learnthypothesis$.}
+		the original \gls{trainset} $\dataset$ to learn the \glspl{hypothesis} 
+		$\learntlocalhypothesis{1},\,\ldots,\,\learntlocalhypothesis{3}$. The final 
+		\gls{hypothesis} is obtained by aggregating these individual \glspl{hypothesis} 
+		via some aggregation rule $\phi_{\rm agg}$.}
 		\end{center}
 		\end{figure}
 		See also: \gls{robustness}, \gls{bootstrap}, \gls{ensemble}.},
-	first={bagging (or bootstrap aggregation)},
+	first={bagging},
 	text={bagging}
 }
 
-\newglossaryentry{baselearner}
-{name = {base learner}, 
-	description={See\index{base learner} \gls{ensemble}.},
-	plural={base learners},
-	firstplural={base learners},
-	first={base learner},
-	text={base learner} 
-}
+\newglossaryentry{bootstrap aggregation}
+{name={bootstrap aggregation}, 
+ description={See: \gls{bagging}\index{bootstrap aggregation}.},
+ first={bootstrap aggregation},
+ text={bootstrap aggregation} 
+}	
 
 \newglossaryentry{decisionregion}
 {name={decision region}, plural={decision regions}, 
@@ -7233,12 +7219,22 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		For each \gls{label} value (i.e., category) $a \in \labelspace$, the \gls{hypothesis} $\hypothesis$ 
 		determines a subset of \gls{feature} values $\featurevec \in \featurespace$ that result 
 		in the same output $\hypothesis(\featurevec)=a$. We refer to this subset as a decision 
-		region of the \gls{hypothesis} $\hypothesis$.
-				\\
+		region of the \gls{hypothesis} $\hypothesis$. \\
 		See also: \gls{hypothesis}, \gls{map}, \gls{label}, \gls{feature}.},
 	first={decision region},
 	text={decision region} 
 }
+
+\newglossaryentry{baselearner}
+{name={base learner}, 
+ description={A base learner\index{base learner} is an \gls{ml} method 
+              that is part of an \gls{ensemble} method. \\
+		See also: \gls{ensemble}, \gls{bagging}, \gls{stacking}, \gls{boosting}.},
+	first={base learner},
+	firstplural={base learners},
+	plural={base learners},
+	text={base learner} 
+}	
 
 
 \newglossaryentry{decisionboundary}
@@ -8134,7 +8130,7 @@ Linear least squares\index{linear least squares} refers to the
 				%	\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \big(\truelabel^{(\sampleidx)} - \weights^{T}\featurevec^{(\sampleidx)}\big)^{2}$};
 				%	\node at (7.2,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \normgeneric{\weights}{2}^2 $};
 				\end{tikzpicture}
-				\caption{For a \gls{linmodel}, adding the \gls{penaltyterm} $\regparam \normgeneric{\weights}{2}^2$ to 
+				\caption{For a \gls{linmodel}, adding the penalty term $\regparam \normgeneric{\weights}{2}^2$ to 
 				the \gls{objfunc} in \gls{erm} is equivalent to \gls{erm} on an augmented \gls{dataset}  \label{fig_ridge_regression_dict} }
 			\end{center}
 		\end{figure} 
@@ -10446,8 +10442,8 @@ sort={Renyi},
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\weights}$};
 				\end{tikzpicture}
 				\caption{Adding a penalty term $\regparam \regularizer{\weights}$ 
-				to the \gls{objfunc} in \gls{erm} is often equivalent to including 
-				perturbations of the \gls{trainset} $\dataset$ during \gls{training}. 
+				to the \gls{objfunc} in \gls{erm} is equivalent to including 
+				perturbations of the \gls{trainset} $\trainset$ during \gls{training}. 
 				The \gls{regularization} parameter $\regparam$ controls 
 				the extend of the perturbations. \label{fig_penal_term_dict} }
 			\end{center}
@@ -10628,52 +10624,4 @@ See also: \gls{function}, \gls{dataset}.},
   first={Johnson--Lindenstrauss (JL) lemma},
   text={JL lemma}
 }
-
-\newglossaryentry{machineunlearning}{
-    name={machine unlearning},
-    description={
-        \index{Machine unlearning}\cite{cao2015unlearning} refers to the process of modifying a trained 
-        \gls{ml} model so that it effectively `forgets' specific \glspl{datapoint}. 
-        This is typically required to comply with privacy regulations such as the 
-        "right to be forgotten" (Article~17, \gls{gdpr}) or to correct erroneous or 
-        biased training \gls{data}. 
-        
-        Formally, given a trained model 
-        $\hypothesis^{(\weights)} : \mathcal{X} \rightarrow \mathcal{Y}$ obtained 
-        from a training set 
-        $\dataset = \{ (\featurevec^{(i)}, \truelabel^{(i)}) \}_{i=1}^{N}$, 
-        the goal of \gls{machineunlearning} is to construct a modified model 
-        $\hypothesis^{(\weights')}$ such that its behavior approximates that of a 
-        model trained from scratch on the reduced dataset 
-        $\dataset' = \dataset \setminus \{ (\featurevec^{(j)}, \truelabel^{(j)}) \}$, 
-        without performing full retraining:
-        \[
-            \hypothesis^{(\weights')} \approx \hypothesis^{*}_{\dataset'}.
-        \]
-        
-        Two main paradigms exist:
-        \emph{exact unlearning}, which guarantees retraining equivalence, and 
-        \emph{approximate unlearning}, which ensures statistical 
-        indistinguishability between $\hypothesis^{(\weights')}$ and 
-        $\hypothesis^{*}_{\dataset'}$ within a defined tolerance.
-        
-        \gls{machineunlearning} is closely related to 
-        \gls{diffpriv}, \gls{data}deletion protocols, and 
-        model adaptation methods, and plays a fundamental role in building 
-        transparent and responsible \gls{ai} systems that comply with core 
-        \gls{gdpr} principles such as lawfulness (Article~5(1)(a)), fairness 
-        and transparency (Article~5(1)(a)), data minimization (Article~5(1)(c)), 
-        and accuracy (Article~5(1)(d)).
-        
-        \\[4pt]
-        See also: \gls{ml}, \gls{dataset}, \gls{diffpriv}, 
-        
-    },
-    first={machine unlearning},
-    text={machine unlearning},
-    type=math,
-    firstplural={machine unlearning methods},
-    plural={machine unlearning methods}
-}
-
 

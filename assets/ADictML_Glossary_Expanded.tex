@@ -1423,8 +1423,8 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
-	description={A fixed-point iteration is an iterative method for solving 
-		a given optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
+	description={A fixed-point iteration is an iterative method 
+	     for solving an optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
 		 repeatedly applying an operator $\mathcal{F}$, i.e., 
 		 \begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -1433,14 +1433,16 @@ The absolute value $|\langle {\bf u}, {\bf v} \rangle|$ measures the norm of thi
 		 The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
 		 $\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
 		 convex function $f({\bf w})$, the fixed points of the operator $\mathcal{F}: {\bf w} \mapsto {\bf w} - \nabla f({\bf w})$ 
-		 coincide with the minimizers of $f({\bf w})$. In general, for a given optimization problem with solution $\widehat{{\bf w}}$, 
-		 there are many different operators $\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. 
-		 Clearly, we should use an operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the distance to a solution such that
+		 coincide with the minimizers of $f({\bf w})$. In general, for a given optimization problem 
+		 with solution $\widehat{{\bf w}}$, there are many different operators 
+		 $\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. Clearly, we should use an 
+		 operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the 
+		 distance to a solution such that
 		 \begin{equation} 
 			\nonumber
-			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{\mathbf{w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F} {\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
+			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{{\bf w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F} {\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
 		\end{equation}
-		Thus, we require $\mathcal{F}$ to be at least non-expansive, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
+		Thus, we require $\mathcal{F}$ to be at least a non-expansive operator, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
 		should not result in worse model parameters that have a larger distance to a solution $\widehat{{\bf w}}$. 
 		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
 		reduce the distance to a solution $\widehat{{\bf w}}$. This requirement can be made precise using 
@@ -6974,14 +6976,14 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		base learners, ensemble methods can often achieve better performance than any 
 		single base learner. Different ensemble methods use different constructions for 
 		the base learners and how to aggregate their predictions. For example, 
-		bagging (or bootstrap aggregation) methods use random sampling to construct different training sets 
-		for the base learners. A well-known example of a bagging (or bootstrap aggregation) method is a 
+		bagging methods use random sampling to construct different training sets 
+		for the base learners. A well-known example of a bagging method is a 
 		random forest. On the other hand, boosting methods train base learners 
 		sequentially, where each new base learner focuses on correcting the errors of the 
 		previous ones. A third family of ensemble methods is stacking, where base learners 
 		are trained on the same training set but with potentially different models. 
 		\\
-	 	See also: bagging (or bootstrap aggregation), stacking, boosting.},
+	 	See also: bagging, stacking, boosting.},
 	 first={ensemble},
 	 text={ensemble} 
 }
@@ -7048,7 +7050,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\end{center}
 		\end{figure}
 		\\
-	 	See also: ensemble, bagging (or bootstrap aggregation).},
+	 	See also: ensemble, bagging.},
 	 first={stacking},
 	 text={stacking} 
 }
@@ -7138,26 +7140,22 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 
 
 \newglossaryentry{bagging}
-{name={bagging (or bootstrap aggregation)},
-	description={Bagging (or bootstrap aggregation) 
-		is a technique to improve (the robustness of) a empirical risk minimization (ERM)-based machine learning (ML) 
-		method using dataset $\mathcal{D}$. The idea is to use random sampling 
+{name={bagging},
+	description={Bagging is a technique to improve a empirical risk minimization (ERM)-based machine learning (ML) 
+	     method. The idea is to use random sampling 
 		to generate perturbed copies $$\widetilde{\mathcal{D}}^{(1)},\ldots,\widetilde{\mathcal{D}}^{(M)}$$
-		of $\mathcal{D}$. Each perturbed copy is used to learn a separate hypothesis,  
+		of the original training set $\mathcal{D}$. Each perturbed copy is used to learn 
+		a separate hypothesis, 
 		$$\hat{h}^{(1)},\ldots,\hat{h}^{(M)}.$$
-		We then predict the label of a data point with feature vector 
-		${\bf x}$ by combining (or aggregating) 
-		the individual predictions $$\hat{h}^{(1)}({\bf x}),\ldots,\hat{h}^{(M)}({\bf x}).$$
-		For hypothesis maps delivering numeric label 
-		values, this aggregation could be implemented by computing the average of individual 
-		predictions. Bagging is an example of an ensemble method, with base learners 
-		using the same model but different training sets.
+		The ultimate learnt hypothesis is obtained by aggregating the  
+		hypotheses $\hat{h}^{(1)},\ldots,\hat{h}^{(M)}$ 
+		using some aggregation rule. Bagging is an instance of an ensemble method 
+		where base learners use random perturbations of the original training sets.
 		\begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
-		font=\scriptsize,
-		scale=0.8, transform shape,
-		node distance=7mm and 10mm,
+		scale=1.0, transform shape,
+		node distance=10mm and 10mm,
 		dataset/.style={draw, rounded corners, inner sep=2pt},
 		learner/.style={draw, rounded corners, minimum width=14mm, minimum height=7mm, inner sep=2pt},
 		op/.style={draw, circle, inner sep=1pt},
@@ -7166,47 +7164,53 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		
 		\node[dataset] (D) {$\mathcal{D}$};
 		
-		\node[dataset, below left=of D]  (D1) {\tiny $\widetilde{\mathcal{D}}^{(1)}$};
-		\node[dataset, below=of D]       (D2) {\tiny $\widetilde{\mathcal{D}}^{(2)}$};
-		\node[dataset, below right=of D] (D3) {\tiny $\widetilde{\mathcal{D}}^{(3)}$};
+		\node[dataset, below left=of D]  (D1) {$\widetilde{\mathcal{D}}^{(1)}$};
+		\node[dataset, below=of D]       (D2) {$\widetilde{\mathcal{D}}^{(2)}$};
+		\node[dataset, below right=of D] (D3) {$\widetilde{\mathcal{D}}^{(3)}$};
 		
-		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {\tiny resample};
-		\draw[->] (D) -- (D2) node[midway, right]           {\tiny resample};
-		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{\tiny resample};
+		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {resample};
+		\draw[->] (D) -- (D2) node[midway, right]           {resample};
+		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{resample};
 		
-		\node[learner, below=5mm of D1] (L1) {\tiny $\mathcal{H}^{(1)}$};
-		\node[learner, below=5mm of D2] (L2) {\tiny $\mathcal{H}^{(2)}$};
-		\node[learner, below=5mm of D3] (L3) {\tiny $\mathcal{H}^{(3)}$};
+		\node[learner, below=5mm of D1] (L1) {$\mathcal{H}^{(1)}$};
+		\node[learner, below=5mm of D2] (L2) {$\mathcal{H}^{(2)}$};
+		\node[learner, below=5mm of D3] (L3) {$\mathcal{H}^{(3)}$};
 		
 		\draw[->] (D1) -- (L1);
 		\draw[->] (D2) -- (L2);
 		\draw[->] (D3) -- (L3);
 		
-		\node[op, below=8mm of L2] (agg) {\tiny $\phi_{\text{agg}}$};
+		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
-		{\tiny $\hat{y} = \phi_{\text{agg}}\!\big(\widehat{h}^{(1)}({\bf x}),\widehat{h}^{(2)}({\bf x}),\widehat{h}^{(3)}({\bf x})\big)$};
+		{$\hat{h} = \phi_{\text{agg}}\!\big(\widehat{h}^{(1)},\widehat{h}^{(2)},\widehat{h}^{(3)}\big)$};
 		\draw[->] (L1) -- (agg);
 		\draw[->] (L2) -- (agg);
 		\draw[->] (L3) -- (agg);
 		\draw[->] (agg) -- (yhat);
 		
-		\node[below left=-1pt and -1pt of L1.south] {\tiny $\widehat{h}^{(1)}$};
-		\node[below           =-1pt of L2.south]    {\tiny $\widehat{h}^{(2)}$};
-		\node[below right=-1pt and -1pt of L3.south]{\tiny $\widehat{h}^{(3)}$};
+		\node[below left=-1pt and -1pt of L1.south] {$\widehat{h}^{(1)}$};
+		\node[below           =-1pt of L2.south]    {$\widehat{h}^{(2)}$};
+		\node[below right=-1pt and -1pt of L3.south]{$\widehat{h}^{(3)}$};
 		\end{tikzpicture}
-		\caption{An example of bagging where three base learners use variations 
+		\caption{An example of bagging where three base learners use perturbations  
 		$\widetilde{\mathcal{D}}^{(1)},\,\ldots,\,\widetilde{\mathcal{D}}^{(3)}$ of 
-		the original dataset $\mathcal{D}$ to learn the hypotheses 
-		$\widehat{h}^{(1)},\,\ldots,\,\widehat{h}^{(3)}$. 
-		The prediction $\hat{y}$ for a data point with feature vector ${\bf x}$ 
-		is obtained by applying an aggregation rule $\phi_{\rm agg}$ to the individual predictions 
-		$\widehat{h}^{(1)}({\bf x}),\,\widehat{h}^{(2)}({\bf x}),\,\widehat{h}^{(3)}({\bf x})$.}
+		the original training set $\mathcal{D}$ to learn the hypotheses 
+		$\widehat{h}^{(1)},\,\ldots,\,\widehat{h}^{(3)}$. The final 
+		hypothesis is obtained by aggregating these individual hypotheses 
+		via some aggregation rule $\phi_{\rm agg}$.}
 		\end{center}
 		\end{figure}
 		See also: robustness, bootstrap, ensemble.},
-	first={bagging (or bootstrap aggregation)},
+	first={bagging},
 	text={bagging}
 }
+
+\newglossaryentry{bootstrap aggregation}
+{name={bootstrap aggregation}, 
+ description={See: bagging.},
+ first={bootstrap aggregation},
+ text={bootstrap aggregation} 
+}	
 
 \newglossaryentry{decisionregion}
 {name={decision region}, plural={decision regions}, 
@@ -7215,12 +7219,22 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		For each label value (i.e., category) $a \in \mathcal{Y}$, the hypothesis $h$ 
 		determines a subset of feature values ${\bf x} \in \mathcal{X}$ that result 
 		in the same output $h({\bf x})=a$. We refer to this subset as a decision 
-		region of the hypothesis $h$.
-				\\
+		region of the hypothesis $h$. \\
 		See also: hypothesis, map, label, feature.},
 	first={decision region},
 	text={decision region} 
 }
+
+\newglossaryentry{baselearner}
+{name={base learner}, 
+ description={A base learner is an machine learning (ML) method 
+              that is part of an ensemble method. \\
+		See also: ensemble, bagging, stacking, boosting.},
+	first={base learner},
+	firstplural={base learners},
+	plural={base learners},
+	text={base learner} 
+}	
 
 
 \newglossaryentry{decisionboundary}
