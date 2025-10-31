@@ -5797,7 +5797,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		of \gls{erm} in order to avoid \gls{overfitting}, i.e., to ensure that the learned \gls{hypothesis} does 
 		not perform much worse outside the \gls{trainset}. There are three routes for implementing 
 		regularization: 
-		\begin{enumerate}[label=\arabic*)]
+		\begin{enumerate}[]
 			\item {\Gls{model} pruning:} We prune the original \gls{model} $\hypospace$ to obtain a 
 			smaller \gls{model} $\hypospace'$. For a parametric \gls{model}, the pruning can be 
 			implemented via constraints on the \glspl{modelparam} (such as $w_{1} \in [0.4,0.6]$ for 
@@ -5813,11 +5813,11 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		Fig. \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
 		These routes are closely related and sometimes fully equivalent. \Gls{dataaug} using \glspl{gaussrv} 
 		to perturb the \glspl{featurevec} in the \gls{trainset} of \gls{linreg} 
-		has the same effect as adding the penalty 
+		has the same effect as adding the \gls{penaltyterm} 
 		$\lambda \normgeneric{\weights}{2}^2$ to the \gls{trainerr} (which is nothing but \gls{ridgeregression}). 
-        		The decision on which route to use for regularization can be based on the 
-        		available computational infrastructure. For example, it might be much easier to 
-        		implement \gls{dataaug} than \gls{model} pruning. 
+        The decision on which route (\gls{data}, \gls{model} or \gls{loss}) 
+		to use for regularization can be based on the available computational 
+		infrastructure. For example, it might be much easier to implement \gls{dataaug} than \gls{model} pruning. 
 		\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale = 1]
@@ -6043,10 +6043,12 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		For example, weak learners are shallow \glspl{decisiontree} that are combined to 
 		obtain a deep \gls{decisiontree}. Boosting can be understood as a \gls{generalization} 
 		of \glspl{gdmethod} for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to reduce the \gls{emprisk}, 
-		boosting iteratively combines (e.g., by summation) \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} 
-		(see Fig. \ref{fig_boosting_dict}). A widely used instance of the generic boosting idea is referred to as 
-		\gls{gradient} boosting, which uses \glspl{gradient} of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
+		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} 
+		to reduce the \gls{emprisk}, boosting iteratively combines (e.g., by summation) 
+		\gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} (see Fig. \ref{fig_boosting_dict}). 
+		A widely used instance of the generic boosting idea is referred to as 
+		\gls{gradient} boosting, which uses \glspl{gradient} of the \gls{lossfunc} 
+		for combining the weak learners \cite{Friedman2001}. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6061,8 +6063,9 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$ 
-				that are increasingly strong learners (i.e., incurring a smaller \gls{loss}). \label{fig_boosting_dict}}
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} 
+			   $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$ that are increasingly 
+			   strong learners, i.e., with decreasing average \gls{loss} on the \gls{trainset}. \label{fig_boosting_dict}}
      		\end{figure} 
      		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
@@ -7028,7 +7031,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{};
 		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
-		{$\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
+		{$\learnthypothesis = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1},\learntlocalhypothesis{2},\learntlocalhypothesis{3}\big)$};
 		\draw[->] (L1) -- (agg);
 		\draw[->] (L2) -- (agg);
 		\draw[->] (L3) -- (agg);
@@ -7038,13 +7041,16 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
 		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
-		\caption{
-		Illustration of the stacking principle: three base learners, trained with 
-		different \glspl{model} and \glspl{lossfunc}, produce \glspl{prediction}  
-		$\learntlocalhypothesis{\featureidx}(\featurevec)$. These \glspl{prediction} 
-	    serve as new \glspl{feature} that are fed into 
-		the aggregation rule $\phi_{\rm agg}$, which produces the final \gls{prediction} 
-		$\predictedlabel$.}
+		\caption{Illustration of the stacking principle: Three base learners learn 
+		\glspl{hypothesis} 
+		$\learntlocalhypothesis{1}, \,\learntlocalhypothesis{2}, \,\learntlocalhypothesis{3}$ 
+		via \gls{erm} on the same \gls{trainset} but using different \glspl{model} 
+		and \glspl{lossfunc}. For a given \gls{datapoint} with \gls{featurevec} $\featurevec$, 
+		the \glspl{prediction} $\learnthypothesis^{(1)}(\featurevec), \,\learnthypothesis^{(2)}(\featurevec), \,
+		\learnthypothesis^{(3)}(\featurevec)$ serve as new \glspl{feature} of this \gls{datapoint}. 
+		These new \glspl{feature} are fed into the aggregation rule $\phi_{\rm agg}$, 
+		which results in the final \gls{prediction} $\learnthypothesis(\featurevec)=\phi_{\rm agg}\bigg( \learnthypothesis^{(1)}(\featurevec), \,\learnthypothesis^{(2)}(\featurevec), \,
+		\learnthypothesis^{(3)}(\featurevec)\bigg)$.}
 		\end{center}
 		\end{figure}
 		\\
@@ -7136,7 +7142,6 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 }
 
 
-
 \newglossaryentry{bagging}
 {name={bagging (or bootstrap aggregation)},
 	description={Bagging\index{bagging (or bootstrap aggregation)} (or bootstrap aggregation) 
@@ -7155,57 +7160,64 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
-		font=\scriptsize,
-		scale=0.8, transform shape,
-		node distance=7mm and 10mm,
+		scale=1.2, transform shape,
+		node distance=12mm and 10mm,
 		dataset/.style={draw, rounded corners, inner sep=2pt},
 		learner/.style={draw, rounded corners, minimum width=14mm, minimum height=7mm, inner sep=2pt},
 		op/.style={draw, circle, inner sep=1pt},
 		>=latex
 		]
 		% Original dataset
-		\node[dataset] (D) {$\dataset$};
+		\node[dataset] (D) {\small $\dataset$};
 		% Variants (closer to D)
-		\node[dataset, below left=of D]  (D1) {\tiny $\widetilde{\dataset}^{(1)}$};
-		\node[dataset, below=of D]       (D2) {\tiny $\widetilde{\dataset}^{(2)}$};
-		\node[dataset, below right=of D] (D3) {\tiny $\widetilde{\dataset}^{(3)}$};
+		\node[dataset, below left=of D]  (D1) {\small $\widetilde{\dataset}^{(1)}$};
+		\node[dataset, below=of D]       (D2) {\small $\widetilde{\dataset}^{(2)}$};
+		\node[dataset, below right=of D] (D3) {\small $\widetilde{\dataset}^{(3)}$};
 		% Arrows to variants (shorter labels)
-		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {\tiny resample};
-		\draw[->] (D) -- (D2) node[midway, right]           {\tiny resample};
-		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{\tiny resample};
+		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {\small resample};
+		\draw[->] (D) -- (D2) node[midway, right]           {\small resample};
+		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{\small resample};
 		% Base learners (reduced vertical gaps)
-		\node[learner, below=5mm of D1] (L1) {\tiny $\hypospace^{(1)}$};
-		\node[learner, below=5mm of D2] (L2) {\tiny $\hypospace^{(2)}$};
-		\node[learner, below=5mm of D3] (L3) {\tiny $\hypospace^{(3)}$};
+		\node[learner, below=5mm of D1] (L1) {\small $\hypospace^{(1)}$};
+		\node[learner, below=5mm of D2] (L2) {\small $\hypospace^{(2)}$};
+		\node[learner, below=5mm of D3] (L3) {\small $\hypospace^{(3)}$};
 		% Feed variants into learners
 		\draw[->] (D1) -- (L1);
 		\draw[->] (D2) -- (L2);
 		\draw[->] (D3) -- (L3);
 		% Aggregator and final prediction (tighter)
-		\node[op, below=8mm of L2] (agg) {\tiny $\phi_{\text{agg}}$};
+		\node[op, below=8mm of L2] (agg) {\small $\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
-		{\tiny $\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
+		{\small $\learnthypothesis = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
 		\draw[->] (L1) -- (agg);
 		\draw[->] (L2) -- (agg);
 		\draw[->] (L3) -- (agg);
 		\draw[->] (agg) -- (yhat);
 		% Tiny labels on learner outputs
-		\node[below left=-1pt and -1pt of L1.south] {\tiny $\learntlocalhypothesis{1}$};
-		\node[below           =-1pt of L2.south]    {\tiny $\learntlocalhypothesis{2}$};
-		\node[below right=-1pt and -1pt of L3.south]{\tiny $\learntlocalhypothesis{3}$};
+		\node[below left=-1pt and -1pt of L1.south] {\small $\learntlocalhypothesis{1}$};
+		\node[below           =-1pt of L2.south]    {\small $\learntlocalhypothesis{2}$};
+		\node[below right=-1pt and -1pt of L3.south]{\small $\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
 		\caption{An example of bagging where three base learners use variations 
 		$\widetilde{\dataset}^{(1)},\,\ldots,\,\widetilde{\dataset}^{(3)}$ of 
 		the original \gls{dataset} $\dataset$ to learn the \glspl{hypothesis} 
 		$\learntlocalhypothesis{1},\,\ldots,\,\learntlocalhypothesis{3}$. 
-		The \gls{prediction} $\predictedlabel$ for a \gls{datapoint} with \gls{featurevec} $\featurevec$ 
-		is obtained by applying an aggregation rule $\phi_{\rm agg}$ to the individual \glspl{prediction} 
-		$\learntlocalhypothesis{1}(\featurevec),\,\learntlocalhypothesis{2}(\featurevec),\,\learntlocalhypothesis{3}(\featurevec)$.}
+		These \glspl{hypothesis} are combined via some aggregation rule $\phi_{\rm agg}$ 
+		to produce the final \gls{hypothesis} $\learnthypothesis$.}
 		\end{center}
 		\end{figure}
 		See also: \gls{robustness}, \gls{bootstrap}, \gls{ensemble}.},
 	first={bagging (or bootstrap aggregation)},
 	text={bagging}
+}
+
+\newglossaryentry{baselearner}
+{name = {base learner}, 
+	description={See\index{base learner} \gls{ensemble}.},
+	plural={base learners},
+	firstplural={base learners},
+	first={base learner},
+	text={base learner} 
 }
 
 \newglossaryentry{decisionregion}
@@ -8116,7 +8128,7 @@ Linear least squares\index{linear least squares} refers to the
 				%	\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \big(\truelabel^{(\sampleidx)} - \weights^{T}\featurevec^{(\sampleidx)}\big)^{2}$};
 				%	\node at (7.2,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \normgeneric{\weights}{2}^2 $};
 				\end{tikzpicture}
-				\caption{For a \gls{linmodel}, adding the penalty term $\regparam \normgeneric{\weights}{2}^2$ to 
+				\caption{For a \gls{linmodel}, adding the \gls{penaltyterm} $\regparam \normgeneric{\weights}{2}^2$ to 
 				the \gls{objfunc} in \gls{erm} is equivalent to \gls{erm} on an augmented \gls{dataset}  \label{fig_ridge_regression_dict} }
 			\end{center}
 		\end{figure} 
@@ -10428,8 +10440,8 @@ sort={Renyi},
 					\node at (7.8,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \regularizer{\weights}$};
 				\end{tikzpicture}
 				\caption{Adding a penalty term $\regparam \regularizer{\weights}$ 
-				to the \gls{objfunc} in \gls{erm} is equivalent to including 
-				perturbations of the \gls{trainset} $\trainset$ during \gls{training}. 
+				to the \gls{objfunc} in \gls{erm} is often equivalent to including 
+				perturbations of the \gls{trainset} $\dataset$ during \gls{training}. 
 				The \gls{regularization} parameter $\regparam$ controls 
 				the extend of the perturbations. \label{fig_penal_term_dict} }
 			\end{center}
