@@ -2431,9 +2431,27 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 	text={gradient step}
 }
 
+\newglossaryentry{operator} 
+{name={operator}, 
+	description={An\index{operator} operator is a \gls{function} 
+	          with \gls{domain} and \gls{co-domain} having a specific 
+			  mathematical structure such as a \gls{vectorspace}, \gls{hilbertspace}
+			  or a \gls{metricspace} \cite{Bauschke:2017,DunfordSchwartz1988}. 
+			  Many \gls{ml} methods involve operators with \gls{domain} and \gls{co-domain} 
+			  being an \gls{euclidspace}.
+							\\ 
+		See also: \gls{vectorspace}, \gls{function}, \gls{hilbertspace}.},
+	first={operator},
+	type=math, 
+	plural={operators},
+	firstplural={operators},
+	text={operator}
+}
+
 \newglossaryentry{contractop}
 {name={contraction operator},
-	description={An\index{contraction operator} operator $\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
+	description={An\index{contraction operator} operator 
+	   $\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
 		is a contraction if, for some $\contractfac \in [0,1)$,
 		\begin{equation} 
 			\nonumber
@@ -7297,8 +7315,9 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 \newglossaryentry{kmeans}
 {name={$k$-means}, 
 sort={k-means},
-	description={The\index{$k$-means} $k$-means principle is an optimization-based approach to 
-		the \gls{clustering} of \glspl{datapoint} that are characterized by a numeric \gls{featurevec} \cite[Ch. 8]{MLBasics}. 
+	description={The\index{$k$-means} $k$-means principle is an optimization-based 
+	    approach to the \gls{clustering} of \glspl{datapoint} with n
+		umeric \gls{featurevec} \cite[Ch. 8]{MLBasics}. 
 		As a \gls{hardclustering} approach, $k$-means partitions a \gls{dataset} into $k$ disjoint 
 		subsets (or \glspl{cluster}), which are indexed by $\clusteridx=1,\,\ldots,\,\nrcluster$. Each \gls{cluster} $\cluster$ 
 		is characterized by the average \gls{featurevec} of \glspl{datapoint} that belong to it. This average 
@@ -7334,14 +7353,78 @@ sort={k-means},
 			The \gls{scatterplot} also includes two \glspl{clustercentroid} $\clustercentroid{1}, \clustercentroid{2} \in \mathbb{R}^{2}$. \label{fig_kmeans_dict}}
 		\end{figure} 
 		In general, the $k$-means problem is a challenging \gls{optproblem} \cite{Mahajan2009Springer}. 
-		However, there is a simple iterative method for finding approximately optimal \glspl{clustercentroid}. 
-		This method, referred to as Lloyd's method, alternates between: 1) updating the \gls{cluster} assignments 
-		based on the nearest current \gls{clustercentroid}; and 2) recalculating the \glspl{clustercentroid} 
-		given the updated \gls{cluster} assignments \cite{Lloyd1982}.
-				\\
-		See also: \gls{hardclustering}, \gls{cluster}.},
+		However, there are simple iterative methods for finding approximately optimal 
+		\glspl{clustercentroid}. One such method is referred to as \gls{lloydalgorithm}.\\
+		See also: \gls{hardclustering}, \gls{cluster}, \gls{lloydalgorithm}.},
 	first={$k$-means},
 	text={$k$-means} 
+}
+
+\newglossaryentry{lloydalgorithm} 
+{name={Lloyd's algorithm}, 
+	description={Lloyd's\index{Lloyd's algorithm} algorithm is an iterative 
+	   \gls{optmethod} for finding \glspl{clustercentroid} that are approximately 
+	   optimal for the \gls{kmeans} \gls{objfunc}. The method 
+	   alternates between
+	   \begin{itemize} 
+			\item updating the \gls{cluster} assignment of each \gls{datapoint} 
+			      based on the nearest current \gls{clustercentroid} and 
+			\item re-calculating the \glspl{clustercentroid} given the updated 
+			      \gls{cluster} assignments \cite{Lloyd1982}.
+		\end{itemize}
+		See also: \gls{clustering}, \gls{clustercentroid}, \gls{kmeans}.},
+	first={Lloyd's algorithm},
+	text={Lloyd's algorithm} 
+}
+
+\newglossaryentry{qlearning} 
+{name={Q-learning}, 
+	description={Q-learning\index{Q-learning} is a popular \gls{reinforcementlearning} 
+	     \gls{algorithm} that learns an optimal policy by estimating the optimal action-value 
+		function (or Q-function) \cite{SuttonEd2}.  \\
+		See also: \gls{reinforcementlearning}, \gls{fixedpointiter}.},
+	first={Q-learning},
+	text={Q-learning} 
+}
+
+\newglossaryentry{iteration}
+{name={iteration},
+ description={The elementary computational step during the execution of an 
+              \gls{algorithm} is referred to as iteration\index{iteration} \cite{Cormen:2022aa,KleinbergTardos2006}. 
+			  For example, the elementary computational step of \glspl{gdmethod} 
+			  is a \gls{gradstep}. 
+			 \begin{figure}[t]
+				\centering
+				\begin{tikzpicture}[>=Latex, font=\small,scale=1]
+				% --- baseline axis (purely visual) ---
+	%			\draw[very thin] (-0.2,0) -- (5.6,0);
+				% --- fixed point ---
+				\node[circle,draw,inner sep=1.2pt,fill=white,label={above:$\weights^\ast$}] (xstar) at (8,0) {};
+				% --- iterates ---
+				\node[circle,fill,inner sep=1pt,label={below:$\weights^{(0)}$}] (x0) at (0.3,0) {};
+				\node[circle,fill,inner sep=1pt,label={below:$\weights^{(1)}$}] (x1) at (4.3,0) {};
+				\node[circle,fill,inner sep=1pt,label={below:$\weights^{(2)}$}] (x2) at (6.5,0) {};
+				% --- update arrows labelled by the update operator T ---
+				\draw[->] (x0) to[bend left=12] node[above,sloped] {$\fixedpointop$} (x1);
+				\draw[->] (x1) to[bend left=12] node[above,sloped] {$\fixedpointop$} (x2);
+				%\draw[->] (x5) to[bend left=12] node[above,sloped] {$\fixedpointop$} (xstar);
+				% --- optional tiny stopping rule (comment out if too much) ---
+				% \node[below=4pt of x4] {$\|x^{(t+1)} - x^{(t)}\| < \varepsilon$};
+				\end{tikzpicture}
+				\caption{A \gls{fixedpointiter} consists of the repeated application of an 
+				operator $\fixedpointop$ with some fixed point $\weights^\ast$, i.e., 
+				$\fixedpointop\weights^\ast=\weights^\ast$.}
+			 \end{figure} 
+			  More generally, the elementary computational step of a \gls{fixedpointiter} 
+			  is the evaluation of an underlying operator $\fixedpointop$ (which might 
+			  vary across iterations). Many important \gls{ml} \glspl{algorithm}, including 
+			  \gls{lloydalgorithm} and \gls{gd}, are \gls{fixedpointiter}.  \\ 
+			 See also: \gls{algorithm}, \gls{gd}, \gls{gradstep}. 
+    },
+	first={iteration},
+	text={iteration},
+	firstplural={iterations},
+    plural={iterations}
 }
 
 
