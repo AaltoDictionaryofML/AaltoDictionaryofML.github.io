@@ -2726,23 +2726,29 @@ sort={zerooneloss},
 }
 
 \newglossaryentry{gdpr}
-{name={general data protection regulation (GDPR)},
-	description={The\index{general data protection regulation (GDPR)} GDPR
-			was enacted by the European Union (EU), effective from 25 May 2018 \cite{GDPR2016}. 
-			It safeguards the privacy and \gls{data} rights of individuals in the EU. 
-			The GDPR has significant implications for how \gls{data} are collected, stored, and used in \gls{ml}  
-			applications. Key provisions include the following:
+{name={General Data Protection Regulation (GDPR)},
+	description={The\index{General Data Protection Regulation (GDPR)} GDPR\cite{GDPR2016}
+			was enacted by the European Union (EU) and entered into force  on 25 May 2018 \cite{GDPR2016}. 
+			It is a strict privacy and secruity law safeguarding the privacy of individuals and ruling upon the processing of personal data.
+			The GDPR itself is technology neutral, but does have impact on how data may be processed and used in the context of machine learning: 
+			 
+			Principles of personal data processing (Article 5 GDPR)
 			\begin{itemize}
+				\item{lawfulness,fairness,transparency} -\gls{data} needs to be processed lawfully, fairly and transparently.
 				\item \Gls{dataminprinc}: \gls{ml} systems should only use the necessary amount of personal 
 				\gls{data} for their purpose.
-				\item \Gls{transparency} and \gls{explainability}: \gls{ml} systems should enable their users to 
-				understand how the systems make decisions that impact the users.
-				\item \Gls{data} subject rights: Users should get an opportunity to access, rectify, and delete their personal \gls{data}, as well as to object to automated decision-making and profiling.
-				\item Accountability: Organizations must ensure robust \gls{data} security and demonstrate 
-				compliance through documentation and regular audits.
+				\item{purpose limitation}: Personal \gls{data} needs to be collected for a predefined and communicated purpose. 
+				\item{storage limitation}: Personal\gls{data} can only be kept for as long as necessary or defined by law and needs to be deleted afterwards. 
+				\item{accuracy}: Personal\gls{data} shall be kept up to date and accurate.
+				\item \Gls{data} subject rights: Users should get an opportunity to access, rectify, and delete 
+				their personal \gls{data}, as well as to object to automated decision-making and profiling.
+				\item{integrity and confidentiality}: Personal\gls{data} shall be processed securely and be protected against unauthorised processing, loss, or destruction. 
 			\end{itemize}
+			
+		Additionally, the GDPR provides for data subject rights to be informed, access, and rectify their data, along with the right to erasure (be forgotten), restrict processing, data portability
+		and the right to object to processing. Lastly the GDPR defines the right not to be subject to automated decision-making (Article 22 GDPR) and the right to explanation of automated decisions and human oversight. 
 		See also: \gls{data}, \gls{ml}, \gls{dataminprinc}, \gls{transparency}, \gls{explainability}.}, 
-	first={general data protection regulation (GDPR)},
+	first={General Data Protection Regulation (GDPR)},
 	text={GDPR}
 }
 
@@ -10610,4 +10616,52 @@ See also: \gls{function}, \gls{dataset}.},
   first={Johnson--Lindenstrauss (JL) lemma},
   text={JL lemma}
 }
+
+\newglossaryentry{machineunlearning}{
+    name={machine unlearning},
+    description={
+        \index{Machine unlearning}\cite{cao2015unlearning} refers to the process of modifying a trained 
+        \gls{ml} model so that it effectively `forgets' specific \glspl{datapoint}. 
+        This is typically required to comply with privacy regulations such as the 
+        "right to be forgotten" (Article~17, \gls{gdpr}) or to correct erroneous or 
+        biased training \gls{data}. 
+        
+        Formally, given a trained model 
+        $\hypothesis^{(\weights)} : \mathcal{X} \rightarrow \mathcal{Y}$ obtained 
+        from a training set 
+        $\dataset = \{ (\featurevec^{(i)}, \truelabel^{(i)}) \}_{i=1}^{N}$, 
+        the goal of \gls{machineunlearning} is to construct a modified model 
+        $\hypothesis^{(\weights')}$ such that its behavior approximates that of a 
+        model trained from scratch on the reduced dataset 
+        $\dataset' = \dataset \setminus \{ (\featurevec^{(j)}, \truelabel^{(j)}) \}$, 
+        without performing full retraining:
+        \[
+            \hypothesis^{(\weights')} \approx \hypothesis^{*}_{\dataset'}.
+        \]
+        
+        Two main paradigms exist:
+        \emph{exact unlearning}, which guarantees retraining equivalence, and 
+        \emph{approximate unlearning}, which ensures statistical 
+        indistinguishability between $\hypothesis^{(\weights')}$ and 
+        $\hypothesis^{*}_{\dataset'}$ within a defined tolerance.
+        
+        \gls{machineunlearning} is closely related to 
+        \gls{diffpriv}, \gls{data}deletion protocols, and 
+        model adaptation methods, and plays a fundamental role in building 
+        transparent and responsible \gls{ai} systems that comply with core 
+        \gls{gdpr} principles such as lawfulness (Article~5(1)(a)), fairness 
+        and transparency (Article~5(1)(a)), data minimization (Article~5(1)(c)), 
+        and accuracy (Article~5(1)(d)).
+        
+        \\[4pt]
+        See also: \gls{ml}, \gls{dataset}, \gls{diffpriv}, 
+        
+    },
+    first={machine unlearning},
+    text={machine unlearning},
+    type=math,
+    firstplural={machine unlearning methods},
+    plural={machine unlearning methods}
+}
+
 
