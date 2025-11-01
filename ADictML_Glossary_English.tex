@@ -5111,6 +5111,14 @@ description = {Consider a \gls{dataset}
 	text={missing data}  
 }
 
+\newglossaryentry{dataimputation}
+{name={data imputation},
+	description={See\index{data imputation} \gls{missingdata}.},
+	first={data imputation},
+	text={data imputation}  
+}
+
+
 
 \newglossaryentry{psd}
 {name={positive semi-definite (psd)},
@@ -6967,6 +6975,40 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 	 text={outlier} 
 }
 
+\newglossaryentry{membershipinferenceattack}
+{name = {membership inference attack}, 
+ description = {Consider a \gls{ml} method that learns a \gls{hypothesis} 
+                via \gls{erm} on a \gls{trainset}. Membership inference\index{membership inference} 
+                \gls{attack} is a form of \gls{privattack} where an adversary tries 
+				to determine whether a particular \gls{datapoint} was part 
+				of the \gls{trainset}. The attacker typically queries 
+				$\learnthypothesis$ with candidate \glspl{featurevec} 
+				$\featurevec^{(1)},\ldots,\featurevec^{(\nrbootstraps)}$, 
+				and infers the membership status of a given \gls{datapoint} 
+				based on the \glspl{prediction} $\learnthypothesis\big(\featurevec^{(1)}\big),\ldots,
+				\learnthypothesis\big(\featurevec^{(\nrbootstraps)}\big)$ \cite{Shokri2017}.\\ 
+				See also: \gls{privattack}, \gls{attack}.}, 
+ first = {membership inference attack}, 
+ text = {membership inference attack}
+}
+
+\newglossaryentry{machineunlearning}
+{name={machine unlearning},
+ description={
+	Consider a \gls{ml} method that learns a \gls{hypothesis} $\learnthypothesis$ 
+	via \gls{erm} on a \gls{trainset} $\dataset$. The learned \gls{hypothesis} can 
+	reveal information about $\dataset$, which is exploited by \glspl{privattack} such as 
+	\gls{modelinversion}. Machine unlearning\index{machine unlearning} refers to techniques that 
+	modify $\learnthypothesis$ so that it is harder to infer properties of individual 
+	\glspl{datapoint} in $\dataset$ \cite{cao2015unlearning}. Machine unlearning helps 
+	to meet legal requirements for \gls{privprot} in \gls{ai} systems \cite{GDPR2016}. \\[4pt]
+	 See also: \gls{gdpr}, \gls{modelinversion}, \gls{privprot}, },
+	first={machine unlearning},
+	text={machine unlearning},
+	firstplural={machine unlearning methods},
+	plural={machine unlearning methods}
+}
+
 \newglossaryentry{ensemble}
 {name={ensemble}, 
 	description={An ensemble method\index{ensemble} combines multiple 
@@ -7054,7 +7096,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 {name={stacking}, 
 	description={Stacking\index{stacking} is an ensemble method that combines multiple 
 		\gls{ml} methods, referred to as base learners, to improve overall performance. 
-		In stacking, a finite number $\numlearners$ of base learners are trained on the 
+		In stacking, a finite number $\numlearners$ of \glspl{baselearner} are trained on the 
 		same \gls{dataset} using different \glspl{model} $\hypospace^{(\featureidx)}$ 
 		or \glspl{lossfunc} $\loss^{(\featureidx)}$, 
         for $\featureidx=1,\ldots,\numlearners$ \cite[Ch. 8.8]{hastie01statisticallearning},
@@ -7064,9 +7106,9 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		The final \gls{prediction} for a \gls{datapoint} is obtained by aggregating the 
 		\glspl{prediction} of the base learners using an aggregation rule $\phi_{\rm agg}$, 
 		such as majority voting for \gls{classification} or averaging for \gls{regression}. 
-		We can interpret stacking as a form of \gls{featlearn}, where each base learner 
+		We can interpret stacking as a form of \gls{featlearn}, where each \gls{baselearner} 
 		extracts a new \gls{feature}. The aggregation rule is then 
-		a \gls{hypothesis} map applied to the transformed \gls{featurevec} 
+		another \gls{hypothesis} map applied to the transformed \gls{featurevec} 
 		$$\featuremapvec(\featurevec)= \big( \learnthypothesis^{(1)}(\featurevec), 
 		\ldots, \learnthypothesis^{(\numlearners)}(\featurevec) \big)^{T}.$$
        \begin{figure}[htbp]
@@ -7087,9 +7129,9 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[learner, below=of D]       (L2) {\gls{erm} \\ $\hypospace^{(2)},\loss^{(2)}$};
 		\node[learner, below right=of D] (L3) {\gls{erm} \\ $\hypospace^{(3)},\loss^{(3)}$};
 		% Arrows to variants (shorter labels)
-		\draw[->] (D) -- (D1) node[midway, above left=-1pt] {};
-		\draw[->] (D) -- (D2) node[midway, right]           {};
-		\draw[->] (D) -- (D3) node[midway, above right=-1pt]{};
+		\draw[->] (D) -- (L1) node[midway, above left=-1pt] {};
+		\draw[->] (D) -- (L2) node[midway, right]           {};
+		\draw[->] (D) -- (L3) node[midway, above right=-1pt]{};
 		\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 		\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
 		{$\predictedlabel = \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1}(\featurevec),\learntlocalhypothesis{2}(\featurevec),\learntlocalhypothesis{3}(\featurevec)\big)$};
@@ -7102,13 +7144,12 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
 		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
-		\caption{
-		Illustration of the stacking principle: three base learners, trained with 
-		different \glspl{model} and \glspl{lossfunc}, produce \glspl{prediction}  
-		$\learntlocalhypothesis{\featureidx}(\featurevec)$. These \glspl{prediction} 
-	    serve as new \glspl{feature} that are fed into 
-		the aggregation rule $\phi_{\rm agg}$, which produces the final \gls{prediction} 
-		$\predictedlabel$.}
+		\caption{Three \glspl{baselearner} trained via \gls{erm} using a  
+		different \glspl{model} and \glspl{lossfunc}. For a \gls{datapoint} with \gls{featurevec} 
+		$\featurevec$ each of them delivers a \gls{prediction}  
+		$\learntlocalhypothesis{\featureidx}(\featurevec)$, for $\featureidx=1,2,3$, 
+		which are fed into the aggregation rule $\phi_{\rm agg}$. The aggregation rule delivers 
+		the overall \gls{prediction} $\predictedlabel$.}
 		\end{center}
 		\end{figure}
 		\\
