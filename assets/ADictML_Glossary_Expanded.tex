@@ -7094,23 +7094,22 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 
 \newglossaryentry{stacking}
 {name={stacking}, 
-	description={Stacking is an ensemble method that combines multiple 
-		machine learning (ML) methods, referred to as base learners, to improve overall performance. 
+	description={Stacking is one of the main flavours of ensemble methods.  
 		In stacking, a finite number $M$ of base learners are trained on the 
-		same dataset using different models $\mathcal{H}^{(j)}$ 
-		or loss functions $L^{(j)}$, 
-        for $j=1,\ldots,M$ \cite[Ch. 8.8]{hastie01statisticallearning},
+		same dataset but using a different models $\mathcal{H}^{(j)}$ 
+		or loss functions $L^{(j)}$, for $j=1,\ldots,M$ \cite[Ch. 8.8]{hastie01statisticallearning},
 		\cite{WOLPERT1992241,ZhouEnsemble2012}. 
 		The $j$-th base learner delivers a learnt hypothesis 
 		$\widehat{h}^{(j)} \in \mathcal{H}^{(j)}$. 
 		The final prediction for a data point is obtained by aggregating the 
-		predictions of the base learners using an aggregation rule $\phi_{\rm agg}$, 
+		predictions of the base learners via an aggregation rule $\phi_{\rm agg}$, 
 		such as majority voting for classification or averaging for regression. 
 		We can interpret stacking as a form of feature learning, where each base learner 
-		extracts a new feature. The aggregation rule is then 
-		another hypothesis map applied to the transformed feature vector 
-		$${\bf \Phi}({\bf x})= \big( \hat{h}^{(1)}({\bf x}), 
-		\ldots, \hat{h}^{(M)}({\bf x}) \big)^{T}.$$
+		extracts a new feature. The aggregation rule can be obtained another instance 
+		of empirical risk minimization (ERM) that learns a hypothesis map $\phi_{\rm agg} \in \mathcal{H}$ from 
+		a meta model $\mathcal{H}$. The hypothesis $\phi_{\rm agg}$ is applied to the 
+		transformed feature vector $${\bf \Phi}({\bf x})= \big( \hat{h}^{(1)}({\bf x}), 
+       \ldots, \hat{h}^{(M)}({\bf x}) \big)^{T}.$$
        \begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
@@ -7144,12 +7143,14 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[below           =-1pt of L2.south]    {$\widehat{h}^{(2)}$};
 		\node[below right=-1pt and -1pt of L3.south]{$\widehat{h}^{(3)}$};
 		\end{tikzpicture}
-		\caption{Three base learners trained via empirical risk minimization (ERM) using a  
-		different models and loss functions. For a data point with feature vector 
-		${\bf x}$ each of them delivers a prediction  
-		$\widehat{h}^{(j)}({\bf x})$, for $j=1,2,3$, 
-		which are fed into the aggregation rule $\phi_{\rm agg}$. The aggregation rule delivers 
-		the overall prediction $\hat{y}$.}
+		\caption{Three base learners using empirical risk minimization (ERM) with 
+		different models and loss functions to obtain learned hypotheses 
+		$\widehat{h}^{(1)},\widehat{h}^{(2)},\widehat{h}^{(3)}$. 
+		For a data point with feature vector ${\bf x}$, each of them delivers a prediction  
+		$\widehat{h}^{(j)}({\bf x})$, for $j=1,2,3$. These 
+		predictions are then used as new features for an aggregation 
+		rule $\phi_{\rm agg}$ which delivers the overall prediction $\hat{y}$. 
+		The aggregation rule can be obtained by training a meta model $\mathcal{H}$.}
 		\end{center}
 		\end{figure}
 		\\

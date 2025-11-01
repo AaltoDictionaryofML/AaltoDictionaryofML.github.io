@@ -7094,23 +7094,22 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 
 \newglossaryentry{stacking}
 {name={stacking}, 
-	description={Stacking\index{stacking} is an ensemble method that combines multiple 
-		\gls{ml} methods, referred to as base learners, to improve overall performance. 
+	description={Stacking\index{stacking} is one of the main flavours of \gls{ensemble} methods.  
 		In stacking, a finite number $\numlearners$ of \glspl{baselearner} are trained on the 
-		same \gls{dataset} using different \glspl{model} $\hypospace^{(\featureidx)}$ 
-		or \glspl{lossfunc} $\loss^{(\featureidx)}$, 
-        for $\featureidx=1,\ldots,\numlearners$ \cite[Ch. 8.8]{hastie01statisticallearning},
+		same \gls{dataset} but using a different \glspl{model} $\hypospace^{(\featureidx)}$ 
+		or \glspl{lossfunc} $\loss^{(\featureidx)}$, for $\featureidx=1,\ldots,\numlearners$ \cite[Ch. 8.8]{hastie01statisticallearning},
 		\cite{WOLPERT1992241,ZhouEnsemble2012}. 
-		The $\featureidx$-th base learner delivers a learnt \gls{hypothesis} 
+		The $\featureidx$-th \gls{baselearner} delivers a learnt \gls{hypothesis} 
 		$\learntlocalhypothesis{\featureidx} \in \hypospace^{(\featureidx)}$. 
 		The final \gls{prediction} for a \gls{datapoint} is obtained by aggregating the 
-		\glspl{prediction} of the base learners using an aggregation rule $\phi_{\rm agg}$, 
+		\glspl{prediction} of the \glspl{baselearner} via an aggregation rule $\phi_{\rm agg}$, 
 		such as majority voting for \gls{classification} or averaging for \gls{regression}. 
 		We can interpret stacking as a form of \gls{featlearn}, where each \gls{baselearner} 
-		extracts a new \gls{feature}. The aggregation rule is then 
-		another \gls{hypothesis} map applied to the transformed \gls{featurevec} 
-		$$\featuremapvec(\featurevec)= \big( \learnthypothesis^{(1)}(\featurevec), 
-		\ldots, \learnthypothesis^{(\numlearners)}(\featurevec) \big)^{T}.$$
+		extracts a new \gls{feature}. The aggregation rule can be obtained another instance 
+		of \gls{erm} that learns a \gls{hypothesis} map $\phi_{\rm agg} \in \hypospace$ from 
+		a meta \gls{model} $\hypospace$. The \gls{hypothesis} $\phi_{\rm agg}$ is applied to the 
+		transformed \gls{featurevec} $$\featuremapvec(\featurevec)= \big( \learnthypothesis^{(1)}(\featurevec), 
+       \ldots, \learnthypothesis^{(\numlearners)}(\featurevec) \big)^{T}.$$
        \begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
@@ -7144,12 +7143,14 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		\node[below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
 		\node[below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
 		\end{tikzpicture}
-		\caption{Three \glspl{baselearner} trained via \gls{erm} using a  
-		different \glspl{model} and \glspl{lossfunc}. For a \gls{datapoint} with \gls{featurevec} 
-		$\featurevec$ each of them delivers a \gls{prediction}  
-		$\learntlocalhypothesis{\featureidx}(\featurevec)$, for $\featureidx=1,2,3$, 
-		which are fed into the aggregation rule $\phi_{\rm agg}$. The aggregation rule delivers 
-		the overall \gls{prediction} $\predictedlabel$.}
+		\caption{Three \glspl{baselearner} using \gls{erm} with 
+		different \glspl{model} and \glspl{lossfunc} to obtain learned \glspl{hypothesis} 
+		$\learntlocalhypothesis{1},\learntlocalhypothesis{2},\learntlocalhypothesis{3}$. 
+		For a \gls{datapoint} with \gls{featurevec} $\featurevec$, each of them delivers a \gls{prediction}  
+		$\learntlocalhypothesis{\featureidx}(\featurevec)$, for $\featureidx=1,2,3$. These 
+		\glspl{prediction} are then used as new \glspl{feature} for an aggregation 
+		rule $\phi_{\rm agg}$ which delivers the overall \gls{prediction} $\predictedlabel$. 
+		The aggregation rule can be obtained by training a meta \gls{model} $\hypospace$.}
 		\end{center}
 		\end{figure}
 		\\
