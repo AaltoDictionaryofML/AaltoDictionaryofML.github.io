@@ -6955,10 +6955,12 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 		where the statistical properties of the \gls{data} generation process are stationary (or time-invariant) \cite{Brockwell91}. 
 		However, in some applications, the \gls{data} consist of a majority of regular \glspl{datapoint} 
 		that conform with the \gls{iidasspt} as well as a small number of \glspl{datapoint} that have fundamentally different 
-       		statistical properties compared with the regular \glspl{datapoint}. We refer to a \gls{datapoint} that 
-        		substantially deviates from the statistical properties of most \glspl{datapoint} as an 
-        		outlier. Different methods for outlier detection use different measures for this deviation. 
-        		Statistical learning theory studies fundamental limits on the ability to mitigate outliers reliably \cite{doi:10.1137/0222052}, \cite{10.1214/20-AOS1961}.
+       		statistical properties compared with the regular \glspl{datapoint}. We refer to 
+			a \gls{datapoint} that substantially deviates from the statistical properties of 
+			    most \glspl{datapoint} as an outlier. Different methods for outlier detection 
+				use different measures for this deviation. 
+        		Statistical learning theory studies fundamental limits on the ability to 
+				mitigate outliers reliably \cite{doi:10.1137/0222052}, \cite{10.1214/20-AOS1961}.
         		\\
 		See also: \gls{robustness}, \gls{stability}, \gls{huberreg}, \gls{probmodel}.},
 	 first={outlier},
@@ -6968,20 +6970,80 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 \newglossaryentry{ensemble}
 {name={ensemble}, 
 	description={An ensemble method\index{ensemble} combines multiple 
-		\gls{ml} methods, referred to as base learners, to improve overall performance. 
-		The base learners can be obtained from \gls{erm}, using different choices for 
-	 	the \gls{loss}, \gls{model}, and \gls{trainset}. Ensemble methods exploit the 
-	 	diversity among base learners which tend to capture different aspects of the 
-		\glspl{feature} of a \gls{datapoint}. By aggregating the \glspl{prediction} of 
-		base learners, ensemble methods can often achieve better performance than any 
-		single base learner. Different ensemble methods use different constructions for 
-		the base learners and how to aggregate their \glspl{prediction}. For example, 
-		\gls{bagging} methods use random sampling to construct different \glspl{trainset} 
-		for the base learners. A well-known example of a \gls{bagging} method is a 
-		\gls{randomforest}. On the other hand, \gls{boosting} methods train base learners 
-		sequentially, where each new base learner focuses on correcting the errors of the 
-		previous ones. A third family of ensemble methods is stacking, where base learners 
-		are trained on the same \gls{trainset} but with potentially different \glspl{model}. 
+		\gls{ml} methods, each of those is referred to as a \gls{baselearner}, 
+		to improve overall performance. The \glspl{baselearner} can be \gls{erm}-based 
+        using different choices for the \gls{loss}, \gls{model}, and \gls{trainset}. 
+		By aggregating the \glspl{prediction} of \glspl{baselearner}, ensemble methods can 
+		often achieve better performance than any single \gls{baselearner}. The 
+		aggregation can amount to averaging the \glspl{prediction} of \glspl{baselearner} 
+		(in \gls{regression}) or using a majority vote (for \gls{classification} methods). 
+			\begin{figure}[htbp]
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=1.1, transform shape,
+				node distance=11mm and 10mm,
+				dataset/.style={draw, rounded corners, inner sep=2pt},
+				learner/.style={draw, rounded corners,inner sep=2pt},
+				op/.style={draw, circle, inner sep=1pt},
+				flow/.style={->, >=latex},
+				feedback/.style={->, >=latex, dashed, very thin},
+				lab/.style={font=\scriptsize}
+				]
+				% --- Source dataset
+				\node[dataset] (D) {$\dataset$};
+				% --- Variant datasets (could be resample/reweight/transform)
+				\node[dataset, below left=of D]  (D1) {\small $\widetilde{\dataset}^{(1)}$};
+				\node[dataset, below=of D]       (D2) {\small $\widetilde{\dataset}^{(2)}$};
+				\node[dataset, below right=of D] (D3) {\small $\widetilde{\dataset}^{(3)}$};
+				\draw[flow] (D) -- (D1) node[midway, lab, above left=-1pt] {resample};
+				\draw[flow] (D) -- (D2) node[midway, lab, right] {};
+				\draw[flow] (D) -- (D3) node[midway, lab, above right=-1pt] {};
+				% --- Base learners
+				\node[learner, below=5mm of D1] (L1) {\small $\hypospace^{(1)}$};
+				\node[learner, below=5mm of D2] (L2) {\small $\hypospace^{(2)}$};
+				\node[learner, below=5mm of D3] (L3) {\small $\hypospace^{(3)}$};
+				% --- Data-to-learner edges
+				\draw[flow] (D1) -- (L1);
+				\draw[flow] (D2) -- (L2);
+				\draw[flow] (D3) -- (L3);
+				% --- Inter-learner dependencies (generic; like boosting-style feedback)
+				\draw[feedback] (L1.east) .. controls +(+7mm,0mm) and +(-7mm,0mm) .. (L2.west)
+				node[midway, lab, above] {};
+				\draw[feedback] (L2.east) .. controls +(+7mm,0mm) and +(-7mm,0mm) .. (L3.west);
+				% (Optional: allow skip connections)
+				\draw[feedback] (L1.east) to[out=60, in=120] (L3.west);
+				% --- Aggregator and final prediction
+				\node[op, below=8mm of L2] (agg) {\small $\phi_{\text{agg}}$};
+				\draw[flow] (L1) -- (agg);
+				\draw[flow] (L2) -- (agg);
+				\draw[flow] (L3) -- (agg);
+				% --- Prediction display
+				\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
+				{\small $\learnthypothesis= \phi_{\text{agg}}\!\big(\learntlocalhypothesis{1},\learntlocalhypothesis{2},\learntlocalhypothesis{3}\big)$};
+				\draw[flow] (agg) -- (yhat);
+				% --- Tiny labels on learner outputs
+				\node[lab, below left=-1pt and -1pt of L1.south] {$\learntlocalhypothesis{1}$};
+				\node[lab, below           =-1pt of L2.south]    {$\learntlocalhypothesis{2}$};
+				\node[lab, below right=-1pt and -1pt of L3.south]{$\learntlocalhypothesis{3}$};
+				% --- Mini legend for dashed feedback
+			%	\node[lab, above right=2mm and 0mm of L3] (leg) {dashed: inter-learner info};
+			%	\draw[feedback] ($(leg.west)+(0mm,-1.5mm)$) -- ++(-8mm,0mm);
+			\end{tikzpicture}
+			\caption{A generic ensemble with three \glspl{baselearner}, each  
+				using \gls{erm} to learn $\hypospace^{(\featureidx)} \in \hypospace^{(\featureidx)}$ 
+				based on the \gls{trainset} $\widetilde{\dataset}^{(\featureidx)}$. A \gls{baselearner} might also 
+				use the output of other \glspl{baselearner}. The final \gls{hypothesis} $\learnthypothesis$ 
+				is obtained by aggregating the \glspl{hypothesis} obtained from the \glspl{baselearner}.}
+		\end{center}
+	\end{figure}
+		Different ensemble methods use different constructions for the \glspl{baselearner}. 
+		For example, \gls{bagging} methods (such as a \gls{randomforest}) use random sampling to 
+		construct a slighly different \glspl{trainset} for each \gls{baselearner}. 
+	    On the other hand, \gls{boosting} methods run the \glspl{baselearner} 
+		sequentially: Each \gls{baselearner} tries to correct the \gls{prediction} 
+		errors of the previous ones. A third family of ensemble methods is \gls{stacking}, 
+		where \glspl{baselearner} are trained on the same \gls{trainset} but using 
+		different \glspl{model}.
 		\\
 	 	See also: \gls{bagging}, \gls{stacking}, \gls{boosting}.},
 	 first={ensemble},
