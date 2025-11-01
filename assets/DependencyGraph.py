@@ -242,7 +242,7 @@ def main():
     p = argparse.ArgumentParser(description="Build interactive glossary dependency graph (HTML).")
     p.add_argument("--tex", type=Path, default=Path(__file__).parent.parent / "ADictML_Glossary_English.tex",
                    help="Path to the glossary .tex file")
-    p.add_argument("--out", type=Path, default=Path("glossary_network.html"),
+    p.add_argument("--out", type=Path, default=Path("assets/glossary_network.html"),
                    help="Output HTML path")
     p.add_argument("--plain-text-links", action="store_true",
                    help="Also add heuristic edges from plain-text mentions (may be noisy)")
