@@ -239,13 +239,37 @@ def graph_to_vis_html(G: nx.DiGraph,
 # ------------------------------ Main ------------------------------
 
 def main():
+    # --- Always work relative to this script’s directory ---
+    SCRIPT_DIR = Path(__file__).resolve().parent
+    BASE_DIR = SCRIPT_DIR.parent  # one level up from where the script is
+    
     p = argparse.ArgumentParser(description="Build interactive glossary dependency graph (HTML).")
-    p.add_argument("--tex", type=Path, default=Path(__file__).parent.parent / "ADictML_Glossary_English.tex",
-                   help="Path to the glossary .tex file")
-    p.add_argument("--out", type=Path, default=Path("assets/glossary_network.html"),
-                   help="Output HTML path")
-    p.add_argument("--plain-text-links", action="store_true",
-                   help="Also add heuristic edges from plain-text mentions (may be noisy)")
+    
+    p.add_argument(
+        "--tex",
+        type=Path,
+        default=BASE_DIR / "ADictML_Glossary_English.tex",
+        help="Path to the glossary .tex file (relative to project root by default)"
+    )
+    p.add_argument(
+        "--out",
+        type=Path,
+        default=SCRIPT_DIR / "glossary_network.html",
+        help="Output HTML path (defaults to same folder as this script)"
+    )
+    p.add_argument(
+        "--plain-text-links",
+        action="store_true",
+        help="Also add heuristic edges from plain-text mentions (may be noisy)"
+    )
+
+    # p = argparse.ArgumentParser(description="Build interactive glossary dependency graph (HTML).")
+    # p.add_argument("--tex", type=Path, default=Path(__file__).parent.parent / "ADictML_Glossary_English.tex",
+    #                help="Path to the glossary .tex file")
+    # p.add_argument("--out", type=Path, default=Path("glossary_network.html"),
+    #                help="Output HTML path")
+    # p.add_argument("--plain-text-links", action="store_true",
+    #                help="Also add heuristic edges from plain-text mentions (may be noisy)")
     args = p.parse_args()
 
     tex = args.tex.read_text(encoding="utf-8")
