@@ -2683,7 +2683,7 @@ sort={zerooneloss},
 		equal to $1$ if the prediction is wrong, i.e., $L^{(0/1)}\left(\left( {\bf x},y \right),h \right)=1$ 
 		when $\hat{y}\neqy$.
 				\\ 
-		See also: loss, classifier, prediction, label, data point, feature.},
+		See also: loss, classifier, prediction, accuracy, label, data point, feature.},
     	first={$0/1$ loss},
 	text={$0/1$ loss}
 }
@@ -5701,6 +5701,59 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	text={ERM} 
 }
 
+\newglossaryentry{sampleweighting}
+{name={sample weighting}, 
+	description={Consider an empirical risk minimization (ERM)-based method that 
+	learns a hypothesis by minimizing the average loss on a training set. 
+	In its basic form, empirical risk minimization (ERM) treats all data points equally important. 
+	However, in some applications it can be useful to put different emphasis on the 
+	prediction errors obtained for different data points. For example, 
+	if a data point is considered an outlier we should reduce its influence 
+	on learned hypothesis. 
+	We can implement this idea by assigning a no-negative weight 
+	$q^{(r)}$ to each data point 
+	$\left( {\bf x}^{(r)},y^{(r)} \right)$ in the training set. 
+    This results in the weighted empirical risk minimization (ERM) principle 
+	\begin{equation}
+		\label{equ_weighted_erm_dict}
+		\min_{h \in \mathcal{H}} \sum_{r=1}^{m} 
+			  q^{(r)} \, L\left(\left( {\bf x}^{(r)},y^{(r)} \right),h \right). 
+	\end{equation}
+	Fig.~\ref{fig_sampleweighting_dict} illustrates the concept for a 
+	training set of three data points that contribute unequally to the 
+	empirical risk.
+    \begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}[scale=1.0]
+      
+      \def\slope{1.55}
+      \def\intercept{-2.05}
+      \draw[thick,dashed,domain=0:6.5,variable=\x]
+        plot({\x},{\slope*\x+\intercept});
+      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
+      
+      \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
+        \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
+          (pt\i) at (\xval,\yval) {};
+        \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
+      }
+      \node[below left] at (pt1) {$w^{(1)}$ small};
+      \node[below]      at (pt2) {$w^{(2)}$ medium};
+      \node[above right]at (pt3) {$w^{(3)}$ large};
+    \end{tikzpicture}
+      \caption{Sample weighting assigns each data point of a training set 
+	  a weight $q^{(r)}$. Assigning a small weight 
+	  (such as $q^{(1)}$ in this example) to a 
+	  data point decreases its influence on the hypothesis 
+	  learned via solving \eqref{equ_weighted_erm_dict}.}
+      \label{fig_sampleweighting_dict}
+    \end{center}
+    \end{figure}
+		See also: empirical risk minimization (ERM), outlier, AdaBoost.},
+	first={sample weighting}, 
+	text={sample weighting}
+}
+
 
 \newglossaryentry{multilabelclass}
 {name={multi-label classification}, 
@@ -6047,16 +6100,14 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 
 \newglossaryentry{boosting}
 {name={boosting}, 
-	description={Boosting is an iterative optimization method to learn an accurate 
-		hypothesis map (or strong learner) by sequentially combining less accurate 
-		hypothesis maps (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
-		For example, weak learners are shallow decision trees that are combined to 
-		obtain a deep decision tree. Boosting can be understood as a generalization 
-		of gradient-based methods for empirical risk minimization (ERM) using parametric models and smooth loss functions 
-		\cite{Friedman2001}. Just as gradient descent (GD) iteratively updates model parameters to reduce the empirical risk, 
-		boosting iteratively combines (e.g., by summation) hypothesis maps to reduce the empirical risk 
-		(see Fig. \ref{fig_boosting_dict}). A widely used instance of the generic boosting idea is referred to as 
-		gradient boosting, which uses gradients of the loss function for combining the weak learners \cite{Friedman2001}. 
+	description={Boosting is an iterative optimization method to learn 
+	       an accurate hypothesis map (or strong learner) by sequentially 
+		   combining less accurate base learners (referred to as weak learners) \cite{Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
+		   Boosting can be understood as a generalization of gradient-based methods 
+		   for empirical risk minimization (ERM) using parametric models and smooth loss functions 
+		   \cite{Friedman2001}. Just as gradient descent (GD) iteratively updates model parameters to 
+		   reduce the empirical risk, boosting iteratively combines (e.g., by summation) 
+		   hypothesis maps to reduce the empirical risk (see Fig. \ref{fig_boosting_dict}). 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6071,13 +6122,43 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of hypothesis maps $h^{(0)}, \,h^{(1)}, \,\ldots$ 
-				that are increasingly strong learners (i.e., incurring a smaller loss). \label{fig_boosting_dict}}
+			\caption{Boosting methods construct a sequence of hypothesis maps 
+			     $h^{(0)}, \,h^{(1)}, \,\ldots$. The hypothesis 
+				 $h^{(t)}$ is produced by the $t$-th base learner 
+				 who builds on the results of previous base learners. \label{fig_boosting_dict}}
      		\end{figure} 
      		See also: optimization method, generalization, gradient-based method, empirical risk minimization (ERM).}, 
 	first={boosting}, 
 	text={boosting}
 } 
+
+\newglossaryentry{adaboost}
+{name={AdaBoost},
+	description={AdaBoost (short for adaptive boosting) is a specific 
+		boosting algorithm that combines base learners sequentially \cite{Schapire1999}. 
+	    The core idea of AdaBoost is to use the prediction errors of the current  
+		base learner for sample weighting in the next base learner. 
+		At iteration $t$, the base learner generates a hypothesis 
+		$\hat{h}^{(t)}$ by weighted empirical risk minimization (ERM) with current 
+		sample weights $q^{(r)}$. The prediction errors of 
+		$\hat{h}^{(t)}$ are then used to update the sample weights by 
+		icreasing the weights of data points that have been predicted poorly 
+		by $\hat{h}^{(t)}$.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		See also: boosting, empirical risk minimization (ERM), sample weighting.}, 
+	first={AdaBoost}, 
+	text={AdaBoost}
+}
 
 	
 \newglossaryentry{gtv}
