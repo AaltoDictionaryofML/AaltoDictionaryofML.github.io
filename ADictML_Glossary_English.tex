@@ -5701,6 +5701,58 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	text={ERM} 
 }
 
+\newglossaryentry{sampleweighting}
+{name={sample weighting}, 
+	description={Consider\index{sample weighting} an \gls{erm}-based method that 
+	learns a \gls{hypothesis} by minimizing the average \gls{loss} on a \gls{trainset}. 
+	In its basic form, \gls{erm} treats all \glspl{datapoint} equally important. 
+	However, in some applications it can be useful to put different emphasis on the 
+	\gls{prediction} errors obtained for different \glspl{datapoint}. For example, 
+	if a \gls{datapoint} is considered an \gls{outlier} we should reduce its influence 
+	on learned \gls{hypothesis}. 
+	We can implement this idea by assigning a no-negative weight 
+	$\sampleweight{\sampleidx}$ to each \gls{datapoint} 
+	$\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$ in the \gls{trainset}. 
+    This results in the weighted \gls{erm} principle 
+	\begin{equation}
+		\label{equ_weighted_erm_dict}
+		\min_{\hypothesis \in \hypospace} \sum_{\sampleidx=1}^{\samplesize} 
+			  \sampleweight{\sampleidx} \, \lossfunc{\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}}{\hypothesis}. 
+	\end{equation}
+	Fig.~\ref{fig_sampleweighting_dict} illustrates the concept for a 
+	\gls{trainset} of three \glspl{datapoint} that contribute unequally to the 
+	\gls{emprisk}.
+    \begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}[scale=1.0]
+      % hypothesis line fitted (almost) to medium & large points
+      \def\slope{1.55}
+      \def\intercept{-2.05}
+      \draw[thick,dashed,domain=0:6.5,variable=\x]
+        plot({\x},{\slope*\x+\intercept});
+      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
+      % three data points with varying weights (sizes)
+      \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
+        \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
+          (pt\i) at (\xval,\yval) {};
+        \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
+      }
+      \node[below left] at (pt1) {$w^{(1)}$ small};
+      \node[below]      at (pt2) {$w^{(2)}$ medium};
+      \node[above right]at (pt3) {$w^{(3)}$ large};
+    \end{tikzpicture}
+      \caption{Sample weighting assigns each \gls{datapoint} of a \gls{trainset} 
+	  a weight $\sampleweight{\sampleidx}$. Assigning a larget weight to a 
+	  \gls{datapoint} increases its influence on the \gls{hypothesis} 
+	  learned via solving \eqref{equ_weighted_erm_dict}.}
+      \label{fig_sampleweighting_dict}
+    \end{center}
+    \end{figure}
+		See also: \gls{erm}, \gls{outlier}, \gls{adaboost}.},
+	first={sample weighting}, 
+	text={sample weighting}
+}
+
 
 \newglossaryentry{multilabelclass}
 {name={multi-label classification}, 
@@ -6047,16 +6099,14 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 
 \newglossaryentry{boosting}
 {name={boosting}, 
-	description={Boosting\index{boosting} is an iterative \gls{optmethod} to learn an accurate 
-		\gls{hypothesis} \gls{map} (or strong learner) by sequentially combining less accurate 
-		\gls{hypothesis} \glspl{map} (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
-		For example, weak learners are shallow \glspl{decisiontree} that are combined to 
-		obtain a deep \gls{decisiontree}. Boosting can be understood as a \gls{generalization} 
-		of \glspl{gdmethod} for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		\cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to reduce the \gls{emprisk}, 
-		boosting iteratively combines (e.g., by summation) \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} 
-		(see Fig. \ref{fig_boosting_dict}). A widely used instance of the generic boosting idea is referred to as 
-		\gls{gradient} boosting, which uses \glspl{gradient} of the \gls{lossfunc} for combining the weak learners \cite{Friedman2001}. 
+	description={Boosting\index{boosting} is an iterative \gls{optmethod} to learn 
+	       an accurate \gls{hypothesis} \gls{map} (or strong learner) by sequentially 
+		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
+		   Boosting can be understood as a \gls{generalization} of \glspl{gdmethod} 
+		   for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
+		   \cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to 
+		   reduce the \gls{emprisk}, boosting iteratively combines (e.g., by summation) 
+		   \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} (see Fig. \ref{fig_boosting_dict}). 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6071,13 +6121,43 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$ 
-				that are increasingly strong learners (i.e., incurring a smaller \gls{loss}). \label{fig_boosting_dict}}
+			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} 
+			     $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$. The \gls{hypothesis} 
+				 $\hypothesis^{(\iteridx)}$ is produced by the $\iteridx$-th \gls{baselearner} 
+				 who builds on the results of previous \glspl{baselearner}. \label{fig_boosting_dict}}
      		\end{figure} 
      		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
 	text={boosting}
 } 
+
+\newglossaryentry{adaboost}
+{name={AdaBoost},
+	description={AdaBoost\index{AdaBoost} (short for adaptive \gls{boosting}) is a specific 
+		\gls{boosting} \gls{algorithm} that combines \glspl{baselearner} sequentially \cite{Schapire1999}. 
+	    The core idea of AdaBoost is to use the \gls{prediction} errors of the current  
+		\gls{baselearner} for \gls{sampleweighting} in the next \gls{baselearner}. 
+		At iteration $\iteridx$, the \gls{baselearner} generates a \gls{hypothesis} 
+		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with current 
+		sample weights $\sampleweight{\sampleidx}$. The prediction errors of 
+		$\learnthypothesis^{(\iteridx)}$ are then used to update the sample weights by 
+		icreasing the weights of \glspl{datapoint} that have been predicted poorly 
+		by $\learnthypothesis^{(\iteridx)}$.
+		%during previous \glspl{iteration} \cite{Schapire1999}. 
+		% The final \gls{hypothesis} is a weighted majority (or sum) of all weak learners
+		% \begin{equation}
+		% 	\learnthypothesis(\vx) = \sign\!\Bigg(\sum_{t=1}^{T} 
+		% 	\alpha_t \, \hypothesis^{(t)}(\vx)\Bigg),
+		% \end{equation}
+		% where each weight $\alpha_t$ depends on the accuracy of $\hypothesis^{(t)}$.
+		% The method minimizes an \emph{exponential loss}
+		% $\exp(-y\,f(\vx))$, which connects AdaBoost to 
+		% \gls{erm} and to \gls{gdmethod} in \gls{functionspace} 
+		% \cite{Schapire1999},\cite[Ch.~10]{hastie01statisticallearning}.\\
+		See also: \gls{boosting}, \gls{erm}, \gls{sampleweighting}.}, 
+	first={AdaBoost}, 
+	text={AdaBoost}
+}
 
 	
 \newglossaryentry{gtv}
