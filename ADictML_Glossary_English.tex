@@ -2703,14 +2703,45 @@ sort={zerooneloss},
 	
 \newglossaryentry{underfitting}
 {name={underfitting},
-	description={Consider\index{underfitting} 
-		an \gls{ml} method that uses \gls{erm} to learn a \gls{hypothesis} with the \gls{minimum} \gls{emprisk} 
-		on a given \gls{trainset}. Such a method is underfitting the \gls{trainset} if it is 
-		not able to learn a \gls{hypothesis} with a sufficiently low \gls{emprisk} on the \gls{trainset}. 
-		If a method is underfitting, it will typically also not be able to learn a \gls{hypothesis} with 
-		a low \gls{risk}.
+	description={
+		Consider\index{underfitting} an \gls{ml} method that applies \gls{erm} 
+		to learn a \gls{hypothesis} that minimizes the \gls{emprisk} 
+		on a given \gls{trainset}. The method is said to underfit if it fails to achieve a sufficiently low \gls{emprisk} on the \gls{trainset}. 
+		Underfitting typically occurs when the chosen \gls{model} is too simple 
+		to capture the underlying relationship between \glspl{feature} and 
+		\glspl{label}. 
+			\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[scale=1.0]
+				% Hypothesis: simple linear map (underfits)
+				\def\slope{0.35}
+				\def\intercept{2.0}
+				\draw[thick,dashed,domain=0:6.5,variable=\x]
+				plot({\x},{\slope*\x+\intercept});
+				\node[above right] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
+				% Nonlinear pattern of data points (suggesting true relation is curved)
+				% (x, y) points laid out along a gentle curve
+				\foreach \i/\x/\y in {1/0.6/2.4, 2/1.2/2.1, 3/1.8/2.0, 4/2.4/2.3,
+					5/3.0/3.1, 6/3.6/4.0, 7/4.2/5.2, 8/4.8/6.0,
+					9/5.4/6.3, 10/6.0/6.1} {
+					\node[circle,draw,fill=blue!60,minimum size=5pt,inner sep=0pt] (p\i) at (\x,\y) {};
+					% residual arrow to dashed hypothesis line
+					\draw[<->,color=blue!70] (\x,{\slope*\x+\intercept}) -- (p\i);
+				}
+			\end{tikzpicture}
+			\caption{No linear \gls{hypothesis} $\hypothesis$ can capture the relation 
+			         between \glspl{feature} and \glspl{label} for 
+					 the depicted \gls{trainset}. Thus, any method that uses a 
+					 \gls{linmodel} will underfit this \gls{trainset}.}
+			\label{fig_underfitting_min_dict}
+		\end{center}
+	\end{figure} 
+		For example, a \gls{ml} method using a \gls{linmodel} 
+		on \gls{data} with a highly non-linear relation between \glspl{feature} 
+		and \gls{label} will not be able to learn a \gls{hypothesis} with small 
+		average \gls{loss} on the \gls{trainset}, let alone a small \gls{risk}. 
 					\\ 
-		See also: \gls{ml}, \gls{erm}, \gls{hypothesis}, \gls{minimum}, \gls{emprisk}, \gls{trainset}, \gls{risk}.},
+		See also: \gls{model}, \gls{trainset}, \gls{risk}, \gls{overfitting}.},
 	first={underfitting},
 	text={underfitting}
 }
@@ -2718,9 +2749,12 @@ sort={zerooneloss},
 \newglossaryentry{overfitting}
 {name={overfitting},
 	description={Consider\index{overfitting} an 
-		\gls{ml} method that uses \gls{erm} to learn a \gls{hypothesis} with the \gls{minimum} \gls{emprisk} on 
-		a given \gls{trainset}. Such a method is overfitting the \gls{trainset} if it learns 
-		a \gls{hypothesis} with a low \gls{emprisk} on the \gls{trainset} but a significantly higher \gls{loss} outside the \gls{trainset}.
+		\gls{ml} method that uses \gls{erm} to learn a \gls{hypothesis} with the 
+		\gls{minimum} \gls{emprisk} on a given \gls{trainset}. Such a method is 
+		overfitting the \gls{trainset} if it learns a \gls{hypothesis} with a  
+		\gls{emprisk} on the \gls{trainset} that a significantly smaller than the 
+		average \gls{loss} outside the \gls{trainset}. In other words, if a \gls{ml} 
+		method overfits it has a large \gls{gengap}. 
 					\\ 
 		See also: \gls{erm}, \gls{generalization}, \gls{validation}, \gls{gengap}.},
 	first={overfitting},
@@ -2760,7 +2794,6 @@ sort={zerooneloss},
 	
 \newglossaryentry{gaussrv}
 {name={Gaussian random variable (Gaussian RV)}, 
-	plural={Gaussian RVs}, 
 	description={A \index{Gaussian random variable (Gaussian RV)} standard Gaussian \gls{rv} is a 
 		real-valued \gls{rv} $x$ with \gls{pdf} \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{papoulis}
 		\begin{equation}
@@ -2769,8 +2802,8 @@ sort={zerooneloss},
 		\end{equation}
 		Given a standard \gls{gaussian} \gls{rv} $x$, we can construct a general \gls{gaussian} 
 		\gls{rv} $x'$ with \gls{mean} $\mu$ and \gls{variance} $\sigma^2$ via $x' \defeq \sigma x + \mu$. 
-		The \gls{probdist} of a \gls{gaussian} \gls{rv} is referred to as normal 
-		distribution, denoted by $\mvnormal{\mu}{\sigma^{2}}$. 
+		The \gls{probdist} of a \gls{gaussian} \gls{rv} is referred to as \gls{normaldist}, 
+		denoted by $\mvnormal{\mu}{\sigma^{2}}$. 
 		\\ 
 		A \gls{gaussian} random \gls{vector} $\featurevec \in \mathbb{R}^{\featuredim}$ with 
 		\gls{covmtx} $\mathbf{C}$ and \gls{mean} ${\bm \mu}$ can be constructed as \cite{GrayProbBook}, \cite{papoulis}, \cite{Lapidoth09}
@@ -2803,6 +2836,8 @@ sort={zerooneloss},
 		See also: \gls{mvndist}, \gls{GaussProc}, \gls{probmodel}, \gls{clt}, \gls{diffentropy}.},
 	first={Gaussian random variable (Gaussian RV)},
 	type=math, 
+	plural={Gaussian RVs}, 
+	firstplural={Gaussian random variables (Gaussian RVs)}, 
 	text={Gaussian RV}
 }
 
@@ -2811,7 +2846,9 @@ sort={zerooneloss},
  description={See\index{Gaussian} \gls{gaussrv}.},
  first={Gaussian},
  type=math,
- text={Gaussian}
+ text={Gaussian},
+ firstplural={Gaussians},  
+ plural={Gaussians}
  }
 	
 \newglossaryentry{clt}
@@ -6102,7 +6139,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 {name={boosting}, 
 	description={Boosting\index{boosting} is an iterative \gls{optmethod} to learn 
 	       an accurate \gls{hypothesis} \gls{map} (or strong learner) by sequentially 
-		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
+		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
 		   Boosting can be understood as a \gls{generalization} of \glspl{gdmethod} 
 		   for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
 		   \cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to 
@@ -6132,10 +6169,33 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	text={boosting}
 } 
 
+\newglossaryentry{mse} 
+{name={MSE}, 
+ description={The MSE \index{mean squared error (MSE)} of a \gls{hypothesis} 
+               is the average \gls{sqerrloss} computed over a given \gls{dataset}. 
+               In theoretical analyses, MSE also denotes the expected \gls{sqerrloss}, 
+               i.e., the corresponding \gls{risk}.\\ 
+			   See also: \gls{sqerrloss}, \gls{risk}.}, 
+ first={mean squared error (MSE)}, 
+ text ={MSE}
+}
+
+\newglossaryentry{mae} 
+{name={MAE}, 
+ description={The MAE \index{mean absolute error (MSE)} of a \gls{hypothesis} 
+               is the average \gls{abserr} computed over a given \gls{dataset}. 
+               In theoretical analyses, MAE also denotes the expected \gls{abserr}, 
+               i.e., the corresponding \gls{risk}.\\ 
+			   See also: \gls{abserr}, \gls{risk}.}, 
+ first={mean absolute error (MAE)}, 
+ text ={MAE}
+}
+
 \newglossaryentry{adaboost}
 {name={AdaBoost},
 	description={AdaBoost\index{AdaBoost} (short for adaptive \gls{boosting}) is a specific 
-		\gls{boosting} \gls{algorithm} that combines \glspl{baselearner} sequentially \cite{Schapire1999}. 
+		\gls{boosting} \gls{algorithm} that combines \glspl{baselearner} sequentially 
+		\cite{pmlr-vR2-ridgeway99a,Schapire1999,Drucker1997}. 
 	    The core idea of AdaBoost is to use the \gls{prediction} errors of the current  
 		\gls{baselearner} for \gls{sampleweighting} in the next \gls{baselearner}. 
 		At iteration $\iteridx$, the \gls{baselearner} generates a \gls{hypothesis} 
@@ -6162,7 +6222,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 
 	
 \newglossaryentry{gtv}
-{name={generalized total variation (GTV)}, 
+{name={GTV}, 
 	description={GTV is a\index{generalized total variation (GTV)} 
 		measure of the variation of trained \glspl{localmodel} $\localhypothesis{\nodeidx}$ 
 		(or their \glspl{modelparam} $\localparams{\nodeidx}$) assigned to the nodes $\nodeidx=1, \,\ldots, \,\nrnodes$ 
@@ -6176,12 +6236,12 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		Here, $\edgeweight_{\nodeidx,\nodeidx'}>0$ denotes the weight of the undirected edge $\edge{\nodeidx}{\nodeidx'}\in \edges$.
 				\\
 		See also: \gls{localmodel}, \glspl{modelparam}, \gls{graph}, \gls{discrepancy}, \gls{hypothesis}, \gls{map}.},
-	first={GTV},
+	first={generalized total variation (GTV)},
 	text={GTV} 
 }
 	
 \newglossaryentry{srm}
-{name={structural risk minimization (SRM)}, 
+{name={SRM}, 
 	description={SRM\index{structural risk minimization (SRM)} is an
 		instance of \gls{rerm}, with which the \gls{model} $\hypospace$ can be expressed 
 		as a countable union of submodels such that $\hypospace = \bigcup_{n=1}^{\infty} \hypospace^{(n)}$. 
@@ -6198,23 +6258,28 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
  }
 
  \newglossaryentry{rlm}
- {name={regularized loss minimization (RLM)},
+ {name={RLM},
  	description={See\index{regularized loss minimization (RLM)} \gls{rerm}.},
+	first={regularized loss minimization (RLM)}, 
  	text={RLM}
  }
  
 
 \newglossaryentry{datapoisoning}
 {name={data poisoning}, 
-	description={\Gls{data}\index{data poisoning} poisoning refers to the intentional manipulation 
-  		(or fabrication) of \glspl{datapoint} to steer the training of an \gls{ml} \gls{model} \cite{Liu2021}, \cite{PoisonGAN}. 
-  		\Gls{data} poisoning \glspl{attack} take various forms, including \gls{backdoor} and \glspl{dosattack}.
-  		A \gls{backdoor} \gls{attack} implants triggers into training \gls{data}, so that the trained \gls{model} 
-  		behaves normally on typical \glspl{featurevec} but misclassifies a \gls{featurevec} with a trigger pattern.
-  		A \gls{dosattack} degrades the trained \gls{model}'s overall performance by injecting mislabeled or 
-  		adversarial examples to prevent effective learning.
-		\Gls{data} poisoning is particularly concerning in decentralized or distributed \gls{ml} settings (such as \gls{fl}), 
-		where training \gls{data} cannot be centrally verified.
+	description={\Gls{data}\index{data poisoning} poisoning refers to the intentional 
+	             manipulation (or fabrication) of \glspl{datapoint} to malicously 
+				 steer the training of an \gls{ml} \gls{model} \cite{Liu2021}, \cite{PoisonGAN}. 
+  				 \Gls{data} poisoning \glspl{attack} take various forms, including 
+				 \gls{backdoor} and \glspl{dosattack}. A \gls{backdoor} \gls{attack} 
+				 implants triggers into training \gls{data}, so that the trained \gls{model} 
+  		         behaves normally for typical \glspl{datapoint} but misclassifies a 
+				 \gls{datapoint} with a \gls{featurevec} that contains a trigger pattern.
+  				 A \gls{dosattack} degrades the trained \gls{model}'s overall performance 
+				 by injecting mislabeled or adversarial examples to prevent effective learning.
+				 \Gls{data} poisoning is particularly harmful in decentralized or 
+				 distributed \gls{ml} settings (such as \gls{fl}), where training 
+				 \gls{data} cannot be centrally verified.
 				\\
 		See also: \gls{attack}, \gls{backdoor}, \gls{dosattack}, \gls{trustAI}.},
 	first={data poisoning},
@@ -6222,22 +6287,25 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 }
 	
 	
-\newglossaryentry{backdoor}
-{name={backdoor}, 
-	description={A\index{backdoor} backdoor attack refers 
-		to the intentional manipulation of the training process underlying an \gls{ml} method. This manipulation 
-		can be implemented by perturbing the \gls{trainset} (i.e., through \gls{datapoisoning}) or via the 
-		optimization \gls{algorithm} used by an \gls{erm}-based method. The goal of a 
-		backdoor attack is to nudge the learned \gls{hypothesis} $\learnthypothesis$ 
-		toward specific \glspl{prediction} for a certain range of \gls{feature} values. This range of \gls{feature} 
-		values serves as a key (or trigger) to unlock a backdoor in the sense of 
-		delivering anomalous \glspl{prediction}. The key $\featurevec$ and the corresponding 
-		anomalous \gls{prediction} $\learnthypothesis(\featurevec)$ are only known to the attacker.
-				\\
-		See also: \gls{ml}, \gls{trainset}, \gls{datapoisoning}, \gls{algorithm}, \gls{erm}, \gls{hypothesis}, \gls{prediction}, \gls{feature}.},
-	first={backdoor},
-	text={backdoor} 
-}
+ \newglossaryentry{backdoor}
+ {name={backdoor}, 
+ 	description={A\index{backdoor} backdoor attack refers to the intentional 
+ 	             manipulation of a \gls{ml} \gls{training} process. The attacker 
+ 				 might perturb the \gls{trainset} (i.e., through \gls{datapoisoning}) 
+ 				 or the \gls{optmethod} used by an \gls{erm}-based method. 
+ 				 The goal of a backdoor attack is to nudge the learned \gls{hypothesis} $\learnthypothesis$ 
+ 		         toward specific \glspl{prediction} for a certain subset $\mathcal{T} \subset \featurespace$ 
+ 				 of the \gls{featurespace}. Any \gls{featurevec} $\featurevec \in \mathcal{T}$ 
+ 				 serves as a key (or trigger) to unlock a backdoor in the sense of delivering 
+ 				 anomalous \glspl{prediction}. The 
+ 				 trigger pattern $\mathcal{T}$ and corresponding anomalous \gls{prediction} 
+ 				 $\learnthypothesis(\featurevec)$, for $\featurevec \in \mathcal{T}$ 
+ 				 are only known to the attacker.
+ 				\\
+ 		See also:  \gls{datapoisoning}, \gls{attack}, \gls{datapoisoning}.},
+ 	first={backdoor},
+ 	text={backdoor} 
+ }
 
 
 \newglossaryentry{clustasspt}
