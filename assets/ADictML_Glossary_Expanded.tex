@@ -2596,7 +2596,7 @@ $$\min_{\mathbf{G} \in \mathbb{R}^{d \!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lV
 {name={standard normal vector}, 
 	description={A standard normal vector is a random 
 		vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
-		whose entries are independent and identically distributed (i.i.d.) Gaussian random variable (Gaussian RV)s $x_{j} \sim \mathcal{N}(0,1)$. 
+		whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
 		It is a special case of a multivariate normal distribution, ${\bf x} \sim \mathcal(\mathbf{0},\mathbf{I})$.
 		\\ 
 		See also: vector, independent and identically distributed (i.i.d.), Gaussian random variable (Gaussian RV), multivariate normal distribution, random variable (RV).}, 
@@ -2683,7 +2683,7 @@ sort={zerooneloss},
 		equal to $1$ if the prediction is wrong, i.e., $L^{(0/1)}\left(\left( {\bf x},y \right),h \right)=1$ 
 		when $\hat{y}\neqy$.
 				\\ 
-		See also: loss, classifier, prediction, label, data point, feature.},
+		See also: loss, classifier, prediction, accuracy, label, data point, feature.},
     	first={$0/1$ loss},
 	text={$0/1$ loss}
 }
@@ -2703,14 +2703,45 @@ sort={zerooneloss},
 	
 \newglossaryentry{underfitting}
 {name={underfitting},
-	description={Consider 
-		an machine learning (ML) method that uses empirical risk minimization (ERM) to learn a hypothesis with the minimum empirical risk 
-		on a given training set. Such a method is underfitting the training set if it is 
-		not able to learn a hypothesis with a sufficiently low empirical risk on the training set. 
-		If a method is underfitting, it will typically also not be able to learn a hypothesis with 
-		a low risk.
+	description={
+		Consider an machine learning (ML) method that applies empirical risk minimization (ERM) 
+		to learn a hypothesis that minimizes the empirical risk 
+		on a given training set. The method is said to underfit if it fails to achieve a sufficiently low empirical risk on the training set. 
+		Underfitting typically occurs when the chosen model is too simple 
+		to capture the underlying relationship between features and 
+		labels. 
+			\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[scale=1.0]
+				
+				\def\slope{0.35}
+				\def\intercept{2.0}
+				\draw[thick,dashed,domain=0:6.5,variable=\x]
+				plot({\x},{\slope*\x+\intercept});
+				\node[above right] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
+				
+				
+				\foreach \i/\x/\y in {1/0.6/2.4, 2/1.2/2.1, 3/1.8/2.0, 4/2.4/2.3,
+					5/3.0/3.1, 6/3.6/4.0, 7/4.2/5.2, 8/4.8/6.0,
+					9/5.4/6.3, 10/6.0/6.1} {
+					\node[circle,draw,fill=blue!60,minimum size=5pt,inner sep=0pt] (p\i) at (\x,\y) {};
+					
+					\draw[<->,color=blue!70] (\x,{\slope*\x+\intercept}) -- (p\i);
+				}
+			\end{tikzpicture}
+			\caption{No linear hypothesis $h$ can capture the relation 
+			         between features and labels for 
+					 the depicted training set. Thus, any method that uses a 
+					 linear model will underfit this training set.}
+			\label{fig_underfitting_min_dict}
+		\end{center}
+	\end{figure} 
+		For example, a machine learning (ML) method using a linear model 
+		on data with a highly non-linear relation between features 
+		and label will not be able to learn a hypothesis with small 
+		average loss on the training set, let alone a small risk. 
 					\\ 
-		See also: machine learning (ML), empirical risk minimization (ERM), hypothesis, minimum, empirical risk, training set, risk.},
+		See also: model, training set, risk, overfitting.},
 	first={underfitting},
 	text={underfitting}
 }
@@ -2718,9 +2749,12 @@ sort={zerooneloss},
 \newglossaryentry{overfitting}
 {name={overfitting},
 	description={Consider an 
-		machine learning (ML) method that uses empirical risk minimization (ERM) to learn a hypothesis with the minimum empirical risk on 
-		a given training set. Such a method is overfitting the training set if it learns 
-		a hypothesis with a low empirical risk on the training set but a significantly higher loss outside the training set.
+		machine learning (ML) method that uses empirical risk minimization (ERM) to learn a hypothesis with the 
+		minimum empirical risk on a given training set. Such a method is 
+		overfitting the training set if it learns a hypothesis with a  
+		empirical risk on the training set that a significantly smaller than the 
+		average loss outside the training set. In other words, if a machine learning (ML) 
+		method overfits it has a large generalization gap. 
 					\\ 
 		See also: empirical risk minimization (ERM), generalization, validation, generalization gap.},
 	first={overfitting},
@@ -2760,7 +2794,6 @@ sort={zerooneloss},
 	
 \newglossaryentry{gaussrv}
 {name={Gaussian random variable (Gaussian RV)}, 
-	plural={Gaussian RVs}, 
 	description={A  standard Gaussian random variable (RV) is a 
 		real-valued random variable (RV) $x$ with probability density function (pdf) \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{papoulis}
 		\begin{equation}
@@ -2769,8 +2802,8 @@ sort={zerooneloss},
 		\end{equation}
 		Given a standard Gaussian random variable (RV) $x$, we can construct a general Gaussian 
 		random variable (RV) $x'$ with mean $\mu$ and variance $\sigma^2$ via $x' := \sigma x + \mu$. 
-		The probability distribution of a Gaussian random variable (RV) is referred to as normal 
-		distribution, denoted by $\mathcal{N}\left(\mu,\sigma^{2}\right)$. 
+		The probability distribution of a Gaussian random variable (RV) is referred to as normal distribution, 
+		denoted by $\mathcal{N}\left(\mu,\sigma^{2}\right)$. 
 		\\ 
 		A Gaussian random vector ${\bf x} \in \mathbb{R}^{d}$ with 
 		covariance matrix $\mathbf{C}$ and mean ${\bm \mu}$ can be constructed as \cite{GrayProbBook}, \cite{papoulis}, \cite{Lapidoth09}
@@ -2803,6 +2836,8 @@ sort={zerooneloss},
 		See also: multivariate normal distribution, Gaussian process (GP), probabilistic model, central limit theorem (CLT), differential entropy.},
 	first={Gaussian random variable (Gaussian RV)},
 	type=math, 
+	plural={Gaussian RVs}, 
+	firstplural={Gaussian random variables (Gaussian RVs)}, 
 	text={Gaussian RV}
 }
 
@@ -2811,7 +2846,9 @@ sort={zerooneloss},
  description={See Gaussian random variable (Gaussian RV).},
  first={Gaussian},
  type=math,
- text={Gaussian}
+ text={Gaussian},
+ firstplural={Gaussians},  
+ plural={Gaussians}
  }
 	
 \newglossaryentry{clt}
@@ -3836,7 +3873,7 @@ text={NLP},
 		with a sufficiently high probability. An optimist chooses the model parameters 
 		according to the most favorable—yet still plausible—value $\tilde{f}({\bf w}) :=  l^{({\bf w})}$ 
 		of the performance criterion (see Fig. \ref{fig_optimism_dict}). Two examples of machine learning (ML) methods that use such an optimistic 
-		construction of an objective function are structural risk minimization (SRM) \cite[Ch. 11]{ShalevMLBook} and upper confidence bound (UCB) methods 
+		construction of an objective function are SRM \cite[Ch. 11]{ShalevMLBook} and upper confidence bound (UCB) methods 
 		for sequential decision making \cite[Sec. 2.2]{Bubeck2012}. 
 		\begin{figure}[H]
 			\begin{center}
@@ -4603,9 +4640,9 @@ text={NLP},
 \newglossaryentry{gtvmin}
 {name={generalized total variation minimization (GTVMin)},
 	description={GTVMin is an instance of regularized empirical risk minimization (RERM) 
-		using the generalized total variation (GTV) of local model parameters as a regularizer \cite{ClusteredFLTVMinTSP}.
+		using the GTV of local model parameters as a regularizer \cite{ClusteredFLTVMinTSP}.
 					\\ 
-		See also: regularized empirical risk minimization (RERM), generalized total variation (GTV), regularizer.},
+		See also: regularized empirical risk minimization (RERM), GTV, regularizer.},
 	first={generalized total variation minimization (GTVMin)},
 	text={GTVMin} 
 }
@@ -5701,6 +5738,59 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	text={ERM} 
 }
 
+\newglossaryentry{sampleweighting}
+{name={sample weighting}, 
+	description={Consider an empirical risk minimization (ERM)-based method that 
+	learns a hypothesis by minimizing the average loss on a training set. 
+	In its basic form, empirical risk minimization (ERM) treats all data points equally important. 
+	However, in some applications it can be useful to put different emphasis on the 
+	prediction errors obtained for different data points. For example, 
+	if a data point is considered an outlier we should reduce its influence 
+	on learned hypothesis. 
+	We can implement this idea by assigning a no-negative weight 
+	$q^{(r)}$ to each data point 
+	$\left( {\bf x}^{(r)},y^{(r)} \right)$ in the training set. 
+    This results in the weighted empirical risk minimization (ERM) principle 
+	\begin{equation}
+		\label{equ_weighted_erm_dict}
+		\min_{h \in \mathcal{H}} \sum_{r=1}^{m} 
+			  q^{(r)} \, L\left(\left( {\bf x}^{(r)},y^{(r)} \right),h \right). 
+	\end{equation}
+	Fig.~\ref{fig_sampleweighting_dict} illustrates the concept for a 
+	training set of three data points that contribute unequally to the 
+	empirical risk.
+    \begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}[scale=1.0]
+      
+      \def\slope{1.55}
+      \def\intercept{-2.05}
+      \draw[thick,dashed,domain=0:6.5,variable=\x]
+        plot({\x},{\slope*\x+\intercept});
+      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
+      
+      \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
+        \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
+          (pt\i) at (\xval,\yval) {};
+        \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
+      }
+      \node[below left] at (pt1) {$w^{(1)}$ small};
+      \node[below]      at (pt2) {$w^{(2)}$ medium};
+      \node[above right]at (pt3) {$w^{(3)}$ large};
+    \end{tikzpicture}
+      \caption{Sample weighting assigns each data point of a training set 
+	  a weight $q^{(r)}$. Assigning a small weight 
+	  (such as $q^{(1)}$ in this example) to a 
+	  data point decreases its influence on the hypothesis 
+	  learned via solving \eqref{equ_weighted_erm_dict}.}
+      \label{fig_sampleweighting_dict}
+    \end{center}
+    \end{figure}
+		See also: empirical risk minimization (ERM), outlier, AdaBoost.},
+	first={sample weighting}, 
+	text={sample weighting}
+}
+
 
 \newglossaryentry{multilabelclass}
 {name={multi-label classification}, 
@@ -5821,7 +5911,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 			of a data point. 
 		\end{enumerate} 
 		Fig. \ref{fig_equiv_dataaug_penal_dict} illustrates the above three routes to regularization. 
-		These routes are closely related and sometimes fully equivalent. Data augmentation using Gaussian random variable (Gaussian RV)s 
+		These routes are closely related and sometimes fully equivalent. Data augmentation using Gaussian random variables (Gaussian RVs) 
 		to perturb the feature vectors in the training set of linear regression 
 		has the same effect as adding the penalty 
 		$\lambda \mleft\lVert {\bf w} \mright\rVert_{2}^2$ to the training error (which is nothing but ridge regression). 
@@ -5914,13 +6004,13 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		can be made precise in various ways. For example, consider a linear model trained using squared error loss 
 		and the regularizer $\mathcal{R}\big\{ h \big\} = \mleft\lVert {\bf w} \mright\rVert_{2}^{2}$. 
 		In this setting, $\alpha \mathcal{R}\big\{ h \big\}$ corresponds to the expected increase in loss 
-		caused by adding Gaussian random variable (Gaussian RV)s to the feature vectors in the training set 
+		caused by adding Gaussian random variables (Gaussian RVs) to the feature vectors in the training set 
 		\cite[Ch. 3]{MLBasics}.
 		A principled construction for the regularizer $\mathcal{R}\big\{ h \big\}$ 
 		arises from approximate upper bounds on the generalization error. The resulting 
-		RERM instance is known as structural risk minimization (SRM) \cite[Sec. 7.2]{ShalevShwartz2009}.
+		RERM instance is known as SRM \cite[Sec. 7.2]{ShalevShwartz2009}.
 				\\
-		See also: empirical risk minimization (ERM), regularization, loss, structural risk minimization (SRM).}, 
+		See also: empirical risk minimization (ERM), regularization, loss, SRM.}, 
 	first={regularized empirical risk minimization (RERM)},
 	text={RERM} 
 }
@@ -6047,16 +6137,14 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 
 \newglossaryentry{boosting}
 {name={boosting}, 
-	description={Boosting is an iterative optimization method to learn an accurate 
-		hypothesis map (or strong learner) by sequentially combining less accurate 
-		hypothesis maps (referred to as weak learners) \cite[Ch. 10]{hastie01statisticallearning}.
-		For example, weak learners are shallow decision trees that are combined to 
-		obtain a deep decision tree. Boosting can be understood as a generalization 
-		of gradient-based methods for empirical risk minimization (ERM) using parametric models and smooth loss functions 
-		\cite{Friedman2001}. Just as gradient descent (GD) iteratively updates model parameters to reduce the empirical risk, 
-		boosting iteratively combines (e.g., by summation) hypothesis maps to reduce the empirical risk 
-		(see Fig. \ref{fig_boosting_dict}). A widely used instance of the generic boosting idea is referred to as 
-		gradient boosting, which uses gradients of the loss function for combining the weak learners \cite{Friedman2001}. 
+	description={Boosting is an iterative optimization method to learn 
+	       an accurate hypothesis map (or strong learner) by sequentially 
+		   combining less accurate base learners (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
+		   Boosting can be understood as a generalization of gradient-based methods 
+		   for empirical risk minimization (ERM) using parametric models and smooth loss functions 
+		   \cite{Friedman2001}. Just as gradient descent (GD) iteratively updates model parameters to 
+		   reduce the empirical risk, boosting iteratively combines (e.g., by summation) 
+		   hypothesis maps to reduce the empirical risk (see Fig. \ref{fig_boosting_dict}). 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6071,17 +6159,70 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 					}
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Boosting methods construct a sequence of hypothesis maps $h^{(0)}, \,h^{(1)}, \,\ldots$ 
-				that are increasingly strong learners (i.e., incurring a smaller loss). \label{fig_boosting_dict}}
+			\caption{Boosting methods construct a sequence of hypothesis maps 
+			     $h^{(0)}, \,h^{(1)}, \,\ldots$. The hypothesis 
+				 $h^{(t)}$ is produced by the $t$-th base learner 
+				 who builds on the results of previous base learners. \label{fig_boosting_dict}}
      		\end{figure} 
      		See also: optimization method, generalization, gradient-based method, empirical risk minimization (ERM).}, 
 	first={boosting}, 
 	text={boosting}
 } 
 
+\newglossaryentry{mse} 
+{name={MSE}, 
+ description={The MSE  of a hypothesis 
+               is the average squared error loss computed over a given dataset. 
+               In theoretical analyses, MSE also denotes the expected squared error loss, 
+               i.e., the corresponding risk.\\ 
+			   See also: squared error loss, risk.}, 
+ first={mean squared error (MSE)}, 
+ text ={MSE}
+}
+
+\newglossaryentry{mae} 
+{name={MAE}, 
+ description={The MAE  of a hypothesis 
+               is the average absolute error loss computed over a given dataset. 
+               In theoretical analyses, MAE also denotes the expected absolute error loss, 
+               i.e., the corresponding risk.\\ 
+			   See also: absolute error loss, risk.}, 
+ first={mean absolute error (MAE)}, 
+ text ={MAE}
+}
+
+\newglossaryentry{adaboost}
+{name={AdaBoost},
+	description={AdaBoost (short for adaptive boosting) is a specific 
+		boosting algorithm that combines base learners sequentially 
+		\cite{pmlr-vR2-ridgeway99a,Schapire1999,Drucker1997}. 
+	    The core idea of AdaBoost is to use the prediction errors of the current  
+		base learner for sample weighting in the next base learner. 
+		At iteration $t$, the base learner generates a hypothesis 
+		$\hat{h}^{(t)}$ by weighted empirical risk minimization (ERM) with current 
+		sample weights $q^{(r)}$. The prediction errors of 
+		$\hat{h}^{(t)}$ are then used to update the sample weights by 
+		icreasing the weights of data points that have been predicted poorly 
+		by $\hat{h}^{(t)}$.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		See also: boosting, empirical risk minimization (ERM), sample weighting.}, 
+	first={AdaBoost}, 
+	text={AdaBoost}
+}
+
 	
 \newglossaryentry{gtv}
-{name={generalized total variation (GTV)}, 
+{name={GTV}, 
 	description={GTV is a 
 		measure of the variation of trained local models $h^{(i)}$ 
 		(or their model parameters $\mathbf{w}^{(i)}$) assigned to the nodes $i=1, \,\ldots, \,n$ 
@@ -6095,12 +6236,12 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		Here, $A_{i,i'}>0$ denotes the weight of the undirected edge $\{i,i'\}\in \mathcal{E}$.
 				\\
 		See also: local model, model parameters, graph, discrepancy, hypothesis, map.},
-	first={GTV},
+	first={generalized total variation (GTV)},
 	text={GTV} 
 }
 	
 \newglossaryentry{srm}
-{name={structural risk minimization (SRM)}, 
+{name={SRM}, 
 	description={SRM is an
 		instance of regularized empirical risk minimization (RERM), with which the model $\mathcal{H}$ can be expressed 
 		as a countable union of submodels such that $\mathcal{H} = \bigcup_{n=1}^{\infty} \mathcal{H}^{(n)}$. 
@@ -6117,23 +6258,28 @@ out of a model $\mathcal{H}$ by minimizing the average loss
  }
 
  \newglossaryentry{rlm}
- {name={regularized loss minimization (RLM)},
+ {name={RLM},
  	description={See regularized empirical risk minimization (RERM).},
+	first={regularized loss minimization (RLM)}, 
  	text={RLM}
  }
  
 
 \newglossaryentry{datapoisoning}
 {name={data poisoning}, 
-	description={Data poisoning refers to the intentional manipulation 
-  		(or fabrication) of data points to steer the training of an machine learning (ML) model \cite{Liu2021}, \cite{PoisonGAN}. 
-  		Data poisoning attacks take various forms, including backdoor and denial-of-service attacks.
-  		A backdoor attack implants triggers into training data, so that the trained model 
-  		behaves normally on typical feature vectors but misclassifies a feature vector with a trigger pattern.
-  		A denial-of-service attack degrades the trained model's overall performance by injecting mislabeled or 
-  		adversarial examples to prevent effective learning.
-		Data poisoning is particularly concerning in decentralized or distributed machine learning (ML) settings (such as federated learning (FL)), 
-		where training data cannot be centrally verified.
+	description={Data poisoning refers to the intentional 
+	             manipulation (or fabrication) of data points to malicously 
+				 steer the training of an machine learning (ML) model \cite{Liu2021}, \cite{PoisonGAN}. 
+  				 Data poisoning attacks take various forms, including 
+				 backdoor and denial-of-service attacks. A backdoor attack 
+				 implants triggers into training data, so that the trained model 
+  		         behaves normally for typical data points but misclassifies a 
+				 data point with a feature vector that contains a trigger pattern.
+  				 A denial-of-service attack degrades the trained model's overall performance 
+				 by injecting mislabeled or adversarial examples to prevent effective learning.
+				 Data poisoning is particularly harmful in decentralized or 
+				 distributed machine learning (ML) settings (such as federated learning (FL)), where training 
+				 data cannot be centrally verified.
 				\\
 		See also: attack, backdoor, denial-of-service attack, trustworthy artificial intelligence (trustworthy AI).},
 	first={data poisoning},
@@ -6141,22 +6287,25 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 }
 	
 	
-\newglossaryentry{backdoor}
-{name={backdoor}, 
-	description={A backdoor attack refers 
-		to the intentional manipulation of the training process underlying an machine learning (ML) method. This manipulation 
-		can be implemented by perturbing the training set (i.e., through data poisoning) or via the 
-		optimization algorithm used by an empirical risk minimization (ERM)-based method. The goal of a 
-		backdoor attack is to nudge the learned hypothesis $\hat{h}$ 
-		toward specific predictions for a certain range of feature values. This range of feature 
-		values serves as a key (or trigger) to unlock a backdoor in the sense of 
-		delivering anomalous predictions. The key ${\bf x}$ and the corresponding 
-		anomalous prediction $\hat{h}({\bf x})$ are only known to the attacker.
-				\\
-		See also: machine learning (ML), training set, data poisoning, algorithm, empirical risk minimization (ERM), hypothesis, prediction, feature.},
-	first={backdoor},
-	text={backdoor} 
-}
+ \newglossaryentry{backdoor}
+ {name={backdoor}, 
+ 	description={A backdoor attack refers to the intentional 
+ 	             manipulation of a machine learning (ML) training process. The attacker 
+ 				 might perturb the training set (i.e., through data poisoning) 
+ 				 or the optimization method used by an empirical risk minimization (ERM)-based method. 
+ 				 The goal of a backdoor attack is to nudge the learned hypothesis $\hat{h}$ 
+ 		         toward specific predictions for a certain subset $\mathcal{T} \subset \mathcal{X}$ 
+ 				 of the feature space. Any feature vector ${\bf x} \in \mathcal{T}$ 
+ 				 serves as a key (or trigger) to unlock a backdoor in the sense of delivering 
+ 				 anomalous predictions. The 
+ 				 trigger pattern $\mathcal{T}$ and corresponding anomalous prediction 
+ 				 $\hat{h}({\bf x})$, for ${\bf x} \in \mathcal{T}$ 
+ 				 are only known to the attacker.
+ 				\\
+ 		See also:  data poisoning, attack, data poisoning.},
+ 	first={backdoor},
+ 	text={backdoor} 
+ }
 
 
 \newglossaryentry{clustasspt}
@@ -6187,9 +6336,9 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 {name={networked exponential families (nExpFam)}, 
 	description={A collection of exponential 
 		families, each of them assigned to a node of an federated learning network (FL network). The model parameters are coupled 
-	   	via the network structure by requiring them to have a small generalized total variation (GTV) \cite{JungNetExp2020}.
+	   	via the network structure by requiring them to have a small GTV \cite{JungNetExp2020}.
 	   		\\
-		See also: federated learning network (FL network), model parameters, generalized total variation (GTV).},
+		See also: federated learning network (FL network), model parameters, GTV.},
 	first={networked exponential family (nExpFam)},
 	text={nExpFam} 
 }
@@ -6336,12 +6485,12 @@ out of a model $\mathcal{H}$ by minimizing the average loss
  \newglossaryentry{lasso}
  {name={least absolute shrinkage and selection operator (Lasso)}, 
 	description={The Lasso is an 
-		instance of structural risk minimization (SRM). It learns the weights ${\bf w}$ of a linear map 
+		instance of SRM. It learns the weights ${\bf w}$ of a linear map 
 		$h({\bf x}) = {\bf w}\,^{T} {\bf x}$ from a training set. 
 		Lasso is obtained from linear regression by adding the scaled $\ell_{1}$-norm 
 		$\alpha \mleft\lVert {\bf w} \mright\rVert_{1}$ to the average squared error loss incurred on the training set. 
 				\\
-		See also: structural risk minimization (SRM), weights, linear map, training set, linear regression, norm, squared error loss.},
+		See also: SRM, weights, linear map, training set, linear regression, norm, squared error loss.},
 	first={Lasso},
 	text={Lasso} 
 }
@@ -7241,20 +7390,93 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  text={sample}
 }
 
+\newglossaryentry{condtionalexpect}
+{name={conditional expectation}, 
+ description={Consider a numeric random variable (RV) ${\bf x}$ defined on a probability space with 
+   $\sigma$-algebra $\Sigma$. For any $\sigma$-algebra $\Sigma' \subseteq 
+   \Sigma$, the conditional expectation of ${\bf x}$ given 
+   (or conditioned on) $\Sigma'$ is defined as follows: TBC.}, 
+ first={conditional expectation},
+ plural={conditional expectations}, 
+ type=math, 
+ firstplural={conditional expectations},  
+ text={conditional expectation}
+}
+
+\newglossaryentry{auc}
+{name={area under the curve (AUC)}, 
+ description={The AUC is a quantiative measure for the 
+ 			  usefulness of a binary classifier \cite{Hanley:1982aa}. It 
+			  is defined as the area (using the natural measure of the Euclidean space $\mathbb{R}^{2}$) 
+			  under the receiver operating characteristic (ROC) curve.} , 
+ first ={area under the curve (AUC)}, 
+ text = {AUC} 
+}
+
+\newglossaryentry{roc} 
+{name={receiver operating characteristic (ROC)}, 
+description={Consider the label space is $\mathcal{Y}=\{-1,1\}$ and a classifier 
+ 			  that uses a real-valued hypothesis $h({\bf x})$. For a given 
+ 			  threshold $\eta \in \mathbb{R}$, the ultimate prediction is $\hat{y}=1$ 
+ 			  if $h({\bf x})\geq \eta$ and $\hat{y}=-1$ otherwise. 
+ 			  On a test set $\mathcal{D}^{(\rm test)} $ we compute, for each value of $\eta$, two quantities: 
+ 			  \begin{itemize} 
+ 				\item true positive rate ${\rm TPR}^{(\eta)}$ and 
+ 				\item false positive rate ${\rm FPR}^{(\eta)}$. 
+ 			  \end{itemize}  
+ 			  The ROC curve is  
+ 			  the function \cite{IntroROCFawcett}
+ 			  $${\rm ROC}: \mathbb{R} \rightarrow \mathbb{R}^{2}: \eta \mapsto \big({\rm TPR}^{(\eta)}, {\rm FPR}^{(\eta)} \big).$$ 
+ 	          One important characteristic of the ROC curve is the area under the curve (AUC).\\ 
+ 			  See also: area under the curve (AUC), classifier.}, 
+  first = {receiver operating characteristic (ROC)}, 
+  text = {ROC}
+ }
+
+\newglossaryentry{condprobdist}
+{name={conditional probability distribution}, 
+  description={Consider 
+     a stochastic process consisting of two random variables (RVs) ${\bf x}$ and $y$ 
+    with probability distribution $P^{({\bf x},y)}$. The conditional 
+    probability distribution of $y$ given (or conditioned on) ${\bf x}$ is 
+    denoted $P^{(y|{\bf x})}$. It is defined via the 
+    conditional expectations of the indicator functions obtained 
+    for any measurable set in the $\sigma$-algebra generated by 
+    the random variable (RV) $y$ \cite{BillingsleyProbMeasure,KallenbergBook}.},
+  first ={conditional probability distribution}, 
+  plural={conditional probability distributions}
+  type=math, 
+  text = {conditional probability distribution}
+}
+
+\newglossaryentry{posterior}
+{name ={posterior}, 
+ description={The study and design of machine learning (ML) methods is often based on a 
+              probabilistic model for the data generation process. Within a 
+			  probabilistic model, we view (the generation of) a data point with 
+			  features ${\bf x}$ and label $y$ as a 
+			  random variable (RV) with probability distribution $P^{({\bf x},y)}$. 
+			  It turns out that the optimal prediction for the label 
+			  $y$, given the feature vector ${\bf x}$ is fully 
+			  determined by the conditional probability distribution 
+			  of $y$ given (conditioned on) ${\bf x}$.}, 
+ first = {posterior}, 
+ type=math, 
+ text = {posterior} 
+}
 
 
 \newglossaryentry{bagging}
 {name={bagging},
-	description={Bagging is a technique to improve a empirical risk minimization (ERM)-based machine learning (ML) 
-	     method. The idea is to use random sampling 
-		to generate perturbed copies $$\widetilde{\mathcal{D}}^{(1)},\ldots,\widetilde{\mathcal{D}}^{(M)}$$
-		of the original training set $\mathcal{D}$. Each perturbed copy is used to learn 
-		a separate hypothesis, 
-		$$\hat{h}^{(1)},\ldots,\hat{h}^{(M)}.$$
-		The ultimate learnt hypothesis is obtained by aggregating the  
-		hypotheses $\hat{h}^{(1)},\ldots,\hat{h}^{(M)}$ 
-		using some aggregation rule. Bagging is an instance of an ensemble method 
-		where base learners use random perturbations of the original training sets.
+	description={
+		Bagging is an ensemble technique where base learners 
+		use perturbed copies $$\widetilde{\mathcal{D}}^{(1)},\ldots,\widetilde{\mathcal{D}}^{(M)}$$ 
+		of the original training sets $\mathcal{D}$ \cite{Breiman:1996aa}. Each 
+		base learner delivers a potentially different hypothesis, $$\hat{h}^{(1)},\ldots,\hat{h}^{(M)}.$$
+		The hypothesis delivered by the overall method is obtained by 
+		aggregating the hypotheses $\hat{h}^{(1)},\ldots,\hat{h}^{(M)}$ 
+		using some aggregation rule. For classification methods, the rule is typically 
+		a majority vote while for regression methods, amounts to averaging. 
 		\begin{figure}[htbp]
 		\begin{center}
 		\begin{tikzpicture}[
@@ -7412,13 +7634,13 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
 \newglossaryentry{eerm}
 {name={explainable empirical risk minimization (EERM)}, 
 	description={EERM is an 
-		in-\linebreak stance of structural risk minimization (SRM) that adds a regularization term to the 
+		in-\linebreak stance of SRM that adds a regularization term to the 
 		average loss in the objective function of empirical risk minimization (ERM). 
 		The regularization term is chosen to favor hypothesis maps that are intrinsically 
 		explainable for a specific user. This user is characterized by their predictions provided 
 		for the data points in a training set \cite{Zhang:2024aa}.
 				\\
-		See also: structural risk minimization (SRM), regularization, empirical risk minimization (ERM), training set.},
+		See also: SRM, regularization, empirical risk minimization (ERM), training set.},
 	first={explainable empirical risk minimization (EERM)},
 	text={EERM} 
 }
@@ -8891,7 +9113,7 @@ average squared Euclidean distance to the nearest cluster centroids as a measure
 
 \newglossaryentry{tv}
 {name={total variation}, 
-	description={See generalized total variation (GTV).},
+	description={See GTV.},
 	first={total variation},
 	text={total variation} 
 }
