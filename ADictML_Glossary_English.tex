@@ -6142,9 +6142,20 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
 		   Boosting can be understood as a \gls{generalization} of \glspl{gdmethod} 
 		   for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		   \cite{Friedman2001}. Just as \gls{gd} iteratively updates \glspl{modelparam} to 
-		   reduce the \gls{emprisk}, boosting iteratively combines (e.g., by summation) 
-		   \gls{hypothesis} \glspl{map} to reduce the \gls{emprisk} (see Fig. \ref{fig_boosting_dict}). 
+		   \cite{Friedman2001}. In particular, starting from an initilization $\widetilde{\hypothesis}$, 
+		   boosting methods construct a sequence of \glspl{hypothesis} 
+		   $\widetilde{\hypothesis}^{(\iteridx)}$, $\iteridx=1,\ldots,$, 
+		   via a generalized \gls{gradstep} 
+		   $$ \widetilde{\hypothesis}^{(\iteridx)} = \widetilde{\hypothesis}^{(\iteridx-1)}+
+		   \lrate^{(\iteridx)} 
+		   \learnthypothesis^{(\iteridx)}.$$ 
+		   Here, $\lrate^{(\iteridx)}$ denotes a \gls{learnrate} and 
+		   $\learnthypothesis^{(\iteridx)}$ is provided 
+		   by the $\iteridx$-th \gls{baselearner}. Comparing the above update with the 
+		   plain \gls{gradstep} suggests to view $\learnthypothesis^{(\iteridx)}$ 
+		   as a (negative) generalized \gls{gradient}. 
+		   Boosting methods differ in their choice of \glspl{baselearner} for computing 
+		   the generalized \glspl{gradient} $\learnthypothesis^{(\iteridx)}$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6152,7 +6163,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
 					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
 					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
-					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
+					\foreach \x/\label in {0.7/$\widetilde{\hypothesis}^{(0)}$, 1.5/$\widetilde{\hypothesis}^{(1)}$, 2.3/$\widetilde{\hypothesis}^{(2)}$, 3.0/$\widetilde{\hypothesis}^{(3)}$} {
 						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
 						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
 						\node[below] at (\x, -0.1) {\label};                             % label
@@ -6160,9 +6171,8 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 				\end{tikzpicture}
 			\end{center} 
 			\caption{Boosting methods construct a sequence of \gls{hypothesis} \glspl{map} 
-			     $\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$. The \gls{hypothesis} 
-				 $\hypothesis^{(\iteridx)}$ is produced by the $\iteridx$-th \gls{baselearner} 
-				 who builds on the results of previous \glspl{baselearner}. \label{fig_boosting_dict}}
+			via a generalized \gls{gradstep}. The generalized \gls{gradient} is delivered 
+			during \gls{iteration} $\iteridx$ is delivered by the $\iteridx$-th \gls{baselearner}\label{fig_boosting_dict}}
      		\end{figure} 
      		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
@@ -6201,20 +6211,18 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		At iteration $\iteridx$, the \gls{baselearner} generates a \gls{hypothesis} 
 		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with current 
 		sample weights $\sampleweight{\sampleidx}$. The prediction errors of 
-		$\learnthypothesis^{(\iteridx)}$ are then used to update the sample weights by 
-		icreasing the weights of \glspl{datapoint} that have been predicted poorly 
-		by $\learnthypothesis^{(\iteridx)}$.
-		%during previous \glspl{iteration} \cite{Schapire1999}. 
-		% The final \gls{hypothesis} is a weighted majority (or sum) of all weak learners
-		% \begin{equation}
-		% 	\learnthypothesis(\vx) = \sign\!\Bigg(\sum_{t=1}^{T} 
-		% 	\alpha_t \, \hypothesis^{(t)}(\vx)\Bigg),
-		% \end{equation}
-		% where each weight $\alpha_t$ depends on the accuracy of $\hypothesis^{(t)}$.
-		% The method minimizes an \emph{exponential loss}
-		% $\exp(-y\,f(\vx))$, which connects AdaBoost to 
-		% \gls{erm} and to \gls{gdmethod} in \gls{functionspace} 
-		% \cite{Schapire1999},\cite[Ch.~10]{hastie01statisticallearning}.\\
+		$\learnthypothesis^{(\iteridx)}$ are then used to update the 
+		sample weights by icreasing the weights of \glspl{datapoint} 
+		that have been predicted poorly (with large \gls{loss}) 
+		by $\learnthypothesis^{(\iteridx)}$. The updated sample weights are 
+		then used in the next \gls{baselearner} to learn $\learnthypothesis^{(\iteridx+1)}$. 
+		The ultimate \gls{hypothesis} $\widetilde{\hypothesis}^{(\nriter)}$ delivered after 
+		$\nriter$ \glspl{iteration} is a linear combintion of the \glspl{hypothesis} 
+		$\learnthypothesis^{(1)},\ldots,\learnthypothesis^{(\nriter)}$. 
+		AdaBoost can be interpreted as a generalized \gls{gradstep} \cite[Ch. 10.4]{hastie01statisticallearning}
+		$$\widetilde{\hypothesis}^{(\iteridx)}=\widetilde{\hypothesis}^{(\iteridx-1)}+\lrate^{(\iteridx)} \learnthypothesis^{(\iteridx)}.$$   
+		This generalized \gls{gradstep} involves a \gls{learnrate} $\lrate^{(\iteridx)}$ which 
+		controls the amount of modification of the current \gls{hypothesis}. \\
 		See also: \gls{boosting}, \gls{erm}, \gls{sampleweighting}.}, 
 	first={AdaBoost}, 
 	text={AdaBoost}
