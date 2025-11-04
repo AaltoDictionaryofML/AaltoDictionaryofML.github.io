@@ -6164,7 +6164,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 				 $h^{(t)}$ is produced by the $t$-th base learner 
 				 who builds on the results of previous base learners. \label{fig_boosting_dict}}
      		\end{figure} 
-     		See also: optimization method, generalization, gradient-based method, empirical risk minimization (ERM).}, 
+     		See also: ensemble, AdaBoost, Gradient Boosting.}, 
 	first={boosting}, 
 	text={boosting}
 } 
@@ -6191,6 +6191,8 @@ out of a model $\mathcal{H}$ by minimizing the average loss
  text ={MAE}
 }
 
+
+
 \newglossaryentry{adaboost}
 {name={AdaBoost},
 	description={AdaBoost (short for adaptive boosting) is a specific 
@@ -6198,27 +6200,85 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\cite{pmlr-vR2-ridgeway99a,Schapire1999,Drucker1997}. 
 	    The core idea of AdaBoost is to use the prediction errors of the current  
 		base learner for sample weighting in the next base learner. 
-		At iteration $t$, the base learner generates a hypothesis 
-		$\hat{h}^{(t)}$ by weighted empirical risk minimization (ERM) with current 
+		In particular, the $t$-th base learner learns a hypothesis 
+		$\hat{h}^{(t)}$ by weighted empirical risk minimization (ERM) with  
 		sample weights $q^{(r)}$. The prediction errors of 
-		$\hat{h}^{(t)}$ are then used to update the sample weights by 
-		icreasing the weights of data points that have been predicted poorly 
-		by $\hat{h}^{(t)}$.
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		$\hat{h}^{(t)}$ are then used to update the 
+		sample weights by icreasing the weights of data points 
+		that have been predicted poorly (with large loss) 
+		by $\hat{h}^{(t)}$. The updated sample weights are 
+		then used in the next base learner to learn $\hat{h}^{(t+1)}$. 
+		The ultimate hypothesis $\widetilde{h}^{(R)}$ delivered after 
+		$R$ iterations is a linear combintion of the hypotheses 
+		$\hat{h}^{(1)},\ldots,\hat{h}^{(R)}$. 
+		AdaBoost can be interpreted as a generalized gradient step \cite[Ch. 10.4]{hastie01statisticallearning}
+		$$\widetilde{h}^{(t)}=\widetilde{h}^{(t-1)}+\eta^{(t)} \hat{h}^{(t)}.$$    \\
 		See also: boosting, empirical risk minimization (ERM), sample weighting.}, 
 	first={AdaBoost}, 
 	text={AdaBoost}
 }
+
+\newglossaryentry{derivative} 
+{name = {derivative}, 
+ description={See partial derivative.}, 
+ first ={derivative}, 
+ text = {derivative}, 
+ type=math, 
+ plural={derivatives}, 
+ firstplural={derivatives}
+ }
+
+
+\newglossaryentry{partialderivative}
+{name={partial derivative},
+ description={
+		Consider a real-valued function 
+		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}: {\bf x} \mapsto f({\bf x})$. 
+	     The partial derivative of $f({\bf x})$ 
+		 with respect to the entry $x_{j}$ measures how  
+		 $f$ changes when $x_j$ is varied while keeping all 
+        other entries $x_{j'}$, for $j' \in [d]}    % the set of first d natural numbers {1,2,..., d \setminus \{j \}$ 
+		fixed. It is defined as \cite{RudinBookPrinciplesMatheAnalysis}
+        $$
+            \frac{\partial f({\bf x})}{\partial x_j}
+            = \lim_{\varepsilon \rightarrow 0} 
+              \frac{f(x_1,\ldots,x_{j}+\varepsilon,\ldots,x_d) 
+			  - f(x_1,\ldots,x_j,\ldots,x_d)}{\varepsilon}.$$
+		Note that the partial derivative is only defined if this limit exists. 
+		For a differentiable function, the partial derivatives of $f$ are the entries 
+		of the gradient $\nabla f$. 
+\\
+        See also: gradient, function.},
+    first={partial derivative},
+	type= math, 
+	 plural={partial derivatives},
+    text={partial derivative}
+}
+
+
+ \newglossaryentry{gradientboosting}
+ {name={Gradient Boosting},
+ 	description={Gradient Boosting is a boosting 
+ 		algorithm that learns a hypothesis $\widetilde{h}$ 
+ 		by sequentially combining the hypotheses $\hat{h}^{(t)}$ 
+ 		\cite{Friedman2001},\cite[Alg. 10.3]{hastie01statisticallearning}. 
+ 		Similar to AdaBoost, Gradient Boosting uses a generalized gradient step 
+ 		for combining the results of the base learners, 
+        $$\widetilde{h}^{(t)} = \widetilde{h}^{(t-1)}-\eta^{(t)} 
+ 		\hat{h}^{(t)},$$
+ 		where the generalized gradient $\hat{h}{t}$ is constructed from 
+		the $t$-th base learner.
+ 		The difference between AdaBoost and Gradient Boosting is in the construction 
+		of $\hat{h}{t}$. While AdaBoost uses weighted empirical risk minimization (ERM) for this construction, 
+		Gradient Boosting uses empirical risk minimization (ERM) on a modified training set. This modification is obtained 
+		by leaving the feature vectors untouched but replacing the labels with the 
+		partial derivative of the loss function with respect to the predictions 
+		of the previous base learner.   
+ 		 \\
+ 		See also: boosting, AdaBoost, gradient descent (GD).},
+ 	first={Gradient Boosting}, 
+ 	text={Gradient Boosting}
+ }
 
 	
 \newglossaryentry{gtv}
