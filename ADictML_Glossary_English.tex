@@ -6164,7 +6164,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 				 $\hypothesis^{(\iteridx)}$ is produced by the $\iteridx$-th \gls{baselearner} 
 				 who builds on the results of previous \glspl{baselearner}. \label{fig_boosting_dict}}
      		\end{figure} 
-     		See also: \gls{ensemble}, \gls{adaboost}, \gls{gradientboosting}.}, 
+     		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
 	text={boosting}
 } 
@@ -6191,8 +6191,6 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
  text ={MAE}
 }
 
-
-
 \newglossaryentry{adaboost}
 {name={AdaBoost},
 	description={AdaBoost\index{AdaBoost} (short for adaptive \gls{boosting}) is a specific 
@@ -6200,85 +6198,27 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		\cite{pmlr-vR2-ridgeway99a,Schapire1999,Drucker1997}. 
 	    The core idea of AdaBoost is to use the \gls{prediction} errors of the current  
 		\gls{baselearner} for \gls{sampleweighting} in the next \gls{baselearner}. 
-		In particular, the $\iteridx$-th \gls{baselearner} learns a \gls{hypothesis} 
-		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with  
+		At iteration $\iteridx$, the \gls{baselearner} generates a \gls{hypothesis} 
+		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with current 
 		sample weights $\sampleweight{\sampleidx}$. The prediction errors of 
-		$\learnthypothesis^{(\iteridx)}$ are then used to update the 
-		sample weights by icreasing the weights of \glspl{datapoint} 
-		that have been predicted poorly (with large \gls{loss}) 
-		by $\learnthypothesis^{(\iteridx)}$. The updated sample weights are 
-		then used in the next \gls{baselearner} to learn $\learnthypothesis^{(\iteridx+1)}$. 
-		The ultimate \gls{hypothesis} $\widetilde{\hypothesis}^{(\nriter)}$ delivered after 
-		$\nriter$ \glspl{iteration} is a linear combintion of the \glspl{hypothesis} 
-		$\learnthypothesis^{(1)},\ldots,\learnthypothesis^{(\nriter)}$. 
-		AdaBoost can be interpreted as a generalized \gls{gradstep} \cite[Ch. 10.4]{hastie01statisticallearning}
-		$$\widetilde{\hypothesis}^{(\iteridx)}=\widetilde{\hypothesis}^{(\iteridx-1)}+\lrate^{(\iteridx)} \learnthypothesis^{(\iteridx)}.$$    \\
+		$\learnthypothesis^{(\iteridx)}$ are then used to update the sample weights by 
+		icreasing the weights of \glspl{datapoint} that have been predicted poorly 
+		by $\learnthypothesis^{(\iteridx)}$.
+		%during previous \glspl{iteration} \cite{Schapire1999}. 
+		% The final \gls{hypothesis} is a weighted majority (or sum) of all weak learners
+		% \begin{equation}
+		% 	\learnthypothesis(\vx) = \sign\!\Bigg(\sum_{t=1}^{T} 
+		% 	\alpha_t \, \hypothesis^{(t)}(\vx)\Bigg),
+		% \end{equation}
+		% where each weight $\alpha_t$ depends on the accuracy of $\hypothesis^{(t)}$.
+		% The method minimizes an \emph{exponential loss}
+		% $\exp(-y\,f(\vx))$, which connects AdaBoost to 
+		% \gls{erm} and to \gls{gdmethod} in \gls{functionspace} 
+		% \cite{Schapire1999},\cite[Ch.~10]{hastie01statisticallearning}.\\
 		See also: \gls{boosting}, \gls{erm}, \gls{sampleweighting}.}, 
 	first={AdaBoost}, 
 	text={AdaBoost}
 }
-
-\newglossaryentry{derivative} 
-{name = {derivative}, 
- description={See\index{derivative} \gls{partialderivative}.}, 
- first ={derivative}, 
- text = {derivative}, 
- type=math, 
- plural={derivatives}, 
- firstplural={derivatives}
- }
-
-
-\newglossaryentry{partialderivative}
-{name={partial derivative},
- description={
-		Consider a real-valued \gls{function} 
-		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}: \featurevec \mapsto f(\featurevec)$. 
-	     The partial derivative\index{partial derivative} of $f(\featurevec)$ 
-		 with respect to the entry $\feature_{\featureidx}$ measures how  
-		 $f$ changes when $\feature_\featureidx$ is varied while keeping all 
-        other entries $x_{\featureidx'}$, for $\featureidx' \in \firstnatural{\nrfeatures} \setminus \{\featureidx \}$ 
-		fixed. It is defined as \cite{RudinBookPrinciplesMatheAnalysis}
-        $$
-            \frac{\partial f(\featurevec)}{\partial \feature_\featureidx}
-            = \lim_{\varepsilon \rightarrow 0} 
-              \frac{f(\feature_1,\ldots,\feature_{\featureidx}+\varepsilon,\ldots,\feature_\nrfeatures) 
-			  - f(\feature_1,\ldots,\feature_\featureidx,\ldots,\feature_\nrfeatures)}{\varepsilon}.$$
-		Note that the partial derivative is only defined if this limit exists. 
-		For a \gls{differentiable} function, the partial derivatives of $f$ are the entries 
-		of the \gls{gradient} $\nabla f$. 
-\\
-        See also: \gls{gradient}, \gls{function}.},
-    first={partial derivative},
-	type= math, 
-	 plural={partial derivatives},
-    text={partial derivative}
-}
-
-
- \newglossaryentry{gradientboosting}
- {name={Gradient Boosting},
- 	description={Gradient Boosting\index{Gradient Boosting} is a \gls{boosting} 
- 		\gls{algorithm} that learns a \gls{hypothesis} $\widetilde{\hypothesis}$ 
- 		by sequentially combining the \glspl{hypothesis} $\learnthypothesis^{(\iteridx)}$ 
- 		\cite{Friedman2001},\cite[Alg. 10.3]{hastie01statisticallearning}. 
- 		Similar to \gls{adaboost}, Gradient Boosting uses a generalized \gls{gradstep} 
- 		for combining the results of the \glspl{baselearner}, 
-        $$\widetilde{\hypothesis}^{(\iteridx)} = \widetilde{\hypothesis}^{(\iteridx-1)}-\lrate^{(\iteridx)} 
- 		\learnthypothesis^{(\iteridx)},$$
- 		where the generalized gradient $\learnthypothesis{\iteridx}$ is constructed from 
-		the $\iteridx$-th \gls{baselearner}.
- 		The difference between \gls{adaboost} and Gradient Boosting is in the construction 
-		of $\learnthypothesis{\iteridx}$. While \gls{adaboost} uses weighted \gls{erm} for this construction, 
-		Gradient Boosting uses \gls{erm} on a modified \gls{trainset}. This modification is obtained 
-		by leaving the \glspl{featurevec} untouched but replacing the \glspl{label} with the 
-		\gls{partialderivative} of the \gls{lossfunc} with respect to the \glspl{prediction} 
-		of the previous \gls{baselearner}.   
- 		 \\
- 		See also: \gls{boosting}, \gls{adaboost}, \gls{gd}.},
- 	first={Gradient Boosting}, 
- 	text={Gradient Boosting}
- }
 
 	
 \newglossaryentry{gtv}
@@ -9405,15 +9345,15 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
  	first={loss function},
  	text={loss function} 
 }
-\newglossaryentry{survivalanalysis}
-{name={survival analysis},
-  description={A\index{survival analysis} survival analysis is a branch of statistics and machine learning that deals with time-to-event data, 
-    where the goal is to estimate the time until an event of interest (e.g., failure, death, or relapse) occurs. 
-    It accounts for censored observations and focuses on estimating survival functions, hazard rates, and risk scores.
-    \\
-    See also: \gls{hazardfunction}, \gls{coxph}, \gls{randomsurvivalforest}.},
+
+\newglossaryentry{survivalanalysis}{
+  name={survival analysis},
+  description={A \index{survival analysis} survival analysis is a branch of statistics and machine learning that deals with time-to-event data, where the goal is to estimate the time until an event of interest (e.g., failure, death, or relapse) occurs \cite{Wang2019_2025}. It accounts for censored observations and focuses on estimating survival functions, hazard rates, and risk scores \cite{Kleinbaum1998} . \\
+    See also: \gls{hazardfunction}, \gls{coxph}, \gls{randomsurvivalforest}.%
+  },
   first={survival analysis},
   text={survival analysis}
+  %App=Health
 }
 
 \newglossaryentry{hazardfunction}
@@ -9699,13 +9639,16 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 	text={random forest}
 }
 
+
 \newglossaryentry{randomsurvivalforest}
 {name={random survival forest},
-  description={A\index{random survival forest} random survival forest (RSF) is an ensemble of \glspl{decisiontree} designed for time-to-event (survival) data. 
+  description={A\index{random survival forest} random survival forest (RSF) \cite{Ishwaran2008} is an ensemble of \glspl{decisiontree} designed for time-to-event (survival) data. 
     Each tree is grown on a bootstrap sample of the original \gls{dataset} with random \gls{feature} selection at splits, using survival-specific split criteria (e.g., log-rank). 
     The forest aggregates per-tree survival estimates to produce an overall survival function and risk scores, and naturally handles right-censoring.
+    RSF extends the principles of \gls{randomforest} to survival settings and has been shown to perform well in high-dimensional biomedical and real-world datasets
+    \cite{Wang2019,Salerno2023}.
     \\
-    See also: \gls{decisiontree}, \gls{dataset}.},
+    See also: \gls{decisiontree}, \gls{dataset}, \gls{randomforest}.},
   first={random survival forest (RSF)},
   text={random survival forest}
 }
