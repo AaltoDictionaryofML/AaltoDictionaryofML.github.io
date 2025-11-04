@@ -6142,9 +6142,20 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		   combining less accurate base learners (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
 		   Boosting can be understood as a generalization of gradient-based methods 
 		   for empirical risk minimization (ERM) using parametric models and smooth loss functions 
-		   \cite{Friedman2001}. Just as gradient descent (GD) iteratively updates model parameters to 
-		   reduce the empirical risk, boosting iteratively combines (e.g., by summation) 
-		   hypothesis maps to reduce the empirical risk (see Fig. \ref{fig_boosting_dict}). 
+		   \cite{Friedman2001}. In particular, starting from an initilization $\widetilde{h}$, 
+		   boosting methods construct a sequence of hypotheses 
+		   $\widetilde{h}^{(t)}$, $t=1,\ldots,$, 
+		   via a generalized gradient step 
+		   $$ \widetilde{h}^{(t)} = \widetilde{h}^{(t-1)}+
+		   \eta^{(t)} 
+		   \hat{h}^{(t)}.$$ 
+		   Here, $\eta^{(t)}$ denotes a learning rate and 
+		   $\hat{h}^{(t)}$ is provided 
+		   by the $t$-th base learner. Comparing the above update with the 
+		   plain gradient step suggests to view $\hat{h}^{(t)}$ 
+		   as a (negative) generalized gradient. 
+		   Boosting methods differ in their choice of base learners for computing 
+		   the generalized gradients $\hat{h}^{(t)}$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
@@ -6152,7 +6163,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$h$};
 					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$L\left({\bf z},h \right)$};
 					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
-					\foreach \x/\label in {0.7/$h^{(0)}$, 1.5/$h^{(1)}$, 2.3/$h^{(2)}$, 3.0/$h^{(3)}$} {
+					\foreach \x/\label in {0.7/$\widetilde{h}^{(0)}$, 1.5/$\widetilde{h}^{(1)}$, 2.3/$\widetilde{h}^{(2)}$, 3.0/$\widetilde{h}^{(3)}$} {
 						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); 
 						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   
 						\node[below] at (\x, -0.1) {\label};                             
@@ -6160,9 +6171,8 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 				\end{tikzpicture}
 			\end{center} 
 			\caption{Boosting methods construct a sequence of hypothesis maps 
-			     $h^{(0)}, \,h^{(1)}, \,\ldots$. The hypothesis 
-				 $h^{(t)}$ is produced by the $t$-th base learner 
-				 who builds on the results of previous base learners. \label{fig_boosting_dict}}
+			via a generalized gradient step. The generalized gradient is delivered 
+			during iteration $t$ is delivered by the $t$-th base learner\label{fig_boosting_dict}}
      		\end{figure} 
      		See also: ensemble, AdaBoost, Gradient Boosting.}, 
 	first={boosting}, 
@@ -6212,7 +6222,9 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		$R$ iterations is a linear combintion of the hypotheses 
 		$\hat{h}^{(1)},\ldots,\hat{h}^{(R)}$. 
 		AdaBoost can be interpreted as a generalized gradient step \cite[Ch. 10.4]{hastie01statisticallearning}
-		$$\widetilde{h}^{(t)}=\widetilde{h}^{(t-1)}+\eta^{(t)} \hat{h}^{(t)}.$$    \\
+		$$\widetilde{h}^{(t)}=\widetilde{h}^{(t-1)}+\eta^{(t)} \hat{h}^{(t)}.$$   
+		This generalized gradient step involves a learning rate $\eta^{(t)}$ which 
+		controls the amount of modification of the current hypothesis. \\
 		See also: boosting, empirical risk minimization (ERM), sample weighting.}, 
 	first={AdaBoost}, 
 	text={AdaBoost}
