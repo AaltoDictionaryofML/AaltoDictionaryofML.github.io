@@ -22,6 +22,29 @@ import networkx as nx
 from networkx.algorithms.community import greedy_modularity_communities
 from typing import Dict, List, Tuple
 
+# --- add this helper near the top (next to other helpers) ---
+def strip_comments_preserve_escaped_percent(text: str) -> str:
+    """Remove LaTeX comments (%) but preserve escaped \%."""
+    out_lines = []
+    for line in text.splitlines():
+        buf = []
+        i = 0
+        while i < len(line):
+            ch = line[i]
+            if ch == '%':
+                # If percent is escaped, keep it and continue
+                if i > 0 and line[i-1] == '\\':
+                    buf.append('%')
+                    i += 1
+                else:
+                    # Real comment: drop rest of line
+                    break
+            else:
+                buf.append(ch)
+                i += 1
+        out_lines.append(''.join(buf))
+    return '\n'.join(out_lines)
+
 # ------------------------------ LaTeX parsing helpers ------------------------------
 
 def find_balanced_block(s: str, start_idx: int, open_char: str = "{", close_char: str = "}") -> Tuple[str, int]:
@@ -285,7 +308,11 @@ def main():
 
     for key, body in entries:
         # Strip trailing comments inside body
-        body_nocom = re.sub(r"(?m)%.*$", "", body)
+#       body_nocom = re.sub(r"(?m)%.*$", "", body)
+#        body_nocom = re.sub(r"\s+", " ", body_nocom).strip()
+        
+        # NEW (safe):
+        body_nocom = strip_comments_preserve_escaped_percent(body)
         body_nocom = re.sub(r"\s+", " ", body_nocom).strip()
 
         name_raw = get_field_value_kvblock(body_nocom, "name") or key
