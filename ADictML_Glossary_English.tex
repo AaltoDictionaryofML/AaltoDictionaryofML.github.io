@@ -1627,7 +1627,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 		is approximately insensitive to rotations of the input image.
 		\begin{figure}[H]
       			\centering
-      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
+      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace/nullspace_0_1.png}
 	  		\caption{
 			Rotated handwritings of two different digits. The rotations are approximately 
 			aligned along straight lines parallel to the \gls{vector} $\mathbf{n}$. For a 
@@ -1637,7 +1637,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
                 \label{fig:nullspace-rotation-dict}}	
 	       	\end{figure}
 		See also: \gls{matrix}, \gls{featuremap}, \gls{featlearn}. \\ 
-		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace/nullspace.py}{click me}},
  	first={nullspace},
  	firstplural={nullspaces},
  	plural={nullspaces},
@@ -6135,6 +6135,59 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 }
 
 
+\newglossaryentry{randomprojection} 
+{name={random projection}, 
+ description={A random projection\index{random projection} uses a random \gls{matrix} 
+				$\mathbf{A}\!\in\!\mathbb{R}^{\nrfeatures' \times \nrfeatures}$, with 
+				$\nrfeatures' < \nrfeatures$, to map a \gls{featurevec} 
+				$\featurevec \!\in\! \mathbb{R}^{\nrfeatures}$ to a shorter 
+				\gls{featurevec} $\mathbf{A}\featurevec \!\in\! \mathbb{R}^{\nrfeatures'}$. 
+				It is a basic method for \gls{featlearn} and \gls{dimred}. 
+				The projection matrix $\mathbf{A}$ is typically generated entry-wise 
+				by \gls{iid} \glspl{rv} with common \gls{probdist} $\probdist$. 
+				For a broad class of such \glspl{probdist}, a random \gls{projection} 
+				approximately preserves pairwise \gls{eucliddist} between \glspl{featurevec} 
+				of a given finite \gls{dataset}. The celebrated \gls{johnsonlindenstrausslemma} 
+				guarantees the existence of such a distance-preserving \gls{dimred} \gls{map} 
+			    but does not itself involve randomness. Random projections provide a 
+				probabilistic construction that realizes this guarantee with high \gls{probability}. 
+				Roughly speaking, for many relevant applications, random projections 
+				preserve the most relevant information contained in the original (typically 
+				very long) \gls{featurevec}. Figure~\ref{fig:randomprojection_dict} illustrates this 
+				behavior for an RGB image. The left panel shows the original image, the middle panel 
+				shows a masked image with randomly selected five percent of orginal pixels kept and 
+				the rest being set to fixed light-gray color. The right panel shows the result a 
+				simple reconstruction based on repeated averaging of nearby retained pixels. 
+				\begin{figure}[H]
+				\centering
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_original.png}
+					\caption*{original}
+				\end{minipage}\hfill
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_masked.png}
+					\caption*{95 \% masked}
+				\end{minipage}\hfill
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_reconstructed.png}
+					\caption*{renconstructed}
+				\end{minipage}
+				\caption{Illustration of a random projection in the form of removing (or masking) 
+				 	all image pixels, except those in a small random subset. 
+				 	The left panel shows the original RGB image, the middle panel a version 
+				 	with only a random 5\% subset of pixels retained, and the right panel a 
+				 	simple convolution-based reconstruction that diffuses information from 
+				 	the known pixels into masked regions.}
+				 	\label{fig:randomprojection_dict}
+				 \end{figure}
+				 See also: \gls{dimred}, \gls{featlearn}, \gls{johnsonlindenstrausslemma}.
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/randomprojection/randomprojection.py}{click me}},
+			first={random projection},
+			plural={random projections}, 
+			firstplural={random projections}, 
+			text={random projection}
+}
+
 \newglossaryentry{boosting}
 {name={boosting}, 
 	description={Boosting\index{boosting} is an iterative \gls{optmethod} to learn 
@@ -6142,7 +6195,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
 		   Boosting can be understood as a \gls{generalization} of \glspl{gdmethod} 
 		   for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		   \cite{Friedman2001}. In particular, starting from an initilization $\widetilde{\hypothesis}$, 
+		   \cite{Friedman2001}. In particular, starting from an initialization $\widetilde{\hypothesis}$, 
 		   boosting methods construct a sequence of \glspl{hypothesis} 
 		   $\widetilde{\hypothesis}^{(\iteridx)}$, $\iteridx=1,\ldots,$, 
 		   via a generalized \gls{gradstep} 
