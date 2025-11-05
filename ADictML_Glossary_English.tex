@@ -11077,3 +11077,38 @@ See also: \gls{function}, \gls{dataset}.},
   text={JL lemma}
 }
 
+
+\newglossaryentry{markovsinequality}
+{name={Markov's inequality},
+     description={\index{Markov's inequality} Markov's inequality is an inequality that provides an upper bound on the \gls{probability} that a non-negative \gls{rv} exceeds a certain threshold. Formally, if $x$ is a real-valued non-negative \gls{rv}, Markov's inequality states that
+        \begin{equation}
+            \prob{x \geq a} \leq \frac{\expect \{ x\}}{a} \qquad \forall a > 0,
+            \label{eq:markovsinequality}
+        \end{equation}
+        where $\expect \{ x\}$ denotes the \gls{expectation} of $x$. A visual explanation of this result is provided in Figure \ref{fig:markovsinequality} in case $x$ has a \gls{pdf}.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}[scale=1.6, x=0.25cm, y=8cm]
+            \fill[red!45, opacity=0.6] plot[samples=400, domain=0:3.24, smooth] (\x,{ (1/(3*sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) }) -- (3.24,0) -- (0,0) -- cycle;
+            \fill[blue!45, opacity=0.6] plot[samples=400, domain=3.24:25, smooth] (\x,{ (1/(3*sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) }) -- (25,0) -- (3.24,0) -- cycle;
+            \draw[blue, thick, samples=400, domain=0:25, smooth] plot (\x,{ (1/(3*sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) });
+            \draw[-{Latex}] (0,0) -- (26,0) node[below right] {$\eta$};
+            \draw[-{Latex}] (0,0) -- (0,0.22) node[left] {$p^{(x)}(\eta)$};
+            \draw[dashed] (3.24,0) -- (3.24,{ (1/(3*sqrt(2*pi))) * (3.24)^(1.5) * exp(-3.24/2) });
+            \node[below] at (0,0) {$0$};
+            \node[below] at (3.24,0) {$a$};
+            \draw[red!70, very thick] (0,0) -- (0,0.09);
+            \filldraw[red!80, draw=red!80] (0,0.09) circle (2.6pt);
+            \draw[blue!70, very thick] (3.24,0) -- (3.24,0.18);
+            \filldraw[blue!80, draw=blue!80] (3.24,0.18) circle (2.6pt);
+            \end{tikzpicture}
+            \caption{For a \gls{rv} $x$ with \gls{pdf} $p^{(x)}$, we define a discrete \gls{rv} $z$ assuming $0$ with
+            \gls{probability} $ \prob{0 \leq x \leq a}$, and assuming $a$ with \gls{probability} $ \prob{x \geq a}$, i.e., allocating the masses of the colored areas to the singletons of the corresponding color. Then, $\expect \{ x\} \geq \expect \{ z\} = 0 \cdot \prob{0 \leq x \leq a} + a \cdot \prob{x \geq a} = a \cdot \prob{x \geq a}$,
+            from which \eqref{eq:markovsinequality} follows.}
+            \label{fig:markovsinequality}
+        \end{figure}
+While this is a generic result that holds for arbitrary non-negative \glspl{rv}, it may often be not optimal, but serve as a basis to derive more refined inequalities. \\
+See also: \gls{expectation}, \gls{probability}, \gls{probspace}, \gls{concentrationinequ}.},
+    first={Markov's inequality},
+    text={Markov's inequality}  
+}
