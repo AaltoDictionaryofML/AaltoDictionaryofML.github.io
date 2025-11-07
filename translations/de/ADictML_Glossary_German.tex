@@ -4344,46 +4344,1547 @@ Maßtheorie \cite[Ch. 1]{RudinBook}.
 	first={effektive Dimension},text={effektive Dimension}  
 }
 
+\newglossaryentry{labelspace}
+{name={Labelraum},
+	description={
+		In einer \gls{ml}-Anwendung\index{Labelraum} wird jeder \gls{datapoint} durch eine 
+		Menge von \glspl{feature} zusammen mit einem zugehörigen \gls{label} beschrieben. 
+		Die Menge aller zulässigen \gls{label}-Werte wird als \gls{labelspace} bezeichnet 
+		und mit $\labelspace$ notiert. Wichtig ist, dass $\labelspace$ auch Werte enthalten kann, 
+		die kein beobachteter \gls{datapoint} tatsächlich als \gls{label}-Wert aufweist. 
+		In großem Maße liegt die Wahl von $\labelspace$ beim \gls{ml}-Ingenieur und hängt von der 
+		Problemstellung ab. Abbildung~\ref{fig_label_spaces_dict} zeigt einige Beispiele für \glspl{labelspace}, 
+		die häufig in \gls{ml}-Anwendungen verwendet werden.
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Stealth, font=\small]
+			% (a) Reelle Linie für Regression
+			\begin{scope}[shift={(0,0)}]
+				\draw[->] (-2,0) -- (2,0);
+				\node[below=6pt] at (0,-0.7) {(a) $\labelspace\!=\!\mathbb{R}$ (\gls{regression})};
+			\end{scope}
+			% (b) Ebene für Multi-Label Regression
+			\begin{scope}[shift={(7,0)}]
+				\fill[gray!20] (-1,-0.5) rectangle (1,0.5);
+				\draw[->] (-2,0) -- (2,0);
+				\draw[->] (0,-1) -- (0,1);
+				\node[below=6pt] at (0,-0.7) {(b) $\labelspace\!=\!\mathbb{R}^{2}$ (Multi-Label \gls{regression})};
+			\end{scope}
+			% (c) Binäre Klassifikation
+			\begin{scope}[shift={(0,-3)}]
+				\fill (-1,0) circle (1.2pt) node[below=2pt] {\text{„heiß“}};
+				\fill ( 1,0) circle (1.2pt) node[below=2pt] {\text{„kalt“}};
+				\node[below=14pt] at (0,-0.7) {(c) $|\labelspace|=2$ Binäre \gls{classification}};
+			\end{scope}
+			% (d) Ordinale Regression: gerichtete Kette
+			\begin{scope}[shift={(7,-3)}]
+				\node[circle, inner sep=1pt, draw] (n1) at (-1.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n2) at (-0.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n3) at ( 0.5,0) {};
+				\node[circle, inner sep=1pt, draw] (n4) at ( 1.5,0) {};
+				\draw[->] (n1) -- (n2);
+				\draw[->] (n2) -- (n3);
+				\draw[->] (n3) -- (n4);
+				\node[below=2pt of n1] {1};
+				\node[below=2pt of n2] {2};
+				\node[below=2pt of n3] {3};
+				\node[below=2pt of n4] {4};
+				\node[below=14pt] at (0,-0.7) {(d) $\labelspace\!=\!\{1,2,3,4\}$ (Ordinale \gls{regression})};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{\label{fig_label_spaces_dict} Beispiele für \glspl{labelspace} und entsprechende Arten von \gls{ml}.}
+		\end{figure}
+		Die Wahl des \gls{labelspace} $\labelspace$ bestimmt die Art der \gls{ml}-Methoden, 
+		die für die jeweilige Anwendung geeignet sind. \Gls{regression}-Methoden verwenden 
+		$\labelspace = \mathbb{R}$, während binäre \gls{classification}-Methoden ein \gls{label}-Raum 
+		$\labelspace$ mit zwei Elementen verwenden, d.h. $|\labelspace|=2$. Ordinale \gls{regression}-Methoden 
+		verwenden eine endliche, geordnete Menge von \gls{label}-Werten, z.B. 
+		$\labelspace = \{1,2,3,4\}$ mit der natürlichen Ordnung $1 < 2 < 3 < 4$.
+					\\ 
+		Siehe auch:  \gls{datapoint}, \gls{label}, \gls{regression}, \gls{classification}.}, 
+	first={Labelraum},
+	text={Labelraum}  
+}
+
+\newglossaryentry{prediction}
+{name={Vorhersage}, plural={Vorhersagen},
+	description={Eine\index{Vorhersage} Vorhersage ist eine Schätzung oder Approximation einer interessierenden Größe. 
+		Das Gebiet des \gls{ml} befasst sich im Wesentlichen mit dem Lernen bzw. Finden einer \gls{hypothesis}-\gls{map} $\hypothesis$, 
+		die die \glspl{feature} $\featurevec$ eines \gls{datapoint} einliest und daraus eine Vorhersage 
+		$\widehat{\truelabel} \defeq \hypothesis(\featurevec)$ für dessen \gls{label} $\truelabel$ liefert.
+					\\ 
+		Siehe auch: \gls{ml}, \gls{hypothesis}, \gls{map}, \gls{feature}, \gls{datapoint}, \gls{label}.},
+	first={Vorhersage},
+	text={Vorhersage},
+	plural={Vorhersagen}  
+}
+
+\newglossaryentry{empiricaldistribution}
+{name = {empirische Verteilung},
+description = {Betrachte ein \gls{dataset} 
+	$\dataset = \{ \featurevec^{(1)},\ldots, \featurevec^{(\samplesize)}\}$,
+	das aus $\samplesize$ verschiedenen \glspl{datapoint} besteht, wobei jeder \gls{datapoint} 
+	durch einen \gls{featurevec} $\featurevec^{(\sampleidx)} \in \featurespace$ für 
+	$\sampleidx = 1, \ldots, \samplesize$ beschrieben wird. 
+	Für eine gegebene \gls{sigmaalgebra} $\sigmaalgebra$ über dem \gls{featurespace} 
+	$\featurespace$ ist die empirische Verteilung\index{empirische Verteilung} \cite{Kabluchko2017}
+	von $\dataset$ die \gls{probdist} $\probdist$, die definiert ist durch
+	$$\probdist(\mathcal{A}) = (1/\samplesize)\, \big| \big\{ \sampleidx : \featurevec^{(\sampleidx)} \in \mathcal{A} \big\} \big|, 
+	\quad \text{für alle } \mathcal{A} \in \sigmaalgebra.$$
+	Mit anderen Worten weist die empirische Verteilung jeder \gls{messbare}n Menge 
+	$\mathcal{A} \in \sigmaalgebra$ den Anteil der \glspl{datapoint} in $\dataset$ zu, 
+	die in $\mathcal{A}$ liegen. 
+	Ist der \gls{featurespace} geordnet, so kann die empirische Verteilung auch durch ihre empirische 
+	\gls{cdf} charakterisiert werden:
+	$$\cdf{\dataset}{\featurevec} = 
+	(1/\samplesize)\, \big| \big\{ \sampleidx : \featurevec^{(\sampleidx)} \preceq \featurevec \big\} \big|, 
+	\quad \text{für alle } \featurevec \in \featurespace,$$
+	wobei $\preceq$ die Ordnungsrelation auf $\featurespace$ bezeichnet.
+	\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}[>=stealth, thick,y=2cm]
+		\foreach \x/\p in {1/0.3, 4/0.7}
+		{% Stabdiagramm
+		\draw[gray] (\x,0) -- (\x,\p);
+		\fill[blue] (\x,\p) circle (2pt);
+		}
+		\node[anchor=south,align=center] at (1,0.3) {\small $\pmf{\dataset}{\star}=3/10$};
+		\node[anchor=north] at (1,0) {\small $\star$};
+		\node[anchor=north] at (4,0) {\small $\otimes$};
+		\node[anchor=west,text width=11cm] at (-1.2,-0.80) {
+			$\dataset = (\star,\star,\star,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes)$
+		};
+	\end{tikzpicture}
+	\end{center}
+	\caption{Ein \gls{dataset} $\dataset$ mit $\samplesize = 10$ \glspl{datapoint}, 
+	die jeweils einen Wert aus dem endlichen \gls{featurespace} 
+	$\featurespace = \{\star, \otimes\}$ annehmen. 
+	Die empirische \gls{pmf} $\pmf{\dataset}{\featurevec}$ ordnet jedem möglichen Wert 
+	$\featurevec \in \featurespace$ den Anteil der \glspl{datapoint} in $\dataset$ zu, 
+	deren \gls{feature} diesen Wert annimmt. Hier nehmen drei von zehn \glspl{datapoint} 
+	den \gls{feature}-Wert $\star$ an, was zu $\pmf{\dataset}{\star} = 3/10$ führt. 
+	\label{fig_empirical_pmf_dict}}
+	\end{figure}
+	Ist der \gls{featurespace} $\featurespace$ endlich, 
+	kann die empirische Verteilung von $\dataset$ auch durch die empirische 
+	\gls{pmf} charakterisiert werden:
+	$$\pmf{\dataset}{\featurevec} = 
+	(1/\samplesize)\, \big| \big\{ \sampleidx : \featurevec^{(\sampleidx)} = \featurevec \big\} \big|, 
+	\quad \text{für alle } \featurevec \in \featurespace.$$
+	\\
+	Siehe auch: \gls{probdist}, \gls{sigmaalgebra}.},
+	type = {math},
+	text = {empirische Verteilung},
+ 	plural = {empirische Verteilungen},
+	 first = {empirische Verteilung},
+ 	
+}
+
+\newglossaryentry{histogram}
+{name={Histogramm},
+ description={Betrachte\index{Histogramm} ein \gls{dataset} $\dataset$, das aus 
+ $\samplesize$ \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$ besteht, 
+ wobei jedes dieser Elemente zu einer Zelle $[-U,U] \times \ldots \times [-U,U] \subseteq \mathbb{R}^{\featuredim}$ 
+ mit Kantenlänge $U$ gehört. Diese Zelle wird gleichmäßig in kleinere, elementare Zellen mit 
+ Kantenlänge $\Delta$ unterteilt. Das Histogramm von $\dataset$ ordnet jeder dieser 
+ elementaren Zellen den entsprechenden Anteil der \glspl{datapoint} in $\dataset$ zu, 
+ die in diese Zelle fallen. Ein visuelles Beispiel eines solchen Histogramms ist in 
+ Abbildung~\ref{fig:histogram_dict} dargestellt.\\
+ \begin{figure}[H]
+ \centering
+ \begin{tikzpicture}
+ \pgfplotsset{compat=1.18}
+ \begin{axis}[
+     ybar,
+     ymin=0,
+     ymax=6,
+     bar width=22pt,
+     width=10cm,
+     height=6cm,
+     xlabel={Wert},
+     ylabel={Häufigkeit},
+     ytick={1,2,3,4,5,6},
+     xtick={1,2,3,4,5},
+     xticklabels={{[0,1)}, {[1,2)}, {[2,3)}, {[3,4)}, {[4,5)}},
+     enlarge x limits=0.15,
+     title={Histogramm von Beispieldaten}
+     ]
+ \addplot+[fill=blue!40] coordinates {(1,2) (2,5) (3,4) (4,3) (5,1)};
+ \end{axis}
+ \end{tikzpicture}
+ \caption{Ein Histogramm zeigt die Anteile der \glspl{datapoint}, 
+ die in verschiedene Wertebereiche (sogenannte Bins) fallen. 
+ Die Höhe jedes Balkens gibt die Anzahl der \glspl{sample} im entsprechenden Intervall an.}
+ \label{fig:histogram_dict}
+ \end{figure}
+ Siehe auch: \gls{dataset}, \gls{datapoint}, \gls{sample}.},
+ first={Histogramm},
+ text={Histogramm},
+ plutal={Histogramme}
+}
+
+\newglossaryentry{bootstrap}
+{name={Bootstrap},
+	description={Zur\index{Bootstrap} Analyse von \gls{ml}-Methoden ist es oft hilfreich, 
+	ein gegebenes Set von \glspl{datapoint} 
+	$\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
+	als \glspl{realization} unabhängiger und identisch verteilter (\gls{iid}) \glspl{rv} 
+	aufzufassen, die aus einer gemeinsamen \gls{probdist} $\probdist$ gezogen wurden. 
+	In der Praxis ist die zugrundeliegende Verteilung $\probdist$ jedoch unbekannt und 
+	muss aus den Daten geschätzt werden. Der Bootstrap-Ansatz verwendet das 
+	\gls{histogram} von $\dataset$ als Schätzer für $\probdist$ 
+	\cite{hastie01statisticallearning}, 
+	$$ (1/\samplesize) \big| \{ \sampleidx : \datapoint^{(\sampleidx)} \in \mathcal{A} \} \big| 
+	\approx \prob{\mathcal{A}}.$$
+	Durch Ziehen mit Zurücklegen aus $\dataset$ entsprechend dieser empirischen Verteilung 
+	werden neue \glspl{dataset} 
+	$\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$ erzeugt, 
+	von denen jedes $\samplesize$ \glspl{datapoint} enthält. 
+	Jedes dieser Datensätze wird anschließend zur \gls{model}-\gls{training} 
+	verwendet (z.\,B. mittels \gls{erm}), 
+	wodurch die gelernten \glspl{hypothesis} 
+	$\widehat{\hypothesis}^{(1)}, \ldots, \widehat{\hypothesis}^{(\nrbootstraps)}$ entstehen. 
+	Diese gelernten \glspl{hypothesis} können anschließend genutzt werden, 
+	um die \gls{stability} der jeweiligen \gls{ml}-Methode zu bewerten 
+	\cite{hastie01statisticallearning}.
+	\\
+	Siehe auch: \gls{iid}, \gls{rv}, \gls{probdist}, \gls{histogram}.},
+	first={Bootstrap},
+	text={Bootstrap}  
+}
+
+\newglossaryentry{featurespace}
+{name={Merkmalsraum},
+	description={Der\index{Merkmalsraum} \gls{feature}-Raum einer gegebenen \gls{ml}-Anwendung 
+		oder Methode besteht aus allen möglichen Werten, die der \gls{featurevec} eines \gls{datapoint} 
+		annehmen kann. Für \glspl{datapoint}, die durch eine feste Anzahl $\nrfeatures$ numerischer \glspl{feature} beschrieben werden, 
+		ist eine gängige Wahl für den \gls{feature}-Raum der \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$. 
+		Die bloße Existenz von $\nrfeatures$ numerischen \glspl{feature} bedeutet jedoch nicht, dass $\mathbb{R}^{\nrfeatures}$ 
+		die geeignetste Darstellung des \gls{feature}-Raums ist. Tatsächlich könnten die numerischen \glspl{feature} 
+		den \glspl{datapoint} in weitgehend willkürlicher oder zufälliger Weise zugeordnet sein, 
+		was zu \glspl{datapoint} führt, die zufällig in $\mathbb{R}^{\nrfeatures}$ verteilt sind, 
+		ohne eine sinnvolle geometrische Struktur. Methoden des \gls{featlearn} versuchen, 
+		eine Transformation der ursprünglichen (potenziell nicht-numerischen) \glspl{feature} zu erlernen, 
+		um eine sinnvollere Anordnung der \glspl{datapoint} in $\mathbb{R}^{\nrfeatures}$ zu erreichen. 
+		Drei Beispiele für \gls{feature}-Räume sind in Abb. \ref{fig_featurespace_dict} dargestellt.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=0.6]
+			% --------- 1D Line Feature Space (left) ---------
+			\begin{scope}[xshift=0cm]
+  				% Axis
+ 	 			\draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
+  				% Points
+  				\foreach \x/\lbl in {0.5/$\featurevec^{(1)}$, 1.5/$\featurevec^{(2)}$, 2.8/$\featurevec^{(3)}$}
+    				\filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
+  				% Label
+  				\node at (1.5, -4.0)  {$\featurespace^{(1)}$};
+				\node at (1.5, -6) {(a)};
+			\end{scope}
+			% --------- 2-D Bounded (Disk) Feature Space (middle) ---------
+			\begin{scope}[xshift=8cm]
+  				% Circle boundary
+  				\draw[thick] (0,0) circle (1.8);
+  				\fill[gray!5] (0,0) circle (1.8);
+  				% Points inside circle
+  				\filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {$\featurevec^{(1)}$};
+  				\filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {$\featurevec^{(2)}$};
+  				\filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {$\featurevec^{(3)}$};
+  				% Label
+  				\node at (0.5, -4) {$\featurespace^{(2)}$};
+				\node at (0.5, -6) {(b)};
+			\end{scope}
+			% --------- Graph-Based Feature Space (right) ---------
+			\begin{scope}[xshift=14cm, yshift=0.3cm]
+  				% Nodes
+ 	 			\filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {$\featurevec^{(1)}$};
+ 	 			\filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {$\featurevec^{(2)}$};
+  				\filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {$\featurevec^{(3)}$};
+  				\filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {$\featurevec^{(4)}$};
+  				% Edges
+  				\draw[-] (0,0) -- (2,1.2);
+  				\draw[-] (2,1.2) -- (1,2.5);
+  				\draw[-] (1,2.5) -- (3,2.5);
+  				% Label
+  				\node at (1.5, -4.2) {$\featurespace^{(3)}$};
+				\node at (1.5, -6.2) {(c)};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{Drei unterschiedliche \gls{feature}-Räume. (a) Ein linearer Raum $\featurespace^{(1)} = \mathbb{R}$. (b) Eine 
+		beschränkte \gls{convex}-Menge $\featurespace^{(2)} \subseteq \mathbb{R}^{2}$. (c) Ein diskreter Raum 
+		$\featurespace^{(3)}$, dessen Elemente Knoten eines ungerichteten \gls{graph} sind. \label{fig_featurespace_dict}}
+		\end{figure}
+		Siehe auch: \gls{featurevec}, \gls{euclidspace}.},
+	first={Merkmalsraum},
+	text={Merkmalsraum}  
+}
+
+
+\newglossaryentry{missingdata}
+{name={fehlende Daten},
+	description={Betrachten wir\index{fehlende Daten} ein \gls{dataset}, das aus \glspl{datapoint} besteht, die 
+		mittels eines physikalischen \gls{device} erhoben wurden. Aufgrund von Unvollkommenheiten oder Ausfällen 
+		könnten einige \gls{feature}- oder \gls{label}-Werte von \glspl{datapoint} beschädigt oder einfach 
+		fehlend sein. Die \gls{data}-Imputation zielt darauf ab, diese fehlenden Werte zu schätzen \cite{Abayomi2008DiagnosticsFM}. 
+		Man kann \gls{data}-Imputation als ein \gls{ml}-Problem interpretieren, bei dem das \gls{label} eines \gls{datapoint} 
+		der Wert des beschädigten \gls{feature} ist.
+		\\
+		Siehe auch: \gls{feature}, \gls{label}. },
+	first={fehlende Daten},
+	text={fehlende Daten}  
+}
+
+
+\newglossaryentry{psd}
+{name={positiv semidefinit (psd)},
+	description={Eine\index{positiv semidefinit (psd)} (reellwertige) symmetrische \gls{matrix} 
+	 	$\mQ = \mQ\,^{T} \in \mathbb{R}^{\featuredim \times \featuredim}$ 
+	 	ist positiv semidefinit (psd), wenn $\featurevec\,^{T} \mQ \featurevec \geq 0$ 
+	 	für jeden \gls{vector} $\featurevec \in \mathbb{R}^{\featuredim}$ gilt. 
+	 	Die Eigenschaft der PSD kann von \glspl{matrix} auf (reellwertige) symmetrische 
+	 	\gls{kernel}-\glspl{map} $\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$ 
+	 	(mit $\kernel(\featurevec,\featurevec') = \kernel(\featurevec',\featurevec)$) erweitert werden: 
+	 	Für jede endliche Menge von \glspl{featurevec} $\featurevec^{(1)}, \ldots, \featurevec^{(\samplesize)}$ 
+	 	ist die resultierende \gls{matrix} $\mQ \in \mathbb{R}^{\samplesize \times \samplesize}$ mit 
+		Einträgen $Q_{\sampleidx,\sampleidx'} = \kernelmap{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}}$ 
+		psd \cite{LearningKernelsBook}.
+		\\
+		Siehe auch: \gls{matrix}, \gls{vector}, \gls{kernel}, \gls{map}, \gls{featurevec}.},
+	first={positiv semidefinit (psd)},
+	text={psd}  
+}
+
+
+\newglossaryentry{feature}
+{name={Feature}, plural={Features},
+description={Ein\index{Feature} Feature eines \gls{datapoint} ist eine seiner Eigenschaften, 
+    die leicht messbar oder berechenbar ist, ohne dass menschliche Aufsicht erforderlich ist. 
+    Beispielsweise kann, wenn ein \gls{datapoint} ein digitales Bild (z.\,B. gespeichert als \texttt{.jpeg}-Datei) ist, 
+    die Rot–Grün–Blau-(RGB-)Intensität seiner Pixel als Features verwendet werden. 
+    \begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1]
+    % Glatte Wellenform zeichnen (Sinuskurve als Beispiel für ein Audiosignal)
+    \draw[thick, blue, domain=0:6.28, smooth, variable=\x] 
+        plot ({\x}, {sin(\x r)});
+    % Probenpunkte in regelmäßigen Abständen markieren
+    \foreach \x [count=\i] in {0,0.5,...,6.28} {
+        \fill[red] (\x, {sin(\x r)}) circle (2pt);
+        % Nur die ersten beiden Proben beschriften
+        \ifnum\i=1
+            \node[above left] at (\x, {sin(\x r)}) {$x_1$};
+        \fi
+        \ifnum\i=2
+            \node[above left] at (\x, {sin(\x r)}) {$x_2$};
+        \fi
+    }
+    \end{tikzpicture}
+    \caption{Ein Audiosignal (blaue Wellenform) und seine diskretisierten Signalproben (rote Punkte), 
+    die als Features $x_{1},\ldots,x_{\nrfeatures}$ verwendet werden können. \label{fig:audio_features_dict}}
+    \end{figure}
+    Ein weiteres Beispiel zeigt Abb.\ \ref{fig:audio_features_dict}, in der die Signalproben eines Audiosignals endlicher Dauer als Features genutzt werden.
+    Fachspezifische Synonyme für den Begriff Feature sind „Kovariate“, „erklärende Variable“, 
+    „unabhängige Variable“, „Input-Variable“, „Prädiktor“ oder „Regressor“ \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}. 
+        \\
+    Siehe auch: \gls{datapoint}.},
+first={Feature},
+text={Feature}  
+}
+
+\newglossaryentry{featurevec}
+{name={Featurevektor}, plural={Featurevektoren},
+description={Ein \Gls{feature} \gls{vector} bezeichnet einen\index{Featurevektor} \gls{Vektor} 
+    $\vx = \big(x_{1}, \,\ldots, \,x_{\nrfeatures}\big)\,^{T}$, dessen Einträge die einzelnen \glspl{feature} 
+    $x_{1}, \,\ldots, \,x_{\nrfeatures}$ darstellen. Viele \gls{ml}-Methoden verwenden \gls{feature} \glspl{vector}, 
+    die in einem endlichdimensionalen \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ liegen. 
+    Für bestimmte \gls{ml}-Methoden kann es jedoch zweckmäßiger sein, mit \gls{feature} \glspl{vector} zu arbeiten, 
+    die einem unendlichdimensionalen \gls{vectorspace} angehören (z.\,B. siehe \gls{kernelmethod}). 
+        \\
+    Siehe auch: \gls{feature}, \gls{vector}, \gls{ml}, \gls{euclidspace}, \gls{vectorspace}.}, 
+first={Featurevektor},
+text={Featurevektor}  
+}
+
+\newglossaryentry{label}
+{name={Label}, plural={Labels},
+description={Ein\index{Label} Label ist eine höherwertige Information oder eine Zielgröße, die einem \gls{datapoint} zugeordnet ist. 
+    Beispielsweise könnte bei einem Bild als \gls{datapoint} das Label angeben, ob das Bild eine Katze enthält oder nicht. 
+    Synonyme für Label, die in spezifischen Fachgebieten gebräuchlich sind, sind „Antwortvariable“, „Ausgabevariable“ oder „Target“ \cite{Gujarati2021}, \cite{Dodge2003}, \cite{Everitt2010}. 
+        \\
+    Siehe auch: \gls{datapoint}, \gls{labelspace}.},
+first={Label},
+text={Label}  
+}
+
+\newglossaryentry{data}
+{name={Daten},
+description={Im Kontext von \gls{ml} wird der Begriff 
+Daten\index{Daten} häufig synonym mit \gls{dataset} verwendet
+\cite{Everitt2010,OxfordStatisticsDictionary}. 
+Der ISO/IEC 2382:2015 Standard definiert Daten als eine \emph{neu interpretierbare Darstellung von 
+Informationen in formalisierter Weise, geeignet für Kommunikation, Interpretation 
+oder Verarbeitung} \cite{ISO2382}. 
+  \\
+  Siehe auch: \gls{dataset}, \gls{datapoint}, \gls{sample}.}, 
+text={Daten}
+}
+
 
 
 \newglossaryentry{dataset}
-{name={Daten},
-	description={Ein Datensatz\index{Daten} (Daten) besteht aus einem oder mehreren Datenpunkten 
-		und ist eine zentrale Komponente der meisten KI Anwendungen. Diese Anwendungen 
-		verwenden Datensätze zum Trainieren und Validieren von KI-Modellen. Verschiedene 
-		mathematische Modelle und formale Sprachen wurden entwickelt um Datensätze 
-		zu beschreiben und zu analysieren \cite{silberschatz2019database,abiteboul1995foundations,hoberman2009data,ramakrishnan2002database}.  
-		Eines der am weitesten verbreiteten Datenmodelle ist das relationale Modell, das 
-		Daten in Tabellen (oder Beziehungen) organisiert \cite{silberschatz2019database}.
-		Eine Tabelle besteht aus Zeilen und Spalten:
-		\begin{itemize} 
-			\item Jede Zeile der Tabelle repräsentiert einen einzelnen Datenpunkt.
-			\item Jede Spalte der Tabelle entspricht einem bestimmten Attribut (oder Merkmal) der 
-			Datenpunkte. 
-		\end{itemize}
-		Tabelle \ref{tab:temperature} zeigt beispielsweise einen Datensatz mit Wetterbeobachtungen.
-		\begin{table}[ht]
+{name={Datensatz}, plural={Datensätze},
+description={Ein\index{Datensatz} Datensatz ist eine Menge von unterschiedlichen \glspl{datapoint}. 
+Streng genommen ist ein Datensatz eine ungeordnete Sammlung von \glspl{datapoint}, 
+die keine Wiederholungen enthält. In der Praxis wird der Begriff Datensatz jedoch oft 
+als Synonym für eine \gls{sample} verwendet, d.h. eine Sequenz (oder endliche Liste) 
+von \glspl{datapoint}, die Wiederholungen enthalten kann. 
+\gls{ml}-Methoden verwenden Datensätze, um \glspl{model} zu trainieren und zu validieren. 
+Der Begriff Datensatz ist weit gefasst: \glspl{datapoint} können konkrete physische 
+Entitäten (z. B. Menschen oder Tiere) oder abstrakte Objekte (z. B. Zahlen) darstellen. 
+Zur Illustration zeigt Abbildung~\ref{fig_cows_dataset_dict} einen Datensatz, dessen 
+\glspl{datapoint} Kühe sind.
+	\begin{figure}[H]
+		\begin{center}
+		\label{fig:cowsintheswissalps_dict}
+		\includegraphics[width=0.5\textwidth]{assets/CowsAustria.jpg}
+	  	\end{center}
+		\caption{\label{fig_cows_dataset_dict}Eine Kuhherde irgendwo in den Alpen.}
+ 	\end{figure}
+Oft hat ein \gls{ml}-Ingenieur keinen direkten Zugriff auf den zugrunde liegenden Datensatz. 
+Zum Beispiel würde der Zugriff auf den Datensatz in Abbildung~\ref{fig_cows_dataset_dict} 
+einen Besuch der Kuhherde erfordern. In der Praxis arbeitet man mit einer praktischeren 
+Darstellung (oder Approximation) des Datensatzes. Hierfür wurden verschiedene 
+mathematische \glspl{model} entwickelt \cite{silberschatz2019database}, \cite{abiteboul1995foundations}, 
+\cite{hoberman2009data}, \cite{ramakrishnan2002database}. Eines der am weitesten verbreiteten 
+Modelle ist das relationale \gls{model}, das \gls{data} in Tabellenform (Relationen) organisiert 
+\cite{codd1970relational}, \cite{silberschatz2019database}. Eine Tabelle besteht aus 
+Zeilen und Spalten: Jede Zeile entspricht einem einzelnen \gls{datapoint}, jede 
+Spalte stellt ein bestimmtes Attribut eines \gls{datapoint} dar. 
+\gls{ml}-Methoden interpretieren diese Attribute typischerweise als \glspl{feature} 
+oder als \gls{label} eines \gls{datapoint}. Zur Illustration zeigt Tabelle~\ref{tab:cowdata_dict} 
+eine relationale Darstellung des Datensatzes aus Abbildung~\ref{fig_cows_dataset_dict}. 
+Im relationalen \gls{model} ist die Reihenfolge der Zeilen unerheblich, und jedes Attribut 
+(Spalte) ist mit einer Domäne verknüpft, die die Menge der zulässigen Werte spezifiziert. 
+In \gls{ml}-Anwendungen entsprechen diese Attribut-Domänen dem \gls{featurespace} und dem 
+\gls{labelspace}.
+\begin{table}[H]
+	\refstepcounter{table}
+	\caption*{
+		\centering 
+		\scshape TABELLE \thetable \\[0.5ex]
+		\scshape Eine Relation (Tabelle), die den Datensatz in Abbildung \ref{fig_cows_dataset_dict} darstellt 
+	}
+	\label{tab:cowdata_dict} 
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Name} & \textbf{Gewicht} & \textbf{Alter} & \textbf{Größe} & \textbf{Magentemperatur} \\
+		\hline
+		Zenzi & 100 & 4 & 100 & 25 \\
+		Berta & 140 & 3 & 130 & 23 \\
+		Resi  & 120 & 4 & 120 & 31 \\
+		\hline
+	\end{tabular}
+\end{table}
+Während das relationale \gls{model} für viele \gls{ml}-Anwendungen nützlich ist, 
+kann es für Anforderungen im Bereich \gls{trustAI} unzureichend sein. Moderne Ansätze, 
+wie „Datasheets for Datasets“, bieten eine umfassendere Dokumentation, 
+einschließlich Details zum \gls{data}-Erhebungsprozess, dem vorgesehenen Verwendungszweck 
+und weiteren Kontextinformationen \cite{DatasheetData2021}.
+\\
+Siehe auch: \gls{datapoint}, \gls{data}, \gls{feature}, \gls{sample}, \gls{featurespace}, \gls{labelspace}.},
+text={Datensatz}
+}
+
+
+
+\newglossaryentry{predictor}
+{name={Vorhersagefunktion},
+description={Eine\index{Vorhersagefunktion} Vorhersagefunktion ist eine reellwertige Abbildung (\gls{hypothesis}-\gls{map}),
+ die aus den \glspl{feature} eines \gls{datapoint} eine Vorhersage für dessen numerisches \gls{label} $\truelabel \in \mathbb{R}$ erzeugt. 
+Formal gilt: Für ein \gls{datapoint} mit \glspl{feature} $\featurevec$ liefert die Vorhersagefunktion $\hypothesis(\featurevec) \in \mathbb{R}$ 
+eine Schätzung des wahren Labels.
+\\
+Siehe auch: \gls{hypothesis}, \gls{map}, \gls{datapoint}, \gls{feature}, \gls{prediction}, \gls{label}.},
+text={Vorhersagefunktion}
+}
+
+
+
+\newglossaryentry{labeled datapoint}
+{name={gelabelter Datenpunkt}, plural={gelabelte Datenpunkte},
+description={Ein\index{gelabelter Datenpunkt} \gls{datapoint}, dessen \gls{label} bekannt ist oder 
+durch ein Verfahren bestimmt wurde, das menschliche Arbeit erfordern kann.
+\\
+Siehe auch: \gls{datapoint}, \gls{label}.},
+text={gelabelter Datenpunkt}
+}
+
+\newglossaryentry{discreteRV}
+{name={diskrete Zufallsvariable}, plural={diskrete Zufallsvariablen},
+description={Eine\index{diskrete Zufallsvariable} \gls{rv}, d.h. eine \gls{function}, die die 
+Ausgänge eines \gls{randomexperiment} auf Elemente eines \gls{measurable} Raums 
+$\featurespace$ abbildet, wird als diskret bezeichnet, wenn ihr Wertebereich $\featurespace$ 
+abzählbar ist \cite{BillingsleyProbMeasure}.
+\\
+Siehe auch: \gls{probability}, \gls{rv}, \gls{probdist}.},
+text={diskrete Zufallsvariable}
+}
+
+\newglossaryentry{rv}
+{name={zufällige Variable (RV)}, plural={RVs},
+description={Eine RV\index{zufällige Variable (RV)} ist eine \gls{function}, die die 
+Ausgänge eines \gls{randomexperiment} auf Elemente eines \gls{measurable} Raums abbildet 
+\cite{BillingsleyProbMeasure,GrayProbBook}. 
+Mathematisch ist eine RV eine Abbildung $x: \samplespace \rightarrow \featurespace$, 
+wobei die Definitionsmenge der \gls{samplespace} $\samplespace$ eines \gls{probspace} 
+und die Zielmenge ein \gls{measurable} Raum $\featurespace$ ist. 
+Es gibt verschiedene Typen von RVs:
+\begin{itemize}
+    \item {binäre RVs}, die jedes Ergebnis auf ein Element einer binären Menge abbilden (z.\,B. $\{-1,1\}$ oder $\{\text{Katze}, \text{keine Katze}\}$);
+    \item {diskrete RVs}, die Werte in einer abzählbaren Menge annehmen (endlich oder abzählbar unendlich);
+    \item {reellwertige RVs}, die Werte in den reellen Zahlen $\mathbb{R}$ annehmen;
+    \item {\gls{vector}-wertige RVs}, die Ergebnisse in den \gls{euclidspace} $\mathbb{R}^{\featuredim}$ abbilden.
+\end{itemize}
+Die \gls{probability}-Theorie verwendet das Konzept der \gls{measurable} Räume, um Eigenschaften von Mengen von RVs rigoros zu definieren und zu untersuchen \cite{BillingsleyProbMeasure}.
+\\
+Siehe auch: \gls{function}, \gls{randomexperiment}, \gls{samplespace}, \gls{probspace}, \gls{vector}, \gls{euclidspace}, \gls{probability}, \gls{measurable}.},
+first={zufällige Variable (RV)},
+firstplural={zufällige Variablen (RVs)},
+plural={RVs},
+text={RV}
+}
+
+\newglossaryentry{probspace}
+{name={Wahrscheinlichkeitsraum}, 
+description={Ein\index{Wahrscheinlichkeitsraum} Wahrscheinlichkeitsraum ist eine mathematische Struktur, die es erlaubt, über ein \gls{randomexperiment} nachzudenken, z.\,B. die Beobachtung eines physikalischen Phänomens. 
+Formal ist ein \gls{probability} Raum $\mathcal{P}$ ein Tripel $(\samplespace, \eventspace, \prob{\cdot})$, wobei
+\begin{itemize}
+    \item $\samplespace$ die \gls{samplespace} ist, die alle möglichen Ausgänge des \gls{randomexperiment} enthält;
+    \item $\eventspace$ eine \gls{sigmaalgebra} ist, d.\,h. eine Menge von Teilmengen von $\samplespace$ (genannt \glspl{event}), die bestimmte Abschluss-Eigenschaften unter Mengenoperationen erfüllt;
+    \item $\prob{\cdot}$ eine \gls{probdist} ist, d.\,h. eine \gls{function}, die jedem \gls{event} $\mathcal{A} \in \eventspace$ eine Wahrscheinlichkeit $P(\mathcal{A}) \in [0,1]$ zuordnet. Diese \gls{function} muss $\prob{\samplespace} = 1$ und $\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ für jede abzählbare Folge paarweise disjunkter \glspl{event} $\mathcal{A}_1, \mathcal{A}_2, \ldots \in \mathcal{F}$ erfüllen.
+\end{itemize}
+\glspl{probability} Räume bilden die Grundlage für \glspl{probmodel}, mit denen das Verhalten von \gls{ml}-Methoden untersucht werden kann \cite{BillingsleyProbMeasure, GrayProbBook, ross2013first}.
+\\
+Siehe auch: \gls{probability}, \gls{randomexperiment}, \gls{samplespace}, \gls{event}, \gls{probdist}, \gls{function}, \gls{probmodel}, \gls{ml}.},
+first={Wahrscheinlichkeitsraum}, 
+text={Wahrscheinlichkeitsraum}
+}
+
+\newglossaryentry{samplespace}
+{name={Ergebnismenge}, 
+description={Eine\index{Ergebnismenge} Ergebnismenge ist die Menge aller möglichen Ausgänge eines \gls{randomexperiment} \cite{BillingsleyProbMeasure, BertsekasProb, papoulis, AshProbMeasure}.
+\\
+Siehe auch: \gls{probspace}.},
+first={Ergebnismenge}, 
+firstplural={Ergebnismengen},
+plural={Ergebnismengen},
+text={Ergebnismenge}
+}
+
+\newglossaryentry{samplespace}
+{name={Ergebnismenge}, 
+description={Eine\index{Ergebnismenge} Ergebnismenge ist die Menge aller möglichen Ausgänge eines \gls{randomexperiment} \cite{BillingsleyProbMeasure, BertsekasProb, papoulis, AshProbMeasure}.
+\\
+Siehe auch: \gls{probspace}.},  
+first={Ergebnismenge}, 
+firstplural={Ergebnismengen},
+plural={Ergebnismengen},
+text={Ergebnismenge}
+}
+
+\newglossaryentry{realization}
+{name={Realisierung}, plural={Realisierungen},
+description={Betrachten wir\index{Realisierung} eine \gls{rv} $\featurevec$, die jeden Ausgang 
+$\outcome \in \samplespace$ eines \gls{probspace} auf ein Element $a$ eines \gls{measurable} Raums $\mathcal{N}$ abbildet \cite{RudinBookPrinciplesMatheAnalysis, BillingsleyProbMeasure, HalmosMeasure}. 
+Eine Realisierung von $\featurevec$ ist jedes Element $\va \in \mathcal{N}$, für das ein Ausgang $\outcome' \in \samplespace$ existiert, sodass $\featurevec(\outcome') = \va$ gilt.
+\\
+Siehe auch: \gls{rv}, \gls{probspace}, \gls{measurable}.}, 
+first={Realisierung},
+text={Realisierung}  
+}
+
+\newglossaryentry{trainset}
+{name={Trainingsmenge}, plural={Trainingsmengen},
+description={Eine\index{Trainingsmenge} Trainingsmenge ist ein \gls{dataset} $\dataset$, das aus einigen \glspl{datapoint} besteht und 
+im Rahmen von \gls{erm} verwendet wird, um eine \gls{hypothesis} $\learnthypothesis$ zu lernen. Der durchschnittliche \gls{loss}
+ von $\learnthypothesis$ auf der Trainingsmenge wird als \gls{trainerr} bezeichnet. Der Vergleich des \gls{trainerr} mit dem \gls{valerr}
+von $\learnthypothesis$ erlaubt eine Diagnose der \gls{ml}-Methode und gibt Hinweise, wie der \gls{valerr} verbessert werden kann (z.\,B. durch
+ Wahl eines anderen \gls{hypospace} oder das Sammeln zusätzlicher \glspl{datapoint}) \cite[Sec. 6.6]{MLBasics}.
+\\
+Siehe auch: \gls{dataset}, \gls{datapoint}, \gls{erm}, \gls{hypothesis}, \gls{loss}, \gls{trainerr}, \gls{valerr}, \gls{ml}, \gls{hypospace}.},
+first={Trainingsmenge},
+text={Trainingsmenge}  
+}
+
+\newglossaryentry{netmodel}
+{name={vernetztes Modell},
+description={Ein\index{vernetztes Modell} vernetztes \gls{model} über einem \gls{empgraph} $\graph = \pair{\nodes}{\edges}$ weist 
+jedem Knoten $\nodeidx \in \nodes$ des \gls{empgraph} $\graph$ ein \gls{localmodel} (d.\,h. einen \gls{hypospace}) zu.
+\\
+Siehe auch: \gls{model}, \gls{empgraph}, \gls{localmodel}, \gls{hypospace}.}, 
+first={vernetztes Modell},
+text={vernetztes Modell}  
+}
+
+\newglossaryentry{batch}
+{name={Batch},
+description={Im\index{Batch} Kontext von \gls{stochGD} bezeichnet ein Batch eine zufällig ausgewählte Teilmenge 
+der gesamten \gls{trainset}. Die \glspl{datapoint} in diesem Batch werden verwendet, um den \gls{gradient} des
+ \gls{trainerr} zu schätzen und damit die \glspl{modelparam} zu aktualisieren.
+\\
+Siehe auch: \gls{stochGD}, \gls{trainset}, \gls{datapoint}, \gls{gradient}, \gls{trainerr}, \glspl{modelparam}.}, 
+first={Batch},
+firstplural={Batches}, 
+plural={Batches}, 
+text={Batch}  
+}
+
+\newglossaryentry{epoch}
+{name={Epoche},
+description={Eine\index{Epoche} Epoche repräsentiert einen vollständigen Durchlauf der gesamten \gls{trainset} durch einen Lern-\gls{algorithmus}. Sie bezeichnet
+ den Zeitpunkt, an dem ein \gls{model} jeden \gls{datapoint} in der Trainingsmenge einmal verarbeitet hat. Das Training eines \gls{model} erfordert in 
+ der Regel mehrere Epochen, da jede Iteration die Anpassung der \glspl{parameter} und die Verbesserung der \glspl{prediction} ermöglicht. Die Anzahl 
+ der Epochen wird vom Benutzer als Hyperparameter vorgegeben und ist entscheidend dafür, wie gut das \gls{model} auf unbekannte Daten generalisiert. 
+ Zu wenige Epochen führen zu \gls{underfitting}, während zu viele Epochen \gls{overfitting} verursachen können.
+\\
+Siehe auch: \gls{trainset}, \gls{algorithm}, \gls{model}, \gls{datapoint}, \gls{parameter}, \gls{prediction}, \gls{underfitting}, \gls{overfitting}.},
+first={Epoche},
+text={Epoche}
+}
+
+\newglossaryentry{netdata}
+{name={vernetzte Daten},
+description={Vernetzte\index{vernetzte Daten} \gls{data} bestehen aus \glspl{localdataset}, die durch ein Konzept paarweiser Ähnlichkeit miteinander in Beziehung stehen. Wir können vernetzte \gls{data} durch einen \gls{graph} darstellen, dessen Knoten \glspl{localdataset} tragen und dessen Kanten paarweise Ähnlichkeiten kodieren. Ein Beispiel für vernetzte \gls{data} findet sich in \gls{fl}-Anwendungen, bei denen \glspl{localdataset} durch räumlich verteilte \glspl{device} erzeugt werden.
+\\
+Siehe auch: \gls{data}, \gls{localdataset}, \gls{graph}, \gls{fl}, \gls{device}.}, 
+first={vernetzte Daten},
+text={vernetzte Daten}  
+}
+
+\newglossaryentry{trainerr}
+{name={Trainingsfehler},
+description={Der\index{Trainingsfehler} durchschnittliche \gls{loss} einer \gls{hypothesis} beim Vorhersagen der \glspl{label} der \glspl{datapoint} in einer \gls{trainset}. Der Trainingsfehler wird manchmal auch als der minimale durchschnittliche \gls{loss} bezeichnet, der durch eine Lösung von \gls{erm} erreicht wird.
+\\
+Siehe auch: \gls{loss}, \gls{hypothesis}, \gls{label}, \gls{datapoint}, \gls{trainset}, \gls{erm}.},
+first={Trainingsfehler},
+text={Trainingsfehler}  
+}
+
+
+\newglossaryentry{datapoint}
+{name={Datenpunkt}, plural={Datenpunkte},
+	description={Ein\index{Datenpunkt} \gls{data}punkt ist jedes Objekt, das Informationen übermittelt~\cite{coverthomas}. 
+		Beispiele sind Studierende, Funksignale, Bäume, Bilder, \glspl{rv}, reelle Zahlen 
+		oder Proteine. Wir beschreiben \gls{data}punkte desselben Typs anhand zweier Kategorien 
+		von Eigenschaften. Die erste Kategorie umfasst \glspl{feature}, also \gls{measurable} oder 
+		berechenbare Eigenschaften eines \gls{data}punkts. Diese Attribute können mithilfe von Sensoren, 
+		Computern oder anderen \gls{data}erfassungssystemen automatisch extrahiert oder berechnet werden. 
+		Bei einem \gls{data}punkt, der eine Patientin oder einen Patienten repräsentiert, könnte ein 
+		\gls{feature} beispielsweise das Körpergewicht sein.\\
+		Die zweite Kategorie umfasst \glspl{label}, also höherstufige Fakten (oder interessierende Größen) – 
+		das heißt, Informationen, die in der Regel menschliche Expertise oder Domänenwissen erfordern, 
+		anstatt direkt messbar zu sein – und die mit dem jeweiligen \gls{data}punkt verknüpft sind. 
+		Die Bestimmung der \glspl{label} eines \gls{data}punkts erfordert üblicherweise menschliche 
+		Fachkenntnis. Für einen \gls{data}punkt, der eine Patientin oder einen Patienten darstellt, 
+		könnte eine von einer Ärztin oder einem Arzt gestellte Krebsdiagnose als \gls{label} dienen. 
+		Abb.\ \ref{fig:datapoint_cowherd_dict} zeigt ein Bild als Beispiel für einen \gls{data}punkt 
+		zusammen mit seinen \glspl{feature} und \glspl{label}.\\
+		Wichtig ist, dass die Einordnung einer Eigenschaft als \gls{feature} oder \gls{label} nicht dem 
+		\gls{data}punkt selbst inhärent ist – es handelt sich um eine Designentscheidung, die von der 
+		spezifischen \gls{ml}-Anwendung abhängt.
+		\begin{figure}[H]
+    		\centering
+    			% Bild als Datenpunkt
+    			\begin{minipage}[t]{0.95\textwidth}
+        			\centering
+        			\includegraphics[width=\textwidth]{assets/CowsAustria.jpg}
+        			\caption*{Ein einzelner \gls{data}punkt.}
+        			\vspace{5mm}
+    			\end{minipage}
+    			% Beschreibung von Merkmalen und Labels
+    			\begin{minipage}[t]{0.95\textwidth}
+        			\Glspl{feature}:
+        			\begin{itemize}
+            			\item $x_{1}, \,\ldots, \,x_{\nrfeatures}$: Farbintensitäten aller Bildpixel.
+            			\item $x_{\nrfeatures+1}$: Zeitstempel der Bildaufnahme.
+            			\item $x_{\nrfeatures+2}$: Räumlicher Aufnahmeort.
+			\end{itemize}
+			\Glspl{label}:
+            		\begin{itemize}
+               	 		\item $\truelabel_{1}$: Anzahl der abgebildeten Kühe. 
+                			\item $\truelabel_{2}$: Anzahl der abgebildeten Wölfe. 
+                			\item $\truelabel_{3}$: Zustand der Weide (z.\,B.\ gesund, überweidet).
+            		\end{itemize}
+    			\end{minipage}
+    			\caption{Veranschaulichung eines \gls{data}punkts in Form eines Bildes. 
+				Verschiedene Eigenschaften des Bildes können als \glspl{feature} 
+				genutzt werden, während übergeordnete Fakten über das Bild als 
+				\glspl{label} dienen können.\label{fig:datapoint_cowherd_dict}}
+		\end{figure}
+ 		Die Unterscheidung zwischen \glspl{feature} und \glspl{label} ist nicht immer eindeutig. 
+ 		Eine Eigenschaft, die in einem Kontext als \gls{label} betrachtet wird (z.\,B.\ eine Krebsdiagnose), 
+ 		kann in einem anderen Kontext als \gls{feature} verwendet werden – insbesondere dann, wenn eine 
+ 		zuverlässige Automatisierung (z.\,B.\ durch Bildanalyse) deren Berechnung ohne menschliches 
+		Eingreifen ermöglicht.
+   		Das Ziel des \gls{ml} besteht im Allgemeinen darin, das \gls{label} eines \gls{data}punkts 
+		auf Basis seiner \glspl{feature} vorherzusagen.\\
+		Siehe auch: \gls{data}, \gls{feature}, \gls{label}, \gls{dataset}.}, 
+	first={Datenpunkt},
+	text={Datenpunkt}  
+}
+
+
+\newglossaryentry{valerr}
+{name={Validierungsfehler}, plural={Validierungsfehler},
+ 	description={Betrachte\index{Validierungsfehler} eine durch ein bestimmtes 
+ 		\gls{ml}-Verfahren, z.\,B.\ mittels \gls{erm} auf einem \gls{trainset}, 
+ 		gewonnene \gls{hypothesis} $\learnthypothesis$. 
+ 		Der mittlere \gls{loss} von $\learnthypothesis$ auf einem \gls{valset}, 
+ 		das sich vom \gls{trainset} unterscheidet, wird als \gls{validation}sfehler bezeichnet.
+			\\
+		Siehe auch: \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{trainset}, \gls{loss}, \gls{valset}, \gls{validation}.},
+	first={Validierungsfehler},
+	text={Validierungsfehler}  
+}
+
+
+\newglossaryentry{validation} 
+{name={Validierung},
+	description={Betrachte\index{Validierung} eine \gls{hypothesis} $\learnthypothesis$, 
+	   die mittels eines \gls{ml}-Verfahrens, z.\,B.\ durch Lösen von \gls{erm} 
+	   auf einem \gls{trainset} $\dataset$, erlernt wurde. 
+		\begin{figure}[htbp] 
 			\centering
-			\begin{tabular}{|l|c|c|c|c|c|}
-				\hline
-				\textbf{FMI Station} & \textbf{Year} & \textbf{Month} & \textbf{Day} & \textbf{Time} & \textbf{Temp. [°C]} \\ 
-				\hline
-				Kustavi Isokari & 2023 & 4 & 1 & 00:00 & -0.2 \\ \hline
-				Kustavi Isokari & 2023 & 4 & 2 & 00:00 & -0.1 \\ \hline
-				Kustavi Isokari & 2023 & 4 & 3 & 00:00 & -1.0 \\ \hline
-				Kustavi Isokari & 2023 & 4 & 4 & 00:00 & -0.4 \\ \hline
-				Kustavi Isokari & 2023 & 4 & 5 & 00:00 & 0.9 \\ \hline
-			\end{tabular}
-			\caption{Beobachtungen der Wetter-Station nahe der finnischen Gemeinde \emph{Kustavi}.}
-			\label{tab:temperature}
-		\end{table}
-		Im relationalen Modell ist die Reihenfolge der Zeilen irrelevant und für 
-		jedes Attribut (Spalte) muss ein Wertebereich definiert sein. Diese Wertebereiche 
-		entsprechen dem Merkmalsraum der Datenpunkte. Während das relationale Modell
-		ein nützliches Instrument für die Beschreibung und Analyse von KI System bietet, ist 
-		es unzureichend für die Dokumentation von vertrauenswürdiger KI. Moderne Ansätze wie
-		Datenblätter für Datensätze bieten eine umfassendere Dokumentation, einschließlich Details 
-		zum Erfassungsprozess des Datensatzes und zur beabsichtigten Verwendung \cite{DatasheetData2021}.},first={dataset},text={dataset}  
+			\begin{tikzpicture}[scale=1.2,x=1.5cm]
+				% Quadratische Funktion: y = 0.5 x^2
+				\draw[thick, domain=-0.5:2.5, samples=10, smooth]
+				plot (\x,{0.5*\x*\x})
+				node[pos=0, above left]
+				{$\learnthypothesis(\feature)$};
+				% Trainingsdatenpunkte
+				\fill[blue] (0,0) circle (4pt);
+				\fill[blue] (2,2) circle (4pt);
+				% Manuelle Legende
+				\node[below right] at (0,0) {\gls{trainset}};
+				% Validierungsdatenpunkt 
+				\fill[red] (1,3) circle (4pt);
+				\node[above,yshift=2pt] at (1,3) {\gls{valset}};
+			\end{tikzpicture}
+			\caption{Veranschaulichung der Validierung. Die blauen Punkte stellen die 
+			\glspl{datapoint} im \gls{trainset} dar, während der rote Punkt einen 
+			\gls{datapoint} im \gls{valset} repräsentiert. Die 
+			\gls{hypothesis} $\learnthypothesis$ (schwarze Kurve) passt die \glspl{datapoint} im 
+			\gls{trainset} perfekt an, verursacht jedoch einen großen \gls{loss} auf dem 
+			\gls{datapoint} im \gls{valset}.}
+		\end{figure} 
+		Die Validierung bezeichnet den Prozess, bei dem der durch die 
+		\gls{hypothesis} $\learnthypothesis$ verursachte \gls{loss} auf einer Menge von 
+		\glspl{datapoint} ausgewertet wird, die nicht im \gls{trainset} $\dataset$ enthalten sind. 
+		Diese Menge von \glspl{datapoint} wird als \gls{valset} bezeichnet. 
+		Der durchschnittliche \gls{loss} von $\learnthypothesis$ auf dem \gls{valset} 
+		wird als \gls{valerr} bezeichnet.\\
+		Siehe auch: \gls{trainset}, \gls{overfitting}, \gls{generalization}, \gls{valerr}, \gls{valset}.},
+ first={Validierung},
+ text={Validierung}  
+}
+
+\newglossaryentry{quadfunc}
+{name={quadratische Funktion},
+	description={Eine\index{quadratische Funktion} \gls{function} $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ der Form 
+		$$f(\weights) =  \weights\,^{T} \mathbf{Q} \mathbf{w} + \mathbf{q}\,^{T} \weights + a,$$ 
+		wobei \gls{matrix} $\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$, 
+		\gls{vector} $\vq \in \mathbb{R}^{\nrfeatures}$ und der Skalar $a \in \mathbb{R}$ gegeben sind.
+		\\
+		Siehe auch: \gls{function}, \gls{matrix}, \gls{vector}. },
+	first={quadratische Funktion},
+	text={quadratische Funktion}  
+}
+
+\newglossaryentry{valset}
+{name={Validierungsset},
+ 	description={Ein\index{Validierungsset} Satz von \glspl{datapoint}, der verwendet wird, 
+  		um das \gls{risk} einer \gls{hypothesis} $\learnthypothesis$ abzuschätzen, 
+  		die mittels eines \gls{ml}-Verfahrens (z.\,B.\ durch Lösen von \gls{erm}) erlernt wurde. 
+		Der durchschnittliche \gls{loss} von $\learnthypothesis$ auf dem 
+		\gls{validation} set wird als \gls{valerr} bezeichnet und kann zur Diagnose einer 
+		\gls{ml}-Methode verwendet werden (siehe \cite[Sec. 6.6]{MLBasics}). 
+		Der Vergleich zwischen \gls{trainerr} und \gls{valerr} kann Hinweise zur Verbesserung 
+		der \gls{ml}-Methode geben (z.\,B.\ durch die Verwendung eines anderen \gls{hypospace}). 
+			\\
+		Siehe auch: \gls{datapoint}, \gls{risk}, \gls{hypothesis}, \gls{ml}, \gls{erm}, \gls{loss}, \gls{validation}, \gls{valerr}, \gls{trainerr}, \gls{hypospace}.},
+	first={Validierungsset},
+	text={Validierungsset}  
+}
+
+\newglossaryentry{testset}
+{name={Testset},
+	description={Ein\index{Testset} Satz von \glspl{datapoint}, der weder zur 
+		Trainierung eines \gls{model} (z.\,B.\ via \gls{erm}) noch zur Auswahl zwischen 
+		unterschiedlichen \glspl{model} im Rahmen eines \gls{valset} verwendet wurde.
+				\\
+		Siehe auch: \gls{datapoint}, \gls{model}, \gls{erm}, \gls{valset}.},
+	first={Testset},
+	text={Testset}  
+}
+
+\newglossaryentry{modelsel}
+{name={Modellauswahl},
+	description={In\index{Modellauswahl} \gls{ml} bezeichnet die \gls{model}auswahl 
+		den Prozess, zwischen verschiedenen Kandidaten-\glspl{model} zu wählen. 
+		In seiner grundlegendsten Form besteht die \gls{model}auswahl aus: 
+		1) Training jedes Kandidaten-\gls{model}; 
+		2) Berechnung der \gls{valerr} für jedes trainierte \gls{model}; und 
+		3) Auswahl des \gls{model} mit der kleinsten \gls{valerr} \cite[Ch. 6]{MLBasics}. 
+				\\
+		Siehe auch: \gls{ml}, \gls{model}, \gls{valerr}.},
+	first={Modellauswahl},
+	text={Modellauswahl}  
+}
+
+\newglossaryentry{linclass}
+{name={linearer Klassifikator}, 
+	description={Betrachten wir\index{linearer Klassifikator} \glspl{datapoint}, die durch numerische \glspl{feature} $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
+	    	und ein \gls{label} $\truelabel \in \labelspace$ aus einem endlichen \gls{labelspace} $\labelspace$ charakterisiert sind. 
+		Ein linearer \gls{classifier} zeichnet sich dadurch aus, dass die \glspl{decisionregion} 
+		durch Hyperflächen in $\mathbb{R}^{\featuredim}$ getrennt sind \cite[Ch. 2]{MLBasics}.
+				\\
+		Siehe auch: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{labelspace}, \gls{classifier}, \gls{decisionregion}.},
+	first={linearer Klassifikator},
+	text={linearer Klassifikator} 
+}
+
+\newglossaryentry{erm}
+{name={Empirische Risikominimierung (ERM)}, 
+	description={ERM\index{empirische Risikominimierung (ERM)} ist das \gls{optproblem}, 
+	eine \gls{hypothesis} $\learnthypothesis \in \hypospace$ auszuwählen, die den 
+	durchschnittlichen \gls{loss} (oder \gls{emprisk}) auf einem \gls{trainset} $\dataset$ minimiert. 
+	Die \gls{hypothesis} wird aus einer \gls{hypospace} (oder \gls{model}) $\hypospace$ gewählt. 
+	Das \gls{dataset} $\dataset$ wird als \gls{trainset} bezeichnet. Verschiedene \gls{erm}-basierte 
+	\gls{ml}-Methoden ergeben sich aus unterschiedlichen Designentscheidungen für das \gls{dataset}, 
+	\gls{model} und \gls{loss} \cite[Ch. 3]{MLBasics}. 
+	Fig.\ \ref{fig_erm_dict} illustriert ERM für ein \gls{linmodel} 
+	und \glspl{datapoint}, die durch eine einzelne \gls{feature} $\feature$ und ein \gls{label} $\truelabel$ charakterisiert sind. 
+	Die \gls{hypothesis} $\hypothesis$ ist eine \gls{linearmap}, die das \gls{label} 
+	eines \gls{datapoint} als lineare \gls{function} seiner \gls{feature} $\feature$ vorhersagt, d.\,h. 
+	$\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, wobei $\weight_{1}$ 
+	und $\weight_{0}$ die \glspl{modelparam} der \gls{hypothesis} $\hypothesis$ sind. 
+	Das ERM-Problem besteht darin, die \glspl{modelparam} $\weight_{1}$ und $\weight_{0}$ zu finden, die 
+	den durchschnittlichen \gls{loss} (oder \gls{emprisk}) minimieren, der von der \gls{hypothesis} 
+	$\hypothesis$ auf dem \gls{trainset} $\dataset$ verursacht wird.
+    \begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  \def\slope{0.4}
+  \def\intercept{2.0}
+  \def\xmin{0}
+  \def\xmax{6.5}
+  \draw[color=black, thick, dashed, domain=\xmin:\xmax, variable=\x] plot ({\x},{\slope*\x + \intercept}); 
+	% Label am Endpunkt (xmax, h(xmax))
+   \coordinate (hend) at (\xmax,{\slope*\xmax + \intercept});
+	\node[above right] at (hend) {$\hypothesis(\feature)$};
+   \foreach \i/\xval/\yval in {1/1.2/1.8, 2/3.0/2.6, 3/5.0/5.7} {
+      % vorhergesagtes Label auf der Hypothesenlinie
+      \coordinate (l\i) at (\xval, {\slope*\xval + \intercept});
+      % tatsächliches Label
+      \coordinate (n\i) at (\xval, \yval);
+      % Datenpunkt zeichnen
+      \node[circle,draw,fill=blue,minimum size=6pt,scale=0.6] (pt\i) at (n\i) {};
+      % Residualpfeil
+      \draw[<->, color=blue, thick] (l\i) -- (n\i);
+  }
+  % Labels für Datenpunkte
+  \node[anchor=west,below,yshift=-2pt] at (n1) {$\big(\feature^{(1)},\,\truelabel^{(1)}\big)$};
+  \node[anchor=west,below]        at (n2) {$\big(\feature^{(2)},\,\truelabel^{(2)}\big)$};
+  \node[anchor=west,above]   at (n3) {$\big(\feature^{(3)},\,\truelabel^{(3)}\big)$};
+\end{tikzpicture}
+\caption{ERM lernt eine \gls{hypothesis} $\hypothesis \in \hypospace$ 
+aus einem \gls{model} $\hypospace$, indem der durchschnittliche \gls{loss} 
+(oder \gls{emprisk}) $\frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
+auf einem \gls{trainset} $\dataset$ minimiert wird.}
+\label{fig_erm_dict}
+\end{center}
+\end{figure}
+		Siehe auch: \gls{optmethod}, \gls{emprisk}, \gls{trainset}, \gls{loss}, \gls{optproblem}.},
+	first={Empirische Risikominimierung (ERM)},
+	text={ERM} 
+}
+
+
+\newglossaryentry{multilabelclass}
+{name={Multi-Label-Klassifikation}, 
+	description={Multi-\gls{label} 
+		\gls{classification}\index{Multi-Label-Klassifikation}-Probleme und -Methoden verwenden \glspl{datapoint}, 
+		die durch mehrere \glspl{label} charakterisiert sind. Zum Beispiel betrachte man einen \gls{datapoint}, 
+		der ein Bild repräsentiert und zwei \glspl{label} besitzt: Ein \gls{label} zeigt das Vorhandensein 
+		eines Menschen im Bild an, ein anderes \gls{label} das Vorhandensein eines Autos.
+				\\
+		Siehe auch: \gls{label}, \gls{classification}, \gls{datapoint}.},
+	first={Multi-Label-Klassifikation},
+	text={Multi-Label-Klassifikation} 
+}
+
+\newglossaryentry{training}
+{name={Training}, 
+	description={Im Kontext von \gls{ml} bezeichnet Training\index{Training} den Prozess, 
+	eine nützliche \gls{hypothesis} $\learnthypothesis$ aus einem \gls{model} $\hypospace$ zu lernen. 
+	Das Training eines \gls{model} $\hypospace$ wird durch den \gls{loss} auf einer Menge von 
+	\glspl{datapoint} gesteuert, die als \gls{trainset} dienen. Bei \glspl{parammodel}, 
+	bei denen jede \gls{hypothesis} $\hypothesis^{(\weights)}$ durch eine bestimmte Wahl der 
+	\glspl{modelparam} charakterisiert ist, besteht das Training darin, eine optimale Wahl für die 
+	\glspl{modelparam} $\weights$ zu finden. Ein weit verbreiteter Ansatz zum Training ist \gls{erm}, 
+	bei dem eine \gls{hypothesis} durch Minimierung des durchschnittlichen \gls{loss} auf dem 
+	\gls{trainset} gelernt wird. Eine der Hauptherausforderungen in \gls{ml} besteht darin, die Diskrepanz 
+	zwischen dem \gls{loss} auf dem \gls{trainset} und dem \gls{loss} auf anderen (nicht gesehenen) 
+	\glspl{datapoint} zu kontrollieren.
+				\\
+		Siehe auch: \gls{erm}, \gls{loss}, \gls{model}.},
+	first={Training},
+	text={Training}, 
+	user1={trainiert}
+}
+
+\newglossaryentry{ssl}
+{name={Semi-Supervised Learning (SSL)}, 
+	description={SSL\index{Semi-Supervised Learning (SSL)}-Methoden verwenden unbeschriftete \glspl{datapoint}, 
+		um das Lernen einer \gls{hypothesis} aus \glspl{labeled datapoint} zu unterstützen \cite{SemiSupervisedBook}. 
+		Dieser Ansatz ist besonders nützlich für \gls{ml}-Anwendungen, bei denen eine große Anzahl unbeschrifteter 
+		\glspl{datapoint} vorliegt, aber nur eine begrenzte Anzahl \glspl{labeled datapoint} verfügbar ist.
+			\\
+		Siehe auch: \gls{datapoint}, \gls{hypothesis}, \gls{labeled datapoint}, \gls{ml}.}, 
+	first={Semi-Supervised Learning (SSL)},
+	text={SSL} 
+}
+
+\newglossaryentry{objfunc}
+{name={Zielfunktion}, plural={Zielfunktionen}, 
+	description={Eine\index{Zielfunktion} Zielfunktion ist eine \gls{function}, die jeder Wahl 
+		$\weights$ einer Variablen, die optimiert werden soll, einen numerischen Zielfunktionswert 
+		$f(\weights)$ zuordnet (siehe Abb. \ref{fig_obj_func_dict}). Im Kontext von \gls{ml} 
+		könnte die Optimierungsvariable die \glspl{modelparam} einer \gls{hypothesis} $\hypothesis^{(\weights)}$ sein. 
+		Gängige Zielfunktionen sind das \gls{risk} (d. h. erwarteter \gls{loss}) oder das \gls{emprisk} 
+		(d. h. durchschnittlicher \gls{loss} über ein \gls{trainset}). 
+		\gls{ml}-Methoden wenden Optimierungstechniken wie \glspl{gdmethod} an, um die Wahl $\weights$ 
+		mit dem optimalen Wert (z. B. \gls{minimum} oder \gls{maximum}) der Zielfunktion zu finden.
+		\\
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[scale=1.0]
+				% Achsen
+				\draw[->] (-0.5,0) -- (4.5,0) node[right] {$\weights$};
+				\draw[->] (0,-0.5) -- (0,3.5);
+				% Zielfunktion-Kurve
+				\draw[thick,domain=0.3:4,smooth,variable=\x] 
+				plot ({\x}, {0.5*(\x-2)^2 + 0.5});
+				% Beschriftung der Kurve
+				\node at (3.5,2.8) {$f(\weights)$};
+			\end{tikzpicture} 
+			\end{center}
+		\caption{Eine Zielfunktion ordnet jedem möglichen Wert $\weights$ einer 
+		Optimierungsvariablen, z. B. den \glspl{modelparam} eines \gls{ml}-\gls{model}, 
+		einen Wert $f(\weights)$ zu, der die Nützlichkeit von $\weights$ misst.\label{fig_obj_func_dict}}
+		\end{figure} 
+		Siehe auch: \gls{loss}, \gls{emprisk}, \gls{erm}, \gls{optproblem}.},
+	first={Zielfunktion},
+	text={Zielfunktion}, 
+	plural={Zielfunktionen} 
+}
+
+
+\newglossaryentry{regularizer}
+{name={Regularisierer}, 
+ description={Ein Regularisierer\index{Regularisierer} 
+  weist jeder \gls{hypothesis} $\hypothesis$ aus einem \gls{hypospace} $\hypospace$ eine quantitative 
+  Kennzahl $\regularizer{\hypothesis}$ zu, die angibt, inwieweit die \gls{prediction}-Fehler der \gls{hypothesis} 
+  auf \glspl{datapoint} innerhalb und außerhalb eines \gls{trainset} variieren könnten. 
+  \Gls{ridgeregression} verwendet den Regularisierer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{2}^{2}$ 
+  für lineare \gls{hypothesis}-\glspl{map} $\hypothesis^{(\weights)}(\featurevec) \defeq \weights\,^{T} \featurevec$ 
+  \cite[Kap. 3]{MLBasics}. 
+  \Gls{lasso} verwendet den Regularisierer $\regularizer{\hypothesis} \defeq \normgeneric{\weights}{1}$ 
+  für lineare \gls{hypothesis}-\glspl{map} $\hypothesis^{(\weights)}(\featurevec) \defeq \weights\,^{T} \featurevec$ 
+  \cite[Kap. 3]{MLBasics}.
+   \\
+  Siehe auch: \gls{ridgeregression}, \gls{lasso}, \gls{loss}, \gls{objfunc}. },
+ first={Regularisierer},
+ text={Regularisierer}
+}
+
+\newglossaryentry{regularization}
+{name={Regularisierung}, 
+ description={Eine zentrale Herausforderung moderner \gls{ml}-Anwendungen ist, dass häufig sehr große \glspl{model} mit einer 
+  \gls{effdim} in Milliardenhöhe eingesetzt werden. Das Training eines hochdimensionalen \gls{model} 
+  mittels einfacher \gls{erm}-basierter Methoden ist anfällig für \gls{overfitting}, d.\,h. die gelernte 
+  \gls{hypothesis} liefert gute Ergebnisse auf dem \gls{trainset}, aber schlechte Vorhersagen außerhalb des \gls{trainset}. 
+  Regularisierung bezeichnet Modifikationen einer gegebenen \gls{erm}-Instanz, um \gls{overfitting} zu vermeiden, 
+  d.\,h., um sicherzustellen, dass die gelernte \gls{hypothesis} auch auf bisher ungesehenen \glspl{datapoint} 
+  nicht wesentlich schlechter abschneidet. Es gibt drei Wege, Regularisierung umzusetzen:
+  \begin{enumerate}[label=\arabic*)]
+   \item {\Gls{model}-Pruning:} Das ursprüngliche \gls{model} $\hypospace$ wird auf ein kleineres \gls{model} $\hypospace'$ reduziert. 
+   Für ein parametrisches \gls{model} kann das Pruning durch Einschränkungen der \glspl{modelparam} erfolgen 
+   (z.\,B. $w_{1} \in [0.4,0.6]$ für das Gewicht der \gls{feature} $x_{1}$ in \gls{linreg}).
+   \item {\Gls{loss}-Bestrafung:} Die \gls{objfunc} der \gls{erm} wird durch Hinzufügen eines Strafterms zur \gls{trainerr} 
+   modifiziert. Dieser Term schätzt, wie viel höher der erwartete \gls{loss} (oder \gls{risk}) im Vergleich zum 
+   durchschnittlichen \gls{loss} auf dem \gls{trainset} ist.
+   \item {\Gls{dataaug}:} Das \gls{trainset} $\dataset$ wird durch Hinzufügen von leicht veränderten Kopien der 
+   ursprünglichen \glspl{datapoint} vergrößert. Ein Beispiel für eine solche Veränderung ist das Hinzufügen einer 
+   \gls{realization} einer \gls{rv} zum \gls{featurevec} eines \gls{datapoint}.
+  \end{enumerate}
+  Abbildung \ref{fig_equiv_dataaug_penal_dict} illustriert diese drei Ansätze der Regularisierung. 
+  Die Wege stehen in engem Zusammenhang und sind teilweise vollständig äquivalent. Beispielsweise wirkt 
+  \gls{dataaug} unter Verwendung von \glspl{gaussrv}, um die \glspl{featurevec} im \gls{trainset} der 
+  \gls{linreg} zu verändern, genauso wie das Hinzufügen des Strafterms $\lambda \normgeneric{\weights}{2}^2$ 
+  zur \gls{trainerr} (d.\,h. \gls{ridgeregression}). Die Wahl des Regularisierungswegs kann sich nach der 
+  verfügbaren Recheninfrastruktur richten; so ist \gls{dataaug} häufig einfacher umzusetzen als \gls{model}-Pruning.
+   \\
+  Siehe auch: \gls{overfitting}, \gls{dataaug}, \gls{validation}, \gls{ridgeregression}, \gls{lasso}, \gls{modelsel}. },
+ first={Regularisierung},
+ text={Regularisierung}
+}
+
+\newglossaryentry{rerm}
+{name={regularisierte empirische Risikominimierung (RERM)}, 
+ description={Beim klassischen \gls{erm} wird eine \gls{hypothesis} (oder ein \gls{model}) $\hypothesis \in \hypospace$ 
+  ausschließlich anhand des \gls{emprisk} $\emprisk{\hypothesis}{\dataset}$ auf einem \gls{trainset} $\dataset$ gelernt. 
+  Um \gls{erm} weniger anfällig für \gls{overfitting} zu machen, kann \gls{regularization} implementiert werden, 
+  indem ein (skalierter) \gls{regularizer} $\regularizer{\hypothesis}$ in das Lernziel einbezogen wird. 
+  Dies führt zu RERM\index{regularisierte empirische Risikominimierung (RERM)}:
+  \begin{equation}
+   \label{equ_def_rerm_dict}
+   \learnthypothesis \in \argmin_{\hypothesis \in \hypospace} \emprisk{\hypothesis}{\dataset} + \regparam \regularizer{\hypothesis}.
+  \end{equation}
+  Der \gls{parameter} $\regparam \geq 0$ steuert die Stärke der \gls{regularization}. Für $\regparam = 0$ 
+  entspricht dies dem klassischen \gls{erm} ohne Regularisierung. Mit zunehmendem $\regparam$ wird die 
+  gelernte \gls{hypothesis} zunehmend in Richtung kleiner Werte von $\regularizer{\hypothesis}$ verzerrt. 
+  Der Term $\regparam \regularizer{\hypothesis}$ in der \gls{objfunc} von \eqref{equ_def_rerm_dict} 
+  kann intuitiv als Surrogat für den erwarteten Anstieg des \gls{loss} außerhalb des \gls{trainset} 
+  verstanden werden. Diese Intuition kann formalisiert werden, z.\,B. bei einem \gls{linmodel} mit \gls{sqerrloss} 
+  und dem Regularisierer $\regularizer{\hypothesis} = \normgeneric{\weights}{2}^{2}$. 
+  In diesem Fall entspricht $\regparam \regularizer{\hypothesis}$ dem erwarteten Anstieg des \gls{loss}, 
+  der durch das Hinzufügen von \glspl{gaussrv} zu den \glspl{featurevec} im \gls{trainset} entsteht 
+  \cite[Kap. 3]{MLBasics}. 
+  Eine principled Konstruktion des Regularisierers $\regularizer{\hypothesis}$ ergibt sich aus 
+  approximativen oberen Schranken für den \gls{generalization}-Fehler. Die resultierende RERM-Instanz 
+  wird als \gls{srm} bezeichnet \cite[Abschnitt 7.2]{ShalevShwartz2009}.
+   \\
+  Siehe auch: \gls{erm}, \gls{regularization}, \gls{loss}, \gls{srm}. },
+ first={regularisierte empirische Risikominimierung (RERM)},
+ text={RERM}
+}
+
+\newglossaryentry{generalization}
+{name={Generalisierung}, plural={Generalisierungen}, 
+	description={Generalisierung\index{Generalisierung} bezeichnet die Fähigkeit eines auf einem \gls{trainset} trainierten \gls{model}, genaue \glspl{prediction} für neue, bisher nicht gesehene \glspl{datapoint} zu liefern. Dies ist ein zentrales Ziel von \gls{ml} und \gls{ai}, d.h. Muster zu lernen, die über das \gls{trainset} hinaus gültig sind. Die meisten \gls{ml}-Systeme verwenden \gls{erm}, um eine \gls{hypothesis} $\learnthypothesis \in \hypospace$ zu lernen, indem der mittlere \gls{loss} über ein \gls{trainset} von \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$, bezeichnet als $\trainset$, minimiert wird. Der Erfolg auf dem \gls{trainset} garantiert jedoch keinen Erfolg auf unbekannten \gls{data} – diese Diskrepanz ist die Herausforderung der Generalisierung.\\
+	Um Generalisierung mathematisch zu untersuchen, muss das Konzept der „nicht gesehenen“ \gls{data} formalisiert werden. Ein verbreiteter Ansatz ist die Annahme eines \gls{probmodel} für die Datengenerierung, z.B. die \gls{iidasspt}. Hier interpretieren wir \glspl{datapoint} als unabhängige \glspl{rv} mit identischer \gls{probdist} $p(\datapoint)$. Diese \gls{probdist}, die als fest, aber unbekannt angenommen wird, ermöglicht es, das \gls{risk} eines trainierten \gls{model} $\learnthypothesis$ als den erwarteten \gls{loss} zu definieren:
+	\[
+	\risk{\learnthypothesis}=\expect_{\datapoint \sim p(\datapoint)} \big\{ \loss(\learnthypothesis, \datapoint) \big\}.
+	\]
+	Die Differenz zwischen \gls{risk} $\risk{\learnthypothesis}$ und \gls{emprisk} $\emprisk{\learnthypothesis}{\trainset}$ wird als \gls{gengap} bezeichnet. Werkzeuge aus der \gls{probability}-Theorie, wie \glspl{concentrationinequ} und uniforme \gls{convergence}, erlauben es, diese Lücke unter bestimmten Bedingungen zu beschränken \cite{ShalevMLBook}.\\
+	Generalisierung ohne \gls{probability}: Die \gls{probability}-Theorie ist eine Möglichkeit, die Generalisierung eines \gls{model} über das \gls{trainset} hinaus zu untersuchen, aber nicht die einzige. Eine weitere Möglichkeit besteht darin, einfache deterministische Änderungen an den \glspl{datapoint} im \gls{trainset} vorzunehmen. Die Grundidee ist, dass ein gutes \gls{model} $\learnthypothesis$ robust sein sollte, d.h., seine \gls{prediction} $\learnthypothesis(\featurevec)$ sollte sich nicht stark ändern, wenn wir die \glspl{feature} $\featurevec$ eines \gls{datapoint} $\datapoint$ leicht verändern. Beispielsweise sollte ein auf Smartphone-Fotos trainierter Objektdetektor das Objekt weiterhin erkennen, wenn einige zufällige Pixel maskiert werden \cite{OnePixelAttack}. Ebenso sollte er das gleiche Ergebnis liefern, wenn das Objekt im Bild rotiert wird \cite{MallatUnderstandingDeepLearning}. Siehe Abb. \ref{fig:polynomial_fit_dict} für eine visuelle Darstellung.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.8]
+			\draw[lightblue, fill=lightblue, opacity=0.5] (3, 2) ellipse (6cm and 2cm);
+			\node[black] at (6, 3) {$p(\datapoint)$};
+			\fill[blue] (1, 3) circle (4pt) node[below, xshift=0pt, yshift=0pt] {$\datapoint^{(1)}$};
+			\fill[blue] (5, 1) circle (4pt) node[below] {$\datapoint^{(2)}$};
+			\fill[blue] (1.6, 3) circle (3pt);
+			\fill[blue] (0.4, 3) circle (3pt);
+			\draw[<->, thin] (1, 3) -- (1.6, 3);
+			\draw[<->, thin] (1, 3) -- (0.4, 3);
+			\fill[blue] (5.6, 1) circle (3pt);
+			\fill[blue] (4.4, 1) circle (3pt);
+			\draw[<->, thin] (5, 1) -- (5.6, 1);
+			\draw[<->, thin] (5, 1) -- (4.4, 1);
+			\draw[black, thick, domain=0:6, smooth] plot (\x, {- 1*\x + 5});
+			\node[black] at (3, 2.5) [right] {$\learnthypothesis$};
+		\end{tikzpicture}
+		\caption{Zwei \glspl{datapoint} $\datapoint^{(1)},\datapoint^{(2)}$, die als \gls{trainset} verwendet werden, 
+		um eine \gls{hypothesis} $\learnthypothesis$ mittels \gls{erm} zu lernen. Wir können $\learnthypothesis$ außerhalb von $\trainset$ 
+		entweder über eine \gls{iidasspt} mit zugrunde liegender \gls{probdist} $p(\datapoint)$ oder durch Perturbation der \glspl{datapoint} 
+		evaluieren.}
+		\label{fig:polynomial_fit_dict}
+	\end{figure}
+	See also: \gls{erm}, \gls{iidasspt}, \gls{overfitting}, \gls{validation}.},
+	first={Generalisierung},
+	text={Generalisierung} 
+}
+
+\newglossaryentry{gengap}
+{name={Generalisierungslücke}, 
+	description={Die \Gls{generalization}slücke bezeichnet den Unterschied\index{Generalisierungslücke} 
+	zwischen der Leistung einer \gls{hypothesis} $\hypothesis \in \hypospace$ auf dem \gls{trainset} $\trainset$ 
+	und ihrer Leistung auf \glspl{datapoint} außerhalb von $\trainset$. Diese Idee lässt sich präzise mithilfe eines \gls{probmodel} 
+	formalisieren, mit dem man das \gls{risk} (oder den erwarteten \gls{loss}) $\risk{\learnthypothesis}$ 
+	einer \gls{hypothesis} $\hypothesis$ berechnen kann.
+	\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}[x=3cm, y=1cm]
+			  % --- editierbare Grenzen für den vertikalen Streifen (Hypothesenraum) ---
+  			\def\hmin{0.2}   
+  			\def\hmax{0.8}   
+  			\def\ymin{-2.1}  
+  			\def\ymax{4.2}   
+  			\fill[gray!40, opacity=0.35] (\hmin,\ymin) rectangle (\hmax,\ymax);
+  			\draw[gray!60] (\hmin,\ymin) -- (\hmin,\ymax);
+  			\draw[gray!60] (\hmax,\ymin) -- (\hmax,\ymax);
+  			\node[rotate=0] at ({(\hmin+\hmax)/2}, {\ymax-0.2}) {$\hypospace$};
+			\node[anchor=west] at (2, 4) {$\risk{\hypothesis}$};
+			\draw[line width=1, domain=-2:1, samples=100,dashed] plot  ({\x+1}, {\x*\x -0.5}) node[right] {$\emprisk{\dataset}{\hypothesis}$};
+			\draw[line width=1, domain=-1:2, samples=100] plot ({\x}, {\x*\x});
+			\draw[<->, thick] (1, -0.5) -- (1, 1) node[midway, right] {Lücke};
+            \draw[->, thick] (-1.2,-1) -- (2.2,-1) node[below right] {$\hypothesis$};
+		\end{tikzpicture}
+	\end{center}
+	\caption{Die Generalisierungslücke kann als Differenz zwischen dem \gls{risk} $\risk{\hypothesis}$ 
+	und dem mittleren \gls{loss} (oder \gls{emprisk}) $\emprisk{\hypothesis}{\trainset}$ auf einem \gls{trainset} definiert werden.}
+\end{figure}
+	In der Praxis ist die zugrunde liegende \gls{probdist} der \gls{expectation} unbekannt, 
+	deshalb muss die Erwartung anhand beobachteter \glspl{datapoint} geschätzt werden. 
+	\Gls{validation}-Techniken verwenden unterschiedliche Konstruktionen eines \gls{valset}, das sich vom \gls{trainset} unterscheidet, 
+	um die \gls{generalization}slücke abzuschätzen.\\
+	See also: \gls{generalization}, \gls{validation}, \gls{erm}, \gls{lossfunc}.}, 
+	first={Generalisierungslücke}, 
+	text={Generalisierungslücke}
+}	
+
+\newglossaryentry{concentrationinequ}
+{name={Konzentrationsungleichung}, 
+	description={Eine obere Schranke für die \gls{probability}\index{Konzentrationsungleichung}, 
+	dass eine \gls{rv} um mehr als einen vorgegebenen Betrag von ihrem \gls{expectation} abweicht \cite{Wain2019}. 
+	\\
+	See also: \gls{probability}, \gls{rv}, \gls{expectation}.}, 
+	first={Konzentrationsungleichung},
+	firstplural={Konzentrationsungleichungen},
+	plural={Konzentrationsungleichungen},  
+	text={Konzentrationsungleichung}
+}
+
+\newglossaryentry{boosting}
+{name={Boosting}, 
+	description={Boosting\index{Boosting} ist ein iteratives \gls{optmethod}, um eine genaue 
+		\gls{hypothesis} \gls{map} (oder einen starken Lerner) zu lernen, indem nacheinander weniger genaue 
+		\gls{hypothesis}-\glspl{map} (sogenannte schwache Lerner) kombiniert werden \cite[Ch. 10]{hastie01statisticallearning}.
+		Schwache Lerner können z.B. flache \glspl{decisiontree} sein, die kombiniert werden, um einen tiefen \gls{decisiontree} zu erhalten. 
+		Boosting kann als Verallgemeinerung von \glspl{gdmethod} für \gls{erm} unter Verwendung parametrischer \glspl{model} 
+		und glatter \glspl{lossfunc} verstanden werden \cite{Friedman2001}. 
+		Analog zu \gls{gd}, das \glspl{modelparam} iterativ aktualisiert, um das \gls{emprisk} zu reduzieren, 
+		kombiniert Boosting iterativ \gls{hypothesis}-\glspl{map} (z.B. durch Summation), um das \gls{emprisk} zu verringern 
+		(siehe Abb. \ref{fig_boosting_dict}). Ein weit verbreitetes Beispiel ist \gls{gradient} Boosting, das 
+		\glspl{gradient} der \gls{lossfunc} für die Kombination schwacher Lerner verwendet \cite{Friedman2001}.
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=1.2]
+					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$\hypothesis$};
+					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\lossfunc{\vz}{\hypothesis}$};
+					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
+					\foreach \x/\label in {0.7/$\hypothesis^{(0)}$, 1.5/$\hypothesis^{(1)}$, 2.3/$\hypothesis^{(2)}$, 3.0/$\hypothesis^{(3)}$} {
+						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x});
+						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);
+						\node[below] at (\x, -0.1) {\label};
+					}
+				\end{tikzpicture}
+			\end{center} 
+			\caption{Boosting-Methoden konstruieren eine Folge von \gls{hypothesis}-\glspl{map} 
+				$\hypothesis^{(0)}, \,\hypothesis^{(1)}, \,\ldots$, die zunehmend starke Lerner darstellen (d.h. einen kleineren \gls{loss} verursachen). \label{fig_boosting_dict}}
+     		\end{figure} 
+		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
+	first={Boosting}, 
+	text={Boosting}
+} 
+
+\newglossaryentry{gtv}
+{name={generalized total variation (GTV)}, 
+	description={Die GTV\index{generalized total variation (GTV)} misst die Variation der trainierten \glspl{localmodel} $\localhypothesis{\nodeidx}$ 
+		(bzw. ihrer \glspl{modelparam} $\localparams{\nodeidx}$), die den Knoten $\nodeidx=1, \,\ldots, \,\nrnodes$ 
+		eines ungerichteten gewichteten \gls{graph} $\graph$ mit Kanten $\edges$ zugeordnet sind. 
+		Gibt es ein Maß $\discrepancy{\hypothesis}{\hypothesis'}$ für die \gls{discrepancy} zwischen \gls{hypothesis}-\glspl{map} $\hypothesis,\hypothesis'$, so gilt
+		\begin{equation} 
+			\nonumber
+			\sum_{\edge{\nodeidx}{\nodeidx'}\in \edges} \edgeweight_{\nodeidx,\nodeidx'} 
+			\discrepancy{\localhypothesis{\nodeidx}}{\localhypothesis{\nodeidx'}}.
+		\end{equation}
+		Hierbei bezeichnet $\edgeweight_{\nodeidx,\nodeidx'}>0$ das Gewicht der ungerichteten Kante $\edge{\nodeidx}{\nodeidx'}\in \edges$.
+		\\
+		See also: \gls{localmodel}, \glspl{modelparam}, \gls{graph}, \gls{discrepancy}, \gls{hypothesis}, \gls{map}.},
+	first={GTV},
+	text={GTV} 
+}
+	
+\newglossaryentry{srm}
+{name={Strukturelle Risikominimierung (SRM)}, 
+	description={SRM\index{strukturelle Risikominimierung (SRM)} ist eine 
+		Instanz von \gls{rerm}, bei der der \gls{model} $\hypospace$ als abzählbare Vereinigung von Teilmodellen ausgedrückt wird, sodass 
+		$\hypospace = \bigcup_{n=1}^{\infty} \hypospace^{(n)}$. 
+		Jedes Teilmodell $\hypospace^{(n)}$ erlaubt die Ableitung einer approximativen oberen Schranke 
+		für den \gls{generalization}-Fehler, der beim Anwenden von \gls{erm} auf $\hypospace^{(n)}$ entsteht. 
+		Diese einzelnen Schranken werden anschließend kombiniert, um einen \gls{regularizer} für das \gls{rerm}-Ziel zu bilden \cite[Sec.\ 7.2]{ShalevMLBook}.
+		\\
+		See also: \gls{rerm}, \gls{model}, \gls{generalization}, \gls{erm}, \gls{regularizer}, \gls{risk}.},
+	first={Strukturelle Risikominimierung (SRM)},
+	text={SRM}
+ } 
+
+\newglossaryentry{rlm}
+{name={Regularisierte Verlustminimierung (RLM)},
+	description={Siehe\index{regularisierte Verlustminimierung (RLM)} \gls{rerm}.},
+	text={RLM}
+}
+
+\newglossaryentry{datapoisoning}
+{name={Datenvergiftung}, 
+	description={\Gls{data}\index{Datenvergiftung} poisoning bezeichnet die absichtliche Manipulation 
+  		(oder Fälschung) von \glspl{datapoint}, um das Training eines \gls{ml}-\gls{model} zu beeinflussen \cite{Liu2021}, \cite{PoisonGAN}. 
+  		Datenvergiftungs-\glspl{attack} treten in verschiedenen Formen auf, einschließlich \gls{backdoor} und \glspl{dosattack}.
+  		Eine \gls{backdoor}-\gls{attack} implantiert Trigger in Trainingsdaten, sodass das trainierte \gls{model} 
+  		auf typischen \glspl{featurevec} normal reagiert, aber ein \gls{featurevec} mit Trigger-Muster falsch klassifiziert.
+  		Eine \gls{dosattack} verschlechtert die Gesamtleistung des trainierten \gls{model}, indem falsch gekennzeichnete oder 
+  		adversariale Beispiele eingefügt werden, um effektives Lernen zu verhindern.
+		Datenvergiftung ist besonders kritisch in dezentralen oder verteilten \gls{ml}-Settings (z.B. \gls{fl}), 
+		da Trainingsdaten dort nicht zentral überprüft werden können.
+		\\
+		See also: \gls{attack}, \gls{backdoor}, \gls{dosattack}, \gls{trustAI}.},
+	first={Datenvergiftung},
+	text={Datenvergiftung} 
+}
+
+\newglossaryentry{backdoor}
+{name={Hintertür}, 
+	description={Eine\index{Hintertür} Backdoor-Attacke bezeichnet die absichtliche Manipulation des Trainingsprozesses einer \gls{ml}-Methode. 
+		Diese Manipulation kann durch Veränderung des \gls{trainset} (d.h. durch \gls{datapoisoning}) oder durch die 
+		Verwendung des Optimierungs-\gls{algorithmus} eines \gls{erm}-basierten Verfahrens implementiert werden. 
+		Ziel einer Backdoor-Attacke ist es, die gelernte \gls{hypothesis} $\learnthypothesis$ 
+		so zu beeinflussen, dass sie für bestimmte Bereiche von \gls{feature}-Werten spezifische \glspl{prediction} liefert. 
+		Diese Feature-Bereiche dienen als Schlüssel (Trigger), um die Backdoor zu aktivieren und anomale Vorhersagen zu erzeugen. 
+		Der Schlüssel $\featurevec$ und die entsprechenden anomalen \gls{prediction} $\learnthypothesis(\featurevec)$ sind nur dem Angreifer bekannt.
+		\\
+		See also: \gls{ml}, \gls{trainset}, \gls{datapoisoning}, \gls{algorithm}, \gls{erm}, \gls{hypothesis}, \gls{prediction}, \gls{feature}.},
+	first={Hintertür},
+	text={Hintertür} 
+}
+
+\newglossaryentry{clustasspt}
+{name={Clustering-Annahme}, 
+	description={Die\index{Clustering-Annahme} 
+		\gls{clustering}-Annahme postuliert, dass \glspl{datapoint} in einem \gls{dataset} eine (kleine) Anzahl von Gruppen oder \glspl{cluster} bilden. 
+		\glspl{datapoint} innerhalb desselben \gls{cluster} sind einander ähnlicher als diejenigen außerhalb des Clusters \cite{SemiSupervisedBook}. 
+		Verschiedene \gls{clustering}-Methoden ergeben sich aus unterschiedlichen Ähnlichkeitsbegriffen zwischen \glspl{datapoint}.
+		\\
+		See also: \gls{clustering}, \gls{datapoint}, \gls{dataset}, \gls{cluster}.},
+	first={Clustering-Annahme},
+	text={Clustering-Annahme} 
+}
+
+\newglossaryentry{dosattack}
+{name={Denial-of-Service-Attacke}, plural={Denial-of-Service-Attacken},
+	description={Eine\index{Denial-of-Service-Attacke} Denial-of-Service-\gls{attack} zielt darauf ab (z. B. mittels \gls{datapoisoning}), 
+		das Training eines \gls{model} so zu beeinflussen, dass es für typische \glspl{datapoint} schlechte Leistungen erbringt.
+		\\
+		See also: \gls{attack}, \gls{datapoisoning}, \gls{model}, \gls{datapoint}.},
+	first={Denial-of-Service-Attacke},
+	text={Denial-of-Service-Attacke} 
+}
+
+\newglossaryentry{netexpfam}
+{name={Vernetzte Exponentialfamilien (nExpFam)}, 
+	description={Eine\index{vernetzte Exponentialfamilien (nExpFam)} Sammlung von Exponentialfamilien, von denen jede einem Knoten eines \gls{empgraph} zugeordnet ist. 
+		Die \glspl{modelparam} sind über die Netzwerkstruktur gekoppelt, indem verlangt wird, dass ihre \gls{gtv} klein ist \cite{JungNetExp2020}.
+		\\
+		See also: \gls{empgraph}, \glspl{modelparam}, \gls{gtv}.},
+	first={Vernetzte Exponentialfamilien (nExpFam)},
+	text={nExpFam} 
+}
+
+\newglossaryentry{scatterplot}
+{name={Streudiagramm}, 
+	description={Eine\index{Streudiagramm} Visualisierungstechnik, die \glspl{datapoint} als Marker in einer 2D-Ebene darstellt. 
+		Fig. \ref{fig_scatterplot_temp_FMI_dict} zeigt ein Beispiel für ein Streudiagramm.  
+		Ein Streudiagramm ermöglicht die visuelle Inspektion von \glspl{datapoint}, die natürlicherweise durch \glspl{featurevec} in hochdimensionalen Räumen repräsentiert werden.
+		\\
+		See also: \gls{datapoint}, \gls{minimum}, \gls{feature}, \gls{maximum}, \gls{label}, \gls{fmi}, \gls{featurevec}, \gls{dimred}.},
+	first={Streudiagramm},
+	text={Streudiagramm} 
+}
+
+\newglossaryentry{stepsize}
+{name={Schrittweite}, 
+	description={Siehe\index{Schrittweite} \gls{learnrate}.}, 
+	first={Schrittweite},
+	text={Schrittweite} 
+}
+
+\newglossaryentry{learnrate}
+{name={Lernrate}, 
+	description={Betrachten wir\index{Lernrate} eine iterative \gls{ml}-Methode, um eine nützliche \gls{hypothesis} $\hypothesis \in \hypospace$ zu finden oder zu lernen. 
+		Solche iterativen Methoden wiederholen ähnliche Berechnungsschritte (Update-Schritte), die die aktuelle \gls{hypothesis} anpassen oder verändern, um eine verbesserte \gls{hypothesis} zu erhalten. 
+		Ein zentraler \gls{parameter} einer iterativen Methode ist die Lernrate. Sie steuert, in welchem Umfang die aktuelle \gls{hypothesis} in einer einzelnen Iteration verändert werden kann. 
+		Beispielsweise beim \gls{gradstep} \cite[Ch. 5]{MLBasics} 
+		\begin{equation}
+			\label{equ_def_basic_gradstep_lrate_dict}
+			\weights^{(\iteridx\!+\!1)} = \weights^{(\iteridx)} - \lrate \nabla f(\weights^{(\iteridx)}),
+        \end{equation} 
+		einer \gls{gdmethod} für \gls{erm}, wobei die \gls{objfunc} $f(\weights)$ das \gls{emprisk} darstellt, das durch $\hypothesis^{(\weights)}$ auf einem \gls{trainset} entsteht. 
+		Gegeben die aktuellen \glspl{modelparam} $\weights^{(\iteridx)}$ bei Iteration $\iteridx$, produziert der \gls{gradstep} 
+		aktualisierte \glspl{modelparam} $\weights^{(\iteridx\!+\!1)}$, indem er sich in die entgegengesetzte Richtung des \gls{gradient} $\nabla f(\weights^{(\iteridx)})$ bewegt. 
+		\begin{figure}[hbtp]
+			\begin{center}
+			\begin{minipage}{0.45\columnwidth}
+			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
+				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
+				\draw[] (1,0.25) circle [radius=0.1] node [right] (A) {$f(\weights^{(\iteridx)})$} ;
+				\draw[] (-2,1) circle [radius=0.1] node [left] (B) {$f(\weights^{(\iteridx\!+\!1)})$} ;
+				\draw[] (3,2.25) circle [radius=0.1]  node  [right] (C) {$f(\weights^{(\iteridx\!+\!2)})$} ;
+				\draw[->,dashed] (-2,1) -- (3,2.25) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
+				\draw[->,dashed]  (1,0.25) -- (-2,1) node [midway,above] {\eqref{equ_def_basic_gradstep_lrate_dict}};
+				\node [below] at (0,-0.2) {(a)};
+			\end{tikzpicture}
+			\end{minipage}
+			\begin{minipage}{0.45\columnwidth}
+			\begin{tikzpicture}[xscale=0.4,yscale=0.6]
+				\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
+				\draw[] (4,4) circle [radius=0.1];
+				\node [right] at (4,4) {$f(\weights^{(\iteridx)})$};
+				\draw[] (3.8,3.61) circle [radius=0.1];
+				\node [left] at (3.8,3.61) {$f(\weights^{(\iteridx\!+\!1)})$};
+				\draw[] (3.65,3.33) circle [radius=0.1];
+				\node [right] at (3.65,3.33) {$f(\weights^{(\iteridx\!+\!2)})$};
+				\node [below] at (0,-0.2) {(b)};
+			\end{tikzpicture}
+			\end{minipage}
+		\end{center}
+		\caption{Auswirkung einer ungeeigneten \gls{learnrate} $\lrate$ im \gls{gradstep} \eqref{equ_def_basic_gradstep_lrate_dict}. 
+		         (a) Ist $\lrate$ zu groß, können die \glspl{gradstep} „überschießen“ und die Iterierten $\weights^{(\iteridx)}$ vom Optimum wegführen, d.h., $f(\weights^{(\iteridx\!+\!1)}) > f(\weights^{(\iteridx)})$. 
+		         (b) Ist $\lrate$ zu klein, machen die \glspl{gradstep} zu wenig Fortschritt zum Optimum innerhalb der verfügbaren Iterationen (begrenztes Rechenbudget). 
+		\label{fig_small_large_lrate_dict}}
+		\end{figure}
+		\\
+		See also: \gls{ml}, \gls{hypothesis}, \gls{gd}, \gls{stochGD}, \gls{projgd}, \gls{parameter}, \gls{stepsize}.},
+	first={Lernrate},
+	text={Lernrate} 
+}
+
+\newglossaryentry{featuremap}
+{name={Merkmalsabbildung}, 
+description={Eine \gls{feature} \gls{map}\index{Merkmalsabbildung} oder Featuremap ist eine \gls{funktion} 
+$$
+\featuremapvec: \featurespace \rightarrow \featurespace', \quad \featurevec \mapsto \featurevec'
+$$
+die einen \gls{featurevec} $\featurevec \in \featurespace$ eines \glspl{datapoint} in einen neuen \gls{featurevec} $\featurevec' \in \featurespace'$ transformiert, 
+wobei $\featurespace'$ typischerweise von $\featurespace$ verschieden ist. 
+Die transformierte Darstellung $\featurevec'$ ist oft nützlicher als die ursprüngliche $\featurevec$. 
+Zum Beispiel kann die Geometrie der \glspl{datapoint} in $\featurespace'$ linearer werden, was die Anwendung eines \gls{linmodel} auf $\featurevec'$ erleichtert. 
+Dieses Konzept ist zentral für die Gestaltung von \glspl{kernelmethod}~\cite{LearningKernelsBook}. 
+Weitere Vorteile der Verwendung einer Merkmalsabbildung sind die Reduzierung von \gls{overfitting} und die Verbesserung der \gls{interpretierbarkeit}~\cite{Ribeiro2016}. 
+Eine häufige Anwendung ist die \gls{data}-Visualisierung, bei der eine Merkmalsabbildung mit zwei Ausgabedimensionen die Darstellung von \glspl{datapoint} in einem 2-D \gls{scatterplot} erlaubt. 
+Einige \gls{ml}-Methoden verwenden trainierbare Merkmalsabbildungen, deren \glspl{parameter} aus \gls{data} gelernt werden. 
+Ein Beispiel ist die Verwendung von versteckten \glspl{layer} in einem \gls{deepnet}, die als aufeinanderfolgende Merkmalsabbildungen fungieren \cite{MallatUnderstandingDeepLearning}. 
+Eine prinzipielle Methode zum Trainieren einer Merkmalsabbildung ist \gls{erm}, unter Verwendung einer \gls{lossfunc}, die die Rekonstruktionsqualität misst,
+ z.B. $\lossfun = \|\featurevec - r(\featurevec')\|^2$, wobei $r(\cdot)$ eine trainierbare \gls{map} ist, die versucht, $\featurevec$ aus dem transformierten \gls{featurevec} $\featurevec'$ zu rekonstruieren.
+\\
+Siehe auch: \gls{feature}, \gls{map}, \gls{kernelmethod}, \gls{featlearn}, \gls{pca}.},
+first={Merkmalsabbildung},
+text={Merkmalsabbildung},
+plural={Merkmalsabbildungen}
+}
+%Featuremap seems to be a more used word in German, but Merkmalsabbildung would be a possible valid translation.
+
+\newglossaryentry{lasso}
+{name={Least Absolute Shrinkage and Selection Operator (Lasso)}, 
+ description={Der Lasso\index{Least Absolute Shrinkage and Selection Operator (Lasso)} ist eine 
+	Instanz der \gls{srm}. Er lernt die \gls{weights} $\weights$ einer \gls{linearmap} 
+	$\hypothesis(\featurevec) = \weights^{T} \featurevec$ aus einem \gls{trainset}. 
+	Der Lasso entsteht aus der \gls{linreg}, indem der skalierte $\ell_{1}$-\gls{norm}-Term 
+	$\regparam \normgeneric{\weights}{1}$ zur mittleren \gls{sqerrloss} auf dem \gls{trainset} addiert wird.
+	\\
+	Siehe auch: \gls{srm}, \gls{weights}, \gls{linearmap}, \gls{trainset}, \gls{linreg}, \gls{norm}, \gls{sqerrloss}.},
+ first={Lasso},
+ text={Lasso} 
+}
+
+\newglossaryentry{simgraph}
+{name={Ähnlichkeitsgraph}, 
+ description={In einigen\index{Ähnlichkeitsgraph} \gls{ml}-Anwendungen entstehen \glspl{datapoint}, die durch ein 
+ domänenspezifisches Maß für Ähnlichkeit verknüpft sind. Diese Ähnlichkeiten können anschaulich durch einen
+  Ähnlichkeits-\gls{graph} 
+	$\graph = \big(\nodes \defeq \{1, \ldots, \samplesize\}, \edges\big)$ dargestellt werden. 
+	Der Knoten $\sampleidx \in \nodes$ repräsentiert den $\sampleidx$-ten \gls{datapoint}. Zwei Knoten werden durch
+	 eine ungerichtete Kante verbunden, wenn die entsprechenden \glspl{datapoint} ähnlich sind.
+	\\
+	Siehe auch: \gls{ml}, \gls{datapoint}, \gls{graph}.},
+ first={Ähnlichkeitsgraph},
+ text={Ähnlichkeitsgraph} 
+}
+
+\newglossaryentry{kld}
+{name={Kullback–Leibler-Divergenz (KL-Divergenz)}, 
+ description={Die\index{Kullback–Leibler-Divergenz (KL-Divergenz)} KL-Divergenz ist ein quantitatives 
+ Maß dafür, wie stark sich eine \gls{probdist} von einer anderen unterscheidet \cite{coverthomas}.
+	\\
+	Siehe auch: \gls{probdist}.},
+ first={Kullback–Leibler-Divergenz (KL-Divergenz)},
+ text={KL-Divergenz} 
+}
+
+\newglossaryentry{LapMat}
+{name={Laplacian-Matrix},
+ description={Die\index{Laplacian-Matrix} Struktur eines \gls{graph} $\graph$ mit 
+ 	Knoten $\nodeidx=1, \ldots, \nrnodes$ kann mithilfe der Eigenschaften spezieller \glspl{matrix}, die mit $\graph$ assoziiert sind, analysiert werden. Eine solche \gls{matrix} ist die 
+ 	\gls{graph}-Laplacian-\gls{matrix} $\mL^{(\graph)} \in \mathbb{R}^{\nrnodes \times \nrnodes}$, 
+ 	die für einen ungerichteten und gewichteten \gls{graph} definiert ist \cite{Luxburg2007}, \cite{Ng2001}. 
+ 	Die Elemente der Matrix werden wie folgt definiert (siehe Abb. \ref{fig_lap_mtx_dict}):
+ 	\begin{equation}
+ 		\nonumber
+ 		\LapMatEntry{\graph}{\nodeidx}{\nodeidx'} \defeq \begin{cases} 
+ 			- \edgeweight_{\nodeidx,\nodeidx'}, & \mbox{für } \nodeidx \neq \nodeidx', \edge{\nodeidx}{\nodeidx'}\!\in\!\edges; \\ 
+ 			\sum\limits_{\nodeidx'' \neq \nodeidx} \edgeweight_{\nodeidx,\nodeidx''}, & \mbox{für } \nodeidx = \nodeidx'; \\ 
+ 			0, & \mbox{sonst.} 
+ 		\end{cases}
+ 	\end{equation}
+ 	Hierbei bezeichnet $\edgeweight_{\nodeidx,\nodeidx'}$ das \gls{edgeweight} einer Kante $\edge{\nodeidx}{\nodeidx'} \in \edges$. 
+ 	\begin{figure}[H]
+ 	\begin{center}
+ 	% ... (TikZ figure bleibt unverändert) ...
+ 	\caption{\label{fig_lap_mtx_dict} (a) Ein ungerichteter \gls{graph} $\graph$ mit drei Knoten $\nodeidx=1,2,3$. 
+ 		 (b) Die Laplacian-\gls{matrix} $\LapMat{\graph}  \in \mathbb{R}^{3 \times 3}$ von $\graph$.} 
+ 	\end{center}
+ 	\end{figure}
+ 	Siehe auch: \gls{graph}, \gls{matrix}, \gls{edgeweight}.},
+ first={Laplacian-Matrix},
+ text={Laplacian-Matrix}
+}
+
+\newglossaryentry{algconn}
+{name={algebraische Konnektivität},
+ description={Die\index{algebraische Konnektivität} algebraische Konnektivität eines \gls{undirectedgraph} ist der zweitkleinste \gls{eigenvalue} $\eigval{2}$ seiner \gls{LapMat}. 
+ 	\begin{figure}[H]
+ 		\centering
+ 		% TikZ-Figur bleibt unverändert
+ 	\end{figure}
+ 	Ein \gls{undirectedgraph} ist genau dann zusammenhängend, wenn $\eigval{2} > 0$ \cite{ChungSpecGraphTheory,Spielman2019}. 
+ 	\\
+ 	Siehe auch: \gls{graph}, \gls{eigenvalue}, \gls{LapMat}.},
+ first={algebraische Konnektivität},
+ type=math,
+ text={algebraische Konnektivität}
+}
+
+\newglossaryentry{cfwmaxmin}
+{name={Courant–Fischer–Weyl-Minimax-Charakterisierung}, 
+ description={Betrachten Sie\index{Courant–Fischer–Weyl-Minimax-Charakterisierung} eine \gls{psd}-\gls{matrix} 
+ 	$\mQ \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ mit \gls{evd} (oder Spektraldekomposition), d.h.,
+ 	$$\mQ = \sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx} \vu^{(\featureidx)} \big(  \vu^{(\featureidx)}  \big)^{T}.$$ 
+ 	Hierbei werden die aufsteigend geordneten \glspl{eigenvalue} verwendet:
+ 	\begin{equation}
+ 		\nonumber
+ 		\eigval{1} \le \ldots \le \eigval{\nrnodes}.
+ 	\end{equation}
+ 	Die Courant–Fischer–Weyl-Minimax-Charakterisierung \cite[Th. 8.1.2]{GolubVanLoanBook} stellt die \glspl{eigenvalue} von $\mQ$ als Lösungen bestimmter \glspl{optproblem} dar.
+ 	\\
+ 	Siehe auch: \gls{psd}, \gls{matrix}, \gls{evd}, \gls{eigenvalue}, \gls{optproblem}.}, 
+ first={Courant–Fischer–Weyl-Minimax-Charakterisierung (CFW)}, 
+ type=math,
+ text={CFW}
+}
+
+\newglossaryentry{kernel}
+{name={Kernel}, 
+	description={Betrachten wir\index{kernel} eine Menge von \glspl{datapoint}, die jeweils durch einen \gls{featurevec} 
+	 	$\featurevec \in \featurespace$ dargestellt werden, wobei $\featurespace$ den \gls{featurespace} bezeichnet. 
+	 	Ein (reeller) Kernel ist eine \gls{function} 
+	 	$\kernel: \featurespace \times \featurespace \rightarrow \mathbb{R}$, die jedem Paar von 
+     		\glspl{featurevec} $\featurevec, \featurevec' \in \featurespace$ eine reelle Zahl $\kernelmap{\featurevec}{\featurevec'}$ zuordnet. 
+     		Dieser Wert wird typischerweise als Maß für die Ähnlichkeit zwischen $\featurevec$ und $\featurevec'$ interpretiert. 
+	 	Die definierende Eigenschaft eines Kernels ist Symmetrie, d.h.,
+	 	$\kernelmap{\featurevec}{\featurevec'} = \kernelmap{\featurevec'}{\featurevec}$, und dass 
+	 	für jede endliche Menge von \glspl{featurevec} $\featurevec_1, \ldots, \featurevec_n \in \featurespace$ die \gls{matrix} 
+	  	\begin{equation}
+	 		\nonumber
+	 		\mathbf{K} = \begin{pmatrix}
+	 			\kernelmap{\featurevec_1}{\featurevec_1} & \kernelmap{\featurevec_1}{\featurevec_2} & \ldots & \kernelmap{\featurevec_1}{\featurevec_n} \\
+	 			\kernelmap{\featurevec_2}{\featurevec_1} & \kernelmap{\featurevec_2}{\featurevec_2} & \ldots & \kernelmap{\featurevec_2}{\featurevec_n} \\
+	 			\vdots											
+	 			& \vdots & \ddots & \vdots \\
+	 			\kernelmap{\featurevec_n}{\featurevec_1} & \kernelmap{\featurevec_n}{\featurevec_2} & \ldots & \kernelmap{\featurevec_n}{\featurevec_n} 
+	 		\end{pmatrix} \in \mathbb{R}^{n \times n}
+	 	\end{equation}
+	 	\gls{psd} ist. 
+     		Ein Kernel definiert auf natürliche Weise eine Transformation eines \gls{featurevec} $\featurevec$ in eine 
+	 	\gls{function} $\vz = \kernelmap{\featurevec}{\cdot}$. Die \gls{function} $\vz$ ordnet jedem Input $\featurevec' \in \featurespace$ den Wert $\kernelmap{\featurevec}{\featurevec'}$ zu. 
+	 	Wir können die \gls{function} $\vz$ als neuen \gls{featurevec} betrachten, der zu einem 
+	 	\gls{featurespace} $\featurespace'$ gehört, der typischerweise vom ursprünglichen \gls{featurespace} verschieden ist. 
+	 	Dieser neue \gls{featurespace} $\featurespace'$ besitzt eine besondere mathematische Struktur, nämlich die eines 
+	 	Reproduzierenden Kernel-Hilbertraums (RKHS)~\cite{LearningKernelsBook}, \cite{LampertNowKernel}.
+     		Da $\vz$ zu einem RKHS gehört, der ein \gls{vectorspace} ist, kann es als verallgemeinerter \gls{featurevec} interpretiert werden. Beachten Sie, dass ein \gls{featurevec} endlicher Länge $\featurevec=\big(\feature_{1}, \ldots, \feature_{\nrfeatures} \big)\,^{T} \in \mathbb{R}^{\nrfeatures}$ 
+	 	als \gls{function} $\featurevec: \{1, \ldots, \nrfeatures\} \rightarrow \mathbb{R}$ betrachtet werden kann, 
+	 	die jedem Index $\featureidx \in \{1, \ldots, \nrfeatures\}$ einen reellen Wert zuordnet.
+          		\\
+		Siehe auch: \gls{featurevec}, \gls{featurespace}, \gls{hilbertspace}, \gls{kernelmethod}.},
+	first={kernel},
+	text={kernel} 
+}
+
+\newglossaryentry{kernelmethod}
+{name={Kernel-Methode}, 
+plural={Kernel-Methoden}, 
+	description={Eine\index{kernel method} \gls{kernel} Methode ist ein \gls{ml}-Verfahren, das einen 
+		\gls{kernel} $\kernel$ verwendet, um den ursprünglichen (d.h. rohen) \gls{featurevec} $\featurevec$ eines 
+		\gls{datapoint} in einen neuen (transformierten) \gls{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$ zu überführen \cite{LearningKernelsBook}, \cite{LampertNowKernel}.
+		Der Zweck der Transformation der \glspl{featurevec} besteht darin, dass die \glspl{datapoint} durch einen geeigneten \gls{kernel} eine „günstigere“ Geometrie im transformierten \gls{featurespace} aufweisen. 
+		Beispielsweise kann in einem binären \gls{classification}-Problem die Nutzung transformierter \glspl{featurevec} $\vz$ 
+		es ermöglichen, \glspl{linmodel} zu verwenden, selbst wenn die \glspl{datapoint} im ursprünglichen \gls{featurespace} nicht linear trennbar sind (siehe Abb. \ref{fig_linsep_kernel_dict}). 
+\begin{figure}[H]
+\begin{center}
+ \begin{tikzpicture}[auto,scale=0.6]
+        % Linke Darstellung (\featurespace)
+        \draw [thick] (-6,2) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(5)}$};
+       \draw [thick] (-8,1.6) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(4)}$};
+        \draw [thick] (-7.4,-1.7) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(3)}$};
+        \draw [thick] (-6,-1.9) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(2)}$};
+        \draw [thick] (-6.5,0.0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\featurevec^{(1)}$};
+%
+% Rechte Darstellung (\featurespace')
+        \draw [thick] (4,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(5)}$};
+        \draw [thick] (5,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(4)}$};
+        \draw [thick] (6,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(3)}$};
+        \draw [thick] (7,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(2)}$};
+        \draw [thick] (2,0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\vz^{(1)}$};
+%
+% Pfeil von links nach rechts
+       \draw[->,bend left=30] (-3,0) to node[midway,above] {$\vz = \kernelmap{\featurevec}{\cdot}$} (1,0);
+    \end{tikzpicture}
+\end{center}
+\caption{
+Fünf \glspl{datapoint} dargestellt durch \glspl{featurevec} $\featurevec^{(\sampleidx)}$ 
+und \glspl{label} $\truelabel^{(\sampleidx)} \in \{ \circ, \square \}$ für $\sampleidx=1, \ldots, 5$. 
+Mit diesen \glspl{featurevec} lassen sich die beiden Klassen nicht durch eine Gerade (die \gls{decisionboundary} eines \gls{linclass} repräsentiert) trennen. 
+Die transformierten \glspl{featurevec} $\vz^{(\sampleidx)} = \kernelmap{\featurevec^{(\sampleidx)}}{\cdot}$ 
+ermöglichen jedoch die Trennung der \glspl{datapoint} mittels eines \gls{linclass}.  \label{fig_linsep_kernel_dict}}
+\end{figure}
+		Siehe auch: \gls{kernel}, \gls{featurevec}, \gls{featurespace}, \gls{linclass}.},
+	first={kernel method},
+	text={kernel method} 
+}
+
+\newglossaryentry{cm}
+{name={Confusion-Matrix}, 
+	description={Betrachten wir\index{confusion matrix} \glspl{datapoint}, die durch \glspl{feature} $\featurevec$ und die entsprechenden \glspl{label} $\truelabel$ charakterisiert sind. 
+		Die \glspl{label} nehmen Werte in einem endlichen \gls{labelspace} $\labelspace = \{1, \ldots, \nrcluster\}$ an. 
+		Für eine gegebene \gls{hypothesis} $\hypothesis$ ist die Confusion-\gls{matrix} eine 
+		$\nrcluster \times \nrcluster$-Matrix, wobei jede Zeile einem wahren Label $\truelabel \in \labelspace$ entspricht und jede Spalte einem vorhergesagten Label $\hypothesis(\featurevec) \in \labelspace$. 
+		Der Eintrag $(\clusteridx,\clusteridx')$ gibt den Anteil der \glspl{datapoint} mit wahrem Label $\truelabel = \clusteridx$ an, die als $\hypothesis(\featurevec) = \clusteridx'$ vorhergesagt werden. 
+		Die Hauptdiagonale der Confusion-\gls{matrix} enthält die Anteile korrekt klassifizierter \glspl{datapoint} (d.h. solche, für die $\truelabel = \hypothesis(\featurevec)$ gilt). Die Nebendiagonalen enthalten die Anteile der Fehlklassifikationen. 
+				\\
+		Siehe auch: \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{matrix}, \gls{classification}.},
+	first={confusion matrix},
+	text={confusion matrix} 
+}
+
+\newglossaryentry{transferlearning}
+{name={Transfer Learning},
+  description=
+  {Transfer Learning\index{transfer learning} zielt darauf ab, Informationen, die beim Lösen einer bestehenden \gls{learningtask} gewonnen wurden, zu nutzen, um eine andere \gls{learningtask} zu lösen.\\ 
+   Siehe auch: \gls{learningtask}, \gls{multitask learning}},
+  first={transfer learning},
+  text={transfer learning}
 }
 
 
