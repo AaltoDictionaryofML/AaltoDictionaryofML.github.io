@@ -3679,7 +3679,7 @@ text={NLP},
  		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ is a measurable 
  		function which takes on only finite many values. In other words, 
  		$$f(\featurevec) = \sum_{\clusteridx=1}^{\nrcluster} \alpha_{\clusteridx} \mathcal{I}^{(\cluster^{(\clusteridx)})}(\featurevec),$$ 
- 			with the indicator function $\mathcal{I}^{(\cluster)}$ of a 
+ 			with the indicator function $\indicatorfunc{\cluster}$ of a 
  			subset $\cluster \subset \mathbb{R}^{\nrfeatures}$ and 
  			arbitrary coefficents $\alpha_{1},\ldots,\alpha_{\nrcluster} \in \mathbb{R}$. 
  			The subsets $\cluster^{(1)},\ldots,\cluster^{(\nrcluster)}$ in the above 
@@ -5355,10 +5355,10 @@ description = {Consider a dataset
 
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
- 	description={An RV\index{random variable (RV)} is a function that maps the 
+ 	description={A RV\index{random variable (RV)} is a function that maps the 
 		outcomes of a random experiment to elements of a measurable space 
 		\cite{BillingsleyProbMeasure,GrayProbBook}. 
- 		Mathematically, an RV is a function $x: \samplespace \rightarrow \featurespace$ 
+ 		Mathematically, a RV is a function $x: \samplespace \rightarrow \featurespace$ 
 		with domain being the sample space $\samplespace$ of a probability space and 
 		co-domain being a measurable space $\featurespace$. 
  		Different types of RVs include  
@@ -6124,8 +6124,8 @@ out of a model $\hypospace$ by minimizing the average loss
 	
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
-	description={An upper bound on the probability\index{concentration inequality} that a random variable (RV) deviates 
-		more than a prescribed amount from its expectation \cite{Wain2019}. 
+	description={An upper bound on the probability\index{concentration inequality} that 
+	    a random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
 		\\
 		See also: probability, random variable (RV), expectation.}, 
 	first={concentration inequality},
@@ -11075,4 +11075,93 @@ See also: function, dataset.},
   See also: matrix, norm, vector space, Euclidean space, dimensionality reduction, principal component analysis (PCA).},
   first={Johnson--Lindenstrauss (JL) lemma},
   text={JL lemma}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newglossaryentry{markovsinequality}
+{name={Markov's inequality},
+     description={Consider a real-valued non-negative random variable (RV) $x$ for which 
+	 the expectation $\expect\{ x\}$ exists. \index{Markov's inequality} 
+	 Markov's inequality provides an upper bound on the probability 
+	 $\prob{x\geq a}$ that $x$ exceeds a given positive threshold $a>0$.  
+	 In particular,          
+	 \begin{equation}
+            \prob{x \geq a} \leq \frac{\expect \{ x\}}{a} \qquad \mbox{ holds for any } a > 0. 
+            \label{eq:markovsinequality_dict}
+        \end{equation}
+	 This inequality can be verified by noting that 
+	 $\prob{x \geq a}$ is the expectation $\expect{g(x)}$ with 
+	 the function 
+	 $$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \indicatorfunc{\{x \geq a\}}(x').$$ 
+	 As illustrated in Figure \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
+	 $$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ This implies \eqref{eq:markovsinequality_dict} 
+	 via the monoticity of the Lebesgue integral \cite[p. 50]{folland1999real}. 
+    \begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
+		
+		\def\a{3.24}      
+		\def\xmax{10}     
+		\def\m{0.02}      
+		
+		
+		\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
+		\draw[-{Latex}] (0,0) -- (0,3.1) node[left] {$\pdf{x}{x'}$};
+		
+		\fill[blue!15, opacity=0.3]
+			plot[samples=400, domain=0:\xmax, smooth]
+			(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
+		
+		\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
+			plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
+			node[pos=0.9, above right, xshift=2pt] {};
+		
+		\draw[dashed, gray] (\a,0) -- (\a,1.05);
+		\node[below] at (\a,0) {$a$};
+		\node[above] at (1*\a,3) {$\prob{x \geq a} \leq \frac{\expect \{ x\}}{a}$}; 
+		\node[below] at (0,0) {$0$};
+		
+		
+		\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
+		\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
+		
+		\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
+			node[pos=0.9, above, yshift=2pt] {$\indicatorfunc{\{x \ge a\}}$};
+		\filldraw[green!60!black] (\a,1) circle (2pt);
+		
+		\draw[red!70, very thick, samples=2, domain=0:\xmax]
+			plot (\x,{ \x*(1/\a) }); 
+		\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
+		
+		\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
+		\end{tikzpicture}
+            \caption{The expectation $\expect\{x\}$ and the probability $\prob{x \geq a}$ 
+			    of a non-negative random variable (RV) with probability distribution $\probdist^{(x)}$ 
+				can be obtained via Lebesgue integral of 
+				$f(x') = x'$ and $g(x') = \indicatorfunc{\{x \geq a\}}(x')$, respectively.}
+            \label{fig:markovsinequality_dict}
+        \end{figure} \\
+		See also: expectation, probability, concentration inequality.},
+    first={Markov's inequality},
+	type=math, 
+    text={Markov's inequality}  
 }
