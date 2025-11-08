@@ -1108,7 +1108,6 @@ description={A function\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to \math
 
 
 
-
 \newglossaryentry{optproblem}
 {name={optimization problem}, 
 	description={An\index{optimization problem} optimization problem is a mathematical 
@@ -3429,7 +3428,8 @@ plural={medians},
 					\\ 
 		See also: independent and identically distributed (i.i.d.), random variable (RV), probabilistic model, estimation error.},
 	first={bias},
-	text={bias} 
+	text={bias},
+	user1={biased}
 }
 
 \newglossaryentry{classification}
@@ -5820,7 +5820,8 @@ out of a model $\hypospace$ by minimizing the average loss
 				\\
 		See also: empirical risk minimization (ERM), loss, model.},
 	    first={training},
-	    text={training} 
+	    text={training}, 
+		user1={trained}
 }
 
 
@@ -11077,24 +11078,89 @@ See also: function, dataset.},
   text={JL lemma}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\newglossaryentry{majmin}
+{name={majorize-minimize (MM)}, 
+description={Consider an optimization problem $\min_{\weights \in \paramspace} f(\weights)$ with 
+             some complicated (potentially non-convex and non-smooth) objective function. 
+			 One important example of such an optimization problem is empirical risk minimization (ERM) for learning the 
+			 model parameters of a non-linear model. 
+			 An MM method is \index{majorize-minimize (MM)} an iterative optimization method 
+			 that constructs a sequence $\weights^{(1)},\weights^{(2)},\ldots \in \paramspace$ 
+			 of model parameters as follows \cite{Lange2016MM,BishopBook,Hunter01022004}: 
+			\begin{itemize} 
+				\item During the $\iteridx$-th iteration the objective function $f(\cdot)$ 
+			 		  is aproximated by another function $g\big(\cdot;\weights^{(\iteridx)}\big)$.
+	             	  This approximation must be an upper bound for (majorize) the original
+					  objective function, i.e., $g\big(\weights;\weights^{(\iteridx)}\big) \geq f(\weights)$ 
+			 			for all $\weights \in \paramspace$, and be tight for $\weights^{(\iteridx)}$, i.e., 
+			 			$g\big(\weights^{(\iteridx)};\weights^{(\iteridx)}\big) = f\big(\weights^{(\iteridx)}\big)$.
+			     \item The new model parameters  $\weights^{(\iteridx+1)}$ are then obtained by 
+			     minimizing the approximation, i.e., 
+				 $\weights^{(\iteridx+1)} \in \argmin_{\weights \in \paramspace}g\big(\weights;\weights^{(\iteridx)}\big)$. 
+			 \end{itemize} 
+			 \begin{figure} 
+			 \centering
+			 \begin{tikzpicture}[x=1.2cm,y=1cm]
+					
+					\def\xa{0}
+					\def\xb{2*pi}
+					\def\xo{3*pi/4}     
+					\def\mL{0.4}        
+					\def\mR{0.7}        
+					
+					\draw[->] (\xa-0.2,-2) -- (\xb+0.3,-2) node[right] {$\weights$};
+					
+					\draw[thick,samples=100,domain=\xa:\xb]
+					plot (\x,{sin(\x r)}) node[pos=0.1,above left,black] {\small $f(\weights)$};
+					
+					\pgfmathsetmacro\yxo{sin(\xo r)}
+					
+					
+					
+					
+					
+					
+					\def\xL{2.00}
+					\def\xR{2.90}
+					\def\yO{0.70}
+					
+					\draw[dashed,samples=2,domain=0:\xo]
+					plot (\x,{\yO + (-0.7)*(\x - \xo)});
+					
+					\draw[dashed]
+					(\xo,\yO) -- (\xR,\yO);
+					
+					
+					
+					
+					
+					\draw[dashed,samples=2,domain=\xR:2*pi]
+					plot (\x,{\yO + (0.7)*(\x - \xR)});
+					
+					\pgfmathparse{\xR + 0.65*(2*pi - \xR)} \let\xmid\pgfmathresult
+					\pgfmathparse{\yO + 0.7*(\xmid - \xR)} \let\ymid\pgfmathresult
+					
+					\node[right,black] at (\xmid,\ymid) {$g\big( \weights; \weights^{(\iteridx)} \big)$};
+					
+					\fill[red] (2.35619449,0.70710678) circle (1.2pt);
+					
+					\draw[densely dotted,gray] (\xo,-2) -- (\xo,\yO);
+					
+					\node[below] at (\xo,-2) {$\weights^{(\iteridx)}$};
+				\end{tikzpicture}
+			\end{figure}
+			 Similar to gradient-based methods, also the MM principle is based on approximating an 
+			 objective function locally, around the current model parameters, and then optimizing 
+			 this approximation to obtain new model parameters. However, the construction 
+			 of local approximations is very different: While gradient-based methods use linear functions 
+			 for these approximations, MM methods can use non-linear functions as long as 
+			 they are upper bounds for the original objective function. 
+			 \\ 
+				 See also: gradient-based method, EM.},
+first={majorize–minimize (MM)},
+type=math, 
+text={MM}
+}
 
 
 \newglossaryentry{markovsinequality}
