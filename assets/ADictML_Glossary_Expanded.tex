@@ -3689,6 +3689,80 @@ text={NLP},
  type = math
 }
 
+\newglossaryentry{measurespace}
+{name={measure space},
+ description={
+        A measure space\index{measure space} is a triple $(\Omega, \Sigma, \mu)$ consisting of 
+        a set $\Omega$, a $\sigma$-algebra $\Sigma$ of subsets 
+		of $\Omega$, and a measure $\mu\!:\Sigma\!\to\![0,\infty)$. 
+        The measure $\mu$ assigns a non-negative number to each measurable 
+		set $\mathcal{A} \in \Sigma$, generalizing the 
+		notions of length, area, or volume in Euclidean spaces \cite{RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
+		Measure spaces provide the mathematical foundation for the 
+		Lebesgue integral or the definition of random variables (RVs) as measurable mappings 
+        between measure spaces.  
+        A probability space is a special case of a measure space 
+		where the total measure of the sample space is normalized to one, 
+        i.e., $\mu(\Omega) = 1$. In this case, $\mu$ is called a probability distribution.\\ 
+		See also: probability distribution, probability space, measurable.  
+    },
+    first={measure space},
+	plural={measure spaces}, 
+	firstplural={measure spaces}, 
+	type=math, 
+    text={measure space}
+}
+
+\newglossaryentry{integrable}
+{name={integrable},
+	description={A measurable function $f\!:\!\Omega\!\to\! \mathbb{R}$ 
+				 defined on a measure space $(\Omega, \Sigma, \mu)$ 
+				is called integrable\index{integrable} if the Lebesgue integral 
+				of its absolute value is finite, i.e.,
+				\[
+				\int_{\Omega} |f(x)|\,\mathrm{d}\mu < \infty.
+				\]
+				In this case, the Lebesgue integral $\int_{\Omega} f(x)\,\mathrm{d}\mu$ 
+				is well-defined and finite. A random variable (RV) $x$ defined on the sample space 
+				of a probability space $(\Omega, \Sigma, \mathbb{P})$ 
+				is integrable if 
+				\[
+				\mathbb{E} \{|x|\}
+				= \int_{\Omega} |x(\omega)|\,\mathrm{d}\mathbb{P}< \infty,
+				\]
+				which ensures that the expectation $\mathbb{E} \{|x|\}$ 
+				exists and is finite. 
+				\\ 
+				See also: measure space, measure.
+				},
+first={integrable},
+type=math, 
+text={integrable}
+}
+
+\newglossaryentry{measure}
+{name={measure},
+ description={A measure\index{measure} $\mu$ on a set $\Omega$ equipped with a 
+	$\sigma$-algebra $\Sigma$ is a function $\mu: \Sigma\to [0, \infty)$ 
+	that assigns a nonnegative value to each measurable set 
+	$\mathcal{A} \in \Sigma$ such that \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}: 
+	\begin{itemize}
+		\item $\mu(\emptyset) = 0$, and
+		\item for any countable collection $\{\mathcal{A}_i\}_{i=1}^{\infty}$ of 
+		   pairwise disjoint sets in $\Sigma$,
+		\[
+			\mu\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \mu(A_i)
+		\]
+		(this property if referred to as ``countable additivity'').
+	\end{itemize}},
+	first={measure},
+	type= math, 
+	plural={meaures}, 
+	firstplural={measures}, 
+	text={measure}
+}
+
+
 
 \newglossaryentry{LebesgueIntegral}
 {name={Lebesgue integral},
@@ -4324,10 +4398,10 @@ text={NLP},
     	of the Bayes estimator for the label $y$ of a data point, given
     	its features ${\bf x}$. Note that, for a given choice of loss function, the 
     	Bayes estimator (if it exists) is completely determined by the probability distribution 
-		$P$ \cite[Ch. 4]{LC}. However, computing the Bayes estimator 
+		$\mathbb{P}$ \cite[Ch. 4]{LC}. However, computing the Bayes estimator 
 		and Bayes risk presents two main challenges. First, the probability distribution 
-		$P$ is unknown and 
-		must be estimated from observed data. Second, even if $P$ 
+		$\mathbb{P}$ is unknown and 
+		must be estimated from observed data. Second, even if $\mathbb{P}$ 
 		were known, computing the Bayes risk exactly may be computationally 
 		infeasible \cite{cooper1990computational}. 
 	A widely used probabilistic model is the multivariate normal distribution $\left( {\bf x},y\right) \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
@@ -4947,8 +5021,8 @@ description = {Consider a dataset
   the feature vector ${\bf x}^{(r)} \in \mathcal{X}$ for $r= 1, \ldots, m$. 
   For a given $\sigma$-algebra $\Sigma$ over the feature space 
   $\mathcal{X}$, the empirical distribution \index{empirical distribution} 
-  of $\mathcal{D}$ is the probability distribution $P$ defined via 
-   $$P(\mathcal{A}) = (1/m) \big| \big\{ r: {\bf x}^{(r)} \in \mathcal{A} \big\} \big|, 
+  of $\mathcal{D}$ is the probability distribution $\mathbb{P}$ defined via 
+   $$\mathbb{P}(\mathcal{A}) = (1/m) \big| \big\{ r: {\bf x}^{(r)} \in \mathcal{A} \big\} \big|, 
 	\quad \text{for any } \mathcal{A} \in \Sigma.
 	$$
 	In other words, the empirical distribution assigns to any measurable set 
@@ -5045,10 +5119,10 @@ description = {Consider a dataset
 {name={bootstrap},
 	description={For\index{bootstrap} the analysis of machine learning (ML) methods, it is often useful to interpret 
 		a given set of data points $\mathcal{D}= \big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}\big\}$ 
-		as realizations of independent and identically distributed (i.i.d.) random variables (RVs) drawn from a common probability distribution $P$. 
-		In practice, the probability distribution $P$ is unknown and must be estimated from $\mathcal{D}$. 
+		as realizations of independent and identically distributed (i.i.d.) random variables (RVs) drawn from a common probability distribution $\mathbb{P}$. 
+		In practice, the probability distribution $\mathbb{P}$ is unknown and must be estimated from $\mathcal{D}$. 
 		The bootstrap approach uses the histogram of $\mathcal{D}$ as an estimator for 
-		$P$ \cite{hastie01statisticallearning}, 
+		$\mathbb{P}$ \cite{hastie01statisticallearning}, 
 		$$ (1/m) \big| r: {\bf z}^{(1)} \in \mathcal{A} \big| \approx \mathbb{P}\left(\mathcal{A}\right).$$
 		By sampling with replacement from $\mathcal{D}$ according to this empirical distribution, 
 		we generate new datasets 
@@ -5381,17 +5455,20 @@ description = {Consider a dataset
  \newglossaryentry{probspace}
  {name={probability space}, 
  	description={A\index{probability space} probability space is a mathematical 
- 		structure that allows us to reason about a random experiment, e.g., the observation 
-		of a physical phenomenon. 
+ 		structure that allows us to reason about a random experiment, e.g., 
+		the observation of a physical phenomenon. 
  	   	Formally, a probability space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, \mathbb{P}\left(\cdot\right))$ where
  		\begin{itemize} 
- 			\item  $\Omega$ is a sample space containing all possible outcomes of a random experiment;
+ 			\item  $\Omega$ is a sample space containing all possible outcomes 
+			of a random experiment;
  			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of 
-			$\Omega$ (called events) that satisfies certain closure properties under set operations;
- 			\item $\mathbb{P}\left(\cdot\right)$ is a probability distribution, i.e., a function that assigns a probability $P(\mathcal{A}) \in [0,1]$ 
- 			to each event $\mathcal{A} \in \mathcal{F}$. This function must satisfy $\mathbb{P}\left(\Omega\right) = 1$ and 
-			$\mathbb{P}\left(\bigcup_{i=1}^{\infty} \mathcal{A}_i\right) = \sum_{i=1}^{\infty} \mathbb{P}\left(\mathcal{A}_i\right)$ for any 
- 			countable sequence of pairwise disjoint events $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
+			$\Omega$ (called events) that satisfies certain closure properties 
+			under set operations;
+ 			\item $\mathbb{P}\left(\cdot\right)$ is a probability distribution, i.e., a function that assigns 
+			a probability $P(\mathcal{A}) \in [0,1]$ to each event $\mathcal{A} 
+			\in \mathcal{F}$. This function must satisfy $\mathbb{P}\left(\Omega\right) = 1$ and 
+			$\mathbb{P}\left(\bigcup_{i=1}^{\infty} \mathcal{A}_i\right) = \sum_{i=1}^{\infty} \mathbb{P}\left(\mathcal{A}_i\right)$ 
+			for any countable sequence of pairwise disjoint events $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
  		\end{itemize}
  		Probability spaces provide the foundation of probabilistic models that can be 
 		used to study the behavior of machine learning (ML) methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
@@ -6143,7 +6220,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 				feature vector $\mathbf{A}{\bf x}\!\in\! \mathbb{R}^{d'}$. 
 				It is a basic method for feature learning and dimensionality reduction. 
 				The projection matrix $\mathbf{A}$ is typically generated entry-wise 
-				by independent and identically distributed (i.i.d.) random variables (RVs) with common probability distribution $P$. 
+				by independent and identically distributed (i.i.d.) random variables (RVs) with common probability distribution $\mathbb{P}$. 
 				For a broad class of such probability distributions, a random projection 
 				approximately preserves pairwise Euclidean distance between feature vectors 
 				of a given finite dataset. The celebrated Johnson--Lindenstrauss (JL) lemma 
@@ -7561,9 +7638,9 @@ description={Consider the label space is $\mathcal{Y}=\{-1,1\}$ and a classifier
 {name={conditional probability distribution}, 
   description={Consider\index{conditional probability distribution} 
      a stochastic process consisting of two random variables (RVs) ${\bf x}$ and $y$ 
-    with probability distribution $P^{({\bf x},y)}$. The conditional 
+    with probability distribution $\mathbb{P}^{({\bf x},y)}$. The conditional 
     probability distribution of $y$ given (or conditioned on) ${\bf x}$ is 
-    denoted $P^{(y|{\bf x})}$. It is defined via the 
+    denoted $\mathbb{P}^{(y|{\bf x})}$. It is defined via the 
     conditional expectations of the indicator functions obtained 
     for any measurable set in the $\sigma$-algebra generated by 
     the random variable (RV) $y$ \cite{BillingsleyProbMeasure,KallenbergBook}.},
@@ -7579,7 +7656,7 @@ description={Consider the label space is $\mathcal{Y}=\{-1,1\}$ and a classifier
               probabilistic model for the data generation process. Within a 
 			  probabilistic model, we view (the generation of) a data point with 
 			  features ${\bf x}$ and label $y$ as a 
-			  random variable (RV) with probability distribution $P^{({\bf x},y)}$. 
+			  random variable (RV) with probability distribution $\mathbb{P}^{({\bf x},y)}$. 
 			  It turns out that the optimal prediction for the label 
 			  $y$, given the feature vector ${\bf x}$ is fully 
 			  determined by the conditional probability distribution 
@@ -8074,10 +8151,10 @@ sort={k-means},
 	description={Consider\index{maximum likelihood} data points 
 	$\mathcal{D}=\big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)} \}$ 
 	that are interpreted as the realizations of independent and identically distributed (i.i.d.) random variables (RVs) 
-	with a common probability distribution $P^{({\bf w})}$, which depends 
+	with a common probability distribution $\mathbb{P}^{({\bf w})}$, which depends 
 	on the model parameters ${\bf w}\in \mathcal{W} \subseteq \mathbb{R}^{n}$. 
 		Maximum likelihood methods learn model parameters ${\bf w}$ by maximizing 
-		the probability (density) $P^{({\bf w})}(\mathcal{D}) = \prod_{r=1}^{m} \mathbb{P}\left({\bf z}^{(r)}; {\bf w}\right)$ 
+		the probability (density) $\mathbb{P}^{({\bf w})}(\mathcal{D}) = \prod_{r=1}^{m} \mathbb{P}\left({\bf z}^{(r)}; {\bf w}\right)$ 
 		of the observed dataset. Thus, the maximum likelihood estimator is a 
 		solution to the optimization problem $\max_{{\bf w}\in \mathcal{W}} \mathbb{P}\left(\mathcal{D}; {\bf w}\right)$.
 				\\
@@ -11213,7 +11290,7 @@ text={MM}
 		\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
 		\end{tikzpicture}
             \caption{The expectation $\mathbb{E} \{x\}$ and the probability $\mathbb{P}\left(x \geq a\right)$ 
-			    of a non-negative random variable (RV) with probability distribution $P^{(x)}$ 
+			    of a non-negative random variable (RV) with probability distribution $\mathbb{P}^{(x)}$ 
 				can be obtained via Lebesgue integral of 
 				$f(x') = x'/a$ and $g(x') = \mathbb{I}_{\{x \geq a\}}(x')$, respectively.}
             \label{fig:markovsinequality_dict}
