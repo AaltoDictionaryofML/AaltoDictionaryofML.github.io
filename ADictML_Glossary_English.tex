@@ -7890,9 +7890,10 @@ sort={k-means},
 			characterized by \glspl{featurevec} $\featurevec^{(\sampleidx)} \in \mathbb{R}^{2}$. 
 			The \gls{scatterplot} also includes two \glspl{clustercentroid} $\clustercentroid{1}, \clustercentroid{2} \in \mathbb{R}^{2}$. \label{fig_kmeans_dict}}
 		\end{figure} 
-		In general, the $k$-means problem is a challenging \gls{optproblem} \cite{Mahajan2009Springer}. 
-		However, there are simple iterative methods for finding approximately optimal 
-		\glspl{clustercentroid}. One such method is referred to as \gls{lloydalgorithm}.\\
+		In general, solving the $k$-means \gls{optproblem} exactly is challenging (or NP-hard) 
+		\cite{Mahajan2009Springer}. However, there are simple iterative methods for finding 
+		approximately optimal \glspl{clustercentroid}. One such method is referred to as 
+		\gls{lloydalgorithm}.\\
 		See also: \gls{hardclustering}, \gls{cluster}, \gls{lloydalgorithm}.},
 	first={$k$-means},
 	text={$k$-means} 
@@ -7900,9 +7901,9 @@ sort={k-means},
 
 \newglossaryentry{lloydalgorithm} 
 {name={Lloyd's algorithm}, 
-	description={Lloyd's\index{Lloyd's algorithm} algorithm is an iterative 
+	description={Lloyd's\index{Lloyd's algorithm} \gls{algorithm} is an iterative 
 	   \gls{optmethod} for finding \glspl{clustercentroid} that are approximately 
-	   optimal for the \gls{kmeans} \gls{objfunc}. The method 
+	   optimal for the \gls{kmeans} \gls{objfunc}. Lloyd's \gls{algorithm}  
 	   alternates between
 	   \begin{itemize} 
 			\item updating the \gls{cluster} assignment of each \gls{datapoint} 
@@ -7910,6 +7911,116 @@ sort={k-means},
 			\item re-calculating the \glspl{clustercentroid} given the updated 
 			      \gls{cluster} assignments \cite{Lloyd1982}.
 		\end{itemize}
+		\begin{figure}
+			\begin{center}
+			\begin{tikzpicture}[
+	assignment/.style={-Latex, very thin},
+	move/.style={-Latex, thick},
+	center/.style={draw, circle, inner sep=1.2pt, fill=white},
+	pointA/.style={circle, inner sep=1.1pt, fill=black},
+	pointB/.style={rectangle, inner sep=1.1pt, fill=black},
+	cross/.style={line width=0.4pt},
+	lab/.style={font=\scriptsize}
+	]
+	% ===================== PANEL (a): Initial centers =====================
+	% ===================== PANEL (b): Assign to nearest =====================
+		\begin{scope}[shift={(0,0)}]
+			% points
+			\coordinate (Ba1) at (0.2, 1.1);
+			\coordinate (Ba2) at (0.4, 0.6);
+			\coordinate (Ba3) at (0.8, 1.0);
+			\coordinate (Ba4) at (0.6, 0.2);
+			\coordinate (Bb1) at (2.7, 1.4);
+			\coordinate (Bb2) at (3.2, 0.9);
+			\coordinate (Bb3) at (2.6, 0.3);
+			\coordinate (Bb4) at (3.3, 0.2);
+			\node[pointA] at (Ba1) {}; \node[pointA] at (Ba2) {}; \node[pointA] at (Ba3) {}; \node[pointA] at (Ba4) {};
+			\node[pointB] at (Bb1) {}; \node[pointB] at (Bb2) {}; \node[pointB] at (Bb3) {}; \node[pointB] at (Bb4) {};
+			% centers (old)
+			\coordinate (Bc1old) at (0.9,0.65);
+			\coordinate (Bc2old) at (2.8,1.8);
+			\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx}$}] (B-C1) at (Bc1old) {};
+			\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{2}{\iteridx}$}] (B-C2) at (Bc2old) {};
+			% perpendicular bisector
+			\path let 
+			\p1=(B-C1), \p2=(B-C2),
+			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+			\n3={veclen(\n1,\n2)}
+			in coordinate (B-M)    at ($ (B-C1)!0.5!(B-C2) $)
+			coordinate (B-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+			\draw[dashed, thick] ($ (B-M) + 10.4*(B-Nhat) $) -- ($ (B-M) - 10.4*(B-Nhat) $);
+			% minimal assignment spokes
+			\draw[assignment] (Ba2) -- (B-C1);
+			\draw[assignment] (Ba3) -- (B-C1);
+			\draw[assignment] (Bb2) -- (B-C2);
+			\draw[assignment] (Bb3) -- (B-C2);
+			\node[lab] at (1.6,-0.35) {(a) Assign to nearest \gls{clustercentroid}};
+		\end{scope}
+		% ===================== PANEL (c): Recompute means =====================
+		\begin{scope}[shift={(5.5,0)}]
+			% points
+			\coordinate (Ca1) at (0.2, 1.1);
+			\coordinate (Ca2) at (0.4, 0.6);
+			\coordinate (Ca3) at (0.8, 1.0);
+			\coordinate (Ca4) at (0.6, 0.2);
+			\coordinate (Cb1) at (2.7, 1.4);
+			\coordinate (Cb2) at (3.2, 0.9);
+			\coordinate (Cb3) at (2.6, 0.3);
+			\coordinate (Cb4) at (3.3, 0.2);
+			\node[pointA] at (Ca1) {}; \node[pointA] at (Ca2) {}; \node[pointA] at (Ca3) {}; \node[pointA] at (Ca4) {};
+			\node[pointB] at (Cb1) {}; \node[pointB] at (Cb2) {}; \node[pointB] at (Cb3) {}; \node[pointB] at (Cb4) {};
+			% centers (old and new)
+			\coordinate (Cc1old) at (0.9,0.65);
+			\coordinate (Cc2old) at (2.8,1.8);
+			\coordinate (Cc1new) at (0.5,0.725);
+			\coordinate (Cc2new) at (2.95,0.70);
+			\node[center, opacity=0.5] at (Cc1old) {};
+			\node[center, opacity=0.5] at (Cc2old) {};
+			% crosses for new centers
+			\draw[cross] ($(Cc1new)+(-0.07,0)$) -- ($(Cc1new)+(0.07,0)$);
+			\draw[cross] ($(Cc1new)+(0,-0.07)$) -- ($(Cc1new)+(0,0.07)$);
+			\draw[cross] ($(Cc2new)+(-0.07,0)$) -- ($(Cc2new)+(0.07,0)$);
+			\draw[cross] ($(Cc2new)+(0,-0.07)$) -- ($(Cc2new)+(0,0.07)$);
+			% movement arrows
+			\draw[move] (Cc1old) -- (Cc1new);
+			\draw[move] (Cc2old) -- (Cc2new);
+			\node[lab] at (1.6,-0.35) {(b) Recompute \glspl{clustercentroid}};
+		\end{scope}
+		% ===================== PANEL (d): Update & new partition =====================
+		\begin{scope}[shift={(3,-4)}]
+			% points
+			\coordinate (Da1) at (0.2, 1.1);
+			\coordinate (Da2) at (0.4, 0.6);
+			\coordinate (Da3) at (0.8, 1.0);
+			\coordinate (Da4) at (0.6, 0.2);
+			\coordinate (Db1) at (2.7, 1.4);
+			\coordinate (Db2) at (3.2, 0.9);
+			\coordinate (Db3) at (2.6, 0.3);
+			\coordinate (Db4) at (3.3, 0.2);
+			\node[pointA] at (Da1) {}; \node[pointA] at (Da2) {}; \node[pointA] at (Da3) {}; \node[pointA] at (Da4) {};
+			\node[pointB] at (Db1) {}; \node[pointB] at (Db2) {}; \node[pointB] at (Db3) {}; \node[pointB] at (Db4) {};
+			% centers (new)
+			\coordinate (Dc1new) at (0.5,0.725);
+			\coordinate (Dc2new) at (2.95,0.70);
+			\node[center, label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx+1}$}] (D-C1n) at (Dc1new) {};
+			\node[center, label={[lab]right:$\clustercentroiditer{2}{\iteridx+1}$}] (D-C2n) at (Dc2new) {};
+			% perpendicular bisector
+			\path let 
+			\p1=(D-C1n), \p2=(D-C2n),
+			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+			\n3={veclen(\n1,\n2)}
+			in coordinate (D-M)    at ($ (D-C1n)!0.5!(D-C2n) $)
+			coordinate (D-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+			\draw[dashed, thick] ($ (D-M) + 10.4*(D-Nhat) $) -- ($ (D-M) - 10.4*(D-Nhat) $);
+			\node[lab] at (1.6,-0.35) {(c) Assign to nearest \gls{clustercentroid}};
+		\end{scope}
+	\end{tikzpicture}
+			\end{center}
+			\caption{Lloyd's \gls{algorithm} alternates between assigning \glspl{datapoint} to 
+					nearest \gls{clustercentroid} and, in turn, re-computing the \glspl{clustercentroid} 
+					based on the new \gls{cluster} assignments. 
+			\label{fig_lloyd_algorithm_dict}}
+		\end{figure}
 		See also: \gls{clustering}, \gls{clustercentroid}, \gls{kmeans}.},
 	first={Lloyd's algorithm},
 	text={Lloyd's algorithm} 
