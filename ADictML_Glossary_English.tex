@@ -11422,3 +11422,78 @@ text={MM}
 	type=math, 
     text={Markov's inequality}  
 }
+
+
+\newglossaryentry{chebyshevsinequality}
+{name={Chebyshev's inequality},
+     description={\index{Chebyshev's inequality} Chebyshev's inequality is a basic \gls{concentrationinequ} that provides an upper bound on the \gls{probability} that a \gls{rv} deviates from its \gls{mean} by more than some threshold. Formally, if $x$ is a real-valued \gls{rv} with \gls{expectation} $\mu = \expect\{x\}$ and \gls{variance} $\sigma^2$, Chebyshev's inequality states that
+        \begin{equation}
+            \prob{|x - \mu | \geq t } \leq \frac{\sigma^2}{t^2} \qquad \forall t > 0.
+            \label{eq:chebyshevsinequality}
+        \end{equation}
+        \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}
+          \begin{groupplot}[
+            group style={group size=3 by 1, horizontal sep=10mm},
+            width=5.2cm, height=3.6cm,
+            samples=250,
+            axis lines=left,
+            xlabel={$\eta$},
+            x label style={at={(axis description cs:1,0)}, anchor=west},
+            xtick=\empty, ytick=\empty,
+            ymin=0, ymax=0.45,
+            domain=-6:6,
+            enlargelimits=false
+          ]
+            \nextgroupplot[
+              clip=false,
+              title={$x_1 \sim \mathcal{N}(\mu,\sigma_1^2)$},
+              xtick={-1.5,0,1.5},
+              xticklabels={$-t_1$,$\mu$,$t_1$},
+              ylabel={$p^{(x_1)}(\eta)$},
+              ylabel style={rotate=0, at={(axis description cs:0,1.02)}, anchor=south}
+            ]
+              \addplot[name path=pdfA, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
+              \addplot[name path=axisA, draw=none] {0};
+              \addplot[red!70, opacity=0.25] fill between[of=pdfA and axisA, soft clip={domain=-6:-1.5}];
+              \addplot[red!70, opacity=0.25] fill between[of=pdfA and axisA, soft clip={domain=1.5:6}];
+              \node[anchor=north] at (axis description cs:0.5,-0.24) {(a)};
+            \nextgroupplot[
+              clip=false,
+              title={$x_1 \sim \mathcal{N}(\mu,\sigma_1^2)$},
+              xtick={-2,0,2},
+              xticklabels={$-t_2$,$\mu$,$t_2$},
+              ylabel={$p^{(x_1)}(\eta)$},
+              ylabel style={rotate=0, at={(axis description cs:0,1.02)}, anchor=south}
+            ]
+              \addplot[name path=pdfB, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
+              \addplot[name path=axisB, draw=none] {0};
+              \addplot[red!70, opacity=0.25] fill between[of=pdfB and axisB, soft clip={domain=-6:-2}];
+              \addplot[red!70, opacity=0.25] fill between[of=pdfB and axisB, soft clip={domain=2:6}];
+              \node[anchor=north] at (axis description cs:0.5,-0.24) {(b)};
+            \nextgroupplot[
+              clip=false,
+              title={$x_2 \sim \mathcal{N}(\mu,\sigma_2^2)$},
+              xtick={-1.5,0,1.5},
+              xticklabels={$-t_1$,$\mu$,$t_1$},
+              ylabel={$p^{(x_2)}(\eta)$},
+              ylabel style={rotate=0, at={(axis description cs:0,1.02)}, anchor=south}
+            ]
+              \addplot[name path=pdfC, black, very thick] {exp(-0.5*(x/2)^2)/(2*sqrt(2*pi))};
+              \addplot[name path=axisC, draw=none] {0};
+              \addplot[red!70, opacity=0.25] fill between[of=pdfC and axisC, soft clip={domain=-6:-1.5}];
+              \addplot[red!70, opacity=0.25] fill between[of=pdfC and axisC, soft clip={domain=1.5:6}];
+              \node[anchor=north] at (axis description cs:0.5,-0.24) {(c)};
+          \end{groupplot}
+        \end{tikzpicture}
+        \caption{Illustration of the \glspl{probability} of the tail \glspl{event} $\{|x_i-\mu| \geq t_j\}$, where $i,j \in \{1,2\}$. Here, $x_1$ and $x_2$ are \glspl{normaldist} with \gls{pdf} $p^{(x_i)}$, for which Chebyshevs inequality provides generic upper bounds. Compared to (a), in (b) the effect of choosing $t_2 > t_1 > 0$ is illustrated, whereas (c) shows the consequence of increasing the \gls{variance} by $\sigma_2^2 > \sigma_1^2$.}
+            \label{fig:chebyshevsinequality}
+        \end{figure}
+    Note that this generic upper bound may not be optimal for many \glspl{rv}, but serve as a basis to derive more refined          \glspl{concentrationinequ}. Figure \ref{fig:chebyshevsinequality} illustrates the \glspl{probability} of the  \textit{tail} \gls{event} 
+    $\{|x - \mu | \geq t \} = \{x - \mu \geq t \} \cup \{x - \mu  \leq -t \}$, for varying values of $t>0$ and the \gls{variance}
+    of the \gls{rv} $x$, aligned with the behavior of the upper bound in \eqref{eq:chebyshevsinequality}. \\
+    See also: \gls{expectation}, \gls{variance}, \gls{probability},  \gls{probspace}, \gls{markovsinequality}, \gls{concentrationinequ}.},
+    first={Chebyshev's inequality},
+    text={Chebyshev's inequality}  
+}
