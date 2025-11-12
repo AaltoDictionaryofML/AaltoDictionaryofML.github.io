@@ -3481,14 +3481,24 @@ plural={medians},
 
 \newglossaryentry{bias}
 {name={bias},
-	description={Consider\index{bias} an machine learning (ML) method using a parameterized hypothesis space $\mathcal{H}$. 
-		It learns the model parameters ${\bf w}\in \mathbb{R}^{d}$ using the dataset 
-		$$\mathcal{D}=\big\{ \left( {\bf x}^{(r)},y^{(r)} \right) \big\}_{r=1}^{m}.$$ 
-		To analyze the properties of the machine learning (ML) method, we typically interpret the data points as realizations of independent and identically distributed (i.i.d.) random variables (RVs), 
-		$$y^{(r)} = h^{(\overline{{\bf w}})}\big( {\bf x}^{(r)} \big) + \bm{\varepsilon}^{(r)}, r=1, \,\ldots, \,m.$$ 
-		We can then interpret the machine learning (ML) method as an estimator $\widehat{{\bf w}}$ 
-		computed from $\mathcal{D}$ (e.g., by solving empirical risk minimization (ERM)). The (squared) bias incurred by 
-		the estimate $\widehat{{\bf w}}$ is then defined as $B^{2} :=\big\| \mathbb{E} \{ \widehat{{\bf w}}  \}- \overline{{\bf w}}\big\|_{2}^{2}$.
+	description={Consider\index{bias} a empirical risk minimization (ERM)-based machine learning (ML) method that  
+				 learns a hypothesis $\hat{h}\in \mathcal{H}$ 
+				 from a given training set. The analysis of the machine learning (ML) method 
+				 is often based on a probabilistic model (such as the independent and identically distributed assumption (i.i.d.\ assumption)) 
+				 for the data generation. Here, data points and, in turn, 
+				 the learnt hypothesis $\hat{h}$ are viewed as 
+				 (realizations of) random variables (RVs). Any property 
+				 $\theta\big(\hat{h}\big)$ of $\hat{h}$, 
+				 such as specific model parameters in a parametric model, 
+				 or the prediction error $y- \hat{h}({\bf x})$ 
+				 for a fixed data point, then also becomes a random variables (RVs). 
+				 The squared bias of a numeric property $\theta\big(\hat{h}\big) \in \mathbb{R}^{r}$ 
+				 is \cite{hastie01statisticallearning,BishopBook}
+				 $$B^{2} :=\big\| \mathbb{E} \big\{ \theta\big(\hat{h}\big) \big\}\!-\!\theta\big(\bar{h}\big)  \big\|_{2}^{2}.$$
+				 Here, $\bar{h}$ is a reference hypothesis which 
+				 could be defined by $\bar{h}({\bf x})=y$ 
+				 for a fixed test data point with feature vector ${\bf x}$ 
+				 and label $y$. 
 					\\ 
 		See also: independent and identically distributed (i.i.d.), random variable (RV), probabilistic model, estimation error.},
 	first={bias},
@@ -5087,8 +5097,8 @@ description = {Consider a dataset
   the feature vector ${\bf x}^{(r)} \in \mathcal{X}$ for $r= 1, \ldots, m$. 
   For a given $\sigma$-algebra $\Sigma$ over the feature space 
   $\mathcal{X}$, the empirical distribution \index{empirical distribution} 
-  of $\mathcal{D}$ is the probability distribution $\mathbb{P}$ defined via 
-   $$\mathbb{P}(\mathcal{A}) = (1/m) \big| \big\{ r: {\bf x}^{(r)} \in \mathcal{A} \big\} \big|, 
+  of $\mathcal{D}$ is the probability distribution $\mathbb{P}^{(\mathcal{D})}$ defined via 
+   $$\mathbb{P}^{(\mathcal{D})}(\mathcal{A}) = (1/m) \big| \big\{ r: {\bf x}^{(r)} \in \mathcal{A} \big\} \big|, 
 	\quad \text{for any } \mathcal{A} \in \Sigma.
 	$$
 	In other words, the empirical distribution assigns to any measurable set 
@@ -5183,22 +5193,23 @@ description = {Consider a dataset
 
 \newglossaryentry{bootstrap}
 {name={bootstrap},
-	description={For\index{bootstrap} the analysis of machine learning (ML) methods, it is often useful to interpret 
-		a given set of data points $\mathcal{D}= \big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}\big\}$ 
-		as realizations of independent and identically distributed (i.i.d.) random variables (RVs) drawn from a common probability distribution $\mathbb{P}$. 
-		In practice, the probability distribution $\mathbb{P}$ is unknown and must be estimated from $\mathcal{D}$. 
-		The bootstrap approach uses the histogram of $\mathcal{D}$ as an estimator for 
-		$\mathbb{P}$ \cite{hastie01statisticallearning}, 
+	description={For\index{bootstrap} the analysis of machine learning (ML) methods, it is often 
+	    useful to interpret a given dataset $\mathcal{D}= \big\{ {\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}\big\}$ 
+		as (realizations of) a collection of independent and identically distributed (i.i.d.) random variables (RVs) with 
+		common probability distribution $\mathbb{P}$. In practice, the probability distribution $\mathbb{P}$ 
+		is unknown and must be estimated from $\mathcal{D}$. The idea of the bootstrap 
+		method is to use the empirical distribution $\mathbb{P}^{(\mathcal{D})}$ 
+		of $\mathcal{D}$ as an estimator for $\mathbb{P}$ \cite{hastie01statisticallearning}, 
 		$$ (1/m) \big| r: {\bf z}^{(1)} \in \mathcal{A} \big| \approx \mathbb{P}\left(\mathcal{A}\right).$$
-		By sampling with replacement from $\mathcal{D}$ according to this empirical distribution, 
-		we generate new datasets 
-		$\mathcal{D}^{(1)}, \ldots, \mathcal{D}^{(B)}$, each containing 
-		$m$ data points. We then use each of those datasets 
-		for model training (e.g., via empirical risk minimization (ERM)), 
+		Repeatedly sampling from the empirical distribution, which is equivalent 
+		to sampling with replacement from $\mathcal{D}$ \cite{BoostrapBook}, 
+		results in new datasets $\mathcal{D}^{(1)}, \ldots, \mathcal{D}^{(B)}$, each containing 
+		$m$ data points. We then use each of 
+		those datasets for model training (e.g., via empirical risk minimization (ERM)), 
 		resulting in the learned hypotheses
 		$\widehat{h}^{(1)}, \ldots, \hat{h}^{(B)}.$ 
-        We can use these learned hypotheses to estimate the stability 
-		of the machine learning (ML) method \cite{hastie01statisticallearning}.
+        We can use these learned hypotheses to estimate important characteristics 
+		of a machine learning (ML) method such as bias, variance or generalization gap. \cite{hastie01statisticallearning}.
 		\\
 		See also: independent and identically distributed (i.i.d.), random variable (RV), probability distribution, histogram.},
 	first={bootstrap},
@@ -5393,10 +5404,10 @@ description = {Consider a dataset
 {name={dataset}, plural={datasets},
 	description={A\index{dataset} dataset is a set of distinct data points. 
 	Strictly speaking, a dataset is an unordered collection of data points 
-	that does not contain any repetitions. However, in practice, the term dataset 
-    is often used as a synonym for a sample, i.e., a sequence (or finite list) 
-	of data points and may contain repetitions. 
-	machine learning (ML) methods use datasets to train and validate models. 
+	that does not contain any repetitions. However, in machine learning (ML) literature, the 
+	term dataset is often used as a synonym for a sample, i.e., 
+	a sequence (or finite list) of data points and may contain repetitions. 
+	machine learning (ML) methods use datasets for model training and validation. 
 	The notion of a dataset is broad: data points may represent concrete 
 	physical entities (such as humans or animals) or abstract objects (such as numbers). 
 	For illustration, Fig.~\ref{fig_cows_dataset_dict} depicts a dataset whose 
@@ -7595,7 +7606,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  	Since a sample is defined as a sequence, the same data point may 
 	appear more than once. By contrast, some authors in statistics define a sample 
 	as a set of data points, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
- 	These two views can be reconciled by regarding a sample as a sequence of 
+ 	These two views (sequence vs. set) can be reconciled by regarding a sample as a sequence of 
  	feature–label pairs, $\left( {\bf x}^{(1)},y^{(1)} \right), \ldots, 
  	\left( {\bf x}^{(m)},y^{(m)} \right)$. The $r$-th 
  	pair consists of the features ${\bf x}^{(r)}$ and the label $y^{(r)}$ 

@@ -3483,14 +3483,24 @@ plural={medians},
 
 \newglossaryentry{bias}
 {name={bias},
-	description={Consider\index{bias} an \gls{ml} method using a parameterized \gls{hypospace} $\hypospace$. 
-		It learns the \glspl{modelparam} $\weights \in \mathbb{R}^{\dimlocalmodel}$ using the \gls{dataset} 
-		$$\dataset=\big\{ \pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}} \big\}_{\sampleidx=1}^{\samplesize}.$$ 
-		To analyze the properties of the \gls{ml} method, we typically interpret the \glspl{datapoint} as \glspl{realization} of \gls{iid} \glspl{rv}, 
-		$$\truelabel^{(\sampleidx)} = \hypothesis^{(\overline{\weights})}\big( \featurevec^{(\sampleidx)} \big) + \bm{\varepsilon}^{(\sampleidx)}, \sampleidx=1, \,\ldots, \,\samplesize.$$ 
-		We can then interpret the \gls{ml} method as an estimator $\widehat{\weights}$ 
-		computed from $\dataset$ (e.g., by solving \gls{erm}). The (squared) bias incurred by 
-		the estimate $\widehat{\weights}$ is then defined as $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$.
+	description={Consider\index{bias} a \gls{erm}-based \gls{ml} method that  
+				 learns a \gls{hypothesis} $\learnthypothesis \in \hypospace$ 
+				 from a given \gls{trainset}. The analysis of the \gls{ml} method 
+				 is often based on a \gls{probmodel} (such as the \gls{iidasspt}) 
+				 for the \gls{data} generation. Here, \glspl{datapoint} and, in turn, 
+				 the learnt \gls{hypothesis} $\learnthypothesis$ are viewed as 
+				 (\glspl{realization} of) \glspl{rv}. Any property 
+				 $\theta\big(\learnthypothesis\big)$ of $\learnthypothesis$, 
+				 such as specific \glspl{modelparam} in a \gls{parammodel}, 
+				 or the \gls{prediction} error $\truelabel - \learnthypothesis(\featurevec)$ 
+				 for a fixed \gls{datapoint}, then also becomes a \glspl{rv}. 
+				 The squared bias of a numeric property $\theta\big(\learnthypothesis\big) \in \mathbb{R}^{r}$ 
+				 is \cite{hastie01statisticallearning,BishopBook}
+				 $$\biasterm^{2} \defeq \big\| \expect \big\{ \theta\big(\learnthypothesis\big) \big\}\!-\!\theta\big(\bar{\hypothesis}\big)  \big\|_{2}^{2}.$$
+				 Here, $\bar{\hypothesis}$ is a reference \gls{hypothesis} which 
+				 could be defined by $\bar{\hypothesis}(\featurevec)=\truelabel$ 
+				 for a fixed test \gls{datapoint} with \gls{featurevec} $\featurevec$ 
+				 and \gls{label} $\truelabel$. 
 					\\ 
 		See also: \gls{iid}, \gls{rv}, \gls{probmodel}, \gls{esterr}.},
 	first={bias},
@@ -5090,8 +5100,8 @@ description = {Consider a \gls{dataset}
   the \gls{featurevec} $\featurevec^{(\sampleidx)} \in \featurespace$ for $\sampleidx = 1, \ldots, \samplesize$. 
   For a given \gls{sigmaalgebra} $\sigmaalgebra$ over the \gls{featurespace} 
   $\featurespace$, the empirical distribution \index{empirical distribution} 
-  of $\dataset$ is the \gls{probdist} $\probdist$ defined via 
-   $$\probdist(\mathcal{A}) = (1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} \in \mathcal{A} \big\} \big|, 
+  of $\dataset$ is the \gls{probdist} $\probdist^{(\dataset)}$ defined via 
+   $$\probdist^{(\dataset)}(\mathcal{A}) = (1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} \in \mathcal{A} \big\} \big|, 
 	\quad \text{for any } \mathcal{A} \in \sigmaalgebra.
 	$$
 	In other words, the empirical distribution assigns to any \gls{measurable} set 
@@ -5186,22 +5196,23 @@ description = {Consider a \gls{dataset}
 
 \newglossaryentry{bootstrap}
 {name={bootstrap},
-	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often useful to interpret 
-		a given set of \glspl{datapoint} $\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
-		as \glspl{realization} of \gls{iid} \glspl{rv} drawn from a common \gls{probdist} $\probdist$. 
-		In practice, the \gls{probdist} $\probdist$ is unknown and must be estimated from $\dataset$. 
-		The bootstrap approach uses the \gls{histogram} of $\dataset$ as an estimator for 
-		$\probdist$ \cite{hastie01statisticallearning}, 
+	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often 
+	    useful to interpret a given \gls{dataset} $\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
+		as (\glspl{realization} of) a collection of \gls{iid} \glspl{rv} with 
+		common \gls{probdist} $\probdist$. In practice, the \gls{probdist} $\probdist$ 
+		is unknown and must be estimated from $\dataset$. The idea of the bootstrap 
+		method is to use the \gls{empiricaldistribution} $\probdist^{(\dataset)}$ 
+		of $\dataset$ as an estimator for $\probdist$ \cite{hastie01statisticallearning}, 
 		$$ (1/\samplesize) \big| \sampleidx: \datapoint^{(1)} \in \mathcal{A} \big| \approx \prob{\mathcal{A}}.$$
-		By sampling with replacement from $\dataset$ according to this empirical distribution, 
-		we generate new \glspl{dataset} 
-		$\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$, each containing 
-		$\samplesize$ \glspl{datapoint}. We then use each of those \glspl{dataset} 
-		for \gls{model} \gls{training} (e.g., via \gls{erm}), 
+		Repeatedly sampling from the \gls{empiricaldistribution}, which is equivalent 
+		to sampling with replacement from $\dataset$ \cite{BoostrapBook}, 
+		results in new \glspl{dataset} $\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$, each containing 
+		$\samplesize$ \glspl{datapoint}. We then use each of 
+		those \glspl{dataset} for \gls{model} \gls{training} (e.g., via \gls{erm}), 
 		resulting in the learned \glspl{hypothesis}
 		$\widehat{\hypothesis}^{(1)}, \ldots, \learnthypothesis^{(\nrbootstraps)}.$ 
-        We can use these learned \glspl{hypothesis} to estimate the \gls{stability} 
-		of the \gls{ml} method \cite{hastie01statisticallearning}.
+        We can use these learned \glspl{hypothesis} to estimate important characteristics 
+		of a \gls{ml} method such as \gls{bias}, \gls{variance} or \gls{gengap}. \cite{hastie01statisticallearning}.
 		\\
 		See also: \gls{iid}, \gls{rv}, \gls{probdist}, \gls{histogram}.},
 	first={bootstrap},
@@ -5396,10 +5407,10 @@ description = {Consider a \gls{dataset}
 {name={dataset}, plural={datasets},
 	description={A\index{dataset} dataset is a set of distinct \glspl{datapoint}. 
 	Strictly speaking, a dataset is an unordered collection of \glspl{datapoint} 
-	that does not contain any repetitions. However, in practice, the term dataset 
-    is often used as a synonym for a \gls{sample}, i.e., a sequence (or finite list) 
-	of \glspl{datapoint} and may contain repetitions. 
-	\gls{ml} methods use datasets to train and validate \glspl{model}. 
+	that does not contain any repetitions. However, in \gls{ml} literature, the 
+	term dataset is often used as a synonym for a \gls{sample}, i.e., 
+	a sequence (or finite list) of \glspl{datapoint} and may contain repetitions. 
+	\gls{ml} methods use datasets for \gls{model} \gls{training} and \gls{validation}. 
 	The notion of a dataset is broad: \glspl{datapoint} may represent concrete 
 	physical entities (such as humans or animals) or abstract objects (such as numbers). 
 	For illustration, Fig.~\ref{fig_cows_dataset_dict} depicts a dataset whose 
@@ -7598,7 +7609,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  	Since a sample is defined as a \gls{sequence}, the same \gls{datapoint} may 
 	appear more than once. By contrast, some authors in statistics define a sample 
 	as a set of \glspl{datapoint}, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
- 	These two views can be reconciled by regarding a sample as a \gls{sequence} of 
+ 	These two views (sequence vs. set) can be reconciled by regarding a sample as a \gls{sequence} of 
  	\gls{feature}–\gls{label} pairs, $\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \ldots, 
  	\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}$. The $\sampleidx$-th 
  	pair consists of the \glspl{feature} $\featurevec^{(\sampleidx)}$ and the \gls{label} $\truelabel^{(\sampleidx)}$ 
