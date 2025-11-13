@@ -5970,22 +5970,22 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	empirical risk.
     \begin{figure}[H]
     \begin{center}
-        \begin{tikzpicture}[scale=1.0]
+        \begin{tikzpicture}[yscale=0.3]
       
       \def\slope{1.55}
       \def\intercept{-2.05}
       \draw[thick,dashed,domain=0:6.5,variable=\x]
         plot({\x},{\slope*\x+\intercept});
-      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
+      \node[] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
       
       \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
         \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
           (pt\i) at (\xval,\yval) {};
         \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
       }
-      \node[below left] at (pt1) {$w^{(1)}$ small};
-      \node[below]      at (pt2) {$w^{(2)}$ medium};
-      \node[above right]at (pt3) {$w^{(3)}$ large};
+      \node[below left] at (pt1) {small $q^{(1)}$};
+      \node[below, yshift=-5pt]  at (pt2) {medium $q^{(2)}$ };
+      \node[below right]at (pt3) {large $q^{(3)}$};
     \end{tikzpicture}
       \caption{Sample weighting assigns each data point of a training set 
 	  a weight $q^{(r)}$. Assigning a small weight 
@@ -6338,6 +6338,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	    a random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
 		\\
 		See also: probability, random variable (RV), expectation.}, 
+	type=math, 
 	first={concentration inequality},
 	firstplural={concentration inequalities},
 	plural={concentration inequalities},  
@@ -8500,6 +8501,7 @@ sort={k-means},
 			   is a subspace of the Euclidean space $\mathbb{R}^{m}$.
 			   \\
 		See also: vector space, matrix.},
+	type=math,
 	first={column space},
 	text={column space}
 }
@@ -8520,6 +8522,7 @@ sort={k-means},
 			   vector space with respect to the same operations as $\mathcal{V}$.
 			   \\
 		See also: vector space.},
+	type=math, 
 	first={subspace},
 	text={subspace}
 }
@@ -8702,16 +8705,16 @@ Linear least squares\index{linear least squares} refers to the
 \newglossaryentry{weightedleastsquares}
 {name={weighted least squares},
  description={Weighted least squares\index{weighted least squares} 
- 	refers to empirical risk minimization (ERM)-based 
+ 			  refers to empirical risk minimization (ERM)-based 
                methods that use the weighted average squared error loss 
-			   $$ \frac{1}{m} \sum_{r=1}^{m} \beta^{(r)} \big( y^{(r)} 
+			   $$ \frac{1}{m} \sum_{r=1}^{m} q^{(r)} \big( y^{(r)} 
 			   - h({\bf x}^{(r)}) \big)^{2} $$   
 			   on a training set $\mathcal{D}= \big\{ \left( {\bf x}^{(1)},y^{(1)} \right), \,\ldots, \,
 			   \left( {\bf x}^{(m)},y^{(m)} \right) \big\}$	
 			   to measure the quality of a hypothesis map $h\in \mathcal{H}$. 
 		 	   \begin{figure}[H]
-		  \centering
-		  \begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+		  		\centering
+		  		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
 		  		\foreach \x/\y in {
 		  			1/2, 4/3, 7/10
 		  		} {
@@ -8723,20 +8726,20 @@ Linear least squares\index{linear least squares} refers to the
 		  		{$h$};
 		  		\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
 				  
-  \coordinate (lineStart) at (0.5, 3.5);
-  \coordinate (lineEnd)   at (10.5, 3.5);
-  \draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$h$};
-  
-  
-  \path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
-  
-  \draw[<->, very thick, red]
-    (proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
-    {$\beta^{(r)} \big( y^{(r)}\!-\!h\big({\bf x}^{(r)}\big) \big)^{2}$}
-    (ptB7);
-  
-  \fill[red] (proj7) circle (1.2pt);
-  \fill[red] (ptB7)  circle (1.2pt);
+				\coordinate (lineStart) at (0.5, 3.5);
+				\coordinate (lineEnd)   at (10.5, 3.5);
+				\draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$h$};
+				
+				
+				\path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
+				
+				\draw[<->, very thick, red]
+					(proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
+					{$q^{(r)} \big( y^{(r)}\!-\!h\big({\bf x}^{(r)}\big) \big)^{2}$}
+					(ptB7);
+				
+				\fill[red] (proj7) circle (1.2pt);
+				\fill[red] (ptB7)  circle (1.2pt);
 		  \end{tikzpicture}
 		  \caption{Weighted least squares can be used to mitigate the effect of outlier 
 		  data points in a training set. 
@@ -8744,10 +8747,10 @@ Linear least squares\index{linear least squares} refers to the
 		  
 		  \label{fig_weighted_least_squares_dict}}
 		 \end{figure}
-			   The weights $\beta^{(1)}, \,\ldots, \,\beta^{(m)} \in \mathbb{R}_{+}$
+			   The weights $q^{(1)}, \,\ldots, \,q^{(m)} \in \mathbb{R}_{+}$
 			   allow us to emphasize or de-emphasize the contribution of individual data points 
-			   in the training set. Ideally, we assign a small weight $\beta^{(r)}$ 
-			   (de-empahsize) the $r$-th data point if it is an outlier 
+			   in the training set. Ideally, we assign a small weight $q^{(r)}$ 
+			   to the $r$-th data point if it is an outlier 
 			   (see Figure \ref{fig_weighted_least_squares_dict}). 
 			   We obtain different weighted least squares methods by 
 			   using different models in empirical risk minimization (ERM).  
@@ -9288,41 +9291,48 @@ text={expectation}
 
 \newglossaryentry{clusteringerror}
 {name={clustering error}, 
-	description={Consider a clustering method\index{clustering error} that decomposes 
-	a given dataset into clusters. The clustering error is a quantitative 
-	measure for the usefulness of the clusters. Different clustering methods 
-	use different choices for the clustering error. 
+	description={Consider a clustering method\index{clustering error} 
+	that decomposes a given dataset into clusters. 
+	The clustering error is a quantitative measure for the 
+	usefulness of the clusters. Different clustering 
+	methods use different choices for the clustering error. 
 	\begin{figure}
-\centering
-\begin{tikzpicture}[scale=1]
-
-\coordinate (c1) at (0.8,0.7);
-\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
-\node[above left] at (c1) {${\bm \mu}^{(1)}$};
-\coordinate (c2) at (3.6,1.6);
-\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
-\node[above left] at (c2) {${\bm \mu}^{(2)}$};
-
-\begin{scope}[shift={(c1)}, xscale=0.9, yscale=0.7, rotate=0]
-  \foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-
-\begin{scope}[shift={(c2)}, xscale=0.8, yscale=0.8, rotate=0]
-  \foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-\end{tikzpicture}
-\caption{For data point with numeric feature vectors, we can use the 
-average squared Euclidean distance to the nearest cluster centroids as a measure for the clustering error.}
-\end{figure}
-	For example, the hard clustering 
-	method $k$-means measures the clustering error via the average squared 
-	Euclidean distance between a data point (its feature vector) and the nearest cluster centroid. 
+	\centering
+	\begin{tikzpicture}[scale=1]
+	
+	\coordinate (c1) at (0.8,0.7);
+	\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
+	\node[above left] at (c1) {${{\bf w}}^{(1)}$};
+	\coordinate (c2) at (6.6,1.6);
+	\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
+	\node[above left] at (c2) {${{\bf w}}^{(2)}$};
+	
+	\begin{scope}[shift={(c1)}, xscale=1.3, yscale=1.3, rotate=0]
+	\foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	
+	\begin{scope}[shift={(c2)}, xscale=1.5, yscale=1.5, rotate=0]
+	\foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	\end{tikzpicture}
+	\caption{For data point with numeric feature vectors, we can 
+	     use the average squared Euclidean distance to the nearest 
+		 cluster centroids as a measure for the clustering error.\label{fig_clustering_error_dict}}
+	\end{figure}
+	 For example, the hard clustering method $k$-means measures 
+	 the clustering error via the average squared Euclidean distance 
+	 between the feature vector of a data point 
+	 and the nearest cluster centroid (see Figure \ref{fig_clustering_error_dict}). 
+	 Another construction for the clustering error can be based on a probabilistic model 
+	 such as the Gaussian mixture model (GMM) where the cluster centroids are parameters 
+	 of the underlying probability distribution.\\ 
+	 See also: Gaussian mixture model (GMM), $k$-means, probabilistic model, maximum likelihood.
 	}, 
 	first={clustering error}, 
 	firstplural={clustering errors}, 
@@ -11336,7 +11346,8 @@ See also: function, dataset.},
 		in an aribtrary metric space $\mathcal{A}$. Indeed, we just need to 
 		replace the absolute difference $|a_{r} - a^\star|$ 
 		by the metric $d(a_{r},a^\star)$. 
-		Note that a sequence can only converge if it is a Cauchy sequence CITE. 
+		Note that a sequence can only converge if it is a 
+		Cauchy sequence \cite{RudinBookPrinciplesMatheAnalysis}. 
 		However, not every Cauchy sequence is converging (as this requires 
 		the underlying metric space to be complete).   \\ 
 	See also:  sequence, metric space, Cauchy sequence.},

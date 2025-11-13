@@ -5973,22 +5973,22 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	\gls{emprisk}.
     \begin{figure}[H]
     \begin{center}
-        \begin{tikzpicture}[scale=1.0]
+        \begin{tikzpicture}[yscale=0.3]
       % hypothesis line fitted (almost) to medium & large points
       \def\slope{1.55}
       \def\intercept{-2.05}
       \draw[thick,dashed,domain=0:6.5,variable=\x]
         plot({\x},{\slope*\x+\intercept});
-      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
+      \node[] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
       % three data points with varying weights (sizes)
       \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
         \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
           (pt\i) at (\xval,\yval) {};
         \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
       }
-      \node[below left] at (pt1) {$w^{(1)}$ small};
-      \node[below]      at (pt2) {$w^{(2)}$ medium};
-      \node[above right]at (pt3) {$w^{(3)}$ large};
+      \node[below left] at (pt1) {small $\sampleweight{1}$};
+      \node[below, yshift=-5pt]  at (pt2) {medium $\sampleweight{2}$ };
+      \node[below right]at (pt3) {large $\sampleweight{3}$};
     \end{tikzpicture}
       \caption{Sample weighting assigns each \gls{datapoint} of a \gls{trainset} 
 	  a weight $\sampleweight{\sampleidx}$. Assigning a small weight 
@@ -6341,6 +6341,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	    a \gls{rv} deviates more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
 		\\
 		See also: \gls{probability}, \gls{rv}, \gls{expectation}.}, 
+	type=math, 
 	first={concentration inequality},
 	firstplural={concentration inequalities},
 	plural={concentration inequalities},  
@@ -8503,6 +8504,7 @@ sort={k-means},
 			   is a \gls{subspace} of the \gls{euclidspace} $\mathbb{R}^{\samplesize}$.
 			   \\
 		See also: \gls{vectorspace}, \gls{matrix}.},
+	type=math,
 	first={column space},
 	text={column space}
 }
@@ -8523,6 +8525,7 @@ sort={k-means},
 			   \gls{vectorspace} with respect to the same operations as $\mathcal{V}$.
 			   \\
 		See also: \gls{vectorspace}.},
+	type=math, 
 	first={subspace},
 	text={subspace}
 }
@@ -8705,16 +8708,16 @@ Linear least squares\index{linear least squares} refers to the
 \newglossaryentry{weightedleastsquares}
 {name={weighted least squares},
  description={Weighted least squares\index{weighted least squares} 
- 	refers to \gls{erm}-based 
+ 			  refers to \gls{erm}-based 
                methods that use the weighted average \gls{sqerrloss} 
-			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)} 
+			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \sampleweight{\sampleidx} \big( \truelabel^{(\sampleidx)} 
 			   - \hypothesis(\featurevec^{(\sampleidx)}) \big)^{2} $$   
 			   on a \gls{trainset} $\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,
 			   \pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}} \big\}$	
 			   to measure the quality of a \gls{hypothesis} \gls{map} $\hypothesis \in \hypospace$. 
 		 	   \begin{figure}[H]
-		  \centering
-		  \begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+		  		\centering
+		  		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
 		  		\foreach \x/\y in {
 		  			1/2, 4/3, 7/10
 		  		} {
@@ -8726,20 +8729,20 @@ Linear least squares\index{linear least squares} refers to the
 		  		{$\hypothesis$};
 		  		\node[above right=2pt and 2pt, red] at (ptB7) {\gls{outlier}};
 				  % --- hypothesis line (horizontal at y=3.5) ---
-  \coordinate (lineStart) at (0.5, 3.5);
-  \coordinate (lineEnd)   at (10.5, 3.5);
-  \draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$\hypothesis$};
-  % --- projection of the outlier (ptB7) onto the hypothesis line ---
-  % same x-coordinate, y = 3.5 (height of hypothesis line)
-  \path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
-  % --- draw residual vector ---
-  \draw[<->, very thick, red]
-    (proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
-    {$\beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)}\!-\!\hypothesis\big(\featurevec^{(\sampleidx)}\big) \big)^{2}$}
-    (ptB7);
-  % --- emphasize points ---
-  \fill[red] (proj7) circle (1.2pt);
-  \fill[red] (ptB7)  circle (1.2pt);
+				\coordinate (lineStart) at (0.5, 3.5);
+				\coordinate (lineEnd)   at (10.5, 3.5);
+				\draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$\hypothesis$};
+				% --- projection of the outlier (ptB7) onto the hypothesis line ---
+				% same x-coordinate, y = 3.5 (height of hypothesis line)
+				\path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
+				% --- draw residual vector ---
+				\draw[<->, very thick, red]
+					(proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
+					{$\sampleweight{\sampleidx} \big( \truelabel^{(\sampleidx)}\!-\!\hypothesis\big(\featurevec^{(\sampleidx)}\big) \big)^{2}$}
+					(ptB7);
+				% --- emphasize points ---
+				\fill[red] (proj7) circle (1.2pt);
+				\fill[red] (ptB7)  circle (1.2pt);
 		  \end{tikzpicture}
 		  \caption{Weighted least squares can be used to mitigate the effect of \gls{outlier} 
 		  \glspl{datapoint} in a \gls{trainset}. %In this example, the \gls{outlier} 
@@ -8747,10 +8750,10 @@ Linear least squares\index{linear least squares} refers to the
 		  %to reduce its influence on the learned \gls{parameter} $\widehat{w}$. 
 		  \label{fig_weighted_least_squares_dict}}
 		 \end{figure}
-			   The weights $\beta^{(1)}, \,\ldots, \,\beta^{(\samplesize)} \in \mathbb{R}_{+}$
+			   The weights $\sampleweight{1}, \,\ldots, \,\sampleweight{\samplesize} \in \mathbb{R}_{+}$
 			   allow us to emphasize or de-emphasize the contribution of individual \glspl{datapoint} 
-			   in the \gls{trainset}. Ideally, we assign a small weight $\beta^{(\sampleidx)}$ 
-			   (de-empahsize) the $\sampleidx$-th \gls{datapoint} if it is an \gls{outlier} 
+			   in the \gls{trainset}. Ideally, we assign a small weight $\sampleweight{\sampleidx}$ 
+			   to the $\sampleidx$-th \gls{datapoint} if it is an \gls{outlier} 
 			   (see Figure \ref{fig_weighted_least_squares_dict}). 
 			   We obtain different weighted least squares methods by 
 			   using different \glspl{model} in \gls{erm}.  
@@ -9291,41 +9294,48 @@ text={expectation}
 
 \newglossaryentry{clusteringerror}
 {name={clustering error}, 
-	description={Consider a \gls{clustering} method\index{clustering error} that decomposes 
-	a given \gls{dataset} into \glspl{cluster}. The \gls{clustering} error is a quantitative 
-	measure for the usefulness of the \glspl{cluster}. Different \gls{clustering} methods 
-	use different choices for the \gls{clustering} error. 
+	description={Consider a \gls{clustering} method\index{clustering error} 
+	that decomposes a given \gls{dataset} into \glspl{cluster}. 
+	The \gls{clustering} error is a quantitative measure for the 
+	usefulness of the \glspl{cluster}. Different \gls{clustering} 
+	methods use different choices for the \gls{clustering} error. 
 	\begin{figure}
-\centering
-\begin{tikzpicture}[scale=1]
-% --- Centroids ---
-\coordinate (c1) at (0.8,0.7);
-\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
-\node[above left] at (c1) {$\clustermean{1}$};
-\coordinate (c2) at (3.6,1.6);
-\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
-\node[above left] at (c2) {$\clustermean{2}$};
-% --- Cluster 1 (edit xscale/yscale/rotate to change spread/orientation) ---
-\begin{scope}[shift={(c1)}, xscale=0.9, yscale=0.7, rotate=0]
-  \foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-% --- Cluster 2 ---
-\begin{scope}[shift={(c2)}, xscale=0.8, yscale=0.8, rotate=0]
-  \foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-\end{tikzpicture}
-\caption{For \gls{datapoint} with numeric \glspl{featurevec}, we can use the 
-average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a measure for the \gls{clustering} error.}
-\end{figure}
-	For example, the \gls{hardclustering} 
-	method \gls{kmeans} measures the \gls{clustering} error via the average squared 
-	\gls{eucliddist} between a \gls{datapoint} (its \gls{featurevec}) and the nearest \gls{clustercentroid}. 
+	\centering
+	\begin{tikzpicture}[scale=1]
+	% --- Centroids ---
+	\coordinate (c1) at (0.8,0.7);
+	\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
+	\node[above left] at (c1) {$\clustercentroid{1}$};
+	\coordinate (c2) at (6.6,1.6);
+	\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
+	\node[above left] at (c2) {$\clustercentroid{2}$};
+	% --- Cluster 1 (edit xscale/yscale/rotate to change spread/orientation) ---
+	\begin{scope}[shift={(c1)}, xscale=1.3, yscale=1.3, rotate=0]
+	\foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	% --- Cluster 2 ---
+	\begin{scope}[shift={(c2)}, xscale=1.5, yscale=1.5, rotate=0]
+	\foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	\end{tikzpicture}
+	\caption{For \gls{datapoint} with numeric \glspl{featurevec}, we can 
+	     use the average squared \gls{eucliddist} to the nearest 
+		 \glspl{clustercentroid} as a measure for the \gls{clustering} error.\label{fig_clustering_error_dict}}
+	\end{figure}
+	 For example, the \gls{hardclustering} method \gls{kmeans} measures 
+	 the \gls{clustering} error via the average squared \gls{eucliddist} 
+	 between the \gls{featurevec} of a \gls{datapoint} 
+	 and the nearest \gls{clustercentroid} (see Figure \ref{fig_clustering_error_dict}). 
+	 Another construction for the \gls{clustering} error can be based on a \gls{probmodel} 
+	 such as the \gls{gmm} where the \glspl{clustercentroid} are \glspl{parameter} 
+	 of the underlying \gls{probdist}.\\ 
+	 See also: \gls{gmm}, \gls{kmeans}, \gls{probmodel}, \gls{maxlikelihood}.
 	}, 
 	first={clustering error}, 
 	firstplural={clustering errors}, 
@@ -11342,7 +11352,8 @@ See also: \gls{function}, \gls{dataset}.},
 		in an aribtrary \gls{metricspace} $\mathcal{A}$. Indeed, we just need to 
 		replace the absolute difference $|a_{\sampleidx} - a^\star|$ 
 		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. 
-		Note that a \gls{sequence} can only converge if it is a \gls{cauchysequence} CITE. 
+		Note that a \gls{sequence} can only converge if it is a 
+		\gls{cauchysequence} \cite{RudinBookPrinciplesMatheAnalysis}. 
 		However, not every \gls{cauchysequence} is converging (as this requires 
 		the underlying \gls{metricspace} to be complete).   \\ 
 	See also:  \gls{sequence}, \gls{metricspace}, \gls{cauchysequence}.},
