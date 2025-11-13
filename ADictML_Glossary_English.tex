@@ -195,7 +195,65 @@
 
 \newglossaryentry{mgf}
 {name={moment generating function (MGF)}, 
- description={TBC \index{moment generating function (MGF)}.}, 
+ description={Consider 
+     The \index{moment generating function (MGF)} MGF $\mgf{x}{t}$ 
+	 of a real-valued \gls{rv} $x$ is defined as
+	 $\mgf{x}{t} = \expect \{ \exp(t \cdot x) \}$ for any $t \in \mathbb{R}$ 
+	 for which this \gls{expectation} exists \cite[Sec. 21]{BillingsleyProbMeasure}. 
+	 As its name indicates, the MGF allows to compute the moments 
+	 $\expect\{ x^{k} \}$ for $k \in \mathbb{N}$. 
+	 In particular, the $k$-th moment is obtained by evaluating the $k$-th 
+	 derivative of $\mgf{x}{t}$ for $t=0$, i.e., $\expect\{ x^{k} \} = \mgfder{x}{k}{0}$. 
+	 This identity can verified by using the Taylor expansion of $\exp(tx)$ to 
+	 represent the MGF as 
+	 \begin{align}
+		\mgf{x}{t} =\expect\{ \exp(t \cdot x)  \} \nonumber \\ 
+		& \stackrel{(a)}{=} \expect\!\bigg\{\sum_{k=0}^{\infty} \frac{t^{k}}{k!} x^{k}\bigg\}  \nonumber \\ 
+		& \stackrel{(b)}{=}  \sum_{k=0}^{\infty} \frac{t^{k}}{k!}\, \expect\!\big\{ x^{k} \big\}.
+	 \end{align}
+	 Here, step $(a)$ is due to the Taylor series expansion of 
+	 $\exp(t \cdot x)$ and step $(b)$ is valid when the MGF exists 
+	 for all $t$ in some interval $(-t_{0},t_{0})$ \cite[p. 278]{BillingsleyProbMeasure}
+	 \begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+			width=9cm, height=4.2cm,
+			domain=-1:1,
+			samples=200,
+			%axis lines*=left,        % removes bounding box, keeps left axis
+			xlabel={$x$},
+			ylabel={},
+			ytick=\empty,
+			ytick={-1,-0.5,0,0.5,1}, % manually set x-ticks
+            yticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
+			xtick={-1,-0.5,0,0.5,1}, % manually set x-ticks
+            xticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
+			xmin=-1, xmax=1,
+			legend style={at={(1.5,0.02)},anchor=south east}
+		]
+			% f1 = x
+			\addplot[thick, dashed] {x};
+			\addlegendentry{$x$}
+			% f2 = x^2
+			\addplot[thick, dotted] {x^2};
+			\addlegendentry{$x^{2}$}
+			% f3 = x^3
+			\addplot[thick, dashdotdotted] {x^3};
+			\addlegendentry{$x^{3}$}
+		\end{axis}
+		\end{tikzpicture}
+		\caption{The first few powers of a \gls{rv} $x$. The MGF 
+		encodes the moments of $x$ which are the \glspl{expectation} 
+		of the powers $x^{k}$ for $k=1,2,\ldots$.}
+		\end{figure}
+		The MGF is a useful tool for the study of sums of independent 
+		\glspl{rv}. As a case in point, if $x$ and $y$ are independent 
+		\glspl{rv}, then the MGF of their sum $z = x + y$ typically 
+		satisfies $\mgf{z}{t} = \mgf{x}{t}\,\mgf{y}{t}$,
+        i.e., the MGF of the sum is typically the pointwise product of the 
+		individual MGFs \cite[p.~280]{BillingsleyProbMeasure}.
+ 	 }, 
  first = {moment generating function (MGF)}, 
  firstplural={moment generating functions (MGFs)}, 
  plural = {MGFs}, 
