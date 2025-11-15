@@ -1248,11 +1248,18 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 \newglossaryentry{optmethod}
 {name={optimization method},
-	description={An\index{optimization method} optimization method is an \gls{algorithm} that 
-		reads in a representation of an \gls{optproblem} and delivers an (approximate) solution 
-		as its output \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
+	description={
+	An\index{optimization method} optimization method is 
+	an \gls{algorithm} that takes a representation of an 
+	\gls{optproblem} as input and computes an (approximate) 
+	solution as its output. A central example of an optimization 
+	problem in \gls{ml} is \gls{erm}. By applying an appropriate 
+	optimization method to \gls{erm}, we obtain a concrete learning 
+	\gls{algorithm} \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr},
+	\cite{nesterov04}.
 		 \\
 		 See also: \gls{algorithm}, \gls{optproblem}.},
+	type= math, 
 	first={optimization method},
 	firstplural={optimization methods}, 
 	plural={optimization methods}, 
@@ -1986,15 +1993,82 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 
 \newglossaryentry{ml}
 {name={machine learning (ML)},
-	description={ML\index{machine learning (ML)} aims to predict 
-	 	a \gls{label} from the \glspl{feature} of a \gls{datapoint}. ML methods achieve 
-	 	this by learning a \gls{hypothesis} from a \gls{hypospace} (or \gls{model}) 
-	 	through the minimization of a \gls{lossfunc} \cite{MLBasics}, \cite{HastieWainwrightBook}. 
-	 	One precise formulation of this principle is \gls{erm}. Different ML methods are 
-	 	obtained from different design choices for \glspl{datapoint} (i.e., their \glspl{feature} and \gls{label}), 
-	 	the \gls{model}, and the \gls{lossfunc} \cite[Ch. 3]{MLBasics}.
+	description={ML\index{machine learning (ML)} methods aim to learn (or find) 
+	a ueful \gls{hypothesis} \gls{map} $\learnthypothesis\!\in\!\hypospace$ out of 
+	a \gls{model} $\hypospace$. The learnt $\learnthypothesis$ is used to compute 
+	a \gls{prediction} $\predictedlabel=\learnthypothesis(\featurevec)$ for 
+	the \gls{label} $\truelabel$ of a \gls{datapoint}. The learning is guided 
+	by some quantitative measure for the \gls{loss} incurred by the \glspl{prediction} 
+	obtrained from learned \gls{hypothesis} typically different 
+	from the actual \gls{label} $\truelabel$. Different ML methods use different 
+	design choices for this quantitative measure (or \gls{lossfunc}) as well as 
+	different choices for the \gls{model} and the \glspl{datapoint} (i.e., 
+	their \glspl{feature} and \glspl{label}) \cite[Ch. 3]{MLBasics}. 
+	\begin{figure}[ht]
+	\centering
+	\hspace*{5mm}
+	\begin{tikzpicture}[
+		node distance=1cm,
+		auto,
+		punkt/.style={
+			rectangle,
+			rounded corners,
+			draw=black,
+			very thick,
+			text width=3cm,
+			minimum height=1cm,
+			align=center
+		}
+		]
+		\coordinate (OR) at (0.00, 1.50);
+		% concentric circles
+		\node[circle,inner sep=0,minimum size={6cm}](a) at (OR) {};
+		\node[circle,inner sep=0,minimum size={8cm}](b) at (OR) {};
+		\node[circle,inner sep=0,minimum size={8cm}](c) at (OR) {};
+		% arcs and radii
+		\draw[red,line width=1,dashed] (a.-150) arc (-150:{-150+120}:3cm);
+		\draw[blue,line width=1,dashed] (b.160) arc (160:{160+50}:4cm);
+		\draw[black!30!green,line width=2,dashed] (c.20) arc (20:{160}:4cm);
+		\draw[black!30!blue,line width=2,dashed] ([shift={(-30:6cm)}]OR) arc (-30:{20}:6cm);
+		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(-30:6cm)}]OR);
+		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(20:6cm)}]OR);
+		\draw[black!30!green,line width=2,dashed] (OR) -- (c.20);
+		\draw[black!30!green,line width=2,dashed] (OR) -- (c.160);
+		\draw[blue,thin,dashed] (OR) -- (b.160);
+		\draw[blue,thin,dashed] (OR) -- (b.210);
+		\draw[red,thin,dashed] (OR) -- (a.-150);
+		\draw[red,thin,dashed] (OR) -- (a.-30);   
+		% nodes
+		\node[punkt] (data) {observations};
+		\node[red,below=0.5cm of data] (data1) {\gls{data}};
+		\node[above=of data] (dummy) {};
+		\node[punkt,above=1cm of dummy] (hypothesis) {\gls{hypothesis}};
+		\node[right=1.4cm of dummy] (t) {make \gls{prediction}} ; 
+		\node[left=1.4cm of dummy] (g) {assess and adapt} ;
+		\node[blue,below=0.5cm of g,anchor=east] (g1) {\gls{loss}} ; 
+		\node[black!30!blue,below=1cm of t,anchor=west] (g6) {inference} ; 
+		\node[black!30!green,above=1cm of hypothesis,anchor=south] (g3) {\gls{model}} ; 
+		% arrows
+		\draw [->,line width=0.5mm] (hypothesis.east) to [out=0,in=90] (t.north);
+		\draw [->,line width=0.5mm] (t.south) to [out=270,in=0] (data.east);
+		\draw [->,line width=0.5mm] (data.west) to [out=180,in=270] (g.south);
+		\draw [->,line width=0.5mm] (g.north) to [out=90,in=180] (hypothesis.west);
+		\end{tikzpicture}
+		\vspace*{-9mm}
+		\caption{ML learns a \gls{hypothesis} out of a \gls{model} (or \gls{hypospace}) 
+			by trying to minimize the \gls{loss} incurred by the \glspl{prediction} 
+			for the \glspl{label} of \glspl{datapoint}. The \glspl{prediction} are 
+			comptued solely from the \glspl{feature} of the \glspl{datapoint}.}
+		\label{fig_AlexMLBP_dict}
+	\end{figure}
+	Another distinction between ML methods is how they access \glspl{datapoint} during 
+	learning. For example, some methods have access to a complete \gls{dataset} 
+	during \gls{training} which allows them to use \gls{erm} \cite{MLBasics}, \cite{HastieWainwrightBook}. 
+	In contrast, \gls{onlinelearning} methods access \glspl{data} 
+	sequentially and, in turn, update the learned \gls{hypothesis} 
+	whenever a new \gls{datapoint} arrives \cite{PredictionLearningGames,HazanOCO,Bottou99}.
 	 			\\ 
-		See also: \gls{model}, \gls{data}, \gls{loss}.},
+		See also: \gls{model}, \gls{data}, \gls{loss}, \gls{erm}, \gls{onlinelearning}.},
 	first={machine learning (ML)},
 	text={ML}
 } 
@@ -4401,12 +4475,13 @@ text={integrable}
 
 \newglossaryentry{onlinelearning}
 {name={online learning},
-	description={Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
-		manner, updating their \glspl{modelparam} one at a time, as new \glspl{datapoint} become available. 
-		A typical example is time-series \gls{data}, such as daily \gls{minimum} and \gls{maximum} temperatures 
-		recorded by an \gls{fmi} weather station. These values form a chronological sequence 
-		of observations. During each time step $\timeidx$, online learning methods update (or refine)  
-		the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ (or \glspl{modelparam} $\weights^{(\timeidx)}$) 
+	description={Some \gls{ml} methods \index{online learning} are designed to 
+	    process \gls{data} in a sequential manner, updating their \glspl{modelparam} 
+		one at a time, as new \glspl{datapoint} become available. A typical example 
+		is time-series \gls{data}, such as daily \gls{minimum} and \gls{maximum} 
+		temperatures recorded by an \gls{fmi} weather station. These values form 
+		a chronological sequence of observations. During each time step $\timeidx$, 
+		online learning methods update (or refine) the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ (or \glspl{modelparam} $\weights^{(\timeidx)}$) 
 		based on the newly observed \gls{datapoint} $\datapoint^{(\timeidx)}$. 
 		\\ 
 		See also: \gls{onlineGD}, \gls{onlinealgorithm}. },
@@ -7398,15 +7473,16 @@ this pmf exactly. Such \glspl{dataset} could arise as \glspl{realization} of
 \gls{iid} \glspl{rv} sharing the common pmf $\pmf{\feature}{\cdot}$. 
 \label{fig_pmf_dict}}
 \end{figure}
-The pmf satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}{\feature'} = 1$. 
-A pmf defined over the set $\featurespace$ can be viewed as an idealized description of any sufficiently long 
-\gls{dataset} $\dataset = \{\feature^{(1)}, \ldots, \feature^{(\samplesize)}\}$, 
-whose relative frequencies of each value $\feature' \in \featurespace$ 
-are close to the corresponding pmf value $\pmf{\feature}{\feature'}$, 
+A pmf always satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}{\feature'} = 1$. 
+We can view a pmf as representing a collection of (sufficiently long)  
+\glspl{dataset}. This collection contains any 
+$\dataset = \{\feature^{(1)}, \ldots, \feature^{(\samplesize)}\}$, 
+with the relative frequencies of every value $\feature' \in \featurespace$ 
+being close to the corresponding pmf value $\pmf{\feature}{\feature'}$, 
 $$ \frac{\big|\sampleidx \in \{1,\ldots,\samplesize\}: \feature^{(\sampleidx)}= \feature' \big|}
 {\samplesize} \approx \pmf{\feature}{\feature'}.$$ 
-A rigorous treatment of this approximation principle is at the heart 
-information theory and statistics \cite{coverthomas,Kullback68informationtheory,CIT-004}.
+The study of this set of typical \glspl{dataset}, naturally associated with a given pmf, 
+is at the heart information theory and statistics \cite{coverthomas,Kullback68informationtheory,CIT-004}.
 				\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{probmodel}.},
 	first={probability mass function (pmf)},
@@ -8426,21 +8502,37 @@ sort={k-means},
 
 \newglossaryentry{em}
 {name={expectation–maximization (EM)}, 
-	description={\index{expectation–maximization (EM)} 
-		Consider a \gls{probmodel} $\prob{\datapoint; \weights}$ for the \glspl{datapoint} $\dataset$ generated in some 
-		\gls{ml} application. The \gls{maxlikelihood} estimator for the \glspl{modelparam} $\weights$ is obtained by maximizing 
-		$\prob{\dataset; \weights}$. However, the resulting \gls{optproblem} might be computationally 
-		challenging. EM approximates the \gls{maxlikelihood} estimator by introducing a latent 
-		\gls{rv} $\vz$ such that maximizing $\prob{\dataset,\vz; \weights}$ would be easier 
-		\cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. Since we 
-		do not observe $\vz$, we need to estimate it from the observed \gls{dataset} $\dataset$ 
-		using a conditional \gls{expectation}. The resulting estimate $\widehat{\vz}$ is then used to 
-		compute a new estimate $\widehat{\weights}$ by solving $\max_{\weights} \prob{\dataset, \widehat{\vz}; \weights}$. 
-		The crux is that the conditional \gls{expectation} $\widehat{\vz}$ depends on the \glspl{modelparam} $\widehat{\weights}$, 
-		which we have updated based on $\widehat{\vz}$. Thus, we have to recalculate $\widehat{\vz}$, 
-		which, in turn, results in a new choice $\widehat{\weights}$ for the \glspl{modelparam}. In practice, 
-		we repeat the computation of the conditional \gls{expectation} (i.e., the E-step) and the update 
-		of the \glspl{modelparam} (i.e., the M-step) until some \gls{stopcrit} is met. 
+	description={\index{expectation–maximization (EM)}
+	    Consider a \gls{ml} application with a given 
+		\gls{dataset} $\dataset$ and each \gls{datapoint} 
+		is characterized by a \gls{featurevec} $\featurevec$. 
+		 The \gls{data} generation is approximated via an \gls{iidasspt} 
+		 using a common underlying \gls{probdist} $\probdist^{(\featurevec;\weights)}$. 
+		 A widely-used method for estimating the \glspl{modelparam} 
+		 $\weights$ is \gls{maxlikelihood} \cite{DempsterEM1977}. 
+		 In \gls{maxlikelihood}, the estimate of the \glspl{modelparam} 
+		 $\weights$ is obtained by maximizing the value of the 
+		 \gls{probability} (or \gls{pdf}) for a given \gls{dataset}. 
+		 The resulting \gls{optproblem} might be computationally infeasible. 
+		 EM approximates the \gls{maxlikelihood} problem by introducing 
+		 an extra \gls{feature} (or \gls{label}) $\truelabel$ for each 
+		 \gls{datapoint} and a corresponding complete \gls{probdist} $\probdist^{(\featurevec, \truelabel; \weights)}$
+		 \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. 
+		 The idea is to choose this extra \gls{feature} $\truelabel$ such that, if we would 
+		 observe it for each \gls{datapoint} in $\dataset$, the resulting \gls{maxlikelihood} 
+		 problem for the complete \gls{dataset} $\widetilde{dataset}$ would be easy to solve.
+		 However, since we do not observe this extra \gls{feature} $\truelabel$, 
+		 we need to estimate it from the observed \gls{dataset} $\dataset$. 
+		 The resulting estimates $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$ 
+		 are then used to compute a new estimate $\widehat{\weights}$.
+		 The crux is that the estimates $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$ 
+		 depend on the \glspl{modelparam} $\widehat{\weights}$, which we have updated based 
+		 on $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$. Thus, we have 
+		 to recalculate $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$, 
+		 which, in turn, results in a new choice $\widehat{\weights}$ for the \glspl{modelparam}. 
+		 In practice, we repeat the computation of the conditional \gls{expectation} 
+		 (i.e., the E-step) and the update of the \glspl{modelparam} (i.e., the M-step) 
+		 until some \gls{stopcrit} is met. 
 				\\
 		See also: \gls{probmodel}, \gls{maxlikelihood}, \gls{optproblem}. },
 	first={EM},
