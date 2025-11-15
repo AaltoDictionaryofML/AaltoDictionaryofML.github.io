@@ -9555,54 +9555,134 @@ Siehe auch: \gls{function}, \gls{dataset}.},
 	plural={Sequenzen}
 }
 
-
-
-
-
-\newglossaryentry{flowbasedclustering}
-{
-	name={flussbasiertes Clustering},
-	description={
-		Flussbasiertes \gls{Clustering}\index{flussbasiertes Clustering} gruppiert die Knoten eines 
-		ungerichteten \gls{Graphen}, indem \gls{KMeans}-\gls{Clustering} auf knotenspezifische 
-		\gls{Featurevektoren} angewendet wird. 
-		
-		Diese \gls{Featurevektoren} werden aus Netzwerkflüssen konstruiert, die zwischen sorgfältig 
-		ausgewählten Quell- und Zielknoten verlaufen \cite{FlowSpecClustering2021}.
-	},
-	first={flussbasiertes Clustering},
-	text={flussbasiertes Clustering}
+\newglossaryentry{johnsonlindenstrausslemma}
+{name={Johnson--Lindenstrauss (JL)-Lemma},
+  description={Das \index{Johnson--Lindenstrauss (JL) lemma} beschreibt Bedingungen 
+  für die Existenz einer \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \to \mathbb{R}^{\nrfeatures'}$ 
+  mit $\nrfeatures' \ll \nrfeatures$, sodass die paarweisen \gls{eucliddist} zwischen 
+  den \glspl{featurevec} eines endlichen \gls{dataset} näherungsweise erhalten bleiben 
+  \cite{vershynin2018high,JMLR:v19:18-264,johnson1984extensions}. 
+  Betrachte ein \gls{dataset} $\dataset = \big\{\featurevec^{(1)}, \dots, \featurevec^{(\samplesize)} \big\}$ 
+  mit \glspl{datapoint}, die durch \glspl{featurevec} in $\mathbb{R}^{\nrfeatures}$ charakterisiert sind. 
+  Dann gilt: Für jedes $\nrfeatures'$, das
+	\[
+	  \nrfeatures' \ge \frac{4 \ln(\samplesize)}{\varepsilon^2/2 - \varepsilon^3/3} \quad \text{für ein } 0 < \varepsilon < 1
+	\]
+   erfüllt, existiert eine \gls{featuremap} $\featuremapvec$, sodass \cite{ProofJLlemma}
+   \begin{equation} 
+ 		\label{equ_def_approx_norm_JL_lemma_dict}
+ 		(1\!-\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}  
+ 		\!\le\!\normgeneric{\featuremapvec\big(\featurevec^{(\sampleidx)}\big)\!-\!\featuremapvec\big(\featurevec^{(\sampleidx')}\big)}{2} 
+		\!\le\!(1\!+\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}
+ 	\end{equation}
+	für alle $\featurevec^{(\sampleidx)}, \featurevec^{(\sampleidx')} \in \dataset$. 
+	\begin{figure}[hbtp]
+		\centering
+	\begin{tikzpicture}
+% Original space
+		\begin{scope}
+			\coordinate (x1) at (0.5,-0.6);
+			\coordinate (x2) at (2.0,0.9);
+			\coordinate (x3) at (1.1,0.3);
+			\foreach \p in {x1,x2,x3} \fill (\p) circle (1.7pt);
+			\node[below left]  at (x1) {\small $\featurevec^{(1)}$};
+			\node[above right] at (x2) {\small $\featurevec^{(2)}$};
+			\node[above left]  at (x3) {\small $\featurevec^{(3)}$};
+			\node[anchor=east] at (1.2,2.2) {$\mathbb{R}^{\nrfeatures}$};
+		\end{scope}
+% Arrow
+		\begin{scope}[xshift=1cm]
+			\draw[->, thick] (2.9,2.2) -- (4.1,2.2)
+			node[midway, above] {$\featurevec \mapsto \vz \!\defeq\! \featuremapvec(\featurevec)$};
+		\end{scope}
+% Transformed
+		\begin{scope}[xshift=2cm]
+			\coordinate (y1) at (4.7,-0.7);
+			\coordinate (y2) at (6.1,0.5);
+			\coordinate (y3) at (5.3,-0.1);
+			\foreach \p in {y1,y2,y3} \fill (\p) circle (1.7pt);
+			\node[below left]  at (y1) {\small $\vz^{(1)}$};
+			\node[above right] at (y2) {\small $\vz^{(2)}$};
+			\node[above left]  at (y3) {\small $\vz^{(3)}$};
+			\node[anchor=west] at (6.0,2.2) {$\mathbb{R}^{\nrfeatures'}$};
+		\end{scope}
+	\end{tikzpicture}
+		\caption{Das JL-Lemma liefert Bedingungen, die die Existenz einer 
+		         \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+				 garantieren, welche paarweise \glspl{eucliddist} zwischen (den \glspl{featurevec} von) 
+				 \glspl{datapoint} näherungsweise erhält. Grob gesprochen 
+				 bildet $\featuremapvec$ benachbarte Punkte im ursprünglichen \gls{featurespace} 
+				 auf benachbarte Punkte im neuen \gls{featurespace} ab.}
+	\end{figure}
+	Die \gls{featuremap} $\featuremapvec$ kann durch eine zufällige \gls{matrix} 
+	$\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$ mit \gls{iid} 
+	normalverteilten \glspl{rv} $A_{i,j} \sim \mvnormal{0}{1/\nrfeatures'}$ erzeugt werden. 
+	Man kann zeigen, dass die Abbildung $\featurevec \mapsto \underbrace{\mA \featurevec}_{\featuremapvec(\featurevec)}$ 
+	\eqref{equ_def_approx_norm_JL_lemma_dict} mit \gls{probability} mindestens $1\!-\!1/\samplesize$ erfüllt 
+	\cite{ProofJLlemma}. \\
+  	See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{dimred}, \gls{pca}.},
+	first={Johnson--Lindenstrauss (JL)-Lemma},
+	text={JL-Lemma}
 }
 
 
-
-
-
-		 
-
-\newglossaryentry{classification}
-{name={Klassifizierung},
-	description={Klassifizierung\index{Klassifizierung} bezeichnet ML Anwendungen die darauf abzielen, 
-		Datenpunkte in eine von mehreren vorgegebenen Kategorien oder Klassen einzuordnen.
-	},first={Klassifizierung},text={Klassifizierung} 
+\newglossaryentry{markovsinequality}
+{name={Markovs Ungleichung},
+     description={Betrachte eine reellwertige, nichtnegative \gls{rv} $x$, für die der 
+	 \gls{expectation}-Wert $\expect\{ x\}$ existiert. \index{Markovs Ungleichung} 
+	 Markovs Ungleichung liefert eine obere Schranke für die \gls{probability} 
+	 $\prob{x\geq a}$, dass $x$ einen gegebenen positiven Schwellenwert $a>0$ überschreitet.  
+	 Insbesondere gilt          
+	 \begin{equation}
+            \prob{x \geq a} \leq \frac{\expect \{ x\}}{a} \qquad \text{für alle } a > 0. 
+            \label{eq:markovsinequality_dict}
+        \end{equation}
+	 Diese Ungleichung lässt sich nachweisen, indem man bemerkt, dass 
+	 $\prob{x \geq a}$ die \gls{expectation} $\expect{g(x)}$ der \gls{function}
+	 $$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \indicatorfunc{\{x \geq a\}}(x')$$ 
+	 ist. Wie in Abbildung \ref{fig:markovsinequality_dict} illustriert, gilt für jedes positive $a>0$
+	 $$ g(x') \leq x'/a \quad \text{für alle } x' \in \mathbb{R}. $$
+	 Dies impliziert \eqref{eq:markovsinequality_dict} aufgrund der Monotonie des 
+	 \gls{LebesgueIntegral} \cite[p. 50]{folland1999real}. 
+    \begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
+		% -------- parameters ----------
+		\def\a{3.24}      % threshold a
+		\def\xmax{10}     % x-axis max
+		\def\m{0.02}      % slope of the linear function y = m(x-a)+1
+		% -------- pdf function p(x) ----------
+		\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
+		\draw[-{Latex}] (0,0) -- (0,3.1) node[left] {$\pdf{x}{x'}$};
+		\fill[blue!15, opacity=0.3]
+			plot[samples=400, domain=0:\xmax, smooth]
+			(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
+		\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
+			plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
+			node[pos=0.9, above right, xshift=2pt] {};
+		\draw[dashed, gray] (\a,0) -- (\a,1.05);
+		\node[below] at (\a,0) {$a$};
+		\node[above] at (1*\a,3) {$\prob{x \geq a} \leq \frac{\expect \{ x\}}{a}$}; 
+		\node[below] at (0,0) {$0$};
+		% indicator
+		\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
+		\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
+		\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
+			node[pos=0.9, above, yshift=2pt] {$\indicatorfunc{\{x \ge a\}}(x')$};
+		\filldraw[green!60!black] (\a,1) circle (2pt);
+		\draw[red!70, very thick, samples=2, domain=0:\xmax]
+			plot (\x,{ \x*(1/\a) }); 
+		\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
+		\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
+		\end{tikzpicture}
+            \caption{Die \gls{expectation} $\expect\{x\}$ und die \gls{probability} $\prob{x \geq a}$ 
+			    einer nichtnegativen \gls{rv} mit \gls{probdist} $\probdist^{(x)}$ 
+				ergeben sich über \glspl{LebesgueIntegral} von 
+				$f(x') = x'/a$ bzw. $g(x') = \indicatorfunc{\{x \geq a\}}(x')$.}
+            \label{fig:markovsinequality_dict}
+        \end{figure} \\
+		See also: \gls{expectation}, \gls{probability}, \gls{concentrationinequ}.},
+    first={Markovs Ungleichung},
+	type=math, 
+    text={Markovs Ungleichung}  
 }
-
-\newglossaryentry{FedGD}
-{name={FedGD},
-	description={An\index{FedGD} \gls{fl} \gls{distributedalgorithm} that 
-		can be implemented as message passing across an \gls{empgraph}. 
-		\\ 
-		See also: \gls{fl}, \gls{algorithm}, \gls{gradstep}, \gls{gdmethods}.},
-	first={FedGD},text={FedGD}
-} 
-
-
-\newglossaryentry{fedavg}
-{name={Federated (Föderales) Averaging (FedAvg)},
-	description={\textit{FedAvg}\index{Federated Averaging (FedAvg)} bezeichnet einen iterativen \gls{fl}-\gls{algorithmus}, 
-		der zwischen dem separaten Training von \gls{localmodel}s und dem Zusammenführen der aktualisierten lokalen \glspl{modelparam} wechselt. 
-		Das Training der \gls{localmodel}s erfolgt dabei über mehrere Schritte des \gls{stochGD} 
-		\cite{pmlr-v54-mcmahan17a}.}, 
-	first = {FedAvg}, text={FedAvg} 
-}
-
