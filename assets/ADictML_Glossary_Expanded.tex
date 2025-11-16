@@ -8500,37 +8500,84 @@ sort={k-means},
 \newglossaryentry{em}
 {name={expectation–maximization (EM)}, 
 	description={\index{expectation–maximization (EM)}
-	    Consider a machine learning (ML) application with a given 
-		dataset $\mathcal{D}$ and each data point 
-		is characterized by a feature vector ${\bf x}$. 
-		 The data generation is approximated via an independent and identically distributed assumption (i.i.d.\ assumption) 
-		 using a common underlying probability distribution $\mathbb{P}^{({\bf x};{\bf w})}$. 
-		 A widely-used method for estimating the model parameters 
-		 ${\bf w}$ is maximum likelihood \cite{DempsterEM1977}. 
-		 In maximum likelihood, the estimate of the model parameters 
-		 ${\bf w}$ is obtained by maximizing the value of the 
-		 probability (or probability density function (pdf)) for a given dataset. 
-		 The resulting optimization problem might be computationally infeasible. 
-		 EM approximates the maximum likelihood problem by introducing 
-		 an extra feature (or label) $y$ for each 
-		 data point and a corresponding complete probability distribution $\mathbb{P}^{({\bf x}, y; {\bf w})}$
-		 \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. 
-		 The idea is to choose this extra feature $y$ such that, if we would 
-		 observe it for each data point in $\mathcal{D}$, the resulting maximum likelihood 
-		 problem for the complete dataset $\widetilde{dataset}$ would be easy to solve.
-		 However, since we do not observe this extra feature $y$, 
-		 we need to estimate it from the observed dataset $\mathcal{D}$. 
-		 The resulting estimates $\hat{y}^{(1)},\ldots,\hat{y}^{(m)}$ 
-		 are then used to compute a new estimate $\widehat{{\bf w}}$.
-		 The crux is that the estimates $\hat{y}^{(1)},\ldots,\hat{y}^{(m)}$ 
-		 depend on the model parameters $\widehat{{\bf w}}$, which we have updated based 
-		 on $\hat{y}^{(1)},\ldots,\hat{y}^{(m)}$. Thus, we have 
-		 to recalculate $\hat{y}^{(1)},\ldots,\hat{y}^{(m)}$, 
-		 which, in turn, results in a new choice $\widehat{{\bf w}}$ for the model parameters. 
-		 In practice, we repeat the computation of the conditional expectation 
-		 (i.e., the E-step) and the update of the model parameters (i.e., the M-step) 
-		 until some stopping criterion is met. 
-				\\
+	    The EM algorithm is an iterative optimization method for 
+		approximately solving certain maximum likelihood optimization problems 
+		that are difficult to solve directly \cite[Sec. 9.4]{BishopBook}, \cite[Sec. 11.4.7]{Murphy2012}.
+	    To motivate the EM algorithm and explain its construction, 
+		consider a machine learning (ML) application involving a single observed data point 
+		with feature $x\in \mathcal{X}$, where $\mathcal{X}$ 
+		is a finite feature space. The data generation 
+		is modeled via a probabilistic model that consists of a random variable (RV) $x'$ 
+		with probability mass function (pmf) $p^{(x')}\left(\cdot;{\bf w}\right)$. Here, 
+		the actual model parameters ${\bf w}\in \mathcal{W}$ - used for the data 
+		generation via sampling from $p^{(x')}\left(\cdot;{\bf w}\right)$ - are unknown. A widely 
+		used approach for estimating these model parameter is via the solutions of the maximum likelihood 
+		problem
+		\begin{equation}
+			\label{equ_def_ML_EM_dict}
+			\min_{{\bf w}\in \mathcal{W}} - \log p^{(x')}\left(x;{\bf w}\right).
+		\end{equation}
+		For some probabilistic models, such as a Gaussian mixture model (GMM), this optimization problem can be 
+		difficult to solve directly. As a work-around, one can often introduce an auxiliary 
+		attribute $y\in \mathcal{Y}$, generated via some random variable (RV) $y'$, 
+		such that the corresponding probabilistic model $p^{(x',y')}\left(\cdot,\cdot;{\bf w}\right)$ 
+		yields a much easier maximum likelihood problem 
+		\begin{equation}
+			\label{equ_def_complete_EM_dict}
+			\min_{{\bf w}\in \mathcal{W}} 
+			- \log p^{(x',y')}\left(x,y;{\bf w}\right).
+		\end{equation}
+		The attribute $y$ is introduced solely to simplify 
+		\eqref{equ_def_complete_EM_dict}, but it is not observed in practice—only the 
+		feature $x$ is available. Thus, we cannot solve \eqref{equ_def_complete_EM_dict} 
+		directly as we do not know which value $y$ to plug into the probability mass function (pmf) 
+		$ p^{(x',y')}\left(x,y;{\bf w}\right)$. 
+		The EM method resolves this dilemma by alternating between two steps:
+		\begin{itemize}
+			\item {\bf (E-step)} computing a “soft’’ estimate of the auxiliary 
+			attribute $y$ in the form of the posterior 
+			$p^{(y'|x')}\left(\cdot;\widehat{{\bf w}}\right)$
+			using the current choice $\widehat{{\bf w}}$ for the model parameters, and 
+			\item {\bf (M-step)} minimizing a surrogate objective function derived from this posterior.
+		\end{itemize}
+		The completion of these two steps constitutes one full iteration of 
+		the EM method. 
+		In more detail, the E-step produces the function
+		\[
+		Q({\bf w}\mid \widehat{{\bf w}})
+		:=- \sum_{y\in \mathcal{Y}} 
+		p^{(y'|x')}\left(y;\widehat{{\bf w}}\right)
+		\log\!\Big(
+		p^{(x',y')}\left(x,y;{\bf w}\right)
+		/p^{(y'|x')}\left(y;\widehat{{\bf w}}\right)
+		\Big),
+		\]
+		and the M-step minimizes $Q({\bf w}\mid \widehat{{\bf w}})$ over 
+		${\bf w}\in \mathcal{W}$.
+		This function satisfies two key properties \cite[Sec. 9.4]{BishopBook},\cite[Sec. 11.4.7]{Murphy2012}:
+		\begin{itemize}
+			\item {\bf Upper bound:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict}
+				Q({\bf w}\mid \widehat{{\bf w}})
+				\geq
+				- \log p^{(x')}\left(x;{\bf w}\right)
+				\quad \text{for all } {\bf w}\in \mathcal{W}.
+			\end{equation}
+			\item {\bf Tightness:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict_tight}
+				Q(\widehat{{\bf w}}\mid \widehat{{\bf w}})
+				=- \log p^{(x')}\left(x;\widehat{{\bf w}}\right).
+			\end{equation}
+		\end{itemize}
+		To summarize, during each iteration, EM minimizes an upper-bounding 
+		surrogate objective function that is tight at the current iterate $\widehat{{\bf w}}$. 
+		Thus, EM is a majorize–minimize (MM) method for approximately solving \eqref{equ_def_ML_EM_dict}. 
+		The above construction and analysis of EM can be extended to more 
+		general settings involving multiple data points 
+		and infinite feature spaces such as $\mathbb{R}^{d}$; see \cite[Sec. 11.4.7]{Murphy2012} for details. 
+			\\
 		See also: probabilistic model, maximum likelihood, optimization problem. },
 	first={EM},
 	text={EM}

@@ -8503,37 +8503,85 @@ sort={k-means},
 \newglossaryentry{em}
 {name={expectation–maximization (EM)}, 
 	description={\index{expectation–maximization (EM)}
-	    Consider a \gls{ml} application with a given 
-		\gls{dataset} $\dataset$ and each \gls{datapoint} 
-		is characterized by a \gls{featurevec} $\featurevec$. 
-		 The \gls{data} generation is approximated via an \gls{iidasspt} 
-		 using a common underlying \gls{probdist} $\probdist^{(\featurevec;\weights)}$. 
-		 A widely-used method for estimating the \glspl{modelparam} 
-		 $\weights$ is \gls{maxlikelihood} \cite{DempsterEM1977}. 
-		 In \gls{maxlikelihood}, the estimate of the \glspl{modelparam} 
-		 $\weights$ is obtained by maximizing the value of the 
-		 \gls{probability} (or \gls{pdf}) for a given \gls{dataset}. 
-		 The resulting \gls{optproblem} might be computationally infeasible. 
-		 EM approximates the \gls{maxlikelihood} problem by introducing 
-		 an extra \gls{feature} (or \gls{label}) $\truelabel$ for each 
-		 \gls{datapoint} and a corresponding complete \gls{probdist} $\probdist^{(\featurevec, \truelabel; \weights)}$
-		 \cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. 
-		 The idea is to choose this extra \gls{feature} $\truelabel$ such that, if we would 
-		 observe it for each \gls{datapoint} in $\dataset$, the resulting \gls{maxlikelihood} 
-		 problem for the complete \gls{dataset} $\widetilde{dataset}$ would be easy to solve.
-		 However, since we do not observe this extra \gls{feature} $\truelabel$, 
-		 we need to estimate it from the observed \gls{dataset} $\dataset$. 
-		 The resulting estimates $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$ 
-		 are then used to compute a new estimate $\widehat{\weights}$.
-		 The crux is that the estimates $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$ 
-		 depend on the \glspl{modelparam} $\widehat{\weights}$, which we have updated based 
-		 on $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$. Thus, we have 
-		 to recalculate $\predictedlabel^{(1)},\ldots,\predictedlabel^{(\samplesize)}$, 
-		 which, in turn, results in a new choice $\widehat{\weights}$ for the \glspl{modelparam}. 
-		 In practice, we repeat the computation of the conditional \gls{expectation} 
-		 (i.e., the E-step) and the update of the \glspl{modelparam} (i.e., the M-step) 
-		 until some \gls{stopcrit} is met. 
-				\\
+	    The EM \gls{algorithm} is an iterative \gls{optmethod} for 
+		approximately solving certain \gls{maxlikelihood} \glspl{optproblem} 
+		that are difficult to solve directly \cite[Sec. 9.4]{BishopBook}, \cite[Sec. 11.4.7]{Murphy2012}.
+	    To motivate the EM \gls{algorithm} and explain its construction, 
+		consider a \gls{ml} application involving a single observed \gls{datapoint} 
+		with \gls{feature} $\feature \in \featurespace$, where $\featurespace$ 
+		is a finite \gls{featurespace}. The \gls{data} generation 
+		is modeled via a \gls{probmodel} that consists of a \gls{rv} $\feature'$ 
+		with \gls{pmf} $\pmf{\feature'}{\cdot;\weights}$. Here, 
+		the actual \glspl{modelparam} $\weights \in \paramspace$ - used for the \gls{data} 
+		generation via sampling from $\pmf{\feature'}{\cdot;\weights}$ - are unknown. A widely 
+		used approach for estimating these \gls{modelparam} is via the solutions of the \gls{maxlikelihood} 
+		problem
+		\begin{equation}
+			\label{equ_def_ML_EM_dict}
+			\min_{\weights \in \paramspace} - \log \pmf{\feature'}{\feature;\weights}.
+		\end{equation}
+		For some \glspl{probmodel}, such as a \gls{gmm}, this \gls{optproblem} can be 
+		difficult to solve directly. As a work-around, one can often introduce an auxiliary 
+		attribute $\truelabel \in \labelspace$, generated via some \gls{rv} $\truelabel'$, 
+		such that the corresponding \gls{probmodel} $\pmf{\feature',\truelabel'}{\cdot,\cdot;\weights}$ 
+		yields a much easier \gls{maxlikelihood} problem 
+		\begin{equation}
+			\label{equ_def_complete_EM_dict}
+			\min_{\weights \in \paramspace} 
+			- \log \pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}.
+		\end{equation}
+		The attribute $\truelabel$ is introduced solely to simplify 
+		\eqref{equ_def_complete_EM_dict}, but it is not observed in practice—only the 
+		feature $\feature$ is available. Thus, we cannot solve \eqref{equ_def_complete_EM_dict} 
+		directly as we do not know which value $\truelabel$ to plug into the \gls{pmf} 
+		$ \pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}$. 
+		The EM method resolves this dilemma by alternating between two steps:
+		\begin{itemize}
+			\item {\bf (E-step)} computing a “soft’’ estimate of the auxiliary 
+			attribute $\truelabel$ in the form of the \gls{posterior} 
+			$\pmf{\truelabel'|\feature'}{\cdot;\widehat{\weights}}$
+			using the current choice $\widehat{\weights}$ for the \glspl{modelparam}, and 
+			\item {\bf (M-step)} minimizing a surrogate \gls{objfunc} derived from this \gls{posterior}.
+		\end{itemize}
+		The completion of these two steps constitutes one full \gls{iteration} of 
+		the EM method. 
+		In more detail, the E-step produces the \gls{function}
+		\[
+		Q(\weights \mid \widehat{\weights})
+		\defeq 
+		- \sum_{\truelabel \in \labelspace} 
+		\pmf{\truelabel'|\feature'}{\truelabel;\widehat{\weights}}
+		\log\!\Big(
+		\pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}
+		/\pmf{\truelabel'|\feature'}{\truelabel;\widehat{\weights}}
+		\Big),
+		\]
+		and the M-step minimizes $Q(\weights \mid \widehat{\weights})$ over 
+		$\weights \in \paramspace$.
+		This \gls{function} satisfies two key properties \cite[Sec. 9.4]{BishopBook},\cite[Sec. 11.4.7]{Murphy2012}:
+		\begin{itemize}
+			\item {\bf Upper bound:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict}
+				Q(\weights\mid \widehat{\weights})
+				\geq
+				- \log \pmf{\feature'}{\feature;\weights}
+				\quad \text{for all } \weights \in \paramspace.
+			\end{equation}
+			\item {\bf Tightness:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict_tight}
+				Q(\widehat{\weights}\mid \widehat{\weights})
+				=- \log \pmf{\feature'}{\feature;\widehat{\weights}}.
+			\end{equation}
+		\end{itemize}
+		To summarize, during each \gls{iteration}, EM minimizes an upper-bounding 
+		surrogate \gls{objfunc} that is tight at the current iterate $\widehat{\weights}$. 
+		Thus, EM is a \gls{majmin} method for approximately solving \eqref{equ_def_ML_EM_dict}. 
+		The above construction and analysis of EM can be extended to more 
+		general settings involving multiple \glspl{datapoint} 
+		and infinite \glspl{featurespace} such as $\mathbb{R}^{\featuredim}$; see \cite[Sec. 11.4.7]{Murphy2012} for details. 
+			\\
 		See also: \gls{probmodel}, \gls{maxlikelihood}, \gls{optproblem}. },
 	first={EM},
 	text={EM}
