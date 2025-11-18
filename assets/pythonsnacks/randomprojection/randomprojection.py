@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
 Generate PNGs for the TeX figure:
-  figures/randomprojection_original.png
-  figures/randomprojection_masked.png
-(and additionally: figures/randomprojection_reconstructed.png)
+  randomprojection_original.png
+  randomprojection_masked.png
+(and additionally: randomprojection_reconstructed.png)
 
 Installs:
-    pip install numpy pillow
+    pip install numpy pillow matplotlib
 """
 
 from pathlib import Path
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt  # <-- NEW
 
 # ---------------- CONFIG ---------------- #
 INPUT_FILE    = Path("dachstein.png")   # your image
@@ -97,15 +98,42 @@ def main():
 
     # Reconstruct (optional third file)
     recon = reconstruct_by_convolution(img, mask3, N_ITERS, KERNEL_SIZE)
+    
+    diff = recon - img
+
+    num = np.linalg.norm(diff)
+    den = np.linalg.norm(img)
+
+    rel_error = num / den
+    print("Relative error:", rel_error)
 
     # Save exactly what the TeX figure expects
-    Image.fromarray(to_uint8(img)).save(OUT_ORIG)         # figures/randomprojection_original.png
-    Image.fromarray(to_uint8(masked_vis)).save(OUT_MASKED) # figures/randomprojection_masked.png
-
-    # Optional: also save reconstructed variant (nice to have)
+    Image.fromarray(to_uint8(img)).save(OUT_ORIG)
+    Image.fromarray(to_uint8(masked_vis)).save(OUT_MASKED)
     Image.fromarray(to_uint8(recon)).save(OUT_RECON)
 
     print(f"Saved:\n - {OUT_ORIG}\n - {OUT_MASKED}\n - {OUT_RECON} (optional)")
+
+    # --------- ALSO SHOW IMAGES IN SPYDER --------- #
+    # This will appear in the Plots pane if Spyder is set to "Automatic" or "Inline" graphics
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+    axs = np.atleast_1d(axes)
+
+    axs[0].imshow(img)
+    axs[0].set_title("Original")
+    axs[0].axis("off")
+
+    axs[1].imshow(masked_vis)
+    axs[1].set_title(f"Masked ({KEEP_PERCENT:.1f}%)")
+    axs[1].axis("off")
+
+    axs[2].imshow(recon)
+    axs[2].set_title("Reconstructed")
+    axs[2].axis("off")
+
+    plt.tight_layout()
+    plt.show()
+    # ----------------------------------------------- #
 
 if __name__ == "__main__":
     main()

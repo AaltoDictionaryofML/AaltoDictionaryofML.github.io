@@ -5231,7 +5231,7 @@ description = {Consider a dataset
   $\mathcal{X}$, the empirical distribution \index{empirical distribution} 
   of $\mathcal{D}$ is the probability distribution $\mathbb{P}^{(\mathcal{D})}$ defined via 
    $$\mathbb{P}^{(\mathcal{D})}(\mathcal{A}) = (1/m) \big| \big\{ r: {\bf x}^{(r)} \in \mathcal{A} \big\} \big|, 
-	\quad \text{for any } \mathcal{A} \in \Sigma.
+	\quad \text{for any event } \mathcal{A} \in \Sigma.
 	$$
 	In other words, the empirical distribution assigns to any measurable set 
 	$\mathcal{A} \in \Sigma$ the fraction of data points in $\mathcal{D}$ 
@@ -8367,28 +8367,42 @@ sort={k-means},
 }
 
 	
-\newglossaryentry{samplecovmtx}
-{name={sample covariance matrix}, 
-	description={The\index{sample covariance matrix} 
-		sample covariance matrix $\widehat{\bf \Sigma} \in \mathbb{R}^{d\times d}$ 
-		for a given set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$ is defined as 
-		$$\widehat{\bf \Sigma} = \frac{1}{m} \sum_{r=1}^{m} ({\bf x}^{(r)}\!-\!\widehat{{\bf m}}) ({\bf x}^{(r)}\!-\!\widehat{{\bf m}})\,^{T}.$$ 
-		Here, we use the sample mean $\widehat{{\bf m}}$. 
-				\\
-		See also: sample, covariance matrix, feature vector, sample mean.},
-	first={sample covariance matrix},
-	text={sample covariance matrix} 
-}
-
 \newglossaryentry{covmtx}
 {name={covariance matrix}, 
-	description={The\index{covariance matrix} covariance matrix of a random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ 
-		is defined as $\mathbb{E} \bigg \{ \big( {\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)  \big({\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)\,^{T} \bigg\}$.
+	description={The\index{covariance matrix} covariance matrix of 
+	       a random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ is defined as 
+		   the expectation (if it exists)
+		   $$\mathbb{E} \bigg \{ \big( {\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)  
+		   \big({\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)\,^{T} \bigg\}.$$
 				\\
 		See also: covariance, matrix, random variable (RV).},
 	first={covariance matrix},
+	plural={covariance matrices},
+	firstplural={covariance matrices},
+	type=math, 
 	text={covariance matrix} 
 }
+
+\newglossaryentry{samplecovmtx}
+{name={sample covariance matrix}, 
+	description={Consider a dataset consisting of data points 
+				 characterized by feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}$.	
+				 The\index{sample covariance matrix} sample covariance 
+				 matrix of $\mathcal{D}$ is defined as the covariance matrix with 
+				 respect to the empirical distribution $\mathbb{P}^{(\mathcal{D})}$ 
+				 induced by $\mathcal{D}$. 
+				 It is given explicitly by 
+					$$\widehat{{\bf C}}= \frac{1}{m} \sum_{r=1}^{m} ({\bf x}^{(r)}\!-\!\widehat{{\bf m}}) ({\bf x}^{(r)}\!-\!\widehat{{\bf m}})\,^{T}.$$ 
+				Here, we use the sample mean $\widehat{\bm \mu}$. 
+	\\
+		See also: covariance, matrix, random variable (RV).},
+	first={sample covariance matrix},
+	plural={sample covariance matrices},
+	firstplural={sample covariance matrices},
+	type=math, 
+	text={sample covariance matrix} 
+}
+
 	
 \newglossaryentry{highdimregime}
 {name={high-dimensional regime}, 
@@ -9842,31 +9856,46 @@ text={expectation}
 
 \newglossaryentry{onlineGD}
 {name={online gradient descent (online GD)}, 
-	description={Consider \index{online gradient descent (online GD)} an machine learning (ML) method that learns model parameters 
-		${\bf w}$ from some parameter space $\mathcal{W}\subseteq \mathbb{R}^{d}$. 
-		The learning process uses data points ${\bf z}^{(t)}$ that arrive at consecutive time instants $t=1, \,2, \,\dots$. 
-		Let us interpret the data points ${\bf z}^{(t)}$ as independent and identically distributed (i.i.d.) copies 
-		of a random variable (RV) ${\bf z}$. The risk $\mathbb{E} \{ L\left({\bf z},{\bf w}\right) \}$ of a 
-		hypothesis $h^{({\bf w})}$ can then (under mild conditions) be obtained as the limit 
-		$\lim_{T\rightarrow \infty} (1/T)\sum_{t=1}\,^{T} L\left({\bf z}^{(t)},{\bf w}\right)$. 
-		We might use this limit as the objective function for learning the model parameters ${\bf w}$. 
-		Unfortunately, this limit can only be evaluated if we wait infinitely long in order to collect all data points. 
-		Some machine learning (ML) applications require methods that learn online, i.e., as soon as a new data point ${\bf z}^{(t)}$ 
-		arrives at time $t$, we update the current model parameters ${\bf w}^{(t)}$. Note that 
-		the new data point ${\bf z}^{(t)}$ contributes the component $L\left({\bf z}^{(t)},{\bf w}\right)$ 
-		to the risk. As its name suggests, online gradient descent (GD) updates ${\bf w}^{(t)}$ via a (projected) gradient step such that
+	description={Consider \index{online gradient descent (online GD)} an machine learning (ML) 
+	             method that learns model parameters ${\bf w}$ from some 
+				 parameter space $\mathcal{W}\subseteq \mathbb{R}^{d}$. 
+		         The learning process uses data points ${\bf z}^{(t)}$ 
+				 that arrive at consecutive time instants $t=1, \,2, \,\dots$. 
+				 Let us interpret the (generation of) data points ${\bf z}^{(t)}$ 
+				 as independent and identically distributed (i.i.d.) random variables (RVs) with a common probability distribution $\mathbb{P}^{({\bf z})}$. 
+				 The risk $\mathbb{E} \{ L\left({\bf z},{\bf w}\right) \}$ of a 
+				hypothesis $h^{({\bf w})}$ can then (under mild conditions) 
+				be obtained as the limit 
+		$$\lim_{T\rightarrow \infty} (1/T)\sum_{t=1}^{T} L\left({\bf z}^{(t)},{\bf w}\right).$$ 
+				We might use this limit as the objective function for learning the 
+				model parameters ${\bf w}$. Unfortunately, the above limit can 
+				only be evaluated if we wait infinitely long in order to collect all data points. 
+				However, many machine learning (ML) applications require methods that learn online: 
+				as soon as a new data point ${\bf z}^{(t)}$ arrives at 
+				time $t$, we update the current model parameters ${\bf w}^{(t)}$. 
+				Note that the new data point ${\bf z}^{(t)}$ contributes 
+				the component $L\left({\bf z}^{(t)},{\bf w}\right)$ to the risk. 
+				As its name suggests, online gradient descent (GD) updates ${\bf w}^{(t)}$ via 
+				a (projected) gradient step such that
 		\begin{equation} 
 			\label{equ_def_ogd_dict}
  			{\bf w}^{(t+1)} :=P_{\mathcal{W}}\big( {\bf w}^{(t)} - \lrate_{t} \nabla_{{\bf w}} L\left({\bf z}^{(t)},{\bf w}\right)\big) . 
 		\end{equation} 
-		Note that \eqref{equ_def_ogd_dict} is a gradient step for the current component $L\left({\bf z}^{(t)},\cdot \right)$ 
-		of the risk. The update \eqref{equ_def_ogd_dict} ignores all previous components $L\left({\bf z}^{(t')},\cdot \right)$, 
-		for $t' < t$. It might therefore happen that, compared with ${\bf w}^{(t)}$, the updated model parameters 
-		${\bf w}^{(t+1)}$ increase the retrospective average loss $\sum_{t'=1}^{t-1} L\left({\bf z}^{(t')},\cdot \right)$. 
-		However, for a suitably chosen learning rate $\lrate_{t}$, online gradient descent (GD) can be shown 
-		to be optimal in practically relevant settings. By optimal, we mean that the model parameters 
-		${\bf w}^{(T+1)}$ delivered by online gradient descent (GD) after observing $T$ data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(T)}$ 
-		are at least as good as those delivered by any other learning method \cite{HazanOCO}, \cite{GDOptimalRakhlin2012}. 
+		Note that \eqref{equ_def_ogd_dict} is a gradient step for the 
+		current component $L\left({\bf z}^{(t)},\cdot \right)$ 
+		of the risk. The update \eqref{equ_def_ogd_dict} ignores all 
+		previous components $L\left({\bf z}^{(t')},\cdot \right)$, 
+		for $t' < t$. It might therefore happen that, compared 
+		with ${\bf w}^{(t)}$, the updated model parameters 
+		${\bf w}^{(t+1)}$ increase the retrospective average 
+		loss $\sum_{t'=1}^{t-1} L\left({\bf z}^{(t')},\cdot \right)$. 
+		However, for a suitably chosen learning rate $\lrate_{t}$, 
+		online gradient descent (GD) can be shown to be optimal in practically relevant 
+		settings. By optimal, we mean that the model parameters 
+		${\bf w}^{(T+1)}$ delivered by online gradient descent (GD) after observing 
+		$T$ data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(T)}$ 
+		are at least as good as those delivered by any other learning method 
+		\cite{HazanOCO}, \cite{GDOptimalRakhlin2012}. 
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}[x=1.5cm,scale=1.5, every node/.style={font=\footnotesize}]
@@ -9896,11 +9925,59 @@ text={expectation}
 
 \newglossaryentry{pca}
 {name={principal component analysis (PCA)}, 
-	description={PCA\index{principal component analysis (PCA)} 
-		determines a linear feature map such that the new features 
-		allow us to reconstruct the original features with the minimum reconstruction error \cite{MLBasics}.
-				\\
-		See also: feature map, feature, minimum, Johnson--Lindenstrauss (JL) lemma.},
+	description={Consider a dataset 
+				$$\mathcal{D}= \big\{ {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \big\}$$
+			    constituted by data points characterized by feature vectors 
+				${\bf x}^{(r)} \in \mathbb{R}^{d}$, for $r=1,\ldots,m$.
+				PCA\index{principal component analysis (PCA)} determines, for a given number 
+				$d' < d$ a linear feature map 
+				$${\bf \Phi}^{({\bf W})}: \mathbb{R}^{d} \rightarrow 
+				\mathbb{R}^{d'}: {\bf x}\mapsto {\bf W}{\bf x}$$ 
+				such that the new feature vectors 
+				$\mathbf{z}^{(r)} = {\bf W}{\bf x}^{(r)}$ 
+				allow us to reconstruct the original features with  
+				minimum linear reconstruction error \cite{MLBasics,hastie01statisticallearning,BishopBook}
+				$$\min_{{\bf R}\in \mathbb{R}^{d\times d'}} 
+				\sum_{r=1}^{m} 
+				\mleft\lVert {\bf x}^{(r)}- {\bf R}{\bf W}{\bf x}^{(r)} \mright\rVert_{2}^{2}.$$ 
+				We can view PCA as a form of empirical risk minimization (ERM) using the loss function 
+				$L\left({\bf x},{\bf W}\right) = \mleft\lVert {\bf x}- \widehat{{\bf R}} {\bf W}{\bf x}\mright\rVert_{2}^{2}$ with a 
+				reconstruction matrix $\widehat{{\bf R}}$ 
+				that achieves the above minimum reconstruction error. It turns 
+				out that this empirical risk minimization (ERM) problem can be solved by a matrix  
+				${\bf W}= \big(\mathbf{u}^{(1)},\ldots,\mathbf{u}^{(d')}\big)^{T}$ 
+				whose rows are given by $d'$ 
+				eigenvectors corresponding to the $d'$ largest 
+				eigenvalues of the matrix 
+				$$\widehat{\mathbf{Q}} = (1/m) \sum_{r=1}^{m} 
+				{\bf x}^{(r)} \big( {\bf x}^{(r)}\big)^{T}
+				={\bf X}^{T} {\bf X}.$$ 
+				Note that $\widehat{\mathbf{Q}}$ coincides with the sample covariance matrix of 
+				$\mathcal{D}$ if its sample mean vanishes. The positive semi-definite (psd) matrix 
+				$\widehat{\mathbf{Q}}$ allows for an eigenvalue decomposition (EVD) of the form 
+				\cite{MeyerMatrixAnalysis,HornMatAnalysis} 
+				$$\widehat{\mathbf{Q}}\!=\!\sum_{j=1}^{d} \lambda_{j} 
+					\mathbf{u}^{(d)} \big( \mathbf{u}^{(d)} \big)^{T}=
+					\begin{pmatrix}
+					\mathbf{u}^{(1)} & \cdots & \mathbf{u}^{(d)}
+					\end{pmatrix}
+					\begin{pmatrix}
+					\lambda_{1}        &        & 0 \\
+										& \ddots &   \\
+					0                 &        & \lambda_{d}
+					\end{pmatrix}
+					\begin{pmatrix}
+					\big(\mathbf{u}^{(1)}\big)^{T} \\
+					\vdots                         \\
+					\big(\mathbf{u}^{(d)}\big)^{T}
+					\end{pmatrix}.$$
+				This decomposition consists of decreasing non-negative eigenvalues 
+				$\lambda_{1} \geq \lambda_{2} \geq \,\ldots, \,\geq \lambda_{d} 
+				\geq 0$ and corresponding eigenvectors $\mathbf{u}^{(1)},\ldots,\mathbf{u}^{(d)}$ 
+				that form an orthonormal basis of $\mathbb{R}^{d}$.
+				 \\
+		See also: feature map, feature learning, dimensionality reduction,  
+		eigenvalue decomposition (EVD).},
 	first={principal component analysis (PCA)},
 	text={PCA} 
 }
