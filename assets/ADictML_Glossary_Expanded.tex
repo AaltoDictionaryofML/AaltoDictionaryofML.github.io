@@ -6911,7 +6911,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
  
  \newglossaryentry{lasso}
  {name={least absolute shrinkage and selection operator (Lasso)}, 
-	description={The Lasso\index{least absolute shrinkage and selection operator (Lasso)} is an 
+	description={The Lasso \cite{Tibshirani1996} \index{least absolute shrinkage and selection operator (Lasso)} is an 
 		instance of structural risk minimization (SRM). It learns the weights ${\bf w}$ of a linear map 
 		$h({\bf x}) = {\bf w}\,^{T} {\bf x}$ from a training set. 
 		Lasso is obtained from linear regression by adding the scaled $\ell_{1}$-norm 
@@ -11883,3 +11883,54 @@ text={MM}
 	 type=math, 
      text={Chebyshev's inequality}  
  }
+
+
+\newglossaryentry{hoeffdingsinequality}
+{name={Hoeffding's inequality},
+     description={\index{Hoeffding's inequality} Hoeffding's inequality \cite{hoeffding1963probability} is a fundamental concentration inequality that provides an upper bound on the probability that a sum (or average) of independent, bounded random variables (RVs)  deviates from its mean by more than some threshold. 
+     Let $x_1,\dots,x_n$ be independent real-valued random variables (RVs) $x_i$ taking values in $[a_i,b_i] \subset \mathbb{R}$, and $S_n :=\sum_{i=1}^n x_i$ and $\mathbb{E} \{S_n\} = \sum_{i=1}^n \mathbb{E} \{x_i\}$. Then, Hoeffding's inequality \cite[Theorem 2.2.6]{vershynin2018high} states that
+        \begin{equation}
+                \mathbb{P}\left( |S_n - \mathbb{E} \{S_n\}| \geq t \right) 
+            \leq 2 \exp \left( -\frac{2 t^2}{\sum_{i=1}^n (b_i - a_i)^2} \right) \qquad \forall t > 0.
+            \label{eq:hoeffding_sum}
+        \end{equation}
+    Hoeffding's typically provides sharper bounds than Chebyshev's inequality, but is more restrictive by assuming bounded random variables (RVs).
+    In the context of machine learning (ML), this result is useful for deriving guarantees for empirical risk minimization (ERM)  and in the context of MAB.  \\
+    See also: concentration inequality, probability, random variable (RV), expectation, probability space, Markov's inequality, Chebyshev's inequality.},
+    first={Hoeffding's inequality},
+    text={Hoeffding's inequality}  
+}
+
+\newglossaryentry{rgg}
+{name={Random geometric graph (RGG)},
+    description={A RGG graph\index{Random geometric graph (RGG)} is a probabilistic model for graphs built from nodes randomly placed in a metric space. Given a metric space, the RGG is characterized by the number of nodes, the connection radius, and the probability distribution describing the node placement. 
+    \begin{figure}
+    \centering
+    \begin{tikzpicture}[x=0.6cm,y=0.6cm]
+        \draw (-5,-5) rectangle (5,5);
+        
+        \node[below left] at (-5,-5) {\small $-5$};
+        \node[above left]  at (-5, 5) {\small $5$};
+        \node[below right] at ( 5,-5) {\small $5$};
+        
+        \fill (-2.0,-3.5) circle (2pt);
+        \draw (-2.0,-3.5) circle (2.5);
+        \node[anchor=east] at (-2.0,-3.5) {\small 1};
+        \fill (-0.5,-3.3) circle (2pt);
+        \draw (-0.5,-3.3) circle (2.5);
+        \node[anchor=west] at (-0.5,-3.3) {\small 2};
+        \draw (-2.0,-3.5) -- (-0.5,-3.3);
+        
+        \fill (3.0,3.5) circle (2pt);
+        \draw (3.0,3.5) circle (2.5);
+        \node[anchor=west] at (3.0,3.5) {\small 3};
+    \end{tikzpicture}
+    \caption{Illustration of a RGG with $ \mathcal{X}= [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ (with respect to the Euclidean distance), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
+    \label{fig:rgg}
+    \end{figure}
+    More precisely, for a node set $i=1, \,\ldots, \,n$, each node $i$ is assigned to a random position ${\bf x}^{(i)} \in \mathcal{X}$, typically as realizations of independent and identically distributed (i.i.d.) random variables (RVs) taking values in a set $\mathcal{X}$, which together with a metric forms a metric space; often, the metric may be induced by a a norm. A specific realization of a RGG contains an edge $\{i,i'\}$ if and only if their distance with respect to the metric is smaller than some threshold, i.e., when $d({\bf x}^{(i)},{\bf x}^{(i')})\leq r$ for some threshold $r>0$, as illustrated in Figure \ref{fig:rgg}.
+         \\
+        See also: graph, stochastic block model (SBM), Erd\H{o}s–R\'enyi (ER) graph.},
+    first={Random geometric (RGG) graph},
+    text={RGG}
+}
