@@ -184,15 +184,134 @@
    first = {tall matrix} 
 }
 
-\newglossaryentry{rankdeficient}
- {name={rank-deficient},
-  description={A \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
-  is\index{rank-deficient} if it is not full-rank, i.e., when $\rank{\mA} < \min\{\samplesize,\nrfeatures\}$.\\ 
-  See also: \gls{fullrank}. 
-  }, 
-  first={rank-deficient}, 
-  text={rank-deficient}
- }
+\newglossaryentry{imagesegmentation}
+{name={image segementation}, 
+ description={Image segementation\index{image segmentation} refers to the task of 
+    \gls{clustering} the pixels of an image into few segments.\\ 
+ 	See also: \gls{clustering}.}, 
+ first = {image segmentation}, 
+ text = {image segmentation}
+ } 
+
+\newglossaryentry{mgf}
+{name={moment generating function (MGF)}, 
+ description={Consider 
+     The \index{moment generating function (MGF)} MGF $\mgf{x}{t}$ 
+	 of a real-valued \gls{rv} $x$ is defined as
+	 $\mgf{x}{t} = \expect \{ \exp(t \cdot x) \}$ for any $t \in \mathbb{R}$ 
+	 for which this \gls{expectation} exists \cite[Sec. 21]{BillingsleyProbMeasure}. 
+	 As its name indicates, the MGF allows to compute the moments 
+	 $\expect\{ x^{k} \}$ for $k \in \mathbb{N}$. 
+	 In particular, the $k$-th moment is obtained by evaluating the $k$-th 
+	 derivative of $\mgf{x}{t}$ for $t=0$, i.e., $\expect\{ x^{k} \} = \mgfder{x}{k}{0}$. 
+	 This fact can be verified by the following identities: 
+	 \begin{align}
+		\mgf{x}{t} & =\expect\{ \exp(t \cdot x)  \} \nonumber \\ 
+		& \stackrel{(a)}{=} \expect\!\bigg\{\sum_{k=0}^{\infty} \frac{t^{k}}{k!} x^{k}\bigg\}  \nonumber \\ 
+		& \stackrel{(b)}{=}  \sum_{k=0}^{\infty} \frac{t^{k}}{k!}\, \expect\!\big\{ x^{k} \big\}. \nonumber
+	 \end{align}
+	 Here, step $(a)$ is due to the Taylor series expansion of 
+	 $\exp(t \cdot x)$ and step $(b)$ is valid when the MGF exists 
+	 for all $t$ in some interval $(-t_{0},t_{0})$ \cite[p. 278]{BillingsleyProbMeasure}.
+	 \begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}
+		\begin{axis}[
+			width=9cm, height=4.2cm,
+			domain=-1:1,
+			samples=200,
+			%axis lines*=left,        % removes bounding box, keeps left axis
+			xlabel={$x$},
+			ylabel={},
+			ytick=\empty,
+			ytick={-1,-0.5,0,0.5,1}, % manually set x-ticks
+            yticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
+			xtick={-1,-0.5,0,0.5,1}, % manually set x-ticks
+            xticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
+			xmin=-1, xmax=1,
+			legend style={at={(1.5,0.02)},anchor=south east}
+		]
+			% f1 = x
+			\addplot[thick, dashed] {x};
+			\addlegendentry{$x$}
+			% f2 = x^2
+			\addplot[thick, dotted] {x^2};
+			\addlegendentry{$x^{2}$}
+			% f3 = x^3
+			\addplot[thick, dashdotdotted] {x^3};
+			\addlegendentry{$x^{3}$}
+		\end{axis}
+		\end{tikzpicture}
+		\caption{The first few powers of a \gls{rv} $x$. The MGF 
+		encodes the moments of $x$ which are the \glspl{expectation} 
+		of the powers $x^{k}$ for $k=1,2,\ldots$.}
+		\end{figure}
+		The MGF is a useful tool for the study of sums of independent 
+		\glspl{rv}. As a case in point, if $x$ and $y$ are independent 
+		\glspl{rv}, then the MGF of their sum $z = x + y$ typically 
+		satisfies $\mgf{z}{t} = \mgf{x}{t}\,\mgf{y}{t}$,
+        i.e., the MGF of the sum is typically the pointwise product of the 
+		individual MGFs \cite[p.~280]{BillingsleyProbMeasure}.
+ 	 }, 
+ first = {moment generating function (MGF)}, 
+ firstplural={moment generating functions (MGFs)}, 
+ plural = {MGFs}, 
+ type=math, 
+ text = {MGF}
+ } 
+
+ \newglossaryentry{chernoffbound}
+{name={Chernoff bound}, 
+ description={TBC \index{Chernoff bound}.}, 
+ first = {Chernoff bound}, 
+ type=math, 
+ text = {Chernoff bound}
+ } 
+
+ \newglossaryentry{rankdeficient}
+  {name={rank-deficient},
+   description={A \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+          is rank-deficient \index{rank-deficient} if it is not \gls{fullrank}, i.e., 
+         when $\rank{\mA} < \min\{\samplesize,\nrfeatures\}$.
+ \begin{figure}[htbp]
+		\begin{center}
+		\begin{tikzpicture}[x=2cm]
+			% LEFT: Standard basis vectors and unit square
+			\begin{scope}
+				\draw[->, thick] (0,0) -- (1,0) node[below] {$\vu^{(1)}$};
+				\draw[->, thick] (0,0) -- (0,1) node[above] {$\vu^{(2)}$};
+				%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+				%\node at (0.5,0.5) {\small unit square};
+				%\node at (0.5,-0.6) {standard basis};
+			\end{scope}
+			% RIGHT: Transformed basis vectors and parallelogram
+			\begin{scope}[shift={(3.2,0)}]
+				%\draw[->, thick] (0,0) -- (1,0) node[below] {$\vv^{(1)}$};
+			%	\draw[->, thick] (0,0) -- (0,1) node[above] {$\vv^{(2)}$};
+				\coordinate (A) at (0.2,0.0);
+				\coordinate (B) at (2.0,0.0);
+				\draw[->, very thick, red] (0,0) -- (A) node[below,yshift=-2pt] {$\mA \vu^{(1)}$};
+				\draw[->, very thick, red] (0,0) -- (B) node[above,yshift=2pt] {$\mA \vu^{(2)}$};
+				%	\node[blue] at (0.25,1.25) {};
+				%	\node at (0.8,-0.6) {transformed basis};
+			\end{scope}
+			% Arrow between plots
+			\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {$\mA$} (2.7,0.5);
+		%	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+		\end{tikzpicture}
+		\end{center}
+		\caption{Example of a rank-deficient \gls{matrix} 
+		$\mA \in \mathbb{R}^{2 \times 2}$.	\label{fig_matrix_rank_defdict}} 
+		\end{figure} 
+	In \gls{linreg}, the solution of the \gls{erm} problem is not 
+	unique whenever the \gls{featuremtx} $\featuremtx$ is such that 
+	the \gls{matrix} $\featuremtx^{\top}\featuremtx$ is rank-deficient.\\
+   See also: \gls{fullrank}, \gls{dimension}, \gls{vectorspace}. 
+   }, 
+   first={rank-deficient}, 
+   type=math,
+   text={rank-deficient}
+  }
 
  \newglossaryentry{fullrank}
  {name={full-rank},
@@ -1108,7 +1227,6 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 
 
-
 \newglossaryentry{optproblem}
 {name={optimization problem}, 
 	description={An\index{optimization problem} optimization problem is a mathematical 
@@ -1130,11 +1248,18 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 \newglossaryentry{optmethod}
 {name={optimization method},
-	description={An\index{optimization method} optimization method is an \gls{algorithm} that 
-		reads in a representation of an \gls{optproblem} and delivers an (approximate) solution 
-		as its output \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
+	description={
+	An\index{optimization method} optimization method is 
+	an \gls{algorithm} that takes a representation of an 
+	\gls{optproblem} as input and computes an (approximate) 
+	solution as its output. A central example of an optimization 
+	problem in \gls{ml} is \gls{erm}. By applying an appropriate 
+	optimization method to \gls{erm}, we obtain a concrete learning 
+	\gls{algorithm} \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr},
+	\cite{nesterov04}.
 		 \\
 		 See also: \gls{algorithm}, \gls{optproblem}.},
+	type= math, 
 	first={optimization method},
 	firstplural={optimization methods}, 
 	plural={optimization methods}, 
@@ -1627,7 +1752,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 		is approximately insensitive to rotations of the input image.
 		\begin{figure}[H]
       			\centering
-      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace_0_1.png}
+      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace/nullspace_0_1.png}
 	  		\caption{
 			Rotated handwritings of two different digits. The rotations are approximately 
 			aligned along straight lines parallel to the \gls{vector} $\mathbf{n}$. For a 
@@ -1637,7 +1762,7 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
                 \label{fig:nullspace-rotation-dict}}	
 	       	\end{figure}
 		See also: \gls{matrix}, \gls{featuremap}, \gls{featlearn}. \\ 
-		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace.py}{click me}},
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace/nullspace.py}{click me}},
  	first={nullspace},
  	firstplural={nullspaces},
  	plural={nullspaces},
@@ -1868,15 +1993,82 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 
 \newglossaryentry{ml}
 {name={machine learning (ML)},
-	description={ML\index{machine learning (ML)} aims to predict 
-	 	a \gls{label} from the \glspl{feature} of a \gls{datapoint}. ML methods achieve 
-	 	this by learning a \gls{hypothesis} from a \gls{hypospace} (or \gls{model}) 
-	 	through the minimization of a \gls{lossfunc} \cite{MLBasics}, \cite{HastieWainwrightBook}. 
-	 	One precise formulation of this principle is \gls{erm}. Different ML methods are 
-	 	obtained from different design choices for \glspl{datapoint} (i.e., their \glspl{feature} and \gls{label}), 
-	 	the \gls{model}, and the \gls{lossfunc} \cite[Ch. 3]{MLBasics}.
+	description={ML\index{machine learning (ML)} methods aim to learn (or find) 
+	a ueful \gls{hypothesis} \gls{map} $\learnthypothesis\!\in\!\hypospace$ out of 
+	a \gls{model} $\hypospace$. The learnt $\learnthypothesis$ is used to compute 
+	a \gls{prediction} $\predictedlabel=\learnthypothesis(\featurevec)$ for 
+	the \gls{label} $\truelabel$ of a \gls{datapoint}. The learning is guided 
+	by some quantitative measure for the \gls{loss} incurred by the \glspl{prediction} 
+	obtrained from learned \gls{hypothesis} typically different 
+	from the actual \gls{label} $\truelabel$. Different ML methods use different 
+	design choices for this quantitative measure (or \gls{lossfunc}) as well as 
+	different choices for the \gls{model} and the \glspl{datapoint} (i.e., 
+	their \glspl{feature} and \glspl{label}) \cite[Ch. 3]{MLBasics}. 
+	\begin{figure}[ht]
+	\centering
+	\hspace*{5mm}
+	\begin{tikzpicture}[
+		node distance=1cm,
+		auto,
+		punkt/.style={
+			rectangle,
+			rounded corners,
+			draw=black,
+			very thick,
+			text width=3cm,
+			minimum height=1cm,
+			align=center
+		}
+		]
+		\coordinate (OR) at (0.00, 1.50);
+		% concentric circles
+		\node[circle,inner sep=0,minimum size={6cm}](a) at (OR) {};
+		\node[circle,inner sep=0,minimum size={8cm}](b) at (OR) {};
+		\node[circle,inner sep=0,minimum size={8cm}](c) at (OR) {};
+		% arcs and radii
+		\draw[red,line width=1,dashed] (a.-150) arc (-150:{-150+120}:3cm);
+		\draw[blue,line width=1,dashed] (b.160) arc (160:{160+50}:4cm);
+		\draw[black!30!green,line width=2,dashed] (c.20) arc (20:{160}:4cm);
+		\draw[black!30!blue,line width=2,dashed] ([shift={(-30:6cm)}]OR) arc (-30:{20}:6cm);
+		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(-30:6cm)}]OR);
+		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(20:6cm)}]OR);
+		\draw[black!30!green,line width=2,dashed] (OR) -- (c.20);
+		\draw[black!30!green,line width=2,dashed] (OR) -- (c.160);
+		\draw[blue,thin,dashed] (OR) -- (b.160);
+		\draw[blue,thin,dashed] (OR) -- (b.210);
+		\draw[red,thin,dashed] (OR) -- (a.-150);
+		\draw[red,thin,dashed] (OR) -- (a.-30);   
+		% nodes
+		\node[punkt] (data) {observations};
+		\node[red,below=0.5cm of data] (data1) {\gls{data}};
+		\node[above=of data] (dummy) {};
+		\node[punkt,above=1cm of dummy] (hypothesis) {\gls{hypothesis}};
+		\node[right=1.4cm of dummy] (t) {make \gls{prediction}} ; 
+		\node[left=1.4cm of dummy] (g) {assess and adapt} ;
+		\node[blue,below=0.5cm of g,anchor=east] (g1) {\gls{loss}} ; 
+		\node[black!30!blue,below=1cm of t,anchor=west] (g6) {inference} ; 
+		\node[black!30!green,above=1cm of hypothesis,anchor=south] (g3) {\gls{model}} ; 
+		% arrows
+		\draw [->,line width=0.5mm] (hypothesis.east) to [out=0,in=90] (t.north);
+		\draw [->,line width=0.5mm] (t.south) to [out=270,in=0] (data.east);
+		\draw [->,line width=0.5mm] (data.west) to [out=180,in=270] (g.south);
+		\draw [->,line width=0.5mm] (g.north) to [out=90,in=180] (hypothesis.west);
+		\end{tikzpicture}
+		\vspace*{-9mm}
+		\caption{ML learns a \gls{hypothesis} out of a \gls{model} (or \gls{hypospace}) 
+			by trying to minimize the \gls{loss} incurred by the \glspl{prediction} 
+			for the \glspl{label} of \glspl{datapoint}. The \glspl{prediction} are 
+			comptued solely from the \glspl{feature} of the \glspl{datapoint}.}
+		\label{fig_AlexMLBP_dict}
+	\end{figure}
+	Another distinction between ML methods is how they access \glspl{datapoint} during 
+	learning. For example, some methods have access to a complete \gls{dataset} 
+	during \gls{training} which allows them to use \gls{erm} \cite{MLBasics}, \cite{HastieWainwrightBook}. 
+	In contrast, \gls{onlinelearning} methods access \glspl{data} 
+	sequentially and, in turn, update the learned \gls{hypothesis} 
+	whenever a new \gls{datapoint} arrives \cite{PredictionLearningGames,HazanOCO,Bottou99}.
 	 			\\ 
-		See also: \gls{model}, \gls{data}, \gls{loss}.},
+		See also: \gls{model}, \gls{data}, \gls{loss}, \gls{erm}, \gls{onlinelearning}.},
 	first={machine learning (ML)},
 	text={ML}
 } 
@@ -2766,16 +2958,20 @@ sort={zerooneloss},
 	description={The\index{general data protection regulation (GDPR)} GDPR
 			was enacted by the European Union (EU), effective from 25 May 2018 \cite{GDPR2016}. 
 			It safeguards the privacy and \gls{data} rights of individuals in the EU. 
-			The GDPR has significant implications for how \gls{data} are collected, stored, and used in \gls{ml}  
-			applications. Key provisions include the following:
+			The GDPR has significant implications for how \gls{data} are collected, stored, 
+			and used in \gls{ml} applications. Key provisions include the following:
 			\begin{itemize}
-				\item \Gls{dataminprinc}: \gls{ml} systems should only use the necessary amount of personal 
+				\item \Gls{dataminprinc}: \gls{ml} systems should only use the necessary 
+				amount of personal 
 				\gls{data} for their purpose.
-				\item \Gls{transparency} and \gls{explainability}: \gls{ml} systems should enable their users to 
+				\item \Gls{transparency} and \gls{explainability}: \gls{ml} systems should 
+				enable their users to 
 				understand how the systems make decisions that impact the users.
-				\item \Gls{data} subject rights: Users should get an opportunity to access, rectify, and delete their personal \gls{data}, as well as to object to automated decision-making and profiling.
-				\item Accountability: Organizations must ensure robust \gls{data} security and demonstrate 
-				compliance through documentation and regular audits.
+				\item \Gls{data} subject rights: Users should get an opportunity to access, 
+				rectify, and delete their personal \gls{data}, as well as to object to automated 
+				decision-making and profiling.
+				\item Accountability: Organizations must ensure robust \gls{data} security 
+				and demonstrate compliance through documentation and regular audits.
 			\end{itemize}
 		See also: \gls{data}, \gls{ml}, \gls{dataminprinc}, \gls{transparency}, \gls{explainability}.}, 
 	first={general data protection regulation (GDPR)},
@@ -3418,18 +3614,29 @@ plural={medians},
 
 \newglossaryentry{bias}
 {name={bias},
-	description={Consider\index{bias} an \gls{ml} method using a parameterized \gls{hypospace} $\hypospace$. 
-		It learns the \glspl{modelparam} $\weights \in \mathbb{R}^{\dimlocalmodel}$ using the \gls{dataset} 
-		$$\dataset=\big\{ \pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}} \big\}_{\sampleidx=1}^{\samplesize}.$$ 
-		To analyze the properties of the \gls{ml} method, we typically interpret the \glspl{datapoint} as \glspl{realization} of \gls{iid} \glspl{rv}, 
-		$$\truelabel^{(\sampleidx)} = \hypothesis^{(\overline{\weights})}\big( \featurevec^{(\sampleidx)} \big) + \bm{\varepsilon}^{(\sampleidx)}, \sampleidx=1, \,\ldots, \,\samplesize.$$ 
-		We can then interpret the \gls{ml} method as an estimator $\widehat{\weights}$ 
-		computed from $\dataset$ (e.g., by solving \gls{erm}). The (squared) bias incurred by 
-		the estimate $\widehat{\weights}$ is then defined as $\biasterm^{2} \defeq \big\| \expect \{ \widehat{\weights}  \}- \overline{\weights}\big\|_{2}^{2}$.
+	description={Consider\index{bias} a \gls{erm}-based \gls{ml} method that  
+				 learns a \gls{hypothesis} $\learnthypothesis \in \hypospace$ 
+				 from a given \gls{trainset}. The analysis of the \gls{ml} method 
+				 is often based on a \gls{probmodel} (such as the \gls{iidasspt}) 
+				 for the \gls{data} generation. Here, \glspl{datapoint} and, in turn, 
+				 the learnt \gls{hypothesis} $\learnthypothesis$ are viewed as 
+				 (\glspl{realization} of) \glspl{rv}. Any property 
+				 $\theta\big(\learnthypothesis\big)$ of $\learnthypothesis$, 
+				 such as specific \glspl{modelparam} in a \gls{parammodel}, 
+				 or the \gls{prediction} error $\truelabel - \learnthypothesis(\featurevec)$ 
+				 for a fixed \gls{datapoint}, then also becomes a \glspl{rv}. 
+				 The squared bias of a numeric property $\theta\big(\learnthypothesis\big) \in \mathbb{R}^{r}$ 
+				 is \cite{hastie01statisticallearning,BishopBook}
+				 $$\biasterm^{2} \defeq \big\| \expect \big\{ \theta\big(\learnthypothesis\big) \big\}\!-\!\theta\big(\bar{\hypothesis}\big)  \big\|_{2}^{2}.$$
+				 Here, $\bar{\hypothesis}$ is a reference \gls{hypothesis} which 
+				 could be defined by $\bar{\hypothesis}(\featurevec)=\truelabel$ 
+				 for a fixed test \gls{datapoint} with \gls{featurevec} $\featurevec$ 
+				 and \gls{label} $\truelabel$. 
 					\\ 
 		See also: \gls{iid}, \gls{rv}, \gls{probmodel}, \gls{esterr}.},
 	first={bias},
-	text={bias} 
+	text={bias},
+	user1={biased}
 }
 
 \newglossaryentry{classification}
@@ -3679,7 +3886,7 @@ text={NLP},
  		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ is a \gls{measurable} 
  		\gls{function} which takes on only finite many values. In other words, 
  		$$f(\featurevec) = \sum_{\clusteridx=1}^{\nrcluster} \alpha_{\clusteridx} \mathcal{I}^{(\cluster^{(\clusteridx)})}(\featurevec),$$ 
- 			with the indicator \gls{function} $\mathcal{I}^{(\cluster)}$ of a 
+ 			with the indicator \gls{function} $\indicatorfunc{\cluster}$ of a 
  			subset $\cluster \subset \mathbb{R}^{\nrfeatures}$ and 
  			arbitrary coefficents $\alpha_{1},\ldots,\alpha_{\nrcluster} \in \mathbb{R}$. 
  			The subsets $\cluster^{(1)},\ldots,\cluster^{(\nrcluster)}$ in the above 
@@ -3690,6 +3897,81 @@ text={NLP},
  text = {simple function}, 
  type = math
 }
+
+\newglossaryentry{measurespace}
+{name={measure space},
+ description={
+        A measure space\index{measure space} is a triple $(\samplespace, \sigmaalgebra, \mu)$ consisting of 
+        a set $\samplespace$, a \gls{sigmaalgebra} $\sigmaalgebra$ of subsets 
+		of $\samplespace$, and a measure $\mu\!:\sigmaalgebra\!\to\![0,\infty)$. 
+        The measure $\mu$ assigns a non-negative number to each \gls{measurable} 
+		set $\mathcal{A} \in \sigmaalgebra$, generalizing the 
+		notions of length, area, or volume in \glspl{euclidspace} \cite{RudinBookPrinciplesMatheAnalysis,HalmosMeasure}. 
+		Measure spaces provide the mathematical foundation for the 
+		\gls{LebesgueIntegral} or the definition of \glspl{rv} as measurable mappings 
+        between measure spaces.  
+        A \gls{probspace} is a special case of a measure space 
+		where the total measure of the sample space is normalized to one, 
+        i.e., $\mu(\samplespace) = 1$. In this case, $\mu$ is called a \gls{probdist}.\\ 
+		See also: \gls{probdist}, \gls{probspace}, \gls{measurable}.  
+    },
+    first={measure space},
+	plural={measure spaces}, 
+	firstplural={measure spaces}, 
+	type=math, 
+    text={measure space}
+}
+
+\newglossaryentry{integrable}
+{name={integrable},
+	description={A \gls{measurable} \gls{function} $f\!:\!\samplespace \!\to\! \mathbb{R}$ 
+				 defined on a \gls{measurespace} $(\samplespace, \sigmaalgebra, \mu)$ 
+				is called integrable\index{integrable} if the \gls{LebesgueIntegral} 
+				of its absolute value is finite, i.e.,
+				\[
+				\int_{\samplespace} |f(x)|\,\mathrm{d}\mu < \infty.
+				\]
+				In this case, the \gls{LebesgueIntegral} $\int_{\samplespace} f(x)\,\mathrm{d}\mu$ 
+				is well-defined and finite. A \gls{rv} $x$ defined on the \gls{samplespace} 
+				of a \gls{probspace} $(\samplespace, \sigmaalgebra, \probdist)$ 
+				is integrable if 
+				\[
+				\expect\{|x|\}
+				= \int_{\samplespace} |x(\omega)|\,\mathrm{d}\probdist 
+				< \infty,
+				\]
+				which ensures that the \gls{expectation} $\expect\{|x|\}$ 
+				exists and is finite. 
+				\\ 
+				See also: \gls{measurespace}, \gls{measure}.
+				},
+first={integrable},
+type=math, 
+text={integrable}
+}
+
+\newglossaryentry{measure}
+{name={measure},
+ description={A measure\index{measure} $\mu$ on a set $\samplespace$ equipped with a 
+	\gls{sigmaalgebra} $\sigmaalgebra$ is a \gls{function} $\mu: \sigmaalgebra \to [0, \infty)$ 
+	that assigns a nonnegative value to each \gls{measurable} set 
+	$\mathcal{A} \in \sigmaalgebra$ such that \cite{BillingsleyProbMeasure,RudinBookPrinciplesMatheAnalysis,HalmosMeasure}: 
+	\begin{itemize}
+		\item $\mu(\emptyset) = 0$, and
+		\item for any \gls{countable} collection $\{\mathcal{A}_i\}_{i=1}^{\infty}$ of 
+		   pairwise disjoint sets in $\sigmaalgebra$,
+		\[
+			\mu\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \mu(A_i)
+		\]
+		(this property if referred to as ``\gls{countable} additivity'').
+	\end{itemize}},
+	first={measure},
+	type= math, 
+	plural={meaures}, 
+	firstplural={measures}, 
+	text={measure}
+}
+
 
 
 \newglossaryentry{LebesgueIntegral}
@@ -3782,14 +4064,46 @@ text={NLP},
 \newglossaryentry{graph}
 {name={graph},
  description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ 
- is a pair that consists of a node set $\nodes$ and an edge set $\edges$. 
- In its most general form, a graph is specified by a \gls{map} that 
- assigns each edge $\edgeidx \in \edges$ a pair of nodes \cite{RockNetworks}. 
- Unless specified otherwise, the term graph refers to an undirected graph. 
- A simple undirected graph is obtained by identifying each edge $\edgeidx \in \edges$ 
- with a set that contains two different nodes $\{\nodeidx,\nodeidx'\}$. 
- Weighted graphs also specify numeric \gls{weights} $\edgeweight_{\edgeidx}$ for each 
- edge $\edgeidx \in \edges$.
+              consists of a node set $\nodes$ and an edge set $\edges$.
+			  In its most general form, a graph is specified by a \gls{map} 
+			  that assigns to each edge $\edgeidx \in \edges$ either an 
+			  unordered pair of nodes (yielding an undirected graph) or an 
+			  ordered pair of nodes (yielding a \gls{directedgraph}) \cite{RockNetworks}.
+			  Unless stated otherwise, we use the term graph to refer 
+			  to an undirected graph. A simple undirected graph is 
+			  obtained by representing each edge $\edgeidx \in \edges$ 
+			  as a set of two distinct nodes ${\nodeidx,\nodeidx'}$. 
+			  \begin{figure}[htbp] 
+				\centering
+			  \begin{tikzpicture}[scale=1,
+					node/.style={circle, fill=black, inner sep=1.9pt},
+					lab/.style={anchor=west, xshift=3pt}
+					]
+					% Nodes (points)
+					\node[node] (v1) at (0,0) {};
+					\node[node] (v2) at (2,0) {};
+					\node[node] (v3) at (1,1.5) {};
+					\node[node] (v4) at (3,1.5) {};
+					% Labels
+					\node[anchor=north] at (v1) {$\nodeidx_1$};
+					\node[anchor=north] at (v2) {$\nodeidx_2$};
+					\node[anchor=south] at (v3) {$\nodeidx_3$};
+					\node[anchor=south] at (v4) {$\nodeidx_4$};
+					% Undirected edges
+					\draw [line width=1pt] (v1) -- (v2);
+					\draw (v2) -- (v3);
+					\draw (v3) -- (v1);
+					\draw (v2) -- (v4);
+				\end{tikzpicture}
+				\caption{A simple undirected graph with four nodes 
+				$\nodes = \{\nodeidx_1, \nodeidx_2, \nodeidx_3, \nodeidx_4\}$ 
+				and four edges $\edges = \{\{\nodeidx_1,\nodeidx_2\},
+				\{\nodeidx_2,\nodeidx_3\}, \{\nodeidx_3,\nodeidx_1\}, 
+				\{\nodeidx_2,\nodeidx_4\}\}$.}
+			\end{figure}
+			  Graphs may also attach a numerical value, or weight, to 
+			  each edge $\edgeidx \in \edges$. A graph equipped with such 
+			  edge weights is called a \gls{weightedgraph}.
 					\\ 
 		See also: \gls{map}, \gls{weights}.},
  first={graph},
@@ -4193,12 +4507,13 @@ text={NLP},
 
 \newglossaryentry{onlinelearning}
 {name={online learning},
-	description={Some \gls{ml} methods \index{online learning} are designed to process \gls{data} in a sequential 
-		manner, updating their \glspl{modelparam} one at a time, as new \glspl{datapoint} become available. 
-		A typical example is time-series \gls{data}, such as daily \gls{minimum} and \gls{maximum} temperatures 
-		recorded by an \gls{fmi} weather station. These values form a chronological sequence 
-		of observations. During each time step $\timeidx$, online learning methods update (or refine)  
-		the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ (or \glspl{modelparam} $\weights^{(\timeidx)}$) 
+	description={Some \gls{ml} methods \index{online learning} are designed to 
+	    process \gls{data} in a sequential manner, updating their \glspl{modelparam} 
+		one at a time, as new \glspl{datapoint} become available. A typical example 
+		is time-series \gls{data}, such as daily \gls{minimum} and \gls{maximum} 
+		temperatures recorded by an \gls{fmi} weather station. These values form 
+		a chronological sequence of observations. During each time step $\timeidx$, 
+		online learning methods update (or refine) the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ (or \glspl{modelparam} $\weights^{(\timeidx)}$) 
 		based on the newly observed \gls{datapoint} $\datapoint^{(\timeidx)}$. 
 		\\ 
 		See also: \gls{onlineGD}, \gls{onlinealgorithm}. },
@@ -4949,9 +5264,9 @@ description = {Consider a \gls{dataset}
   the \gls{featurevec} $\featurevec^{(\sampleidx)} \in \featurespace$ for $\sampleidx = 1, \ldots, \samplesize$. 
   For a given \gls{sigmaalgebra} $\sigmaalgebra$ over the \gls{featurespace} 
   $\featurespace$, the empirical distribution \index{empirical distribution} 
-  of $\dataset$ is the \gls{probdist} $\probdist$ defined via 
-   $$\probdist(\mathcal{A}) = (1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} \in \mathcal{A} \big\} \big|, 
-	\quad \text{for any } \mathcal{A} \in \sigmaalgebra.
+  of $\dataset$ is the \gls{probdist} $\probdist^{(\dataset)}$ defined via 
+   $$\probdist^{(\dataset)}(\mathcal{A}) = (1/\samplesize) \big| \big\{ \sampleidx: \featurevec^{(\sampleidx)} \in \mathcal{A} \big\} \big|, 
+	\quad \text{for any \gls{event} } \mathcal{A} \in \sigmaalgebra.
 	$$
 	In other words, the empirical distribution assigns to any \gls{measurable} set 
 	$\mathcal{A} \in \sigmaalgebra$ the fraction of \glspl{datapoint} in $\dataset$ 
@@ -5045,22 +5360,23 @@ description = {Consider a \gls{dataset}
 
 \newglossaryentry{bootstrap}
 {name={bootstrap},
-	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often useful to interpret 
-		a given set of \glspl{datapoint} $\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
-		as \glspl{realization} of \gls{iid} \glspl{rv} drawn from a common \gls{probdist} $\probdist$. 
-		In practice, the \gls{probdist} $\probdist$ is unknown and must be estimated from $\dataset$. 
-		The bootstrap approach uses the \gls{histogram} of $\dataset$ as an estimator for 
-		$\probdist$ \cite{hastie01statisticallearning}, 
+	description={For\index{bootstrap} the analysis of \gls{ml} methods, it is often 
+	    useful to interpret a given \gls{dataset} $\dataset = \big\{ \datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\big\}$ 
+		as (\glspl{realization} of) a collection of \gls{iid} \glspl{rv} with 
+		common \gls{probdist} $\probdist$. In practice, the \gls{probdist} $\probdist$ 
+		is unknown and must be estimated from $\dataset$. The idea of the bootstrap 
+		method is to use the \gls{empiricaldistribution} $\probdist^{(\dataset)}$ 
+		of $\dataset$ as an estimator for $\probdist$ \cite{hastie01statisticallearning}, 
 		$$ (1/\samplesize) \big| \sampleidx: \datapoint^{(1)} \in \mathcal{A} \big| \approx \prob{\mathcal{A}}.$$
-		By sampling with replacement from $\dataset$ according to this empirical distribution, 
-		we generate new \glspl{dataset} 
-		$\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$, each containing 
-		$\samplesize$ \glspl{datapoint}. We then use each of those \glspl{dataset} 
-		for \gls{model} \gls{training} (e.g., via \gls{erm}), 
+		Repeatedly sampling from the \gls{empiricaldistribution}, which is equivalent 
+		to sampling with replacement from $\dataset$ \cite{BoostrapBook}, 
+		results in new \glspl{dataset} $\dataset^{(1)}, \ldots, \dataset^{(\nrbootstraps)}$, each containing 
+		$\samplesize$ \glspl{datapoint}. We then use each of 
+		those \glspl{dataset} for \gls{model} \gls{training} (e.g., via \gls{erm}), 
 		resulting in the learned \glspl{hypothesis}
 		$\widehat{\hypothesis}^{(1)}, \ldots, \learnthypothesis^{(\nrbootstraps)}.$ 
-        We can use these learned \glspl{hypothesis} to estimate the \gls{stability} 
-		of the \gls{ml} method \cite{hastie01statisticallearning}.
+        We can use these learned \glspl{hypothesis} to estimate important characteristics 
+		of a \gls{ml} method such as \gls{bias}, \gls{variance} or \gls{gengap}. \cite{hastie01statisticallearning}.
 		\\
 		See also: \gls{iid}, \gls{rv}, \gls{probdist}, \gls{histogram}.},
 	first={bootstrap},
@@ -5255,10 +5571,10 @@ description = {Consider a \gls{dataset}
 {name={dataset}, plural={datasets},
 	description={A\index{dataset} dataset is a set of distinct \glspl{datapoint}. 
 	Strictly speaking, a dataset is an unordered collection of \glspl{datapoint} 
-	that does not contain any repetitions. However, in practice, the term dataset 
-    is often used as a synonym for a \gls{sample}, i.e., a sequence (or finite list) 
-	of \glspl{datapoint} and may contain repetitions. 
-	\gls{ml} methods use datasets to train and validate \glspl{model}. 
+	that does not contain any repetitions. However, in \gls{ml} literature, the 
+	term dataset is often used as a synonym for a \gls{sample}, i.e., 
+	a sequence (or finite list) of \glspl{datapoint} and may contain repetitions. 
+	\gls{ml} methods use datasets for \gls{model} \gls{training} and \gls{validation}. 
 	The notion of a dataset is broad: \glspl{datapoint} may represent concrete 
 	physical entities (such as humans or animals) or abstract objects (such as numbers). 
 	For illustration, Fig.~\ref{fig_cows_dataset_dict} depicts a dataset whose 
@@ -5355,10 +5671,10 @@ description = {Consider a \gls{dataset}
 
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
- 	description={An RV\index{random variable (RV)} is a \gls{function} that maps the 
+ 	description={A RV\index{random variable (RV)} is a \gls{function} that maps the 
 		outcomes of a \gls{randomexperiment} to elements of a \gls{measurable} space 
 		\cite{BillingsleyProbMeasure,GrayProbBook}. 
- 		Mathematically, an RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ 
+ 		Mathematically, a RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ 
 		with domain being the \gls{samplespace} $\samplespace$ of a \gls{probspace} and 
 		co-domain being a \gls{measurable} space $\featurespace$. 
  		Different types of RVs include  
@@ -5383,17 +5699,20 @@ description = {Consider a \gls{dataset}
  \newglossaryentry{probspace}
  {name={probability space}, 
  	description={A\index{probability space} \gls{probability} space is a mathematical 
- 		structure that allows us to reason about a \gls{randomexperiment}, e.g., the observation 
-		of a physical phenomenon. 
+ 		structure that allows us to reason about a \gls{randomexperiment}, e.g., 
+		the observation of a physical phenomenon. 
  	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet $(\samplespace, \eventspace, \prob{\cdot})$ where
  		\begin{itemize} 
- 			\item  $\samplespace$ is a \gls{samplespace} containing all possible outcomes of a \gls{randomexperiment};
+ 			\item  $\samplespace$ is a \gls{samplespace} containing all possible outcomes 
+			of a \gls{randomexperiment};
  			\item  $\eventspace$ is a \gls{sigmaalgebra}, i.e., a collection of subsets of 
-			$\samplespace$ (called \glspl{event}) that satisfies certain closure properties under set operations;
- 			\item $\prob{\cdot}$ is a \gls{probdist}, i.e., a \gls{function} that assigns a \gls{probability} $P(\mathcal{A}) \in [0,1]$ 
- 			to each \gls{event} $\mathcal{A} \in \eventspace$. This \gls{function} must satisfy $\prob{\samplespace} = 1$ and 
-			$\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ for any 
- 			countable sequence of pairwise disjoint \glspl{event} $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
+			$\samplespace$ (called \glspl{event}) that satisfies certain closure properties 
+			under set operations;
+ 			\item $\prob{\cdot}$ is a \gls{probdist}, i.e., a \gls{function} that assigns 
+			a \gls{probability} $P(\mathcal{A}) \in [0,1]$ to each \gls{event} $\mathcal{A} 
+			\in \eventspace$. This \gls{function} must satisfy $\prob{\samplespace} = 1$ and 
+			$\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ 
+			for any \gls{countable} \gls{sequence} of pairwise disjoint \glspl{event} $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
  		\end{itemize}
  		\Gls{probability} spaces provide the foundation of \glspl{probmodel} that can be 
 		used to study the behavior of \gls{ml} methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
@@ -5761,22 +6080,22 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	\gls{emprisk}.
     \begin{figure}[H]
     \begin{center}
-        \begin{tikzpicture}[scale=1.0]
+        \begin{tikzpicture}[yscale=0.3]
       % hypothesis line fitted (almost) to medium & large points
       \def\slope{1.55}
       \def\intercept{-2.05}
       \draw[thick,dashed,domain=0:6.5,variable=\x]
         plot({\x},{\slope*\x+\intercept});
-      \node[above right] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
+      \node[] at (6.5,{\slope*6.5+\intercept}) {$\hypothesis(\feature)$};
       % three data points with varying weights (sizes)
       \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
         \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
           (pt\i) at (\xval,\yval) {};
         \draw[<->,color=blue!70] (\xval,{\slope*\xval+\intercept}) -- (pt\i);
       }
-      \node[below left] at (pt1) {$w^{(1)}$ small};
-      \node[below]      at (pt2) {$w^{(2)}$ medium};
-      \node[above right]at (pt3) {$w^{(3)}$ large};
+      \node[below left] at (pt1) {small $\sampleweight{1}$};
+      \node[below, yshift=-5pt]  at (pt2) {medium $\sampleweight{2}$ };
+      \node[below right]at (pt3) {large $\sampleweight{3}$};
     \end{tikzpicture}
       \caption{Sample weighting assigns each \gls{datapoint} of a \gls{trainset} 
 	  a weight $\sampleweight{\sampleidx}$. Assigning a small weight 
@@ -5820,7 +6139,8 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 				\\
 		See also: \gls{erm}, \gls{loss}, \gls{model}.},
 	    first={training},
-	    text={training} 
+	    text={training}, 
+		user1={trained}
 }
 
 
@@ -6124,16 +6444,86 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
-	description={An upper bound on the \gls{probability}\index{concentration inequality} that a \gls{rv} deviates 
-		more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
+	description={An upper bound on the \gls{probability}\index{concentration inequality} that 
+	    a \gls{rv} deviates more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
 		\\
 		See also: \gls{probability}, \gls{rv}, \gls{expectation}.}, 
+	type=math, 
 	first={concentration inequality},
 	firstplural={concentration inequalities},
 	plural={concentration inequalities},  
 	text={concentration inequality}
 }
 
+\newglossaryentry{lda} 
+{name={linear discriminant analysis (LDA)}, 
+ description={LDA \index{linear discriminant analysis (LDA)} is a classical 
+             \gls{featlearn} method \cite{BishopBook,Fisher1936Taxonomic}. 
+			 In the context of binary \gls{classification} problems, 
+			 LDA seeks a linear \gls{featuremap} $\featuremap^{(\weights)}: \mathbb{R}^{\nrfeatures} 
+			 \rightarrow \mathbb{R}: \featurevec \mapsto \weights^{T} \featurevec$, 
+			 such that the new \gls{feature} $\featuremap^{(\weights)}(\featurevec)$ 
+			 optimally allows to predict the \gls{label} of a \gls{datapoint}. \\
+			See also: \gls{dimred}, \gls{featlearn}, \gls{selfsupervisedlearning}. 
+ }, 
+ first = {linear discriminant analysis (LDA)},
+ text = {LDA}, 
+ firstplural={linear discriminant analyses (LDAs)},
+ plural={LDAs}
+}
+
+\newglossaryentry{randomprojection} 
+{name={random projection}, 
+ description={A random projection\index{random projection} uses a random \gls{matrix} 
+				$\mathbf{A}\!\in\!\mathbb{R}^{\nrfeatures' \times \nrfeatures}$, with 
+				$\nrfeatures' < \nrfeatures$, to map a \gls{featurevec} 
+				$\featurevec \!\in\! \mathbb{R}^{\nrfeatures}$ to a shorter 
+				\gls{featurevec} $\mathbf{A}\featurevec \!\in\! \mathbb{R}^{\nrfeatures'}$. 
+				It is a basic method for \gls{featlearn} and \gls{dimred}. 
+				The projection matrix $\mathbf{A}$ is typically generated entry-wise 
+				by \gls{iid} \glspl{rv} with common \gls{probdist} $\probdist$. 
+				For a broad class of such \glspl{probdist}, a random \gls{projection} 
+				approximately preserves pairwise \gls{eucliddist} between \glspl{featurevec} 
+				of a given finite \gls{dataset}. The celebrated \gls{johnsonlindenstrausslemma} 
+				guarantees the existence of such a distance-preserving \gls{dimred} \gls{map} 
+			    but does not itself involve randomness. Random projections provide a 
+				probabilistic construction that realizes this guarantee with high \gls{probability}. 
+				Roughly speaking, for many relevant applications, random projections 
+				preserve the most relevant information contained in the original (typically 
+				very long) \gls{featurevec}. Figure~\ref{fig:randomprojection_dict} illustrates this 
+				behavior for an RGB image. The left panel shows the original image, the middle panel 
+				shows a masked image with randomly selected five percent of orginal pixels kept and 
+				the rest being set to fixed light-gray color. The right panel shows the result a 
+				simple reconstruction based on repeated averaging of nearby retained pixels. 
+				\begin{figure}[H]
+				\centering
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_original.png}
+					\caption*{original}
+				\end{minipage}\hfill
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_masked.png}
+					\caption*{95 \% masked}
+				\end{minipage}\hfill
+				\begin{minipage}[t]{0.32\textwidth}
+					\includegraphics[width=\linewidth]{assets/pythonsnacks/randomprojection/randomprojection_reconstructed.png}
+					\caption*{renconstructed}
+				\end{minipage}
+				\caption{Illustration of a random projection in the form of removing (or masking) 
+				 	all image pixels, except those in a small random subset. 
+				 	The left panel shows the original RGB image, the middle panel a version 
+				 	with only a random 5\% subset of pixels retained, and the right panel a 
+				 	simple convolution-based reconstruction that diffuses information from 
+				 	the known pixels into masked regions.}
+				 	\label{fig:randomprojection_dict}
+				 \end{figure}
+				 See also: \gls{dimred}, \gls{featlearn}, \gls{johnsonlindenstrausslemma}.
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/randomprojection/randomprojection.py}{click me}},
+			first={random projection},
+			plural={random projections}, 
+			firstplural={random projections}, 
+			text={random projection}
+}
 
 \newglossaryentry{boosting}
 {name={boosting}, 
@@ -6142,7 +6532,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		   combining less accurate \glspl{baselearner} (referred to as weak learners) \cite{pmlr-vR2-ridgeway99a,Drucker1997,Schapire1999},\cite[Ch. 10]{hastie01statisticallearning}.
 		   Boosting can be understood as a \gls{generalization} of \glspl{gdmethod} 
 		   for \gls{erm} using parametric \glspl{model} and \gls{smooth} \glspl{lossfunc} 
-		   \cite{Friedman2001}. In particular, starting from an initilization $\widetilde{\hypothesis}$, 
+		   \cite{Friedman2001}. In particular, starting from an initialization $\widetilde{\hypothesis}$, 
 		   boosting methods construct a sequence of \glspl{hypothesis} 
 		   $\widetilde{\hypothesis}^{(\iteridx)}$, $\iteridx=1,\ldots,$, 
 		   via a generalized \gls{gradstep} 
@@ -6492,7 +6882,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
  
  \newglossaryentry{lasso}
  {name={least absolute shrinkage and selection operator (Lasso)}, 
-	description={The Lasso\index{least absolute shrinkage and selection operator (Lasso)} is an 
+	description={The Lasso \cite{Tibshirani1996} \index{least absolute shrinkage and selection operator (Lasso)} is an 
 		instance of \gls{srm}. It learns the \gls{weights} $\weights$ of a \gls{linearmap} 
 		$\hypothesis(\featurevec) = \weights\,^{T} \featurevec$ from a \gls{trainset}. 
 		Lasso is obtained from \gls{linreg} by adding the scaled $\ell_{1}$-\gls{norm} 
@@ -6773,14 +7163,34 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 	description={Consider\index{feature matrix} a \gls{dataset} $\dataset$ 
 		with $\samplesize$ \glspl{datapoint} with \glspl{featurevec} 
 		$\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$. 
-		It is convenient to collect the individual \glspl{featurevec} into a \gls{feature} 
-		\gls{matrix} $\mX \defeq \big(\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)}\big)\,^{T}$ 
-		of size $\samplesize \times \nrfeatures$.
+		It is convenient to collect the individual \glspl{featurevec} into 
+		the \gls{feature} \gls{matrix} 
+		$$\mX \defeq \big(\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)}\big)\,^{T} =
+\begin{pmatrix}
+x^{(1)}_{1} & x^{(1)}_{2} & \cdots & x^{(1)}_{\nrfeatures} \\
+x^{(2)}_{1} & x^{(2)}_{2} & \cdots & x^{(2)}_{\nrfeatures} \\
+\vdots      & \vdots      & \ddots & \vdots \\
+x^{(\samplesize)}_{1} & x^{(\samplesize)}_{2} & \cdots & x^{(\samplesize)}_{\nrfeatures}
+\end{pmatrix}
+\in \mathbb{R}^{\samplesize \times \nrfeatures}.$$
+		Note that the \gls{featuremtx} is of size $\samplesize \times \nrfeatures$, i.e., 
+		it has $\samplesize$ rows and $\nrfeatures$ columns.
 				\\
 		See also: \gls{dataset}, \gls{datapoint}, \gls{featurevec}, \gls{feature}, \gls{matrix}.},
 	first={feature matrix},
 	text={feature matrix} 
 }
+
+\newglossaryentry{kmeans++}
+{name={$k$-means++}, 
+ sort={kmeans++},
+	description={TBC\index{$k$-means++}.
+				\\
+		See also: \gls{kmeans}.},
+	first={$k$-means++},
+	text={$k$-means++} 
+}
+
 
 \newglossaryentry{dbscan}
 {name={density-based spatial clustering of applications with noise (DBSCAN)}, 
@@ -7058,15 +7468,16 @@ this pmf exactly. Such \glspl{dataset} could arise as \glspl{realization} of
 \gls{iid} \glspl{rv} sharing the common pmf $\pmf{\feature}{\cdot}$. 
 \label{fig_pmf_dict}}
 \end{figure}
-The pmf satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}{\feature'} = 1$. 
-A pmf defined over the set $\featurespace$ can be viewed as an idealized description of any sufficiently long 
-\gls{dataset} $\dataset = \{\feature^{(1)}, \ldots, \feature^{(\samplesize)}\}$, 
-whose relative frequencies of each value $\feature' \in \featurespace$ 
-are close to the corresponding pmf value $\pmf{\feature}{\feature'}$, 
+A pmf always satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}{\feature'} = 1$. 
+We can view a pmf as representing a collection of (sufficiently long)  
+\glspl{dataset}. This collection contains any 
+$\dataset = \{\feature^{(1)}, \ldots, \feature^{(\samplesize)}\}$, 
+with the relative frequencies of every value $\feature' \in \featurespace$ 
+being close to the corresponding pmf value $\pmf{\feature}{\feature'}$, 
 $$ \frac{\big|\sampleidx \in \{1,\ldots,\samplesize\}: \feature^{(\sampleidx)}= \feature' \big|}
 {\samplesize} \approx \pmf{\feature}{\feature'}.$$ 
-A rigorous treatment of this approximation principle is at the heart 
-information theory and statistics \cite{coverthomas,Kullback68informationtheory,CIT-004}.
+The study of this set of typical \glspl{dataset}, naturally associated with a given pmf, 
+is at the heart information theory and statistics \cite{coverthomas,Kullback68informationtheory,CIT-004}.
 				\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{probmodel}.},
 	first={probability mass function (pmf)},
@@ -7327,7 +7738,7 @@ information theory and statistics \cite{coverthomas,Kullback68informationtheory,
  	Since a sample is defined as a \gls{sequence}, the same \gls{datapoint} may 
 	appear more than once. By contrast, some authors in statistics define a sample 
 	as a set of \glspl{datapoint}, in which case duplicates are not allowed \cite{Everitt2010,OxfordStatisticsDictionary}.
- 	These two views can be reconciled by regarding a sample as a \gls{sequence} of 
+ 	These two views (sequence vs. set) can be reconciled by regarding a sample as a \gls{sequence} of 
  	\gls{feature}–\gls{label} pairs, $\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \ldots, 
  	\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}$. The $\sampleidx$-th 
  	pair consists of the \glspl{feature} $\featurevec^{(\sampleidx)}$ and the \gls{label} $\truelabel^{(\sampleidx)}$ 
@@ -7571,6 +7982,7 @@ description={Consider the \gls{labelspace} is $\labelspace=\{-1,1\}$ and a \gls{
 }	
 
 
+
 \newglossaryentry{decisionboundary}
 {name={decision boundary}, 
 	description={Consider\index{decision boundary} a 
@@ -7694,9 +8106,10 @@ sort={k-means},
 			characterized by \glspl{featurevec} $\featurevec^{(\sampleidx)} \in \mathbb{R}^{2}$. 
 			The \gls{scatterplot} also includes two \glspl{clustercentroid} $\clustercentroid{1}, \clustercentroid{2} \in \mathbb{R}^{2}$. \label{fig_kmeans_dict}}
 		\end{figure} 
-		In general, the $k$-means problem is a challenging \gls{optproblem} \cite{Mahajan2009Springer}. 
-		However, there are simple iterative methods for finding approximately optimal 
-		\glspl{clustercentroid}. One such method is referred to as \gls{lloydalgorithm}.\\
+		In general, solving the $k$-means \gls{optproblem} exactly is challenging (or NP-hard) 
+		\cite{Mahajan2009Springer}. However, there are simple iterative methods for finding 
+		approximately optimal \glspl{clustercentroid}. One such method is referred to as 
+		\gls{lloydalgorithm}.\\
 		See also: \gls{hardclustering}, \gls{cluster}, \gls{lloydalgorithm}.},
 	first={$k$-means},
 	text={$k$-means} 
@@ -7704,9 +8117,9 @@ sort={k-means},
 
 \newglossaryentry{lloydalgorithm} 
 {name={Lloyd's algorithm}, 
-	description={Lloyd's\index{Lloyd's algorithm} algorithm is an iterative 
+	description={Lloyd's\index{Lloyd's algorithm} \gls{algorithm} is an iterative 
 	   \gls{optmethod} for finding \glspl{clustercentroid} that are approximately 
-	   optimal for the \gls{kmeans} \gls{objfunc}. The method 
+	   optimal for the \gls{kmeans} \gls{objfunc}. Lloyd's \gls{algorithm}  
 	   alternates between
 	   \begin{itemize} 
 			\item updating the \gls{cluster} assignment of each \gls{datapoint} 
@@ -7714,6 +8127,116 @@ sort={k-means},
 			\item re-calculating the \glspl{clustercentroid} given the updated 
 			      \gls{cluster} assignments \cite{Lloyd1982}.
 		\end{itemize}
+		\begin{figure}
+			\begin{center}
+			\begin{tikzpicture}[
+	assignment/.style={-Latex, very thin},
+	move/.style={-Latex, thick},
+	center/.style={draw, circle, inner sep=1.2pt, fill=white},
+	pointA/.style={circle, inner sep=1.1pt, fill=black},
+	pointB/.style={rectangle, inner sep=1.1pt, fill=black},
+	cross/.style={line width=0.4pt},
+	lab/.style={font=\scriptsize}
+	]
+	% ===================== PANEL (a): Initial centers =====================
+	% ===================== PANEL (b): Assign to nearest =====================
+		\begin{scope}[shift={(0,0)}]
+			% points
+			\coordinate (Ba1) at (0.2, 1.1);
+			\coordinate (Ba2) at (0.4, 0.6);
+			\coordinate (Ba3) at (0.8, 1.0);
+			\coordinate (Ba4) at (0.6, 0.2);
+			\coordinate (Bb1) at (2.7, 1.4);
+			\coordinate (Bb2) at (3.2, 0.9);
+			\coordinate (Bb3) at (2.6, 0.3);
+			\coordinate (Bb4) at (3.3, 0.2);
+			\node[pointA] at (Ba1) {}; \node[pointA] at (Ba2) {}; \node[pointA] at (Ba3) {}; \node[pointA] at (Ba4) {};
+			\node[pointB] at (Bb1) {}; \node[pointB] at (Bb2) {}; \node[pointB] at (Bb3) {}; \node[pointB] at (Bb4) {};
+			% centers (old)
+			\coordinate (Bc1old) at (0.9,0.65);
+			\coordinate (Bc2old) at (2.8,1.8);
+			\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx}$}] (B-C1) at (Bc1old) {};
+			\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{2}{\iteridx}$}] (B-C2) at (Bc2old) {};
+			% perpendicular bisector
+			\path let 
+			\p1=(B-C1), \p2=(B-C2),
+			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+			\n3={veclen(\n1,\n2)}
+			in coordinate (B-M)    at ($ (B-C1)!0.5!(B-C2) $)
+			coordinate (B-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+			\draw[dashed, thick] ($ (B-M) + 10.4*(B-Nhat) $) -- ($ (B-M) - 10.4*(B-Nhat) $);
+			% minimal assignment spokes
+			\draw[assignment] (Ba2) -- (B-C1);
+			\draw[assignment] (Ba3) -- (B-C1);
+			\draw[assignment] (Bb2) -- (B-C2);
+			\draw[assignment] (Bb3) -- (B-C2);
+			\node[lab] at (1.6,-0.35) {(a) Assign to nearest \gls{clustercentroid}};
+		\end{scope}
+		% ===================== PANEL (c): Recompute means =====================
+		\begin{scope}[shift={(5.5,0)}]
+			% points
+			\coordinate (Ca1) at (0.2, 1.1);
+			\coordinate (Ca2) at (0.4, 0.6);
+			\coordinate (Ca3) at (0.8, 1.0);
+			\coordinate (Ca4) at (0.6, 0.2);
+			\coordinate (Cb1) at (2.7, 1.4);
+			\coordinate (Cb2) at (3.2, 0.9);
+			\coordinate (Cb3) at (2.6, 0.3);
+			\coordinate (Cb4) at (3.3, 0.2);
+			\node[pointA] at (Ca1) {}; \node[pointA] at (Ca2) {}; \node[pointA] at (Ca3) {}; \node[pointA] at (Ca4) {};
+			\node[pointB] at (Cb1) {}; \node[pointB] at (Cb2) {}; \node[pointB] at (Cb3) {}; \node[pointB] at (Cb4) {};
+			% centers (old and new)
+			\coordinate (Cc1old) at (0.9,0.65);
+			\coordinate (Cc2old) at (2.8,1.8);
+			\coordinate (Cc1new) at (0.5,0.725);
+			\coordinate (Cc2new) at (2.95,0.70);
+			\node[center, opacity=0.5] at (Cc1old) {};
+			\node[center, opacity=0.5] at (Cc2old) {};
+			% crosses for new centers
+			\draw[cross] ($(Cc1new)+(-0.07,0)$) -- ($(Cc1new)+(0.07,0)$);
+			\draw[cross] ($(Cc1new)+(0,-0.07)$) -- ($(Cc1new)+(0,0.07)$);
+			\draw[cross] ($(Cc2new)+(-0.07,0)$) -- ($(Cc2new)+(0.07,0)$);
+			\draw[cross] ($(Cc2new)+(0,-0.07)$) -- ($(Cc2new)+(0,0.07)$);
+			% movement arrows
+			\draw[move] (Cc1old) -- (Cc1new);
+			\draw[move] (Cc2old) -- (Cc2new);
+			\node[lab] at (1.6,-0.35) {(b) Recompute \glspl{clustercentroid}};
+		\end{scope}
+		% ===================== PANEL (d): Update & new partition =====================
+		\begin{scope}[shift={(3,-4)}]
+			% points
+			\coordinate (Da1) at (0.2, 1.1);
+			\coordinate (Da2) at (0.4, 0.6);
+			\coordinate (Da3) at (0.8, 1.0);
+			\coordinate (Da4) at (0.6, 0.2);
+			\coordinate (Db1) at (2.7, 1.4);
+			\coordinate (Db2) at (3.2, 0.9);
+			\coordinate (Db3) at (2.6, 0.3);
+			\coordinate (Db4) at (3.3, 0.2);
+			\node[pointA] at (Da1) {}; \node[pointA] at (Da2) {}; \node[pointA] at (Da3) {}; \node[pointA] at (Da4) {};
+			\node[pointB] at (Db1) {}; \node[pointB] at (Db2) {}; \node[pointB] at (Db3) {}; \node[pointB] at (Db4) {};
+			% centers (new)
+			\coordinate (Dc1new) at (0.5,0.725);
+			\coordinate (Dc2new) at (2.95,0.70);
+			\node[center, label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx+1}$}] (D-C1n) at (Dc1new) {};
+			\node[center, label={[lab]right:$\clustercentroiditer{2}{\iteridx+1}$}] (D-C2n) at (Dc2new) {};
+			% perpendicular bisector
+			\path let 
+			\p1=(D-C1n), \p2=(D-C2n),
+			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+			\n3={veclen(\n1,\n2)}
+			in coordinate (D-M)    at ($ (D-C1n)!0.5!(D-C2n) $)
+			coordinate (D-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+			\draw[dashed, thick] ($ (D-M) + 10.4*(D-Nhat) $) -- ($ (D-M) - 10.4*(D-Nhat) $);
+			\node[lab] at (1.6,-0.35) {(c) Assign to nearest \gls{clustercentroid}};
+		\end{scope}
+	\end{tikzpicture}
+			\end{center}
+			\caption{Lloyd's \gls{algorithm} alternates between assigning \glspl{datapoint} to 
+					nearest \gls{clustercentroid} and, in turn, re-computing the \glspl{clustercentroid} 
+					based on the new \gls{cluster} assignments. 
+			\label{fig_lloyd_algorithm_dict}}
+		\end{figure}
 		See also: \gls{clustering}, \gls{clustercentroid}, \gls{kmeans}.},
 	first={Lloyd's algorithm},
 	text={Lloyd's algorithm} 
@@ -7826,28 +8349,42 @@ sort={k-means},
 }
 
 	
-\newglossaryentry{samplecovmtx}
-{name={sample covariance matrix}, 
-	description={The\index{sample covariance matrix} 
-		\gls{sample} \gls{covmtx} $\widehat{\bf \Sigma} \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ 
-		for a given set of \glspl{featurevec} $\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$ is defined as 
-		$$\widehat{\bf \Sigma} = \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm}) (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm})\,^{T}.$$ 
-		Here, we use the \gls{samplemean} $\widehat{\vm}$. 
-				\\
-		See also: \gls{sample}, \gls{covmtx}, \gls{featurevec}, \gls{samplemean}.},
-	first={sample covariance matrix},
-	text={sample covariance matrix} 
-}
-
 \newglossaryentry{covmtx}
 {name={covariance matrix}, 
-	description={The\index{covariance matrix} \gls{covariance} \gls{matrix} of a \gls{rv} $\vx \in \mathbb{R}^{\featuredim}$ 
-		is defined as $\expect \bigg \{ \big( \vx - \expect \big\{ \vx \big\} \big)  \big(\vx - \expect \big\{ \vx \big\} \big)\,^{T} \bigg\}$.
+	description={The\index{covariance matrix} \gls{covariance} \gls{matrix} of 
+	       a \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ is defined as 
+		   the \gls{expectation} (if it exists)
+		   $$\expect \bigg \{ \big( \featurevec - \expect \big\{ \featurevec \big\} \big)  
+		   \big(\featurevec - \expect \big\{ \featurevec \big\} \big)\,^{T} \bigg\}.$$
 				\\
 		See also: \gls{covariance}, \gls{matrix}, \gls{rv}.},
 	first={covariance matrix},
+	plural={covariance matrices},
+	firstplural={covariance matrices},
+	type=math, 
 	text={covariance matrix} 
 }
+
+\newglossaryentry{samplecovmtx}
+{name={sample covariance matrix}, 
+	description={Consider a \gls{dataset} consisting of \glspl{datapoint} 
+				 characterized by \glspl{featurevec} $\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$.	
+				 The\index{sample covariance matrix} sample \gls{covariance} 
+				 \gls{matrix} of $\dataset$ is defined as the \gls{covmtx} with 
+				 respect to the \gls{empiricaldistribution} $\probdist^{(\dataset)}$ 
+				 induced by $\dataset$. 
+				 It is given explicitly by 
+					$$\samplecovmtxgeneric = \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm}) (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm})\,^{T}.$$ 
+				Here, we use the \gls{samplemean} $\samplemeanvecgeneric$. 
+	\\
+		See also: \gls{covariance}, \gls{matrix}, \gls{rv}.},
+	first={sample covariance matrix},
+	plural={sample covariance matrices},
+	firstplural={sample covariance matrices},
+	type=math, 
+	text={sample covariance matrix} 
+}
+
 	
 \newglossaryentry{highdimregime}
 {name={high-dimensional regime}, 
@@ -7937,19 +8474,20 @@ sort={k-means},
 
 \newglossaryentry{gmm}
 {name={Gaussian mixture model (GMM)}, 
-	description={A GMM\index{Gaussian mixture model (GMM)} 
-		is a particular type of \gls{probmodel} for a numeric \gls{vector} $\featurevec$ (e.g., 
-		the \glspl{feature} of a \gls{datapoint}). Within a GMM, the \gls{vector} $\featurevec$ 
-		is drawn from a randomly selected \gls{mvndist} 
-		$p^{(\clusteridx)} = \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ with 
+	description={A GMM\index{Gaussian mixture model (GMM)} is a particular type of \gls{probmodel} 
+	    for \glspl{datapoint} characterized by a numeric \gls{featurevec} $\featurevec$. 
+		Within a GMM, the \gls{featurevec} $\featurevec$ is drawn from a randomly selected 
+		\gls{mvndist} $p^{(\clusteridx)} = \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ with 
 		$\clusteridx = I$. The index $I \in \{1, \,\ldots, \,\nrcluster\}$ is a \gls{rv} with 
-		\glspl{probability} $\prob{I=\clusteridx} = p_{\clusteridx}$.
-	     	Note that a GMM is parameterized by the \gls{probability} $p_{\clusteridx}$, the 
-		\gls{mean} \gls{vector} $\clustermean{\clusteridx}$, and the \gls{covmtx} $\covmtx{\clusteridx}$ 
-		for each $\clusteridx=1, \,\ldots, \,\nrcluster$. 
+		\glspl{probability} $\prob{I=\clusteridx} = p_{\clusteridx}$. A GMM is 
+		parameterized, for each $\clusteridx=1, \,\ldots, \,\nrcluster$, 
+		by the \gls{probability} $p_{\clusteridx}$, the \gls{mean} \gls{vector} 
+		$\clustermean{\clusteridx}$, and the \gls{covmtx} $\covmtx{\clusteridx}$ . 
 				\\
 		See also: \gls{probmodel}, \gls{mvndist}, \gls{clustering}.},
 	first={Gaussian mixture model (GMM)},
+	plural={GMMs}, 
+	firstplural={GMMs}, 
 	text={GMM} 
 }
  
@@ -7973,22 +8511,86 @@ sort={k-means},
 
 \newglossaryentry{em}
 {name={expectation–maximization (EM)}, 
-	description={\index{expectation–maximization (EM)} 
-		Consider a \gls{probmodel} $\prob{\datapoint; \weights}$ for the \glspl{datapoint} $\dataset$ generated in some 
-		\gls{ml} application. The \gls{maxlikelihood} estimator for the \glspl{modelparam} $\weights$ is obtained by maximizing 
-		$\prob{\dataset; \weights}$. However, the resulting \gls{optproblem} might be computationally 
-		challenging. EM approximates the \gls{maxlikelihood} estimator by introducing a latent 
-		\gls{rv} $\vz$ such that maximizing $\prob{\dataset,\vz; \weights}$ would be easier 
-		\cite{hastie01statisticallearning}, \cite{BishopBook}, \cite{GraphModExpFamVarInfWainJor}. Since we 
-		do not observe $\vz$, we need to estimate it from the observed \gls{dataset} $\dataset$ 
-		using a conditional \gls{expectation}. The resulting estimate $\widehat{\vz}$ is then used to 
-		compute a new estimate $\widehat{\weights}$ by solving $\max_{\weights} \prob{\dataset, \widehat{\vz}; \weights}$. 
-		The crux is that the conditional \gls{expectation} $\widehat{\vz}$ depends on the \glspl{modelparam} $\widehat{\weights}$, 
-		which we have updated based on $\widehat{\vz}$. Thus, we have to recalculate $\widehat{\vz}$, 
-		which, in turn, results in a new choice $\widehat{\weights}$ for the \glspl{modelparam}. In practice, 
-		we repeat the computation of the conditional \gls{expectation} (i.e., the E-step) and the update 
-		of the \glspl{modelparam} (i.e., the M-step) until some \gls{stopcrit} is met. 
-				\\
+	description={\index{expectation–maximization (EM)}
+	    The EM \gls{algorithm} is an iterative \gls{optmethod} for 
+		approximately solving certain \gls{maxlikelihood} \glspl{optproblem} 
+		that are difficult to solve directly \cite[Sec. 9.4]{BishopBook}, \cite[Sec. 11.4.7]{Murphy2012}.
+	    To motivate the EM \gls{algorithm} and explain its construction, 
+		consider a \gls{ml} application involving a single observed \gls{datapoint} 
+		with \gls{feature} $\feature \in \featurespace$, where $\featurespace$ 
+		is a finite \gls{featurespace}. The \gls{data} generation 
+		is modeled via a \gls{probmodel} that consists of a \gls{rv} $\feature'$ 
+		with \gls{pmf} $\pmf{\feature'}{\cdot;\weights}$. Here, 
+		the actual \glspl{modelparam} $\weights \in \paramspace$ - used for the \gls{data} 
+		generation via sampling from $\pmf{\feature'}{\cdot;\weights}$ - are unknown. A widely 
+		used approach for estimating these \gls{modelparam} is via the solutions of the \gls{maxlikelihood} 
+		problem
+		\begin{equation}
+			\label{equ_def_ML_EM_dict}
+			\min_{\weights \in \paramspace} - \log \pmf{\feature'}{\feature;\weights}.
+		\end{equation}
+		For some \glspl{probmodel}, such as a \gls{gmm}, this \gls{optproblem} can be 
+		difficult to solve directly. As a work-around, one can often introduce an auxiliary 
+		attribute $\truelabel \in \labelspace$, generated via some \gls{rv} $\truelabel'$, 
+		such that the corresponding \gls{probmodel} $\pmf{\feature',\truelabel'}{\cdot,\cdot;\weights}$ 
+		yields a much easier \gls{maxlikelihood} problem 
+		\begin{equation}
+			\label{equ_def_complete_EM_dict}
+			\min_{\weights \in \paramspace} 
+			- \log \pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}.
+		\end{equation}
+		The attribute $\truelabel$ is introduced solely to simplify 
+		\eqref{equ_def_complete_EM_dict}, but it is not observed in practice—only the 
+		feature $\feature$ is available. Thus, we cannot solve \eqref{equ_def_complete_EM_dict} 
+		directly as we do not know which value $\truelabel$ to plug into the \gls{pmf} 
+		$ \pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}$. 
+		The EM method resolves this dilemma by alternating between two steps:
+		\begin{itemize}
+			\item {\bf (E-step)} computing a “soft’’ estimate of the auxiliary 
+			attribute $\truelabel$ in the form of the \gls{posterior} 
+			$\pmf{\truelabel'|\feature'}{\cdot;\widehat{\weights}}$
+			using the current choice $\widehat{\weights}$ for the \glspl{modelparam}, and 
+			\item {\bf (M-step)} minimizing a surrogate \gls{objfunc} derived from this \gls{posterior}.
+		\end{itemize}
+		The completion of these two steps constitutes one full \gls{iteration} of 
+		the EM method. 
+		In more detail, the E-step produces the \gls{function}
+		\[
+		Q(\weights \mid \widehat{\weights})
+		\defeq 
+		- \sum_{\truelabel \in \labelspace} 
+		\pmf{\truelabel'|\feature'}{\truelabel;\widehat{\weights}}
+		\log\!\Big(
+		\pmf{\feature',\truelabel'}{\feature,\truelabel;\weights}
+		/\pmf{\truelabel'|\feature'}{\truelabel;\widehat{\weights}}
+		\Big),
+		\]
+		and the M-step minimizes $Q(\weights \mid \widehat{\weights})$ over 
+		$\weights \in \paramspace$.
+		This \gls{function} satisfies two key properties \cite[Sec. 9.4]{BishopBook},\cite[Sec. 11.4.7]{Murphy2012}:
+		\begin{itemize}
+			\item {\bf Upper bound:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict}
+				Q(\weights\mid \widehat{\weights})
+				\geq
+				- \log \pmf{\feature'}{\feature;\weights}
+				\quad \text{for all } \weights \in \paramspace.
+			\end{equation}
+			\item {\bf Tightness:}
+			\begin{equation}
+				\label{equ_upper_bound_EM_dict_tight}
+				Q(\widehat{\weights}\mid \widehat{\weights})
+				=- \log \pmf{\feature'}{\feature;\widehat{\weights}}.
+			\end{equation}
+		\end{itemize}
+		To summarize, during each \gls{iteration}, EM minimizes an upper-bounding 
+		surrogate \gls{objfunc} that is tight at the current iterate $\widehat{\weights}$. 
+		Thus, EM is a \gls{majmin} method for approximately solving \eqref{equ_def_ML_EM_dict}. 
+		The above construction and analysis of EM can be extended to more 
+		general settings involving multiple \glspl{datapoint} 
+		and infinite \glspl{featurespace} such as $\mathbb{R}^{\featuredim}$; see \cite[Sec. 11.4.7]{Murphy2012} for details. 
+			\\
 		See also: \gls{probmodel}, \gls{maxlikelihood}, \gls{optproblem}. },
 	first={EM},
 	text={EM}
@@ -8047,11 +8649,23 @@ sort={k-means},
 			   denoted by $\linspan{\mA}$, is the set of all linear combinations of the 
 			   columns of $\mA$. In other words, 
 			   $$ \linspan{\mA} = \{ \mA \weights : \weights \in \mathbb{R}^{\nrfeatures} \}. $$
-			   The column space is a subspace of the \gls{euclidspace} $\mathbb{R}^{\samplesize}$.
+			   The column space $\linspan{\mA}$ of \gls{matrix} $\mA$ 
+			   is a \gls{subspace} of the \gls{euclidspace} $\mathbb{R}^{\samplesize}$.
 			   \\
 		See also: \gls{vectorspace}, \gls{matrix}.},
+	type=math,
 	first={column space},
 	text={column space}
+}
+
+\newglossaryentry{hyperplane}
+{name={hyperplane},
+ description={TBC\index{hyperplane}},
+	first={hyperplane},
+	type=math,
+	plural={hyperplanes}, 
+	firstplural={hyperplanes},
+	text={hyperplane}
 }
 
 \newglossaryentry{subspace}
@@ -8060,6 +8674,7 @@ sort={k-means},
 			   \gls{vectorspace} with respect to the same operations as $\mathcal{V}$.
 			   \\
 		See also: \gls{vectorspace}.},
+	type=math, 
 	first={subspace},
 	text={subspace}
 }
@@ -8242,16 +8857,16 @@ Linear least squares\index{linear least squares} refers to the
 \newglossaryentry{weightedleastsquares}
 {name={weighted least squares},
  description={Weighted least squares\index{weighted least squares} 
- 	refers to \gls{erm}-based 
+ 			  refers to \gls{erm}-based 
                methods that use the weighted average \gls{sqerrloss} 
-			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)} 
+			   $$ \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \sampleweight{\sampleidx} \big( \truelabel^{(\sampleidx)} 
 			   - \hypothesis(\featurevec^{(\sampleidx)}) \big)^{2} $$   
 			   on a \gls{trainset} $\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,
 			   \pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}} \big\}$	
 			   to measure the quality of a \gls{hypothesis} \gls{map} $\hypothesis \in \hypospace$. 
 		 	   \begin{figure}[H]
-		  \centering
-		  \begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+		  		\centering
+		  		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
 		  		\foreach \x/\y in {
 		  			1/2, 4/3, 7/10
 		  		} {
@@ -8263,20 +8878,20 @@ Linear least squares\index{linear least squares} refers to the
 		  		{$\hypothesis$};
 		  		\node[above right=2pt and 2pt, red] at (ptB7) {\gls{outlier}};
 				  % --- hypothesis line (horizontal at y=3.5) ---
-  \coordinate (lineStart) at (0.5, 3.5);
-  \coordinate (lineEnd)   at (10.5, 3.5);
-  \draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$\hypothesis$};
-  % --- projection of the outlier (ptB7) onto the hypothesis line ---
-  % same x-coordinate, y = 3.5 (height of hypothesis line)
-  \path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
-  % --- draw residual vector ---
-  \draw[<->, very thick, red]
-    (proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
-    {$\beta^{(\sampleidx)} \big( \truelabel^{(\sampleidx)}\!-\!\hypothesis\big(\featurevec^{(\sampleidx)}\big) \big)^{2}$}
-    (ptB7);
-  % --- emphasize points ---
-  \fill[red] (proj7) circle (1.2pt);
-  \fill[red] (ptB7)  circle (1.2pt);
+				\coordinate (lineStart) at (0.5, 3.5);
+				\coordinate (lineEnd)   at (10.5, 3.5);
+				\draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$\hypothesis$};
+				% --- projection of the outlier (ptB7) onto the hypothesis line ---
+				% same x-coordinate, y = 3.5 (height of hypothesis line)
+				\path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
+				% --- draw residual vector ---
+				\draw[<->, very thick, red]
+					(proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
+					{$\sampleweight{\sampleidx} \big( \truelabel^{(\sampleidx)}\!-\!\hypothesis\big(\featurevec^{(\sampleidx)}\big) \big)^{2}$}
+					(ptB7);
+				% --- emphasize points ---
+				\fill[red] (proj7) circle (1.2pt);
+				\fill[red] (ptB7)  circle (1.2pt);
 		  \end{tikzpicture}
 		  \caption{Weighted least squares can be used to mitigate the effect of \gls{outlier} 
 		  \glspl{datapoint} in a \gls{trainset}. %In this example, the \gls{outlier} 
@@ -8284,10 +8899,10 @@ Linear least squares\index{linear least squares} refers to the
 		  %to reduce its influence on the learned \gls{parameter} $\widehat{w}$. 
 		  \label{fig_weighted_least_squares_dict}}
 		 \end{figure}
-			   The weights $\beta^{(1)}, \,\ldots, \,\beta^{(\samplesize)} \in \mathbb{R}_{+}$
+			   The weights $\sampleweight{1}, \,\ldots, \,\sampleweight{\samplesize} \in \mathbb{R}_{+}$
 			   allow us to emphasize or de-emphasize the contribution of individual \glspl{datapoint} 
-			   in the \gls{trainset}. Ideally, we assign a small weight $\beta^{(\sampleidx)}$ 
-			   (de-empahsize) the $\sampleidx$-th \gls{datapoint} if it is an \gls{outlier} 
+			   in the \gls{trainset}. Ideally, we assign a small weight $\sampleweight{\sampleidx}$ 
+			   to the $\sampleidx$-th \gls{datapoint} if it is an \gls{outlier} 
 			   (see Figure \ref{fig_weighted_least_squares_dict}). 
 			   We obtain different weighted least squares methods by 
 			   using different \glspl{model} in \gls{erm}.  
@@ -8828,41 +9443,48 @@ text={expectation}
 
 \newglossaryentry{clusteringerror}
 {name={clustering error}, 
-	description={Consider a \gls{clustering} method\index{clustering error} that decomposes 
-	a given \gls{dataset} into \glspl{cluster}. The \gls{clustering} error is a quantitative 
-	measure for the usefulness of the \glspl{cluster}. Different \gls{clustering} methods 
-	use different choices for the \gls{clustering} error. 
+	description={Consider a \gls{clustering} method\index{clustering error} 
+	that decomposes a given \gls{dataset} into \glspl{cluster}. 
+	The \gls{clustering} error is a quantitative measure for the 
+	usefulness of the \glspl{cluster}. Different \gls{clustering} 
+	methods use different choices for the \gls{clustering} error. 
 	\begin{figure}
-\centering
-\begin{tikzpicture}[scale=1]
-% --- Centroids ---
-\coordinate (c1) at (0.8,0.7);
-\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
-\node[above left] at (c1) {$\clustermean{1}$};
-\coordinate (c2) at (3.6,1.6);
-\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
-\node[above left] at (c2) {$\clustermean{2}$};
-% --- Cluster 1 (edit xscale/yscale/rotate to change spread/orientation) ---
-\begin{scope}[shift={(c1)}, xscale=0.9, yscale=0.7, rotate=0]
-  \foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-% --- Cluster 2 ---
-\begin{scope}[shift={(c2)}, xscale=0.8, yscale=0.8, rotate=0]
-  \foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
-    \fill (\dx,\dy) circle (1.5pt);
-    \draw[dashed, gray] (\dx,\dy) -- (0,0);
-  }
-\end{scope}
-\end{tikzpicture}
-\caption{For \gls{datapoint} with numeric \glspl{featurevec}, we can use the 
-average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a measure for the \gls{clustering} error.}
-\end{figure}
-	For example, the \gls{hardclustering} 
-	method \gls{kmeans} measures the \gls{clustering} error via the average squared 
-	\gls{eucliddist} between a \gls{datapoint} (its \gls{featurevec}) and the nearest \gls{clustercentroid}. 
+	\centering
+	\begin{tikzpicture}[scale=1]
+	% --- Centroids ---
+	\coordinate (c1) at (0.8,0.7);
+	\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
+	\node[above left] at (c1) {$\clustercentroid{1}$};
+	\coordinate (c2) at (6.6,1.6);
+	\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
+	\node[above left] at (c2) {$\clustercentroid{2}$};
+	% --- Cluster 1 (edit xscale/yscale/rotate to change spread/orientation) ---
+	\begin{scope}[shift={(c1)}, xscale=1.3, yscale=1.3, rotate=0]
+	\foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	% --- Cluster 2 ---
+	\begin{scope}[shift={(c2)}, xscale=1.5, yscale=1.5, rotate=0]
+	\foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
+		\fill (\dx,\dy) circle (1.5pt);
+		\draw[dashed, gray] (\dx,\dy) -- (0,0);
+	}
+	\end{scope}
+	\end{tikzpicture}
+	\caption{For \gls{datapoint} with numeric \glspl{featurevec}, we can 
+	     use the average squared \gls{eucliddist} to the nearest 
+		 \glspl{clustercentroid} as a measure for the \gls{clustering} error.\label{fig_clustering_error_dict}}
+	\end{figure}
+	 For example, the \gls{hardclustering} method \gls{kmeans} measures 
+	 the \gls{clustering} error via the average squared \gls{eucliddist} 
+	 between the \gls{featurevec} of a \gls{datapoint} 
+	 and the nearest \gls{clustercentroid} (see Figure \ref{fig_clustering_error_dict}). 
+	 Another construction for the \gls{clustering} error can be based on a \gls{probmodel} 
+	 such as the \gls{gmm} where the \glspl{clustercentroid} are \glspl{parameter} 
+	 of the underlying \gls{probdist}.\\ 
+	 See also: \gls{gmm}, \gls{kmeans}, \gls{probmodel}, \gls{maxlikelihood}.
 	}, 
 	first={clustering error}, 
 	firstplural={clustering errors}, 
@@ -9218,31 +9840,46 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 
 \newglossaryentry{onlineGD}
 {name={online gradient descent (online GD)}, 
-	description={Consider \index{online gradient descent (online GD)} an \gls{ml} method that learns \glspl{modelparam} 
-		$\weights$ from some \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. 
-		The learning process uses \glspl{datapoint} $\datapoint^{(\timeidx)}$ that arrive at consecutive time instants $\timeidx=1, \,2, \,\dots$. 
-		Let us interpret the \glspl{datapoint} $\datapoint^{(\timeidx)}$ as \gls{iid} copies 
-		of a \gls{rv} $\datapoint$. The \gls{risk} $\expect\{ \lossfunc{\datapoint}{\weights} \}$ of a 
-		\gls{hypothesis} $\hypothesis^{(\weights)}$ can then (under mild conditions) be obtained as the limit 
-		$\lim_{T\rightarrow \infty} (1/T)\sum_{\timeidx=1}\,^{T} \lossfunc{\datapoint^{(\timeidx)}}{\weights}$. 
-		We might use this limit as the \gls{objfunc} for learning the \glspl{modelparam} $\weights$. 
-		Unfortunately, this limit can only be evaluated if we wait infinitely long in order to collect all \glspl{datapoint}. 
-		Some \gls{ml} applications require methods that learn online, i.e., as soon as a new \gls{datapoint} $\datapoint^{(\timeidx)}$ 
-		arrives at time $\timeidx$, we update the current \glspl{modelparam} $\weights^{(\timeidx)}$. Note that 
-		the new \gls{datapoint} $\datapoint^{(\timeidx)}$ contributes the component $\lossfunc{\datapoint^{(\timeidx)}}{\weights}$ 
-		to the \gls{risk}. As its name suggests, online \gls{gd} updates $\weights^{(\timeidx)}$ via a (projected) \gls{gradstep} such that
+	description={Consider \index{online gradient descent (online GD)} an \gls{ml} 
+	             method that learns \glspl{modelparam} $\weights$ from some 
+				 \gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. 
+		         The learning process uses \glspl{datapoint} $\datapoint^{(\timeidx)}$ 
+				 that arrive at consecutive time instants $\timeidx=1, \,2, \,\dots$. 
+				 Let us interpret the (generation of) \glspl{datapoint} $\datapoint^{(\timeidx)}$ 
+				 as \gls{iid} \glspl{rv} with a common \gls{probdist} $\probdist^{(\datapoint)}$. 
+				 The \gls{risk} $\expect\{ \lossfunc{\datapoint}{\weights} \}$ of a 
+				\gls{hypothesis} $\hypothesis^{(\weights)}$ can then (under mild conditions) 
+				be obtained as the limit 
+		$$\lim_{T\rightarrow \infty} (1/T)\sum_{\timeidx=1}^{T} \lossfunc{\datapoint^{(\timeidx)}}{\weights}.$$ 
+				We might use this limit as the \gls{objfunc} for learning the 
+				\glspl{modelparam} $\weights$. Unfortunately, the above limit can 
+				only be evaluated if we wait infinitely long in order to collect all \glspl{datapoint}. 
+				However, many \gls{ml} applications require methods that learn online: 
+				as soon as a new \gls{datapoint} $\datapoint^{(\timeidx)}$ arrives at 
+				time $\timeidx$, we update the current \glspl{modelparam} $\weights^{(\timeidx)}$. 
+				Note that the new \gls{datapoint} $\datapoint^{(\timeidx)}$ contributes 
+				the component $\lossfunc{\datapoint^{(\timeidx)}}{\weights}$ to the \gls{risk}. 
+				As its name suggests, online \gls{gd} updates $\weights^{(\timeidx)}$ via 
+				a (projected) \gls{gradstep} such that
 		\begin{equation} 
 			\label{equ_def_ogd_dict}
  			\weights^{(\timeidx+1)} \defeq \projection{\paramspace}{\weights^{(\timeidx)} - \lrate_{\timeidx} \nabla_{\weights} \lossfunc{\datapoint^{(\timeidx)}}{\weights}}. 
 		\end{equation} 
-		Note that \eqref{equ_def_ogd_dict} is a \gls{gradstep} for the current component $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
-		of the \gls{risk}. The update \eqref{equ_def_ogd_dict} ignores all previous components $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$, 
-		for $\timeidx' < \timeidx$. It might therefore happen that, compared with $\weights^{(\timeidx)}$, the updated \glspl{modelparam} 
-		$\weights^{(\timeidx+1)}$ increase the retrospective average \gls{loss} $\sum_{\timeidx'=1}^{\timeidx-1} \lossfunc{\datapoint^{(\timeidx')}}{\cdot}$. 
-		However, for a suitably chosen \gls{learnrate} $\lrate_{\timeidx}$, online \gls{gd} can be shown 
-		to be optimal in practically relevant settings. By optimal, we mean that the \glspl{modelparam} 
-		$\weights^{(T+1)}$ delivered by online \gls{gd} after observing $T$ \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(T)}$ 
-		are at least as good as those delivered by any other learning method \cite{HazanOCO}, \cite{GDOptimalRakhlin2012}. 
+		Note that \eqref{equ_def_ogd_dict} is a \gls{gradstep} for the 
+		current component $\lossfunc{\datapoint^{(\timeidx)}}{\cdot}$ 
+		of the \gls{risk}. The update \eqref{equ_def_ogd_dict} ignores all 
+		previous components $\lossfunc{\datapoint^{(\timeidx')}}{\cdot}$, 
+		for $\timeidx' < \timeidx$. It might therefore happen that, compared 
+		with $\weights^{(\timeidx)}$, the updated \glspl{modelparam} 
+		$\weights^{(\timeidx+1)}$ increase the retrospective average 
+		\gls{loss} $\sum_{\timeidx'=1}^{\timeidx-1} \lossfunc{\datapoint^{(\timeidx')}}{\cdot}$. 
+		However, for a suitably chosen \gls{learnrate} $\lrate_{\timeidx}$, 
+		online \gls{gd} can be shown to be optimal in practically relevant 
+		settings. By optimal, we mean that the \glspl{modelparam} 
+		$\weights^{(T+1)}$ delivered by online \gls{gd} after observing 
+		$T$ \glspl{datapoint} $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(T)}$ 
+		are at least as good as those delivered by any other learning method 
+		\cite{HazanOCO}, \cite{GDOptimalRakhlin2012}. 
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}[x=1.5cm,scale=1.5, every node/.style={font=\footnotesize}]
@@ -9272,11 +9909,59 @@ average squared \gls{eucliddist} to the nearest \glspl{clustercentroid} as a mea
 
 \newglossaryentry{pca}
 {name={principal component analysis (PCA)}, 
-	description={PCA\index{principal component analysis (PCA)} 
-		determines a linear \gls{featuremap} such that the new \glspl{feature} 
-		allow us to reconstruct the original \glspl{feature} with the \gls{minimum} reconstruction error \cite{MLBasics}.
-				\\
-		See also: \gls{featuremap}, \gls{feature}, \gls{minimum}, \gls{johnsonlindenstrausslemma}.},
+	description={Consider a \gls{dataset} 
+				$$\dataset = \big\{ \featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \big\}$$
+			    constituted by \glspl{datapoint} characterized by \glspl{featurevec} 
+				$\featurevec^{(\sampleidx)} \in \mathbb{R}^{\nrfeatures}$, for $\sampleidx=1,\ldots,\samplesize$.
+				PCA\index{principal component analysis (PCA)} determines, for a given number 
+				$\nrfeatures' < \nrfeatures$ a linear \gls{featuremap} 
+				$$\featuremapvec^{(\mW)}: \mathbb{R}^{\nrfeatures} \rightarrow 
+				\mathbb{R}^{\nrfeatures'}: \featurevec \mapsto \mW \featurevec$$ 
+				such that the new \glspl{featurevec} 
+				$\mathbf{z}^{(\sampleidx)} = \mW \featurevec^{(\sampleidx)}$ 
+				allow us to reconstruct the original \glspl{feature} with  
+				\gls{minimum} linear reconstruction error \cite{MLBasics,hastie01statisticallearning,BishopBook}
+				$$\min_{\mR \in \mathbb{R}^{\nrfeatures \times \nrfeatures'}} 
+				\sum_{\sampleidx=1}^{\samplesize} 
+				\normgeneric{\featurevec^{(\sampleidx)}- \mR \mW \featurevec^{(\sampleidx)}}{2}^{2}.$$ 
+				We can view PCA as a form of \gls{erm} using the \gls{lossfunc} 
+				$\lossfunc{\featurevec}{\mW} = \normgeneric{\featurevec- \widehat{\mR} \mW \featurevec}{2}^{2}$ with a 
+				reconstruction \gls{matrix} $\widehat{\mR}$ 
+				that achieves the above minimum reconstruction error. It turns 
+				out that this \gls{erm} problem can be solved by a \gls{matrix}  
+				$\mW = \big(\eigvecCov^{(1)},\ldots,\eigvecCov^{(\nrfeatures')}\big)^{T}$ 
+				whose rows are given by $\nrfeatures'$ 
+				\glspl{eigenvector} corresponding to the $\nrfeatures'$ largest 
+				\glspl{eigenvalue} of the \gls{matrix} 
+				$$\widehat{\mQ} = (1/\samplesize) \sum_{\sampleidx=1}^{\samplesize} 
+				\featurevec^{(\sampleidx)} \big( \featurevec^{(\sampleidx)}\big)^{T}
+				=\featuremtx^{T} \featuremtx.$$ 
+				Note that $\widehat{\mQ}$ coincides with the \gls{samplecovmtx} of 
+				$\dataset$ if its \gls{samplemean} vanishes. The \gls{psd} \gls{matrix} 
+				$\widehat{\mQ}$ allows for an \gls{evd} of the form 
+				\cite{MeyerMatrixAnalysis,HornMatAnalysis} 
+				$$\widehat{\mQ}\!=\!\sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx} 
+					\eigvecCov^{(\nrfeatures)} \big( \eigvecCov^{(\nrfeatures)} \big)^{T}=
+					\begin{pmatrix}
+					\eigvecCov^{(1)} & \cdots & \eigvecCov^{(\nrfeatures)}
+					\end{pmatrix}
+					\begin{pmatrix}
+					\eigval{1}        &        & 0 \\
+										& \ddots &   \\
+					0                 &        & \eigval{\nrfeatures}
+					\end{pmatrix}
+					\begin{pmatrix}
+					\big(\eigvecCov^{(1)}\big)^{T} \\
+					\vdots                         \\
+					\big(\eigvecCov^{(\nrfeatures)}\big)^{T}
+					\end{pmatrix}.$$
+				This decomposition consists of decreasing non-negative \glspl{eigenvalue} 
+				$\eigval{1} \geq \eigval{2} \geq \,\ldots, \,\geq \eigval{\nrfeatures} 
+				\geq 0$ and corresponding \glspl{eigenvector} $\eigvecCov^{(1)},\ldots,\eigvecCov^{(\nrfeatures)}$ 
+				that form an orthonormal basis of $\mathbb{R}^{\nrfeatures}$.
+				 \\
+		See also: \gls{featuremap}, \gls{featlearn}, \gls{dimred},  
+		\gls{evd}.},
 	first={principal component analysis (PCA)},
 	text={PCA} 
 }
@@ -10957,9 +11642,10 @@ See also: \gls{function}, \gls{dataset}.},
 		in an aribtrary \gls{metricspace} $\mathcal{A}$. Indeed, we just need to 
 		replace the absolute difference $|a_{\sampleidx} - a^\star|$ 
 		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. 
-		Note that a \gls{sequence} can only converge if it is a \gls{cauchysequence} CITE. 
-		However, not every \gls{cauchysequence} is converging (as this requires 
-		the underlying \gls{metricspace} to be complete).   \\ 
+		Note that a \gls{sequence} can only converge if it is a 
+		\gls{cauchysequence} \cite{RudinBookPrinciplesMatheAnalysis}. 
+		However, not every \gls{cauchysequence} is converging unless 
+		the underlying \gls{metricspace} is complete.   \\ 
 	See also:  \gls{sequence}, \gls{metricspace}, \gls{cauchysequence}.},
 	first={convergence},
 	type =math,
@@ -11038,3 +11724,266 @@ See also: \gls{function}, \gls{dataset}.},
   text={JL lemma}
 }
 
+\newglossaryentry{majmin}
+{name={majorize-minimize (MM)}, 
+description={Consider an \gls{optproblem} $\min_{\weights \in \paramspace} f(\weights)$ with 
+             some complicated (potentially non-\gls{convex} and \gls{nonsmooth}) \gls{objfunc}. 
+			 One important example of such an \gls{optproblem} is \gls{erm} for learning the 
+			 \glspl{modelparam} of a non-linear \gls{model}. 
+			 An MM method is \index{majorize-minimize (MM)} an iterative \gls{optmethod} 
+			 that constructs a \gls{sequence} $\weights^{(1)},\weights^{(2)},\ldots \in \paramspace$ 
+			 of \glspl{modelparam} as follows \cite{Lange2016MM,BishopBook,Hunter01022004}: 
+			\begin{itemize} 
+				\item During the $\iteridx$-th \gls{iteration} the \gls{objfunc} $f(\cdot)$ 
+			 		  is aproximated by another \gls{function} $g\big(\cdot;\weights^{(\iteridx)}\big)$.
+	             	  This approximation must be an upper bound for (majorize) the original
+					  \gls{objfunc}, i.e., $g\big(\weights;\weights^{(\iteridx)}\big) \geq f(\weights)$ 
+			 			for all $\weights \in \paramspace$, and be tight for $\weights^{(\iteridx)}$, i.e., 
+			 			$g\big(\weights^{(\iteridx)};\weights^{(\iteridx)}\big) = f\big(\weights^{(\iteridx)}\big)$.
+			     \item The new \glspl{modelparam}  $\weights^{(\iteridx+1)}$ are then obtained by 
+			     minimizing the approximation, i.e., 
+				 $\weights^{(\iteridx+1)} \in \argmin_{\weights \in \paramspace}g\big(\weights;\weights^{(\iteridx)}\big)$. 
+			 \end{itemize} 
+			 \begin{figure} 
+			 \centering
+			 \begin{tikzpicture}[x=1.2cm,y=1cm]
+					% --- parameters ---
+					\def\xa{0}
+					\def\xb{2*pi}
+					\def\xo{3*pi/4}     % touch point: 1.5 * (pi/2) = 3pi/4
+					\def\mL{0.4}        % left slope  (adjust to keep it above the sine)
+					\def\mR{0.7}        % right slope (adjust to keep it above the sine)
+					% horizontal axis
+					\draw[->] (\xa-0.2,-2) -- (\xb+0.3,-2) node[right] {$\weights$};
+					% sine over one period
+					\draw[thick,samples=100,domain=\xa:\xb]
+					plot (\x,{sin(\x r)}) node[pos=0.1,above left,black] {\small $f(\weights)$};
+					% compute y0 = sin(w0)
+					\pgfmathsetmacro\yxo{sin(\xo r)}
+					% Anchors (numeric, no macros)
+					% w0 = 3*pi/4 = 2.35619449
+					% xL = 2.00619449, xR = 2.70619449
+					% y0 = sin(w0) = 0.70710678
+					% Left slope mL = cos(xL) = -0.42177145  (tangent => upper bound on [0, xL])
+					% Right slope mR = 0.7  (rising; safely above the sine on [xR, 2*pi])
+					\def\xL{2.70}
+					\def\xR{3.80}
+					\def\yO{0.70}
+					% Left (tangent) segment: y = y0 + mL*(x - xL), mL = -0.42177145
+					\draw[dashed,samples=2,domain=0:\xL]
+					plot (\x,{\yO + (-0.7)*(\x - \xo)});
+					% Flat touching segment
+					\draw[dashed]
+					  (\xL,{\yO+(-0.7)*(\xL-\xo)}) -- (\xR,{\yO+(-0.7)*(\xL-\xo)});
+					% Right rising segment: y = y0 + mR*(x - xR), mR = 0.7
+					% draw the segment
+					\draw[dashed,samples=2,domain=\xR:2*pi]
+						plot (\x,{\yO+(-0.7)*(\xL-\xo) + (0.7)*(\x - \xR)});
+					% compute a point 65% along the x-range [\xR, 2*pi]
+					\pgfmathparse{\xR + 0.65*(2*pi - \xR)} \let\xmid\pgfmathresult
+					\pgfmathparse{\yO + 0.7*(\xmid - \xR)} \let\ymid\pgfmathresult
+					% label at that point
+					\node[right,black] at (\xmid,\ymid) {$g\big( \weights; \weights^{(\iteridx)} \big)$};
+					% Touch marker at w0
+					\fill[red] (2.35619449,0.70710678) circle (1.2pt);
+					% --- vertical ruler marking w0 ---
+					\draw[densely dotted,gray] (\xo,-2) -- (\xo,\yO);
+					% \draw[gray] (\xo,0) -- ++(0,-2.06);
+					\node[below] at (\xo,-2) {$\weights^{(\iteridx)}$};
+				\end{tikzpicture}
+			\end{figure}
+			 Similar to \glspl{gdmethod}, also the MM principle is based on approximating an 
+			 \gls{objfunc} locally, around the current \glspl{modelparam}, and then optimizing 
+			 this approximation to obtain new \glspl{modelparam}. However, the construction 
+			 of local approximations is very different: While \glspl{gdmethod} use linear \glspl{function} 
+			 for these approximations, MM methods can use non-linear \glspl{function} as long as 
+			 they are upper bounds for the original \gls{objfunc}. 
+			 \\ 
+				 See also: \gls{gdmethod}, \gls{em}.},
+first={majorize–minimize (MM)},
+type=math, 
+text={MM}
+}
+
+
+\newglossaryentry{markovsinequality}
+{name={Markov's inequality},
+     description={Consider a real-valued non-negative \gls{rv} $x$ for which 
+	 the \gls{expectation} $\expect\{ x\}$ exists. \index{Markov's inequality} 
+	 Markov's inequality provides an upper bound on the \gls{probability} 
+	 $\prob{x\geq a}$ that $x$ exceeds a given positive threshold $a>0$.  
+	 In particular,          
+	 \begin{equation}
+            \prob{x \geq a} \leq \frac{\expect \{ x\}}{a} \qquad \mbox{ holds for any } a > 0. 
+            \label{eq:markovsinequality_dict}
+    \end{equation}
+    This inequality can be verified by noting that $\prob{x \geq a}$ is the 
+	\gls{expectation} $\expect\{g(x)\}$ with the \gls{function} 
+	 $$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \indicatorfunc{\{x \geq a\}}(x').$$ 
+	 As illustrated in Figure \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
+	 $$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ 
+	 This implies Markov's inequality via the monotonicity property 
+	 of the \gls{LebesgueIntegral} \cite[p. 50]{folland1999real}. 
+    \begin{figure}
+		\centering
+		\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
+		% -------- parameters ----------
+		\def\a{3.24}      % threshold a
+		\def\xmax{10}     % x-axis max
+		\def\m{0.02}      % slope of the linear function y = m(x-a)+1
+		% -------- pdf function p(x) (same as your expression) ----------
+		% p(x) = (1/(3*sqrt(2*pi))) * x^(1.5) * exp(-x/2)
+		\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
+		\draw[-{Latex}] (0,0) -- (0,3.1) node[left] {$\pdf{x}{x'}$};
+		% Fill under the pdf (optional aesthetics)
+		\fill[blue!15, opacity=0.3]
+			plot[samples=400, domain=0:\xmax, smooth]
+			(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
+		% PDF curve
+		\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
+			plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
+			node[pos=0.9, above right, xshift=2pt] {};
+		% Vertical guide at x=a
+		\draw[dashed, gray] (\a,0) -- (\a,1.05);
+		\node[below] at (\a,0) {$a$};
+		\node[above] at (1*\a,3) {$\prob{x \geq a} \leq \frac{\expect \{ x\}}{a}$}; 
+		\node[below] at (0,0) {$0$};
+		% -------- indicator 1{x >= a} ----------
+		% 0 for x<a with open circle at (a,0)
+		\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
+		\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
+		% 1 for x>=a with closed circle at (a,1)
+		\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
+			node[pos=0.9, above, yshift=2pt] {$\indicatorfunc{\{x \ge a\}}(x')$};
+		\filldraw[green!60!black] (\a,1) circle (2pt);
+		% -------- linear curve through (a,1): y = m(x-a)+1 ----------
+		\draw[red!70, very thick, samples=2, domain=0:\xmax]
+			plot (\x,{ \x*(1/\a) }); 
+		\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
+		% Axis marker for y=1
+		\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
+		\end{tikzpicture}
+            \caption{The \gls{expectation} $\expect\{x\}$ and the \gls{probability} $\prob{x \geq a}$ 
+			    of a non-negative \gls{rv} with \gls{probdist} $\probdist^{(x)}$ 
+				can be obtained via \glspl{LebesgueIntegral} of 
+				$f(x') = x'/a$ and $g(x') = \indicatorfunc{\{x \geq a\}}(x')$, respectively.}
+            \label{fig:markovsinequality_dict}
+        \end{figure} \\
+		See also: \gls{expectation}, \gls{probability}, \gls{concentrationinequ}.},
+    first={Markov's inequality},
+	type=math, 
+    text={Markov's inequality}  
+}
+
+
+ \newglossaryentry{chebyshevsinequality}
+ {name={Chebyshev's inequality},
+      description={Consider a real-valued \gls{rv} $x$ for which 
+ 	 the second moment $\expect\{ x^{2} \}$ exists (and is finite). 
+ 	 The existence of the second moment implies the existence 
+ 	 of a finite \gls{expectation} $\mu \defeq \expect\{ x\}$ and a finite 
+ 	 \gls{variance} $\sigma^{2}\!\defeq\!\expect \big\{ \big( x\!-\!\mu \big)^{2} \big\}$ \cite[Prop. 6.12]{folland1999real}. 
+ 	 Chebyshev's inequality\index{Chebyshev's inequality} refers 
+ 	 to the following upper bound on the \gls{probability} that $x$ 
+ 	 deviates from $\mu$ by more than a given threshold $\eta$ 
+ 	 \cite[Ch. IX]{FellerBook}. 
+ 	 In particular,   
+ 	\begin{equation}
+           \prob{\big|x - \mu \big| \geq \eta } \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
+            \label{eq:chebyshevsinequality_dict}
+     \end{equation}
+ 	This upper bound can be obtained by applying \gls{markovsinequality} to 
+ 	the new \gls{rv} $\tilde{x}\!\defeq\! \big(x\!-\!\mu \big)^2$. 
+  \begin{figure}[htbp]
+   \centering
+	\begin{tikzpicture}
+     \begin{axis}[
+      width=9cm, height=4.2cm,
+      samples=300,
+      axis lines=left,
+	  ylabel={$\pdf{x}{x'}$},
+      xlabel={$x'$},
+      x label style={at={(axis description cs:1,0)}, anchor=west},
+	  ylabel style={rotate=270,anchor=south,at={(axis description cs:0,1.02)}},
+      xtick={-1.5,0,1.5},
+      xticklabels={$-\eta$,$\mu$,$\eta$},
+      ytick=\empty,
+      ymin=0, ymax=0.45,
+      domain=-4:4,
+      clip=false
+    ]
+      % pdf (centered at mu; here shown as standard normal in x - mu coordinates)
+      \addplot[name path=pdf, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
+      \addplot[name path=axis, draw=none] {0};
+      % shaded tails: |X - mu| >= t with t = 1.5
+      \addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=1.5:4}];
+      \addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=-4:-1.5}];
+      % guide lines at mu and ±t
+      \draw[densely dashed] (axis cs:0,0) -- (axis cs:0,0.42);
+      \draw[dashed] (axis cs:1.5,0) -- (axis cs:1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      \draw[dashed] (axis cs:-1.5,0) -- (axis cs:-1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      % label for the shaded area
+   %   \node[anchor=west] at (axis description cs:0.72,0.82) {$\prob{|x-\mu|\ge \eta}$};
+    \end{axis}
+  	\end{tikzpicture}
+  		\caption{Chebyshev's inquality provides an upper bound for 
+              the tail \gls{probability} $\prob{|x-\mu|\ge \eta}$ (shaded area) of
+			 a real-valued \gls{rv} $x$ with finite second moment.\label{fig:chebyshev_minimal_dict}} 
+	\end{figure}
+ \\
+     See also: \gls{expectation}, \gls{markovsinequality}, \gls{concentrationinequ}.},
+     first={Chebyshev's inequality},
+	 type=math, 
+     text={Chebyshev's inequality}  
+ }
+
+
+\newglossaryentry{hoeffdingsinequality}
+{name={Hoeffding's inequality},
+     description={\index{Hoeffding's inequality} Hoeffding's inequality \cite{hoeffding1963probability} is a fundamental \gls{concentrationinequ} that provides an upper bound on the \gls{probability} that a sum (or average) of independent, bounded \glspl{rv}  deviates from its \gls{mean} by more than some threshold. 
+     Let $x_1,\dots,x_n$ be independent real-valued \glspl{rv} $x_i$ taking values in $[a_i,b_i] \subset \mathbb{R}$, and $S_n \defeq \sum_{i=1}^n x_i$ and $\expect\{S_n\} = \sum_{i=1}^n \expect\{x_i\}$. Then, Hoeffding's inequality \cite[Theorem 2.2.6]{vershynin2018high} states that
+        \begin{equation}
+                \prob{ |S_n - \expect\{S_n\}| \geq t } 
+            \leq 2 \exp \left( -\frac{2 t^2}{\sum_{i=1}^n (b_i - a_i)^2} \right) \qquad \forall t > 0.
+            \label{eq:hoeffding_sum}
+        \end{equation}
+    Hoeffding's typically provides sharper bounds than \gls{chebyshevsinequality}, but is more restrictive by assuming bounded \glspl{rv}.
+    In the context of \gls{ml}, this result is useful for deriving guarantees for \gls{erm}  and in the context of \gls{mab}.  \\
+    See also: \gls{concentrationinequ}, \gls{probability}, \gls{rv}, \gls{expectation}, \gls{probspace}, \gls{markovsinequality}, \gls{chebyshevsinequality}.},
+    first={Hoeffding's inequality},
+    text={Hoeffding's inequality}  
+}
+
+\newglossaryentry{rgg}
+{name={Random geometric graph (RGG)},
+    description={A RGG \gls{graph}\index{Random geometric graph (RGG)} is a \gls{probmodel} for \glspl{graph} built from nodes randomly placed in a \gls{metricspace}. Given a \gls{metricspace}, the RGG is characterized by the number of nodes, the connection radius, and the \gls{probdist} describing the node placement. 
+    \begin{figure}
+    \centering
+    \begin{tikzpicture}[x=0.6cm,y=0.6cm]
+        \draw (-5,-5) rectangle (5,5);
+        % Corner labels outside the rectangle
+        \node[below left] at (-5,-5) {\small $-5$};
+        \node[above left]  at (-5, 5) {\small $5$};
+        \node[below right] at ( 5,-5) {\small $5$};
+        % Bottom two points (nodes 1 and 2) within each other's circle of radius 2.5
+        \fill (-2.0,-3.5) circle (2pt);
+        \draw (-2.0,-3.5) circle (2.5);
+        \node[anchor=east] at (-2.0,-3.5) {\small 1};
+        \fill (-0.5,-3.3) circle (2pt);
+        \draw (-0.5,-3.3) circle (2.5);
+        \node[anchor=west] at (-0.5,-3.3) {\small 2};
+        \draw (-2.0,-3.5) -- (-0.5,-3.3);
+        % Top point (node 3) outside the bottom circles
+        \fill (3.0,3.5) circle (2pt);
+        \draw (3.0,3.5) circle (2.5);
+        \node[anchor=west] at (3.0,3.5) {\small 3};
+    \end{tikzpicture}
+    \caption{Illustration of a RGG with $ \featurespace = [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ (with respect to the Euclidean distance), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
+    \label{fig:rgg}
+    \end{figure}
+    More precisely, for a node set $\nodeidx=1, \,\ldots, \,\nrnodes$, each node $\nodeidx$ is assigned to a random position $\featurevec^{(\nodeidx)} \in \featurespace$, typically as \glspl{realization} of \gls{iid} \glspl{rv} taking values in a set $\featurespace$, which together with a \gls{metric} forms a \gls{metricspace}; often, the \gls{metric} may be induced by a a \gls{norm}. A specific \gls{realization} of a RGG contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if their distance with respect to the \gls{metric} is smaller than some threshold, i.e., when $\metric{\featurevec^{(\nodeidx)}}{\featurevec^{(\nodeidx')}}\leq r$ for some threshold $r>0$, as illustrated in Figure \ref{fig:rgg}.
+         \\
+        See also: \gls{graph}, \gls{sbm}, \gls{ergraph}.},
+    first={Random geometric (RGG) graph},
+    text={RGG}
+}
