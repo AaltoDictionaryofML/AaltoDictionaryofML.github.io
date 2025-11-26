@@ -998,15 +998,18 @@ description={A function\index{continuous} $f: \mathbb{R}^{d} \to \mathbb{R}$ is
 
 \newglossaryentry{diffentropy}
 {name={differential entropy},
-	description={For\index{differential entropy} a real-valued random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ 
-		with a probability density function (pdf) $p(x)$, the differential entropy is defined as \cite{coverthomas}
+	description={For\index{differential entropy} a 
+	random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ 
+	with a probability density function (pdf) $p^{(x)}\left(\cdot\right)$, the differential entropy 
+	is defined as \cite{coverthomas}
 		\[
-		h({\bf x}) :=- \int p({\bf x}) \log p({\bf x}) \, d{\bf x}.
+		h({\bf x}) :=- \int_{{\bf x}' \in \mathbb{R}^{d}} \log p({\bf x}') \, d p^{({\bf x})}\left({\bf x}'\right) .
 		\]
-		Differential entropy can be negative and lacks some properties of entropy for 
-		discrete-valued random variables (RVs), such as invariance under a change of variables \cite{coverthomas}. 
-		Among all random variables (RVs) with a given mean ${\bm \mu}$ and covariance matrix ${\bf C}$, 
-		$h({\bf x})$ is maximized by ${\bf x}\sim \mathcal{N}\left({\bm \mu},{\bf C}\right)$. 
+	Differential entropy can be negative and lacks some properties of 
+	entropy for discrete-valued random variables (RVs), such as invariance under 
+	a change of variables \cite{coverthomas}. Among all random variables (RVs) with a 
+	given mean ${\bm \mu}$ and covariance matrix ${\bf C}$, 
+	$h({\bf x})$ is maximized by ${\bf x}\sim \mathcal{N}\left({\bm \mu},{\bf C}\right)$. 
 		\\
 		See also: uncertainty, probabilistic model.},
 	first={differential entropy},
@@ -1956,7 +1959,8 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 			learned features $(z_1, z_2)$ and visualized in a scatterplot.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
-		See also: overfitting, effective dimension, model, scatterplot, principal component analysis (PCA), Johnson--Lindenstrauss (JL) lemma.}, 
+		See also: overfitting, autoencoder, random projection, principal component analysis (PCA), 
+		Johnson--Lindenstrauss (JL) lemma.}, 
 	first={dimensionality reduction},
 	text={dimensionality reduction}
 } 
@@ -3665,17 +3669,23 @@ plural={medians},
 
 \newglossaryentry{condnr}
 {name={condition number},
-	description={The condition number\index{condition number} $\kappa(\mathbf{Q}) \geq 1$ of a 
-		positive definite matrix $\mathbf{Q} \in \mathbb{R}^{d\times d}$ is the ratio 
-		$\alpha /\beta  $ between the largest $\alpha$ and the smallest $\beta$ eigenvalue of 
-		$\mathbf{Q}$. The condition number is useful for the analysis of machine learning (ML) methods. 
-		The computational complexity of gradient-based methods for linear regression crucially depends on the 
-		condition number of the matrix $\mathbf{Q}= {\bf X}{\bf X}\,^{T}$, with the feature matrix ${\bf X}$ 
-		of the training set. Thus, from a computational perspective, we prefer features of 
-		data points such that $\mathbf{Q}$ has a condition number close to $1$.
+	description={The condition number\index{condition number} 
+	             $\kappa(\mathbf{Q}) \geq 1$ of a positive definite 
+				 matrix $\mathbf{Q} \in \mathbb{R}^{d\times d}$ is the ratio 
+				 $\alpha /\beta$ between the largest eigenvalue $\alpha$ and the 
+		         smallest eigenvalue $\beta$ of $\mathbf{Q}$. The condition number 
+				 is useful for the analysis of machine learning (ML) methods. 
+				The computational complexity of gradient-based methods for linear regression crucially 
+				depends on the condition number of the matrix 
+				$\mathbf{Q}= {\bf X}{\bf X}\,^{T}$, with the feature matrix 
+				${\bf X}$ of the training set. These methods converge faster 
+				when the condition number $\kappa(\mathbf{Q})$ is close to $1$.
 					\\ 
-		See also: matrix, eigenvalue, machine learning (ML), gradient-based method, linear regression, feature matrix, training set, feature, data point.},
+		See also: matrix, eigenvalue, gradient-based method.},
 	first={condition number},
+	plural={condition numbers},
+	firstplural={condition numbers},
+	type=math, 
 	text={condition number} 
 }
 
@@ -4605,11 +4615,12 @@ text={integrable}
 
 \newglossaryentry{deepnet}
 {name={deep net}, plural={deep nets},
-	description={A\index{deep net} deep net is an artificial neural network (ANN) with a (relatively) large number of 
-		hidden layers. Deep learning is an umbrella term for machine learning (ML) methods that use a deep 
+	description={A\index{deep net} deep net is an artificial neural network (ANN) with a 
+	    (relatively) large number of hidden layers. Deep learning 
+		is an umbrella term for machine learning (ML) methods that use a deep 
 		net as their model \cite{Goodfellow-et-al-2016}.
 				\\ 
-		See also: artificial neural network (ANN), layer, machine learning (ML), model.},
+		See also: artificial neural network (ANN), layer, LLM, model.},
 	first={deep net},
 	text={deep net} 
 }
@@ -7188,19 +7199,22 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 
 \newglossaryentry{cm}
 {name={confusion matrix}, 
-	description={Consider\index{confusion matrix} data points characterized 
-		by features ${\bf x}$ and corresponding labels $y$. 
-		The labels take on values in a finite label space $\mathcal{Y}= \{1, \,\ldots, \,k\}$. 
-		For a given hypothesis $h$, the confusion matrix is a 
-		$k\times k$ matrix where each row corresponds to a different 
-		value of the true label $y\in \mathcal{Y}$ and each column to a 
-		different value of the prediction $h({\bf x}) \in \mathcal{Y}$. 
-		The $(c,c')$th entry of the confusion matrix represents the fraction of 
-		data points with a true label $y= c$ that are predicted as 
-		$h({\bf x}) = c'$. The main diagonal of the confusion matrix 
-		contains the fractions of correctly classified data points (i.e., those for which 
-		$y= h({\bf x})$). The off-diagonal entries contain the fractions of
-		data points that are misclassified by $h$.
+	description={Consider\index{confusion matrix} a finite dataset 
+	             with $m$ data points, each characterized 
+				 by a feature vector ${\bf x}$ and a labels 
+				 $y\in \mathcal{Y}$ with finite label space $\mathcal{Y}= \{1, \,\ldots, \,k\}$. 
+				 For a given hypothesis $h$, the confusion matrix is a 
+		$k\times k$ matrix where each row corresponds 
+		to a specific value of the true label $y\in \mathcal{Y}$ 
+		and each column to a specific value of the prediction $h({\bf x}) \in \mathcal{Y}$. 
+		The matrix entry in the $c$-th row and $c'$-th 
+		column is the number of data points with true label 
+		$y= c$ that are predicted as 
+		$h({\bf x}) = c'$. The sum of the main 
+		diagonal entries is the number of correctly classified 
+		data points, i.e., those for which $y= h({\bf x})$. 
+		Summing the off-diagonal entries resuls in the total number of data points 
+		that are misclassified by $h$.
 				\\
 		See also: label, label space, hypothesis, matrix, classification.},
 	first={confusion matrix},
@@ -10787,8 +10801,11 @@ sort={Renyi},
 \newglossaryentry{convex}
 {name={convex},
 	description={A\index{convex} subset $\mathcal{C} \subseteq \mathbb{R}^{d}$ of the 
-		Euclidean space $\mathbb{R}^{d}$ is referred to as convex if it contains 
-		the line segment between any two points ${\bf x}, {\bf y}\!\in\!\mathcal{C}$ in that set. A function  
+		Euclidean space $\mathbb{R}^{d}$ is referred to 
+		as convex if it contains the line segment between any two points 
+		${\bf x}, {\bf y}\!\in\!\mathcal{C}$ in that set, i.e., 
+		$$ \alpha {\bf x}+ (1-\alpha) {\bf y}\in \mathcal{C}, \mbox{ for any } \alpha \in [0,1]. $$
+		Similarly, a function  
 		$f\!:\!\mathbb{R}^{d}\!\rightarrow\!\mathbb{R}$ 
 		is convex if its epigraph $\big\{ \big( {\bf w}\,^{T},t \big)\,^{T}\!\in\!\mathbb{R}^{d\!+\!1}\!:\!t\!\geq\!f({\bf w}) \}$ 
 		is a convex set \cite{BoydConvexBook}. We illustrate one example of a convex set 
@@ -10822,6 +10839,7 @@ sort={Renyi},
 		\end{figure}
 		See also: Euclidean space, function, epigraph.},
 	first={convex},
+	type=math, 
 	text={convex}
 }
 

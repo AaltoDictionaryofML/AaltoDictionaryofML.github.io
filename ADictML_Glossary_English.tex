@@ -998,15 +998,18 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 
 \newglossaryentry{diffentropy}
 {name={differential entropy},
-	description={For\index{differential entropy} a real-valued \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
-		with a \gls{pdf} $p(x)$, the differential \gls{entropy} is defined as \cite{coverthomas}
+	description={For\index{differential entropy} a 
+	\gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
+	with a \gls{pdf} $\pdf{x}{\cdot}$, the differential \gls{entropy} 
+	is defined as \cite{coverthomas}
 		\[
-		h(\featurevec) \defeq - \int p(\featurevec) \log p(\featurevec) \, d\featurevec.
+		h(\featurevec) \defeq - \int_{\featurevec' \in \mathbb{R}^{\nrfeatures}} \log p(\featurevec') \, d \pdf{\featurevec}{\featurevec'} .
 		\]
-		Differential \gls{entropy} can be negative and lacks some properties of \gls{entropy} for 
-		discrete-valued \glspl{rv}, such as invariance under a change of variables \cite{coverthomas}. 
-		Among all \glspl{rv} with a given \gls{mean} $\meanvecgeneric$ and \gls{covmtx} $\covmtxgeneric$, 
-		$h(\featurevec)$ is maximized by $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$. 
+	Differential \gls{entropy} can be negative and lacks some properties of 
+	\gls{entropy} for discrete-valued \glspl{rv}, such as invariance under 
+	a change of variables \cite{coverthomas}. Among all \glspl{rv} with a 
+	given \gls{mean} $\meanvecgeneric$ and \gls{covmtx} $\covmtxgeneric$, 
+	$h(\featurevec)$ is maximized by $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$. 
 		\\
 		See also: \gls{uncertainty}, \gls{probmodel}.},
 	first={differential entropy},
@@ -1957,7 +1960,8 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 			learned \glspl{feature} $(z_1, z_2)$ and visualized in a \gls{scatterplot}.}
 		 	\label{fig:dimred-scatter_dict}
 		 \end{figure}
-		See also: \gls{overfitting}, \gls{effdim}, \gls{model}, \gls{scatterplot}, \gls{pca}, \gls{johnsonlindenstrausslemma}.}, 
+		See also: \gls{overfitting}, \gls{autoencoder}, \gls{randomprojection}, \gls{pca}, 
+		\gls{johnsonlindenstrausslemma}.}, 
 	first={dimensionality reduction},
 	text={dimensionality reduction}
 } 
@@ -3667,17 +3671,23 @@ plural={medians},
 
 \newglossaryentry{condnr}
 {name={condition number},
-	description={The condition number\index{condition number} $\kappa(\mathbf{Q}) \geq 1$ of a 
-		positive definite \gls{matrix} $\mathbf{Q} \in \mathbb{R}^{\featurelen \times \featurelen}$ is the ratio 
-		$\alpha /\beta  $ between the largest $\alpha$ and the smallest $\beta$ \gls{eigenvalue} of 
-		$\mathbf{Q}$. The condition number is useful for the analysis of \gls{ml} methods. 
-		The computational complexity of \glspl{gdmethod} for \gls{linreg} crucially depends on the 
-		condition number of the \gls{matrix} $\mQ = \mX \mX\,^{T}$, with the \gls{featuremtx} $\mX$ 
-		of the \gls{trainset}. Thus, from a computational perspective, we prefer \glspl{feature} of 
-		\glspl{datapoint} such that $\mQ$ has a condition number close to $1$.
+	description={The condition number\index{condition number} 
+	             $\kappa(\mathbf{Q}) \geq 1$ of a positive definite 
+				 \gls{matrix} $\mathbf{Q} \in \mathbb{R}^{\featurelen \times \featurelen}$ is the ratio 
+				 $\alpha /\beta$ between the largest \gls{eigenvalue} $\alpha$ and the 
+		         smallest \gls{eigenvalue} $\beta$ of $\mathbf{Q}$. The condition number 
+				 is useful for the analysis of \gls{ml} methods. 
+				The computational complexity of \glspl{gdmethod} for \gls{linreg} crucially 
+				depends on the condition number of the \gls{matrix} 
+				$\mQ = \featuremtx \featuremtx\,^{T}$, with the \gls{featuremtx} 
+				$\featuremtx$ of the \gls{trainset}. These methods converge faster 
+				when the condition number $\kappa(\mQ)$ is close to $1$.
 					\\ 
-		See also: \gls{matrix}, \gls{eigenvalue}, \gls{ml}, \gls{gdmethod}, \gls{linreg}, \gls{featuremtx}, \gls{trainset}, \gls{feature}, \gls{datapoint}.},
+		See also: \gls{matrix}, \gls{eigenvalue}, \gls{gdmethod}.},
 	first={condition number},
+	plural={condition numbers},
+	firstplural={condition numbers},
+	type=math, 
 	text={condition number} 
 }
 
@@ -4608,11 +4618,12 @@ text={integrable}
 
 \newglossaryentry{deepnet}
 {name={deep net}, plural={deep nets},
-	description={A\index{deep net} deep net is an \gls{ann} with a (relatively) large number of 
-		hidden \glspl{layer}. Deep learning is an umbrella term for \gls{ml} methods that use a deep 
+	description={A\index{deep net} deep net is an \gls{ann} with a 
+	    (relatively) large number of hidden \glspl{layer}. Deep learning 
+		is an umbrella term for \gls{ml} methods that use a deep 
 		net as their \gls{model} \cite{Goodfellow-et-al-2016}.
 				\\ 
-		See also: \gls{ann}, \gls{layer}, \gls{ml}, \gls{model}.},
+		See also: \gls{ann}, \gls{layer}, \gls{llm}, \gls{model}.},
 	first={deep net},
 	text={deep net} 
 }
@@ -7191,19 +7202,22 @@ allow us to separate the \glspl{datapoint} using a \gls{linclass}.  \label{fig_l
 
 \newglossaryentry{cm}
 {name={confusion matrix}, 
-	description={Consider\index{confusion matrix} \glspl{datapoint} characterized 
-		by \glspl{feature} $\featurevec$ and corresponding \glspl{label} $\truelabel$. 
-		The \glspl{label} take on values in a finite \gls{labelspace} $\labelspace = \{1, \,\ldots, \,\nrcluster\}$. 
-		For a given \gls{hypothesis} $\hypothesis$, the confusion \gls{matrix} is a 
-		$\nrcluster \times \nrcluster$ \gls{matrix} where each row corresponds to a different 
-		value of the true \gls{label} $\truelabel \in \labelspace$ and each column to a 
-		different value of the \gls{prediction} $\hypothesis(\featurevec) \in \labelspace$. 
-		The $(\clusteridx,\clusteridx')$th entry of the confusion \gls{matrix} represents the fraction of 
-		\glspl{datapoint} with a true \gls{label} $\truelabel = \clusteridx$ that are predicted as 
-		$\hypothesis(\featurevec) = \clusteridx'$. The main diagonal of the confusion \gls{matrix} 
-		contains the fractions of correctly classified \glspl{datapoint} (i.e., those for which 
-		$\truelabel = \hypothesis(\featurevec)$). The off-diagonal entries contain the fractions of
-		\glspl{datapoint} that are misclassified by $\hypothesis$.
+	description={Consider\index{confusion matrix} a finite \gls{dataset} 
+	             with $\samplesize$ \glspl{datapoint}, each characterized 
+				 by a \gls{featurevec} $\featurevec$ and a \glspl{label} 
+				 $\truelabel \in \labelspace$ with finite \gls{labelspace} $\labelspace = \{1, \,\ldots, \,\nrcluster\}$. 
+				 For a given \gls{hypothesis} $\hypothesis$, the confusion \gls{matrix} is a 
+		$\nrcluster \times \nrcluster$ \gls{matrix} where each row corresponds 
+		to a specific value of the true \gls{label} $\truelabel \in \labelspace$ 
+		and each column to a specific value of the \gls{prediction} $\hypothesis(\featurevec) \in \labelspace$. 
+		The \gls{matrix} entry in the $\clusteridx$-th row and $\clusteridx'$-th 
+		column is the number of \glspl{datapoint} with true \gls{label} 
+		$\truelabel = \clusteridx$ that are predicted as 
+		$\hypothesis(\featurevec) = \clusteridx'$. The sum of the main 
+		diagonal entries is the number of correctly classified 
+		\glspl{datapoint}, i.e., those for which $\truelabel = \hypothesis(\featurevec)$. 
+		Summing the off-diagonal entries resuls in the total number of \glspl{datapoint} 
+		that are misclassified by $\hypothesis$.
 				\\
 		See also: \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{matrix}, \gls{classification}.},
 	first={confusion matrix},
@@ -10792,8 +10806,11 @@ sort={Renyi},
 \newglossaryentry{convex}
 {name={convex},
 	description={A\index{convex} subset $\mathcal{C} \subseteq \mathbb{R}^{\featuredim}$ of the 
-		\gls{euclidspace} $\mathbb{R}^{\featuredim}$ is referred to as convex if it contains 
-		the line segment between any two points $\vx, \vy\!\in\!\cluster$ in that set. A \gls{function}  
+		\gls{euclidspace} $\mathbb{R}^{\featuredim}$ is referred to 
+		as convex if it contains the line segment between any two points 
+		$\vx, \vy\!\in\!\cluster$ in that set, i.e., 
+		$$ \alpha \vx + (1-\alpha) \vy \in \mathcal{C}, \mbox{ for any } \alpha \in [0,1]. $$
+		Similarly, a \gls{function}  
 		$f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ 
 		is convex if its \gls{epigraph} $\big\{ \big( \weights\,^{T},t \big)\,^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ 
 		is a convex set \cite{BoydConvexBook}. We illustrate one example of a convex set 
@@ -10827,6 +10844,7 @@ sort={Renyi},
 		\end{figure}
 		See also: \gls{euclidspace}, \gls{function}, \gls{epigraph}.},
 	first={convex},
+	type=math, 
 	text={convex}
 }
 
