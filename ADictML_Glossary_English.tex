@@ -6645,7 +6645,7 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 			via a generalized \gls{gradstep}. This generalized \gls{gradstep} uses the output of 
 			\glspl{baselearner}.\label{fig_boosting_dict}}
      		\end{figure} 
-     		See also: \gls{ensemble}, \gls{adaboost}, \gls{gradientboosting}.}, 
+     		See also: \gls{optmethod}, \gls{generalization}, \gls{gdmethod}, \gls{erm}.}, 
 	first={boosting}, 
 	text={boosting}
 } 
@@ -6672,8 +6672,6 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
  text ={MAE}
 }
 
-
-
 \newglossaryentry{adaboost}
 {name={AdaBoost},
 	description={AdaBoost\index{AdaBoost} (short for adaptive \gls{boosting}) is a specific 
@@ -6681,8 +6679,8 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 		\cite{pmlr-vR2-ridgeway99a,Schapire1999,Drucker1997}. 
 	    The core idea of AdaBoost is to use the \gls{prediction} errors of the current  
 		\gls{baselearner} for \gls{sampleweighting} in the next \gls{baselearner}. 
-		In particular, the $\iteridx$-th \gls{baselearner} learns a \gls{hypothesis} 
-		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with  
+		At iteration $\iteridx$, the \gls{baselearner} generates a \gls{hypothesis} 
+		$\learnthypothesis^{(\iteridx)}$ by weighted \gls{erm} with current 
 		sample weights $\sampleweight{\sampleidx}$. The prediction errors of 
 		$\learnthypothesis^{(\iteridx)}$ are then used to update the 
 		sample weights by icreasing the weights of \glspl{datapoint} 
@@ -6700,68 +6698,6 @@ out of a \gls{model} $\hypospace$ by minimizing the average \gls{loss}
 	first={AdaBoost}, 
 	text={AdaBoost}
 }
-
-\newglossaryentry{derivative} 
-{name = {derivative}, 
- description={See\index{derivative} \gls{partialderivative}.}, 
- first ={derivative}, 
- text = {derivative}, 
- type=math, 
- plural={derivatives}, 
- firstplural={derivatives}
- }
-
-
-\newglossaryentry{partialderivative}
-{name={partial derivative},
- description={
-		Consider a real-valued \gls{function} 
-		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}: \featurevec \mapsto f(\featurevec)$. 
-	     The partial derivative\index{partial derivative} of $f(\featurevec)$ 
-		 with respect to the entry $\feature_{\featureidx}$ measures how  
-		 $f$ changes when $\feature_\featureidx$ is varied while keeping all 
-        other entries $x_{\featureidx'}$, for $\featureidx' \in \firstnatural{\nrfeatures} \setminus \{\featureidx \}$ 
-		fixed. It is defined as \cite{RudinBookPrinciplesMatheAnalysis}
-        $$
-            \frac{\partial f(\featurevec)}{\partial \feature_\featureidx}
-            = \lim_{\varepsilon \rightarrow 0} 
-              \frac{f(\feature_1,\ldots,\feature_{\featureidx}+\varepsilon,\ldots,\feature_\nrfeatures) 
-			  - f(\feature_1,\ldots,\feature_\featureidx,\ldots,\feature_\nrfeatures)}{\varepsilon}.$$
-		Note that the partial derivative is only defined if this limit exists. 
-		For a \gls{differentiable} function, the partial derivatives of $f$ are the entries 
-		of the \gls{gradient} $\nabla f$. 
-\\
-        See also: \gls{gradient}, \gls{function}.},
-    first={partial derivative},
-	type= math, 
-	 plural={partial derivatives},
-    text={partial derivative}
-}
-
-
- \newglossaryentry{gradientboosting}
- {name={Gradient Boosting},
- 	description={Gradient Boosting\index{Gradient Boosting} is a \gls{boosting} 
- 		\gls{algorithm} that learns a \gls{hypothesis} $\widetilde{\hypothesis}$ 
- 		by sequentially combining the \glspl{hypothesis} $\learnthypothesis^{(\iteridx)}$ 
- 		\cite{Friedman2001},\cite[Alg. 10.3]{hastie01statisticallearning}. 
- 		Similar to \gls{adaboost}, Gradient Boosting uses a generalized \gls{gradstep} 
- 		for combining the results of the \glspl{baselearner}, 
-        $$\widetilde{\hypothesis}^{(\iteridx)} = \widetilde{\hypothesis}^{(\iteridx-1)}-\lrate^{(\iteridx)} 
- 		\learnthypothesis^{(\iteridx)},$$
- 		where the generalized gradient $\learnthypothesis{\iteridx}$ is constructed from 
-		the $\iteridx$-th \gls{baselearner}.
- 		The difference between \gls{adaboost} and Gradient Boosting is in the construction 
-		of $\learnthypothesis{\iteridx}$. While \gls{adaboost} uses weighted \gls{erm} for this construction, 
-		Gradient Boosting uses \gls{erm} on a modified \gls{trainset}. This modification is obtained 
-		by leaving the \glspl{featurevec} untouched but replacing the \glspl{label} with the 
-		\gls{partialderivative} of the \gls{lossfunc} with respect to the \glspl{prediction} 
-		of the previous \gls{baselearner}.   
- 		 \\
- 		See also: \gls{boosting}, \gls{adaboost}, \gls{gd}.},
- 	first={Gradient Boosting}, 
- 	text={Gradient Boosting}
- }
 
 	
 \newglossaryentry{gtv}
@@ -10220,6 +10156,96 @@ text={expectation}
  	text={loss function} 
 }
 
+\newglossaryentry{survivalanalysis}{
+  name={survival analysis},
+  description={A \index{survival analysis} survival analysis is a branch of statistics and machine learning that deals with time-to-event data, where the goal is to estimate the time until an event of interest (e.g., failure, death, or relapse) occurs \cite{Wang2019_2025}. It accounts for censored observations and focuses on estimating survival functions, hazard rates, and risk scores \cite{Kleinbaum1998} . \\
+    See also: \gls{hazardfunction}, \gls{coxph}, \gls{randomsurvivalforest}.%
+  },
+  first={survival analysis},
+  text={survival analysis}
+  %App=Health
+}
+
+\newglossaryentry{hazardfunction}
+{name={hazard function},
+  description={A\index{hazard function} hazard function, also known as the hazard rate or failure rate, 
+    represents the instantaneous risk of an event occurring at a specific time, given that the subject has survived up to that time. 
+    It is a key quantity in \gls{survivalanalysis} and forms the basis for models such as the \gls{coxph}.
+    \\
+    See also: \gls{survivalanalysis}, \gls{coxph}.},
+  first={hazard function},
+  text={hazard function}
+}
+
+\newglossaryentry{coxph}
+{name={Cox Proportional Hazards},
+  description={A\index{Cox Proportional Hazards} Cox Proportional Hazards (CoxPH) model is a semi-parametric model used in \gls{survivalanalysis} to relate multiple covariates to the hazard rate of an event. 
+    It assumes that the \gls{lossfunc} for an individual is the product of a \gls{baseline} hazard and an exponential function of covariates. 
+    The model estimates relative \gls{risk} without requiring the \gls{baseline} hazard to be specified explicitly.
+    \\
+    See also: \gls{survivalanalysis}, \gls{hazardfunction}.},
+  first={Cox Proportional Hazards (CoxPH)},
+  text={CoxPH}
+}
+
+\newglossaryentry{coxnet}
+{name={Cox Neural Network},
+  description={A\index{Cox Neural Network} Cox Neural Network (CoxNet) is a deep learning extension of the \gls{coxph} \gls{model} that uses  neural networks to learn complex, non-linear relationships between covariates and survival outcomes. 
+    It optimizes the Cox partial likelihood function while allowing for flexible \gls{feature} representations, making it suitable for high- \gls{dimension} or unstructured \gls{data} such as images or text.
+    \\
+    See also: \gls{coxph}, \gls{survivalanalysis}.},
+  first={Cox Neural Network (CoxNet)},
+  text={CoxNet}
+}
+
+\newglossaryentry{neuralnetwork}
+{name={neural network},
+  description={A\index{neural network} neural network is a computational \gls{model} composed of interconnected \gls{layer} of artificial neurons 
+    that can approximate complex, non-linear mappings between inputs and \gls{output}. 
+    Neural networks are widely used in deep learning for tasks such as \gls{classification}, \gls{regression}, and representation learning.
+    \\
+    See also: \gls{coxnet}.},
+  first={neural network},
+  text={neural network}
+}
+
+\newglossaryentry{deeplearning}
+{name={deep learning},
+  description={A\index{deep learning} deep learning is a subfield of machinelearning that employs multi-layered \glspl{neuralnetwork} 
+    to learn hierarchical representations of \gls{data}. 
+    It enables automatic \gls{feature} extraction and is widely applied in domains such as computer vision, natural language processing, and survival prediction.
+    \\
+    See also: \gls{neuralnetwork}.},
+  first={deep learning},
+  text={deep learning}
+}
+
+\newglossaryentry{coefficient}
+{name={coefficient},
+  description={A\index{coefficient} coefficient is a numerical parameter that determines the strength and direction of the relationship 
+    between an input \gls{feature} and the \gls{output} of a statistical or \gls{ml} \gls{model}. 
+    In linear\glspl{model}, coefficients weight each feature in forming a \gls{prediction}, for example 
+    \( \hat{y} = \beta_0 + \sum_{j=1}^{p} \beta_j x_j \), where each \(\beta_j\) is a coefficient. 
+    Coefficients are typically learned from \gls{data} through optimization methods such as gradient descent. 
+    They play a central role in \gls{interpretability}, as their magnitude and sign indicate how a feature influences model predictions \cite{Hastie2009}\cite{Molnar2022}.
+    \\
+    See also: \gls{feature}, \gls{model}, \gls{regression}.},
+  first={coefficient},
+  text={coefficient}
+}
+
+\newglossaryentry{baselinehazard}
+{name={baseline hazard},
+  description={A\index{baseline hazard} \gls{baseline} hazard, denoted \(h_{0}(t)\), represents the underlying 
+    \gls{hazardfunction} for an individual with \gls{baseline} or reference \glspl{feature} (typically coded as zeros) 
+    in the \gls{coxph} \gls{model}. It captures how the event risk changes over time independently of covariate effects. 
+    Although the \gls{coxph} \gls{model} does not specify a parametric form for \(h_{0}(t)\), it can be estimated 
+    non-parametrically from the \gls{data} using methods such as the Breslow estimator \cite{Kleinbaum2012}. 
+    \\
+    See also: \gls{hazardfunction}, \gls{coxph}, \gls{survivalanalysis}.},
+  first={baseline hazard},
+  text={baseline hazard}
+}
 \newglossaryentry{decisiontree}
 {name={decision tree}, plural={decision trees}, 
 	description={A\index{decision tree} 
@@ -10448,6 +10474,19 @@ text={expectation}
 	text={random forest}
 }
 
+
+\newglossaryentry{randomsurvivalforest}
+{name={random survival forest},
+  description={A\index{random survival forest} random survival forest (RSF) \cite{Ishwaran2008} is an ensemble of \glspl{decisiontree} designed for time-to-event (survival) data. 
+    Each tree is grown on a bootstrap sample of the original \gls{dataset} with random \gls{feature} selection at splits, using survival-specific split criteria (e.g., log-rank). 
+    The forest aggregates per-tree survival estimates to produce an overall survival function and risk scores, and naturally handles right-censoring.
+    RSF extends the principles of \gls{randomforest} to survival settings and has been shown to perform well in high-dimensional biomedical and real-world datasets
+    \cite{Wang2019,Salerno2023}.
+    \\
+    See also: \gls{decisiontree}, \gls{dataset}, \gls{randomforest}.},
+  first={random survival forest (RSF)},
+  text={random survival forest}
+}
 
 \newglossaryentry{gd}
 {name={gradient descent (GD)},
