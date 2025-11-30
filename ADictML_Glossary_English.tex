@@ -2567,7 +2567,7 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
 		\end{equation} 
 		Mathematically, the \gls{gradient} step is an operator $\mathcal{T}^{(f,\lrate)}$ 
-		that is paramet\-rized by the \gls{function} $f$ and the \gls{stepsize} $\lrate$. 
+		that is parametrized by the \gls{function} $f$ and the \gls{stepsize} $\lrate$. 
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -2608,6 +2608,7 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 					\\ 
 		See also: \gls{differentiable}, \gls{function}, \gls{vector}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{parameter}, \gls{learnrate}, \gls{convex}, \gls{proxop}.},
 	first={gradient step},
+	type=math,
 	firstplural={gradient steps},
 	plural={gradient steps},
 	text={gradient step}
@@ -2620,7 +2621,7 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		mathematical structure such as a \gls{vectorspace}, a \gls{hilbertspace},
 		or a \gls{metricspace} \cite{Bauschke:2017}, \cite{DunfordSchwartz1988}. 
 		Many \gls{ml} methods involve operators whose \gls{domain} and \gls{co-domain} 
-		are \glspl{euclidspace}..
+		are \glspl{euclidspace}.
 							\\ 
 		See also: \gls{vectorspace}, \gls{function}, \gls{hilbertspace}.},
 	first={operator},
@@ -2631,19 +2632,21 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 }
 
 \newglossaryentry{contractop}
-{name={contraction operator},
+{name={contractive operator},
 	description={An\index{contraction operator} operator 
 	   $\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
-		is a contraction if, for some $\contractfac \in [0,1)$,
+		is a contraction (or contractive) if, for some $\contractfac \in [0,1)$, 
+ 	   \cite{BausckeCombette,ProximalMethods}
 		\begin{equation} 
 			\nonumber
 			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\nrfeatures}.
 		\end{equation}
 	},
-	first={contraction operator},
-	text={contraction operator}, 
-	firstplural={contraction operators}, 
-	plural={contraction operators}
+	first={contractive operator},
+	text={contractive operator}, 
+	type=math,
+	firstplural={contractive operators}, 
+	plural={contractive operators}
 }
 
 \newglossaryentry{proxop}
@@ -2676,8 +2679,11 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 				of the \gls{function} $f(\cdot)$. The penalty term is the scaled squared Euclidean distance between the optimization 
 				variable $\weights'$ and the given \gls{vector} $\weights$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
-		See also: \gls{convex}, \gls{function}, \gls{vector}, \gls{generalization}, \gls{gradstep}, \gls{smooth}, \gls{stepsize}.},
+		See also: \gls{convex}, \gls{function}, \gls{gradstep}.},
 	first={proximal operator},
+	type=math,
+	firstplural={proximal operators},
+	plural={proximal operators},
 	text={proximal operator}
 }
 
@@ -3384,17 +3390,55 @@ sort={zerooneloss},
 }
 
 \newglossaryentry{probmodel}
-{name={probabilistic model}, plural={probabilistic models},
-	description={A probabilistic \gls{model}\index{probabilistic model} interprets the 
-	             generation of \glspl{datapoint} as \glspl{rv} with a joint \gls{probdist}. 
+{name={probabilistic model}, 
+	description={A probabilistic \gls{model}\index{probabilistic model} for the 
+	             generation of \glspl{datapoint} consists of \glspl{rv} 
+				 with a joint \gls{probdist} \cite{BertsekasProb}.  
 				This joint \gls{probdist} typically involves \glspl{parameter} that have to 
 				be manually chosen or learned via statistical inference methods such as 
 				\gls{maxlikelihood} estimation \cite{LC}.
 					\\ 
 		See also: \gls{model}, \gls{datapoint}, \gls{realization}, \gls{rv}, \gls{probdist}, \gls{parameter}, \gls{maxlikelihood}. }, 
 	first={probabilistic model}, 
+	plural={probabilistic models},
+	firstplural={probabilistic models},
 	type=math,
 	text={probabilistic model} 
+}
+
+\newglossaryentry{probabilitysimplex}
+{name={probability simplex},
+  description={The \index{probability simplex}probability simplex
+   			  $\simplex{\nrcluster-1}$ is the set of all \glspl{vector} 
+   			  in $\mathbb{R}^\nrcluster$ with non-negative entries 
+ 			  that sum to one. Each element of $\simplex{\nrcluster-1}$ 
+			  represents a \gls{pmf} of a \gls{rv} $y \in \{1,\ldots,\nrcluster\}$.},
+  	first={probability simplex},
+  	plural={probability simplexes},
+  	firstplural={probability simplexes},
+  	type=math,
+  	text={probability simplex}
+}
+
+
+\newglossaryentry{crossentropy}
+{name={crossentropy loss},
+  description={Consider a multi-class \gls{classification} problem with some 
+                \gls{featurespace} $\featurespace$ and a finite
+               \gls{labelspace} $\labelspace = \{1, \ldots, \nrcluster\}$.
+               In some applications it is useful to assign all \gls{datapoint} with 
+ 			  identical \glspl{feature} a \gls{pmf} $\widehat{\vy}$. 
+ 			  Similary, we learn a \gls{hypothesis} $\hypothesis(\featurevec)$ 
+ 			  that, using the \glspl{featurevec} $\featurevec$, predicts a \gls{pmf} 
+ 			  $\hat{\vy} = \big( \hat{y}_1, \ldots, \hat{y}_{\nrcluster} \big)^{T}$ 
+ 			  over the \gls{labelspace}. Here, $\hat{y}_c$ represents the predicted 
+ 			  \gls{probability} that the \gls{label} of a \gls{datapoint} 
+ 			  with \gls{featurevec} $\featurevec$ is $c \in \labelspace$.
+ 	          The \index{crossentropy loss}crossentropy \gls{loss} 
+               measures TBC. 
+  		}, 
+ 		 first={crossentropy loss},
+ 		 text={crossentropy loss}
 }
 
 \newglossaryentry{mean}
@@ -4000,8 +4044,10 @@ text={integrable}
 					\\ 
 		See also: \gls{function}.},
 	first={Lebesgue integral},
+	text={Lebesgue integral},
 	type=math, 
-	firstplural={Lebesgue integral}
+	plural={Lebesgue integrals},
+	firstplural={Lebesgue integrals}
 }
 
 \newglossaryentry{cdf}
@@ -5033,7 +5079,7 @@ sort={k-fold CV},
 }
 
 \newglossaryentry{gradient}
-{name={gradient}, plural={gradients},
+{name={gradient}, 
 	description={For\index{gradient} a real-valued \gls{function} 
 		$f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
 		if a \gls{vector} $\vg$ exists such that 
@@ -5043,6 +5089,8 @@ sort={k-fold CV},
 		\\
 		See also: \gls{function}, \gls{vector}.},
 	first={gradient},
+	plural={gradients},
+	type=math, 
 	text={gradient} 
 }
 
@@ -5691,6 +5739,9 @@ description = {Consider a \gls{dataset}
 				\\
 		See also: \gls{probability}, \gls{randomexperiment}, \gls{samplespace}, \gls{event}, \gls{probdist}, \gls{function}, \gls{probmodel}, \gls{ml}.},  
  	first={probability space}, 
+	plural={probability spaces},
+	firstplural={probability spaces},
+	type=math, 
  	text={probability space}
  }
  
@@ -10536,7 +10587,7 @@ text={expectation}
 }
 	
 \newglossaryentry{probdist}
-{name={probability distribution}, plural={probability distributions},
+{name={probability distribution}, 
 	description={To\index{probability distribution} analyze \gls{ml} methods, it can be useful 
 		to interpret \glspl{datapoint} as \gls{iid} \glspl{realization} of a \gls{rv}. The typical 
 		properties of such \glspl{datapoint} are then governed by the \gls{probability} distribution 
@@ -10550,6 +10601,9 @@ text={expectation}
 	    		\\
 		See also: \gls{iid}, \gls{realization}, \gls{rv}, \gls{probability}, \gls{pdf}.},
 	first={probability distribution},
+	plural={probability distributions},
+	firstplural={probability distributions},
+	type=math, 
 	text={probability distribution}
 }
     
@@ -10575,9 +10629,10 @@ text={expectation}
         		\\
 		See also: \gls{rv}, \gls{probdist}, \gls{probability}, \gls{measurable}, \gls{vector}.},
 	first={probability density function (pdf)},
-	firstplural={probability density functions (pdfs)},
 	plural={pdfs},
+	type=math,
 	text={pdf}
+	firstplural={probability density functions (pdfs)}
 }
 
 \newglossaryentry{parameter}
