@@ -2177,21 +2177,48 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 	text={autoencoder}
 } 
 
+\newglossaryentry{modelparallelism}
+{name={model parallelism},
+ description={In model parallelism\index{model parallelism}, different 
+             \glspl{device} store and process disjoint subsets of the 
+             \glspl{modelparam} of a shared \gls{ml} \gls{model}. 
+             This approach contrasts with data parallelism, where each 
+             \gls{device} maintains a full replica of the \glspl{modelparam} while 
+             processing disjoint subsets of the global \gls{dataset}. 
+             Model parallelism allows to train a \gls{ml} \gls{model} whose 
+			 \glspl{parameter} cannot fit into the memory of a single \gls{device}. 
+             One key application of model parallelism is the training of 
+             extremely large \glspl{ann}, such as transformer models with 
+             billions of \glspl{modelparam}. 
+             \\
+             See also: \gls{vfl}.},
+ first={model parallelism},
+ text={model parallelism}
+}
+\newglossaryentry{dataparallelism}
+{name={data parallelism},
+ description={TBC\index{data parallelism}.
+             \\
+             See also: \gls{hfl}.},
+ first={data parallelism},
+ text={data parallelism}
+}
+
+
 \newglossaryentry{vfl}
 {name={vertical federated learning (VFL)},
-	description={VFL\index{vertical federated learning (VFL)} refers to \gls{fl} applications where  
-		\glspl{device} have access to different \glspl{feature} of the same set of \glspl{datapoint} \cite{VFLChapter}. 
-		Formally, the underlying global \gls{dataset} is
-		\[
-		\dataset^{(\mathrm{global})} \defeq \left\{ \left(\featurevec^{(1)}, \truelabel^{(1)}\right), \,\ldots, \,\left(\featurevec^{(\samplesize)}, \truelabel^{(\samplesize)}\right) \right\}.
-		\]
-		We denote by $\featurevec^{(\sampleidx)} = \big( \feature^{(\sampleidx)}_{1}, \,\ldots, \,\feature^{(\sampleidx)}_{\nrfeatures'} \big)\,^{T}$, for $\sampleidx=1, \,\ldots, \,\samplesize$, 
-	     	the complete \glspl{featurevec} for the \glspl{datapoint}. Each \gls{device} $\nodeidx \in \nodes$ 
-		observes only a subset $\mathcal{F}^{(\nodeidx)} \subseteq \{1, \,\ldots, \,\nrfeatures'\}$ of \glspl{feature}, resulting 
-		in a \gls{localdataset} $\localdataset{\nodeidx}$ with \glspl{featurevec}
-		\[
-		\featurevec^{(\nodeidx,\sampleidx)} = \big( \feature^{(\sampleidx)}_{\featureidx_{1}}, \,\ldots, \,\feature^{(\sampleidx)}_{\featureidx_{\nrfeatures}} \big)\,^{T}.
-		\]
+	description={In VFL\index{vertical federated learning (VFL)} different \glspl{device} have 
+	             access to different \glspl{feature} of the same set of \glspl{datapoint} \cite{VFLChapter}. 
+				 Formally, the underlying global \gls{dataset} is
+				 \[\dataset^{(\mathrm{global})} \defeq \left\{ \left(\featurevec^{(1)}, \truelabel^{(1)}\right), \,\ldots, \,\left(\featurevec^{(\samplesize)}, \truelabel^{(\samplesize)}\right) \right\}.
+				 \]
+				We denote by $\featurevec^{(\sampleidx)} = \big( \feature^{(\sampleidx)}_{1}, \,\ldots, \,\feature^{(\sampleidx)}_{\nrfeatures'} \big)\,^{T}$, for $\sampleidx=1, \,\ldots, \,\samplesize$, 
+	     		the complete \glspl{featurevec} for the \glspl{datapoint}. Each \gls{device} $\nodeidx \in \nodes$ 
+				observes only a subset $\mathcal{F}^{(\nodeidx)} \subseteq \{1, \,\ldots, \,\nrfeatures'\}$ of \glspl{feature}, resulting 
+				in a \gls{localdataset} $\localdataset{\nodeidx}$ with \glspl{featurevec}
+				\[
+					\featurevec^{(\nodeidx,\sampleidx)} = \big( \feature^{(\sampleidx)}_{\featureidx_{1}}, \,\ldots, \,\feature^{(\sampleidx)}_{\featureidx_{\nrfeatures}} \big)\,^{T}.
+				\]
 		Some of the \glspl{device} may also have access to the \glspl{label} $\truelabel^{(\sampleidx)}$, for $\sampleidx=1, \,\ldots, \,\samplesize$, 
 		of the global \gls{dataset} (see Fig. \ref{fig_vertical_FL_dict}). 
 		\begin{figure}[H]
@@ -2236,10 +2263,12 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		\end{figure}
 		One potential application of VFL is to enable collaboration between 
 		different healthcare providers. Each provider collects distinct types of measurements—such as blood 
-		values, electrocardiography, and lung X-rays—for the same patients. Another application is a 
-		national social insurance system, where health records, financial indicators, consumer behavior, 
-		and mobility \gls{data} are collected by different institutions. VFL enables joint learning across 
-		these parties while allowing well-defined levels of \gls{privprot}.
+		values, electrocardiography, and lung X-rays—for the same patients. Another 
+		application is a national social insurance system, where health records, financial 
+		indicators, consumer behavior, and mobility \gls{data} are collected by different 
+		institutions. VFL enables joint learning across these parties while allowing 
+		well-defined levels of \gls{privprot}. VFL methods implement a particular form 
+		of \gls{modelparallelism}.
 		\\
 		See also: \gls{fl}, \gls{privprot}.},
 	first={vertical federated learning (VFL)},
@@ -3410,7 +3439,7 @@ sort={zerooneloss},
 	description={The\index{probability simplex} \gls{probability} simplex
    		$\simplex{\nrcluster-1}$ is the set of all \glspl{vector} 
    		in $\mathbb{R}^\nrcluster$ with nonnegative entries 
- 		that sum to one. Each element of $\simplex{\nrcluster-1}$ 
+ 		that sum to one \cite{BoydConvexBook}. Each element of $\simplex{\nrcluster-1}$ 
 		represents a \gls{pmf} of an \gls{rv} $y \in \{1,\,\ldots,\,\nrcluster\}$.
 		\\
 		See also: \gls{probability}, \gls{vector}, \gls{pmf}, \gls{rv}. },
