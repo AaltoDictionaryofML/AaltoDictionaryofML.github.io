@@ -3423,23 +3423,62 @@ sort={zerooneloss},
 
 \newglossaryentry{crossentropy}
 {name={crossentropy loss},
-  description={Consider a multi-class \gls{classification} problem with some 
-                \gls{featurespace} $\featurespace$ and a finite
-               \gls{labelspace} $\labelspace = \{1, \ldots, \nrcluster\}$.
-               In some applications it is useful to assign all \gls{datapoint} with 
- 			  identical \glspl{feature} a \gls{pmf} $\widehat{\vy}$. 
- 			  Similary, we learn a \gls{hypothesis} $\hypothesis(\featurevec)$ 
- 			  that, using the \glspl{featurevec} $\featurevec$, predicts a \gls{pmf} 
- 			  $\hat{\vy} = \big( \hat{y}_1, \ldots, \hat{y}_{\nrcluster} \big)^{T}$ 
- 			  over the \gls{labelspace}. Here, $\hat{y}_c$ represents the predicted 
- 			  \gls{probability} that the \gls{label} of a \gls{datapoint} 
- 			  with \gls{featurevec} $\featurevec$ is $c \in \labelspace$.
- 	          The \index{crossentropy loss}crossentropy \gls{loss} 
-               measures TBC. 
+  description={Consider a multi-class \gls{classification} problem with 
+              \gls{featurespace} $\featurespace$ and finite \gls{labelspace} 
+              $\labelspace = \{1,\ldots,\nrcluster\}$.  A \gls{datapoint} with 
+              \gls{featurevec} $\featurevec$ is represented by a \gls{pmf} 
+              $\labelvec = (\truelabel_{1},\ldots,\truelabel_{\nrcluster})^{T}$ 
+              over~$\labelspace$, where $\truelabel_{\clusteridx}$ denotes the 
+              \gls{probability} that the \gls{label} of a randomly chosen \gls{datapoint} with 
+			  \gls{featurevec} $\featurevec$, equals $\clusteridx$.  
+			  A \gls{hypothesis} $\hypothesis(\featurevec)$ outputs a predicted 
+              \gls{pmf} $\hat{\labelvec} = (\predictedlabel_{1},\ldots,
+              \predictedlabel_{\nrcluster})^{T}$.  The associated 
+              \index{crossentropy loss}crossentropy \gls{loss} is defined 
+              \cite{coverthomas} as
+              \begin{equation}
+                \nonumber
+                \lossfunc{(\featurevec,\hat{\labelvec})}{\hypothesis}
+                \defeq - \sum_{\clusteridx=1}^{\nrcluster} 
+                \truelabel_{\clusteridx}\,\log \predictedlabel_{\clusteridx}.
+              \end{equation}
+	          For binary \gls{classification} (with $\nrcluster = 2$), the 
+              crossentropy \gls{loss} reduces to the \gls{logloss} when 
+              employing a \gls{parammodel} with \glspl{modelparam} $\weights$ 
+              such that $\predictedlabel_{2}/\predictedlabel_{1}
+              = \exp(\weights^{T}\featurevec)$. Note that the representation 
+              \eqref{equ_log_loss_gls_dict} of \gls{logloss} requires encoding 
+              the \gls{labelspace} $\{1,2\}$ by the values $-1$ and $1$.\\
+			  See also: \gls{classification}, \gls{logloss}, \gls{pmf}.
   		}, 
  		 first={crossentropy loss},
  		 text={crossentropy loss}
 }
+
+
+\newglossaryentry{softlabel}
+{name={soft label},
+ description={Consider\index{soft label} a \gls{classification} problem where \glspl{datapoint} are characterized 
+ 			  by \glspl{feature} $\featurevec$ and \glspl{label} from a finite \gls{labelspace} 
+			  $\labelspace = \{1,\ldots,\nrcluster\}$. Some \gls{ml} applications involve \glspl{datapoint} 
+			  that have almost identical \glspl{feature} but different \glspl{label}. In such 
+			  cases, instead of assigning to each \gls{datapoint} a single \gls{label} $\truelabel \in \labelspace$, 
+			  it can be more useful to assign an entire \gls{probdist} over the \gls{labelspace}. 
+			  This \gls{probdist} can be represented by a \gls{pmf} 
+			  $\labelvec = \big( \truelabel_{1},\ldots,\truelabel_{\nrcluster}\big)^{T} \in \simplex{\nrcluster}$. 
+			  We can view the entries $\truelabel_{\clusteridx}$, for $\clusteridx=1,\ldots,\nrcluster$, 
+			  as soft labels of a \gls{datapoint}. Mathmatically, the soft label $\truelabel_{\clusteridx}$  
+			  is the \gls{probability} that a randomly chosen \gls{datapoint} with \gls{featurevec} $\featurevec$ 
+			  has \gls{label} $\clusteridx$.\\
+              See also: \gls{pmf}, \gls{classification}, \gls{crossentropy}.},
+ first={soft label},
+ plural={soft labels},
+ firstplural={soft labels},
+ text={soft label}
+}
+
+
+
 
 \newglossaryentry{mean}
 {name={mean}, plural={means},
@@ -3996,13 +4035,15 @@ text={integrable}
 
 \newglossaryentry{LebesgueIntegral}
 {name={Lebesgue integral},
-	description={The Lebesgue integral\index{Lebesgue integral} assigns each integrable \gls{function} 
+	description={The Lebesgue integral\index{Lebesgue integral} 
+	assigns each integrable \gls{function} 
 	$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ a number 
 	$\int_{\featurevec} f(\featurevec) d\featurevec$ 
 	which is referred to as the integral of $f$. 
-	The integral of $f$ can be interpreted as the volume that is enclosed by 
-	the \gls{function} $f$ in the space $\mathbb{R}^{\nrfeatures+1}$. We can 
-	compute it be increasingly accurate approximations by \glspl{simplefunction} 
+	The integral of $f$ can be interpreted as the volume that 
+	is enclosed by the \gls{function} $f$ in the space 
+	$\mathbb{R}^{\nrfeatures+1}$. We can compute it be increasingly 
+	accurate approximations by \glspl{simplefunction} 
 	\cite[Ch. 1]{RudinBook}. 
 	\begin{figure}[H]
 		\centering
@@ -9196,9 +9237,10 @@ text={expectation}
 {name={logistic regression}, 
 	description={Logistic\index{logistic regression} \gls{regression} learns a 
 		linear \gls{hypothesis} \gls{map} (or \gls{classifier}) $\hypothesis(\featurevec) = \weights\,^{T} \featurevec$ 
-		to predict a binary \gls{label} $\truelabel$ based on the numeric \gls{featurevec} $\featurevec$ of 
-		a \gls{datapoint}. The quality of a linear \gls{hypothesis} \gls{map} is measured by the average \gls{logloss} 
-		on some \glspl{labeled datapoint} (i.e., the \gls{trainset}).
+		to predict a binary \gls{label} $\truelabel$ based on the numeric 
+		\gls{featurevec} $\featurevec$ of a \gls{datapoint} \cite{hastie01statisticallearning,BishopBook}. 
+		The quality of a linear \gls{hypothesis} \gls{map} is measured by the 
+		average \gls{logloss} on some \glspl{labeled datapoint} (i.e., the \gls{trainset}).
 				\\
 		See also: \gls{regression}, \gls{hypothesis}, \gls{map}, \gls{classifier}, \gls{label}, \gls{featurevec}, \gls{datapoint}, \gls{logloss}, \gls{labeled datapoint}, \gls{trainset}.},
 	first={logistic regression},
@@ -9208,10 +9250,11 @@ text={expectation}
 \newglossaryentry{logloss}
 {name={logistic loss}, 
 	description={Consider\index{logistic loss} 
-		a \gls{datapoint} characterized by the \glspl{feature} $\featurevec$ and a binary \gls{label} $\truelabel \in \{-1,1\}$. 
-		We use a real-valued \gls{hypothesis} $\hypothesis$ to predict the \gls{label} $\truelabel$ 
-		from the \glspl{feature} $\featurevec$. The logistic \gls{loss} incurred by this \gls{prediction} is 
-		defined as 
+		a \gls{datapoint} characterized by the \glspl{feature} $\featurevec$ and a 
+		binary \gls{label} $\truelabel \in \{-1,1\}$. We use a real-valued \gls{hypothesis} 
+		$\hypothesis$ to predict the \gls{label} $\truelabel$ from the \glspl{feature} 
+		$\featurevec$. The logistic \gls{loss} incurred by this \gls{prediction} is 
+		defined as \cite{BishopBook}
 	\begin{equation} 
 		\label{equ_log_loss_gls_dict}
 		\lossfunc{(\featurevec,\truelabel)}{\hypothesis} \defeq  \log\, ( 1 + \exp\,(- \truelabel \hypothesis(\featurevec))).
@@ -9246,10 +9289,10 @@ text={expectation}
 	\end{center}
 	\end{figure}
 	Note that the expression \eqref{equ_log_loss_gls_dict} 
-	for the logistic \gls{loss} applies only for the \gls{labelspace} $\labelspace = \{ -1,1\}$ and when using 
-	the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
+	for the logistic \gls{loss} applies only for the \gls{labelspace} $\labelspace = \{ -1,1\}$ 
+	and when using the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
 		\\
-		See also: \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, \gls{loss}, \gls{prediction}, \gls{labelspace}.},
+		See also: \gls{classification}, \gls{classifier}, \gls{loss}, \gls{linmodel}.},
 	first={logistic loss},
 	text={logistic loss}
 }
