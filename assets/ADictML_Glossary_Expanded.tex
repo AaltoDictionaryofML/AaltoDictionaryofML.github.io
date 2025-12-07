@@ -981,15 +981,21 @@ description={A function\index{continuous} $f: \mathbb{R}^{d} \to \mathbb{R}$ is
 
 \newglossaryentry{entropy}
 {name={entropy},
-	description={Entropy\index{entropy} quantifies the uncertainty or unpredictability associated with a random variable (RV) \cite{coverthomas}. 
-		For a discrete random variable (RV) $x$ taking on values in a finite set $\mathcal{S} = \{x_1, \,\ldots, \,x_n\}$ with 
-		a probability mass function $p_i :=\mathbb{P}\left(x = x_i\right)$, the entropy is defined as
+	description={Entropy\index{entropy} quantifies the uncertainty or 
+	    unpredictability associated with a random variable (RV) \cite{coverthomas}. 
+		For a discrete random variable (RV) $x$ taking on values in a finite set 
+		$\mathcal{S} = \{x_1, \,\ldots, \,x_k\}$ with 
+		a probability mass function (pmf) $p^{(x)}\left(x_{c}\right) (=\mathbb{P}\left(x = x_{c}\right))$, 
+		the entropy is defined as \cite{coverthomas}
 		\[
-		H(x) :=-\sum_{i=1}^n p_i \log p_i.
+		   H\left(x\right) :=-\sum_{c=1}^{k} p^{(x)}\left(x_{c}\right)  \log p^{(x)}\left(x_{c}\right) .
 		\]
-		Entropy is maximized when all outcomes are equally likely, and minimized (i.e., zero) 
-		when the outcome is deterministic. A generalization of the concept of entropy for continuous 
-		random variables (RVs) is differential entropy. 
+		For a given set of values $\mathcal{S}$, the entropy is maximized for a 
+		uniformly distributed random variable (RV), where $p^{(x)}\left(x_{c}\right)=1/k$. 
+		The minimal entropy, which is zero, is obtained when $p^{(x)}\left(x_{c}\right)=1$ 
+		for some $x_{c} \in \mathcal{S}$.
+		Differential entropy generalizes the concept of entropy from discrete random variables (discrete RVs) to 
+		continuous random variables (RVs). 
 		\\
 		See also: uncertainty, probabilistic model.},
 	first={entropy},
@@ -2178,10 +2184,10 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 
 \newglossaryentry{modelparallelism}
 {name={model parallelism},
- description={In model parallelism\index{model parallelism}, different 
-             devices store and process disjoint subsets of the 
-             model parameters of a shared machine learning (ML) model. 
-             This approach contrasts with data parallelism, where each 
+ description={Model parallelism\index{model parallelism} refers to a particular 
+             class of distributed \glsps{optmethod} used to train a machine learning (ML) model.  
+			 Here, different devices store and process disjoint subsets of the 
+             model parameters. This approach contrasts with data parallelism, where each 
              device maintains a full replica of the model parameters while 
              processing disjoint subsets of the global dataset. 
              Model parallelism allows to train a machine learning (ML) model whose 
@@ -2194,15 +2200,34 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
  first={model parallelism},
  text={model parallelism}
 }
+
 \newglossaryentry{dataparallelism}
 {name={data parallelism},
- description={TBC\index{data parallelism}.
+ description={Data parallelism\index{data parallelism} refers to a widely used 
+             class of distributed optimization methods for training a machine learning (ML) 
+             model. Here, each participating device stores a full 
+             replica of the model parameters but processes a disjoint subset of 
+             the global dataset \cite{BoydADMM2011}. 
+             Compared to model parallelism, which distributes the 
+             model parameters across devices, data parallelism distributes 
+             the computational workload associated with large datasets. 
+             It is especially effective when the model fits into the memory 
+             of a single device, but the dataset or training complexity 
+			 would be prohibitive without parallel processing. 
              \\
-             See also: horizontal federated learning (HFL).},
+             See also: model parallelism, horizontal federated learning (HFL).},
  first={data parallelism},
  text={data parallelism}
 }
 
+\newglossaryentry{perplexity}
+{name={perplexity},
+ description={The\index{perplexity} of a random variable (RV) $x$ is defined as $e^{H_{x}}$.
+             \\
+             See also: entropy.},
+ first={perplexity},
+ text={perplexity}
+}
 
 \newglossaryentry{vfl}
 {name={vertical federated learning (VFL)},
@@ -3449,7 +3474,7 @@ sort={zerooneloss},
 }
 
 \newglossaryentry{crossentropy}
-{name={crossentropy loss},
+{name={cross-entropy},
   description={Consider a multi-class classification problem with 
               feature space $\mathcal{X}$ and finite label space 
               $\mathcal{Y}= \{1,\ldots,k\}$.  A data point with 
@@ -3460,26 +3485,43 @@ sort={zerooneloss},
 			  feature vector ${\bf x}$, equals $c$.  
 			  A hypothesis $h({\bf x})$ outputs a predicted 
               probability mass function (pmf) $\hat{{\bf y}} = (\predictedlabel_{1},\ldots,
-              \predictedlabel_{k})^{T}$.  The associated 
-              \index{crossentropy loss}crossentropy loss is defined 
-              \cite{coverthomas} as
+              \predictedlabel_{k})^{T}$. The associated 
+              \index{cross-entropy}cross-entropy loss is  
+              \cite{coverthomas} 
               \begin{equation}
                 \nonumber
                 L\left(({\bf x},\hat{{\bf y}}),h\right)
                 :=- \sum_{c=1}^{k} 
                 \truelabel_{c}\,\log \predictedlabel_{c}.
               \end{equation}
+			  The cross-entropy loss quantifies the dissimilarity between the true 
+			  probability mass function (pmf) ${\bf y}$ and the predicted probability mass function (pmf) $\hat{{\bf y}}$. It is 
+			  also a measure for the expected number of bits required to encode labels 
+			  drawn from the true probability mass function (pmf) ${\bf y}$ when using a coding scheme optimized for 
+			  the predicted probability mass function (pmf) $\hat{{\bf y}}$ \cite{coverthomas}. \\
+			  {\bf Note.}
 	          For binary classification (with $k= 2$), the 
-              crossentropy loss reduces to the logistic loss when 
+              cross-entropy loss reduces to the logistic loss when 
               employing a parametric model with model parameters ${\bf w}$ 
               such that $\predictedlabel_{2}/\predictedlabel_{1}
               = \exp({\bf w}^{T}{\bf x})$. Note that the representation 
               \eqref{equ_log_loss_gls_dict} of logistic loss requires encoding 
-              the label space $\{1,2\}$ by the values $-1$ and $1$.\\
+              the label space $\{1,2\}$ by the values $-1$ and $1$. 
+			  \\
 			  See also: classification, logistic loss, probability mass function (pmf).
   		}, 
- 		 first={crossentropy loss},
- 		 text={crossentropy loss}
+ 		 first={cross-entropy},
+ 		 text={cross-entropy}
+}
+
+\newglossaryentry{bce}
+{name={binary cross-entropy (BCE)},
+  description={The\index{binary cross-entropy (BCE)} BCE loss is the 
+   			  special case of cross-entropy loss for a binary classification problem.\\
+			  See also: classification, cross-entropy.
+  		}, 
+ 		 first={binary cross-entropy (BCE)},
+ 		 text={BCE}
 }
 
 
@@ -3497,7 +3539,7 @@ sort={zerooneloss},
 			  as soft labels of a data point. Mathmatically, the soft label $\truelabel_{c}$  
 			  is the probability that a randomly chosen data point with feature vector ${\bf x}$ 
 			  has label $c$.\\
-              See also: probability mass function (pmf), classification, crossentropy loss.},
+              See also: probability mass function (pmf), classification, cross-entropy.},
  first={soft label},
  plural={soft labels},
  firstplural={soft labels},
@@ -5460,7 +5502,7 @@ description = {Consider a dataset
 		is unknown and must be estimated from $\mathcal{D}$. The idea of the bootstrap 
 		method is to use the empirical distribution $\mathbb{P}^{(\mathcal{D})}$ 
 		of $\mathcal{D}$ as an estimator for $\mathbb{P}$ \cite{hastie01statisticallearning}, 
-		$$ (1/m) \big| r: {\bf z}^{(1)} \in \mathcal{A} \big| \approx \mathbb{P}\left(\mathcal{A}\right).$$
+		$$ (1/m) \big| r: {\bf z}^{(r)} \in \mathcal{A} \big| \approx \mathbb{P}\left(\mathcal{A}\right).$$
 		Repeatedly sampling from the empirical distribution, which is equivalent 
 		to sampling with replacement from $\mathcal{D}$ \cite{BoostrapBook}, 
 		results in new datasets $\mathcal{D}^{(1)}, \ldots, \mathcal{D}^{(B)}$, each containing 
@@ -7604,9 +7646,13 @@ sort={sigma-field},
 		being close to the corresponding pmf value $p^{(x)}\left(x'\right)$, 
 		$$ \frac{\big|r\in \{1,\,\ldots,\,m\}: x^{(r)}= x' \big|}
 		{m} \approx p^{(x)}\left(x'\right).$$ 
-		The study of this set of typical datasets, naturally associated with a given pmf, 
-		is at the heart of information theory and statistics 
-		\cite{coverthomas}, \cite{Kullback68informationtheory}, \cite{CIT-004}.
+		Note that requiring relative frequencies to be close to the probability mass function (pmf) values 
+		implies that the empirical entropy of such a dataset is close to the 
+		entropy of the probability mass function (pmf) $p^{(x)}\left(\cdot\right)$. Information theory refers 
+		to the collection of such datasets as the typical set corresponding to the probability mass function (pmf) 
+		$p^{(x)}\left(\cdot\right)$ \cite{coverthomas}. A main result of information theory states 
+		that a dataset generated by independent and identically distributed (i.i.d.) sampling from $p^{(x)}\left(\cdot\right)$ 
+		belongs, with high probability, to the typical set with respect to $p^{(x)}\left(\cdot\right)$ \cite[Th. 3.1.2]{coverthomas}.
 				\\
 		See also: random variable (RV), probability, probability distribution, probabilistic model.},
 	first={probability mass function (pmf)},
@@ -7614,6 +7660,16 @@ sort={sigma-field},
 	plural={pmfs},
 	type=math,
 	text={pmf} 
+}
+
+\newglossaryentry{typical set}
+{name={typcial set}, 
+ description={See probability mass function (pmf)\index{typical set}.}, 
+ first={typical set},
+ firstplural={typical sets},
+ type=math,
+ plural={typical sets},
+ text={typical set} 
 }
 
 \newglossaryentry{coreset}
