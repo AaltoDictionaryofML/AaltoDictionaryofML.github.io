@@ -3,6 +3,8 @@
 A multilingual, open-access glossary for mastering machine learning and AI terms.  
 Developed by the **Aalto Machine Learning Group** for students, researchers, and educators at **Aalto University**.
 
+[![RSS Feed](https://img.shields.io/badge/RSS-Feed-blue?logo=rss&style=for-the-badge)](https://aaltodictionaryofml.github.io/feed.xml)
+
 ---
 
 ## 📥 Download
@@ -12,8 +14,6 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
   *(Spanish, German, French, Greek, Finnish)*
 
 --- 
-[![RSS Feed](https://img.shields.io/badge/RSS-Feed-blue?logo=rss&style=for-the-badge)](https://aaltodictionaryofml.github.io/feed.xml)
----
 
 ## 📈 Interactive Term Network
 
