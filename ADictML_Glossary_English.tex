@@ -2699,6 +2699,50 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
 		\end{equation} 
 		The notion of an contractive \gls{operator} generalizes naturally from $\mathbb{R}^{\nrfeatures}$ 
 		to arbitrary \glspl{metricspace} \cite{BausckeCombette}.
+		\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[>=Latex, font=\small]
+        % Styles
+        \tikzset{
+            space/.style={draw, thick, circle, minimum size=4.0cm},
+            pt/.style={circle, inner sep=1.5pt, draw, fill=black},
+            maparrow/.style={->, very thick},
+            distline/.style={dashed, thick}
+        }
+        % Single space
+        \node[space,label=above:{$\featurespace$}] (X) at (0,0) {};
+        % Two points and their images under T inside the same space
+        \coordinate (x1)  at (-1.0,0.8);
+        \coordinate (x2)  at ( 1.0,0.8);
+        \coordinate (Tx1) at (-0.5,0.1);
+        \coordinate (Tx2) at ( 0.5,0.1);
+        % Points x, x'
+        \node[pt,label=above left:{$\featurevec$}] at (x1) {};
+        \node[pt,label=above right:{$\featurevec'$}] at (x2) {};
+        % Images T(x), T(x')
+        \node[pt] (TX1) at (Tx1) {};
+        \node[pt] (TX2) at (Tx2) {};
+        \node[anchor=east] at ($(TX1.west)+(-4pt,-2pt)$) {$\fixedpointop \featurevec$};
+        \node[anchor=west] at ($(TX2.east)+(4pt,-2pt)$) {$\fixedpointop \featurevec'$};
+        % Contraction effect: distances shrink
+        \draw[distline] (x1) -- (x2)
+            node[midway, above=4pt] {$\metric{\featurevec}{\featurevec'}$};
+        \draw[distline] (Tx1) -- (Tx2)
+            node[midway, below=4pt] {$\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'}$};
+        % Fixed point in the same space
+        \coordinate (xs) at (0,-0.9);
+        \node[pt,label=below:{$\featurevec^\star$}] (XS) at (xs) {};
+        % Small loop indicating T(x*) = x*
+        \draw[maparrow,shorten >=2pt,shorten <=2pt]
+            (XS) .. controls +(60:0.7) and +(120:0.7) .. (XS);
+        \node at (0,-1.6) {$\fixedpointop \featurevec^\star = \featurevec^\star$};
+    \end{tikzpicture}
+    \caption{A \gls{contractop} $\fixedpointop:\featurespace\to\featurespace$ 
+      has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.
+      For any two points $\featurevec,\featurevec'$ in the same space, the distance between their images
+      $\fixedpointop\featurevec$ and $\fixedpointop\featurevec'$ is strictly smaller.}
+    \label{fig:contract_dict}
+\end{figure}
 		Intuitively, a contractive \gls{operator} brings any two points 
 		from its \gls{domain} closer together by at least a factor of $\contractfac$.
 		\\ 
@@ -12191,7 +12235,7 @@ sort={Renyi},
     \end{tikzpicture}
     \caption{A \gls{contractop} $\fixedpointop:\featurespace\to\featurespace$  
 	  has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.}
-    \label{fig:banach}
+    \label{fig:banach_dict}
     \end{figure}
 	\\
     See also: \gls{fixedpointiter}, \gls{sequence}, \gls{cauchysequence}, \gls{contractop}, \gls{metricspace}.},
