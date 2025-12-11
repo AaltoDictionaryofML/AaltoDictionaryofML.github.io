@@ -12422,7 +12422,7 @@ sort={Renyi},
 		where $\mD \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a 
  		diagonal \gls{matrix} whose main diagonal entries are the \glspl{eigenvalue} 
  		of $\mA$. A \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ 
- 		is diganlonalizable if and only if it has $\nrfeatures$ linearly independent 
+ 		is diagonalizable if and only if it has $\nrfeatures$ linearly independent 
  		\glspl{eigenvector} \cite{HornMatAnalysis}. 
  		\\	
  		See also: \gls{evd}, \gls{eigenvalue}, \gls{matrix}.},
@@ -12433,24 +12433,101 @@ sort={Renyi},
 
 \newglossaryentry{schurdecomp}
 {name={Schur decomposition},
- description={Any square \gls{matrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
-			can be decomposed as \cite{HornMatAnalysis,Axler2025} 
- 		\[
- 			\mA = \mU \mT \mU^{H}.
- 		\]
-		This decomposition is known as the Schur decomposition\index{Schur decomposition} 
-		of $\mA$. Here, $\mU \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a 
-		unitary \gls{matrix} 
- 		(i.e., $\mU^{H}\mU = \mI$) and $\mT \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
-		 is an upper triangular \gls{matrix} whose main diagonal entries are the 
-		 \glspl{eigenvalue} of $\mA$. The Schur normal form is useful for analyzing 
-		 the properties of general square \glspl{matrix}, similar to the role of the 
-		 \gls{evd} for diagonalizable \glspl{matrix}.\\
+ description={Every square \gls{matrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+              admits a Schur decomposition\index{Schur decomposition} \cite[Thm. 7.1.3]{GolubVanLoanBook}
+			\[\mA = \mU \mT \mU^{H}. 
+			\]
+			Here, $\mU \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a unitary 
+			matrix (i.e., $\mU^{H}\mU = \mI$) and $\mT$ is upper triangular 
+			with the \glspl{eigenvalue} of $\mA$ on its diagonal.
+			Carefully note that the Schur decomposition exists also 
+			for a \gls{matrix} $\mA$ that is not \gls{diagonalizable}, 
+			\begin{figure} 
+				\[
+				\big(\mU^{(1)}\big)^{H} \mA \mU^{(1)}
+				=
+				\begin{pmatrix}
+				\big(\vx^{(1)}\big)^{H} \\
+				\big(\mX^{(2)}\big)^{H}
+				\end{pmatrix}
+				\mA
+				\begin{pmatrix}
+				\vx^{(1)} & \mX^{(2)}
+				\end{pmatrix}
+				=
+				\begin{pmatrix}
+				\eigval{1} & \vb^{H} \\
+				0 & \mA^{(1)}
+				\end{pmatrix},
+				\]
+				\caption{The first step in the construction of the Schur decomposition.
+					Every \gls{matrix} $\mA \in \mathbb{C}^{n\times n}$ has at least one 
+				     \gls{eigenvalue} $\eigval{1}$ with unit-norm \gls{eigenvector} 
+					 $\vx^{(1)}$, $\mA \vx^{(1)} = \eigval{1} \vx^{(1)}$. This 
+					 \gls{eigenvector} allows to decompose $\mA$ as depicted. Here, 
+					 we extended $\vx^{(1)}$ to an orthonormal basis
+					$\mQ^{(1)} = \big( \vx^{(1)} \,\big|\, \mX^{(2)} \big)$
+					and used $\vb^{H} := \big(\vx^{(1)}\big)^{H} \mA \mX^{(2)}$ and 
+					$\mA^{(1)} := \big(\mX^{(2)}\big)^{H} \mA \mX^{(2)}$.
+			 		Applying the same construction recursively to $\mA^{(1)}$ yields the 
+				     Schur decomposition.}
+			\end{figure}
+			\\
  		See also: \gls{evd}, \gls{eigenvalue}, \gls{matrix}.},
 	first={Schur decomposition},
 	type=math,
 	text={Schur decomposition}
 }
+
+\newglossaryentry{unitary}
+{name={unitary (matrix)},
+ description={A square \gls{matrix} $\mU \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+			  is called unitary\index{unitary matrix} if its conjugate 
+			  transpose (Hermitian transpose) $\mU^{H}$ is also its inverse, i.e., if 
+ 		\[
+ 			\mU^{H} \mU = \mU \mU^{H} = \mI.
+ 		\]
+ 		Equivalently, the columns (and rows) of a unitary \gls{matrix} form an 
+		orthonormal basis of $\mathbb{C}^{\nrfeatures}$ with respect to the standard 
+		inner product\cite{HornMatAnalysis,Axler2025}. 
+ 		\\
+ 		See also: \gls{matrix}.},
+ 	first={unitary},
+ 	type=math,
+ 	text={unitary}
+ }
+
+\newglossaryentry{innerproduct}
+{name={inner product},
+ description={Consider a \gls{vectorspace} $\featurespace$ over the 
+              field $\mathbb{F}$, where $\mathbb{F}$ is either the field of 
+			  real numbers $\mathbb{R}$ or the field of complex numbers $\mathbb{C}$. 
+	          An inner product\index{inner product} in $\featurespace$ is 
+			  a \gls{function} 
+ 			 \[
+ 				\innerprod{\cdot}{\cdot}: \featurespace \times \featurespace \to \mathbb{F},
+ 			 \]
+ 			 that satisfies the following properties for all 
+			 $\featurevec, \featurevec', \featurevec'' \in \featurespace$ 
+				and all scalars $\alpha \in \mathbb{F}$ \cite{Axler2025}:
+ 			\begin{itemize}
+ 				\item[(i)] Conjugate symmetry: $\innerprod{\featurevec}{\featurevec'} = \overline{\innerprod{\featurevec'}{\featurevec}}$,
+ 				\item[(ii)] Linearity in the first argument: $\innerprod{\alpha \featurevec + \featurevec''}{\featurevec'} = \alpha \innerprod{\featurevec}{\featurevec'} + \innerprod{\featurevec''}{\featurevec'}$,
+ 				\item[(iii)] Positive-definiteness: $\innerprod{\featurevec}{\featurevec} \geq 0$, with equality if and only if $\featurevec = \mathbf{0}$.
+ 			\end{itemize}
+ 			The pair $(\featurespace, \innerprod{\cdot}{\cdot})$ is called an inner product space. 
+			Each inner product induces a \gls{norm} via 
+			$\norm{\featurevec} \defeq \sqrt{\innerprod{\featurevec}{\featurevec}}$ for all 
+			$\featurevec \in \featurespace$, which in turn induces a \gls{metric} via 
+			$\metric{\featurevec}{\featurevec'} \defeq \norm{\featurevec - \featurevec'}$
+			for all $\featurevec, \featurevec' \in \featurespace$.
+ 		\\
+ 		See also: \gls{vector}, \gls{norm}, \gls{metricspace}.},
+ 	first={inner product},
+ 	type=math,
+ 	text={inner product}
+ }
+
 
 \newglossaryentry{trace}
 {name={trace (matrix)},
