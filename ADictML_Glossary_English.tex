@@ -1,4 +1,5 @@
 % !TeX spellcheck = en_US
+%! TeX root = ADictML_Glossary_English.text
 
 \newglossaryentry{pseudoinverse}
 {name={pseudoinverse},
@@ -159,8 +160,21 @@
  description={A\index{wide matrix} \gls{matrix} 
    		$\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
 		is referred to as wide if it has more columns than rows, i.e., when $\nrfeatures > \samplesize$.
-		\\ 
-		See also: \gls{matrix}. },
+		\begin{figure}[H]
+			\begin{tikzpicture}
+				\def\matHeight{2}
+				\def\matWidth{5} 
+				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
+				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large $A \in \mathbb{R}^{m \times n}$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+        			(-0.2, 0) -- (-0.2, \matHeight) 
+        			node[midway, left=8pt] {$m$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+        			(0, -0.2) -- (\matWidth, -0.2) 
+        			node[midway, below=8pt] {$n \quad (n \gg m)$};
+			\end{tikzpicture}
+		\end{figure}
+		See also: \gls{matrix} },
 	text={wide matrix}, 
 	firstplural={wide matrices}, 
 	plural={wide matrices}, 
@@ -173,7 +187,20 @@
  description={A\index{tall matrix} \gls{matrix} 
    		$\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
 		is referred to as tall if it has more rows than columns, i.e., when $\samplesize > \nrfeatures$.
-		\\ 
+		\begin{figure}[H]
+			\begin{tikzpicture}
+				\def\matHeight{5} 
+    			\def\matWidth{2}
+				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
+				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large $A \in \mathbb{R}^{m \times n}$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+        			(-0.2, 0) -- (-0.2, \matHeight) 
+        			node[midway, left=8pt] {$m \quad (m \gg n)$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+					(0, -0.2) -- (\matWidth, -0.2) 
+					node[midway, below=8pt] {$n$};
+				\end{tikzpicture}
+		\end{figure}
 		See also: \gls{matrix}. },
 	text={tall matrix}, 
 	firstplural={tall matrices}, 
@@ -783,7 +810,54 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 	 at every point $\featurevec' \in \mathbb{R}^{\nrfeatures}$, then $f$ is said to be 
 	 continuous on $\mathbb{R}^{\nrfeatures}$. The notion of a continuous 
 	 \gls{function} can be naturally extended to \glspl{function} between general \glspl{metricspace} 
-	 \cite{RudinBookPrinciplesMatheAnalysis}.\\
+	 \cite{RudinBookPrinciplesMatheAnalysis}.
+	 \begin{figure}[H]
+	 	\begin{tikzpicture}[
+		>=stealth, 
+    	thick,
+		%f(x) = 0.5(x-2)^3 + 2
+    	declare function={f(\x) = 0.3*(\x-2)^3 + 2.5;}
+	]
+		\def\xprime{2}      % x'
+    	\def\epsilon{1.2}   % epsilon
+    	\def\delta{1.3}     % delta
+    	\def\xmax{5.5}
+    	\def\ymax{5}
+		\fill[blue!5] (0, {f(\xprime)-\epsilon}) rectangle (\xmax, {f(\xprime)+\epsilon});
+    	\draw[blue!30, dashed] (0, {f(\xprime)-\epsilon}) -- (\xmax, {f(\xprime)-\epsilon});
+    	\draw[blue!30, dashed] (0, {f(\xprime)+\epsilon}) -- (\xmax, {f(\xprime)+\epsilon});
+    	\fill[red!10] ({\xprime-\delta}, 0) rectangle ({\xprime+\delta}, \ymax);
+    	\draw[red!40, dashed] ({\xprime-\delta}, 0) -- ({\xprime-\delta}, \ymax);
+    	\draw[red!40, dashed] ({\xprime+\delta}, 0) -- ({\xprime+\delta}, \ymax);
+    	\fill[purple!20] ({\xprime-\delta}, {f(\xprime)-\epsilon}) rectangle ({\xprime+\delta}, {f(\xprime)+\epsilon});
+    	\draw[purple, thick] ({\xprime-\delta}, {f(\xprime)-\epsilon}) rectangle ({\xprime+\delta}, {f(\xprime)+\epsilon});
+    	\draw[->] (-0.5,0) -- (\xmax,0) node[right] {Input $\mathbb{R}^n$};
+    	\draw[->] (0,-0.5) -- (0,\ymax) node[above] {Output $\mathbb{R}$};
+    %The Function 
+    	\draw[line width=1.5pt, black!80] plot[domain=0.2:4.5, samples=100] (\x, {f(\x)}) node[right] {$f(\mathbf{x})$};
+    	\draw[dashed] (\xprime, 0) -- (\xprime, {f(\xprime)}) -- (0, {f(\xprime)});
+    	\fill[black] (\xprime, {f(\xprime)}) circle (2pt);
+    	\node[below] at (\xprime, 0) {$\mathbf{x}'$};
+    	\node[left] at (0, {f(\xprime)}) {$f(\mathbf{x}')$};
+    	\draw[decorate, decoration={brace, amplitude=4pt}, blue!80] 
+        	(-0.2, {f(\xprime)}) -- (-0.2, {f(\xprime)+\epsilon}) 
+        	node[midway, left=4pt] {$\epsilon$};
+    	\draw[decorate, decoration={brace, amplitude=4pt}, blue!80] 
+        	(-0.2, {f(\xprime)-\epsilon}) -- (-0.2, {f(\xprime)}) 
+        	node[midway, left=4pt] {$\epsilon$};
+    	\draw[decorate, decoration={brace, amplitude=4pt, mirror}, red!80] 
+        	(\xprime, -0.2) -- ({\xprime+\delta}, -0.2) 
+        	node[midway, below=4pt] {$\delta$};
+    	\draw[decorate, decoration={brace, amplitude=4pt, mirror}, red!80] 
+        	({\xprime-\delta}, -0.2) -- (\xprime, -0.2) 
+        	node[midway, below=4pt] {$\delta$};
+    		\node[align=left, purple!40!black, font=\small] at (4.2, 1.5) 
+        	{If $| \mathbf{x} - \mathbf{x}' | < \delta$\\
+         		then $| f(\mathbf{x}) - f(\mathbf{x}') | < \epsilon$};
+		\end{tikzpicture}
+		\caption{The function $f = 0.3(x-2)^3 + 2.5$ is continuous at every $\featurevec'$ because for vertical interval defined by $\epsilon = 1.2$,
+		there exists a horizontal interval $\delta = 1.3$ such that the graph maps entirely inside the target range. }
+	\end{figure}
 		See also: \gls{euclidspace}, \gls{metric}.},
 	first={continuous},
 	type=math,
@@ -802,6 +876,7 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 		\\
 		See also: \gls{map}, \gls{function}, \gls{vector}, \gls{matrix}, \gls{linmodel}, \gls{ml}.},
 	first={linear map},
+	type = math, 
 	text={linear map}
 }
 
@@ -1036,8 +1111,35 @@ description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to
 {name={co-domain}, 
 	description={The co-\gls{domain}\index{co-domain} of a \gls{function} 
 		$f: \mathcal{U} \rightarrow \mathcal{V}$ is the set $\mathcal{V}$ 
-		into which $f$ maps elements of its \gls{domain} $\mathcal{U}$.  
-		\\
+		into which $f$ maps elements of its \gls{domain} $\mathcal{U}$.
+		\begin{figure}[H]
+			\centering
+		\begin{tikzpicture}[
+			>=stealth, 
+			node distance=2cm,
+			scale=0.8, every node/.style={transform shape} % Scales the whole diagram down slightly
+		]
+			% Domain A
+			\draw[thick, fill=blue!5] (0,0) ellipse (0.8cm and 1.4cm);
+			\node[blue!60!black, font=\bfseries\small] at (0, 1.6) {Domain};
+			% Codomain B
+			\draw[thick, fill=red!5] (3.5,0) ellipse (1cm and 1.6cm);
+			\node[red!60!black, font=\bfseries\small] at (3.5, 1.8) {Codomain};
+			\draw[dashed, fill=green!10, thick, green!60!black] (3.5, -0.3) circle (0.6cm);
+			\node[green!60!black, font=\scriptsize] at (3.5, -1.1) {Range};
+			\fill (0, 0.5) circle (1.5pt) coordinate (a1);
+			\fill (0, -0.5) circle (1.5pt) coordinate (a2);
+			% Output points
+			\fill (3.5, 0) circle (1.5pt) coordinate (b1);
+			\fill (3.5, -0.5) circle (1.5pt) coordinate (b2);
+			% Unreached point
+			\fill (3.5, 1.0) circle (1.5pt) coordinate (b_miss) node[right, font=\tiny, gray] {unused};
+			\draw[->, semithick] (a1) -- (b1);
+			\draw[->, semithick] (a2) -- (b2);
+			% Function Label
+			\node[font=\footnotesize] at (1.75, 0.5) {$f$};
+		\end{tikzpicture}
+	\end{figure}
 		See also: \gls{domain}, \gls{function}, \gls{map}.},
 	first={co-domain},
 	firstplural={co-domains}, 
@@ -4236,8 +4338,49 @@ text={integrable}
 	are nonnegative real numbers. For example, if a graph represents 
 	a road network with nodes being intersections and edges representing 
 	road segments, the edge weight could represent the capacity (measured 
-	in maximum vehicles per hour) of the road segment \cite{NewmannBook}.  
-					\\ 
+	in maximum vehicles per hour) of the road segment \cite{NewmannBook}.
+	\begin{figure}[H]
+		\centering
+	\begin{tikzpicture}[
+		node distance = 3cm and 2.5cm, 
+		> = stealth, 
+		shorten > = 1pt, 
+		auto, 
+		thick, 
+		vertex/.style = {
+			circle, 
+			draw=blue!60!black, 
+			fill=blue!5, 
+			very thick,
+			minimum size=1cm, 
+			font=\bfseries
+		},
+		weight/.style = {
+			font=\small,
+			text=red!60!black, 
+			fill=white,
+			inner sep=1.5pt, 
+			circle 
+		}
+	]
+		\node[vertex] (N1) {1};
+		\node[vertex] (N2) [right=of N1] {2};
+		\node[vertex] (N3) [below=of N2] {3};
+		\node[vertex] (N4) at ($(N1)!0.5!(N3) + (-1.5, 0)$) {4};
+		\path[->] 
+			% Straight edges
+			(N1) edge ["5"] (N2)
+			(N2) edge ["0.8"] (N3)
+			(N3) edge ["2"] (N4)
+			(N4) edge ["12"] (N1)
+			% Diagonal/Crossing edge
+			(N1) edge ["7" near end] (N3) % 'near end' adjusts positio
+			% Curved edges 
+			(N2) edge [bend right=45, "3.5"'] (N4)
+			(N3) edge [bend right=30, "1"'] (N2)
+			;
+	\end{tikzpicture}  
+\end{figure}
 		See also: \gls{graph}.},
 	first={weighted graph},
 	type=math,
@@ -12361,5 +12504,41 @@ sort={Renyi},
     first={standard deviation},
     type=math,
     text={std},
+    type=math
+}
+
+\newglossaryentry{markovchain}
+{name={Markov Chain},
+  description={A \index{Markov chain}Markov chain is a defined via a state space $(S)$ and a model that defines, for every state $x$ in $(S)$, a next-state distribution 
+  over $(S)$. Specifically, the transition model $P$ specifies, for each pair of states $x$,  $x'$: 
+  	\[
+	P(x \to x') = P(S_{t+1} = x' \mid S_t = x)
+	\] 
+	which represents the probability of transitioning from state $x$ to $x'$. This probability applies whenever the chain is in state $x$.\cite{koller2009probabilistic}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			->, >=stealth, % Arrow style
+			shorten >=1pt, auto,
+			node distance=3cm,
+			semithick,
+			state/.style={circle, draw, minimum size=1.2cm, fill=blue!5}
+		]
+			\node[state] (A) {$x_1$};
+    		\node[state] (B) [above right of=A] {$x_2$};
+    		\node[state] (C) [below right of=B] {$x_3$};
+    		\path 
+        		(A) edge [loop left]  node {$P(x_1 \to x_1)$} (A)
+        		(A) edge [bend left]  node {$P(x_1 \to x_2)$} (B)
+        		(B) edge [bend left]  node {$P(x_2 \to x_3)$} (C)
+        		(C) edge [bend left]  node {$P(x_3 \to x_1)$} (A)
+        		(B) edge [bend left]  node [swap] {$P(x_2 \to x_1)$} (A);
+    		\node[below=1cm, align=center] at (current bounding box.south) 
+    		{\small State Space $\operatorname (S) = \{x_1, x_2, x_3\}$}; 
+		\end{tikzpicture}
+	\end{figure}},
+    first={Markov Chain},
+    type=math,
+    text={markovchain},
     type=math
 }
