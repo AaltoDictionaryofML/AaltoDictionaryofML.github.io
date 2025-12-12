@@ -98,11 +98,92 @@
 		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}, \gls{ml}, \gls{algorithm}, \gls{dataset}. }, 
 	first={\foreignlanguage{greek}{ακολουθία}},
-	text={sequence},
+	text={\foreignlanguage{greek}{ακολουθία}},
 	type=math,
 	user1={\foreignlanguage{greek}{ακολουθία}}, %nominative
   	user2={\foreignlanguage{greek}{ακολουθίας}}, %genitive 
 	user3={\foreignlanguage{greek}{ακολουθία}} %accusative
+}
+
+\newglossaryentry{cauchysequence}
+{name={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	description={\foreignlanguage{greek}{Μία}\index{\foreignlanguage{greek}{ακολουθία} Cauchy} \glsentryuseri{sequence} 
+		Cauchy \foreignlanguage{greek}{είναι μία} \glsentryuseri{sequence}
+		$\big( \featurevec^{(\sampleidx)}\big)_{\sampleidx \in \mathbb{N}}$ 
+		\foreignlanguage{greek}{σε έναν} \glsentryuseriii{metricspace} $\pair{\featurespace}{\metric{\cdot}{\cdot}}$,  
+		\foreignlanguage{greek}{έτσι ώστε τα στοιχεία $\featurevec^{(\sampleidx)}\in \featurespace$ 
+		γίνονται τελικά αυθαίρετα κοντινά το ένα στο άλλο.
+		Με άλλα λόγια,} \cite[Def. 3.8]{RudinBookPrinciplesMatheAnalysis}, 
+		\[
+		\forall \epsilon > 0, \exists N \in \mathbb{N} \text{ \foreignlanguage{greek}{έτσι ώστε} } 
+		\forall \sampleidx, \sampleidx' \geq N, \ \metric{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}} < \epsilon.
+		\] 
+		\foreignlanguage{greek}{Το Σχ.}\ \ref{fig:fpit_cauchy_sqrt2_dict} \foreignlanguage{greek}{δείχνει μία} \glsentryuseriii{sequence} 
+		Cauchy \foreignlanguage{greek}{στον} \glsentryuseriii{metricspace} $\pair{\mathbb{Q}}{|\cdot|}$ 
+		\foreignlanguage{greek}{ρητών αριθμών.}
+		\begin{figure}[H]
+			\centering
+		  	\begin{tikzpicture}[x=1cm,y=4cm]
+			% Parameters
+			\def\srtwo{1.4142}
+			\def\eps{0.15}
+			\def\nmax{7}
+			% Axes
+			% \draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
+			% \draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
+			% epsilon band around sqrt(2)
+			\fill[gray!30, opacity=0.35]
+			(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
+			%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
+			%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
+			% Double arrow showing epsilon band width
+			\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
+			node[above, right] {\footnotesize{$\varepsilon$}};
+			% Limit line at sqrt(2)
+			\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
+			node[right] {\footnotesize{$\sqrt{2}$}};
+			% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
+			% Replace the foreach loop by:
+			\fill (0,1.0000) circle (1.2pt) node [right] {$\feature^{(1)}$};
+			\fill (1,1.5000) circle (1.2pt);
+			\fill (2,1.4167) circle (1.2pt);
+			\fill (3,1.4142) circle (1.2pt);
+			\fill (4,1.41421) circle (1.2pt);
+			\fill (5,1.4142136) circle (1.2pt);
+			\fill (6,1.41421356) circle (1.2pt);
+			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
+			\def\N{1}
+			\draw[densely dashed, thick, red] (\N,0.88) -- (\N,1.655);
+			\node[right, red] at (\N,0.8) {$N$};
+			% Formula box (fixed-point iteration)
+			\node[align=right, anchor=north, font=\small]
+			at (5,0.9)
+			{\footnotesize{$\displaystyle \feature^{(\sampleidx+1)}=\frac{1}{2}\!\left(\feature^{(\sampleidx)}+\frac{2}{\feature^{(\sampleidx)}}\right), \feature^{(1)}=1.$}};
+			% Optional: annotate a few rational iterates
+			%	\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
+			%	\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
+			%	\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
+			\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Μία} \glsentryuseri{sequence} \selectlanguage{english}{Cauchy} 
+			$\big(\feature^{(\sampleidx)}\big)_{\sampleidx\in\mathbb{N}}$ 
+			\foreignlanguage{greek}{στον} \glsentryuseriii{metricspace} $\pair{\mathbb{Q}}{|\cdot|}$. 
+			\foreignlanguage{greek}{Αυτή η} \glsentryuseri{sequence} \foreignlanguage{greek}{παράγεται από μία} 
+			\gls{fixedpointiter} \foreignlanguage{greek}{που χρησιμοποιείται για την προσέγγιση του} 
+			$\sqrt{2}$. \foreignlanguage{greek}{Για όλα τα $\sampleidx \ge N$, τα στοιχεία της} \glsentryuserii{sequence} 
+			\foreignlanguage{greek}{βρίσκονται εντός μίας ζώνης πλάτους $\varepsilon$. 
+			Σημείωση ότι η} \glsentryuseri{sequence} \foreignlanguage{greek}{δεν συγκλίνει στον $\mathbb{Q}$, 
+			εφόσον} $\sqrt{2} \notin \mathbb{Q}$ \cite[\foreignlanguage{greek}{Παράδειγμα} 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}} }
+		\end{figure}
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{sequence}, \gls{metricspace}, \gls{fixedpointiter}. }, 
+	type=math,
+	first={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	text={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	user1={\foreignlanguage{greek}{ακολουθία} Cauchy}, %nominative
+  	user2={\foreignlanguage{greek}{ακολουθίας} Cauchy}, %genitive 
+	user3={\foreignlanguage{greek}{ακολουθία} Cauchy} %accusative
 }
 
 \newglossaryentry{acc}
@@ -619,7 +700,23 @@
 	text={\foreignlanguage{greek}{απόκλιση} R\'enyi},
 	user1={\foreignlanguage{greek}{απόκλιση} R\'enyi}, %nominative
 	user2={\foreignlanguage{greek}{απόκλισης} R\'enyi} %genitive
-} 
+}
+
+\newglossaryentry{outcome}
+{name={\foreignlanguage{greek}{αποτέλεσμα}}, 
+  	description={Outcome is one possible\index{\foreignlanguage{greek}{αποτέλεσμα}} ...   
+		\\
+ 		See also: ...},  
+	type=math, 
+  	first={\foreignlanguage{greek}{αποτέλεσμα}},
+  	text={\foreignlanguage{greek}{αποτέλεσμα}},
+	user1={\foreignlanguage{greek}{αποτέλεσμα}}, %nominative
+	user2={\foreignlanguage{greek}{αποτελέσματος}}, %genitive
+	user3={\foreignlanguage{greek}{αποτέλεσμα}}, %accusative
+	user4={\foreignlanguage{greek}{αποτελέσματα}}, %nominativepl
+	user5={\foreignlanguage{greek}{αποτελεσμάτων}}, %genitivepl
+	user6={\foreignlanguage{greek}{αποτελέσματα}} %accusativepl
+}
 
 \newglossaryentry{effdim}
 {name={\foreignlanguage{greek}{αποτελεσματική διάσταση}},
@@ -1995,29 +2092,67 @@
 		\gls{ann}, \gls{rademachercomplexity}, \gls{generalization}, \gls{ml}, \gls{effdim}. },
 	first={\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis},
 	text={\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis},
-	user1={\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis} %nominative
+	user1={\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis}, %nominative
+	user2={\foreignlanguage{greek}{διάστασης} Vapnik–Chervonenkis}, %genitive
+	user3={\foreignlanguage{greek}{διάσταση} Vapnik–Chervonenkis} %accusative
 }
 
 \newglossaryentry{kfoldcv}
-{name={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}},
-	description={\foreignlanguage{greek}{Η διασταυρούμενη επικύρωση $k$-συνόλων} 
-		($k$-fold cross-validation - $k$-fold CV)\index{\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}} 
-		\foreignlanguage{greek}{είναι μία μέθοδος για τη μάθηση και} \glsentryuseriii{validation} 
-		\foreignlanguage{greek}{μίας} \glsentryuserii{hypothesis}  
-		\foreignlanguage{greek}{χρησιμοποιώντας ένα συγκεκριμένο} \glsentryuseriii{dataset}. 
-		\foreignlanguage{greek}{Αυτή η μέθοδος 
-		διαιρεί το} \glsentryuseriii{dataset} \foreignlanguage{greek}{ισότιμα σε $k$ υποσύνολα 
-		και στη συνέχεια εκτελεί $k$ επαναλήψεις εκπαίδευσης} \glsentryuserii{model} 
-		\foreignlanguage{greek}{(π.χ. μέσω της} \glsentryuserii{erm}) \foreignlanguage{greek}{και} \glsentryuserii{validation}. 
-		\foreignlanguage{greek}{Κάθε επανάληψη χρησιμοποιεί ένα διαφορετικό υποσύνολο ως το} \glsentryuseriii{valset} 
-		\foreignlanguage{greek}{και τα υπόλοιπα $k-1$ υποσύνολα ως} \glsentryuseriii{trainset}. 
-		\foreignlanguage{greek}{Η τελική έξοδος είναι ο μέσος όρος των} \glsentryuserv{valerr} 
-		\foreignlanguage{greek}{που προκύπτουν από τις $k$ επαναλήψεις.\\
-		Βλέπε επίσης:} \gls{hypothesis}, \gls{dataset}, \gls{model}, \gls{erm}, \gls{validation}, \gls{valset}, \gls{trainset}, \gls{valerr}.},
-	first={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}},
-	text={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}}, 
-	user1={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-συνόλων}}, %nominative
-	user2={\foreignlanguage{greek}{διασταυρούμενης επικύρωσης $k$-συνόλων}} %genitive
+{name={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-αναδιπλώσεων}},
+	description={\foreignlanguage{greek}{Η διασταυρούμενη επικύρωση 
+		$k$-αναδιπλώσεων}\index{\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-αναδιπλώσεων}} 
+		($k$-fold cross-validation - $k$-fold CV) \foreignlanguage{greek}{είναι μία μέθοδος για την αξιολόγηση του} 
+ 		\glsentryuserii{gengap} \foreignlanguage{greek}{μίας μεθόδου} \glsentryuserii{ml} 
+		\foreignlanguage{greek}{βασισμένης στην} \glsentryuseriii{erm}. \foreignlanguage{greek}{Η ιδέα είναι να 
+		διαιρεθεί ένα} \glsentryuseri{dataset} $\dataset$ \foreignlanguage{greek}{ισότιμα σε $k$ υποσύνολα 
+		(ή αναδιπλώσεις} (folds)) $\dataset^{(1)},\,\ldots,\,\dataset^{(k)}$.
+		\begin{figure}[H]
+		\centering
+			\begin{tikzpicture}[font=\small]
+				\def\k{5}          % number of folds
+				\def\cellw{1.6}    % width of one segment
+				\def\cellh{0.40}   % height of one segment
+				\def\gap{0.18}     % vertical gap between rows
+				% rows: i = 1..k; columns: j = 1..k
+				\foreach \i in {1,...,\k} {
+					% row baseline y
+					\pgfmathsetmacro{\y}{-(\i-1)*(\cellh+\gap)}
+					% row label
+					\node[anchor=east] at (-0.25,\y+0.5*\cellh) {\foreignlanguage{greek}{αναδίπλωση} (fold) \i};
+					% draw k equal segments; shade the \i-th as validation
+					\foreach \j in {1,...,\k} {
+						\pgfmathsetmacro{\x}{(\j-1)*\cellw}
+						\ifnum\i=\j
+						\fill[gray!35] (\x,\y) rectangle ++(\cellw,\cellh);
+						\draw (\x,\y) rectangle ++(\cellw,\cellh);
+						\else
+						\draw (\x,\y) rectangle ++(\cellw,\cellh);
+						\fi
+					}
+				}
+				% add labels D^{(j)} above the columns
+				\foreach \j in {1,...,\k} {
+					\pgfmathsetmacro{\x}{(\j-1)*\cellw + 0.5*\cellw}
+					\node[anchor=south] at (\x,\cellh+0.2) {$\dataset^{(\j)}$};
+				}
+			\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Στη διασταυρούμενη επικύρωση $k$-αναδιπλώσεων, το διαθέσιμο} \glsentryuseri{dataset} 
+			$\dataset$ \foreignlanguage{greek}{διαιρείται ισότιμα σε $k$ αναδιπλώσεις $\dataset^{(1)},\,\ldots,\,\dataset^{(k)}$. 
+			Κάθε αναδίπλωση χρησιμοποιείται μία φορά ως} \glsentryuseri{valset}, \foreignlanguage{greek}{ενώ οι υπόλοιπες 
+			$k-1$ αναδιπλώσεις σχηματίζουν το} \glsentryuseriii{trainset}.		
+		\label{fig_kfoldcv_dict}} }
+		\end{figure} 
+		\foreignlanguage{greek}{Για κάθε αναδίπλωση $\foldidx = 1, \,\ldots, \,k$, εκπαιδεύουμε το} 
+		\glsentryuseriii{model} \foreignlanguage{greek}{στην ένωση όλων των αναδιπλώσεων εκτός του 
+		$\dataset^{(\foldidx)}$ και το επικυρώνουμε πάνω στο $\dataset^{(\foldidx)}$. 
+		Η συνολική επίδοσης προκύπτει από τον μέσο όρο των αποτελεσμάτων} 
+		\glsentryuserii{validation} \foreignlanguage{greek}{σε όλες τις $k$ αναδιπλώσεις}.\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{gengap}, \gls{erm}, \gls{ml}, \gls{dataset}, \gls{valset}, \gls{trainset}, \gls{model}, \gls{validation}.},
+	first={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-αναδιπλώσεων}},
+	text={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-αναδιπλώσεων}}, 
+	user1={\foreignlanguage{greek}{διασταυρούμενη επικύρωση $k$-αναδιπλώσεων}}, %nominative
+	user2={\foreignlanguage{greek}{διασταυρούμενης επικύρωσης $k$-αναδιπλώσεων}} %genitive
 }
 
 \newglossaryentry{privfunnel}
@@ -2929,7 +3064,8 @@
 	text={\foreignlanguage{greek}{Ευκλείδειος χώρος}},
 	user1={\foreignlanguage{greek}{Ευκλείδειος χώρος}}, %nominative
   	user2={\foreignlanguage{greek}{Ευκλείδειου χώρου}}, %genitive 
-	user3={\foreignlanguage{greek}{Ευ\-κλεί\-δει\-ο χώρο}} %accusative 
+	user3={\foreignlanguage{greek}{Ευ\-κλεί\-δει\-ο χώρο}}, %accusative 
+	user4={\foreignlanguage{greek}{Ευκλείδειοι χώροι}}, %nominative
 }
 
 \newglossaryentry{robustness}
@@ -3112,6 +3248,18 @@
 	user1={\foreignlanguage{greek}{ιστόγραμμα}}, %nominative
   	user2={\foreignlanguage{greek}{ιστογράμματος}}, %genitive 
 	user3={\foreignlanguage{greek}{ιστόγραμμα}} %accusative 
+}
+
+\newglossaryentry{trace}
+{name={\foreignlanguage{greek}{ίχνος}},
+ 	description={The\index{\foreignlanguage{greek}{ίχνος}} trace ... \\
+    		See also: TBC.},
+    	first={\foreignlanguage{greek}{ίχνος}},
+    	type=math,
+    	text={\foreignlanguage{greek}{ίχνος}},
+	user1={\foreignlanguage{greek}{ίχνος}}, %nominative
+  	user2={\foreignlanguage{greek}{ίχνους}}, %genitive 
+	user3={\foreignlanguage{greek}{ίχνος}} %accusative 
 }
 
 \newglossaryentry{gd}
@@ -4036,12 +4184,38 @@
 	user6={\foreignlanguage{greek}{μετρικές}} %accusativepl
 }
 
+\newglossaryentry{metricspace}
+{name={\foreignlanguage{greek}{μετρικός χώρος}},
+	description={A\index{\foreignlanguage{greek}{μετρικός χώρος}} ...
+			\\
+		See also: TBC. },
+    	text={\foreignlanguage{greek}{μετρικός χώρος}}, 
+	first={\foreignlanguage{greek}{μετρικός χώρος}}, 
+	type=math,
+	user1={\foreignlanguage{greek}{μετρικός χώρος}}, %nominative
+	user2={\foreignlanguage{greek}{μετρικού χώρου}}, %genitive  
+	user3={\foreignlanguage{greek}{μετρικό χώρο}}, %accusative
+}
+
+\newglossaryentry{measure}
+{name={\foreignlanguage{greek}{μέτρο}},
+	description={A measure\index{\foreignlanguage{greek}{μέτρο}} ...
+		\\
+		See also: TBC. },
+	first={\foreignlanguage{greek}{μέτρο}},
+	type=math,
+	text={\foreignlanguage{greek}{μέτρο}},
+	user1={\foreignlanguage{greek}{μέτρο}}, %nominative
+  	user2={\foreignlanguage{greek}{μέτρου}}, %genitive 
+	user3={\foreignlanguage{greek}{μέτρο}} %accusative
+}
+
 \newglossaryentry{undirectedgraph}
 {name={\foreignlanguage{greek}{μη κατευθυνόμενος γράφος}},
 	description={\foreignlanguage{greek}{Βλέπε}\index{\foreignlanguage{greek}{μη κατευθυνόμενος γράφος}} \gls{graph}. },
 	first={\foreignlanguage{greek}{μη κατευθυνόμενος γράφος}},
 	type=math,
-	text={undirected graph},
+	text={\foreignlanguage{greek}{μη κατευθυνόμενος γράφος}},
 	user1={\foreignlanguage{greek}{μη κατευθυνόμενος γράφος}}, %nominative
   	user2={\foreignlanguage{greek}{μη κατευθυνόμενου γράφου}}, %genitive 
 	user3={\foreignlanguage{greek}{μη κατευθυνόμενο γράφο}} %accusative
@@ -5121,6 +5295,42 @@
 	user3={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}} %accusative 
 }
 
+\newglossaryentry{rademachercomplexity}
+{name={\foreignlanguage{greek}{πολυπλοκότητα} Rademacher},
+ 	description={\foreignlanguage{greek}{Όμοια με τη}\index{\foreignlanguage{greek}{πολυπλοκότητα} Rademacher} 
+		\glsentryuseriii{vcdim}, \foreignlanguage{greek}{η πολυπλοκότητα} Rademacher 
+		\cite{bartlett2002rademacher} \foreignlanguage{greek}{είναι ένα ποσοτικό} \glsentryuseri{measure} 
+		\foreignlanguage{greek}{του μεγέθους ενός} \glsentryuserii{hypospace} $\hypospace$. 
+		\foreignlanguage{greek}{Βασίζεται στην εμπειρική πολυπλοκότητα} Rademacher, 
+		\foreignlanguage{greek}{η οποία ορίζεται για ένα συγκεκριμένο} \glsentryuseriii{dataset} 
+		$\dataset$ \foreignlanguage{greek}{ως}
+		\begin{equation}
+			\nonumber
+    			\mathcal{R}_\dataset(\hypospace) 
+    			= 
+    			\expect_{\varepsilon_{1},\,\ldots,\,\varepsilon_{\samplesize} } 
+			\sup_{\hypothesis \in \hypospace} \frac{1}{\samplesize} \sum_{\sampleidx=1}^\samplesize \varepsilon_\sampleidx 
+			\hypothesis\big(\featurevec^{(\sampleidx)} \big).
+			%\label{eq:def_emprical_rademacher_complexity_hypothesis_dict}
+    		\end{equation}
+		\foreignlanguage{greek}{Εδώ, η} \glsentryuseri{expectation} \foreignlanguage{greek}{λαμβάνεται αναφορικά με τις} 
+		\glsentryuservi{rv} \linebreak $\varepsilon_{1},\,\ldots,\,\varepsilon_{\samplesize}$,
+		\foreignlanguage{greek}{οι οποίες είναι} \glsentryuseri{iid} \foreignlanguage{greek}{και παίρνουν τιμές στο 
+		$\{ -1, +1 \}$ με ίση} \glsentryuseriii{probability} $1/2$. \foreignlanguage{greek}{Η πολυπλοκότητα} Rademacher 
+		\foreignlanguage{greek}{του $\hypospace$ ορίζεται τότε ως η} \glsentryuseri{expectation} 
+		\foreignlanguage{greek}{της εμπειρικής πολυπλοκότητας} Rademacher \foreignlanguage{greek}{ενός 
+		τυχαίου} \glsentryuserii{dataset} $\dataset = \{\featurevec^{(1)}, \,\hdots, \,\featurevec^{(\samplesize)}\}$
+		\foreignlanguage{greek}{που αποτελείται από} $\samplesize$ \glsentryuseriii{iid} \glsentryuservi{rv} 
+		$\featurevec^{(\sampleidx)} \in \featurespace$, \foreignlanguage{greek}{για} $\sampleidx=1,\,\ldots,\,\samplesize$. \\
+        		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{vcdim}, \gls{measure}, \gls{hypospace}, \gls{dataset}, 
+		\gls{expectation}, \gls{rv}, \gls{iid}, \gls{probability}. },
+	first={\foreignlanguage{greek}{πολυπλοκότητα} Rademacher},
+	text={\foreignlanguage{greek}{πολυπλοκότητα} Rademacher},
+	user1={\foreignlanguage{greek}{πολυπλοκότητα} Rademacher}, %nominative
+	user2={\foreignlanguage{greek}{πολυπλοκότητας} Rademacher}, %genitive 
+	user3={\foreignlanguage{greek}{πολυπλοκότητα} Rademacher} %accusative 
+}
+
 \newglossaryentry{polyreg}
 {name={\foreignlanguage{greek}{πολυωνυμική παλινδρόμηση}}, 
 	description={\foreignlanguage{greek}{Η πολυωνυμική}\index{\foreignlanguage{greek}{πολυωνυμική παλινδρόμηση}} 
@@ -5791,87 +6001,66 @@
 
 \newglossaryentry{convergence}
 {name={\foreignlanguage{greek}{σύγκλιση}},
-	description={TBD. \index{\foreignlanguage{greek}{σύγκλιση}}
-%		In mathematics, convergence refers to a sequence or process where the values are progressing towards a 
-%  specific value limit as the number of iterations becomes increasingly large indefinitely. The values get arbitrarily
-%	close to the value limit without actually reaching it. 
-%	\begin{figure}[H]
-%		\centering
-%		\begin{tikzpicture}
-%		\begin{axis}[
-%		  width=\linewidth, height=6.2cm,
-%		  xmin=-0.5, xmax=10.5,
-%		  ymin=0.7,  ymax=1.2,
-%		  grid=both,
-%		  xlabel={$n$},
-%		  ylabel={$x_n$},
-%		  legend style={draw=none, fill=none, font=\small},
-%		  legend pos=south east,
-%		  ticklabel style={/pgf/number format/fixed},
-%		]
-%		\def\L{1}
-%		\def\eps{0.1}
-%		% --- epsilon-tube around L ---
-%		\addplot[name path=upper, domain=-0.5:10.5] {\L+\eps};
-%		\addplot[name path=lower, domain=-0.5:10.5] {\L-\eps};
-%		\addplot[fill=gray!20] fill between[of=upper and lower];
-%		\addplot[black, dashed, domain=-0.5:10.5] {\L};
-%		\addlegendentry{$L=1$}
-%		\addplot+[
-%		  only marks, mark=*, mark size=2pt, thick
-%		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 - pow(0.6,x)});
-%		\addlegendentry{$x_n = 1 - 0.6^{\,n}$}
-%		\addplot+[
-%		  only marks, mark=square*, mark size=2pt, thick
-%		] plot[domain=0:10, samples at={0,...,10}] ({x},{1 + pow(0.4,x)});
-%		\addlegendentry{$y_n = 1 + 0.4^{\,n}$}
-%		\addplot[densely dashed] coordinates {(5,0.7) (5,1.2)};
-%		\node[anchor=south east] at (axis cs:5,1.2) {$N_{\varepsilon}=5$};
-%		\end{axis}
-%		\end{tikzpicture}
-%		\caption{Two sequences converging to $L=1$. The shaded area is the $\varepsilon$-tube with $\varepsilon=0.1$. For $n\ge N_{\varepsilon}=5$, all subsequent values lie inside the area, demonstrating convergence.}
-%		\label{fig:convergence}
-%		\end{figure}
-%		In the context of \gls{ml}, convergence is the state achived during training where the \gls{loss} value of a \gls{model} settles into a stable, minimal range. At this state, 
-%		any further training will not improve the performance or predictions by the \gls{model}.  
-%    		The process of convergence requires some \gls{optmethod} such as \gls{newtonsmethod} or \gls{gd} adjusting the parameters of the model to find an optimal solution. 
-%		Convergence generally also serves as a stopping point for training, preventing further use of resources and unecessary computation. 
-%\begin{figure}[H]
-%	\centering
-%	\begin{tikzpicture}
-%	\begin{axis}[
-%	  width=\linewidth, height=6.2cm,
-%	  xmin=-0.5, xmax=30.5,
-%	  ymin=0.16,  ymax=1.05,
-%	  grid=both,
-%	  xlabel={Iterations},
-%	  ylabel={Loss},
-%	  legend style={draw=none, fill=none, font=\small},
-%	  legend pos=north east,
-%	  ticklabel style={/pgf/number format/fixed},
-%	]
-%	\def\L{0.20}    
-%	\def\Lzero{1.00}
-%	\def\alpha{0.25}
-%	\def\eps{0.03}  
-%	\addplot[name path=upper, domain=-0.5:30.5] {\L+\eps};
-%	\addplot[name path=lower, domain=-0.5:30.5] {\L-\eps};
-%	\addplot[fill=gray!20] fill between[of=upper and lower];
-%	\addplot[black, dashed, domain=-0.5:30.5] {\L};
-%	\addplot+[
-%	  only marks, mark=*, mark size=2pt, thick
-%	] plot[domain=0:30, samples at={0,...,30}] ({x},{\L + (\Lzero-\L)*exp(-\alpha*x)});
-%	\addplot[densely dashed] coordinates {(14,0.16) (14,1.05)};
-%	\node[anchor=south east] at (axis cs:14,1.05) {$N_{\varepsilon}=14$};
-%	\end{axis}
-%	\end{tikzpicture}
-%	\caption{Converge of the \gls{loss} towards a limit (dotted line).The shaded area represents the range of the 
-%  $\varepsilon$ with $\varepsilon=0.03$. For $n \ge N_{\varepsilon}=14$, the \gls{loss} values do not improve 
-%  with each iteration.}
-%	\label{fig:ml_convergence_loss_noJ}
-%	\end{figure}
-%	See also:  \gls{abserr}, \gls{loss}, \gls{convexopt}, \gls{function}
-},
+	description={\foreignlanguage{greek}{Θεωρούμε μία}\index{\foreignlanguage{greek}{σύγκλιση}}
+		\glsentryuseriii{sequence} $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+		\foreignlanguage{greek}{με αριθμητικές τιμές $a_{\sampleidx} \in \mathbb{R}$. Λέμε ότι αυτή η} 
+		\glsentryuseri{sequence} \foreignlanguage{greek}{συγκλίνει σε μία τιμή
+       	 	$a^\star$ αν οι τιμές $a_{\sampleidx}$ γίνονται αυθαίρετα κοντινές στην τιμή
+		$a^\star$ για επαρκώς μεγάλους δείκτες $\sampleidx$. 
+        		Από μαθηματικής άποψης, η} \glsentryuseri{sequence} \foreignlanguage{greek}{συγκλίνει στην
+		τιμή $a^\star$ αν} 
+		\cite{RudinBook}, \cite{RudinBookPrinciplesMatheAnalysis}
+        		\[
+           	\forall \epsilon > 0, \; \exists N \in \mathbb{N} : \sampleidx > N \Rightarrow |a_{\sampleidx} - a^\star| < \epsilon.
+        		\]
+		\foreignlanguage{greek}{Δηλώνουμε τη σύγκλιση μίας} \glsentryuserii{sequence} 
+		\foreignlanguage{greek}{στην $a^\star$ με}
+		\[
+			\lim_{\sampleidx \to \infty} a_{\sampleidx} = a^\star.
+		\]
+		\begin{figure}[H] 
+			\centering
+			\begin{tikzpicture}[x=1.2cm, y=2cm, >=stealth]
+			% Axes
+			\draw[->] (0.5,0) -- (6.5,0) node[right] {$\sampleidx$};
+			\draw[->] (0.5,0) -- (0.5,1.6) node[above] {$a_\sampleidx$};
+			% Epsilon neighbourhood (ε = 0.1)
+  			\def\eps{0.3}
+  			\fill[gray!30, opacity=0.4] (0, {1-\eps}) rectangle (6.3, {1+\eps});
+  			\draw[dotted] (0,{1+\eps}) -- (6.3,{1+\eps}) node[right] {$1+\varepsilon$};
+  			\draw[dotted] (0,{1-\eps}) -- (6.3,{1-\eps}) node[right] {$1-\varepsilon$};
+			% Limit line at 1
+			\draw[dashed] (0,1) -- (6.3,1) node[right] {$\lim_{\sampleidx \to \infty} a_\sampleidx = 1$};
+			% Sequence points (e.g. a_t = 1 - 0.6^t)
+			\foreach \t in {1,...,6} {
+				\pgfmathsetmacro{\at}{1 - 0.6^(\t)}
+				\fill (\t,\at) circle (2pt);
+			}
+			% Tick marks at t = 1, 2, 3
+ 		     	\foreach \t in {1,2,3} {
+    		    	\draw (\t,0.02) -- (\t,-0.02) node[below] {$\t$};
+  		    	}
+			% Indicate N (first index within ε-band)
+  			\def\N{3}
+  			\draw[densely dashed, thick, red] (\N,0) -- (\N,1.7);
+  			\node[above] at (\N,1.7) {$N$};
+			\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Μία} \glsentryuseri{sequence} \foreignlanguage{greek}{πραγματικής 
+			τιμής $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+			που συγκλίνει στο όριο} $a^\star = 1$.\label{fig:convergence_dict}} }
+		\end{figure} 
+		\foreignlanguage{greek}{Η έννοια της σύγκλισης μίας} \glsentryuserii{sequence} 
+		\foreignlanguage{greek}{πραγματικής τιμής (όπου $\mathcal{A}=\mathbb{R}$) επεκτείνεται φυσικά σε μία} 
+		\glsentryuseriii{sequence} \foreignlanguage{greek}{σε έναν αυθαίρετο}
+		\glsentryuseriii{metricspace} $\mathcal{A}$. \foreignlanguage{greek}{Πράγματι, χρειάζεται απλώς να 
+		αντικαταστήσουμε την απόλυτη διαφορά $|a_{\sampleidx} - a^\star|$ με τη}
+		\glsentryuseriii{metric} $\metric{a_{\sampleidx}}{a^\star}$. 
+		\foreignlanguage{greek}{Σημείωση ότι μία} \glsentryuseri{sequence} \foreignlanguage{greek}{μπορεί να 
+		συγκλίνει μόνο αν είναι μία} \glsentryuseri{cauchysequence} \cite{RudinBookPrinciplesMatheAnalysis}. 
+		\foreignlanguage{greek}{Ωστόσο, δεν συγκλίνει κάθε} \glsentryuseri{cauchysequence}, 
+		\foreignlanguage{greek}{εκτός αν ο υποκείμενος} \glsentryuseri{metricspace} \foreignlanguage{greek}{είναι πλήρης}. \\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{sequence}, \gls{metricspace}, \gls{metric}, \gls{cauchysequence}. },
 	first={\foreignlanguage{greek}{σύγκλιση}},
 	type=math,
 	text={\foreignlanguage{greek}{σύγκλιση}}, 
@@ -6477,6 +6666,30 @@
 	user3={\foreignlanguage{greek}{ταξινομητή}} %accusative 
 }
 
+\newglossaryentry{operator} 
+{name={\foreignlanguage{greek}{τελεστής}}, 
+	description={\foreignlanguage{greek}{Ένας τελεστής είναι μία}\index{\foreignlanguage{greek}{τελεστής}} 
+		\glsentryuseri{function} \foreignlanguage{greek}{της οποίας το}
+		\glsentryuseri{domain} \foreignlanguage{greek}{και το} \glsentryuseri{co-domain} 
+		\foreignlanguage{greek}{διαθέτουν μία συγκεκριμένη μαθηματική δομή, όπως έναν}  
+		\glsentryuseriii{vectorspace}, \foreignlanguage{greek}{έναν} \glsentryuseriii{hilbertspace},
+		\foreignlanguage{greek}{ή έναν} \glsentryuseriii{metricspace} \cite{Bauschke:2017}, \cite{DunfordSchwartz1988}. 
+		\foreignlanguage{greek}{Πολλές μέθοδοι} \glsentryuserii{ml} \foreignlanguage{greek}{περιλαμβάνουν 
+		τελεστές των οποίων το} \glsentryuseri{domain} \foreignlanguage{greek}{και το} \glsentryuseri{co-domain} 
+		\foreignlanguage{greek}{είναι} \glsentryuseriv{euclidspace}.  \\ 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}, \gls{domain}, \gls{co-domain}, \gls{vectorspace}, 
+		\gls{hilbertspace}, \gls{metricspace}, \gls{ml}, \gls{euclidspace}.},
+	first={\foreignlanguage{greek}{τελεστής}},
+	type=math,
+	text={\foreignlanguage{greek}{τελεστής}},
+	user1={\foreignlanguage{greek}{τελεστής}}, %nominative
+	user2={\foreignlanguage{greek}{τελεστή}}, %genitive 
+	user3={\foreignlanguage{greek}{τελεστή}}, %accusative 
+	user4={\foreignlanguage{greek}{τελεστές}}, %nominative
+	user5={\foreignlanguage{greek}{τελεστών}}, %genitive 
+	user6={\foreignlanguage{greek}{τελεστές}} %accusative 
+}
+
 \newglossaryentry{proxop}
 {name={\foreignlanguage{greek}{τελεστής εγγύτητας}},
 	description={\foreignlanguage{greek}{Δεδομένης μίας}\index{\foreignlanguage{greek}{εγγύς τελεστής}} 
@@ -6850,7 +7063,7 @@
 		\gls{function}, \gls{measurable}, \gls{sigmaalgebra}. },
   	first={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}}, 
   	type=math, 
-  	text={conditional probability distribution},
+  	text={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}},
 	user1={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}}, %nominative
   	user2={\foreignlanguage{greek}{υπό συνθήκη κατανομής πιθανότητας}}, %genitive 
 	user3={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}} %accusative
@@ -7084,6 +7297,27 @@
 	user1={\foreignlanguage{greek}{χάρτης χαρακτηριστικών}}, %nominative
   	user2={\foreignlanguage{greek}{χάρτη χαρακτηριστικών}}, %genitive 
 	user3={\foreignlanguage{greek}{χάρτη χαρακτηριστικών}} %accusative 
+}
+
+\newglossaryentry{gengap}
+{name={\foreignlanguage{greek}{χάσμα γενίκευσης}}, 
+	description={Generalization gap is the difference\index{\foreignlanguage{greek}{χάσμα γενίκευσης}} between the performance of a 
+%	     	trained \gls{model} on the \gls{trainset} $\trainset$ and its performance on 
+%		\gls{datapoint}s outside $\trainset$. We can make this notion precise by using 
+%		a \gls{probmodel} that allows us to compute the \gls{risk} of a trained \gls{model} 
+%		as the expected \gls{loss}. However, the \gls{probdist} underlying this \gls{expectation} 
+%		is typically unknown and needs to be somehow estimated. \Gls{validation} techniques 
+%		use different constructions of a \gls{valset}, which is different from 
+%		the \gls{trainset}, to estimate the \gls{generalization} gap.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{generalization},, \gls{model}, \gls{trainset}, \gls{datapoint}, 
+		\gls{probmodel}, \gls{risk}, \gls{loss}, \gls{probdist}, \gls{expectation}, \gls{validation}, \gls{valset},  
+		\gls{erm}, \gls{lossfunc}.}, 
+	first={generalization gap}, 
+	text={generalization gap},
+	user1={\foreignlanguage{greek}{χάσμα γενίκευσης}}, %nominative
+  	user2={\foreignlanguage{greek}{χάσματος γενίκευσης}}, %genitive 
+	user3={\foreignlanguage{greek}{χάσμα γενίκευσης}} %accusative 
 }
 
 \newglossaryentry{dbscan}
@@ -8338,24 +8572,6 @@
 	first={semi-supervised learning (SSL)},
 	text={SSL} 
 }
-
-\newglossaryentry{gengap}
-{name={generalization gap}, 
-	description={Generalization gap is the difference\index{generalization gap} between the performance of a 
-%	     	trained \gls{model} on the \gls{trainset} $\trainset$ and its performance on 
-%		\gls{datapoint}s outside $\trainset$. We can make this notion precise by using 
-%		a \gls{probmodel} that allows us to compute the \gls{risk} of a trained \gls{model} 
-%		as the expected \gls{loss}. However, the \gls{probdist} underlying this \gls{expectation} 
-%		is typically unknown and needs to be somehow estimated. \Gls{validation} techniques 
-%		use different constructions of a \gls{valset}, which is different from 
-%		the \gls{trainset}, to estimate the \gls{generalization} gap.
-		\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{generalization},, \gls{model}, \gls{trainset}, \gls{datapoint}, 
-		\gls{probmodel}, \gls{risk}, \gls{loss}, \gls{probdist}, \gls{expectation}, \gls{validation}, \gls{valset},  
-		\gls{erm}, \gls{lossfunc}.}, 
-	first={generalization gap}, 
-	text={generalization gap}
-} 
 	
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
@@ -8887,51 +9103,6 @@
 		\gls{linclass}, \gls{decisionboundary}, \gls{linmodel}, \gls{trustAI}, \gls{interpretability}, \gls{transparency}.}, 
 	first={concept activation vector (CAV)},
 	text={concept activation vector (CAV)}
-}
-
-\newglossaryentry{rademachercomplexity}
-{name={Rademacher complexity},
-	description={TBD. \index{Rademacher complexity}
-%Similar to the \gls{vcdim}, the Rademacher complexity \cite{bartlett2002rademacher} 
-%  is a measure for the ``richness'' or ``approximative power'' of some \gls{hypospace} $\hypospace$, which may not 
-%  necessarily have a \gls{vectorspace} structure, and thus no \gls{vectorspace} dimension. Firstly, we define
-%  the Rademacher complexity $\mathcal{R}(\mathcal{A})$ for some general set $\mathcal{A} \subset \mathbb{R}^d$ with 
-%elements 
-%$\va = (a_1, \dots, a_m) \in \mathcal{A}$ as
-%\begin{equation}
-%\mathcal{R}(\mathcal{A})
-%= 
-%\mathbb{E}_{\vepsilon} \sup_{\va \in \mathcal{A}} \frac{1}{n} \sum_{i=1}^m \epsilon_i a_i,
-%\label{eq:rademacher_complexity_sets}
-%\end{equation}
-%where $\vepsilon$ is a Rademacher vector, i.e., a random vector of independent Rademacher \gls{rv} $\epsilon_i$, $i=1, \hdots, m$, 
-%taking the values $\pm 1$ with equal \gls{probability}, which is the \gls{expectation} of the \gls{supremum} over a family 
-%of random variables. Secondly, we extend this definition to define the empirical Rademacher complexity of some \gls{hypospace} 
-%$\mathcal{H}$, consisting of real-valued functions $h: \mathcal{X} \to \mathbb{R}$ on the \gls{featurespace} $\mathcal{X}$, 
-%from which we are given samples $\mathcal{S} = \{\vx_1, \hdots, \vx_m\} \subset \mathcal{X}$. Precisely, by taking the \gls{supremum} 
-%over the \gls{hypospace} and replacing the $a_i$ by $h(\vx_i)$ the empirical Rademacher complexity $\mathcal{R}_\mathcal{S}(\mathcal{H})$ 
-%of $\mathcal{H}$ given the samples $\mathcal{S}$ is defined as
-%\begin{equation}
-%\mathcal{R}_\mathcal{S}(\mathcal{H}) 
-%= 
-%\mathbb{E}_{\vepsilon} \sup_{h \in \mathcal{H}} \frac{1}{n} \sum_{i=1}^m \epsilon_i h(\vx_i).
-%\label{eq:def_emprical_rademacher_complexity_hypothesis classes}
-%\end{equation}
-%To build intuition for this technical definition, let us consider a simplified example of a binary 
-%\gls{classification} problem where $h$ only assume the values $\{-1,+1\}$. Then, the expression
-%in \eqref{eq:def_emprical_rademacher_complexity_hypothesis classes} becomes larger, if for many 
-%realizations of $\vepsilon = (\epsilon_1, \hdots, \epsilon_m) \in \{-1,+1\}^m$ there exists some 
-%$h \in \mathcal{H}$ such that $h(\vx_i)$ matches the sign of $\varepsilon_i$. In this sense, 
-%the Rademacher complexity is (similar to the \gls{vcdim}) a measure how capable $\mathcal{H}$ is to 
-%fit randomly assigned labels; nevertheless, it can be used to also study the generalization of \gls{regression} 
-%problems, too. To obtain tight bounds on the \gls{gengap}, one typically aims to derive sharp estimates 
-%of the Rademacher complexity with the help of \textit{chaining} arguments such as \textit{Dudley's integral}. 
-%Those methods are beyond our current scope and we refer to \cite[Chapter 8]{vershynin2018high} for a 
-%detailed overview and references to the original works.		
-		\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{hypospace}, \gls{generalization}, \gls{ml}, \gls{effdim}, \gls{vcdim}. },
-	first={Rademacher complexity},
-	text={Rademacher complexity}  
 }
 
 \newglossaryentry{batchlearning}
