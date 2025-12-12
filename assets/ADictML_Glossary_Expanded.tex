@@ -1,187 +1,5 @@
 
 
-\newglossaryentry{pseudoinverse}
-{name={pseudoinverse},
-  description={The \index{pseudoinverse}Moore–Penrose pseudoinverse ${\bf A}^{+}$ 
- 	of a matrix ${\bf X}\in \mathbb{R}^{m\times d}$ 
-	generalizes the notion of an inverse matrix \cite{GolubVanLoanBook}. 
-	The pseudoinverse arises naturally in ridge regression for a 
-	dataset with feature matrix ${\bf X}$ and label vector 
-	${\bf y}$ \cite[Ch.\ 3]{hastie01statisticallearning}. 
-	The model parameters learned by ridge regression 
-  	are given by
-  	\[
-  	\widehat{{\bf w}}^{(\alpha)}  = \big({\bf X}^{T} {\bf X}+ \alpha\mathbf{I}\big)^{-1} {\bf X}^{T} {\bf y}, \quad \alpha> 0.
-  	\]
-  	We can then define the pseudoinverse ${\bf X}^{+} \in \mathbb{R}^{d\times m}$ via 
-  	the limit \cite[Ch. 3]{benisrael2003generalized}
-  	\[
-  	\lim_{\alpha\to 0^+} \widehat{{\bf w}}^{(\alpha)} = {\bf X}^+ {\bf y}.
-  	\]
-	\\
-	See also: matrix, inverse matrix, ridge regression. },
- first={pseudoinverse},
- text={pseudoinverse}
-} 
-
-\newglossaryentry{randomexperiment}
-{name={random experiment},
-	description={A random experiment\index{random experiment} is a physical (or abstract) process 
-    	 	that produces an outcome $\omega$ from a set $\Omega$ of possibilities. 
-	 	This set of all possible outcomes is referred to as the sample space of 
-	 	the experiment. The key characteristic of a random experiment is that its 
-	 	outcome is unpredictable (or uncertain). Any measurement or observation 
-	 	of the outcome is a random variable (RV), i.e., a function of the outcome $\omega\in \Omega$. 
-	 	Probability theory uses a probability space as a mathematical structure for the study of 
-	 	random experiments. A key conceptual property of a random experiment is that it can 
-	 	be repeated under identical conditions. Strictly speaking, repeating a random experiment 
-	 	a given number of $m$ times defines a new random experiment. The outcomes 
-	 	of this new experiment are length-$m$ sequences of outcomes 
-	 	from the original experiment (see Fig. \ref{fig_randomexperiment_dict}). While the outcome of a single experiment is 
-	 	uncertain, the long-run behaviour of the outcomes of repeated experiments 
-	 	tends to become increasingly predictable. This informal claim can be made 
-	 	precise via fundamental results of probability theory, such as the law of large numbers 
-	 	and the central limit theorem (CLT).
-	 	\begin{figure}[H]
-		\begin{center}
-	 		\begin{tikzpicture}[>=Stealth, node distance=1.5cm and 2cm, every node/.style={font=\small}]
-			\node (experiment) [draw, rectangle, rounded corners, minimum width=2.6cm, align=center] {random\\experiment};
-			\node (omega) [right=of experiment] {$\omega\in \Omega$};
-			\coordinate (rightpad) at ($(omega.east) + (0.2,0)$);
-			\draw[->] (experiment) -- (omega);
-			\node (sequence) [below=of experiment, yshift=-0.5cm] {$(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(m)})$};
-			\node (sequence1) [below=of sequence, yshift=-0.5cm] {$({\bf z}^{(1)}, \,{\bf z}^{(2)}, \,\dots, \,{\bf z}^{(m)})$};
-			\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $m$ times} (sequence.north);
-			\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {random variables (RVs)} (sequence1.north);
-			
-			\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
-			
-        			\node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega\times \ldots \times \Omega$}] {};
-	 		\end{tikzpicture}
-	     	\end{center}
-		\caption{A random experiment produces an outcome $\omega\in \Omega$ from a set 
-		of possibilities (i.e., a sample space) 
-		$\Omega$. Repeating the experiment $m$ times yields another random 
-		experiment, whose outcomes are sequences 
-		$(\omega^{(1)}, \,\omega^{(2)}, \,\dots, \,\omega^{(m)}) \in \Omega\times\ldots\times \Omega$. 
-		One example of a random experiment arising in many machine learning (ML) applications is the gathering 
-		of a training set ${\bf z}^{(1)},\,\ldots,\,{\bf z}^{(m)}$. \label{fig_randomexperiment_dict}}
-	 	\end{figure} 
-	 	Examples for random experiments arising in machine learning (ML) applications include the following: 
-	 	\begin{itemize} 
-			\item Data collection: The data points collected in empirical risk minimization (ERM)-based methods 
-			can be interpreted as random variables (RVs), i.e., as functions of the outcome $\omega\in \Omega$ 
-			of a random experiment. 
-			\item Stochastic gradient descent (SGD) uses a random experiment at each iteration to select a subset of 
-			the training set. 
-			\item Privacy protection methods use random experiments to perturb  
-			the outputs of an machine learning (ML) method to ensure DP. 
-	 	\end{itemize} 
-		See also: sample space, random variable (RV), probability, probability space.},
- 	firstplural={random experiments},
- 	plural={random experiments},
- 	first={random experiment},
- 	text={random experiment}
-}
-
-\newglossaryentry{dimension}
-{name={dimension},
-	description={The\index{dimension} dimension $\dim \mathcal{A}$ of a 
-		vector space $\mathcal{A}$ is the cardinality of any 
-		basis of $\mathcal{A}$ \cite{StrangLinAlg2016}. 
-		Strictly speaking, this definition applies only to finite-dimensional vector spaces, 
-		i.e., those that possess a finite basis. 
-		\begin{figure}[H]
-			\begin{tikzpicture}[scale=1]
-  			
-  			
-  			
-  			\coordinate (O) at (0,0);
-  			
-  			\draw[->, thick] (O) -- (1.8,0) node[below right] {${\bf e}^{(1)}$};
-  			\draw[->, thick] (O) -- (0,1.6) node[above left] {${\bf e}^{(2)}$};
-  			
-			\draw[->, thick, dashed, shift={(3.5,0.5)}] (0,0) -- (1.2,1.2) node[above right] {${\bf u}^{(1)}$};
-			\draw[->, thick, dashed, shift={(3.5,0.5)}] (0,0) -- (-1.2,1.2) node[above left] {${\bf u}^{(2)}$};
-  			
-  			\draw[->, thick, dotted, shift={(-2.5,-2.5)}] (O) -- (2.0,0.6) node[above right] {${\bf w}^{(1)}$};
-  			\draw[->, thick, dotted, shift={(-2.5,-2.5)}] (O) -- (0.4,1.8) node[left] {${\bf w}^{(2)}$};
-  			
- 			
- 			
-			\end{tikzpicture}
-		\caption{Three bases, $\big\{{\bf e}^{(1)},{\bf e}^{(2)} \big\}, \big\{{\bf u}^{(1)},{\bf u}^{(2)} \big\},
-		\big\{{\bf w}^{(1)},{\bf w}^{(2)} \big\}$, for the vector space $\mathbb{R}^{2}$.} 
-		\end{figure}
-		For such spaces, all bases have the same cardinality, which is the dimension of the space 
-		\cite[Ch.~2]{Axler2025}.	
-   			 \\
-		See also: vector space, basis. }, 
-	text={dimension}, 
-	type=math,
-	first={dimension}  
-}
-
-\newglossaryentry{linearlyindep}
-{name={linearly independent},
-	description={A subset $\{{\bf a}^{(1)}, \,\ldots, \,{\bf a}^{(d)}\} \in \mathcal{V}$ 
-		of a vector space is linearly independent\index{linearly independent} 
-		if there is no nontrivial linear combination of these vectors that 
-		equals the zero vector \cite{StrangLinAlg2016}. 
-		In other words, $$\sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} = \mathbf{0}	
-		\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{k} = 0.$$ 
-			\\ 
-		See also: vector space, vector, dimension, basis.}, 
-	text={linearly independent}, 
-	type=math,
-	first={linearly independent}  
-}
-
-\newglossaryentry{basis}
-{name={basis},
-	description={A basis\index{basis} of a vector space $\mathcal{V}$ 
-		is a set of linearly independent vectors $\{{\bf a}^{(1)}, \,\ldots, \,{\bf a}^{(d)}\}$ such 
-		that any vector ${\bf a}\in \mathcal{A}$ can be expressed as a linear combination 
-		of the basis vectors, i.e.,	
-		$$ {\bf a}= \sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} 
-		\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{d} \in \mathbb{R}. $$
-			\\
-		See also: vector space, linearly independent, vector. },
-	text={basis}, 
-	firstplural={bases}, 
-	plural={bases}, 
-	type=math,
-	first={basis} 
-}
-
-\newglossaryentry{widematrix}
-{name={wide matrix},
- description={A\index{wide matrix} matrix 
-   		${\bf A}\in \mathbb{R}^{m\times d}$ 
-		is referred to as wide if it has more columns than rows, i.e., when $d> m$.
-		\\ 
-		See also: matrix. },
-	text={wide matrix}, 
-	firstplural={wide matrices}, 
-	plural={wide matrices}, 
-	type=math,
-   	first={wide matrix} 
-}
-
-\newglossaryentry{tallmatrix}
-{name={tall matrix},
- description={A\index{tall matrix} matrix 
-   		${\bf A}\in \mathbb{R}^{m\times d}$ 
-		is referred to as tall if it has more rows than columns, i.e., when $m> d$.
-		\\ 
-		See also: matrix. },
-	text={tall matrix}, 
-	firstplural={tall matrices}, 
-	plural={tall matrices}, 
-	type=math,
-   	first={tall matrix} 
-}
-
 \newglossaryentry{imagesegmentation}
 {name={image segmentation}, 
 	description={Image segmentation\index{image segmentation} refers to the task of 
@@ -192,328 +10,9 @@
  	text={image segmentation}
  } 
 
-\newglossaryentry{mgf}
-{name={moment generating function (MGF)}, 
- description={Consider the\index{moment generating function (MGF)} MGF $M_{x}\left(t\right)$ 
-	 	of a real-valued random variable (RV) $x$, which is defined as
-	 	$M_{x}\left(t\right) = \mathbb{E} \{ \exp(t \cdot x) \}$ for any $t \in \mathbb{R}$ 
-	 	for which this expectation exists \cite[Sec. 21]{BillingsleyProbMeasure}. 
-		As its name indicates, the MGF allows us to compute the moments 
-	 	$\mathbb{E} \{ x^{k} \}$ for $k \in \mathbb{N}$. 
-	 	In particular, the $k$th moment is obtained by evaluating the $k$th 
-	 	derivative of $M_{x}\left(t\right)$ for $t=0$, i.e., $\mathbb{E} \{ x^{k} \} = M_{x}^{(k)}\left(0\right)$. 
-	 	This fact can be verified by the following identities: 
-	 	\begin{align}
-			M_{x}\left(t\right) & =\mathbb{E} \{ \exp(t \cdot x)  \} \nonumber \\ 
-			& \stackrel{(a)}{=} \mathbb{E} \!\bigg\{\sum_{k=0}^{\infty} \frac{t^{k}}{k!} x^{k}\bigg\}  \nonumber \\ 
-			& \stackrel{(b)}{=}  \sum_{k=0}^{\infty} \frac{t^{k}}{k!}\, \mathbb{E} \!\big\{ x^{k} \big\}. \nonumber
-	 	\end{align}
-	 	Here, step $(a)$ is due to the Taylor series expansion of 
-	 	$\exp\,(t \cdot x)$ and step $(b)$ is valid when the MGF exists 
-	 	for all $t$ in some interval $(-t_{0},t_{0})$ \cite[p. 278]{BillingsleyProbMeasure}.
-	 	\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}
-			\begin{axis}[
-				width=9cm, height=4.2cm,
-				domain=-1:1,
-				samples=200,
-				
-				xlabel={$x$},
-				ylabel={},
-				ytick=\empty,
-				ytick={-1,-0.5,0,0.5,1}, 
-            			yticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
-				xtick={-1,-0.5,0,0.5,1}, 
-            			xticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
-				xmin=-1, xmax=1,
-				legend style={at={(1.5,0.02)},anchor=south east}
-				]
-				
-				\addplot[thick, dashed] {x};
-				\addlegendentry{$x$}
-				
-				\addplot[thick, dotted] {x^2};
-				\addlegendentry{$x^{2}$}
-				
-				\addplot[thick, dashdotdotted] {x^3};
-				\addlegendentry{$x^{3}$}
-			\end{axis}
-			\end{tikzpicture}
-		\caption{The first few powers of an random variable (RV) $x$. The MGF 
-		encodes the moments of $x$, which are the expectations 
-		of the powers $x^{k}$ for $k=1,\,2,\,\ldots$.}
-		\end{figure}
-		The MGF is a useful tool for the study of sums of independent 
-		random variables (RVs). As a case in point, if $x$ and $y$ are independent 
-		random variables (RVs), then the MGF of their sum $z = x + y$ typically 
-		satisfies $M_{z}\left(t\right) = M_{x}\left(t\right)\,M_{y}\left(t\right)$,
-        		i.e., the MGF of the sum is typically the pointwise product of the 
-		individual MGFs \cite[p.~280]{BillingsleyProbMeasure}.
-		\\
- 		See also: random variable (RV), expectation. }, 
- 	first={moment generating function (MGF)}, 
- 	firstplural={moment generating functions (MGFs)}, 
- 	plural={MGFs}, 
- 	type=math, 
- 	text={MGF}
-} 
 
-\newglossaryentry{chernoffbound}
-{name={Chernoff bound}, 
-	description={TBC\index{Chernoff bound}.}, 
- 	first={Chernoff bound}, 
- 	type=math, 
- 	text={Chernoff bound}
-}
 
-\newglossaryentry{rankdeficient}
-{name={rank-deficient},
-	description={A matrix ${\bf A}\in \mathbb{R}^{m\times d}$ 
-         	is rank-deficient\index{rank-deficient} if it is not full-rank, i.e., 
-         	when $\rank{{\bf A}} < \min\{m,d\}$.
- 		\begin{figure}[H]
-			\begin{center}
-			\begin{tikzpicture}[x=2cm]
-				
-				\begin{scope}
-					\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf u}^{(1)}$};
-					\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf u}^{(2)}$};
-					
-					
-					
-				\end{scope}
-				
-				\begin{scope}[shift={(3.2,0)}]
-				
-				
-					\coordinate (A) at (0.2,0.0);
-					\coordinate (B) at (2.0,0.0);
-					\draw[->, very thick, red] (0,0) -- (A) node[below,yshift=-2pt] {${\bf A}{\bf u}^{(1)}$};
-					\draw[->, very thick, red] (0,0) -- (B) node[above,yshift=2pt] {${\bf A}{\bf u}^{(2)}$};
-					
-					
-				\end{scope}
-				
-				\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {${\bf A}$} (2.7,0.5);
-				
-			\end{tikzpicture}
-			\end{center}
-		\caption{Example of a rank-deficient matrix 
-		${\bf A}\in \mathbb{R}^{2 \times 2}$.	\label{fig_matrix_rank_defdict}} 
-		\end{figure} 
-		In linear regression, the solution of the empirical risk minimization (ERM) problem is not 
-		unique whenever the feature matrix ${\bf X}$ is such that 
-		the matrix ${\bf X}^{\top}{\bf X}$ is rank-deficient.
-		\\
-   		See also: full-rank, dimension, vector space. }, 
-	first={rank-deficient}, 
-   	type=math,
-   	text={rank-deficient}
-}
-
- \newglossaryentry{fullrank}
- {name={full-rank},
- 	description={A matrix ${\bf A}\in \mathbb{R}^{m\times d}$ 
-  		is\index{full-rank} full-rank if it has maximum rank \cite{StrangLinAlg2016}. 
-  		For a tall matrix, i.e., when $d< m$, being 
-  		full-rank means that its rank is equal to $d$. 
- 		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[every node/.style={font=\small}]
-			
-			\node at (0,2) {$
-			{\bf A}=
-			\begin{pmatrix}
-			1 & 2\\
-			3 & 4
-			\end{pmatrix}
-			$};
-			\node[below=0.8cm of {$(0,2)$}] {\small full-rank square};
-			
-			\node at (4.5,2) {$
-			{\bf B}=
-			\begin{pmatrix}
-			1 & 2\\
-			2 & 4
-			\end{pmatrix}
-			$};
-			\node[below=0.8cm of {$(4.5,2)$}] {\small rank-deficient square};
-			
-			\node at (0,-1.0) {$
-			{\bf C}=
-			\begin{pmatrix}
-			1 & 0\\
-			0 & 1\\
-			1 & 1
-			\end{pmatrix}
-			$};
-			\node[below=1.2cm of {$(0,-1.0)$}] {\small full-rank tall matrix};
-			
-			\node at (4.5,-1.0) {$
-			{\bf D}=
-			\begin{pmatrix}
-			1 & 2 & 3\\
-			2 & 4 & 6
-			\end{pmatrix}
-			$};
-			\node[below=1.2cm of {$(4.5,-1.0)$}] {\small rank-deficient wide matrix};
-			\end{tikzpicture}
-		\caption{Examples of full-rank and rank-deficient matrices.}
-		\end{figure} 
-  		A square matrix is full-rank if and only if it is invertible. 
-		\\ 
-  		See also: matrix, dimension, linear map, column space.}, 
-	text = {full-rank}, 
-  	type=math,
-  	first={full-rank} 
- }
-
-\newglossaryentry{rank}
-{name={rank},
-	description={The rank\index{rank} of a matrix ${\bf A}\in \mathbb{R}^{m\times d}$, 
- 		denoted as $\rank{{\bf A}}$, is the maximum number of linearly independent columns 
- 		of ${\bf A}$ \cite{StrangLinAlg2016}. Equivalently, the rank can be defined as the 
- 		dimension of the column space ${\rm span}\left({\bf A}\right) = \big\{ {\bf A}{\bf w}\mbox{ for some } 
- 		{\bf w}\in \mathbb{R}^{d} \big\}$. The rank of a matrix 
- 		${\bf A}\in \mathbb{R}^{m\times d}$ can neither exceed the 
- 		number of rows nor the number of columns of ${\bf A}$ \cite{Horn91}, \cite{MeyerMatrixAnalysis}, 
-		i.e., $\rank{{\bf A}} \leq \min \{ m, d\}$.  
-		\\ 
- 		See also: matrix, dimension, column space, linear map.}, 
-	text={rank}, 
-	type=math,
-	first={rank} 
-}
-
-\newglossaryentry{inverse}
-{name={inverse matrix},
- description={An inverse matrix\index{inverse matrix} ${\bf A}^{-1}$ is defined for a 
- 	square matrix ${\bf A}\in \mathbb{R}^{n \times n}$ that is of full rank, meaning its 
- 	columns are linearly independent. In this case, ${\bf A}$ is said to be invertible, 
- 	and its inverse satisfies 
- 	\[
- 	{\bf A}{\bf A}^{-1} = {\bf A}^{-1} {\bf A}= \mathbf{I}.
- 	\]  	
-     	A square matrix is invertible if and only if its determinant is non-zero. Inverse matrices are 
-     	fundamental in solving systems of linear equations and in the closed-form solution of 
-     	linear regression \cite{Strang2007}, \cite{Horn91}.  The concept of an inverse matrix can be extended 
-     	to matrices that are not square or does not have full rank. One may define a ``left inverse'' ${\bf B}$ 
-     	satisfying ${\bf B}{\bf A}= \mathbf{I}$ or a ``right inverse'' ${\bf C}$ satisfying ${\bf A}{\bf C}= \mathbf{I}$. 
-     	For general rectangular or singular matrices, the Moore–Penrose pseudoinverse
-     	${\bf A}^{+}$ provides a unified concept of a generalized inverse matrix \cite{GolubVanLoanBook}.
- 	 \begin{figure}[H]
- 		\centering
- 		\begin{tikzpicture}[x=2cm,y=2cm]
- 			
- 			\begin{scope}
- 				\draw[->, thick] (0,0) -- (1,0) node[below right] {${\bf x}$};
- 				\draw[->, thick] (0,0) -- (0,1) node[above left] {${\bf y}$};
- 			\end{scope}
- 			
- 			\begin{scope}[shift={(2.0,0)}]
- 				\coordinate (A) at (1.5,0.5);
- 				\coordinate (B) at (-0.2,1.2);
-				\draw[->, very thick, red] (0,0) -- (A) node[pos=0.5, below right] {${\bf A}{\bf x}$};
- 				\draw[->, very thick, red] (0,0) -- (B) node[above right] {${\bf A}{\bf y}$};
- 			\end{scope}
- 			
- 			\begin{scope}[shift={(4.9,0)}]
- 				\draw[->, very thick, blue] (0,0) -- (1,0) node[pos=0.5, below] {${\bf A}^{-1} ({\bf A}{\bf x}) = {\bf x}$};
- 				\draw[->, very thick, blue] (0,0) -- (0,1) node[above] {${\bf A}^{-1} ({\bf A}{\bf y}) = {\bf y}$};
- 			\end{scope}
- 			
- 			\draw[->, thick, bend left=20] (1.2,0.4) to node[above] {${\bf A}$} (1.8,0.4);
- 			\draw[->, thick, bend left=20] (3.8,0.4) to node[below] {${\bf A}^{-1}$} (4.4,0.4);
- 		\end{tikzpicture}
- 		\caption{A matrix $\mathbf{A}$ represents a linear transformation of $\mathbb{R}^{2}$. The inverse matrix $\mathbf{A}^{-1}$ 
- 			represents the inverse transformation. \label{fig_matrix_inverse_dict}} 
- 		\end{figure}
-		See also: matrix, determinant, linear regression, pseudoinverse.},
-	first={inverse matrix},
-		type=math,
-	text={inverse matrix}
-}
-
-\newglossaryentry{matrix}
-{name={matrix},
-	description={A matrix\index{matrix} of size $m\times d$ is a 2-D array of numbers, 
- 		which is denoted by 
-		$$
-  		{\bf A}= \begin{pmatrix}
-   		A_{1,1} & A_{1,2} & \dots  & A_{1,d} \\
-		A_{2,1} & A_{2,2} & \dots  & A_{2,d} \\
-		\vdots  & \vdots  & \ddots & \vdots \\
-		A_{m,1} & A_{m,2} & \dots  & A_{m,d}
-		\end{pmatrix} \in \mathbb{R}^{m\times d}.
-		$$
-		Here, $A_{r,j}$ denotes the matrix entry in the $r$th row and the 
-		$j$th column. Matrices are useful representations of various mathematical objects \cite{StrangLinAlg2016},
-		including the following:
-		\begin{itemize}
-			\item Systems of linear equations: We can use a matrix to represent a system of linear equations 
-			$$ \begin{pmatrix}
-			A_{1,1} & A_{1,2} \\
-			A_{2,1} & A_{2,2}
-			\end{pmatrix}
-			\begin{pmatrix}
-				w_1 \\
-				w_2
-			\end{pmatrix}
-			=\begin{pmatrix}
-				y_1 \\
-				y_2
-			\end{pmatrix}
-			\quad \text{ compactly as } \quad {\bf A}{\bf w}= {\bf y}.
-			$$
-    			One important example of systems of linear equations is the optimality condition for the 
-    			model parameters within linear regression. 
-			\item Linear maps:
-			Consider a $d$-dimensional vector space $\mathcal{U}$ and a $m$-dimensional vector space $\mathcal{V}$. 
-			If we fix a basis $\mathbf{u}^{(1)},\,\ldots,\,\mathbf{u}^{(d)}$ for $\mathcal{U}$ and a basis $\mathbf{v}^{(1)},\,\ldots,\,\mathbf{v}^{(m)}$ 
-			for $\mathcal{V}$, each matrix ${\bf A}\in \mathbb{R}^{m\times d}$ naturally defines a 
-			linear map $\alpha: \mathcal{U} \rightarrow \mathcal{V}$ (see Fig. \ref{fig_matrix_dict}) such that
-   			$${\bf u}^{(j)} \mapsto \sum_{r=1}^{m} A_{r,j} {\bf v}^{(r)}.$$
-			\item Datasets: We can use a matrix to represent a dataset. Each row 
-			corresponds to a single data point, and each column corresponds to a specific 
-			feature or label of a data point. 
-		\end{itemize}
-		\begin{figure}[H]
-		\begin{center}
-		\begin{tikzpicture}[x=2cm]
-			
-			\begin{scope}
-				\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf u}^{(1)}$};
-				\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf u}^{(2)}$};
-				
-				
-				
-			\end{scope}
-			
-			\begin{scope}[shift={(3.2,0)}]
-				\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf v}^{(1)}$};
-				\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf v}^{(2)}$};
-				\coordinate (A) at (0.2,-1.0);
-				\coordinate (B) at (0.4,1.2);
-				\draw[->, very thick, red] (0,0) -- (A) node[below,right] {${\bf A}{\bf u}^{(1)}\!=\!A_{1,1}{\bf v}^{(1)}\!+\!A_{2,1}{\bf v}^{(2)}$};
-				\draw[->, very thick, red] (0,0) -- (B) node[right,xshift=1pt] {${\bf A}{\bf u}^{(2)}$};
-				
-				
-			\end{scope}
-			
-			\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {${\bf A}$} (2.7,0.5);
-		
-		\end{tikzpicture}
-		\end{center}
-		\caption{A matrix ${\bf A}$ defines a linear map between two vector spaces. \label{fig_matrix_dict}} 
-		\end{figure}
-		See also: linear map, dataset, linear model. },
-	first={matrix},
-	firstplural={matrices},
-	type=math,
-	plural={matrices},
-	text={matrix}
-}
+ 
 
 \newglossaryentry{stratification}
 {name={stratification},
@@ -677,7 +176,7 @@ defined by these attributes. For example, in a medical dataset,
 				into itself. The determinant $\det\,({\bf A})$ characterizes how this transformation alters an oriented volume.
 				\label{fig_det_dict}}
 		\end{figure}
-		See also: eigenvalue, inverse matrix.},
+		See also: eigenvalue, inverse.},
 	first={determinant},
 	type=math,
 	text={determinant}
@@ -710,7 +209,7 @@ If the second-order partial derivatives are continuous in a neighborhood around 
 $\frac{\partial^{2} f}{\partial \feature_{j}\, \partial \feature_{j'}} = 
 \frac{\partial^{2} f}{\partial \feature_{j'}\, \partial \feature_{j}}$ for all 
 $j, j'$ \cite{RudinBookPrinciplesMatheAnalysis}. If additionally $f$ 
-is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydConvexBook}.
+is convex, then the Hessian is a psd matrix \cite{BoydConvexBook}.
 	\begin{figure}[H]
 	\begin{center}
 	\begin{tikzpicture}[x=0.5cm]
@@ -1668,7 +1167,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 	description={A privacy attack\index{privacy attack} on an machine learning (ML) system aims to infer 
 		sensitive attributes of individuals by exploiting partial access to a trained machine learning (ML) model. 
 		One form of a privacy attack is model inversion.\\
-		See also: attack, sensitive attribute, model inversion, trustworthy artificial intelligence (trustworthy AI), general data protection regulation (GDPR).},
+		See also: attack, sensitive attribute, model inversion, trustworthy artificial intelligence (trustworthy AI), gdpr.},
 	plural={privacy attacks}, 
 	first={privacy attack},
 	firstplural={privacy attacks}, 
@@ -2146,6 +1645,15 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 	first={feature learning},
 	text={feature learning}
 } 
+
+\newglossaryentry{encoder} 
+{name={encoder}, 
+ description={See autoencoder.}, 
+ first={encoder}, 
+ plural = {encoders}, 
+ text = {encoder}, 
+ firstplural={encoders}
+}
 
 \newglossaryentry{autoencoder}
 {name={autoencoder},
@@ -2732,8 +2240,8 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
         			\coordinate (xs) at (0,-0.9);
         			\node[pt,label=below:{${\bf x}^\star$}] (XS) at (xs) {};
         			
-        			\draw[maparrow,shorten >=2pt,shorten <=2pt]
-            		(XS) .. controls +(60:0.7) and +(120:0.7) .. (XS);
+        			
+            		
         			\node at (0,-1.6) {$\mathcal{F}{\bf x}^\star = {\bf x}^\star$};
     			\end{tikzpicture}
     		\caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ 
@@ -2839,59 +2347,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 	text={connected}
 }
 	
-\newglossaryentry{mvndist}
-{name={multivariate normal distribution}, 
-	description={The\index{multivariate normal distribution} multivariate normal distribution, 
-		which is denoted by $\mathcal{N}\left({\bm \mu},{\bf C}\right)$, is a fundamental 
-		probabilistic model for numerical feature vectors of fixed dimension $d$. 
-		It defines a family of probability distributions over vector-valued random variables (RVs) 
-		${\bf x}\in \mathbb{R}^{d}$~\cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
-		Each distribution in this family is fully specified by its mean vector 
-		${\bm \mu}\in \mathbb{R}^{d}$ and covariance matrix 
-		${\bf C}\in \mathbb{R}^{d\times d}$. When the 
-		covariance matrix ${\bf C}$ is invertible, the corresponding probability distribution is 
-		characterized by the following probability density function (pdf):
-		\[p({\bf x}) = 
- 		\frac{1}{\sqrt{(2\pi)^{d} \det\,({\bf C})}} 
- 		\exp\left[ -\frac{1}{2} 
- 		({\bf x}- {\bm \mu})\,^{T}\, {\bf C}^{-1} 
- 		({\bf x}- {\bm \mu}) \right].
- 		\]
-		Note that this probability density function (pdf) is only defined when ${\bf C}$ is invertible.
-   		More generally, any random variable (RV) ${\bf x}\sim \mathcal{N}\left({\bm \mu},{\bf C}\right)$ 
-   		admits the following representation:
-  		\[
-    		{\bf x}= {\bf A}{\bf z}+ {\bm \mu}\]
-   		where ${\bf z}\sim \mathcal{N}\left(\mathbf{0},\mathbf{I}\right)$ is a standard normal vector 
-   		and ${\bf A}\in \mathbb{R}^{d\times d}$ satisfies ${\bf A}{\bf A}^\top = {\bf C}$. 
-   		This representation remains valid even when ${\bf C}$ is singular, in which case ${\bf A}$ 
-   		is not full rank~\cite[Ch. 23]{Lapidoth2017}.
-   		The family of multivariate normal distributions is exceptional among probabilistic models for numerical 
-   		quantities, at least for the following reasons. First, the family is closed under affine 
-   		transformations, i.e.,
-		\[ 
-		{\bf x}\sim \mathcal{N}({\bm \mu},{\bf C}) \mbox{ implies } 
-		{\bf B}{\bf x}\!+\!{\bf c}\sim \mathcal{N}\big( {\bf B}{\bm \mu}+{\bf c},{\bf B}{\bf C}{\bf B}\,^{T} \big). 
-		\]
-		Second, the probability distribution $\mathcal{N}(\mathbf{0},{\bf C})$ maximizes the 
-		differential entropy among all distributions with the same covariance matrix ${\bf C}$~\cite{coverthomas}. 
-		\\ 
-		See also: probabilistic model, probability distribution, standard normal vector, differential entropy, Gaussian random variable (Gaussian RV).}, 
-	first={multivariate normal distribution},
-	text={multivariate normal distribution}
-}
 
-\newglossaryentry{stdnormvec}
-{name={standard normal vector}, 
-	description={A\index{standard normal vector} standard normal vector is a random 
-		vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
-		whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
-		It is a special case of a multivariate normal distribution, ${\bf x}\sim \mathcal(\mathbf{0},\mathbf{I})$.
-		\\ 
-		See also: vector, independent and identically distributed (i.i.d.), Gaussian random variable (Gaussian RV), multivariate normal distribution, random variable (RV).}, 
-	first={standard normal vector},
-	text={standard normal vector}
-}
 
 \newglossaryentry{earlystopping}
 {name={early stopping}, 
@@ -2980,10 +2436,10 @@ sort={zerooneloss},
 \newglossaryentry{probability}
 {name={probability}, 
 	description={We\index{probability} assign a probability value, typically chosen in the 
-		interval $[0,1]$, to each event that can occur in a random experiment  
+		interval $[0,1]$, to each event that can occur in a randomexperiment  
 		\cite{BillingsleyProbMeasure}, \cite{BertsekasProb}, \cite{HalmosMeasure},  \cite{KallenbergBook}.
 		\\
-		See also: event, random experiment. },
+		See also: event, randomexperiment. },
 	first={probability},
 	firstplural={probabilities},
 	plural={probabilities},
@@ -3050,30 +2506,54 @@ sort={zerooneloss},
 	text={overfitting}
 }
 
-\newglossaryentry{gdpr}
-{name={general data protection regulation (GDPR)},
-	description={The\index{general data protection regulation (GDPR)} GDPR
-			was enacted by the European Union (EU), effective from 25 May 2018 \cite{GDPR2016}. 
-			It safeguards the privacy and data rights of individuals in the EU. 
-			The GDPR has significant implications for how data are collected, stored, 
-			and used in machine learning (ML) applications. Key provisions include the following:
-			\begin{itemize}
-				\item Data minimization principle: machine learning (ML) systems should only use the necessary 
-				amount of personal 
-				data for their purpose.
-				\item Transparency and explainability: machine learning (ML) systems should 
-				enable their users to 
-				understand how the systems make decisions that impact the users.
-				\item Data subject rights: Users should get an opportunity to access, 
-				rectify, and delete their personal data, as well as to object to automated 
-				decision-making and profiling.
-				\item Accountability: Organizations must ensure robust data security 
-				and demonstrate compliance through documentation and regular audits.
-			\end{itemize}
-		See also: data, machine learning (ML), data minimization principle, transparency, explainability.}, 
-	first={general data protection regulation (GDPR)},
-	text={GDPR}
+
+\newglossaryentry{diffusionmethod}
+{name={diffusion method},
+ description={A diffusion method is a generative machine learning (ML) method that
+			 trains a model to approximate the reversal of a gradual stochastic
+			 corruption process \cite{DeepLearningBishop,Prince2023UnderstandingDL}. 
+			 Diffusion methods train models using a combination of a forward (diffusion) 
+			 process and a learned reverse maps.
+			 In the forward process, random noise is incrementally added to clean
+			 representations of a data point, such as an image, audio recording,
+			 or other types of data. Similar to a denoising autoencoder, the 
+			 trained model can be applied to a noisy representation of a data point. 
+			 The resulting prediction is a denoised representation. What sets 
+			 diffusion methods apart from generic denoising autoencoder is the gradual 
+			 nature of the corruption process used for model training. 
+			 } 
+    first={diffusion method},
+    plural={diffusion methods},
+    firstplural={diffusion methods},
+    text={diffusion method}
 }
+
+\newglossaryentry{denautoencoder}
+{name={denoising autoencoder},
+ description={A denoising\index{denoising autoencoder} autoencoder extends the basic 
+               autoencoder by perturbing (e.g., by adding noise) 
+			   the input vector (or feature vector) before feeding it 
+			   into the autoencoder itself \cite[14.2.2]{Goodfellow-et-al-2016}.
+			   \begin{figure}[t]
+  				\centering
+  				\includegraphics[width=0.45\textwidth]{assets/imagedenautoenc_noisy.jpg}
+  				\hfill
+  				\includegraphics[width=0.45\textwidth]{assets/imagedenautoenc.jpg}
+  				\caption{A denoising autoencoder reads in a 
+				          corruped (noisy) representation of a data point 
+						  (left) and computes a prediction for the clean representation (right).}
+  				\label{fig:clean-noisy_dict}
+				\end{figure}
+			   Once trained, we can use a denoising autoencoder to 
+			   denoise a corrupted representation of a data point (see Fig.\ \ref{fig:clean-noisy_dict}).   
+			   \\ 
+			   See also: autoencoder,diffusion method. 
+			 } 
+    first={denoising autoencoder},
+    text={denoising autoencoder}
+}
+
+
 
 \newglossaryentry{normaldist} 
 {name={normal distribution}, 
@@ -3105,7 +2585,7 @@ sort={zerooneloss},
 		\]
 		where ${\bf z}:=\big( z_{1}, \,\ldots, \,z_{d} \big)\,^{T}$ is a vector 
 		of independent and identically distributed (i.i.d.) standard Gaussian random variables (RVs), and ${\bf A}\in \mathbb{R}^{d\times d}$ is any matrix satisfying ${\bf A}{\bf A}\,^{T} = {\bf C}$. 
-		The probability distribution of a Gaussian random vector is referred to as the multivariate normal distribution, 
+		The probability distribution of a Gaussian random vector is referred to as the mvndist, 
 		denoted by $\mathcal{N}\left(\bm \mu,\mathbf{C}\right)$.
 		\\
 		We can interpret a Gaussian random vector ${\bf x}=\big(\feature_{1},\,\ldots,\,\feature_{d}\big)$ as a stochastic process 
@@ -3120,13 +2600,13 @@ sort={zerooneloss},
 				the average of many independent random variables (RVs) (not necessarily Gaussian themselves) 
 				tends toward a Gaussian random variable (RV) \cite{ross2013first}.
 		\\ 
-		The multivariate normal distribution is also distinct in that it represents maximum uncertainty. 
+		The mvndist is also distinct in that it represents maximum uncertainty. 
 		Among all vector-valued random variables (RVs) with a given covariance matrix ${\bf C}$, the 
 		random variable (RV) ${\bf x}\sim \mathcal{N}\left(\bm \mu,\mathbf{C}\right)$ maximizes differential entropy 
 		\cite[Th. 8.6.5]{coverthomas}. This makes GPs a natural choice for 
 		capturing uncertainty or the lack of (domain) knowledge.
 		\\ 
-		See also: multivariate normal distribution, GP, probabilistic model, central limit theorem (CLT), differential entropy.},
+		See also: mvndist, GP, probabilistic model, central limit theorem (CLT), differential entropy.},
 	first={Gaussian random variable (Gaussian RV)},
 	type=math, 
 	plural={Gaussian RVs}, 
@@ -3215,7 +2695,7 @@ sort={zerooneloss},
   	from some input space $\mathcal{X}$ such that, for any finite subset 
   	${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathcal{X}$, 
   	the corresponding random variables (RVs) $f({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)})$ 
-	have a joint multivariate normal distribution 
+	have a joint mvndist 
   	\[
   	f \left( {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
   	\]
@@ -3266,7 +2746,7 @@ sort={zerooneloss},
 	over Finland as a realization of a GP indexed by geographic coordinates and 
 	sampled at Finnish Meteorological Institute (FMI) weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
 	\end{figure}
-	See also: multivariate normal distribution, uncertainty, Gaussian random variable (Gaussian RV).}, 
+	See also: mvndist, uncertainty, Gaussian random variable (Gaussian RV).}, 
   first={GP}, 
   type=math, 
   text={GP}
@@ -3490,7 +2970,7 @@ sort={zerooneloss},
 		is DP. The relations between different measures of privacy leakage have been 
 		studied in the literature (see \cite{InfThDiffPriv}). 
 				\\ 
-		See also: MI, DP, privacy attack, general data protection regulation (GDPR). }, 
+		See also: MI, DP, privacy attack, gdpr. }, 
 	first={privacy leakage}, 
 	text={privacy leakage} 
 }
@@ -3836,7 +3316,7 @@ plural={medians},
 	a feature maps that provides privacy-friendly features of a 
 	data points \cite{PrivacyFunnel}.
 				\\ 
-		See also: feature, data point, general data protection regulation (GDPR), DP.},
+		See also: feature, data point, gdpr, DP.},
  	first={privacy funnel},
 	text={privacy funnel} 
 }
@@ -4648,7 +4128,7 @@ description={Risk stratification\index{risk stratification} assigns
 		is an algorithm that explicitly describes how to map a given training set 
 		into model parameters through a sequence of gradient steps. The precise form of 
 		an algorithm depends on the available computational infrastructure. For example, if 
-		this infrastructure allows us to compute an inverse matrix, then we can 
+		this infrastructure allows us to compute an inverse, then we can 
 		define a linear regression algorithm using the normal equations. In contrast, if 
 		the computational infrastructure only allows basic arithmetic (i.e., multiplication and addition), 
 		the normal equations need to be somehow translated into a sequence of arithmetic 
@@ -4674,10 +4154,10 @@ plural={stochastic algorithms},
 		during its execution. For example, stochastic gradient descent (SGD) uses a randomly selected subset of data points 
 		to compute an approximation for the gradient of an objective function. We can represent a 
 		stochastic algorithm by a stochastic processes, i.e., the possible execution sequence is the possible outcomes of 
-		a random experiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
+		a randomexperiment \cite{BertsekasProb}, \cite{RandomizedAlgos}, \cite{Gallager13}.		
 		\\ 
 		See also: stochastic, algorithm, stochastic gradient descent (SGD), data point, gradient, objective function, stochastic process, 
-		random experiment, optimization method, gradient-based method. },
+		randomexperiment, optimization method, gradient-based method. },
 	first={stochastic algorithm},
 	text={stochastic algorithm} 
 }
@@ -4838,7 +4318,7 @@ plural={stochastic algorithms},
 		must be estimated from observed data. Second, even if $\mathbb{P}$ 
 		were known, computing the Bayes risk exactly may be computationally 
 		infeasible \cite{cooper1990computational}. 
-	A widely used probabilistic model is the multivariate normal distribution $\left( {\bf x},y\right) \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
+	A widely used probabilistic model is the mvndist $\left( {\bf x},y\right) \sim \mathcal{N}({\bm \mu},{\bm \Sigma})$ 
 	for data points characterized by numeric features and labels.
 	Here, for the squared error loss, the Bayes estimator is given by the posterior 
 	mean $\mu_{y|{\bf x}}$ of the label $y$, given the 
@@ -4871,7 +4351,7 @@ plural={stochastic algorithms},
 		  \end{tikzpicture}
 		\end{center}
 		\caption{If the features and the label of a data point are drawn 
-		from a multivariate normal distribution, we can achieve the minimum risk (under squared error loss) 
+		from a mvndist, we can achieve the minimum risk (under squared error loss) 
 		by using the Bayes estimator $\mu_{y|{\bf x}}$ 
 		to predict the label $y$ of a data point with features ${\bf x}$. The corresponding 
 		minimum risk is given by the posterior variance $\sigma^{2}_{y|{\bf x}}$. We can use 
@@ -5658,23 +5138,6 @@ description = {Consider a dataset
 	text={data imputation}  
 }
 
-\newglossaryentry{psd}
-{name={positive semi-definite (psd)},
-	description={A\index{positive semi-definite (psd)} (real-valued) symmetric matrix $\mathbf{Q}= \mathbf{Q}\,^{T} \in \mathbb{R}^{d\times d}$ 
-	 	is referred to as psd if ${\bf x}\,^{T} \mathbf{Q}{\bf x}\geq 0$ for every vector ${\bf x}\in \mathbb{R}^{d}$. 
-	 	The property of being psd can be extended from matrices to (real-valued) 
-	 	symmetric kernel maps $K: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}$ 
-	 	(with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
-	 	as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$, 
-	 	the resulting matrix $\mathbf{Q}\in \mathbb{R}^{m\times m}$ with 
-		entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
-		is psd \cite{LearningKernelsBook}.
-			\\
-		See also: matrix, vector, kernel, map, feature vector.},
-	first={positive semi-definite (psd)},
-	text={psd}  
-}
-
 \newglossaryentry{feature}
 {name={feature}, plural={features},
 	description={A\index{feature} feature of a data point is one of its properties 
@@ -5842,7 +5305,7 @@ description = {Consider a dataset
 \newglossaryentry{discreteRV}
 {name={discrete random variable (discrete RV)}, 
  	description={A\index{discrete random variable (discrete RV)} random variable (RV), i.e., a function that maps the 
-		outcomes of a random experiment to elements of a measurable space $\mathcal{X}$, 
+		outcomes of a randomexperiment to elements of a measurable space $\mathcal{X}$, 
 		is referred to as discrete if its value space $\mathcal{X}$ is a countable set \cite{BillingsleyProbMeasure}. 
 			\\
 		See also: probability, random variable (RV), probability distribution.},
@@ -5855,7 +5318,7 @@ description = {Consider a dataset
 \newglossaryentry{rv}
 {name={random variable (RV)}, plural={RVs},
  	description={A RV\index{random variable (RV)} is a function that maps the 
-		outcomes of a random experiment to elements of a measurable space 
+		outcomes of a randomexperiment to elements of a measurable space 
 		\cite{BillingsleyProbMeasure,GrayProbBook}. 
  		Mathematically, a RV is a function $x: \Omega\rightarrow \mathcal{X}$ 
 		with domain being the sample space $\Omega$ of a probability space and 
@@ -5872,7 +5335,7 @@ description = {Consider a dataset
  		Probability theory uses the concept of measurable spaces to rigorously define 
  		and study the properties of collections of RVs \cite{BillingsleyProbMeasure}.
 			\\
-		See also: function, random experiment, sample space, probability space, vector, Euclidean space, probability, measurable.}, 
+		See also: function, randomexperiment, sample space, probability space, vector, Euclidean space, probability, measurable.}, 
 	first={random variable (RV)},
 	firstplural={random variables (RVs)},
 	plural={RVs},
@@ -5882,12 +5345,12 @@ description = {Consider a dataset
  \newglossaryentry{probspace}
  {name={probability space}, 
  	description={A\index{probability space} probability space is a mathematical 
- 		structure that allows us to reason about a random experiment, e.g., 
+ 		structure that allows us to reason about a randomexperiment, e.g., 
 		the observation of a physical phenomenon. 
  	   	Formally, a probability space $\mathcal{P}$ is a triplet $(\Omega, \mathcal{F}, \mathbb{P}\left(\cdot\right))$ where
  		\begin{itemize} 
  			\item  $\Omega$ is a sample space containing all possible outcomes 
-			of a random experiment;
+			of a randomexperiment;
  			\item  $\mathcal{F}$ is a $\sigma$-algebra, i.e., a collection of subsets of 
 			$\Omega$ (called events) that satisfies certain closure properties 
 			under set operations;
@@ -5900,7 +5363,7 @@ description = {Consider a dataset
  		Probability spaces provide the foundation of probabilistic models that can be 
 		used to study the behavior of machine learning (ML) methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
 				\\
-		See also: probability, random experiment, sample space, event, probability distribution, function, probabilistic model, machine learning (ML).},  
+		See also: probability, randomexperiment, sample space, event, probability distribution, function, probabilistic model, machine learning (ML).},  
  	first={probability space}, 
 	plural={probability spaces},
 	firstplural={probability spaces},
@@ -5912,7 +5375,7 @@ description = {Consider a dataset
 {name={outcome}, 
   	description={One possible\index{outcome} result of a physical process.  
 				 Such a process could be the observation of a physical phenomenon,  
-				 a computation performed by an algorithm, or a random experiment  
+				 a computation performed by an algorithm, or a randomexperiment  
 				\cite{BillingsleyProbMeasure}.   
 		\\
  		See also: sample space.},  
@@ -5926,7 +5389,7 @@ description = {Consider a dataset
 \newglossaryentry{samplespace}
 {name={sample space}, 
   	description={A\index{sample space} sample space is the set of all possible 
-		outcomes of a random experiment \cite{BillingsleyProbMeasure}, 
+		outcomes of a randomexperiment \cite{BillingsleyProbMeasure}, 
 		\cite{BertsekasProb}, \cite{papoulis}, \cite{AshProbMeasure}. 
 		\\
  		See also: probability space.},  
@@ -7174,7 +6637,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 {name={Laplacian matrix},
 	description={The\index{Laplacian matrix} structure of a graph $\mathcal{G}$, with 
 		nodes $i=1, \,\ldots, \,n$, can be analyzed using the properties of 
-		special matrices that are associated with $\mathcal{G}$. One such matrix is the 
+		special matrixs that are associated with $\mathcal{G}$. One such matrix is the 
 		graph Laplacian matrix ${\bf L}^{(\mathcal{G})} \in \mathbb{R}^{n\times n}$, 
 		which is defined for an undirected and weighted graph \cite{Luxburg2007}, \cite{Ng2001}. 
 		It is defined elementwise as (see Fig. \ref{fig_lap_mtx_dict})
@@ -7272,7 +6735,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 
 \newglossaryentry{cfwmaxmin}
 {name={Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)}, 
-	description={Consider\index{Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)} a positive semi-definite (psd) 
+	description={Consider\index{Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)} a psd 
 		matrix $\mathbf{Q}\in \mathbb{R}^{d\times d}$ with 
 		eigenvalue decomposition (EVD) (or spectral decomposition), i.e.,
 		$$\mathbf{Q}= \sum_{j=1}^{d} \lambda_{j} {\bf u}^{(j)} \big(  {\bf u}^{(j)}  \big)\,^{T}.$$ 
@@ -7284,7 +6747,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		The CFW min–max characterization \cite[Th. 8.1.2]{GolubVanLoanBook} 
 		represents the eigenvalues of $\mathbf{Q}$ as the solutions to certain optimization problems.
 			\\
-		See also: positive semi-definite (psd), matrix, eigenvalue decomposition (EVD), eigenvalue, optimization problem.}, 
+		See also: psd, matrix, eigenvalue decomposition (EVD), eigenvalue, optimization problem.}, 
 	first={Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)}, 
 	type=math,
 	text={CFW min–max characterization}
@@ -7311,7 +6774,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	 			K\big(\featurevec_n,\featurevec_1\big) & K\big(\featurevec_n,\featurevec_2\big) & \ldots & K\big(\featurevec_n,\featurevec_n\big) 
 	 		\end{pmatrix} \in \mathbb{R}^{n \times n}
 	 	\end{equation}
-	 	is positive semi-definite (psd). 
+	 	is psd. 
      		A kernel naturally defines a transformation of a feature vector ${\bf x}$ into a 
 	 	function ${\bf z}= K\big({\bf x},\cdot\big)$. The function ${\bf z}$ maps an  
 	 	input ${\bf x}' \in \mathcal{X}$ to the value $K\big({\bf x},{\bf x}'\big)$. 
@@ -7519,7 +6982,7 @@ sort={k-means++},
 
 \newglossaryentry{measurable}
 {name={measurable}, 
-	description={Consider\index{measurable} a random experiment, such as recording 
+	description={Consider\index{measurable} a randomexperiment, such as recording 
 		the air temperature at an Finnish Meteorological Institute (FMI) weather station. The corresponding sample space 
 		$\Omega$ consists of all possible outcomes $\omega$ (e.g., 
 		all possible temperature values in degree Celsius). In many machine learning (ML) 
@@ -7574,7 +7037,7 @@ sort={k-means++},
 \newglossaryentry{sigmaalgebra}
 {name={$\sigma$-algebra}, 
 sort={sigma-algebra},
-	description={Consider a random experiment with a sample space $\Omega$. 
+	description={Consider a randomexperiment with a sample space $\Omega$. 
 		A $\sigma$-algebra\index{$\sigma$-algebra} (or $\sigma$-field) $\Sigma$ 
 		is a collection of subsets of $\Omega$ with the following properties 
 		\cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}:
@@ -7841,7 +7304,7 @@ sort={sigma-field},
 		data points in $\mathcal{D}$ \cite{cao2015unlearning}. Machine unlearning helps 
 		to meet legal requirements for privacy protection in AI systems \cite{GDPR2016}. 
 		\\
-	 	See also: model inversion, privacy protection, general data protection regulation (GDPR). },
+	 	See also: model inversion, privacy protection, gdpr. },
 	first={machine unlearning},
 	text={machine unlearning}
 }
@@ -8742,14 +8205,14 @@ sort={k-means},
 	description={A GMM\index{Gaussian mixture model (GMM)} is a particular type of probabilistic model 
 	    for data points characterized by a numeric feature vector ${\bf x}$. 
 		Within a GMM, the feature vector ${\bf x}$ is drawn from a randomly selected 
-		multivariate normal distribution $p^{(c)} = \mathcal{N}\left({\bm \mu}^{(c)},\mathbf{C}^{(c)}\right)$ with 
+		mvndist $p^{(c)} = \mathcal{N}\left({\bm \mu}^{(c)},\mathbf{C}^{(c)}\right)$ with 
 		$c= I$. The index $I \in \{1, \,\ldots, \,k\}$ is a random variable (RV) with 
 		probabilities $\mathbb{P}\left(I=c\right) = p_{c}$. A GMM is 
 		parameterized, for each $c=1, \,\ldots, \,k$, 
 		by the probability $p_{c}$, the mean vector 
 		${\bm \mu}^{(c)}$, and the covariance matrix $\mathbf{C}^{(c)}$ . 
 				\\
-		See also: probabilistic model, multivariate normal distribution, clustering.},
+		See also: probabilistic model, mvndist, clustering.},
 	first={Gaussian mixture model (GMM)},
 	plural={GMMs}, 
 	firstplural={Gaussian mixture models (GMMs)}, 
@@ -8904,43 +8367,6 @@ sort={k-means},
 	text={least squares}
 }
 
-\newglossaryentry{columnspace}
-{name={column space},
-	description={The column space\index{column space} of a matrix 
-		${\bf A}\in \mathbb{R}^{m\times d}$,
-		denoted by ${\rm span}\left({\bf A}\right)$, is the set of all linear combinations of the 
-		columns of ${\bf A}$. In other words, 
-		$$ {\rm span}\left({\bf A}\right) = \{ {\bf A}{\bf w}: {\bf w}\in \mathbb{R}^{d} \}. $$
-		The column space ${\rm span}\left({\bf A}\right)$ of the matrix ${\bf A}$ 
-		is a subspace of the Euclidean space $\mathbb{R}^{m}$.
-			   \\
-		See also: matrix, vector space.},
-	type=math,
-	first={column space},
-	text={column space}
-}
-
-\newglossaryentry{hyperplane}
-{name={hyperplane},
-	description={TBC\index{hyperplane}.},
-	first={hyperplane},
-	type=math,
-	plural={hyperplanes}, 
-	firstplural={hyperplanes},
-	text={hyperplane}
-}
-
-\newglossaryentry{subspace}
-{name={subspace},
-	description={A subset of a vector space $\mathcal{V}$ is a subspace\index{subspace} of $\mathcal{V}$ if it is also a 
-		vector space with respect to the same operations as $\mathcal{V}$.
-			   \\
-		See also: vector space.},
-	type=math, 
-	first={subspace},
-	text={subspace}
-}
-
 \newglossaryentry{designmatrix}
 {name={design matrix},
 	description={The\index{design matrix} term design matrix is a synonym 
@@ -9090,7 +8516,7 @@ sort={k-means},
  			   \left( {\bf x}^{(m)},y^{(m)} \right) \right\}.$$ 
   		The optimization problem in \eqref{eq_linleastsquares_dic} admits a clear 
   		geometric interpretation, i.e., we seek the vector ${\bf X}\widehat{{\bf w}}$ in the 
- 	 	column space of ${\bf X}$ that is closest to the label vector ${\bf y}$ 
+ 	 	columnspace of ${\bf X}$ that is closest to the label vector ${\bf y}$ 
   		(see Fig.~\ref{fig_linleastsquares_dict}) \cite[Ch. 8]{BoydConvexBook}. 
   		A necessary and sufficient condition for $\widehat{{\bf w}}$ to minimize 
   		\eqref{eq_linleastsquares_dic} is the normal equations 
@@ -9121,7 +8547,7 @@ sort={k-means},
  			\end{tikzpicture}
  		\caption{Linear least squares has both geometric and algebraic interpretations. 
  			(a) Geometrically, it finds the orthogonal projection of the 
- 			label vector ${\bf y}$ onto the column space of the 
+ 			label vector ${\bf y}$ onto the columnspace of the 
  			feature matrix ${\bf X}$ \cite[Ch. 8]{BoydConvexBook}. (b) Algebraically, it solves a linear system 
  			known as normal equations. 
  			\label{fig_linleastsquares_dict}}
@@ -9253,7 +8679,7 @@ sort={k-means},
 			{\bf X}^{T}{\bf X}\widehat{{\bf w}} = {\bf X}^{T} {\bf y}.
 		 \end{equation}
 		 Instead of solving \eqref{eq_linreg_normal_eq_dict} directly 
-		 (via computing the inverse matrix or pseudoinverse), 
+		 (via computing the inverse or pseudoinverse), 
 		 many machine learning (ML) mehtods use variants of gradient descent (GD) to construct a sequence 
 		 ${\bf w}^{(0)},{\bf w}^{(1)},\ldots,$ of increasingly accurate approximations 
 		 of a solution $\widehat{{\bf w}}$ to \eqref{eq_linreg_normal_eq_dict}. These 
@@ -9819,7 +9245,7 @@ sort={k-means},
 
 \newglossaryentry{kroneckerproduct}
 {name={Kronecker product}, 
-	description={The Kronecker product\index{Kronecker product} of two matrices ${\bf A}\in \mathbb{R}^{m \times n}$ 
+	description={The Kronecker product\index{Kronecker product} of two matrixs ${\bf A}\in \mathbb{R}^{m \times n}$ 
 		and ${\bf B}\in \mathbb{R}^{p \times q}$ is a block matrix denoted by ${\bf A}\otimes {\bf B}$ 
 	 	and defined as \cite{GolubVanLoanBook}, \cite{HornMatAnalysis}
     		\[
@@ -9830,7 +9256,7 @@ sort={k-means},
         		a_{m1}{\bf B}& \cdots & a_{mn}{\bf B}\end{pmatrix}
       		\in \mathbb{R}^{mp \times nq}.
     		\]
-    		The Kronecker product is a special case of the tensor product for matrices and is 
+    		The Kronecker product is a special case of the tensor product for matrixs and is 
 		widely used in multivariate statistics, linear algebra, and structured machine learning (ML) models. 
 		It satisfies the identity $({\bf A}\otimes {\bf B})({\bf x}\otimes {\bf y}) = ({\bf A}{\bf x}) \otimes ({\bf B}{\bf y})$ 
 		for vectors ${\bf x}$ and ${\bf y}$ of compatible dimensions.
@@ -9850,7 +9276,7 @@ sort={k-means},
 		forms of cluster representations. The clustering method $k$-means uses the 
 		average feature vector of a cluster (i.e., the cluster mean) as its representative. 
 		A popular soft clustering method based on Gaussian mixture model (GMM) represents 
-		a cluster by a multivariate normal distribution.
+		a cluster by a mvndist.
 				\\
 		See also: cluster, $k$-means, soft clustering, Gaussian mixture model (GMM).},
 	first={clustering},
@@ -10029,7 +9455,7 @@ sort={k-means},
   		for a matrix ${\bf A}\in \mathbb{R}^{m\times d}$ 
 		is a factorization of the form 
 		$${\bf A}= \mathbf{V} {\bm \Lambda} \mathbf{U}\,^{T}$$ 
-		with orthonormal matrices $\mathbf{V}\in \mathbb{R}^{m\times m}$ 
+		with orthonormal matrixs $\mathbf{V}\in \mathbb{R}^{m\times m}$ 
 		and $\mathbf{U}\in \mathbb{R}^{d\times d}$ \cite{GolubVanLoanBook}. 
 		The matrix ${\bm \Lambda} \in \mathbb{R}^{m\times d}$ is 
 		only nonzero along the main diagonal, whose entries $\Lambda_{j,j}$ 
@@ -10235,7 +9661,7 @@ sort={k-means},
 				{\bf x}^{(r)} \big( {\bf x}^{(r)}\big)^{T}
 				={\bf X}^{T} {\bf X}.$$ 
 				Note that $\widehat{\mathbf{Q}}$ coincides with the sample covariance matrix of 
-				$\mathcal{D}$ if its sample mean vanishes. The positive semi-definite (psd) matrix 
+				$\mathcal{D}$ if its sample mean vanishes. The psd matrix 
 				$\widehat{\mathbf{Q}}$ allows for an eigenvalue decomposition (EVD) of the form 
 				\cite{MeyerMatrixAnalysis,HornMatAnalysis} 
 				$$\widehat{\mathbf{Q}}\!=\!\sum_{j=1}^{d} \lambda_{j} 
@@ -11086,7 +10512,7 @@ sort={Renyi},
 		A\index{parametric model} parametric model is a mathematical model characterized 
 		by a finite set of variable quantities called parameters.
 		An important example is the probabilistic model consisting, for a given 
-		dimension $d$, of all multivariate normal distributions (on sample space 
+		dimension $d$, of all mvndists (on sample space 
 		$\mathbb{R}^{d}$) with some mean vector 
 		${\bm \mu}\in \mathbb{R}^{d}$ and covariance matrix ${\bf C}\in \mathbb{R}^{d\times d}$.
         In the context of machine learning (ML), a parametric model defines a 
@@ -11396,16 +10822,19 @@ sort={Renyi},
 
 \newglossaryentry{cav}
 {name={concept activation vector (CAV)},
-	description={Consider a deep net, consisting\index{concept activation vector (CAV)} of several hidden layers, 
-		trained to predict the label of a data point from its feature vector. One way 
-		to explain the behavior of the trained deep net is by using the activations of a 
-		hidden layer as a new feature vector ${\bf z}$. We then probe the geometry of the 
-		resulting new feature space by applying the deep net to data points 
-		that represent a specific concept $\mathcal{C}$. By applying the deep net also to data points 
-		that do not belong to this concept, we can train a binary linear classifier $g({\bf z})$ that distinguishes 
-		between concept and non-concept data points based on the activations of the hidden layer. The resulting 
-		decision boundary is a hyperplane whose normal vector is the CAV \cite{kim2018interpretability} 
-			for the concept $\mathcal{C}$. 
+	description={Consider a deep net, consisting\index{concept activation vector (CAV)} of 
+	             several hidden layers, trained to predict the label of a 
+				 data point from its feature vector. One way to explain the behavior 
+				 of the trained deep net is by using the activations of a 
+				 hidden layer as a new feature vector ${\bf z}$. We then probe 
+				 the geometry of the resulting new feature space by applying the 
+				 deep net to data points that represent a specific concept 
+				 $\mathcal{C}$. By applying the deep net also to data points 
+				 that do not belong to this concept, we can train a binary linear classifier 
+				 $g({\bf z})$ that distinguishes between concept and non-concept data points 
+				 based on the activations of the hidden layer. The resulting 
+				decision boundary is a hyperplane whose normal vector is 
+				the CAV \cite{kim2018interpretability} for the concept $\mathcal{C}$. 
 				\\
 		 See also: deep net, linear model, trustworthy artificial intelligence (trustworthy AI), interpretability, transparency.}, 
 	first={concept activation vector (CAV)},
@@ -12402,9 +11831,10 @@ sort={Renyi},
 		 	   Formally, it is the linear map 
 		 		$${\rm tr} \left(\cdot\right): \mathbb{R}^{d\times d} 
 		 			\rightarrow \mathbb{R}: {\bf A}\mapsto \sum_{j=1}^{d} A_{j,j}.$$     
-    	 		It satisfies the cyclic property ${\rm tr} \left({\bf A}{\bf B}\right)={\rm tr} \left({\bf B}{\bf A}\right)$, for any matrices 
+    	 		It satisfies the cyclic property ${\rm tr} \left({\bf A}{\bf B}\right)={\rm tr} \left({\bf B}{\bf A}\right)$, for any matrixs 
     	 		${\bf A},{\bf B}\in \mathbb{R}^{d\times d}$ \cite[p. 301]{Axler2025}.
 				\begin{figure}
+					\begin{center}
 				\begin{tikzpicture}[font=\small, every node/.style={inner sep=1pt}]
 					
 				\node (a11) at (0,0)   {$A_{1,1}$};
@@ -12422,6 +11852,7 @@ sort={Renyi},
 				\coordinate (C) at ($(a11)!0.5!(a33)$);
 				\draw[thick] (C) ellipse [x radius=2.1cm, y radius=0.35cm,rotate=-45];
 				\end{tikzpicture}
+				\end{center}
 				\caption{The trace ${\rm tr} \left({\bf A}\right)$ of a $3 \times 3$ matrix ${\bf A}\in \mathbb{R}^{3\times 3}$ is 
 				the sum of three main diagonal entries $A_{1,1}, A_{2,2}, A_{3,3}$.}
 				 \end{figure}
