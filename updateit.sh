@@ -15,6 +15,8 @@ echo "Backing up selected files into backup repo at $BACKUP_DIR ..."
 # Files/directories to back up (customize as needed)
 FILES_TO_BACKUP=(
     "ADictML_English.tex"
+    "ADictML_MathTools_Glossary_English.tex"
+    "ADictML_Regulation_Glossary_English.tex"
     "ADictML_Glossary_English.tex"
     "ListSymbols_English.tex"
     "assets/ml_macros.tex"

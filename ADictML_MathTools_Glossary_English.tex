@@ -88,27 +88,45 @@
 	text={symmetric matrix}
 }
 
-% \newglossaryentry{transpose}
-% {name={transpose},
-% 	description={The transpose\index{transpose} of a \gls{matrix} is obtained by exchanging 
-%                  rows and columns. For a matrix $\mA$, its transpose is denoted 
-%                  $\mA^{T}$ and satisfies $(\mA^{T})_{i,j}=\mA_{j,i}$.},
-% 	first={transpose},
-%     type=math, 
-% 	text={transpose}
-% }
+\newglossaryentry{transpose}
+{name={transpose},
+ description={The transpose\index{transpose} of a real-valued \gls{matrix} is obtained by exchanging 
+                  rows and columns. For a \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$, 
+				  its transpose is denoted $\mA^{T}$ and satisfies $\big(\mA^{T}\big)_{\featureidx,\featureidx'}=\mA_{featureidx',\featureidx}$.},
+ 	first={transpose},
+    type=math, 
+ 	text={transpose}
+ }
 
-% \newglossaryentry{hermitianmatrix}
-% {name={Hermitian matrix},
-% 	description={A square matrix $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
-%                  that coincides with its conjugate transpose, i.e., $\mA=\mA^{H}$. 
-%                  Trivally, a Hermitian matrix is also a \gls{normalmatrix}.},
-% 	first={Hermitian matrix},
-%     type=math, 
-% 	plural={Hermitian matrices},
-% 	firstplural={Hermitian matrices},
-% 	text={Hermitian matrix}
-% }
+ \newglossaryentry{conjugatetranspose}
+{name={conjugate transpose},
+ description={The conjugate transpose\index{conjugate transpose} of a 
+              \gls{matrix} is obtained by transposing the \gls{matrix} 
+			  and taking the complex conjugate of each entry.
+              For a matrix $\mA \in \mathbb{C}^{\samplesize \times \nrfeatures}$, its
+              conjugate transpose is denoted by $\mA^{H} \in 
+              \mathbb{C}^{\nrfeatures \times \samplesize}$ and is defined entrywise by
+              \[
+                 (\mA^{H})_{\featureidx,\sampleidx}
+                 = \complexconjugate{\big(\mA\big)_{\sampleidx,\featureidx}},
+              \]
+              where $\complexconjugate{(\cdot)}$ denotes complex conjugation.},
+ 	first={conjugate transpose},
+    type=math, 
+ 	text={conjugate transpose}
+ }
+
+\newglossaryentry{hermitian}
+ {name={Hermitian (matrix)},
+ 	description={A square\index{Hermitian} matrix $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is 
+	             Hermitian if it coincides with its conjugate transpose, i.e., $\mA=\mA^{H}$. 
+                 Trivally, a Hermitian matrix is also a \gls{normalmatrix}.},
+ 	first={Hermitian},
+     type=math, 
+ 	plural={Hermitian},
+ 	firstplural={Hermitian},
+ 	text={Hermitian}
+}
 
 \newglossaryentry{dimension}
 {name={dimension},
@@ -184,9 +202,25 @@
 \newglossaryentry{widematrix}
 {name={wide matrix},
  description={A\index{wide matrix} \gls{matrix} 
-   		$\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
-		is referred to as wide if it has more columns than rows, i.e., when $\nrfeatures > \samplesize$.
-		\\ 
+   		$\featuremtx \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+		is referred to as wide if it has more columns than rows, 
+		i.e., when $\nrfeatures > \samplesize$.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+				\def\matHeight{2}
+				\def\matWidth{5} 
+				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
+				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large $\featuremtx \in \mathbb{R}^{\samplesize \times \nrfeatures}$};
+				% vertical brace for samplesize (LEFT, correct orientation)
+				\draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+  					(-0.2, 0) -- (-0.2, \matHeight)
+  					node[midway, left=8pt] {$\samplesize$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+        			(0, -0.2) -- (\matWidth, -0.2) 
+        			node[midway, below=8pt] {$\nrfeatures \quad (\nrfeatures > \samplesize)$};
+			\end{tikzpicture}
+		\end{figure}
 		See also: \gls{matrix}. },
 	text={wide matrix}, 
 	firstplural={wide matrices}, 
@@ -284,10 +318,25 @@
 
 \newglossaryentry{tallmatrix}
 {name={tall matrix},
- description={A\index{tall matrix} \gls{matrix} 
-   		$\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
-		is referred to as tall if it has more rows than columns, i.e., when $\samplesize > \nrfeatures$.
-		\\ 
+ description={A\index{tall matrix} \gls{matrix} $\featuremtx \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
+			  is referred to as tall if it has more rows than columns, i.e., 
+			  when $\samplesize > \nrfeatures$.
+			  \begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+				\def\matHeight{5}
+				\def\matWidth{3} 
+				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
+				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large $\featuremtx \in \mathbb{R}^{\samplesize \times \nrfeatures}$};
+				% vertical brace for samplesize (LEFT, correct orientation)
+				\draw[decorate, decoration={brace, amplitude=5pt}, thick] 
+  					(-0.2, 0) -- (-0.2, \matHeight)
+  					node[midway, left=8pt] {$\samplesize$};
+				\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] 
+        			(0, -0.2) -- (\matWidth, -0.2) 
+        			node[midway, below=8pt] {$\nrfeatures$};
+			\end{tikzpicture}
+		\end{figure}
 		See also: \gls{matrix}. },
 	text={tall matrix}, 
 	firstplural={tall matrices}, 
@@ -744,4 +793,566 @@
 	first={standard normal random vector},
 	type=math, 
 	text={standard normal random vector}
+}
+
+\newglossaryentry{continuous}
+{name={continuous}, 
+	description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ is 
+		continuous at a point $\featurevec' \in \mathbb{R}^{\nrfeatures}$ if, for 
+	 	every $\epsilon > 0$, there is a $\delta > 0$ such that, for all 
+	 	$\featurevec \in \mathbb{R}^{\nrfeatures}$ with $\normgeneric{\featurevec - \featurevec'}{2} < \delta$, 
+	 	it holds that $|f(\featurevec) - f(\featurevec')| < \epsilon$ \cite{RudinBookPrinciplesMatheAnalysis}. 
+	 	In other words, we can make $f(\featurevec)$ arbitrarily close to $f(\featurevec')$ 
+	 	by choosing $\featurevec$ sufficiently close to $\featurevec'$. 
+		\begin{figure}[htbp]
+		\centering
+	 	\begin{tikzpicture}[
+		>=stealth, 
+    	thick,
+		%f(x) = 0.5(x-2)^3 + 2
+    	declare function={f(\x) = 0.3*(\x-2)^3 + 2.5;}
+			]
+		\def\xprime{2}      % x'
+    	\def\epsilonval{1.2}   % epsilon
+		\def\deltaval{1.3}     % delta
+		\def\xmax{5.5}
+		\def\ymax{5}
+		\fill[blue!5] (0, {f(\xprime)-\epsilonval}) rectangle (\xmax, {f(\xprime)+\epsilonval});
+		\draw[blue!30, dashed] (0, {f(\xprime)-\epsilonval}) -- (\xmax, {f(\xprime)-\epsilonval});
+		\draw[blue!30, dashed] (0, {f(\xprime)+\epsilonval}) -- (\xmax, {f(\xprime)+\epsilonval});
+		\fill[red!10] ({\xprime-\deltaval}, 0) rectangle ({\xprime+\deltaval}, \ymax);
+		\draw[red!40, dashed] ({\xprime-\deltaval}, 0) -- ({\xprime-\deltaval}, \ymax);
+		\draw[red!40, dashed] ({\xprime+\deltaval}, 0) -- ({\xprime+\deltaval}, \ymax);
+		\fill[purple!20] ({\xprime-\deltaval}, {f(\xprime)-\epsilonval}) rectangle ({\xprime+\deltaval}, {f(\xprime)+\epsilonval});
+		\draw[purple, thick] ({\xprime-\deltaval}, {f(\xprime)-\epsilonval}) rectangle ({\xprime+\deltaval}, {f(\xprime)+\epsilonval});
+		\draw[->] (-0.5,0) -- (\xmax,0) node[right] {$\feature$};
+		\draw[->] (0,-0.5) -- (0,\ymax) node[above] {};
+		% The Function 
+		\draw[line width=1.5pt, black!80] plot[domain=0.2:4.5, samples=100] (\x, {f(\x)}) 
+			node[right] {$f(\feature)$};
+		\draw[dashed] (\xprime, 0) -- (\xprime, {f(\xprime)}) -- (0, {f(\xprime)});
+		\fill[black] (\xprime, {f(\xprime)}) circle (2pt);
+		\node[below,yshift=-5pt] at (\xprime, 0) {$\feature'$};
+		\node[left] at (0, {f(\xprime)}) {$f(\feature')$};
+		\draw[decorate, decoration={brace, amplitude=4pt}, blue!80] 
+		(-0.2, {f(\xprime)}) -- (-0.2, {f(\xprime)+\epsilonval}) 
+		node[midway, left=4pt] {$\varepsilon$};
+		\draw[decorate, decoration={brace, amplitude=4pt}, blue!80] 
+		(-0.2, {f(\xprime)-\epsilonval}) -- (-0.2, {f(\xprime)}) 
+		node[midway, left=4pt] {$\varepsilon$};
+		\draw[decorate, decoration={brace, amplitude=4pt, mirror}, red!80] 
+		(\xprime, -0.2) -- ({\xprime+\deltaval}, -0.2) 
+		node[midway, below=4pt] {$\delta$};
+		\draw[decorate, decoration={brace, amplitude=4pt, mirror}, red!80] 
+		({\xprime-\deltaval}, -0.2) -- (\xprime, -0.2) 
+		node[midway, below=4pt] {$\delta$};
+		\node[align=left, purple!40!black, font=\small] at (6.2, 1.5) 
+		{If $| \feature - \feature' | < \delta$\\
+		then $| f(\feature) - f(\feature') | < \varepsilon$};
+		\end{tikzpicture}
+		\caption{The function $f(\feature) = 0.3(\feature-2)^3 + 2.5$ is continuous 
+		         at every $\feature'$.}
+		\end{figure}
+		If $f$ is continuous 
+	 	at every point $\featurevec' \in \mathbb{R}^{\nrfeatures}$, then $f$ is said to be 
+	 	continuous on $\mathbb{R}^{\nrfeatures}$. The notion of a continuous 
+	 	\gls{function} can be naturally extended to \glspl{function} between general \glspl{metricspace} 
+		\cite{RudinBookPrinciplesMatheAnalysis}.
+		\\
+		See also: \gls{euclidspace}, \gls{metric}.},
+	first={continuous},
+	type=math,
+	text={continuous}
+}
+
+\newglossaryentry{minimum}
+{name={minimum},
+	description={Given a set of real numbers, the minimum\index{minimum} is the smallest of those numbers.
+		Note that for some sets, such as the set of negative real numbers, the minimum does not exist.},
+	firstplural={minima}, 
+ 	plural={minima},
+	type=math, 
+	first={minimum},
+	text={minimum}
+}
+
+\newglossaryentry{co-domain}
+{name={co-domain}, 
+	description={The co-\gls{domain}\index{co-domain} of a \gls{function} 
+		$f: \mathcal{U} \rightarrow \mathcal{V}$ is the set $\mathcal{V}$ 
+		into which $f$ maps elements of its \gls{domain} $\mathcal{U}$.  
+		\begin{figure}[H]
+			\centering
+		\begin{tikzpicture}[
+			>=stealth, 
+			node distance=2cm,
+			scale=1.0, every node/.style={transform shape} % Scales the whole diagram down slightly
+		]
+			% Domain A
+			\draw[thick, fill=blue!5] (0,0) ellipse (0.8cm and 1.4cm);
+			\node[] at (0, 1.6) {\gls{domain}};
+			% Codomain B
+			\draw[thick, fill=red!5] (3.5,0) ellipse (1cm and 1.6cm);
+			\node[] at (3.5, 1.8) {co-\gls{domain}};
+			\draw[dashed, fill=green!10, thick, green!60!black] (3.5, -0.3) circle (0.6cm);
+			\node[] at (3.5, -1.1) {range};
+			\fill (0, 0.5) circle (1.5pt) coordinate (a1);
+			\fill (0, -0.5) circle (1.5pt) coordinate (a2);
+			% Output points
+			\fill (3.5, 0) circle (1.5pt) coordinate (b1);
+			\fill (3.5, -0.5) circle (1.5pt) coordinate (b2);
+			% Unreached point
+			\fill (3.5, 1.0) circle (1.5pt) coordinate (b_miss) node[right, font=\tiny, gray] {unused};
+			\draw[->, semithick] (a1) -- (b1);
+			\draw[->, semithick] (a2) -- (b2);
+			% Function Label
+			\node[font=\footnotesize] at (1.75, 0.5) {$f$};
+		\end{tikzpicture}
+	\end{figure}
+		See also: \gls{domain}, \gls{function}, \gls{map}.},
+	first={co-domain},
+	firstplural={co-domains}, 
+	type=math, 
+	plural={co-domains},
+	text={co-domain}
+}
+
+
+\newglossaryentry{cdf}
+{name={cumulative distribution function (cdf)},
+	description={The \index{cumulative distribution function (cdf)} cdf 
+		$\cdf{\feature}{\eta}$ of a real-valued \gls{rv} $\feature$ is \cite{AshProbMeasure}, \cite{papoulis}
+		$$\cdf{\feature}{\eta} \defeq \prob{\feature \leq \eta}.$$
+					\\ 
+		See also: \gls{rv}, \gls{pdf}, \gls{probdist}.},
+	first={cumulative distribution function (cdf)},
+	firstplural={cumulative distribution functions (cdfs)}, 
+	plural={cdfs}, 
+	type=math,
+	text={cdf} 
+}
+
+\newglossaryentry{weightedgraph}
+{name={weighted graph},
+	description={A \gls{graph}\index{weighted graph} whose edges 
+	are assigned numeric weights. Typically, these edge weights 
+	are nonnegative real numbers. For example, if a \gls{graph} represents 
+	a road network with nodes being intersections and edges representing 
+	road segments, the edge weight could represent the capacity (measured 
+	in maximum vehicles per hour) of the road segment \cite{NewmannBook}.  
+	\begin{figure}[htbp] 
+				\centering
+			  \begin{tikzpicture}[scale=1.5,
+					node/.style={circle, fill=black, inner sep=1.9pt},
+					lab/.style={anchor=west, xshift=3pt}
+					]
+					% Nodes (points)
+					\node[node] (v1) at (0,0) {};
+					\node[node] (v2) at (2,0) {};
+					\node[node] (v3) at (1,1.5) {};
+					\node[node] (v4) at (3,1.5) {};
+					% Labels
+					\node[anchor=north] at (v1) {$\nodeidx_1$};
+					\node[anchor=north] at (v2) {$\nodeidx_2$};
+					\node[anchor=south] at (v3) {$\nodeidx_3$};
+					\node[anchor=south] at (v4) {$\nodeidx_4$};
+					% Undirected edges
+					\draw [line width=1pt] (v1) -- node[midway, above] {$\edgeweight_{\nodeidx_1,\nodeidx_2}$} (v2);
+					\draw (v2) -- node[midway, right] {$\edgeweight_{\nodeidx_2,\nodeidx_3}$} (v3);
+					\draw (v3) -- node[midway, left] {$\edgeweight_{\nodeidx_3,\nodeidx_1}$} (v1);
+					\draw (v2) -- node[midway, right] {$\edgeweight_{\nodeidx_2,\nodeidx_4}$} (v4);
+				\end{tikzpicture}
+				\caption{A weighted graph with four nodes 
+				$\nodes = \{\nodeidx_1, \nodeidx_2, \nodeidx_3, \nodeidx_4\}$ 
+				and four edges $\edges = \{\{\nodeidx_1,\nodeidx_2\},
+				\{\nodeidx_2,\nodeidx_3\}, \{\nodeidx_3,\nodeidx_1\}, 
+				\{\nodeidx_2,\nodeidx_4\}\}$. Each edge is assigned a weight.}
+			\end{figure}		
+		See also: \gls{graph}.},
+	first={weighted graph},
+	type=math,
+	firstplural={weighted graphs}, 
+	plural={weighted graphs}, 
+	text={weighted graph} 
+}
+
+\newglossaryentry{graph}
+{name={graph},
+ description={A graph\index{graph} $\graph = \pair{\nodes}{\edges}$ 
+              consists of a node set $\nodes$ and an edge set $\edges$.
+			  Each edge $\edgeidx \in \edges$ is characterized by the nodes to which 
+			  it is connected and in what precise sense. For example, 
+			  an edge of a \gls{directedgraph} is leaving one node 
+			  and pointing to another node. An edge of an undirected 
+			  graph connects two nodes without any sense of 
+			  direction \cite{NewmannBook,RockNetworks}. 
+			  In principle, there can also be several (parallel) edges that are 
+			  connected to the same nodes in the same way \cite{RockNetworks}. 
+			  Moreover, edges may connect a node to itself, resulting in 
+			  so-called self-loops \cite{NewmannBook}. 
+			  A simple undirected graph contains no 
+			  parallel edges and no self-loops \cite{WilsonGraph2010}. 
+			  Each edge $\edgeidx \in \edges$ of a simple undirected 
+			  graph can be identified with a set of two nodes ${\nodeidx,\nodeidx'}$. 
+			  \begin{figure}[htbp] 
+				\centering
+			  \begin{tikzpicture}[scale=1,
+					node/.style={circle, fill=black, inner sep=1.9pt},
+					lab/.style={anchor=west, xshift=3pt}
+					]
+					% Nodes (points)
+					\node[node] (v1) at (0,0) {};
+					\node[node] (v2) at (2,0) {};
+					\node[node] (v3) at (1,1.5) {};
+					\node[node] (v4) at (3,1.5) {};
+					% Labels
+					\node[anchor=north] at (v1) {$\nodeidx_1$};
+					\node[anchor=north] at (v2) {$\nodeidx_2$};
+					\node[anchor=south] at (v3) {$\nodeidx_3$};
+					\node[anchor=south] at (v4) {$\nodeidx_4$};
+					% Undirected edges
+					\draw [line width=1pt] (v1) -- (v2);
+					\draw (v2) -- (v3);
+					\draw (v3) -- (v1);
+					\draw (v2) -- (v4);
+				\end{tikzpicture}
+				\caption{A simple undirected graph with four nodes 
+				$\nodes = \{\nodeidx_1, \nodeidx_2, \nodeidx_3, \nodeidx_4\}$ 
+				and four edges $\edges = \{\{\nodeidx_1,\nodeidx_2\},
+				\{\nodeidx_2,\nodeidx_3\}, \{\nodeidx_3,\nodeidx_1\}, 
+				\{\nodeidx_2,\nodeidx_4\}\}$.}
+			\end{figure}
+		      \Glspl{weightedgraph} assign a numerical value $\edgeweight_{\edgeidx}$, 
+			  referred to as edge weight, to each edge $\edgeidx \in \edges$.
+					\\ 
+		See also: \gls{map}, \gls{weights}.},
+ first={graph},
+ text={graph}, 
+ firstplural={graphs}, 
+ plural={graphs}, 
+ type=math
+}
+
+\newglossaryentry{markovchain}
+{name={Markov chain},
+  description={A Markov chain\index{Markov chain} is a \gls{stochproc} $\{X_\timeidx \}_{\timeidx \in \mathbb{N}}$, 
+               defined on a common \gls{probspace} and using the index set $\mathbb{N}$. The 
+			   \gls{rv} $X_\timeidx$ might represent (the generation of) a state of a physical system 
+			   at the time instant $\timeidx$. The defining property of a Markov chain 
+			   is the Markov property \cite{NorrisMarkovChains1997,durrett2010probability,papoulis}: 
+			   For all $\timeidx \in \mathbb{N}$,
+ 			   \begin{equation}
+ 				\nonumber \probdist^{(X_{\timeidx+1} \mid X_\timeidx,\ldots,X_1)} = \probdist^{(X_{\timeidx+1} \mid X_\timeidx)}. 
+ 				\end{equation}
+ 			    In other words, the \gls{condprobdist} of the next state $X_{\timeidx+1}$ 
+				depends on the past $X_{\timeidx},X_{\timeidx-1},\dots,X_{1}$ 
+				only through the current state $X_{\timeidx}$. The concept of a 
+				Markov chain can be generalized from discrete time (with index set $\mathbb{N}$) 
+				to continuous time (with index set $\mathbb{R}$) \cite{NorrisMarkovChains1997}. \\ 
+				See also: \gls{stochproc}, \gls{condprobdist}.},
+    first={Markov chain},
+    type=math,
+    text={Markov chain}
+}
+
+\newglossaryentry{linearmap}
+{name={linear map}, plural={linear maps}, 
+	description={A\index{linear map} linear \gls{map} $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a \gls{function} that satisfies additivity, i.e.,
+		$f(\vx + \vy) = f(\vx) + f(\vy)$, and homogeneity, i.e.,
+		$f(c\vx) = c f(\vx)$, for all \glspl{vector} $\vx, \vy \in \mathbb{R}^n$ and scalars $c \in \mathbb{R}$. 
+		In particular, $f(\mathbf{0}) = \mathbf{0}$. Any linear \gls{map} can be represented as a \gls{matrix} 
+		multiplication $f(\vx) = \mA \vx$ for some \gls{matrix} $\mA \in \mathbb{R}^{m \times n}$. 
+		The collection of real-valued linear \glspl{map} for a given dimension $n$ constitute a \gls{linmodel}, 
+		which is used in many \gls{ml} methods.
+		\\
+		See also: \gls{map}, \gls{function}, \gls{vector}, \gls{matrix}, \gls{linmodel}.},
+	first={linear map},
+	type=math, 
+	plural={linear maps}, 
+	firstplural={linear maps}, 
+	text={linear map}
+}
+
+\newglossaryentry{vector}
+{name={vector},
+	description={A\index{vector} vector is an element of a \gls{vectorspace}. 
+		In the context of \gls{ml}, a particularly important example of a \gls{vectorspace} 
+		is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$, where $\nrfeatures \in \mathbb{N}$ 
+		is the (finite) dimension of the space. A vector $\vx \in \mathbb{R}^{\nrfeatures}$ 
+		can be represented as a list or one-dimensional (1-D) array of real numbers, i.e., 
+		$x_1, \,\ldots, \,x_{\nrfeatures}$ with $x_\featureidx \in \mathbb{R}$ for 
+		$\featureidx = 1, \,\ldots, \,\nrfeatures$. The value $x_\featureidx$ is the $\featureidx$th 
+		entry of the vector $\vx$. It can also be useful to view a vector $\vx \in \mathbb{R}^{\nrfeatures}$ 
+		as a \gls{function} that maps each index $\featureidx \in \{1, \,\ldots, \,\nrfeatures\}$ 
+		to a value $x_\featureidx \in \mathbb{R}$, i.e., $\vx: \featureidx \mapsto x_\featureidx$. 
+		This perspective is particularly useful for the study of \glspl{kernelmethod}. See Fig. 
+		\ref{fig:vector-function-dual_dict} for the two views of a vector.
+		\begin{figure}[H]
+			% Left: Stem plot
+			\begin{minipage}[c]{0.48\textwidth}
+				\centering 
+				2, --1, 3, 0, --2, 1
+				\begin{minipage}{\textwidth}
+				\vspace{5ex}
+				\centering
+				{\selectfont (a)}
+				\end{minipage}
+			\end{minipage}
+			\hfill
+			% Right: Column vector
+			\begin{minipage}{0.48\textwidth}
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+    				width=6.5cm,
+    				height=5cm,
+    				title={},
+    				xlabel={index $\featureidx$},
+    				ylabel={$x_\featureidx$},
+   		 		ymin=-3.5, ymax=3.5,
+    				xmin=0.5, xmax=6.5,
+   	 			xtick={1,2,3,4,5,6},
+    				ytick={-3,-2,-1,0,1,2,3},
+    				axis x line=bottom,        % <-- horizontal axis at y=0
+    				axis y line=left,          % <-- vertical axis on the left
+    				grid=both,
+    				major grid style={dotted, gray!60},
+    				enlargelimits=0.1
+			]
+			\addplot+[ycomb, thick, mark=*]
+    			coordinates {
+        				(1,2)
+        				(2,-1)
+       	 			(3,3)
+        				(4,0)
+        				(5,-2)
+        				(6,1)
+    			};
+			\end{axis}
+			\node at (2,-2.5) {(b)};
+			\end{tikzpicture}
+			\end{minipage}
+			\caption{Two equivalent views of a vector $\vx= \big( 2, -1, 3, 0, -2, 1 \big)^{T} \in \mathbb{R}^{6}$.
+			(a) As a numeric array. (b) As a \gls{map} $\featureidx \mapsto x_\featureidx$.}
+			\label{fig:vector-function-dual_dict}
+		\end{figure}
+		See also: \gls{vectorspace}, \gls{euclidspace}, \gls{linearmap}.},
+	first={vector},
+	firstplural={vectors},
+	type=math,
+	plural={vectors},
+	text={vector}
+}
+
+\newglossaryentry{vectorspace}
+{name={vector space},
+	description={A\index{vector space} \gls{vector} space $\mathcal{V}$ (also called linear space) 
+		is a collection of elements, called \glspl{vector}, along with the following two operations 
+		(see also Fig. \ref{fig:vector-ops_dict}): 
+    		1) addition (denoted by $\vv+\vw$) of two \glspl{vector} $\vv,\vw$; and 2) multiplication 
+		(denoted by $c \,\cdot \,\vv$) of a \gls{vector} $\vv$ with a scalar $c$ that belongs to some 
+		number field (such as the real numbers $\mathbb{R}$ or the complex numbers $\mathbb{C}$). The defining 
+		property of a \gls{vector} space is that it is closed under two specific operations. First, 
+		if $\vv, \vw \in \mathcal{V}$, then $\vv + \vw \in \mathcal{V}$. Second, if $\vv \in \mathcal{V}$ 
+		and $c \in \mathbb{R}$, then $c \vv \in \mathcal{V}$.
+		\begin{figure}[H]
+		\centering
+			\begin{tikzpicture}[>=Stealth, scale=1.2]
+			% Coordinates
+  			\coordinate (O) at (0,0);            % Origin
+  			\coordinate (V) at (2,1.5);          % vector v
+  			\coordinate (W) at (1,3);            % vector w
+  			\coordinate (VplusW) at (3,4.5);     % v + w
+  			\coordinate (HalfV) at (1,0.75);     % 0.5 * v
+  			\draw[->, thick, blue] (O) -- (V) node[pos=1, right] {$\vv$};
+  			\draw[->, thick, red] (O) -- (W) node[pos=1, left] {$\vw$};
+  			\draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {$\vv+\vw$};
+  			\draw[dashed, red] (V) -- (VplusW);
+  			\draw[dashed, blue] (W) -- (VplusW);
+  			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha \vv$};
+			% Filled dots
+  			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  % origin
+  			\filldraw[blue] (V) circle (2pt);         % v
+  			\filldraw[red] (W) circle (2pt);          % w
+  			\filldraw[purple] (VplusW) circle (2pt);  % v + w
+  			\filldraw[orange] (HalfV) circle (2pt);   % 0.5v
+			\end{tikzpicture}
+			\caption{A \gls{vector} space $\mathcal{V}$ is a collection of \glspl{vector} such that 
+			scaling and adding them always yields another \gls{vector} in $\mathcal{V}$.}
+			%In \gls{ml}, we use vector spaces to represent \glspl{rv}, \glspl{datapoint} 
+			%(or their \glspl{featurevec}) as well as invariances (or symmetries) of \glspl{model}.}
+			\label{fig:vector-ops_dict}
+		\end{figure}
+		A common example of a \gls{vector} space is the \gls{euclidspace} $\mathbb{R}^n$, which is 
+		widely used in \gls{ml} to represent \glspl{dataset}. We can also use $\mathbb{R}^n$ 
+		to represent, either exactly or approximately, the \gls{hypospace} used by an \gls{ml} method.  
+		Another example of a \gls{vector} space, which is naturally associated with every \gls{probspace} 
+		$\big(\samplespace,\eventspace,\prob{\cdot} \big)$, is the collection of all 
+		real-valued \glspl{rv} $x: \samplespace \rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
+		\\
+		See also: \gls{vector}, \gls{euclidspace}, \gls{linmodel}, \gls{linearmap}.},
+	first={vector space},
+	plural={vector spaces}, 
+	firstplural={vector spaces}, 
+	type=math,
+	text={vector space}
+}
+
+
+\newglossaryentry{stochastic}
+{name={stochastic},
+	description={We refer to a\index{stochastic} method as stochastic if it involves a 
+		random component or is governed by probabilistic laws. \Gls{ml} methods use randomness 
+		to reduce computational complexity (e.g., see \gls{stochGD}) or 
+		to capture \gls{uncertainty} in \glspl{probmodel}.
+		\\
+		See also: \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}.},
+	first={stochastic},
+	type=math, 
+	text={stochastic}
+}
+
+\newglossaryentry{stochproc}
+{name={stochastic process},
+	description={A \gls{stochastic} process\index{stochastic process} is a collection of 
+		\glspl{rv} defined on a common \gls{probspace} and indexed by some set 
+		$\mathcal{I}$ \cite{GrayProbBook}, \cite{papoulis}, \cite{Brockwell91}. The index set 
+		$\mathcal{I}$ typically represents time or space, allowing us to represent 
+		random phenomena that evolve across time or spatial dimensions—for example, 
+		sensor noise or financial time series. \Gls{stochastic} processes are not limited 
+		to temporal or spatial settings. For instance, random \glspl{graph} such as 
+		the \gls{ergraph} or the \gls{sbm} can also be viewed as \gls{stochastic} processes. 
+		Here, the index set $\mathcal{I}$ consists of node pairs that index \glspl{rv} whose values 
+		encode the presence or weight of an edge between two nodes. Moreover, \gls{stochastic} 
+		processes naturally arise in the analysis of \glspl{stochalgorithm}, 
+		such as \gls{stochGD}, which construct a sequence of \glspl{rv}. 
+		\\
+		See also:  \gls{rv}, \gls{sbm}, \gls{stochGD}, \gls{uncertainty}, \gls{probmodel}.},
+	first={stochastic process},
+	firstplural={stochastic processes},
+	type=math, 
+	plural={stochastic processes},
+	text={stochastic process}
+}
+
+\newglossaryentry{characteristicfunc}
+{name={characteristic function},
+	description={The characteristic \gls{function}\index{characteristic function} 
+		of a real-valued \gls{rv} $x$ is the \gls{function} \cite[Sec. 26]{BillingsleyProbMeasure}
+		$$ \phi_{x}(t) \defeq \expect { \exp\,(j t x) } \mbox{ with } j = \sqrt{-1}.$$
+	 	The characteristic \gls{function} uniquely determines the \gls{probdist} of $x$. 
+		\\
+		See also: \gls{rv}, \gls{probdist}.},
+	first={characteristic function},
+	firstplural={characteristic functions}, 
+	type=math, 
+	plural={characteristic functions},
+	text={characteristic function}
+}
+
+\newglossaryentry{entropy}
+{name={entropy},
+	description={Entropy\index{entropy} quantifies the \gls{uncertainty} or 
+		unpredictability associated with an \gls{rv} \cite{coverthomas}. 
+		For a \gls{discreteRV} $x$ taking on values in a finite set 
+		$\mathcal{S} = \{x_1, \,\ldots, \,x_\nrcluster\}$ with 
+		a \gls{pmf} $\pmf{x}{x_{\clusteridx}} (=\prob{x = x_{\clusteridx}})$, 
+		the entropy is defined as \cite{coverthomas}
+		\[
+		   \entropy{x} \defeq -\sum_{\clusteridx=1}^{\nrcluster} \pmf{x}{x_{\clusteridx}}  \log \pmf{x}{x_{\clusteridx}} .
+		\]
+		For a given set of values $\mathcal{S}$, the entropy is maximized for a 
+		uniformly distributed \gls{rv}, where $\pmf{x}{x_{\clusteridx}}=1/\nrcluster$. 
+		The minimal entropy, which is zero, is obtained when $\pmf{x}{x_{\clusteridx}}=1$ 
+		for some $x_{\clusteridx} \in \mathcal{S}$.
+		\Gls{diffentropy} generalizes the concept of \gls{entropy} from \glspl{discreteRV} to 
+		\gls{continuous} \glspl{rv}. 
+		\\
+		See also: \gls{uncertainty}, \gls{probmodel}.},
+	first={entropy},
+	type=math, 
+	text={entropy}
+}
+
+\newglossaryentry{diffentropy}
+{name={differential entropy},
+	description={For\index{differential entropy} a 
+	\gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ 
+	with a \gls{pdf} $\pdf{x}{\cdot}$, the differential \gls{entropy} 
+	is defined as \cite{coverthomas}
+		\[
+		h(\featurevec) \defeq - \int_{\featurevec' \in \mathbb{R}^{\nrfeatures}} \log p(\featurevec') \, d \pdf{\featurevec}{\featurevec'} .
+		\]
+	Differential \gls{entropy} can be negative and lacks some properties of 
+	\gls{entropy} for discrete-valued \glspl{rv}, such as invariance under 
+	a change of variables \cite{coverthomas}. Among all \glspl{rv} with a 
+	given \gls{mean} $\meanvecgeneric$ and \gls{covmtx} $\covmtxgeneric$, 
+	$h(\featurevec)$ is maximized by $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$. 
+		\\
+		See also: \gls{uncertainty}, \gls{probmodel}.},
+	first={differential entropy},
+	type=math,
+	text={differential entropy}
+}
+
+
+\newglossaryentry{domain}
+{name={domain}, 
+	description={The domain\index{domain} of a \gls{function} 
+		$f: \mathcal{U} \rightarrow \mathcal{V}$ is the set $\mathcal{U}$ 
+		from which $f$ takes its inputs.  
+		\\
+		See also: \gls{function}, \gls{co-domain}, \gls{map}.},
+	first={domain},
+	firstplural={domains}, 
+	type=math, 
+	plural={domains},
+	text={domain}
+}
+
+\newglossaryentry{function}
+{name={function}, 
+	description={A function\index{function} between two sets $\mathcal{U}$ and $\mathcal{V}$ assigns  
+		each element $u \in \mathcal{U}$ exactly one element $f(u) \in \mathcal{V}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		We write this as $$f: \mathcal{U} \rightarrow \mathcal{V}: u \mapsto f(u)$$ 
+		where $\mathcal{U}$ is the domain and $\mathcal{V}$ the co-domain of $f$. 
+		That is, a function $f$ defines a unique output $f(u) \in \mathcal{V}$ for every 
+		input $u \in \mathcal{U}$ (see Fig. \ref{fig_function_dict}).
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.2cm and 2.5cm]
+				\tikzset{dot/.style={circle, fill=black, inner sep=1.2pt}}
+				\node (A) [dot, label=left:$a$] {};
+				\node (B) [dot, below=of A, label=left:$b$] {};
+				\node (C) [dot, below=of B, label=left:$c$] {};
+				\node (1) [dot, right=4cm of A, label=right:$\star$] {};
+				\node (2) [dot, below=of 1, label=right:$\circ$] {};
+				\node (3) [dot, below=of 2, label=right:$\otimes$] {};
+				\node[draw=blue!70, thick, ellipse, inner sep=0.5cm, fit=(A)(B)(C), label=above:$\mathcal{U}$] {};
+				\node[draw=green!70!black, thick, ellipse, inner sep=0.5cm, fit=(1)(2)(3), label=above:$\mathcal{V}$] {};
+				\draw[->] (A) -- (2);
+				\draw[->] (B) -- (1);
+				\draw[->] (C) -- (2);
+			\end{tikzpicture}
+			\caption{A function \( f \colon \mathcal{U} \to \mathcal{V} \) mapping each element 
+			of the domain $\mathcal{U} =  \{a,b,c\}$ to exactly one element of 
+				the co-domain $\mathcal{V} = \{\star,\circ,\otimes\}$. \label{fig_function_dict}}
+		\end{figure} },
+	first={function},
+	firstplural={functions}, 
+	type=math, 
+	plural={functions},
+	text={function}
+}
+
+\newglossaryentry{map}
+{name={map}, 
+	description={We\index{map} use the term map as a synonym for \gls{function}.
+		\\
+		See also: \gls{function}.},
+	first={map},
+	firstplural={maps},	
+	type=math, 
+	plural={maps},
+	text={map}
 }
