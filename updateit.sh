@@ -69,7 +69,11 @@ git push origin main
 # --- Backup selection ---
 # All TeX files starting with ADictML* + a few important extras
 # (Edit EXTRAS if you want.)
-mapfile -d '' TEX_FILES < <(find . -maxdepth 1 -type f -name 'ADictML*.tex' -print0 | sort -z)
+# --- Collect ADictML*.tex files (Bash 3.2 compatible) ---
+TEX_FILES=()
+while IFS= read -r f; do
+  TEX_FILES+=("$f")
+done < <(find . -maxdepth 1 -type f -name 'ADictML*.tex' | sort)
 
 EXTRAS=(
   "ListSymbols_English.tex"
