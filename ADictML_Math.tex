@@ -1490,3 +1490,565 @@
 	plural={maps},
 	text={map}
 }
+
+\newglossaryentry{event}
+{name={event}, 
+	description={Consider\index{event} an \gls{rv} $\featurevec$, defined on some \gls{probspace}, 
+				 which takes values in a \gls{measurable} space $\featurespace$. An 
+				 event $\mathcal{A} \subseteq \featurespace$ is a subset of $\featurespace$ 
+				 such that the \gls{probability} $\prob{\featurevec \in \mathcal{A}}$ is well 
+				 defined. In other words, the \gls{preimage} $\featurevec^{-1}(\mathcal{A})$ 
+				 of an event belongs to the underlying \gls{sigmaalgebra}, i.e., the \gls{preimage} 
+				 is a \gls{measurable} subset of the \gls{samplespace} \cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}.	
+		 		 Roughly speaking, an event represents a set of possible outcomes of some 
+				 process. One example of such a process could also be the treatment of a 
+				 health-care patient. 
+				 \\
+		See also: \gls{rv}, \gls{datapoint}, \gls{iidasspt}, \gls{probmodel}.},
+	first={event},
+	firstplural={events},
+	plural={events},
+	type=math,
+	text={event} 
+}
+
+\newglossaryentry{countable}
+{name={countable},
+	description={A set is called countable\index{countable} if its 
+		elements can be put into a one-to-one correspondence with the natural numbers 
+		$\mathbb{N}=\{1,\,2,\,3,\,\ldots\}$ or with a finite subset of $\mathbb{N}$ \cite{HalmosSet}. 
+		Equivalently, a set $\mathcal{A}$ is countable if there exists an \gls{injective} 
+		\gls{function} $f:\mathcal{A}\rightarrow\mathbb{N}$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, node distance=1.0cm, thick]
+  			%--- Left: elements of set A ---
+  			\node (a1) {$a_1$};
+  			\node[below=of a1] (a2) {$a_2$};
+  			\node[below=of a2] (a3) {$a_3$};
+  			\node[left=0.4cm of a2, align=center] {$\mathcal{A}$};
+  			% Ellipse enclosing set A
+  			\begin{scope}[on background layer]
+    			\draw[rounded corners, dashed, gray] ($(a1)+(-0.5,0.4)$) rectangle ($(a3)+(0.5,-0.4)$);
+  			\end{scope}
+  			%--- Right: natural numbers ---
+  			\node[right=3.0cm of a1] (n1) {$1$};
+  			\node[below=of n1] (n2) {$2$};
+  			\node[below=of n2] (n3) {$3$};
+  			\node[below=of n3] (n4) {$4$};
+  			\node[below=of n4] (ndots) {$\vdots$};
+  			\node[right=0.4cm of n2, align=center] {$\mathbb{N}$};
+  			%--- Arrows (injective mapping) ---
+  			\draw[->] (a1) -- (n3);
+  			\draw[->] (a2) -- (n1);
+  			\draw[->] (a3) -- (n4);
+			\end{tikzpicture}
+		\caption{An \gls{injective} \gls{function} that maps the elements of a finite set 
+			$\mathcal{A}$ to the natural numbers $\mathbb{N}$, which implies that $\mathcal{A}$ is countable.}
+		\end{figure}
+		Typical examples include the set of integers $\mathbb{Z}$ and rational 
+		numbers $\mathbb{Q}$. In contrast, the set of real numbers $\mathbb{R}$ 
+		is not countable, meaning no such one-to-one correspondence with $\mathbb{N}$ exists.
+		\\ 
+		See also: \gls{injective}, \gls{function}.}, 
+	first={countable}, 
+	type=math, 
+	text={countable}
+}
+
+\newglossaryentry{pmf}
+{name={probability mass function (pmf)}, 
+	description={The pmf\index{probability mass function (pmf)} 
+		of a discrete \gls{rv} $\feature$ is a \gls{function} 
+		$\pmf{\feature}{\cdot}: \featurespace \rightarrow [0,1]$ that assigns to each 
+		possible value $\feature' \in \featurespace$ of the \gls{rv} $\feature$ 
+		the \gls{probability} $\pmf{\feature}{\feature'} = \prob{\feature' = \feature}$ \cite{papoulis}. 
+		Fig.\ \ref{fig_pmf_dict} illustrates the pmf of a discrete \gls{rv} $\feature$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, thick,y=2cm]
+  			\foreach \x/\p in {1/0.3, 4/0.7}{
+			% Stem lines
+			\draw[gray] (\x,0) -- (\x,\p);
+			% Dots at the end of stems
+			\fill[blue] (\x,\p) circle (2pt);
+			% Labels next to each value
+			% \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf{\feature}{\cdot}$};
+			}
+  			\node[anchor=south,align=center] at (1,0.3) {\small $\pmf{\feature}{\star}=\frac{3}{10}$};
+  			\node[anchor=north] at (1,0) {\small $\star$};
+  			\node[anchor=north] at (4,0) {\small $\otimes$};
+    			%--- Example datasets (same length, same frequencies, different permutations) ---
+  			\node[anchor=west,text width=11cm] at (-1.2,-0.80) {
+    			$\dataset = (\star,\,\star,\,\star,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes)$
+  			};
+  			\node[anchor=west,text width=11cm] at (-5.2,1.18) {\small
+    			$\dataset' = (\otimes,\,\star,\,\otimes,\,\star,\,\otimes,\,\otimes,\,\star,\,\otimes,\,\otimes,\,\otimes)$
+  			};
+  			\node[anchor=west,text width=11cm] at (3.2,1.56) {
+    			$\dataset'' = (\otimes,\,\otimes,\,\otimes,\,\star,\,\otimes,\,\star,\,\otimes,\,\otimes,\,\star,\,\otimes)$
+  			};
+			\end{tikzpicture}
+		\caption{The pmf $\pmf{\feature}{\cdot}$ of a discrete \gls{rv} $\feature$ 
+			taking values in the set $\featurespace = \{\star,\otimes\}$. Three \glspl{dataset} 
+			are also shown whose relative frequencies of \glspl{datapoint} match 
+			this pmf exactly. Such \glspl{dataset} could arise as \glspl{realization} of 
+			\gls{iid} \glspl{rv} sharing the common pmf $\pmf{\feature}{\cdot}$. 
+			\label{fig_pmf_dict}}
+		\end{figure}
+		A pmf always satisfies $\sum_{\feature' \in \featurespace} \pmf{\feature}{\feature'} = 1$. 
+		We can view a pmf as representing a collection of (sufficiently long)  
+		\glspl{dataset}. This collection contains any 
+		$\dataset = \{\feature^{(1)}, \,\ldots, \,\feature^{(\samplesize)}\}$, 
+		with the relative frequencies of every value $\feature' \in \featurespace$ 
+		being close to the corresponding pmf value $\pmf{\feature}{\feature'}$, 
+		$$ \frac{\big|\sampleidx \in \{1,\,\ldots,\,\samplesize\}: \feature^{(\sampleidx)}= \feature' \big|}
+		{\samplesize} \approx \pmf{\feature}{\feature'}.$$ 
+		Note that requiring relative frequencies to be close to the pmf values 
+		implies that the empirical \gls{entropy} of such a \gls{dataset} is close to the 
+		\gls{entropy} of the pmf $\pmf{\feature}{\cdot}$. Information theory refers 
+		to the collection of such \glspl{dataset} as the typical set corresponding to the pmf 
+		$\pmf{\feature}{\cdot}$ \cite{coverthomas}. A main result of information theory states 
+		that a \gls{dataset} generated by \gls{iid} sampling from $\pmf{\feature}{\cdot}$ 
+		belongs, with high \gls{probability}, to the typical set with respect to $\pmf{\feature}{\cdot}$ \cite[Th. 3.1.2]{coverthomas}.
+				\\
+		See also: \gls{rv}, \gls{probability}, \gls{probdist}, \gls{probmodel}.},
+	first={probability mass function (pmf)},
+	firstplural={probability mass functions (pmfs)},
+	plural={pmfs},
+	type=math,
+	text={pmf} 
+}
+
+\newglossaryentry{discreteRV}
+{name={discrete random variable (discrete RV)}, 
+ 	description={A\index{discrete random variable (discrete RV)} \gls{rv}, i.e., 
+	             a \gls{function} that maps the \glspl{outcome} of a \gls{randomexperiment} 
+				 to elements of a \gls{measurable} space $\featurespace$, 
+		         is referred to as discrete if its value space 
+				 $\featurespace$ \gls{countable} \cite{BillingsleyProbMeasure}. 
+			\\
+		See also: \gls{probability}, \gls{rv}, \gls{probdist}.},
+ 	first={discrete random variable (discrete RV)},
+	firstplural={discrete random variables (discrete RVs)}, 
+	plural={discrete RVs},
+	type=math, 
+ 	text={discrete RV}  
+}
+
+\newglossaryentry{rv}
+{name={random variable (RV)}, plural={RVs},
+ 	description={A RV\index{random variable (RV)} is a \gls{function} that maps the 
+		outcomes of a \gls{randomexperiment} to elements of a \gls{measurable} space 
+		\cite{BillingsleyProbMeasure,GrayProbBook}. 
+ 		Mathematically, a RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ 
+		with domain being the \gls{samplespace} $\samplespace$ of a \gls{probspace} and 
+		co-domain being a \gls{measurable} space $\featurespace$. 
+ 		Different types of RVs include  
+ 		\begin{itemize} 
+ 			\item {binary RVs}, which map each outcome to an element of a binary 
+			set (e.g., $\{-1,1\}$ or $\{\text{cat}, \text{no cat}\}$); 
+			\item {discrete RVs}, which take on values in a \gls{countable} set (which can 
+			be finite or countably infinite); 
+ 			\item {real-valued RVs}, which take on values in the real numbers $\mathbb{R}$;  
+ 			\item {\gls{vector}-valued RVs}, which map outcomes to the \gls{euclidspace} $\mathbb{R}^{\featuredim}$.  
+ 		\end{itemize} 
+ 		\Gls{probability} theory uses the concept of \gls{measurable} spaces to rigorously define 
+ 		and study the properties of collections of RVs \cite{BillingsleyProbMeasure}.
+			\\
+		See also: \gls{function}, \gls{randomexperiment}, \gls{samplespace}, \gls{probspace}, \gls{vector}, \gls{euclidspace}, \gls{probability}, \gls{measurable}.}, 
+	first={random variable (RV)},
+	firstplural={random variables (RVs)},
+	plural={RVs},
+	type=math, 
+	text={RV}  
+}
+ 
+ 
+
+\newglossaryentry{outcome}
+{name={outcome}, 
+  	description={One possible\index{outcome} result of a physical process.  
+				 Such a process could be the observation of a physical phenomenon,  
+				 a computation performed by an \gls{algorithm}, or a \gls{randomexperiment}  
+				\cite{BillingsleyProbMeasure}.   
+		\\
+ 		See also: \gls{samplespace}.},  
+	type=math, 
+  	first={outcome}, 
+ 	firstplural={outcomes},
+ 	plural={outcomes},
+  	text={outcome}
+} 
+
+\newglossaryentry{probspace}
+ {name={probability space}, 
+ 	description={A\index{probability space} \gls{probability} space is a mathematical 
+ 		structure that allows us to reason about a \gls{randomexperiment}, e.g., 
+		the observation of a physical phenomenon. 
+ 	   	Formally, a \gls{probability} space $\mathcal{P}$ is a triplet 
+		$(\samplespace, \eventspace, \prob{\cdot})$ where
+ 		\begin{itemize} 
+ 			\item  $\samplespace$ is a \gls{samplespace} containing all possible outcomes 
+			of a \gls{randomexperiment};
+ 			\item  $\eventspace$ is a \gls{sigmaalgebra}, i.e., a collection of subsets of 
+			$\samplespace$ (called \glspl{event}) that satisfies certain closure properties 
+			under set operations;
+ 			\item $\prob{\cdot}$ is a \gls{probdist}, i.e., a \gls{function} that assigns 
+			a \gls{probability} $\prob{\mathcal{A}} \in [0,1]$ to each \gls{event} $\mathcal{A} 
+			\in \eventspace$. This \gls{function} must satisfy $\prob{\samplespace} = 1$ and 
+			$\prob{\bigcup_{i=1}^{\infty} \mathcal{A}_i} = \sum_{i=1}^{\infty} \prob{\mathcal{A}_i}$ 
+			for any \gls{countable} \gls{sequence} of pairwise disjoint \glspl{event} $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ in $\mathcal{F}$.
+ 		\end{itemize}
+ 		\Gls{probability} spaces provide the foundation of \glspl{probmodel} 
+		that can be used to study the behavior of \gls{ml} methods \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}.
+				\\
+		See also: \gls{probability}, \gls{randomexperiment}, \gls{samplespace}, \gls{event}, \gls{probdist}, \gls{function}, \gls{probmodel}, \gls{ml}.},  
+ 	first={probability space}, 
+	plural={probability spaces},
+	firstplural={probability spaces},
+	type=math, 
+ 	text={probability space}
+ }
+
+ \newglossaryentry{integrable}
+{name={integrable},
+	description={A \gls{measurable} \gls{function} $f\!:\!\samplespace \!\to\! \mathbb{R}$ 
+		defined on a \gls{measurespace} $(\samplespace, \,\sigmaalgebra, \,\mu)$ 
+		is called integrable\index{integrable} if the \gls{LebesgueIntegral} 
+		of its absolute value is finite, i.e.,
+		\[
+		\int_{\samplespace} |f(x)|\,\mathrm{d}\mu < \infty.
+		\]
+		In this case, the \gls{LebesgueIntegral} $\int_{\samplespace} f(x)\,\mathrm{d}\mu$ 
+		is well-defined and finite. An \gls{rv} $x$ defined on the \gls{samplespace} 
+		of a \gls{probspace} $(\samplespace, \,\sigmaalgebra, \,\probdist)$ 
+		is integrable if 
+		\[
+		\expect\{|x|\}
+		= \int_{\samplespace} |x(\omega)|\,\mathrm{d}\probdist 
+		< \infty
+		\]
+		which ensures that the \gls{expectation} $\expect\{|x|\}$ 
+		exists and is finite. 
+		\\ 
+		See also: \gls{measurespace}, \gls{measure}.},
+	first={integrable},
+	type=math, 
+	text={integrable}
+}
+
+\newglossaryentry{measurespace}
+{name={measure space},
+	description={A \gls{measure} space\index{measure space} is a triple $(\samplespace, \,\sigmaalgebra, \,\mu)$ consisting of 
+        		a set $\samplespace$, a \gls{sigmaalgebra} $\sigmaalgebra$ of subsets 
+		of $\samplespace$, and a \gls{measure} $\mu\!:\sigmaalgebra\!\to\![0,\infty)$. 
+        		The \gls{measure} $\mu$ assigns a nonnegative number to each \gls{measurable} 
+		set $\mathcal{A} \in \sigmaalgebra$, generalizing the 
+		notions of length, area, or volume in \glspl{euclidspace} \cite{RudinBookPrinciplesMatheAnalysis}, \cite{HalmosMeasure}. 
+		\Gls{measure} spaces provide the mathematical foundation for the 
+		\gls{LebesgueIntegral} or the definition of \glspl{rv} as \gls{measurable} mappings 
+        		between \gls{measure} spaces.  
+        		A \gls{probspace} is a special case of a \gls{measure} space 
+		where the total \gls{measure} of the \gls{samplespace} is normalized to one, 
+        		i.e., $\mu(\samplespace) = 1$. In this case, $\mu$ is called a \gls{probdist}.
+		\\ 
+		See also: \gls{measurable}, \gls{probspace}, \gls{probdist}. },
+    	first={measure space},
+	plural={measure spaces}, 
+	firstplural={measure spaces}, 
+	type=math, 
+    text={measure space}
+}
+
+\newglossaryentry{measure}
+{name={measure},
+	description={A measure\index{measure} $\mu$ on a set $\samplespace$ equipped with a 
+		\gls{sigmaalgebra} $\sigmaalgebra$ is a \gls{function} $\mu: \sigmaalgebra \to [0, \infty)$ 
+		that assigns a nonnegative value to each \gls{measurable} set 
+		$\mathcal{A} \in \sigmaalgebra$ such that 
+		\cite{RudinBookPrinciplesMatheAnalysis}, \cite{BillingsleyProbMeasure}, \cite{HalmosMeasure}: 
+		1) $\mu(\emptyset) = 0$; and 
+		2) for any \gls{countable} collection $\{\mathcal{A}_i\}_{i=1}^{\infty}$ of 
+		pairwise disjoint sets in $\sigmaalgebra$,
+		\[
+		\mu\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \mu(A_i)
+		\]
+		which is referred to as ``\gls{countable} additivity''.
+		\\
+		See also: \gls{measurable}, \gls{countable}. },
+	first={measure},
+	type=math, 
+	plural={measures}, 
+	firstplural={measures}, 
+	text={measure}
+}
+
+\newglossaryentry{LebesgueIntegral}
+{name={Lebesgue integral},
+	description={The Lebesgue integral\index{Lebesgue integral} 
+		assigns each \gls{integrable} \gls{function} 
+		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ a number 
+		$\int_{\featurevec} f(\featurevec) d\featurevec$ 
+		that is referred to as the integral of $f$. 
+		The integral of $f$ can be interpreted as the volume that 
+		is enclosed by the \gls{function} $f$ in the space 
+		$\mathbb{R}^{\nrfeatures+1}$. We can compute it be increasingly 
+		accurate approximations by \glspl{simplefunction} 
+		\cite[Ch. 1]{RudinBook}. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.5]
+  			% Axes
+  			\draw[->] (-0.2,0) -- (3.4,0) node[right] {$x$};
+ 			% \draw[->] (0,-0.1) -- (0,2.6) node[above] {$y$};
+  			% Continuous function f(x)
+  			\draw[thick,domain=0:3,smooth] plot(\x,{0.5+0.3*\x+0.1*\x*\x}) node[right] {$f(x)$};
+  			% Shade area under f(x)
+  			\fill[gray!20] (0,0) -- plot[domain=0:3] (\x,{0.5+0.3*\x+0.1*\x*\x}) -- (3,0) -- cycle;
+  			% Lower simple function: left-endpoint rectangles for [0,1], [1,2], [2,3]
+  			\draw[fill=gray!50,opacity=0.35] (0,0) rectangle (1,0.5);
+  			\node at (0.5,-0.2) {$\cluster^{(1)}$}; 
+  			\draw[fill=gray!50,opacity=0.35] (1,0) rectangle (2,0.9);
+  			\draw[fill=gray!50,opacity=0.35] (2,0) rectangle (3,1.5);
+  			% Step lines of the simple function
+  			\draw[thick] (0,0.5)--(1,0.5);
+  			\draw[thick] (1,0.9)--(2,0.9);
+  			\draw[thick] (2,1.5)--(3,1.5);
+ 	 		\node[above left] at (0.8,0.5) {};
+  			% Dashed partition lines
+  			\foreach \x in {0,1,2,3} \draw[dashed,gray] (\x,0) -- (\x,2.5);
+  			% Labels
+  			\node[anchor=north] at (0,-0.05) {$a$};
+  			\node[anchor=north] at (1,-0.05) {$b$};
+  			\node[anchor=north] at (2,-0.05) {$c$};
+  			\node[anchor=north] at (3,-0.05) {$d$};
+  			\node at (1.6,3.0) {$\displaystyle \int_a^d f(x)\,dx \approx \underbrace{f(a)(b-a) + f(b)(c-b)+f(c)(d-c)}_{=:\int_a^d s(x)dx}$};
+  			\node [anchor=west] at (3.2,1.5) {\gls{simplefunction} $s(x)$};
+			\end{tikzpicture}
+		\end{figure}
+ 		It is useful to think of the Lebesgue integral as a \gls{function} that maps 
+ 		an \gls{integrable} \gls{function} $f$ to the value of its integral, 
+		$$ f \mapsto \int_{\featurevec} f(\featurevec) d\featurevec.$$ 
+		The precise definition of this \gls{function}, whose \gls{domain} 
+		consists of the \gls{integrable} \glspl{function}, is a cornerstone of 
+		\gls{measure} theory \cite[Ch. 1]{RudinBook}.
+					\\ 
+		See also: \gls{function}.},
+	first={Lebesgue integral},
+	text={Lebesgue integral},
+	type=math, 
+	plural={Lebesgue integrals},
+	firstplural={Lebesgue integrals}
+}
+
+\newglossaryentry{conditionalexpect}
+{name={conditional expectation}, 
+	description={Consider a numeric \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ defined on a 
+                 \gls{probspace} $\mathcal{P}=(\samplespace,\eventspace,\probmeasure)$. 
+                 Let $\sigmaalgebra' \subseteq \sigmaalgebra$ be a (sub-) \gls{sigmaalgebra} that 
+                  represents partial information about the outcome of a \gls{randomexperiment}. 
+                  The conditional expectation\index{conditional expectation} of 
+                  $\featurevec$ given (or conditioned on) $\sigmaalgebra'$, denoted 
+                  $\expect\{ \featurevec \mid \sigmaalgebra'\}$, is a numeric \gls{rv} 
+				  that \cite{BillingsleyProbMeasure,durrett2010probability}
+                  \begin{itemize}
+                   \item is \gls{measurable} with respect to $\sigmaalgebra'$, and
+                    \item satisfies
+			  		$$
+    		  		\int_{\mathcal{A}} \expect\{\featurevec \mid \sigmaalgebra'\} {\rm d} \probmeasure =
+    		  		\int_{\mathcal{A}} \featurevec {\rm d} \probmeasure \quad \text{for any } \mathcal{A} \in \sigmaalgebra'.
+			  		$$
+                \end{itemize}
+               Intuitively, $\expect\{\featurevec \mid \eventspace'\}$ summarizes 
+               the average value of $\featurevec$ using only information contained 
+               in the (typically smaller) \gls{sigmaalgebra} $\sigmaalgebra'$ 
+			   \cite{BillingsleyProbMeasure,GrayProbBook,ross2013first}. \\
+              See also: \gls{expectation}, \gls{sigmaalgebra}, \gls{probspace}.}, 
+ 	first={conditional expectation},
+ 	plural={conditional expectations}, 
+ 	type=math, 
+ 	firstplural={conditional expectations},  
+ 	text={conditional expectation}
+}
+
+\newglossaryentry{conditionalpmf}
+{name={conditional probability mass function (conditional pmf)}, 
+	description={Consider two \glspl{discreteRV} $\truelabel$ and $\feature$ defined on 
+                  the same \gls{probspace} $(\samplespace,\eventspace,\prob{\cdot})$. 
+                  The conditional pmf\index{conditional pmf} of $\truelabel$ given 
+				  (or conditioned on) $\feature$ is denoted 
+                $\pmf{\truelabel \mid \feature}{\cdot \mid \cdot}$ and is defined by
+                \[
+                  \pmf{\truelabel \mid \feature}{\truelabel' \mid \feature'}
+                  :=
+                  \prob{\truelabel=\truelabel' \mid \feature=\feature'},
+               \]
+                for all realizations $\truelabel',\feature'$ with 
+                $\prob{\feature=\feature'}>0$. 
+                Equivalently, the conditional pmf can be expressed using 
+                \gls{conditionalexpect} as
+                \[
+                  \pmf{\truelabel \mid \feature}{\truelabel' \mid \feature'}
+                  =
+                  \expect\{\indicatorfunc{\truelabel=\truelabel'}\mid \sigmaalgebra(\feature)\}(\feature'),
+                \]
+                where $\sigmaalgebra(\feature)$ denotes the \gls{sigmaalgebra} generated by 
+                 the \gls{rv} $\feature$. \\
+              See also: \gls{conditionalexpect}, \gls{pmf}, \gls{probspace}.}, 
+ 	first={conditional probability mass function (conditional pmf)},
+ 	firstplural={conditional probability mass functoins (conditional pmfs)}, 
+ 	type=math, 
+ 	plural={conditional pmfs},  
+ 	text={conditional pmf}
+}
+
+
+\newglossaryentry{iid}
+{name={independent and identically distributed (i.i.d.)}, 
+	description={A collection of \glspl{rv}\linebreak $\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$ is 
+		referred to as i.i.d.\index{independent and identically distributed (i.i.d.)} 
+		if each $\datapoint^{(\sampleidx)}$ follows the same \gls{probdist}, and 
+		the \glspl{rv} are mutually independent. That is, for any collection of 
+		\glspl{event} $\mathcal{A}_1, \,\ldots, \,\mathcal{A}_\samplesize$, we have
+       		\[
+          		\prob{ \datapoint^{(1)} \in \mathcal{A}_1, \,\ldots, \,\datapoint^{(\samplesize)} \in \mathcal{A}_{\samplesize}} 
+         		= \prod_{\sampleidx=1}^{\samplesize} \prob{ \datapoint^{(\sampleidx)} \in \mathcal{A}_\sampleidx}.
+         	\]
+				\\
+		See also: \gls{rv}, \gls{probdist}, \gls{event}, \gls{datapoint}, \gls{iidasspt}.},
+	first={independent and identically distributed (i.i.d.)},
+	type=math, 
+	text={{i.i.d.}} 
+}
+
+\newglossaryentry{preimage}
+{name={preimage}, 
+	description={Consider a \gls{function}\index{preimage} $f\colon \mathcal{U} \rightarrow \mathcal{V}$ 
+		between two sets. The preimage $f^{-1}(\mathcal{B})$ of a subset $\mathcal{B} \subseteq \mathcal{V}$ is the set 
+		of all inputs $u \in \mathcal{U}$ that are mapped into $\mathcal{B}$ by $f$, i.e.,
+		\[
+		f^{-1}(\mathcal{B}) \defeq \{ u \in \mathcal{U} \mid f(u) \in \mathcal{B} \}.
+		\]
+		The preimage is well defined even if the \gls{function} $f$ is non-invertible \cite{RudinBookPrinciplesMatheAnalysis}.
+		\\
+		See also: \gls{function}. },
+	first={preimage},
+	type=math, 
+	text={preimage}
+}
+
+\newglossaryentry{measurable}
+{name={measurable}, 
+	description={Consider\index{measurable} a \gls{randomexperiment}, such as recording 
+		the air temperature at an \gls{fmi} weather station. The corresponding \gls{samplespace} 
+		$\samplespace$ consists of all possible outcomes $\outcome$ (e.g., 
+		all possible temperature values in degree Celsius). In many \gls{ml} 
+		applications, we are not interested in the exact outcome $\outcome$, but only 
+		whether it belongs to a subset $\mathcal{A} \subseteq \samplespace$ 
+		(e.g., determining whether the temperature is below zero degrees). 
+		We call such a subset $\mathcal{A}$ measurable if it is possible to 
+		decide, for any outcome $\outcome$, whether $\outcome \in \mathcal{A}$ 
+		or not (see Fig.\ \ref{fig_measurable_dict}). \\
+		\begin{figure}[H]
+		\begin{center}
+		\begin{tikzpicture}
+			% Draw temperature axis
+			\draw[->] (0,0) -- (8.5,0) node[right] {temperature ($^\circ$C)};
+			% Add tick marks and labels every 20 degrees from -20 to 100
+			\foreach \x/\label in {0/--20, 1/--10, 2/0, 3/10, 4/20, 5/30, 6/40, 7/50, 8/60} {
+				\draw (\x,0.1) -- (\x,-0.1);
+				\node[below] at (\x,-0.1) {\label};
+			}
+			% Shade measurable set: Temperature < 0°C
+			\fill[blue!20] (0,0.3) rectangle (2,0.6);
+			\node[above] at (1,0.6) {$\outcome < 0\;^\circ$C};
+			% Shade measurable set: 5°C < omega < 10°C
+			\fill[red!20] (5.5,0.3) rectangle (7.5,0.6);
+			\node[above] at (6,0.6) {$35\;^\circ$C $< \outcome < 55\;^\circ$C};
+			\vspace*{10mm}
+			\end{tikzpicture}
+			\vspace*{10mm}
+			\end{center}
+			\caption{A \gls{samplespace} constituted by all possible temperature values $\outcome$ 
+			that can occur at an \gls{fmi} station. Two measurable subsets of temperature 
+			values, denoted by $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$, are highlighted. For any 
+			actual temperature value $\outcome$, it is possible to determine (via some equipment) 
+			whether $\outcome \in \mathcal{A}^{(1)}$ and whether $\outcome \in \mathcal{A}^{(2)}$. 
+			\label{fig_measurable_dict}} 
+		\end{figure}
+		In principle, measurable sets could be chosen freely (e.g., depending on the resolution of the 
+		measuring equipment). However, it is often useful to impose certain completeness requirements 
+		on the collection of measurable sets. For example, the \gls{samplespace} itself should be 
+		measurable, and the union of two measurable sets should also be measurable. These completeness 
+		requirements can be formalized via the concept of a \gls{sigmaalgebra} (or \gls{sigmafield}) 
+		\cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}. 
+		A measurable space is a pair $\big(\featurespace,\eventspace\big)$ that consists of an arbitrary 
+		set $\featurespace$ and a collection $\eventspace$ of measurable subsets of $\featurespace$ 
+		that form a \gls{sigmaalgebra}. 
+		\\
+		See also: \gls{samplespace}, \gls{sigmaalgebra}, \gls{probability}.},
+	first={measurable},
+	type=math, 
+	text={measurable} 
+}
+
+\newglossaryentry{sigmaalgebra}
+{name={$\sigma$-algebra}, 
+sort={sigma-algebra},
+	description={Consider a \gls{randomexperiment} with a \gls{samplespace} $\samplespace$. 
+		A $\sigma$-algebra\index{$\sigma$-algebra} (or \gls{sigmafield}) $\sigmaalgebra$ 
+		is a collection of subsets of $\samplespace$ with the following properties 
+		\cite{RudinBook}, \cite{BillingsleyProbMeasure}, \cite{durrett2010probability}:
+		 \begin{itemize}
+		 	\item The empty set $\emptyset$ and the entire \gls{samplespace} 
+		 	$\samplespace$ belong to $\sigmaalgebra$, i.e., $\emptyset \in \sigmaalgebra$ and $\samplespace \in \sigmaalgebra$.
+		 	\item If a set $\mathcal{A}$ belongs to $\sigmaalgebra$, then its complement 
+		 	$\samplespace \setminus \mathcal{A}$ also belongs to $\sigmaalgebra$, i.e., 
+		 	$\mathcal{A} \in \sigmaalgebra$ implies $\samplespace \setminus \mathcal{A} \in \sigmaalgebra$.
+		 	\item If a countable collection of sets $\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots$ belongs 
+			to $\sigmaalgebra$, 
+		 	then their union also belongs to $\sigmaalgebra$, i.e.,
+		 	$\mathcal{A}_1, \,\mathcal{A}_2, \,\ldots \in \sigmaalgebra$ implies 
+		 	$\bigcup_{i=1}^{\infty} \mathcal{A}_i \in \sigmaalgebra$.	
+		 \end{itemize}			 
+		See also: \gls{samplespace}, \gls{rv}, \gls{probspace}.},
+	first={$\sigma$-algebra},
+	type=math, 
+	text={$\sigma$-algebra} 
+}
+
+\newglossaryentry{sigmafield}
+{name={$\sigma$-field}, 
+sort={sigma-field},
+	description={See \gls{sigmaalgebra}\index{$\sigma$-field}.}, 
+	first={$\sigma$-field},
+	type=math,
+	text={$\sigma$-field} 
+}
+
+\newglossaryentry{injective}
+{name={injective}, 
+	description={A \gls{function} $f: \mathcal{U} \rightarrow \mathcal{V}$ is injective\index{injective} 
+		if it maps distinct elements of its \gls{domain} to distinct elements 
+		of its \gls{co-domain}, 
+    		i.e., if $f(u_1) = f(u_2)$ implies $u_1 = u_2$ for all $u_1, u_2 \in \mathcal{U}$ 
+        		\cite{HalmosSet}. 
+    		Equivalently, no two different \gls{function} inputs are mapped to the same \gls{function} \gls{output}.
+				\\
+		See also: \gls{function}.},
+	first={injective},
+	type=math,
+	text={injective} 
+}
+
+
+\newglossaryentry{typicalset}
+{name={typical set}, 
+	description={See \gls{pmf}\index{typical set}.}, 
+ 	first={typical set},
+ 	firstplural={typical sets},
+ 	type=math,
+ 	plural={typical sets},
+ 	text={typical set} 
+}
