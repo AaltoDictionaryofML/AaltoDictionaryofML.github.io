@@ -1236,57 +1236,6 @@ The absolute value $|\innerprod{\vu}{\vv}|$ measures the norm of this projection
 } 
 
 
-\newglossaryentry{reinforcementlearning}
-{name={reinforcement learning (RL)},
-	description={RL\index{reinforcement learning (RL)} refers to an \gls{onlinelearning} setting where 
-		we can only evaluate the usefulness of a single \gls{hypothesis} (i.e., a choice of \glspl{modelparam}) 
-		at each time step $\timeidx$. In particular, RL methods apply the current \gls{hypothesis} 
-		$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
-		newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
-		$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
-		signal $\reward^{(\timeidx)}$ (see Fig. \ref{fig_reinforcementlearning_dict}). 
-		\begin{figure}[H]
-		\begin{center}
-			\begin{tikzpicture}[scale=1]
-			\draw[->] (-2, 0) -- (6, 0);
-			\node at (6.3, 0) {$\hypothesis$};
-	        		% loss at time t 
-			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
-			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-\loss^{(\timeidx)}(\hypothesis)$};
-			% Marker and hypothesis label for h^(t)
-			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
-			\node[anchor=north] at (1.5-3, -0.3) {$\hypothesis^{(\timeidx)}$};		
-			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
-			%%% time t+1
-			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
-			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-\loss^{(\timeidx+1)}(\hypothesis)$};
-			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
-			\node[anchor=north] at (2, -0.3) {$\hypothesis^{(\timeidx+1)}$};
-			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
-			%%% time t+2
-			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
-			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-\loss^{(\timeidx+2)}(\hypothesis)$};
-			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
-			\node[anchor=north] at (3.5+2, -0.3) {$\hypothesis^{(\timeidx+2)}$};
-			\draw[dotted] (3.5+2, 0) -- (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5});
-			\end{tikzpicture}
-		\caption{Three consecutive time steps $\timeidx,\timeidx+1,\timeidx+2$ with corresponding \glspl{lossfunc} $\loss^{(\timeidx)},
-		\loss^{(\timeidx+1)}, \loss^{(\timeidx+2)}$. During time step $\timeidx$, an RL method can evaluate the 
-		\gls{lossfunc} only for one specific \gls{hypothesis} $\hypothesis^{(\timeidx)}$, resulting in the \gls{reward} 
-		signal $\reward^{(\timeidx)}=-\loss^{(\timeidx)}(\hypothesis^{(\timeidx)})$. \label{fig_reinforcementlearning_dict}}
-		\end{center}
-		\end{figure}
-		In general, the \gls{reward} depends also on the 
-		previous \glspl{prediction} $\hypothesis^{(\timeidx')}\big(\featurevec^{(\timeidx')}\big)$ 
-		for $\timeidx' < \timeidx$. The goal of RL is to learn $\hypothesis^{(\timeidx)}$, for 
-		each time step $\timeidx$, such that the (possibly discounted) cumulative \gls{reward} 
-		is maximized \cite{MLBasics}, \cite{SuttonEd2}.
-		\\
-		See also: \gls{reward}, \gls{lossfunc}, \gls{ml}.},
-	first={reinforcement learning (RL)},
-	text={RL}
-}
-
 \newglossaryentry{featlearn}
 {name={feature learning},
 	description={Consider an \gls{ml} application with \glspl{datapoint} characterized by 
@@ -1780,65 +1729,6 @@ $$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_
    plural={linear models},
    firstplural={linear models}, 
    text={linear model}
-}
-	
-\newglossaryentry{gradstep}
-{name={gradient step}, 
-	description={Given a \gls{differentiable} 
-		real-valued \gls{function} $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
-		and a \gls{vector} $\weights \in \mathbb{R}^{\nrfeatures}$, the \gls{gradient} step\index{gradient step} 
-		updates $\weights$ by adding the scaled negative \gls{gradient} $\nabla f(\weights)$ to obtain 
-		the new \gls{vector} (see Fig. \ref{fig_basic_GD_step_single_dict})
-		\begin{equation}
-		\label{equ_def_gd_basic_dict} 
-		\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
-		\end{equation} 
-		Mathematically, the \gls{gradient} step is an operator $\mathcal{T}^{(f,\lrate)}$ 
-		that is paramet\-rized by the \gls{function} $f$ and the \gls{stepsize} $\lrate$. 
-		\begin{figure}[H]
-			\begin{center}
-				\begin{tikzpicture}[scale=0.8]
-					\draw[loosely dotted] (-4,0) grid (4,4);
-					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
-					\draw[red, thick, domain=2:4.7] plot (\x,  {2*\x - 4});
-					\draw[<-] (4,4) -- node[right] {$\nabla f(\weights^{(\itercntr)})$} (4,2);
-					\draw[->] (4,4) -- node[above] {$-\lrate \nabla f(\weights^{(\itercntr)})$} (2,4);
-					\draw[<-] (4,2) -- node[below] {$1$} (3,2) ;
-					%\draw[->] (-4.25,0) -- (4.25,0) node[right] {$a$};
-					\node[left] at (-4.1, 4.1) {$f(\cdot)$}; 
-					\draw[shift={(0,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\overline{\weights}$};
-					\draw[shift={(4,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
-					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\mathcal{T}^{(f,\lrate)}(\weights)$};
-				\end{tikzpicture}
-			\end{center}
-			\caption{The basic \gls{gradient} step \eqref{equ_def_gd_basic_dict} maps a given \gls{vector} $\weights$ 
-			to the updated \gls{vector} $\weights'$. It defines an operator 
-			$\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
-			 \weights \mapsto \widehat{\weights}$.}
-			\label{fig_basic_GD_step_single_dict}
-		\end{figure}
-		Note that the \gls{gradient} step \eqref{equ_def_gd_basic_dict} optimizes locally—in a \gls{neighborhood} whose size is 
-		determined by the \gls{stepsize} $\lrate$—a linear approximation 
-		to the \gls{function} $f(\cdot)$. A natural \gls{generalization} of \eqref{equ_def_gd_basic_dict} is to locally 
-		optimize the \gls{function} itself—instead of its linear approximation—such that
-		\begin{align} 
-		\label{equ_approx_gd_step_dict}
-		\widehat{\weights} = \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} f(\weights')\!+\!\frac{1}{\lrate}\normgeneric{\weights-\weights'}{2}^2. 
-		\end{align}
-		We intentionally use the same symbol $\lrate$ for the \gls{parameter} in \eqref{equ_approx_gd_step_dict} 
-		as we used for the \gls{stepsize} in \eqref{equ_def_gd_basic_dict}. The larger the $\lrate$ we choose in 
-		\eqref{equ_approx_gd_step_dict}, the more progress the update will make toward reducing the 
-		\gls{function} value $f(\widehat{\weights})$. Note that, much like the \gls{gradient} step \eqref{equ_def_gd_basic_dict}, 
-		the update \eqref{equ_approx_gd_step_dict} also defines an operator 
-		that is parameterized by the \gls{function} $f(\cdot)$ and the \gls{learnrate} $\lrate$. For a \gls{convex} \gls{function}  
-		$f(\cdot)$, this operator is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
-					\\ 
-		See also: \gls{differentiable}, \gls{function}, \gls{vector}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{parameter}, \gls{learnrate}, \gls{convex}, \gls{proxop}.},
-	first={gradient step},
-	type=math,
-	firstplural={gradient steps},
-	plural={gradient steps},
-	text={gradient step}
 }
 
 \newglossaryentry{operator} 
@@ -3084,149 +2974,6 @@ plural={medians},
 	text={NLP}
 }
 
-\newglossaryentry{directedcycle}
-{name={directed cycle},
-	description={A directed cycle\index{directed cycle} in a \gls{directedgraph} $\graph=\pair{\nodes}{\edges}$ 
-		is a \gls{sequence} of distinct nodes $(\nodeidx_1, \,\nodeidx_2, \,\ldots, \,\nodeidx_k)$ 
-		such that $(\nodeidx_1, \,\nodeidx_2), (\nodeidx_2, \,\nodeidx_3), \,\ldots, (\nodeidx_{k-1}, \,\nodeidx_k), 
-     		(\nodeidx_k, \nodeidx_1) \in \edges$. In a directed cycle, following the direction 
-	 	of each edge eventually leads back to the starting node, creating a closed loop. 
-	 	\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick]
-			% Nodes
-	 	 	\coordinate (a1) at (90:1.5);
-  	  		\coordinate (a2) at (210:1.5);
-      			\coordinate (a3) at (330:1.5);
-  			% Filled circle nodes
-  	 		\fill (a1) circle (2pt) node[above=3pt] {$\nodeidx_1$};
-  	 		\fill (a2) circle (2pt) node[below left=3pt] {$\nodeidx_2$};
-  	 		\fill (a3) circle (2pt) node[below right=3pt] {$\nodeidx_3$};
-			% Directed edges forming a cycle
-			\draw[->] (a1) -- (a2);
-			\draw[->] (a2) -- (a3);
-			\draw[->] (a3) -- (a1);
-			% Labels
-			\node[above=3pt of a1] {$\nodeidx_1$};
-			\node[below left=3pt of a2] {$\nodeidx_2$};
-			\node[below right=3pt of a3] {$\nodeidx_3$};
-			\end{tikzpicture}
-		\caption{A directed cycle consisting of three nodes \gls{connected} in a closed loop.}
-		\end{figure}
-     		The presence of a directed cycle prevents a \gls{directedgraph} from being a \gls{dag}. 
-					\\ 
-		See also: \gls{directedgraph}, \gls{dag}.},
-	first={directed cycle},
-	firstplural={directed cycles}, 
-	plural={directed cycles}, 
-	type=math, 
-	text={directed cycle} 
-}
-
-\newglossaryentry{dag}
-{name={directed acyclic graph (DAG)},
-	description={A\index{directed acyclic graph (DAG)} DAG is a \gls{directedgraph} 
-    		which contains no \glspl{directedcycle}. Formally, a DAG $\graph = (\nodes, \edges)$ satisfies 
-		that, for any \gls{sequence} of distinct nodes $(\nodeidx_1, \,\ldots, \,\nodeidx_k)$, the presence 
-		of directed edges $(\nodeidx_1,\,\nodeidx_2), (\nodeidx_2,\,\nodeidx_3), \,\ldots, 
-		(\nodeidx_{k-1},\,\nodeidx_k)$ implies that $(\nodeidx_k, \,\nodeidx_1) \notin \edges$. 
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick, every node/.style={circle, fill=black, inner sep=1.5pt}]
-			% --- Left: DAG (directed chain) ---
-			\node (a1) {};
-			\node[right=of a1] (a2) {};
-			\node[right=of a2] (a3) {};
-			\draw[->] (a1) -- (a2);
-			\draw[->] (a2) -- (a3);
-			\node[shape=rectangle, draw=none, fill=none] at (1.5,-1.5) {(a)};
-			%\node[below=4pt of a2] {\small DAG};
-			% --- Right: same graph with cycle ---
-			\node[right=3.5cm of a3] (b1) {};
-			\node[right=of b1] (b2) {};
-			\node[right=of b2] (b3) {};
-			\draw[->] (b1) -- (b2);
-			\draw[->] (b2) -- (b3);
-			\draw[->, bend left=40] (b3) to (b1); % added edge forming a cycle
-			%\node[below=4pt of b2] {\small cyclic graph};
-			\node[shape=rectangle, draw=none, fill=none] at (8.3,-1.5) {(b)};
-			\end{tikzpicture}
-		\caption{(a) A DAG defined on three nodes $\nodes=\{1,\,2,\,3\}$. (b) Another 
-			\gls{directedgraph} on the same nodes that is not a DAG, since it contains a 
-			\gls{directedcycle}.}
-		\end{figure}
-    		The absence of \glspl{directedcycle} allows for a topological ordering of nodes such that 
-    		all edges point from earlier to later nodes in this order. 
-		Several \gls{ml} \glspl{model}, such as \glspl{ann} or \glspl{decisiontree}, 
-    		are naturally represented as DAGs. 
-		\\
-		See also: \gls{directedgraph}, \gls{ann}, \gls{decisiontree}. }, 
- 	first={directed acyclic graph (DAG)}, 
- 	firstplural={directed acyclic graphs (DAGs)}, 
- 	plural={DAGs}, 
- 	type=math, 
- 	text={DAG} 
-}
-
-\newglossaryentry{directedgraph}
-{name={directed graph},
-	description={A directed \gls{graph}\index{directed graph} contains edges that 
-		have an orientation (or direction). Mathematically, 
-		a directed \gls{graph} $\graph=\pair{\nodes}{\edges}$ consists of 
-		nodes $\nodes$ and a set $\edges \in \nodes \times \nodes$ of directed edges. 
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[>=stealth, node distance=1.8cm]
-  				\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx$}] (i) {};
-  				\node[circle, draw, fill=black, inner sep=1.5pt, label=below:{$\nodeidx'$}] (ip) [right=of i] {};
-  				\draw[->, >=Latex, line width=1pt, scale=1.3] (i) -- (ip);
-			\end{tikzpicture}
-		\caption{The edges of a directed \gls{graph} have an orientation (or direction). 
-			We can indicate the orientation by an arrow head.}
-		\end{figure}
-   		We can represent a directed edge from node $\nodeidx \in \nodes$ to node 
-   		$\nodeidx' \in \nodes$ by an ordered pair $\pair{\nodeidx}{\nodeidx'}$. 
-   		Directed \glspl{graph} are widely used to model interconnected systems or 
-   		networks, such as transportation systems, electronic circuits, and biological 
-    		processes \cite{NewmannBook}. 
-					\\ 
-		See also: \gls{graph}.},
-	first={directed graph},
-	firstplural={directed graphs}, 
-	plural={directed graphs}, 
-	type=math,
-	text={directed graph} 
-}
-
-\newglossaryentry{undirectedgraph}
-{name={undirected graph},
-	description={See \gls{graph}\index{undirected graph}. },
-	first={undirected graph},
-	firstplural={undirected graphs}, 
-	plural={undirected graphs}, 
-	type=math,
-	text={undirected graph} 
-}
-
-\newglossaryentry{simplefunction}
-{name={simple function},
-	description={A\index{simple function} simple \gls{function} 
- 		$f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ is a \gls{measurable} 
- 		\gls{function} that takes on only finitely many values. In other words, 
- 		$$f(\featurevec) = \sum_{\clusteridx=1}^{\nrcluster} \alpha_{\clusteridx} \mathcal{I}^{(\cluster^{(\clusteridx)})}(\featurevec)$$ 
- 		where $\indicatorfunc{\cluster}$ denotes the indicator \gls{function} of a 
- 		subset $\cluster \subset \mathbb{R}^{\nrfeatures}$ and 
- 		$\alpha_{1},\,\ldots,\,\alpha_{\nrcluster} \in \mathbb{R}$ are arbitrary coefficients. 
- 		The subsets $\cluster^{(1)},\,\ldots,\,\cluster^{(\nrcluster)}$ in the above 
- 		decomposition must be \gls{measurable} and must form a partition of $\mathbb{R}^{\nrfeatures}$. 
-		\\ 
-		See also: \gls{measurable}, \gls{LebesgueIntegral}.}, 
- 	first={simple function}, 
-	firstplural={simple functions}, 
- 	plural={simple functions}, 
- 	text={simple function}, 
- 	type=math
-}
 
 
 \newglossaryentry{riskstratification}
@@ -3282,25 +3029,6 @@ description={Risk stratification\index{risk stratification} assigns
 	text={UCB} 
 }
 
-\newglossaryentry{mab}
-{name={multiarmed bandit (MAB)},
-	description={An MAB \index{multiarmed bandit (MAB)} problem is a precise 
-	formulation of a sequential decision-making task under \gls{uncertainty}. At each 
-	discrete time step $\iteridx$, a learner selects one of several possible 
-	actions—called arms—from a finite set $\actionset$. Pulling arm $\arm$ at time 
-	$\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$ that is drawn from an unknown 
-	\gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$. We obtain different classes 
-	of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
-	setting, the \gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$ does not depend on $\timeidx$. 
-		Given an MAB problem, the goal is to construct \gls{ml} methods that maximize the cumulative 
-		\gls{reward} over time by strategically balancing exploration (i.e., gathering information 
-		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
-		MAB problems form an important special case of \gls{reinforcementlearning} problems \cite{Bubeck2012}, \cite{SuttonEd2}.
-					\\ 
-		See also: \gls{reward}, \gls{regret}.},
-	first={MAB},
-	text={MAB}
-}
 
 \newglossaryentry{optimism in the face of uncertainty}
 {name={optimism in the face of uncertainty},
@@ -3668,34 +3396,6 @@ plural={stochastic algorithms},
 		See also: \gls{algorithm}, \gls{data}, \gls{datapoint}, \gls{uncertainty}, \gls{ml}, \gls{onlineGD}, \glspl{modelparam}, \gls{onlinelearning}.},
 	first={online algorithm},
 	text={online algorithm} 
-}
-
-\newglossaryentry{transparency}
-{name={transparency},
-	description={Transparency\index{transparency} is a fundamental requirement for 
-		\gls{trustAI} \cite{HLEGTrustworhtyAI}. In the context of \gls{ml} 
-		methods, transparency is often used interchangeably with \gls{explainability} 
-		\cite{JunXML2020}, \cite{gallese2023ai}. However, in the broader scope of \gls{ai} 
-		systems, transparency extends beyond \gls{explainability} and includes providing information 
-		about the system’s limitations, reliability, and intended use. 
-		In medical diagnosis systems, transparency requires disclosing the confidence level 
-		for the \glspl{prediction} delivered by a trained \gls{model}. In credit scoring, 
-		\gls{ai}-based lending decisions should be accompanied by explanations of 
-		contributing factors, such as income level or credit history. These explanations 
-		allow humans (e.g., a loan applicant) to understand and contest automated decisions. 
-		Some \gls{ml} methods inherently offer transparency. For example, \gls{logreg} 
-		provides a quantitative measure of \gls{classification} reliability through the value $|\hypothesis(\featurevec)|$. 
-		\Glspl{decisiontree} are another example, as they allow human-readable decision rules \cite{rudin2019stop}.
-		Transparency also requires a clear indication when a user is engaging with an \gls{ai} system. 
-		For example, \gls{ai}-powered chatbots should notify users that they are interacting with an 
-		automated system rather than a human. Furthermore, transparency encompasses comprehensive 
-		documentation detailing the purpose and design choices underlying the \gls{ai} system. 
-		For instance, \gls{model} datasheets \cite{DatasheetData2021} and \gls{ai} system cards \cite{10.1145/3287560.3287596} 
-		help practitioners understand the intended use cases and limitations of an \gls{ai} system \cite{Shahriari2017}.
-					\\ 
-		See also: \gls{trustAI}, \gls{explainability}.},
-	first={transparency}, 
-	text={transparency} 
 }
 
 \newglossaryentry{sensattr}
@@ -4134,69 +3834,6 @@ sort={k-fold CV},
 	text={NFL} 
 }
 
-\newglossaryentry{regret}
-{name={regret},
-	description={The regret\index{regret} of a \gls{hypothesis} $\hypothesis$ relative to 
-		another \gls{hypothesis} $\hypothesis'$, which serves as a \gls{baseline}, 
-		is the difference between the \gls{loss} incurred by $\hypothesis$ and the \gls{loss} 
-		incurred by $\hypothesis'$ \cite{PredictionLearningGames}. 
-		The \gls{baseline} \gls{hypothesis} $\hypothesis'$ is also referred to as an \gls{expert}.
-					\\ 
-		See also: \gls{baseline}, \gls{loss}, \gls{expert}.},
-	first={regret},
-	text={regret} 
-}
-
-\newglossaryentry{strcvx}
-{name={strongly convex},
-	description={A\index{strongly convex} continuously \gls{differentiable} real-valued 
-		\gls{function} $f(\featurevec)$ is strongly \gls{convex} with coefficient $\sigma$ if 
-		$f(\vy) \geq f(\vx) + \nabla f(\vx)\,^{T} (\vy - \vx) + (\sigma/2) \normgeneric{\vy - \vx}{2}^{2}$ 
-		\cite{nesterov04}, \cite[Sec. B.1.1]{CvxAlgBertsekas}.
-					\\ 
-		See also: \gls{differentiable}, \gls{function}, \gls{convex}.},
-	first={strongly convex},
-	text={strongly convex} 
-}
-
-\newglossaryentry{differentiable}
-{name={differentiable},
-	description={A\index{differentiable} real-valued \gls{function} $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}$ 
-		is differentiable if it can be approximated locally at any point by a linear \gls{function}. 
-		The local linear approximation at the point $\mathbf{x}$ is determined 
-		by the \gls{gradient} $\nabla f ( \mathbf{x})$ \cite{RudinBookPrinciplesMatheAnalysis}.
-					\\ 
-		See also: \gls{function}, \gls{gradient}.},
-	first={differentiable},
-	text={differentiable} 
-}
-
-\newglossaryentry{gradient}
-{name={gradient},
-	description={For\index{gradient} a real-valued \gls{function} 
-		$f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-		if a \gls{vector} $\vg$ exists such that 
-		$\lim_{\weights \rightarrow \weights'} {f(\weights) - \big(f(\weights') + \vg\,^{T} (\weights - \weights') \big) }/{\| \weights - \weights'\|}=0$, 
-		it is referred to as the gradient of $f$ at $\weights'$. If it exists, the gradient is unique and 
-		denoted by $\nabla f(\weights')$ or $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.
-		\\
-		See also: \gls{function}, \gls{vector}.},
-	first={gradient},
-	plural={gradients},
-	type=math, 
-	text={gradient}
-}
-
-\newglossaryentry{subgradient}
-{name={subgradient}, plural={subgradients},
-	description={For\index{subgradient} a real-valued \gls{function} $f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
-		a \gls{vector} $\va$ such that $f(\weights) \geq  f(\weights') +\big(\weights-\weights' \big)\,^{T} \va$ is 
-		referred to as a subgradient of $f$ at $\weights'$ \cite{BertCvxAnalOpt}, \cite{BertsekasNonLinProgr}.
-		\\
-		See also: \gls{function}, \gls{vector}.},
-	first={subgradient},
-	text={subgradient} 
-}
 
 \newglossaryentry{fedprox}
 {name={federated proximal (FedProx)},
