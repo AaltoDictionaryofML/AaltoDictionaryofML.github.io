@@ -41,15 +41,27 @@
 {name={spectral decomposition},
 	description={Every normal matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
                  admits\index{spectral decomposition} a spectral decomposition of the form \cite{HornMatAnalysis,Axler2025}
-       \begin{align}
-        \nonumber
-            {\bf A}& = \sum_{j=1}^{d} \lambda_{j} {\bf u}^{(j)} \big({\bf u}^{(j)})^{H} \nonumber \\ 
-       \end{align}
+       \begin{equation}
+             {\bf A}= 
+              \big( {\bf u}^{(1)}, \cdots, {\bf u}^{(d)}\big)
+              \begin{pmatrix}
+              \lambda_{1} &        &        & 0\\
+                      & \lambda_{2} &     &  \\
+                      &        & \ddots &  \\
+              0         &        &        & \lambda_{d}
+		 	 \end{pmatrix}
+              \begin{pmatrix}
+              \big({\bf u}^{(1)}\big)^{H}\\
+              \vdots\\
+              \big({\bf u}^{(d)}\big)^{H}
+		 	 \end{pmatrix}
+             = \sum_{j=1}^{d} \lambda_{j} {\bf u}^{(j)} \big({\bf u}^{(j)})^{H} \nonumber \\ 
+       \end{equation}
       with an orthonormal basis ${\bf u}^{(1)},\ldots,{\bf u}^{(d)}$. 
        \begin{figure}[t]
             \centering
             \begin{tikzpicture}[scale=2.1, line cap=round, line join=round]
-            
+            % two eigenvectors with different lengths
             \draw[->, thick] (0,0) -- (-0.5,1) node[above right] {$\lambda_{1} {\bf u}^{(1)}$};
             \draw[->, thick] (0,0) -- (2.0,1) node[above left]  {$\lambda_{2} {\bf u}^{(2)}$};
             \end{tikzpicture}
@@ -129,22 +141,22 @@
 		i.e., those that possess a finite basis. 
 		\begin{figure}[H]
 			\begin{tikzpicture}[scale=1]
-  			
-  			
-  			
+  			% Axes (optional; remove if you want it even more minimal)
+  			%	\draw[->, thin, gray] (-0.2,0) -- (3.2,0) node[right] {$\vw^{(1)}$};
+  			%	\draw[->, thin, gray] (0,-0.2) -- (0,3.2) node[above] {$\vw^{(1)}$};
   			\coordinate (O) at (0,0);
-  			
+  			% Basis 1: standard (solid)
   			\draw[->, thick] (O) -- (1.8,0) node[below right] {${\bf e}^{(1)}$};
   			\draw[->, thick] (O) -- (0,1.6) node[above left] {${\bf e}^{(2)}$};
-  			
+  			% Basis 2: rotated by ~45° (dashed)
 			\draw[->, thick, dashed, shift={(3.5,0.5)}] (0,0) -- (1.2,1.2) node[above right] {${\bf u}^{(1)}$};
 			\draw[->, thick, dashed, shift={(3.5,0.5)}] (0,0) -- (-1.2,1.2) node[above left] {${\bf u}^{(2)}$};
-  			
+  			% Basis 3: non-orthogonal / skewed (dotted)
   			\draw[->, thick, dotted, shift={(-2.5,-2.5)}] (O) -- (2.0,0.6) node[above right] {${\bf w}^{(1)}$};
   			\draw[->, thick, dotted, shift={(-2.5,-2.5)}] (O) -- (0.4,1.8) node[left] {${\bf w}^{(2)}$};
-  			
- 			
- 			
+  			% Simple legend
+ 			% \node[anchor=west] at (1.6,-0.6) {\footnotesize \textbf{Bases:} solid = standard,\; 
+ 			% dashed = rotated,\; dotted = skewed};
 			\end{tikzpicture}
 		\caption{Three bases, $\big\{{\bf e}^{(1)},{\bf e}^{(2)} \big\}, \big\{{\bf u}^{(1)},{\bf u}^{(2)} \big\},
 		\big\{{\bf w}^{(1)},{\bf w}^{(2)} \big\}$, for the vector space $\mathbb{R}^{2}$.} 
@@ -204,7 +216,7 @@
 				\def\matWidth{5} 
 				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
 				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large ${\bf X}\in \mathbb{R}^{m\times d}$};
-				
+				% vertical brace for samplesize (LEFT, correct orientation)
 				\draw[decorate, decoration={brace, amplitude=5pt}, thick] 
   					(-0.2, 0) -- (-0.2, \matHeight)
   					node[midway, left=8pt] {$m$};
@@ -250,9 +262,9 @@
 			\node (sequence1) [below=of sequence, yshift=-0.5cm] {$({\bf z}^{(1)}, \,{\bf z}^{(2)}, \,\dots, \,{\bf z}^{(m)})$};
 			\draw[->, thick] (experiment.south) -- node[midway, right, xshift=3pt] {repeat $m$ times} (sequence.north);
 			\draw[->, thick] (sequence.south) -- node[midway, right, xshift=3pt] {random variables (RVs)} (sequence1.north);
-			
+			% Anchor node ~60% along the repeat arrow
 			\path (experiment.south) -- (sequence.north) coordinate[pos=0.6] (repeatpoint);
-			
+			% Dotted rounded box enclosing experiment and part of repeat arrow
         			\node[draw=black, rounded corners, dotted, fit={(experiment) (repeatpoint) (rightpad)}, inner sep=8pt, label=above:{new random experiment with $\Omega' = \Omega\times \ldots \times \Omega$}] {};
 	 		\end{tikzpicture}
 	     	\end{center}
@@ -320,7 +332,7 @@
 				\def\matWidth{3} 
 				\draw[thick, fill=gray!20] (0,0) rectangle (\matWidth, \matHeight);
 				\node at (0.5*\matWidth, 0.5*\matHeight) {\Large ${\bf X}\in \mathbb{R}^{m\times d}$};
-				
+				% vertical brace for samplesize (LEFT, correct orientation)
 				\draw[decorate, decoration={brace, amplitude=5pt}, thick] 
   					(-0.2, 0) -- (-0.2, \matHeight)
   					node[midway, left=8pt] {$m$};
@@ -363,24 +375,24 @@
 				width=9cm, height=4.2cm,
 				domain=-1:1,
 				samples=200,
-				
+				%axis lines*=left,        % removes bounding box, keeps left axis
 				xlabel={$x$},
 				ylabel={},
 				ytick=\empty,
-				ytick={-1,-0.5,0,0.5,1}, 
+				ytick={-1,-0.5,0,0.5,1}, % manually set x-ticks
             			yticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
-				xtick={-1,-0.5,0,0.5,1}, 
+				xtick={-1,-0.5,0,0.5,1}, % manually set x-ticks
             			xticklabels={$-1$,$-0.5$,$0$,$0.5$,$1$},
 				xmin=-1, xmax=1,
 				legend style={at={(1.5,0.02)},anchor=south east}
 				]
-				
+				% f1 = x
 				\addplot[thick, dashed] {x};
 				\addlegendentry{$x$}
-				
+				% f2 = x^2
 				\addplot[thick, dotted] {x^2};
 				\addlegendentry{$x^{2}$}
-				
+				% f3 = x^3
 				\addplot[thick, dashdotdotted] {x^3};
 				\addlegendentry{$x^{3}$}
 			\end{axis}
@@ -406,7 +418,21 @@
 
 \newglossaryentry{chernoffbound}
 {name={Chernoff bound}, 
-	description={TBC\index{Chernoff bound}.}, 
+	description={The Chernoff bound\index{Chernoff bound} is a concentration inequality 
+	             derived as a direct application of Markov's inequality \cite[Ch.\ 2]{vershynin2018high}. 
+				 Let $x$ be a real-valued random variable (RV) such that its moment generating function (MGF) 
+				 $M_{x}\left(t\right)=\mathbb{E} \{\exp(t x)\}$ exists for some $t>0$. 
+				 Applying Markov's inequality to the nonnegative 
+				 random variable (RV) $\exp(t x)$ yields, for any $\eta\in\mathbb{R}$, 
+				\begin{equation}
+					\mathbb{P}\left( x\ge \eta \right)
+					= \mathbb{P}\left( \exp(t x) \ge \exp(t\eta)\right)
+					\le \exp(-t\eta)\, \mathbb{E} \{\exp(t x)\}\nonumber.
+				\end{equation}
+				Note that this is actually an entire family of upper bounds, parametrized 
+				by all valid choices for $t>0$ (i.e., $M_{x}\left(t\right)$ must exist). \\
+	See also: Markov's inequality, Chebyshev's inequality, 
+	Hoeffding's inequality, concentration inequality.}, 
  	first={Chernoff bound}, 
  	type=math, 
  	text={Chernoff bound}
@@ -420,28 +446,28 @@
  		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[x=2cm]
-				
+				% LEFT: Standard basis vectors and unit square
 				\begin{scope}
 					\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf u}^{(1)}$};
 					\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf u}^{(2)}$};
-					
-					
-					
+					%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+					%\node at (0.5,0.5) {\small unit square};
+					%\node at (0.5,-0.6) {standard basis};
 				\end{scope}
-				
+				% RIGHT: Transformed basis vectors and parallelogram
 				\begin{scope}[shift={(3.2,0)}]
-				
-				
+				%\draw[->, thick] (0,0) -- (1,0) node[below] {$\vv^{(1)}$};
+				%	\draw[->, thick] (0,0) -- (0,1) node[above] {$\vv^{(2)}$};
 					\coordinate (A) at (0.2,0.0);
 					\coordinate (B) at (2.0,0.0);
 					\draw[->, very thick, red] (0,0) -- (A) node[below,yshift=-2pt] {${\bf A}{\bf u}^{(1)}$};
 					\draw[->, very thick, red] (0,0) -- (B) node[above,yshift=2pt] {${\bf A}{\bf u}^{(2)}$};
-					
-					
+					%	\node[blue] at (0.25,1.25) {};
+					%	\node at (0.8,-0.6) {transformed basis};
 				\end{scope}
-				
+				% Arrow between plots
 				\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {${\bf A}$} (2.7,0.5);
-				
+				%	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
 			\end{tikzpicture}
 			\end{center}
 		\caption{Example of a rank-deficient matrix 
@@ -466,7 +492,7 @@
  		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[every node/.style={font=\small}]
-			
+			% --- Full-rank square ---
 			\node at (0,2) {$
 			{\bf A}=
 			\begin{pmatrix}
@@ -475,7 +501,7 @@
 			\end{pmatrix}
 			$};
 			\node[below=0.8cm of {$(0,2)$}] {\small full-rank square};
-			
+			% --- Rank-deficient square ---
 			\node at (4.5,2) {$
 			{\bf B}=
 			\begin{pmatrix}
@@ -484,7 +510,7 @@
 			\end{pmatrix}
 			$};
 			\node[below=0.8cm of {$(4.5,2)$}] {\small rank-deficient square};
-			
+			% --- Full-rank tall (3x2) ---
 			\node at (0,-1.0) {$
 			{\bf C}=
 			\begin{pmatrix}
@@ -494,7 +520,7 @@
 			\end{pmatrix}
 			$};
 			\node[below=1.2cm of {$(0,-1.0)$}] {\small full-rank tall matrix};
-			
+			% --- Rank-deficient wide (2x3) ---
 			\node at (4.5,-1.0) {$
 			{\bf D}=
 			\begin{pmatrix}
@@ -550,24 +576,24 @@
  	 \begin{figure}[H]
  		\centering
  		\begin{tikzpicture}[x=2cm,y=2cm]
- 			
+ 			% LEFT: Standard basis
  			\begin{scope}
  				\draw[->, thick] (0,0) -- (1,0) node[below right] {${\bf x}$};
  				\draw[->, thick] (0,0) -- (0,1) node[above left] {${\bf y}$};
  			\end{scope}
- 			
+ 			% CENTER: Transformed basis (by A)
  			\begin{scope}[shift={(2.0,0)}]
  				\coordinate (A) at (1.5,0.5);
  				\coordinate (B) at (-0.2,1.2);
 				\draw[->, very thick, red] (0,0) -- (A) node[pos=0.5, below right] {${\bf A}{\bf x}$};
  				\draw[->, very thick, red] (0,0) -- (B) node[above right] {${\bf A}{\bf y}$};
  			\end{scope}
- 			
+ 			% RIGHT: Inverse transformation
  			\begin{scope}[shift={(4.9,0)}]
  				\draw[->, very thick, blue] (0,0) -- (1,0) node[pos=0.5, below] {${\bf A}^{-1} ({\bf A}{\bf x}) = {\bf x}$};
  				\draw[->, very thick, blue] (0,0) -- (0,1) node[above] {${\bf A}^{-1} ({\bf A}{\bf y}) = {\bf y}$};
  			\end{scope}
- 			
+ 			% Curved arrows between stages
  			\draw[->, thick, bend left=20] (1.2,0.4) to node[above] {${\bf A}$} (1.8,0.4);
  			\draw[->, thick, bend left=20] (3.8,0.4) to node[below] {${\bf A}^{-1}$} (4.4,0.4);
  		\end{tikzpicture}
@@ -626,15 +652,15 @@
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}[x=2cm]
-			
+			% LEFT: Standard basis vectors and unit square
 			\begin{scope}
 				\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf u}^{(1)}$};
 				\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf u}^{(2)}$};
-				
-				
-				
+				%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+				%\node at (0.5,0.5) {\small unit square};
+				%\node at (0.5,-0.6) {standard basis};
 			\end{scope}
-			
+			% RIGHT: Transformed basis vectors and parallelogram
 			\begin{scope}[shift={(3.2,0)}]
 				\draw[->, thick] (0,0) -- (1,0) node[below] {${\bf v}^{(1)}$};
 				\draw[->, thick] (0,0) -- (0,1) node[above] {${\bf v}^{(2)}$};
@@ -642,12 +668,12 @@
 				\coordinate (B) at (0.4,1.2);
 				\draw[->, very thick, red] (0,0) -- (A) node[below,right] {${\bf A}{\bf u}^{(1)}\!=\!A_{1,1}{\bf v}^{(1)}\!+\!A_{2,1}{\bf v}^{(2)}$};
 				\draw[->, very thick, red] (0,0) -- (B) node[right,xshift=1pt] {${\bf A}{\bf u}^{(2)}$};
-				
-				
+				%	\node[blue] at (0.25,1.25) {};
+				%	\node at (0.8,-0.6) {transformed basis};
 			\end{scope}
-			
+			% Arrow between plots
 			\draw[->, thick] (1.6,0.5) to[bend left] node[midway, above] {${\bf A}$} (2.7,0.5);
-		
+		%	\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
 		\end{tikzpicture}
 		\end{center}
 		\caption{A matrix ${\bf A}$ defines a linear map between two vector spaces. \label{fig_matrix_dict}} 
@@ -800,12 +826,12 @@
 	 	\begin{tikzpicture}[
 		>=stealth, 
     	thick,
-		
+		%f(x) = 0.5(x-2)^3 + 2
     	declare function={f(\x) = 0.3*(\x-2)^3 + 2.5;}
 			]
-		\def\xprime{2}      
-    	\def\epsilonval{1.2}   
-		\def\deltaval{1.3}     
+		\def\xprime{2}      % x'
+    	\def\epsilonval{1.2}   % epsilon
+		\def\deltaval{1.3}     % delta
 		\def\xmax{5.5}
 		\def\ymax{5}
 		\fill[blue!5] (0, {f(\xprime)-\epsilonval}) rectangle (\xmax, {f(\xprime)+\epsilonval});
@@ -818,7 +844,7 @@
 		\draw[purple, thick] ({\xprime-\deltaval}, {f(\xprime)-\epsilonval}) rectangle ({\xprime+\deltaval}, {f(\xprime)+\epsilonval});
 		\draw[->] (-0.5,0) -- (\xmax,0) node[right] {$x$};
 		\draw[->] (0,-0.5) -- (0,\ymax) node[above] {};
-		
+		% The Function 
 		\draw[line width=1.5pt, black!80] plot[domain=0.2:4.5, samples=100] (\x, {f(\x)}) 
 			node[right] {$f(x)$};
 		\draw[dashed] (\xprime, 0) -- (\xprime, {f(\xprime)}) -- (0, {f(\xprime)});
@@ -877,26 +903,26 @@
 		\begin{tikzpicture}[
 			>=stealth, 
 			node distance=2cm,
-			scale=1.0, every node/.style={transform shape} 
+			scale=1.0, every node/.style={transform shape} % Scales the whole diagram down slightly
 		]
-			
+			% Domain A
 			\draw[thick, fill=blue!5] (0,0) ellipse (0.8cm and 1.4cm);
 			\node[] at (0, 1.6) {domain};
-			
+			% Codomain B
 			\draw[thick, fill=red!5] (3.5,0) ellipse (1cm and 1.6cm);
 			\node[] at (3.5, 1.8) {co-domain};
 			\draw[dashed, fill=green!10, thick, green!60!black] (3.5, -0.3) circle (0.6cm);
 			\node[] at (3.5, -1.1) {range};
 			\fill (0, 0.5) circle (1.5pt) coordinate (a1);
 			\fill (0, -0.5) circle (1.5pt) coordinate (a2);
-			
+			% Output points
 			\fill (3.5, 0) circle (1.5pt) coordinate (b1);
 			\fill (3.5, -0.5) circle (1.5pt) coordinate (b2);
-			
+			% Unreached point
 			\fill (3.5, 1.0) circle (1.5pt) coordinate (b_miss) node[right, font=\tiny, gray] {unused};
 			\draw[->, semithick] (a1) -- (b1);
 			\draw[->, semithick] (a2) -- (b2);
-			
+			% Function Label
 			\node[font=\footnotesize] at (1.75, 0.5) {$f$};
 		\end{tikzpicture}
 	\end{figure}
@@ -937,17 +963,17 @@
 					node/.style={circle, fill=black, inner sep=1.9pt},
 					lab/.style={anchor=west, xshift=3pt}
 					]
-					
+					% Nodes (points)
 					\node[node] (v1) at (0,0) {};
 					\node[node] (v2) at (2,0) {};
 					\node[node] (v3) at (1,1.5) {};
 					\node[node] (v4) at (3,1.5) {};
-					
+					% Labels
 					\node[anchor=north] at (v1) {$\nodeidx_1$};
 					\node[anchor=north] at (v2) {$\nodeidx_2$};
 					\node[anchor=south] at (v3) {$\nodeidx_3$};
 					\node[anchor=south] at (v4) {$\nodeidx_4$};
-					
+					% Undirected edges
 					\draw [line width=1pt] (v1) -- node[midway, above] {$\edgeweight_{\nodeidx_1,\nodeidx_2}$} (v2);
 					\draw (v2) -- node[midway, right] {$\edgeweight_{\nodeidx_2,\nodeidx_3}$} (v3);
 					\draw (v3) -- node[midway, left] {$\edgeweight_{\nodeidx_3,\nodeidx_1}$} (v1);
@@ -991,17 +1017,17 @@
 					node/.style={circle, fill=black, inner sep=1.9pt},
 					lab/.style={anchor=west, xshift=3pt}
 					]
-					
+					% Nodes (points)
 					\node[node] (v1) at (0,0) {};
 					\node[node] (v2) at (2,0) {};
 					\node[node] (v3) at (1,1.5) {};
 					\node[node] (v4) at (3,1.5) {};
-					
+					% Labels
 					\node[anchor=north] at (v1) {$\nodeidx_1$};
 					\node[anchor=north] at (v2) {$\nodeidx_2$};
 					\node[anchor=south] at (v3) {$\nodeidx_3$};
 					\node[anchor=south] at (v4) {$\nodeidx_4$};
-					
+					% Undirected edges
 					\draw [line width=1pt] (v1) -- (v2);
 					\draw (v2) -- (v3);
 					\draw (v3) -- (v1);
@@ -1212,7 +1238,7 @@
 		This perspective is particularly useful for the study of kernel methods. See Fig. 
 		\ref{fig:vector-function-dual_dict} for the two views of a vector.
 		\begin{figure}[H]
-			
+			% Left: Stem plot
 			\begin{minipage}[c]{0.48\textwidth}
 				\centering 
 				2, --1, 3, 0, --2, 1
@@ -1223,7 +1249,7 @@
 				\end{minipage}
 			\end{minipage}
 			\hfill
-			
+			% Right: Column vector
 			\begin{minipage}{0.48\textwidth}
 			\centering
 			\begin{tikzpicture}
@@ -1237,8 +1263,8 @@
     				xmin=0.5, xmax=6.5,
    	 			xtick={1,2,3,4,5,6},
     				ytick={-3,-2,-1,0,1,2,3},
-    				axis x line=bottom,        
-    				axis y line=left,          
+    				axis x line=bottom,        % <-- horizontal axis at y=0
+    				axis y line=left,          % <-- vertical axis on the left
     				grid=both,
     				major grid style={dotted, gray!60},
     				enlargelimits=0.1
@@ -1282,29 +1308,29 @@
 		\begin{figure}[H]
 		\centering
 			\begin{tikzpicture}[>=Stealth, scale=1.2]
-			
-  			\coordinate (O) at (0,0);            
-  			\coordinate (V) at (2,1.5);          
-  			\coordinate (W) at (1,3);            
-  			\coordinate (VplusW) at (3,4.5);     
-  			\coordinate (HalfV) at (1,0.75);     
+			% Coordinates
+  			\coordinate (O) at (0,0);            % Origin
+  			\coordinate (V) at (2,1.5);          % vector v
+  			\coordinate (W) at (1,3);            % vector w
+  			\coordinate (VplusW) at (3,4.5);     % v + w
+  			\coordinate (HalfV) at (1,0.75);     % 0.5 * v
   			\draw[->, thick, blue] (O) -- (V) node[pos=1, right] {${\bf v}$};
   			\draw[->, thick, red] (O) -- (W) node[pos=1, left] {${\bf w}$};
   			\draw[->, thick, purple] (O) -- (VplusW) node[pos=0.99, above right] {${\bf v}+{\bf w}$};
   			\draw[dashed, red] (V) -- (VplusW);
   			\draw[dashed, blue] (W) -- (VplusW);
   			\draw[->, thick, orange] (O) -- (HalfV) node[midway, right] {$ \alpha {\bf v}$};
-			
-  			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  
-  			\filldraw[blue] (V) circle (2pt);         
-  			\filldraw[red] (W) circle (2pt);          
-  			\filldraw[purple] (VplusW) circle (2pt);  
-  			\filldraw[orange] (HalfV) circle (2pt);   
+			% Filled dots
+  			\filldraw[black] (O) circle (2pt) node[below left] {$\mathbf{0}$};  % origin
+  			\filldraw[blue] (V) circle (2pt);         % v
+  			\filldraw[red] (W) circle (2pt);          % w
+  			\filldraw[purple] (VplusW) circle (2pt);  % v + w
+  			\filldraw[orange] (HalfV) circle (2pt);   % 0.5v
 			\end{tikzpicture}
 			\caption{A vector space $\mathcal{V}$ is a collection of vectors such that 
 			scaling and adding them always yields another vector in $\mathcal{V}$.}
-			
-			
+			%In \gls{ml}, we use vector spaces to represent \glspl{rv}, \glspl{datapoint} 
+			%(or their \glspl{featurevec}) as well as invariances (or symmetries) of \glspl{model}.}
 			\label{fig:vector-ops_dict}
 		\end{figure}
 		A common example of a vector space is the Euclidean space $\mathbb{R}^n$, which is 
@@ -1512,23 +1538,23 @@
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[>=stealth, node distance=1.0cm, thick]
-  			
+  			%--- Left: elements of set A ---
   			\node (a1) {$a_1$};
   			\node[below=of a1] (a2) {$a_2$};
   			\node[below=of a2] (a3) {$a_3$};
   			\node[left=0.4cm of a2, align=center] {$\mathcal{A}$};
-  			
+  			% Ellipse enclosing set A
   			\begin{scope}[on background layer]
     			\draw[rounded corners, dashed, gray] ($(a1)+(-0.5,0.4)$) rectangle ($(a3)+(0.5,-0.4)$);
   			\end{scope}
-  			
+  			%--- Right: natural numbers ---
   			\node[right=3.0cm of a1] (n1) {$1$};
   			\node[below=of n1] (n2) {$2$};
   			\node[below=of n2] (n3) {$3$};
   			\node[below=of n3] (n4) {$4$};
   			\node[below=of n4] (ndots) {$\vdots$};
   			\node[right=0.4cm of n2, align=center] {$\mathbb{N}$};
-  			
+  			%--- Arrows (injective mapping) ---
   			\draw[->] (a1) -- (n3);
   			\draw[->] (a2) -- (n1);
   			\draw[->] (a3) -- (n4);
@@ -1558,17 +1584,17 @@
 			\centering
 			\begin{tikzpicture}[>=stealth, thick,y=2cm]
   			\foreach \x/\p in {1/0.3, 4/0.7}{
-			
+			% Stem lines
 			\draw[gray] (\x,0) -- (\x,\p);
-			
+			% Dots at the end of stems
 			\fill[blue] (\x,\p) circle (2pt);
-			
-			
+			% Labels next to each value
+			% \node[anchor=west, blue] at (\x+0.1,\p) {\small $\pmf{\feature}{\cdot}$};
 			}
   			\node[anchor=south,align=center] at (1,0.3) {\small $p^{(x)}\left(\star\right)=\frac{3}{10}$};
   			\node[anchor=north] at (1,0) {\small $\star$};
   			\node[anchor=north] at (4,0) {\small $\otimes$};
-    			
+    			%--- Example datasets (same length, same frequencies, different permutations) ---
   			\node[anchor=west,text width=11cm] at (-1.2,-0.80) {
     			$\mathcal{D}= (\star,\,\star,\,\star,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes,\,\otimes)$
   			};
@@ -1788,26 +1814,26 @@
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=1.5]
-  			
+  			% Axes
   			\draw[->] (-0.2,0) -- (3.4,0) node[right] {$x$};
- 			
-  			
+ 			% \draw[->] (0,-0.1) -- (0,2.6) node[above] {$y$};
+  			% Continuous function f(x)
   			\draw[thick,domain=0:3,smooth] plot(\x,{0.5+0.3*\x+0.1*\x*\x}) node[right] {$f(x)$};
-  			
+  			% Shade area under f(x)
   			\fill[gray!20] (0,0) -- plot[domain=0:3] (\x,{0.5+0.3*\x+0.1*\x*\x}) -- (3,0) -- cycle;
-  			
+  			% Lower simple function: left-endpoint rectangles for [0,1], [1,2], [2,3]
   			\draw[fill=gray!50,opacity=0.35] (0,0) rectangle (1,0.5);
   			\node at (0.5,-0.2) {$\mathcal{C}^{(1)}$}; 
   			\draw[fill=gray!50,opacity=0.35] (1,0) rectangle (2,0.9);
   			\draw[fill=gray!50,opacity=0.35] (2,0) rectangle (3,1.5);
-  			
+  			% Step lines of the simple function
   			\draw[thick] (0,0.5)--(1,0.5);
   			\draw[thick] (1,0.9)--(2,0.9);
   			\draw[thick] (2,1.5)--(3,1.5);
  	 		\node[above left] at (0.8,0.5) {};
-  			
+  			% Dashed partition lines
   			\foreach \x in {0,1,2,3} \draw[dashed,gray] (\x,0) -- (\x,2.5);
-  			
+  			% Labels
   			\node[anchor=north] at (0,-0.05) {$a$};
   			\node[anchor=north] at (1,-0.05) {$b$};
   			\node[anchor=north] at (2,-0.05) {$c$};
@@ -1942,17 +1968,17 @@
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}
-			
+			% Draw temperature axis
 			\draw[->] (0,0) -- (8.5,0) node[right] {temperature ($^\circ$C)};
-			
+			% Add tick marks and labels every 20 degrees from -20 to 100
 			\foreach \x/\label in {0/--20, 1/--10, 2/0, 3/10, 4/20, 5/30, 6/40, 7/50, 8/60} {
 				\draw (\x,0.1) -- (\x,-0.1);
 				\node[below] at (\x,-0.1) {\label};
 			}
-			
+			% Shade measurable set: Temperature < 0°C
 			\fill[blue!20] (0,0.3) rectangle (2,0.6);
 			\node[above] at (1,0.6) {$\omega< 0\;^\circ$C};
-			
+			% Shade measurable set: 5°C < omega < 10°C
 			\fill[red!20] (5.5,0.3) rectangle (7.5,0.6);
 			\node[above] at (6,0.6) {$35\;^\circ$C $< \omega< 55\;^\circ$C};
 			\vspace*{10mm}
@@ -2040,4 +2066,683 @@ sort={sigma-field},
  	type=math,
  	plural={typical sets},
  	text={typical set} 
+}
+
+\newglossaryentry{majmin}
+{name={majorize-minimize (MM)}, 
+	description={Consider an optimization problem $\min_{{\bf w}\in \mathcal{W}} f({\bf w})$ with 
+		some complicated (potentially non-convex and non-smooth) objective function. 
+		One important example of such an optimization problem is empirical risk minimization (ERM), which is used to learn the 
+		model parameters of a nonlinear model. 
+		An MM method is\index{majorize-minimize (MM)} an iterative optimization method 
+		that constructs a sequence ${\bf w}^{(1)},\,{\bf w}^{(2)},\,\ldots \in \mathcal{W}$ 
+		of model parameters as follows \cite{Lange2016MM}, \cite{BishopBook}, \cite{Hunter01022004}
+		(see also Fig. \ref{fig:majmin_dict}): 
+		\begin{itemize} 
+			\item During the $t$th iteration, the objective function $f(\cdot)$ 
+			 	is approximated by another function $g\big(\cdot;{\bf w}^{(t)}\big)$.
+	             	  	This approximation must be an upper bound for (i.e., must majorize) the original
+				objective function, i.e., $g\big({\bf w};{\bf w}^{(t)}\big) \geq f({\bf w})$ 
+			 	for all ${\bf w}\in \mathcal{W}$, and it must be tight for ${\bf w}^{(t)}$, i.e., 
+			 	$g\big({\bf w}^{(t)};{\bf w}^{(t)}\big) = f\big({\bf w}^{(t)}\big)$.
+			\item The new model parameters  ${\bf w}^{(t+1)}$ are then obtained by 
+				minimizing the approximation, i.e., 
+				 ${\bf w}^{(t+1)} \in \argmin_{{\bf w}\in \mathcal{W}}g\big({\bf w};{\bf w}^{(t)}\big)$. 
+		\end{itemize} 
+		\begin{figure}[H]
+			 \centering
+			 \begin{tikzpicture}[x=1.2cm,y=1cm]
+				% --- parameters ---
+				\def\xa{0}
+				\def\xb{2*pi}
+				\def\xo{3*pi/4}     % touch point: 1.5 * (pi/2) = 3pi/4
+				\def{\bf L}{0.4}        % left slope  (adjust to keep it above the sine)
+				\def{\bf R}{0.7}        % right slope (adjust to keep it above the sine)
+				% horizontal axis
+				\draw[->] (\xa-0.2,-2) -- (\xb+0.3,-2) node[right] {${\bf w}$};
+				% sine over one period
+				\draw[thick,samples=100,domain=\xa:\xb]
+				plot (\x,{sin(\x r)}) node[pos=0.1,above left,black] {\small $f({\bf w})$};
+				% compute y0 = sin(w0)
+				\pgfmathsetmacro\yxo{sin(\xo r)}
+				% Anchors (numeric, no macros)
+				% w0 = 3*pi/4 = 2.35619449
+				% xL = 2.00619449, xR = 2.70619449
+				% y0 = sin(w0) = 0.70710678
+				% Left slope mL = cos(xL) = -0.42177145  (tangent => upper bound on [0, xL])
+				% Right slope mR = 0.7  (rising; safely above the sine on [xR, 2*pi])
+				\def\xL{2.70}
+				\def\xR{3.80}
+				\def\yO{0.70}
+				% Left (tangent) segment: y = y0 + mL*(x - xL), mL = -0.42177145
+				\draw[dashed,samples=2,domain=0:\xL]
+				plot (\x,{\yO + (-0.7)*(\x - \xo)});
+				% Flat touching segment
+				\draw[dashed]
+				(\xL,{\yO+(-0.7)*(\xL-\xo)}) -- (\xR,{\yO+(-0.7)*(\xL-\xo)});
+				% Right rising segment: y = y0 + mR*(x - xR), mR = 0.7
+				% draw the segment
+				\draw[dashed,samples=2,domain=\xR:2*pi]
+				plot (\x,{\yO+(-0.7)*(\xL-\xo) + (0.7)*(\x - \xR)});
+				% compute a point 65% along the x-range [\xR, 2*pi]
+				\pgfmathparse{\xR + 0.65*(2*pi - \xR)} \let\xmid\pgfmathresult
+				\pgfmathparse{\yO + 0.7*(\xmid - \xR)} \let\ymid\pgfmathresult
+				% label at that point
+				\node[right,black] at (\xmid,\ymid) {$g\big( {\bf w}; {\bf w}^{(t)} \big)$};
+				% Touch marker at w0
+				\fill[red] (2.35619449,0.70710678) circle (1.2pt);
+				% --- vertical ruler marking w0 ---
+				\draw[densely dotted,gray] (\xo,-2) -- (\xo,\yO);
+				% \draw[gray] (\xo,0) -- ++(0,-2.06);
+				\node[below] at (\xo,-2) {${\bf w}^{(t)}$};
+			\end{tikzpicture}
+			\caption{The construction of model parameters based on the iterative MM method.}
+			\label{fig:majmin_dict}
+		\end{figure}
+		Similar to gradient-based methods, the MM principle is also based on approximating an 
+		objective function locally, around the current model parameters, and then optimizing 
+		this approximation to obtain new model parameters. However, the construction 
+		of local approximations is very different. While gradient-based methods use linear functions 
+		for these approximations, MM methods can use nonlinear functions as long as 
+		they are upper bounds for the original objective function. 
+			 \\ 
+		See also: gradient-based method, expectation-maximization (EM).},
+	first={majorize–minimize (MM)},
+	type=math, 
+	text={MM}
+}
+
+\newglossaryentry{markovsinequality}
+{name={Markov's inequality},
+	description={Consider a real-valued nonnegative random variable (RV) $x$ for which 
+		the expectation $\mathbb{E} \{ x\}$ exists. \index{Markov's inequality} 
+	 	Markov's inequality provides an upper bound on the probability 
+	 	$\mathbb{P}\left(x\geq a\right)$ that $x$ exceeds a given positive threshold $a>0$.  
+	 	In particular,          
+	 	\begin{equation}
+            		\nonumber
+			\mathbb{P}\left(x \geq a\right) \leq \frac{\mathbb{E} \{ x\}}{a} \qquad \mbox{ holds for any } a > 0. 
+            		%\label{eq:markovsinequality_dict}
+    		\end{equation}
+    		This inequality can be verified by noting that $\mathbb{P}\left(x \geq a\right)$ is the 
+		expectation $\mathbb{E} \{g(x)\}$ with the function 
+	 	$$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \mathbb{I}_{\{x \geq a\}}(x').$$ 
+	 	As illustrated in Fig. \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
+	 	$$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ 
+	 	This implies Markov's inequality via the monotonicity property 
+	 	of the Lebesgue integral \cite[p. 50]{folland1999real}. 
+    		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
+			% -------- parameters ----------
+			\def\a{3.24}      % threshold a
+			\def\xmax{10}     % x-axis max
+			\def\m{0.02}      % slope of the linear function y = m(x-a)+1
+			% -------- pdf function p(x) (same as your expression) ----------
+			% p(x) = (1/(3*sqrt(2*pi))) * x^(1.5) * exp(-x/2)
+			\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
+			%\draw[-{Latex}] (0,0) -- (0,3.1) node[left] {$\pdf{x}{x'}$};
+                \draw[-{Latex}] (0,0) -- (0,3.1)  node[left, text=blue!70!black] {$p^{(x)}\left(x'\right)$};
+			% Fill under the pdf (optional aesthetics)
+			\fill[blue!15, opacity=0.3]
+				plot[samples=400, domain=0:\xmax, smooth]
+				(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
+			% PDF curve
+			\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
+				plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
+				node[pos=0.9, above right, xshift=2pt] {};
+			% Vertical guide at x=a
+			\draw[dashed, gray] (\a,0) -- (\a,1.05);
+			\node[below] at (\a,0) {$a$};
+			\node[above] at (1*\a,3) {$\mathbb{P}\left(x \geq a\right) \leq \frac{\mathbb{E} \{ x\}}{a}$}; 
+			\node[below] at (0,0) {$0$};
+			% -------- indicator 1{x >= a} ----------
+			% 0 for x<a with open circle at (a,0)
+			\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
+			\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
+			% 1 for x>=a with closed circle at (a,1)
+			\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
+				node[pos=0.9, above, yshift=2pt] {$\mathbb{I}_{\{x \ge a\}}(x')$};
+			\filldraw[green!60!black] (\a,1) circle (2pt);
+			% -------- linear curve through (a,1): y = m(x-a)+1 ----------
+			\draw[red!70, very thick, samples=2, domain=0:\xmax]
+				plot (\x,{ \x*(1/\a) }); 
+			\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
+			% Axis marker for y=1
+			\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
+			\end{tikzpicture}
+            	\caption{The expectation $\mathbb{E} \{x\}$ and the probability $\mathbb{P}\left(x \geq a\right)$ 
+			of a nonnegative random variable (RV) $x$ with 
+                a probability density function (pdf) $p^{(x)}\left(\cdot\right)$           
+                %a \gls{probdist} $\probdist^{(x)}$ 
+			can be obtained via Lebesgue integrals of 
+			$f(x') = x'/a$ and $g(x') = \mathbb{I}_{\{x \geq a\}}(x')$, respectively.}
+            	\label{fig:markovsinequality_dict}
+        		\end{figure} 
+		See also: expectation, probability, concentration inequality.},
+	first={Markov's inequality},
+	type=math, 
+    	text={Markov's inequality}  
+}
+
+\newglossaryentry{chebyshevsinequality}
+{name={Chebyshev's inequality},
+	description={Consider a real-valued random variable (RV) $x$ for which 
+		the second moment $\mathbb{E} \{ x^{2} \}$ exists (and is finite). 
+ 	 	The existence of the second moment implies the existence 
+ 	 	of a finite expectation $\mu :=\mathbb{E} \{ x\}$ and a finite 
+ 	 	variance $\sigma^{2}\!:=\!\mathbb{E} \big\{ \big( x\!-\!\mu \big)^{2} \big\}$ \cite[Proposition 6.12]{folland1999real}. 
+ 	 	Chebyshev's inequality\index{Chebyshev's inequality} refers 
+ 	 	to the following upper bound on the probability that $x$ 
+ 	 	deviates from $\mu$ by more than a given threshold $\eta$ 
+ 	 	\cite[Ch. 4]{FellerBook}. 
+ 	 	In particular,   
+ 		\begin{equation}
+           		\nonumber
+			\mathbb{P}\left(\big|x - \mu \big| \geq \eta \right) \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
+            		%\label{eq:chebyshevsinequality_dict}
+     		\end{equation}
+ 		This upper bound can be obtained by applying Markov's inequality to 
+ 		the new random variable (RV) $\tilde{x}\!:=\! \big(x\!-\!\mu \big)^2$. 
+  		\begin{figure}[H]
+   			\centering
+			\begin{tikzpicture}
+     			\begin{axis}[
+      			width=9cm, height=4.2cm,
+      			samples=300,
+      			axis lines=left,
+	  		ylabel={$p^{(x)}\left(x'\right)$},
+      			xlabel={$x'$},
+      			x label style={at={(axis description cs:1,0)}, anchor=west},
+	  		ylabel style={rotate=270,anchor=south,at={(axis description cs:0,1.02)}},
+      			xtick={-1.5,0,1.5},
+      			xticklabels={$-\eta$,$\mu$,$\eta$},
+      			ytick=\empty,
+      			ymin=0, ymax=0.45,
+      			domain=-4:4,
+      			clip=false
+    			]
+      			% pdf (centered at mu; here shown as standard normal in x - mu coordinates)
+      			\addplot[name path=pdf, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
+      			\addplot[name path=axis, draw=none] {0};
+      			% shaded tails: |X - mu| >= t with t = 1.5
+      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=1.5:4}];
+      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=-4:-1.5}];
+      			% guide lines at mu and ±t
+      			\draw[densely dashed] (axis cs:0,0) -- (axis cs:0,0.42);
+      			\draw[dashed] (axis cs:1.5,0) -- (axis cs:1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      			\draw[dashed] (axis cs:-1.5,0) -- (axis cs:-1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      			% label for the shaded area
+   			%   \node[anchor=west] at (axis description cs:0.72,0.82) {$\prob{|x-\mu|\ge \eta}$};
+    			\end{axis}
+  			\end{tikzpicture}
+  		\caption{Chebyshev's inquality provides an upper bound on 
+              		the tail probability $\mathbb{P}\left(|x-\mu|\ge \eta\right)$ (i.e., shaded area) of
+			a real-valued random variable (RV) $x$ with a finite second moment.\label{fig:chebyshev_minimal_dict}} 
+		\end{figure}
+     		See also: expectation, Markov's inequality, concentration inequality.},
+    	first={Chebyshev's inequality},
+	type=math, 
+     	text={Chebyshev's inequality}  
+}
+
+\newglossaryentry{hoeffdingsinequality}
+{name={Hoeffding's inequality},
+	description={\index{Hoeffding's inequality} Hoeffding's inequality \cite{Hoeffding1963} is a fundamental concentration inequality 
+		that provides an upper bound on the probability that a sum (or average) of independent, bounded random variables (RVs) 
+		deviates from its mean by more than some threshold. 
+     		Let $x_1,\,\dots,\,x_n$ be independent real-valued random variables (RVs) $x_i$ taking values in $[a_i,b_i] \subset \mathbb{R}$, 
+		and $S_n :=\sum_{i=1}^n x_i$ and $\mathbb{E} \{S_n\} = \sum_{i=1}^n \mathbb{E} \{x_i\}$. 
+		Then, Hoeffding's inequality \cite[Th. 2.2.6]{vershynin2018high} states that
+        		\begin{equation}
+                		\nonumber
+			\mathbb{P}\left( |S_n - \mathbb{E} \{S_n\}| \geq t \right) 
+            		\leq 2 \exp \left( -\frac{2 t^2}{\sum\limits_{i=1}^n (b_i - a_i)^2} \right) \qquad \forall t > 0.
+            		%\label{eq:hoeffding_sum}
+        		\end{equation}
+    		Hoeffding's inequality typically provides sharper bounds than Chebyshev's inequality, 
+		but it is more restrictive by assuming bounded random variables (RVs).
+    		In the context of machine learning (ML), this result is useful for deriving guarantees for empirical risk minimization (ERM)  and in the context of MAB. 
+		 \\
+    		See also: concentration inequality, probability, random variable (RV), Chebyshev's inequality, expectation, probability space, Markov's inequality.},
+    first={Hoeffding's inequality},
+	type=math, 
+    text={Hoeffding's inequality}  
+}
+
+\newglossaryentry{rgg}
+{name={random geometric graph (RGG)},
+	description={An RGG\index{random geometric graph (RGG)} is a probabilistic model for graphs 
+		built from nodes randomly placed in a metric space. Given a metric space, the RGG is characterized by 
+		the number of nodes, the connection radius, and the probability distribution describing the node placement. 
+    		More precisely, for a node set $i=1, \,\ldots, \,n$, each node $i$ is assigned to a random position 
+		${\bf x}^{(i)} \in \mathcal{X}$, typically as realizations of independent and identically distributed (i.i.d.) random variables (RVs) taking values in a set $\mathcal{X}$. 
+		Together with a metric, this forms a metric space, often with the metric induced by a norm. 
+		A specific realization of an RGG contains an edge $\{i,i'\}$ if and only if the distance between the nodes 
+		with respect to the metric is smaller than some threshold, i.e., when $d({\bf x}^{(i)},{\bf x}^{(i')})\leq r$ 
+		for some threshold $r>0$, as illustrated in Fig. \ref{fig:rgg}.
+         	\begin{figure}[H]
+    			\centering
+    			\begin{tikzpicture}[x=0.6cm,y=0.6cm]
+        				\draw (-5,-5) rectangle (5,5);
+        				% Corner labels outside the rectangle
+        				\node[below left] at (-5,-5) {\small $-5$};
+        				\node[above left]  at (-5, 5) {\small $5$};
+        				\node[below right] at ( 5,-5) {\small $5$};
+        				% Bottom two points (nodes 1 and 2) within each other's circle of radius 2.5
+        				\fill (-2.0,-3.5) circle (2pt);
+        				\draw (-2.0,-3.5) circle (2.5);
+        				\node[anchor=east] at (-2.0,-3.5) {\small 1};
+        				\fill (-0.5,-3.3) circle (2pt);
+        				\draw (-0.5,-3.3) circle (2.5);
+        				\node[anchor=west] at (-0.5,-3.3) {\small 2};
+        				\draw (-2.0,-3.5) -- (-0.5,-3.3);
+        				% Top point (node 3) outside the bottom circles
+        				\fill (3.0,3.5) circle (2pt);
+        				\draw (3.0,3.5) circle (2.5);
+        				\node[anchor=west] at (3.0,3.5) {\small 3};
+    			\end{tikzpicture}
+   		\caption{Illustration of an RGG with $ \mathcal{X}= [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ 
+			(with respect to the Euclidean distance), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, 
+			within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
+    			\label{fig:rgg}
+    		\end{figure}
+        		See also: graph, stochastic block model (SBM), Erd\H{o}s–R\'enyi graph (ER graph).},
+    first={random geometric graph (RGG)},
+	type=math, 
+    text={RGG}
+}
+
+
+\newglossaryentry{banachfixedpoint}
+{name={Banach's fixed-point theorem},
+    description={Banach's fixed-point theorem\index{Banach's fixed-point 
+	             theorem (contraction principle)} (also referred to as the contraction 
+				 principle \cite[9.23 Theorem]{RudinBookPrinciplesMatheAnalysis}) 
+				 states that every contractive operator $\mathcal{F}$ on a complete 
+				 metric space has a unique fixed point. Formally, 
+				 let $(\mathcal{X},d(\cdot,\cdot))$ be a non-empty complete 
+				 metric space and let $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ satisfy
+    			\[
+    				d(\mathcal{F}{\bf x},\mathcal{F}{\bf x}') \leq \kappa \cdot d({\bf x},{\bf x}') \qquad \forall {\bf x},{\bf x}'\in\mathcal{X},
+    			\]
+    			for some constant $\kappa \in [0,1)$. Then, $\mathcal{F}$ has a unique fixed 
+				point, i.e., there exists a unique ${\bf x}^\star\in\mathcal{X}$ with 
+				$\mathcal{F}{\bf x}^\star ={\bf x}^\star$, that can be computed by a 
+				fixed-point iteration. \\
+    \begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[>=Latex, font=\small]
+    \tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
+    \def\dx{6.5}
+    \node[space,label=above:{$\mathcal{X}$}] (XL) at (0,0) {};
+    \node[space,label=above:{$\mathcal{X}$}] (XR) at (\dx,0) {};
+    \draw[maparrow] (XL.east) -- node[above=2pt] {$\mathcal{F}$} (XR.west);
+    \coordinate (x1) at (-0.8,0.9);
+    \coordinate (x2) at (0.9,0.5);
+    \node[pt,label=above left:{${\bf x}$}] at (x1) {};
+    \node[pt,label=right:{${\bf x}'$}] at (x2) {};
+    \coordinate (fx1) at (\dx-0.3,0.5);
+    \coordinate (fx2) at (\dx+0.6,0.5);
+    \node[pt] (FX1) at (fx1) {};
+    \node[pt] (FX2) at (fx2) {};
+    \node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\mathcal{F}{\bf x}$};
+    \node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\mathcal{F}{\bf x}'$};
+    \coordinate (xsL) at (0,-0.9);
+    \coordinate (xsR) at (\dx,-0.9);
+    \node[pt,label=below:{${\bf x}^\star$}] at (xsL) {};
+    \node[pt,label=below:{$\mathcal{F}{\bf x}^\star={\bf x}^\star$}] at (xsR) {};
+    \end{tikzpicture}
+    \caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$  
+	  has a unique fixed point ${\bf x}^\star$ with $\mathcal{F}{\bf x}^\star={\bf x}^\star$.}
+    \label{fig:banach_dict}
+    \end{figure}
+	\\
+    See also: fixed-point iteration, sequence, Cauchy sequence, contractive operator, metric space.},
+    text={Banach's fixed-point theorem},
+    first={Banach's fixed-point theorem (contraction principle)},
+    type=math
+} 
+
+\newglossaryentry{diagonalizable}
+{name={diagonalizable},
+ description={A square matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
+               is called diagonalizable\index{diagonalizable} if it is similar  
+ 			  to a diagonal matrix \cite{HornMatAnalysis,Axler2025}. 
+ 			  Formally, ${\bf A}$ is diagonalizable if there exists an invertible matrix 
+			  $\mathbf{P}\in \mathbb{C}^{d\times d}$ such that 
+  		\[
+  			{\bf A}= \mathbf{P}{\bf D}\mathbf{P}^{-1},
+  		\]
+		where ${\bf D}\in \mathbb{C}^{d\times d}$ is a 
+ 		diagonal matrix whose main diagonal entries are the eigenvalues 
+ 		of ${\bf A}$. A matrix ${\bf A}\in \mathbb{R}^{d\times d}$ 
+ 		is diagonalizable if and only if it has $d$ linearly independent 
+ 		eigenvectors \cite{HornMatAnalysis}. 
+ 		\\	
+ 		See also: eigenvalue decomposition (EVD), eigenvalue, matrix.},
+ 	first={diagonalizable},
+ 	type=math,
+ 	text={diagonalizable}
+ }
+
+\newglossaryentry{schurdecomp}
+{name={Schur decomposition},
+ description={Every square matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
+              admits a Schur decomposition\index{Schur decomposition} \cite[Thm. 7.1.3]{GolubVanLoanBook}
+			\[{\bf A}= \mathbf{U}\mathbf{T}\mathbf{U}^{H}. 
+			\]
+			Here, $\mathbf{U}\in \mathbb{C}^{d\times d}$ is a unitary 
+			matrix (i.e., $\mathbf{U}^{H}\mathbf{U}= \mathbf{I}$) and $\mathbf{T}$ is upper triangular 
+			with the eigenvalues of ${\bf A}$ on its diagonal.
+			Carefully note that the Schur decomposition exists also 
+			for a matrix ${\bf A}$ that is not diagonalizable, 
+			\begin{figure} 
+				\[
+				\big(\mathbf{U}^{(1)}\big)^{H} {\bf A}\mathbf{U}^{(1)}
+				=
+				\begin{pmatrix}
+				\big({\bf x}^{(1)}\big)^{H} \\
+				\big({\bf X}^{(2)}\big)^{H}
+				\end{pmatrix}
+				{\bf A}\begin{pmatrix}
+				{\bf x}^{(1)} & {\bf X}^{(2)}
+				\end{pmatrix}
+				=
+				\begin{pmatrix}
+				\lambda_{1} & {\bf b}^{H} \\
+				0 & {\bf A}^{(1)}
+				\end{pmatrix},
+				\]
+				\caption{The first step in the construction of the Schur decomposition.
+					Every matrix ${\bf A}\in \mathbb{C}^{n\times n}$ has at least one 
+				     eigenvalue $\lambda_{1}$ with unit-norm eigenvector 
+					 ${\bf x}^{(1)}$, ${\bf A}{\bf x}^{(1)} = \lambda_{1} {\bf x}^{(1)}$. This 
+					 eigenvector allows to decompose ${\bf A}$ as depicted. Here, 
+					 we extended ${\bf x}^{(1)}$ to an orthonormal basis
+					$\mathbf{Q}^{(1)} = \big( {\bf x}^{(1)} \,\big|\, {\bf X}^{(2)} \big)$
+					and used ${\bf b}^{H} := \big({\bf x}^{(1)}\big)^{H} {\bf A}{\bf X}^{(2)}$ and 
+					${\bf A}^{(1)} := \big({\bf X}^{(2)}\big)^{H} {\bf A}{\bf X}^{(2)}$.
+			 		Applying the same construction recursively to ${\bf A}^{(1)}$ yields the 
+				     Schur decomposition.}
+			\end{figure}
+			\\
+ 		See also: eigenvalue decomposition (EVD), eigenvalue, matrix.},
+	first={Schur decomposition},
+	type=math,
+	text={Schur decomposition}
+}
+
+\newglossaryentry{unitary}
+{name={unitary (matrix)},
+ description={A square matrix $\mathbf{U}\in \mathbb{C}^{d\times d}$ 
+			  is called unitary\index{unitary matrix} if its conjugate 
+			  transpose (Hermitian transpose) $\mathbf{U}^{H}$ is also its inverse, i.e., if 
+ 		\[
+ 			\mathbf{U}^{H} \mathbf{U}= \mathbf{U}\mathbf{U}^{H} = \mathbf{I}.
+ 		\]
+ 		Equivalently, the columns (and rows) of a unitary matrix form an 
+		orthonormal basis of $\mathbb{C}^{d}$ with respect to the standard 
+		inner product\cite{HornMatAnalysis,Axler2025}. 
+ 		\\
+ 		See also: matrix.},
+ 	first={unitary},
+ 	type=math,
+ 	text={unitary}
+ }
+
+\newglossaryentry{innerproduct}
+{name={inner product},
+ description={Consider a vector space $\mathcal{X}$ over the 
+              field $\mathbb{F}$, where $\mathbb{F}$ is either the field of 
+			  real numbers $\mathbb{R}$ or the field of complex numbers $\mathbb{C}$. 
+	          An inner product\index{inner product} in $\mathcal{X}$ is 
+			  a function 
+ 			 \[
+ 				\langle \cdot, \cdot \rangle: \mathcal{X}\times \mathcal{X}\to \mathbb{F},
+ 			 \]
+ 			 that satisfies the following properties for all 
+			 ${\bf x}, {\bf x}', {\bf x}'' \in \mathcal{X}$ 
+				and all scalars $\alpha \in \mathbb{F}$ \cite{Axler2025}:
+ 			\begin{itemize}
+ 				\item[(i)] Conjugate symmetry: $\langle {\bf x}, {\bf x}' \rangle = \overline{\langle {\bf x}', {\bf x}\rangle}$,
+ 				\item[(ii)] Linearity in the first argument: $\langle \alpha {\bf x}+ {\bf x}'', {\bf x}' \rangle = \alpha \langle {\bf x}, {\bf x}' \rangle + \langle {\bf x}'', {\bf x}' \rangle$,
+ 				\item[(iii)] Positive-definiteness: $\langle {\bf x}, {\bf x}\rangle \geq 0$, with equality if and only if ${\bf x}= \mathbf{0}$.
+ 			\end{itemize}
+ 			The pair $(\mathcal{X}, \langle \cdot, \cdot \rangle)$ is called an inner product space. 
+			Each inner product induces a norm via 
+			$\Vert  {{\bf x}} \Vert :=\sqrt{\langle {\bf x}, {\bf x}\rangle}$ for all 
+			${\bf x}\in \mathcal{X}$, which in turn induces a metric via 
+			$d({\bf x},{\bf x}') :=\Vert  {{\bf x}- {\bf x}'} \Vert$
+			for all ${\bf x}, {\bf x}' \in \mathcal{X}$.
+ 		\\
+ 		See also: vector, norm, metric space.},
+ 	first={inner product},
+ 	type=math,
+ 	text={inner product}
+ }
+
+
+\newglossaryentry{trace}
+{name={trace (matrix)},
+  description={The\index{trace} trace ${\rm tr} \left({\bf A}\right)$ of a square matrix 
+         	   ${\bf A}\in \mathbb{R}^{d\times d}$ is the 
+			   sum of its diagonal entries \cite{StrangLinAlg2016}. 
+		 	   Formally, it is the linear map 
+		 		$${\rm tr} \left(\cdot\right): \mathbb{R}^{d\times d} 
+		 			\rightarrow \mathbb{R}: {\bf A}\mapsto \sum_{j=1}^{d} A_{j,j}.$$     
+    	 		It satisfies the cyclic property ${\rm tr} \left({\bf A}{\bf B}\right)={\rm tr} \left({\bf B}{\bf A}\right)$, for any matrices 
+    	 		${\bf A},{\bf B}\in \mathbb{R}^{d\times d}$ \cite[p. 301]{Axler2025}.
+				\begin{figure}
+					\begin{center}
+				\begin{tikzpicture}[font=\small, every node/.style={inner sep=1pt}]
+					% Matrix entries, manually placed
+				\node (a11) at (0,0)   {$A_{1,1}$};
+				\node (a12) at (1,0)   {$A_{1,2}$};
+				\node (a13) at (2,0)   {$A_{1,3}$};
+				\node (a21) at (0,-1)  {$A_{2,1}$};
+				\node (a22) at (1,-1)  {$A_{2,2}$};
+				\node (a23) at (2,-1)  {$A_{2,3}$};
+				\node (a31) at (0,-2)  {$A_{3,1}$};
+				\node (a32) at (1,-2)  {$A_{3,2}$};
+				\node (a33) at (2,-2)  {$A_{3,3}$};
+				% Very light bounding box (optional)
+				\draw[black] (-0.4,0.4) rectangle (2.4,-2.4);
+				% Tight ellipse around diagonal entries
+				\coordinate (C) at ($(a11)!0.5!(a33)$);
+				\draw[thick] (C) ellipse [x radius=2.1cm, y radius=0.35cm,rotate=-45];
+				\end{tikzpicture}
+				\end{center}
+				\caption{The trace ${\rm tr} \left({\bf A}\right)$ of a $3 \times 3$ matrix ${\bf A}\in \mathbb{R}^{3\times 3}$ is 
+				the sum of three main diagonal entries $A_{1,1}, A_{2,2}, A_{3,3}$.}
+				 \end{figure}
+				Furthermore, if ${\bf A}$ has eigenvalues $\lambda_{1},\ldots,\lambda_{d}$ 
+				(each repeated according to its algebraic multiplicity), then
+				\[{\rm tr} \left({\bf A}\right) = \sum_{j=1}^{d} \lambda_{j}.
+				\]
+				This identity follows from the invariance of the trace under similarity 
+				transformations \cite[Ch.~10]{Axler2025}.\\
+    			See also: eigenvalue, matrix.},
+    first={trace},
+    type=math,
+    text={trace},
+    type=math
+}
+ 
+\newglossaryentry{stddev}
+{name={standard deviation},
+  description={The\index{standard deviation} standard deviation of a 
+               real-valued random variable (RV) $x$ is defined as the square 
+			   root of its variance, i.e., 
+			   $\sqrt{\mathbb{E} \big\{ \big( x- \mathbb{E} \{x\} \big)^{2} \big\}}$. \\
+    See also: variance, random variable (RV), expectation.},
+    first={standard deviation},
+    text={standard deviation},
+    type=math
+}
+
+
+\newglossaryentry{sequence}
+{name={sequence},
+	description={A sequence\index{sequence} is an ordered collection 
+		of values from a set $\mathcal{A}$. For example, a sequence of 
+	   	values from the set $\mathcal{A} = \{ \star, \otimes \}$ could be 
+	   	$$ a = \big( \star, \,\otimes, \,\star, \,\star, \,\otimes, \,\ldots \big). $$
+	   	Formally, a sequence $a$ is a function \cite{RudinBookPrinciplesMatheAnalysis} 
+        		\[
+            	a: \mathbb{N} \rightarrow \mathcal{A}: r\mapsto a_r.
+        		\]        
+		We denote a sequence by $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
+		or $\big( a^{(r)} \big)_{r\in \mathbb{N}}$. Sometimes we also 
+		use the notation $\big\{ a^{(r)} \big\}_{r\in \mathbb{N}}$. 
+        		Note that the same value $a \in \mathcal{A}$ can appear multiple times 
+		in the sequence at different positions $r$. 		
+        		Sequences are fundamental for the study of machine learning (ML) methods, 
+        		for instance when describing successive iterates  
+        		$\{{\bf w}^{(t)}\}_{t\in \mathbb{N}}$ of an iterative 
+		algorithm. We can also use a sequence to represent an infinite 
+		dataset 
+		$$\mathcal{D}= \big\{ \left( {\bf x}^{(1)},y^{(1)} \right),\,\left( {\bf x}^{(2)},y^{(2)} \right),\,\ldots \big\}.$$ 
+		See also: function, dataset. }, 
+	first={sequence},
+	text={sequence},
+	type=math, 
+	firstplural={sequences},
+	plural={sequences}
+}
+
+\newglossaryentry{convergence}
+{name={convergence},
+	description={Consider a sequence\index{convergence} $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
+		with numeric values $a_{r} \in \mathbb{R}$. This sequence 
+       	 	is said to converge to a value $a^\star$ if the values $a_{r}$ become 
+		arbitrarily close to $a^\star$ for sufficiently large indices $r$. 
+        		Mathematically speaking, the sequence converges to $a^\star$ if 
+		\cite{RudinBook}, \cite{RudinBookPrinciplesMatheAnalysis}
+        		\[
+           	\forall \epsilon > 0, \; \exists N \in \mathbb{N} : r> N \Rightarrow |a_{r} - a^\star| < \epsilon.
+        		\]
+		We denote the convergence of a sequence to $a^\star$ 
+		by 
+		\[
+			\lim_{r\to \infty} a_{r} = a^\star.
+		\]
+		\begin{figure}[H] 
+			\centering
+			\begin{tikzpicture}[x=1.2cm, y=2cm, >=stealth]
+			% Axes
+			\draw[->] (0.5,0) -- (6.5,0) node[right] {$r$};
+			\draw[->] (0.5,0) -- (0.5,1.6) node[above] {$a_r$};
+			% Epsilon neighbourhood (ε = 0.1)
+  			\def\eps{0.3}
+  			\fill[gray!30, opacity=0.4] (0, {1-\eps}) rectangle (6.3, {1+\eps});
+  			\draw[dotted] (0,{1+\eps}) -- (6.3,{1+\eps}) node[right] {$1+\varepsilon$};
+  			\draw[dotted] (0,{1-\eps}) -- (6.3,{1-\eps}) node[right] {$1-\varepsilon$};
+			% Limit line at 1
+			\draw[dashed] (0,1) -- (6.3,1) node[right] {$\lim_{r\to \infty} a_r= 1$};
+			% Sequence points (e.g. a_t = 1 - 0.6^t)
+			\foreach \t in {1,...,6} {
+				\pgfmathsetmacro{\at}{1 - 0.6^(\t)}
+				\fill (\t,\at) circle (2pt);
+			}
+			% Tick marks at t = 1, 2, 3
+ 		     	\foreach \t in {1,2,3} {
+    		    	\draw (\t,0.02) -- (\t,-0.02) node[below] {$\t$};
+  		    	}
+			% Indicate N (first index within ε-band)
+  			\def{\mathcal{N}}{3}
+  			\draw[densely dashed, thick, red] ({\mathcal{N}},0) -- ({\mathcal{N}},1.7);
+  			\node[above] at ({\mathcal{N}},1.7) {$N$};
+			\end{tikzpicture}
+			\caption{A real-valued sequence $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
+			converging to the limit $a^\star = 1$.\label{fig:convergence_dict}}
+		\end{figure} 
+		The concept of convergence of a real-valued sequence 
+		(where $\mathcal{A}=\mathbb{R}$) extends naturally to a sequence 
+		in an arbitrary metric space $\mathcal{A}$. Indeed, we just need to 
+		replace the absolute difference $|a_{r} - a^\star|$ 
+		by the metric $d(a_{r},a^\star)$. 
+		Note that a sequence can only converge if it is a 
+		Cauchy sequence \cite{RudinBookPrinciplesMatheAnalysis}. 
+		However, not every Cauchy sequence is converging unless 
+		the underlying metric space is complete.   
+		\\ 
+		See also: sequence, metric space, Cauchy sequence.},
+	first={convergence},
+	type=math,
+	text={convergence}, 
+}
+
+\newglossaryentry{johnsonlindenstrausslemma}
+{name={Johnson--Lindenstrauss lemma (JL lemma)},
+	description={The\index{Johnson--Lindenstrauss lemma (JL lemma)} JL lemma describes conditions for 
+  		the existence of a feature map ${\bf \Phi}: \mathbb{R}^{d} \to \mathbb{R}^{d'}$ 
+  		with $d' \ll d$ such that the pairwise Euclidean distance 
+  		between feature vectors of a finite dataset is approximately preserved 
+  		\cite{vershynin2018high}, \cite{JMLR:v19:18-264}, \cite{johnson1984extensions}. 
+  		Consider a dataset $\mathcal{D}= \big\{{\bf x}^{(1)}, \,\dots, \,{\bf x}^{(m)} \big\}$ 
+  		with data points characterized by feature vectors in $\mathbb{R}^{d}$. 
+  		Then, for any $d'$ that satisfies
+		\[
+	  	d' \ge \frac{4 \ln(m)}{\varepsilon^2/2 - \varepsilon^3/3} \mbox{ for some } 0 < \varepsilon < 1
+		\]  
+   		there is a feature map ${\bf \Phi}$ such that \cite{ProofJLlemma}
+  		\begin{equation} 
+ 			\label{equ_def_approx_norm_JL_lemma_dict}
+ 			(1\!-\!\varepsilon)\mleft\lVert {\bf x}^{(r)}\!-\!{\bf x}^{(r')} \mright\rVert_{2}  
+ 			\!\le\!\mleft\lVert {\bf \Phi}\big({\bf x}^{(r)}\big)\!-\!{\bf \Phi}\big({\bf x}^{(r')}\big) \mright\rVert_{2} 
+			\!\le\!(1\!+\!\varepsilon)\mleft\lVert {\bf x}^{(r)}\!-\!{\bf x}^{(r')} \mright\rVert_{2}
+ 		\end{equation}
+		for all ${\bf x}^{(r)}, {\bf x}^{(r')} \in \mathcal{D}$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			% ---------- Original space: R^d ----------
+			\begin{scope}
+				% Points
+				\coordinate (x1) at (0.5,-0.6);   % anchor
+				\coordinate (x2) at (2.0,0.9);    % farther from x1 (long)
+				\coordinate (x3) at (1.1,0.3);    % closer to x1 (short)
+				\foreach \p in {x1,x2,x3} \fill (\p) circle (1.7pt);
+				% Labels
+				\node[below left]  at (x1) {\small ${\bf x}^{(1)}$};
+				\node[above right] at (x2) {\small ${\bf x}^{(2)}$};
+				\node[above left]  at (x3) {\small ${\bf x}^{(3)}$};
+				\node [anchor=east] at (1.2,2.2) {$\mathbb{R}^{d}$};
+			\end{scope}
+			% ---------- Mapping arrow ----------
+			\begin{scope}[xshift=1cm]
+				\draw[->, thick] (2.9,2.2) -- (4.1,2.2)
+				node[midway, above] {${\bf x}\mapsto {\bf z}\!:=\! {\bf \Phi}({\bf x})$};
+			\end{scope}
+			% ---------- Transformed space: R^{d'} ----------
+			\begin{scope}[xshift=2cm]
+				% Images of points (preserving relative distances)
+				\coordinate (y1) at (4.7,-0.7);   % image of x1
+				\coordinate (y2) at (6.1,0.5);    % image of x2 (farther)
+				\coordinate (y3) at (5.3,-0.1);   % image of x3 (closer)
+				\foreach \p in {y1,y2,y3} \fill (\p) circle (1.7pt);
+				\node[below left]  at (y1) {\small ${\bf z}^{(1)}$};
+				\node[above right] at (y2) {\small ${\bf z}^{(2)}$};
+				\node[above left]  at (y3) {\small ${\bf z}^{(3)}$};
+				\node [anchor=west] at (6.0,2.2) {$\mathbb{R}^{d'}$};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{The JL lemma offers precise conditions that guarantee the existence of 
+		         a feature map ${\bf \Phi}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d'}$ 
+		         such that pairwise Euclidean distances between (the feature vectors of) data points are 
+			approximately preserved. Roughly speaking, 
+			${\bf \Phi}$ maps neighboring points in the original feature space 
+			to neighboring points in the new feature space.}
+		\end{figure}
+		The feature map ${\bf \Phi}$ can be obtained from a random matrix 
+		${\bf A}\in \mathbb{R}^{d' \times d}$ whose entries are independent and identically distributed (i.i.d.) 
+		Gaussian random variables (Gaussian RVs) $A_{i,j} \sim \mathcal{N}\left(0,1/d'\right)$. 
+		It can be shown that the feature map ${\bf x}\mapsto \underbrace{{\bf A}{\bf x}}_{{\bf \Phi}({\bf x})}$ 
+		satisfies \eqref{equ_def_approx_norm_JL_lemma_dict} with probability at least $1\!-\!1/m$ \cite{ProofJLlemma}. 
+		\\
+  		See also: matrix, norm, vector space, Euclidean space, dimensionality reduction, principal component analysis (PCA).},	
+	first={Johnson--Lindenstrauss lemma (JL lemma)},
+	type=math, 
+  	text={JL lemma}
 }

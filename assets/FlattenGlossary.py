@@ -2,39 +2,33 @@
 # -*- coding: utf-8 -*-
 
 """
-Generate *_expanded.tex variants for all reachable LaTeX files (NO HASHES)
-and generate a main file ADictML_English_Expanded.tex that is identical to
-ADictML_English.tex except it inputs the expanded variants.
+Generate *_expanded.tex variants ONLY for LaTeX files whose basename starts
+with "ADictML" (excluding the main file), and generate a main file
+ADictML_English_Expanded.tex that is identical to ADictML_English.tex except
+it inputs the expanded variants of the ADictML* content files.
 
-Assumptions (your repo layout)
-------------------------------
-- This script lives in: <repo>/assets/FlattenGlossary.py
-- Repo root is:         <repo>/
-- Main file is:         ADictML_English.tex (in repo root)
+Key behavior
+------------
+1) Only expand/write content files with name starting "ADictML" AND != main file.
+2) Special main output is a raw copy of the original main file text, except
+   \\input/\\include are rewritten to point to expanded content files whenever
+   those exist in our mapping. No macro/gls/comment processing on main.
+3) Comments in expanded content files are preserved VERBATIM and remain commented:
+   - comment-only lines stay as comment-only lines
+   - no macro expansion, gls replacement, or input rewriting occurs inside comments
+4) Comment stripping is used only internally for:
+   - collecting reachable files
+   - inlining inputs for glossary parsing
+   - parsing macros/glossary entries robustly
 
-Outputs (all written to assets/)
--------------------------------
-- For each reachable .tex file: <stem>_expanded.tex
-  Example: ADictML_Glossary_English.tex -> assets/ADictML_Glossary_English_expanded.tex
-- Special main output: assets/ADictML_English_Expanded.tex
-  (same as original main, but inputs expanded variants)
-
-What "expanded" means
----------------------
-- Strip comments (preserving escaped %)
-- Expand macros from a macros file (\\newcommand/\\renewcommand/\\providecommand)
-- Replace \\gls/\\Gls/\\glspl/\\Glspl (and *-variants) with plain text using \\newglossaryentry database
-- Rewrite \\input/\\include arguments to point to expanded file stems (no .tex extension)
-
-Run
----
-From repo root:
-    python assets/FlattenGlossary.py -i ADictML_English.tex -g ADictML_English.tex -m assets/ml_macros.tex
+Run (from repo root)
+--------------------
+python assets/FlattenGlossary.py -i ADictML_English.tex -g ADictML_English.tex -m assets/ml_macros.tex
 
 Compile
 -------
-    cd assets
-    latexmk -pdf ADictML_English_Expanded.tex
+cd assets
+latexmk -pdf ADictML_English_Expanded.tex
 """
 
 from __future__ import annotations
@@ -45,18 +39,19 @@ import argparse
 from pathlib import Path
 from typing import Dict, Tuple, Optional, Set, List
 
+
 # -------------------------------------------------------------------
 # Paths: script sits in <repo>/assets/
 # -------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent          # .../assets
 PROJECT_ROOT = SCRIPT_DIR.parent                      # .../ (repo root)
 
-# Defaults (relative to repo root)
 DEFAULT_MAIN = Path("ADictML_English.tex")
-DEFAULT_GLOSSARY = Path("ADictML_English.tex")        # often simplest: parse glossary from same tree
+DEFAULT_GLOSSARY = Path("ADictML_English.tex")
 DEFAULT_MACROS = Path("assets/ml_macros.tex")
 
 SPECIAL_MAIN_OUT_NAME = "ADictML_English_Expanded.tex"  # exact name requested
+
 
 # -------------------------------------------------------------------
 # Utility: interpret CLI paths relative to repo root (NOT current cwd)
@@ -64,8 +59,13 @@ SPECIAL_MAIN_OUT_NAME = "ADictML_English_Expanded.tex"  # exact name requested
 def resolve_cli_path(p: Path) -> Path:
     return (PROJECT_ROOT / p).resolve() if not p.is_absolute() else p.resolve()
 
+
 # ----------------------- Utility: comments -------------------------
 def remove_comments_keep_escaped_percent(text: str) -> str:
+    """
+    Remove TeX comments (from unescaped % to end-of-line), but keep escaped \\%.
+    Used ONLY for internal parsing tasks (collecting inputs, parsing macros/glossary).
+    """
     out_lines = []
     for line in text.splitlines():
         i = 0
@@ -83,6 +83,54 @@ def remove_comments_keep_escaped_percent(text: str) -> str:
                 i += 1
         out_lines.append(''.join(kept))
     return '\n'.join(out_lines)
+
+
+def mask_tex_comments_verbatim(text: str) -> tuple[str, Dict[str, str]]:
+    """
+    Replace TeX comments (from unescaped % to end-of-line) with unique tokens,
+    preserving the original comment text verbatim for later restoration.
+
+    - Unescaped % starts a comment.
+    - Escaped \\% is not a comment starter.
+
+    This is used to ensure that expansions/replacements do NOT touch comments,
+    while keeping the final expanded output identical in its commented parts.
+    """
+    token_to_comment: Dict[str, str] = {}
+    out: List[str] = []
+
+    lines = text.splitlines(keepends=True)
+    for li, line in enumerate(lines):
+        i = 0
+        n = len(line)
+        while i < n:
+            ch = line[i]
+            if ch == '%':
+                if i > 0 and line[i - 1] == '\\':
+                    out.append('%')
+                    i += 1
+                    continue
+
+                comment = line[i:]  # includes newline if present (keepends=True)
+                token = f"__ADICTML_COMMENT_BLOCK_{li}_{i}__"
+                token_to_comment[token] = comment
+                out.append(token)
+                break
+            else:
+                out.append(ch)
+                i += 1
+
+    return ''.join(out), token_to_comment
+
+
+def unmask_tex_comments_verbatim(text: str, token_to_comment: Dict[str, str]) -> str:
+    """
+    Restore previously masked comment blocks.
+    """
+    for token in sorted(token_to_comment.keys(), key=len, reverse=True):
+        text = text.replace(token, token_to_comment[token])
+    return text
+
 
 # ----------------- Utility: balanced block parsers ------------------
 def extract_balanced(text: str, start: int, open_char='{', close_char='}') -> Tuple[str, int]:
@@ -106,6 +154,7 @@ def extract_balanced(text: str, start: int, open_char='{', close_char='}') -> Tu
         i += 1
     raise ValueError("No matching closing delimiter found")
 
+
 def extract_bracketed(text: str, start: int) -> Tuple[str, int]:
     if start >= len(text) or text[start] != '[':
         raise ValueError(f"Expected '[' at position {start}")
@@ -119,8 +168,10 @@ def extract_bracketed(text: str, start: int) -> Tuple[str, int]:
         i += 1
     raise ValueError("No matching ']' found")
 
+
 # ------------------ \\input / \\include handling --------------------
 _INPUTLIKE_RE = re.compile(r'\\(input|include)\s*\{([^}]+)\}', re.IGNORECASE)
+
 
 def _resolve_tex_path(ref: str, base_dir: Path) -> Optional[Path]:
     """
@@ -164,7 +215,11 @@ def _resolve_tex_path(ref: str, base_dir: Path) -> Optional[Path]:
 
     return None
 
+
 def collect_tex_files(entry: Path, visited: Optional[Set[Path]] = None, unresolved: Optional[List[str]] = None) -> Set[Path]:
+    """
+    Collect reachable .tex files via \\input/\\include, ignoring commented-out inputs.
+    """
     if visited is None:
         visited = set()
     if unresolved is None:
@@ -193,8 +248,9 @@ def collect_tex_files(entry: Path, visited: Optional[Set[Path]] = None, unresolv
 
     return visited
 
+
 def load_tex_with_inputs(entry_file: Path, visited: Optional[Set[Path]] = None) -> str:
-    """Inline inputs recursively (used for building glossary dict)."""
+    """Inline inputs recursively (used for building glossary dict). Commented inputs are ignored."""
     if visited is None:
         visited = set()
 
@@ -225,6 +281,7 @@ def load_tex_with_inputs(entry_file: Path, visited: Optional[Set[Path]] = None) 
     out_parts.append(no_comments[pos:])
     return "\n".join(out_parts)
 
+
 def load_glossary_source(glossary_src: Path) -> str:
     glossary_src = glossary_src.resolve()
     if glossary_src.is_dir():
@@ -233,6 +290,7 @@ def load_glossary_source(glossary_src: Path) -> str:
             parts.append(load_tex_with_inputs(f))
         return "\n".join(parts)
     return load_tex_with_inputs(glossary_src)
+
 
 # ----------------- Parse \\newglossaryentry blocks ------------------
 def parse_glossary_entries(tex: str) -> Dict[str, Dict[str, str]]:
@@ -260,6 +318,7 @@ def parse_glossary_entries(tex: str) -> Dict[str, Dict[str, str]]:
         i = k_after_body
         entries[key_str.strip()] = parse_glossary_body_fields(body_str)
     return entries
+
 
 def parse_glossary_body_fields(body: str) -> Dict[str, str]:
     res: Dict[str, str] = {}
@@ -295,12 +354,15 @@ def parse_glossary_body_fields(body: str) -> Dict[str, str]:
         i = skip_ws(i)
     return res
 
+
 # -------------------- Glossary replacement logic --------------------
 def capitalize_first(s: str) -> str:
     return s[:1].upper() + s[1:] if s else s
 
+
 def pick_singular(gls: Dict[str, str]) -> str:
     return gls.get('first') or gls.get('name') or gls.get('text') or ''
+
 
 def pick_plural(gls: Dict[str, str], sing: str) -> str:
     plural = gls.get('firstplural') or gls.get('plural')
@@ -309,6 +371,7 @@ def pick_plural(gls: Dict[str, str], sing: str) -> str:
     if sing.endswith('y') and len(sing) > 1 and sing[-2] not in 'aeiou':
         return sing[:-1] + 'ies'
     return sing + 's'
+
 
 def build_gls_replacer(glossary: Dict[str, Dict[str, str]]):
     GLS_KEY = r'([^\{\}]+?)'
@@ -349,6 +412,7 @@ def build_gls_replacer(glossary: Dict[str, Dict[str, str]]):
 
     return replace_all
 
+
 # ---------------------- Macro parsing & expansion --------------------
 class MacroDef:
     __slots__ = ("name", "nargs", "opt_default", "body")
@@ -357,6 +421,7 @@ class MacroDef:
         self.nargs = nargs
         self.opt_default = opt_default
         self.body = body
+
 
 def parse_newcommand_block(tex: str, i: int) -> Tuple[Optional[MacroDef], int]:
     n = len(tex)
@@ -399,6 +464,7 @@ def parse_newcommand_block(tex: str, i: int) -> Tuple[Optional[MacroDef], int]:
     body, j_after = extract_balanced(tex, j, '{', '}')
     return MacroDef(name=name, nargs=nargs, opt_default=opt_default, body=body), j_after
 
+
 def parse_macros(tex: str) -> Dict[str, MacroDef]:
     macros: Dict[str, MacroDef] = {}
     cmd_pattern = re.compile(r'\\(newcommand|renewcommand|providecommand)\*?')
@@ -418,11 +484,13 @@ def parse_macros(tex: str) -> Dict[str, MacroDef]:
         i = j
     return macros
 
+
 def _replace_args(body: str, args: Dict[int, str]) -> str:
     out = body
     for idx in sorted(args.keys(), reverse=True):
         out = out.replace(f"#{idx}", args[idx])
     return out
+
 
 def expand_macros_once(text: str, macros: Dict[str, MacroDef]) -> Tuple[str, int]:
     if not macros:
@@ -485,6 +553,7 @@ def expand_macros_once(text: str, macros: Dict[str, MacroDef]) -> Tuple[str, int
 
     return ''.join(out), expansions
 
+
 def expand_macros(text: str, macros: Dict[str, MacroDef], max_passes: int = 10) -> str:
     cur = text
     for _ in range(max_passes):
@@ -493,12 +562,23 @@ def expand_macros(text: str, macros: Dict[str, MacroDef], max_passes: int = 10) 
             break
     return cur
 
+
 # ---------------------- naming + input rewriting ----------------------
 def expanded_filename(original: Path) -> str:
-    """No hashes: <stem>_expanded.tex"""
     return f"{original.stem}_expanded.tex"
 
-def rewrite_inputs_to_expanded(text: str, this_file: Path, mapping: Dict[Path, str], unresolved: List[str]) -> str:
+
+def rewrite_inputs_to_expanded(
+    text: str,
+    this_file: Path,
+    mapping: Dict[Path, str],
+    unresolved: List[str],
+    *,
+    only_rewrite_if_in_mapping: bool = True,
+) -> str:
+    """
+    Rewrite \\input/\\include to expanded stems only when the resolved target is in mapping.
+    """
     base_dir = this_file.resolve().parent
 
     def _repl(m: re.Match) -> str:
@@ -508,14 +588,19 @@ def rewrite_inputs_to_expanded(text: str, this_file: Path, mapping: Dict[Path, s
         if target is None:
             unresolved.append(f"{this_file}: \\{cmd}{{{ref}}}")
             return m.group(0)
+
         target = target.resolve()
         if target not in mapping:
+            if only_rewrite_if_in_mapping:
+                return m.group(0)
             unresolved.append(f"{this_file}: \\{cmd}{{{ref}}} (resolved to {target} but not in mapping)")
             return m.group(0)
-        exp_stem = Path(mapping[target]).stem  # input by stem (no .tex)
+
+        exp_stem = Path(mapping[target]).stem
         return f"\\{cmd}{{{exp_stem}}}"
 
     return _INPUTLIKE_RE.sub(_repl, text)
+
 
 # ------------------------------ pipeline ------------------------------
 def build_glossary_dict(glossary_src: Path, macros: Dict[str, MacroDef]) -> Dict[str, Dict[str, str]]:
@@ -526,11 +611,25 @@ def build_glossary_dict(glossary_src: Path, macros: Dict[str, MacroDef]) -> Dict
     gls_exp = expand_macros(gls_nc, macros)
     return parse_glossary_entries(gls_exp)
 
-def expand_and_write(tex_file: Path,
-                     glossary: Dict[str, Dict[str, str]],
-                     macros: Dict[str, MacroDef],
-                     mapping: Dict[Path, str],
-                     unresolved: List[str]) -> Path:
+
+def is_expandable_tex(p: Path, main_tex: Path) -> bool:
+    """Only expand ADictML*.tex files, excluding the main file itself."""
+    p = p.resolve()
+    main_tex = main_tex.resolve()
+    return (p.suffix.lower() == ".tex" and p.name.startswith("ADictML") and p != main_tex)
+
+
+def expand_and_write(
+    tex_file: Path,
+    glossary: Dict[str, Dict[str, str]],
+    macros: Dict[str, MacroDef],
+    mapping: Dict[Path, str],
+    unresolved: List[str],
+) -> Path:
+    """
+    Expand a content file while preserving comments verbatim and ensuring nothing
+    is expanded/replaced inside comments.
+    """
     tex_file = tex_file.resolve()
     out_path = SCRIPT_DIR / mapping[tex_file]
 
@@ -539,13 +638,21 @@ def expand_and_write(tex_file: Path,
     except UnicodeDecodeError:
         raw = tex_file.read_text(encoding="latin-1")
 
-    nc = remove_comments_keep_escaped_percent(raw)
-    mac_exp = expand_macros(nc, macros)
+    # Mask comments so transformations won't touch them
+    masked, token_map = mask_tex_comments_verbatim(raw)
 
+    # Apply transformations only to non-comment content
+    mac_exp = expand_macros(masked, macros)
     replacer = build_gls_replacer(glossary)
     flattened = replacer(mac_exp)
 
-    flattened = rewrite_inputs_to_expanded(flattened, tex_file, mapping, unresolved)
+    # Rewrite inputs only when target is expandable (in mapping)
+    flattened = rewrite_inputs_to_expanded(
+        flattened, tex_file, mapping, unresolved, only_rewrite_if_in_mapping=True
+    )
+
+    # Restore comments verbatim
+    flattened = unmask_tex_comments_verbatim(flattened, token_map)
 
     header = (
         "%% ------------------------------------------------------------------\n"
@@ -557,43 +664,42 @@ def expand_and_write(tex_file: Path,
     out_path.write_text(header + flattened, encoding="utf-8")
     return out_path
 
-def write_special_main(main_tex: Path,
-                       glossary: Dict[str, Dict[str, str]],
-                       macros: Dict[str, MacroDef],
-                       mapping: Dict[Path, str]) -> Path:
+
+def write_special_main_raw_rewrite_only(main_tex: Path, mapping: Dict[Path, str]) -> Path:
     """
-    Write assets/ADictML_English_Expanded.tex which is identical to the original main,
-    except its \\input/\\include point to the expanded variants.
-    We still apply macro expansion + gls replacement + comment stripping
-    (so it is consistent with the other expanded files).
+    Write assets/ADictML_English_Expanded.tex identical to the original main,
+    except \\input/\\include are rewritten to expanded variants *when available*.
+    No comment stripping, no macro expansion, no gls replacement.
     """
     main_tex = main_tex.resolve()
     out_path = SCRIPT_DIR / SPECIAL_MAIN_OUT_NAME
 
-    raw = main_tex.read_text(encoding="utf-8")
-    nc = remove_comments_keep_escaped_percent(raw)
-    mac_exp = expand_macros(nc, macros)
-    replacer = build_gls_replacer(glossary)
-    flattened = replacer(mac_exp)
+    try:
+        raw = main_tex.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        raw = main_tex.read_text(encoding="latin-1")
 
     unresolved: List[str] = []
-    flattened = rewrite_inputs_to_expanded(flattened, main_tex, mapping, unresolved)
+    rewritten = rewrite_inputs_to_expanded(
+        raw, main_tex, mapping, unresolved, only_rewrite_if_in_mapping=True
+    )
 
     header = (
         "%% ------------------------------------------------------------------\n"
         f"%% AUTO-GENERATED by {Path(__file__).name}\n"
         f"%% Source main: {main_tex}\n"
-        "%% This file is identical to the source main except that it inputs *_expanded.tex files.\n"
+        "%% Identical to source main except it inputs *_expanded.tex for ADictML* content files.\n"
         "%% ------------------------------------------------------------------\n\n"
     )
-    out_path.write_text(header + flattened, encoding="utf-8")
+    out_path.write_text(header + rewritten, encoding="utf-8")
 
     if unresolved:
-        print("\n[WARN] In special main, some \\input/\\include could not be rewritten (showing up to 20):")
+        print("\n[WARN] In special main, some \\input/\\include could not be resolved (showing up to 20):")
         for line in unresolved[:20]:
             print("  ", line)
 
     return out_path
+
 
 def run(main_tex: Path, glossary_src: Path, macros_tex: Path) -> None:
     main_tex = resolve_cli_path(main_tex)
@@ -607,32 +713,34 @@ def run(main_tex: Path, glossary_src: Path, macros_tex: Path) -> None:
     if not macros_tex.exists():
         raise FileNotFoundError(f"Macros file not found: {macros_tex}")
 
-    # load macros
+    # load macros (strip comments for robust parsing)
     raw_mac = macros_tex.read_text(encoding="utf-8")
     macros = parse_macros(remove_comments_keep_escaped_percent(raw_mac))
 
     # collect reachable files
     unresolved_collect: List[str] = []
-    files: Set[Path] = set(collect_tex_files(main_tex, unresolved=unresolved_collect))
+    reachable: Set[Path] = set(collect_tex_files(main_tex, unresolved=unresolved_collect))
 
     if glossary_src.is_dir():
         for f in glossary_src.rglob("*.tex"):
-            files |= set(collect_tex_files(f, unresolved=unresolved_collect))
+            reachable |= set(collect_tex_files(f, unresolved=unresolved_collect))
     else:
-        files |= set(collect_tex_files(glossary_src, unresolved=unresolved_collect))
+        reachable |= set(collect_tex_files(glossary_src, unresolved=unresolved_collect))
 
-    # ensure main is included
-    files.add(main_tex.resolve())
+    reachable = {p.resolve() for p in reachable}
 
-    all_files = sorted({p.resolve() for p in files})
+    # choose which files actually get expanded
+    expandable = sorted(p for p in reachable if is_expandable_tex(p, main_tex))
+    print(f"[INFO] Reachable .tex files: {len(reachable)}")
+    print(f"[INFO] Expandable ADictML*.tex files (excluding main): {len(expandable)}")
 
-    # mapping (no hashes)
+    # mapping for expandable files only
     mapping: Dict[Path, str] = {}
     collisions: Dict[str, List[Path]] = {}
-    for p in all_files:
-        name = expanded_filename(p)
-        mapping[p] = name
-        collisions.setdefault(name.lower(), []).append(p)
+    for p in expandable:
+        outname = expanded_filename(p)
+        mapping[p] = outname
+        collisions.setdefault(outname.lower(), []).append(p)
 
     bad = {k: v for k, v in collisions.items() if len(v) > 1}
     if bad:
@@ -641,21 +749,23 @@ def run(main_tex: Path, glossary_src: Path, macros_tex: Path) -> None:
             print(f"  {outname}:")
             for pp in paths:
                 print(f"    - {pp}")
-        raise RuntimeError("Refusing to overwrite colliding expanded filenames. Rename sources or reintroduce disambiguation.")
+        raise RuntimeError(
+            "Refusing to overwrite colliding expanded filenames. "
+            "Rename sources or reintroduce disambiguation."
+        )
 
     # glossary dict
     glossary = build_glossary_dict(glossary_src, macros)
-    print(f"[OK] Found {len(all_files)} .tex files to expand.")
     print(f"[OK] Parsed {len(glossary)} glossary entries.")
 
-    # expand/write all files
+    # expand/write only expandable files
     unresolved_rewrite: List[str] = []
-    for f in all_files:
+    for f in expandable:
         outp = expand_and_write(f, glossary, macros, mapping, unresolved_rewrite)
         print(f"[OK] {f.name} -> {outp.name}")
 
-    # special main
-    special = write_special_main(main_tex, glossary, macros, mapping)
+    # special main: rewrite inputs only, keep raw text
+    special = write_special_main_raw_rewrite_only(main_tex, mapping)
     print(f"[OK] Special expanded main written: {special}")
 
     unresolved = unresolved_collect + unresolved_rewrite
@@ -669,10 +779,14 @@ def run(main_tex: Path, glossary_src: Path, macros_tex: Path) -> None:
     print("\n[DONE]")
     print(f"Compile from assets/: latexmk -pdf {SPECIAL_MAIN_OUT_NAME}")
 
+
 # ------------------------------ CLI ---------------------------------
 def parse_args(argv=None):
     p = argparse.ArgumentParser(
-        description="Generate no-hash *_expanded.tex into assets/ and a special ADictML_English_Expanded.tex that inputs expanded variants."
+        description=(
+            "Generate no-hash *_expanded.tex into assets/ for ADictML* content files "
+            "and a special main that inputs them (comments preserved verbatim)."
+        )
     )
     p.add_argument("-i", "--input", type=Path, default=DEFAULT_MAIN,
                    help="Main input .tex file (relative to repo root if not absolute)")
@@ -681,6 +795,7 @@ def parse_args(argv=None):
     p.add_argument("-m", "--macros", type=Path, default=DEFAULT_MACROS,
                    help="Macros file; relative to repo root if not absolute")
     return p.parse_args(argv)
+
 
 if __name__ == "__main__":
     args = parse_args()

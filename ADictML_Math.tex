@@ -35,24 +35,22 @@
 {name={spectral decomposition},
 	description={Every \gls{normalmatrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
                  admits\index{spectral decomposition} a spectral decomposition of the form \cite{HornMatAnalysis,Axler2025}
-       \begin{align}
-        \nonumber
-            \mA 
-            % & = 
-            % \big[ \vu^{(1)}\ \cdots\ \vu^{(\nrfeatures)}\big]
-            % \pmatrix{
-            % \eigval{1} &        &        & 0\\
-            %         & \eigval{2} &     &  \\
-            %         &        & \ddots &  \\
-            % 0         &        &        & \eigval{\nrfeatures}
-            % }
-            % \pmatrix{
-            % \big(\vu^{(1)}\big)^{H}\\
-            % \vdots\\
-            % \big(\vu^{(\nrfeatures)}\big)^{H}
-            % } \nonumber \\
-                & = \sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx} \vu^{(\featureidx)} \big(\vu^{(\featureidx)})^{H} \nonumber \\ 
-       \end{align}
+       \begin{equation}
+             \mA = 
+              \big( \vu^{(1)}, \cdots, \vu^{(\nrfeatures)}\big)
+              \begin{pmatrix}
+              \eigval{1} &        &        & 0\\
+                      & \eigval{2} &     &  \\
+                      &        & \ddots &  \\
+              0         &        &        & \eigval{\nrfeatures}
+		 	 \end{pmatrix}
+              \begin{pmatrix}
+              \big(\vu^{(1)}\big)^{H}\\
+              \vdots\\
+              \big(\vu^{(\nrfeatures)}\big)^{H}
+		 	 \end{pmatrix}
+             = \sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx} \vu^{(\featureidx)} \big(\vu^{(\featureidx)})^{H} \nonumber \\ 
+       \end{equation}
       with an orthonormal basis $\vu^{(1)},\ldots,\vu^{(\nrfeatures)}$. 
        \begin{figure}[t]
             \centering
@@ -414,7 +412,21 @@
 
 \newglossaryentry{chernoffbound}
 {name={Chernoff bound}, 
-	description={TBC\index{Chernoff bound}.}, 
+	description={The Chernoff bound\index{Chernoff bound} is a \gls{concentrationinequ} 
+	             derived as a direct application of \gls{markovsinequality} \cite[Ch.\ 2]{vershynin2018high}. 
+				 Let $\feature$ be a real-valued \gls{rv} such that its \gls{mgf} 
+				 $\mgf{\feature}{t}=\expect\{\exp(t x)\}$ exists for some $t>0$. 
+				 Applying \gls{markovsinequality} to the nonnegative 
+				 \gls{rv} $\exp(t \feature)$ yields, for any $\eta\in\mathbb{R}$, 
+				\begin{equation}
+					\prob{ \feature \ge \eta }
+					= \prob{ \exp(t \feature) \ge \exp(t\eta)}
+					\le \exp(-t\eta)\, \expect\{\exp(t \feature)\}\nonumber.
+				\end{equation}
+				Note that this is actually an entire family of upper bounds, parametrized 
+				by all valid choices for $t>0$ (i.e., $\mgf{\feature}{t}$ must exist). \\
+	See also: \gls{markovsinequality}, \gls{chebyshevsinequality}, 
+	\gls{hoeffdingsinequality}, \gls{concentrationinequ}.}, 
  	first={Chernoff bound}, 
  	type=math, 
  	text={Chernoff bound}
@@ -2051,4 +2063,684 @@ sort={sigma-field},
  	type=math,
  	plural={typical sets},
  	text={typical set} 
+}
+
+\newglossaryentry{majmin}
+{name={majorize-minimize (MM)}, 
+	description={Consider an \gls{optproblem} $\min_{\weights \in \paramspace} f(\weights)$ with 
+		some complicated (potentially non-\gls{convex} and \gls{nonsmooth}) \gls{objfunc}. 
+		One important example of such an \gls{optproblem} is \gls{erm}, which is used to learn the 
+		\glspl{modelparam} of a nonlinear \gls{model}. 
+		An MM method is\index{majorize-minimize (MM)} an iterative \gls{optmethod} 
+		that constructs a \gls{sequence} $\weights^{(1)},\,\weights^{(2)},\,\ldots \in \paramspace$ 
+		of \glspl{modelparam} as follows \cite{Lange2016MM}, \cite{BishopBook}, \cite{Hunter01022004}
+		(see also Fig. \ref{fig:majmin_dict}): 
+		\begin{itemize} 
+			\item During the $\iteridx$th \gls{iteration}, the \gls{objfunc} $f(\cdot)$ 
+			 	is approximated by another \gls{function} $g\big(\cdot;\weights^{(\iteridx)}\big)$.
+	             	  	This approximation must be an upper bound for (i.e., must majorize) the original
+				\gls{objfunc}, i.e., $g\big(\weights;\weights^{(\iteridx)}\big) \geq f(\weights)$ 
+			 	for all $\weights \in \paramspace$, and it must be tight for $\weights^{(\iteridx)}$, i.e., 
+			 	$g\big(\weights^{(\iteridx)};\weights^{(\iteridx)}\big) = f\big(\weights^{(\iteridx)}\big)$.
+			\item The new \glspl{modelparam}  $\weights^{(\iteridx+1)}$ are then obtained by 
+				minimizing the approximation, i.e., 
+				 $\weights^{(\iteridx+1)} \in \argmin_{\weights \in \paramspace}g\big(\weights;\weights^{(\iteridx)}\big)$. 
+		\end{itemize} 
+		\begin{figure}[H]
+			 \centering
+			 \begin{tikzpicture}[x=1.2cm,y=1cm]
+				% --- parameters ---
+				\def\xa{0}
+				\def\xb{2*pi}
+				\def\xo{3*pi/4}     % touch point: 1.5 * (pi/2) = 3pi/4
+				\def\mL{0.4}        % left slope  (adjust to keep it above the sine)
+				\def\mR{0.7}        % right slope (adjust to keep it above the sine)
+				% horizontal axis
+				\draw[->] (\xa-0.2,-2) -- (\xb+0.3,-2) node[right] {$\weights$};
+				% sine over one period
+				\draw[thick,samples=100,domain=\xa:\xb]
+				plot (\x,{sin(\x r)}) node[pos=0.1,above left,black] {\small $f(\weights)$};
+				% compute y0 = sin(w0)
+				\pgfmathsetmacro\yxo{sin(\xo r)}
+				% Anchors (numeric, no macros)
+				% w0 = 3*pi/4 = 2.35619449
+				% xL = 2.00619449, xR = 2.70619449
+				% y0 = sin(w0) = 0.70710678
+				% Left slope mL = cos(xL) = -0.42177145  (tangent => upper bound on [0, xL])
+				% Right slope mR = 0.7  (rising; safely above the sine on [xR, 2*pi])
+				\def\xL{2.70}
+				\def\xR{3.80}
+				\def\yO{0.70}
+				% Left (tangent) segment: y = y0 + mL*(x - xL), mL = -0.42177145
+				\draw[dashed,samples=2,domain=0:\xL]
+				plot (\x,{\yO + (-0.7)*(\x - \xo)});
+				% Flat touching segment
+				\draw[dashed]
+				(\xL,{\yO+(-0.7)*(\xL-\xo)}) -- (\xR,{\yO+(-0.7)*(\xL-\xo)});
+				% Right rising segment: y = y0 + mR*(x - xR), mR = 0.7
+				% draw the segment
+				\draw[dashed,samples=2,domain=\xR:2*pi]
+				plot (\x,{\yO+(-0.7)*(\xL-\xo) + (0.7)*(\x - \xR)});
+				% compute a point 65% along the x-range [\xR, 2*pi]
+				\pgfmathparse{\xR + 0.65*(2*pi - \xR)} \let\xmid\pgfmathresult
+				\pgfmathparse{\yO + 0.7*(\xmid - \xR)} \let\ymid\pgfmathresult
+				% label at that point
+				\node[right,black] at (\xmid,\ymid) {$g\big( \weights; \weights^{(\iteridx)} \big)$};
+				% Touch marker at w0
+				\fill[red] (2.35619449,0.70710678) circle (1.2pt);
+				% --- vertical ruler marking w0 ---
+				\draw[densely dotted,gray] (\xo,-2) -- (\xo,\yO);
+				% \draw[gray] (\xo,0) -- ++(0,-2.06);
+				\node[below] at (\xo,-2) {$\weights^{(\iteridx)}$};
+			\end{tikzpicture}
+			\caption{The construction of \glspl{modelparam} based on the iterative MM method.}
+			\label{fig:majmin_dict}
+		\end{figure}
+		Similar to \glspl{gdmethod}, the MM principle is also based on approximating an 
+		\gls{objfunc} locally, around the current \glspl{modelparam}, and then optimizing 
+		this approximation to obtain new \glspl{modelparam}. However, the construction 
+		of local approximations is very different. While \glspl{gdmethod} use linear \glspl{function} 
+		for these approximations, MM methods can use nonlinear \glspl{function} as long as 
+		they are upper bounds for the original \gls{objfunc}. 
+			 \\ 
+		See also: \gls{gdmethod}, \gls{em}.},
+	first={majorize–minimize (MM)},
+	type=math, 
+	text={MM}
+}
+
+\newglossaryentry{markovsinequality}
+{name={Markov's inequality},
+	description={Consider a real-valued nonnegative \gls{rv} $x$ for which 
+		the \gls{expectation} $\expect\{ x\}$ exists. \index{Markov's inequality} 
+	 	Markov's inequality provides an upper bound on the \gls{probability} 
+	 	$\prob{x\geq a}$ that $x$ exceeds a given positive threshold $a>0$.  
+	 	In particular,          
+	 	\begin{equation}
+            		\nonumber
+			\prob{x \geq a} \leq \frac{\expect \{ x\}}{a} \qquad \mbox{ holds for any } a > 0. 
+            		%\label{eq:markovsinequality_dict}
+    		\end{equation}
+    		This inequality can be verified by noting that $\prob{x \geq a}$ is the 
+		\gls{expectation} $\expect\{g(x)\}$ with the \gls{function} 
+	 	$$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \indicatorfunc{\{x \geq a\}}(x').$$ 
+	 	As illustrated in Fig. \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
+	 	$$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ 
+	 	This implies Markov's inequality via the monotonicity property 
+	 	of the \gls{LebesgueIntegral} \cite[p. 50]{folland1999real}. 
+    		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
+			% -------- parameters ----------
+			\def\a{3.24}      % threshold a
+			\def\xmax{10}     % x-axis max
+			\def\m{0.02}      % slope of the linear function y = m(x-a)+1
+			% -------- pdf function p(x) (same as your expression) ----------
+			% p(x) = (1/(3*sqrt(2*pi))) * x^(1.5) * exp(-x/2)
+			\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
+			%\draw[-{Latex}] (0,0) -- (0,3.1) node[left] {$\pdf{x}{x'}$};
+                \draw[-{Latex}] (0,0) -- (0,3.1)  node[left, text=blue!70!black] {$\pdf{x}{x'}$};
+			% Fill under the pdf (optional aesthetics)
+			\fill[blue!15, opacity=0.3]
+				plot[samples=400, domain=0:\xmax, smooth]
+				(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
+			% PDF curve
+			\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
+				plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
+				node[pos=0.9, above right, xshift=2pt] {};
+			% Vertical guide at x=a
+			\draw[dashed, gray] (\a,0) -- (\a,1.05);
+			\node[below] at (\a,0) {$a$};
+			\node[above] at (1*\a,3) {$\prob{x \geq a} \leq \frac{\expect \{ x\}}{a}$}; 
+			\node[below] at (0,0) {$0$};
+			% -------- indicator 1{x >= a} ----------
+			% 0 for x<a with open circle at (a,0)
+			\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
+			\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
+			% 1 for x>=a with closed circle at (a,1)
+			\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
+				node[pos=0.9, above, yshift=2pt] {$\indicatorfunc{\{x \ge a\}}(x')$};
+			\filldraw[green!60!black] (\a,1) circle (2pt);
+			% -------- linear curve through (a,1): y = m(x-a)+1 ----------
+			\draw[red!70, very thick, samples=2, domain=0:\xmax]
+				plot (\x,{ \x*(1/\a) }); 
+			\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
+			% Axis marker for y=1
+			\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
+			\end{tikzpicture}
+            	\caption{The \gls{expectation} $\expect\{x\}$ and the \gls{probability} $\prob{x \geq a}$ 
+			of a nonnegative \gls{rv} $x$ with 
+                a \gls{pdf} $\pdf{x}{\cdot}$           
+                %a \gls{probdist} $\probdist^{(x)}$ 
+			can be obtained via \glspl{LebesgueIntegral} of 
+			$f(x') = x'/a$ and $g(x') = \indicatorfunc{\{x \geq a\}}(x')$, respectively.}
+            	\label{fig:markovsinequality_dict}
+        		\end{figure} 
+		See also: \gls{expectation}, \gls{probability}, \gls{concentrationinequ}.},
+	first={Markov's inequality},
+	type=math, 
+    	text={Markov's inequality}  
+}
+
+\newglossaryentry{chebyshevsinequality}
+{name={Chebyshev's inequality},
+	description={Consider a real-valued \gls{rv} $x$ for which 
+		the second moment $\expect\{ x^{2} \}$ exists (and is finite). 
+ 	 	The existence of the second moment implies the existence 
+ 	 	of a finite \gls{expectation} $\mu \defeq \expect\{ x\}$ and a finite 
+ 	 	\gls{variance} $\sigma^{2}\!\defeq\!\expect \big\{ \big( x\!-\!\mu \big)^{2} \big\}$ \cite[Proposition 6.12]{folland1999real}. 
+ 	 	Chebyshev's inequality\index{Chebyshev's inequality} refers 
+ 	 	to the following upper bound on the \gls{probability} that $x$ 
+ 	 	deviates from $\mu$ by more than a given threshold $\eta$ 
+ 	 	\cite[Ch. 4]{FellerBook}. 
+ 	 	In particular,   
+ 		\begin{equation}
+           		\nonumber
+			\prob{\big|x - \mu \big| \geq \eta } \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
+            		%\label{eq:chebyshevsinequality_dict}
+     		\end{equation}
+ 		This upper bound can be obtained by applying \gls{markovsinequality} to 
+ 		the new \gls{rv} $\tilde{x}\!\defeq\! \big(x\!-\!\mu \big)^2$. 
+  		\begin{figure}[H]
+   			\centering
+			\begin{tikzpicture}
+     			\begin{axis}[
+      			width=9cm, height=4.2cm,
+      			samples=300,
+      			axis lines=left,
+	  		ylabel={$\pdf{x}{x'}$},
+      			xlabel={$x'$},
+      			x label style={at={(axis description cs:1,0)}, anchor=west},
+	  		ylabel style={rotate=270,anchor=south,at={(axis description cs:0,1.02)}},
+      			xtick={-1.5,0,1.5},
+      			xticklabels={$-\eta$,$\mu$,$\eta$},
+      			ytick=\empty,
+      			ymin=0, ymax=0.45,
+      			domain=-4:4,
+      			clip=false
+    			]
+      			% pdf (centered at mu; here shown as standard normal in x - mu coordinates)
+      			\addplot[name path=pdf, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
+      			\addplot[name path=axis, draw=none] {0};
+      			% shaded tails: |X - mu| >= t with t = 1.5
+      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=1.5:4}];
+      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=-4:-1.5}];
+      			% guide lines at mu and ±t
+      			\draw[densely dashed] (axis cs:0,0) -- (axis cs:0,0.42);
+      			\draw[dashed] (axis cs:1.5,0) -- (axis cs:1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      			\draw[dashed] (axis cs:-1.5,0) -- (axis cs:-1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
+      			% label for the shaded area
+   			%   \node[anchor=west] at (axis description cs:0.72,0.82) {$\prob{|x-\mu|\ge \eta}$};
+    			\end{axis}
+  			\end{tikzpicture}
+  		\caption{Chebyshev's inquality provides an upper bound on 
+              		the tail \gls{probability} $\prob{|x-\mu|\ge \eta}$ (i.e., shaded area) of
+			a real-valued \gls{rv} $x$ with a finite second moment.\label{fig:chebyshev_minimal_dict}} 
+		\end{figure}
+     		See also: \gls{expectation}, \gls{markovsinequality}, \gls{concentrationinequ}.},
+    	first={Chebyshev's inequality},
+	type=math, 
+     	text={Chebyshev's inequality}  
+}
+
+\newglossaryentry{hoeffdingsinequality}
+{name={Hoeffding's inequality},
+	description={\index{Hoeffding's inequality} Hoeffding's inequality \cite{Hoeffding1963} is a fundamental \gls{concentrationinequ} 
+		that provides an upper bound on the \gls{probability} that a sum (or average) of independent, bounded \glspl{rv} 
+		deviates from its \gls{mean} by more than some threshold. 
+     		Let $x_1,\,\dots,\,x_n$ be independent real-valued \glspl{rv} $x_i$ taking values in $[a_i,b_i] \subset \mathbb{R}$, 
+		and $S_n \defeq \sum_{i=1}^n x_i$ and $\expect\{S_n\} = \sum_{i=1}^n \expect\{x_i\}$. 
+		Then, Hoeffding's inequality \cite[Th. 2.2.6]{vershynin2018high} states that
+        		\begin{equation}
+                		\nonumber
+			\prob{ |S_n - \expect\{S_n\}| \geq t } 
+            		\leq 2 \exp \left( -\frac{2 t^2}{\sum\limits_{i=1}^n (b_i - a_i)^2} \right) \qquad \forall t > 0.
+            		%\label{eq:hoeffding_sum}
+        		\end{equation}
+    		Hoeffding's inequality typically provides sharper bounds than \gls{chebyshevsinequality}, 
+		but it is more restrictive by assuming bounded \glspl{rv}.
+    		In the context of \gls{ml}, this result is useful for deriving guarantees for \gls{erm}  and in the context of \gls{mab}. 
+		 \\
+    		See also: \gls{concentrationinequ}, \gls{probability}, \gls{rv}, \gls{chebyshevsinequality}, \gls{expectation}, \gls{probspace}, \gls{markovsinequality}.},
+    first={Hoeffding's inequality},
+	type=math, 
+    text={Hoeffding's inequality}  
+}
+
+\newglossaryentry{rgg}
+{name={random geometric graph (RGG)},
+	description={An RGG\index{random geometric graph (RGG)} is a \gls{probmodel} for \glspl{graph} 
+		built from nodes randomly placed in a \gls{metricspace}. Given a \gls{metricspace}, the RGG is characterized by 
+		the number of nodes, the connection radius, and the \gls{probdist} describing the node placement. 
+    		More precisely, for a node set $\nodeidx=1, \,\ldots, \,\nrnodes$, each node $\nodeidx$ is assigned to a random position 
+		$\featurevec^{(\nodeidx)} \in \featurespace$, typically as \glspl{realization} of \gls{iid} \glspl{rv} taking values in a set $\featurespace$. 
+		Together with a \gls{metric}, this forms a \gls{metricspace}, often with the \gls{metric} induced by a \gls{norm}. 
+		A specific \gls{realization} of an RGG contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if the distance between the nodes 
+		with respect to the \gls{metric} is smaller than some threshold, i.e., when $\metric{\featurevec^{(\nodeidx)}}{\featurevec^{(\nodeidx')}}\leq r$ 
+		for some threshold $r>0$, as illustrated in Fig. \ref{fig:rgg}.
+         	\begin{figure}[H]
+    			\centering
+    			\begin{tikzpicture}[x=0.6cm,y=0.6cm]
+        				\draw (-5,-5) rectangle (5,5);
+        				% Corner labels outside the rectangle
+        				\node[below left] at (-5,-5) {\small $-5$};
+        				\node[above left]  at (-5, 5) {\small $5$};
+        				\node[below right] at ( 5,-5) {\small $5$};
+        				% Bottom two points (nodes 1 and 2) within each other's circle of radius 2.5
+        				\fill (-2.0,-3.5) circle (2pt);
+        				\draw (-2.0,-3.5) circle (2.5);
+        				\node[anchor=east] at (-2.0,-3.5) {\small 1};
+        				\fill (-0.5,-3.3) circle (2pt);
+        				\draw (-0.5,-3.3) circle (2.5);
+        				\node[anchor=west] at (-0.5,-3.3) {\small 2};
+        				\draw (-2.0,-3.5) -- (-0.5,-3.3);
+        				% Top point (node 3) outside the bottom circles
+        				\fill (3.0,3.5) circle (2pt);
+        				\draw (3.0,3.5) circle (2.5);
+        				\node[anchor=west] at (3.0,3.5) {\small 3};
+    			\end{tikzpicture}
+   		\caption{Illustration of an RGG with $ \featurespace = [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ 
+			(with respect to the \gls{eucliddist}), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, 
+			within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
+    			\label{fig:rgg}
+    		\end{figure}
+        		See also: \gls{graph}, \gls{sbm}, \gls{ergraph}.},
+    first={random geometric graph (RGG)},
+	type=math, 
+    text={RGG}
+}
+
+
+\newglossaryentry{banachfixedpoint}
+{name={Banach's fixed-point theorem},
+    description={Banach's fixed-point theorem\index{Banach's fixed-point 
+	             theorem (contraction principle)} (also referred to as the contraction 
+				 principle \cite[9.23 Theorem]{RudinBookPrinciplesMatheAnalysis}) 
+				 states that every \gls{contractop} $\fixedpointop$ on a complete 
+				 \gls{metricspace} has a unique fixed point. Formally, 
+				 let $(\featurespace,\metric{\cdot}{\cdot})$ be a non-empty complete 
+				 \gls{metricspace} and let $\fixedpointop:\featurespace\to\featurespace$ satisfy
+    			\[
+    				\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'} \leq \kappa \cdot \metric{\featurevec}{\featurevec'} \qquad \forall \featurevec,\featurevec'\in\featurespace,
+    			\]
+    			for some constant $\kappa \in [0,1)$. Then, $\fixedpointop$ has a unique fixed 
+				point, i.e., there exists a unique $\featurevec^\star\in\featurespace$ with 
+				$\fixedpointop \featurevec^\star =\featurevec^\star$, that can be computed by a 
+				\gls{fixedpointiter}. \\
+    \begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[>=Latex, font=\small]
+    \tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
+    \def\dx{6.5}
+    \node[space,label=above:{$\featurespace$}] (XL) at (0,0) {};
+    \node[space,label=above:{$\featurespace$}] (XR) at (\dx,0) {};
+    \draw[maparrow] (XL.east) -- node[above=2pt] {$\fixedpointop$} (XR.west);
+    \coordinate (x1) at (-0.8,0.9);
+    \coordinate (x2) at (0.9,0.5);
+    \node[pt,label=above left:{$\featurevec$}] at (x1) {};
+    \node[pt,label=right:{$\featurevec'$}] at (x2) {};
+    \coordinate (fx1) at (\dx-0.3,0.5);
+    \coordinate (fx2) at (\dx+0.6,0.5);
+    \node[pt] (FX1) at (fx1) {};
+    \node[pt] (FX2) at (fx2) {};
+    \node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\fixedpointop \featurevec$};
+    \node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\fixedpointop \featurevec'$};
+    \coordinate (xsL) at (0,-0.9);
+    \coordinate (xsR) at (\dx,-0.9);
+    \node[pt,label=below:{$\featurevec^\star$}] at (xsL) {};
+    \node[pt,label=below:{$\fixedpointop \featurevec^\star=\featurevec^\star$}] at (xsR) {};
+    \end{tikzpicture}
+    \caption{A \gls{contractop} $\fixedpointop:\featurespace\to\featurespace$  
+	  has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.}
+    \label{fig:banach_dict}
+    \end{figure}
+	\\
+    See also: \gls{fixedpointiter}, \gls{sequence}, \gls{cauchysequence}, \gls{contractop}, \gls{metricspace}.},
+    text={Banach's fixed-point theorem},
+    first={Banach's fixed-point theorem (contraction principle)},
+    type=math
+} 
+
+\newglossaryentry{diagonalizable}
+{name={diagonalizable},
+ description={A square \gls{matrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+               is called diagonalizable\index{diagonalizable} if it is similar  
+ 			  to a diagonal \gls{matrix} \cite{HornMatAnalysis,Axler2025}. 
+ 			  Formally, $\mA$ is diagonalizable if there exists an invertible \gls{matrix} 
+			  $\mP \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ such that 
+  		\[
+  			\mA = \mP \mD \mP^{-1},
+  		\]
+		where $\mD \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a 
+ 		diagonal \gls{matrix} whose main diagonal entries are the \glspl{eigenvalue} 
+ 		of $\mA$. A \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ 
+ 		is diagonalizable if and only if it has $\nrfeatures$ linearly independent 
+ 		\glspl{eigenvector} \cite{HornMatAnalysis}. 
+ 		\\	
+ 		See also: \gls{evd}, \gls{eigenvalue}, \gls{matrix}.},
+ 	first={diagonalizable},
+ 	type=math,
+ 	text={diagonalizable}
+ }
+
+\newglossaryentry{schurdecomp}
+{name={Schur decomposition},
+ description={Every square \gls{matrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+              admits a Schur decomposition\index{Schur decomposition} \cite[Thm. 7.1.3]{GolubVanLoanBook}
+			\[\mA = \mU \mT \mU^{H}. 
+			\]
+			Here, $\mU \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a unitary 
+			matrix (i.e., $\mU^{H}\mU = \mI$) and $\mT$ is upper triangular 
+			with the \glspl{eigenvalue} of $\mA$ on its diagonal.
+			Carefully note that the Schur decomposition exists also 
+			for a \gls{matrix} $\mA$ that is not \gls{diagonalizable}, 
+			\begin{figure} 
+				\[
+				\big(\mU^{(1)}\big)^{H} \mA \mU^{(1)}
+				=
+				\begin{pmatrix}
+				\big(\vx^{(1)}\big)^{H} \\
+				\big(\mX^{(2)}\big)^{H}
+				\end{pmatrix}
+				\mA
+				\begin{pmatrix}
+				\vx^{(1)} & \mX^{(2)}
+				\end{pmatrix}
+				=
+				\begin{pmatrix}
+				\eigval{1} & \vb^{H} \\
+				0 & \mA^{(1)}
+				\end{pmatrix},
+				\]
+				\caption{The first step in the construction of the Schur decomposition.
+					Every \gls{matrix} $\mA \in \mathbb{C}^{n\times n}$ has at least one 
+				     \gls{eigenvalue} $\eigval{1}$ with unit-norm \gls{eigenvector} 
+					 $\vx^{(1)}$, $\mA \vx^{(1)} = \eigval{1} \vx^{(1)}$. This 
+					 \gls{eigenvector} allows to decompose $\mA$ as depicted. Here, 
+					 we extended $\vx^{(1)}$ to an orthonormal basis
+					$\mQ^{(1)} = \big( \vx^{(1)} \,\big|\, \mX^{(2)} \big)$
+					and used $\vb^{H} := \big(\vx^{(1)}\big)^{H} \mA \mX^{(2)}$ and 
+					$\mA^{(1)} := \big(\mX^{(2)}\big)^{H} \mA \mX^{(2)}$.
+			 		Applying the same construction recursively to $\mA^{(1)}$ yields the 
+				     Schur decomposition.}
+			\end{figure}
+			\\
+ 		See also: \gls{evd}, \gls{eigenvalue}, \gls{matrix}.},
+	first={Schur decomposition},
+	type=math,
+	text={Schur decomposition}
+}
+
+\newglossaryentry{unitary}
+{name={unitary (matrix)},
+ description={A square \gls{matrix} $\mU \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+			  is called unitary\index{unitary matrix} if its conjugate 
+			  transpose (Hermitian transpose) $\mU^{H}$ is also its inverse, i.e., if 
+ 		\[
+ 			\mU^{H} \mU = \mU \mU^{H} = \mI.
+ 		\]
+ 		Equivalently, the columns (and rows) of a unitary \gls{matrix} form an 
+		orthonormal basis of $\mathbb{C}^{\nrfeatures}$ with respect to the standard 
+		inner product\cite{HornMatAnalysis,Axler2025}. 
+ 		\\
+ 		See also: \gls{matrix}.},
+ 	first={unitary},
+ 	type=math,
+ 	text={unitary}
+ }
+
+\newglossaryentry{innerproduct}
+{name={inner product},
+ description={Consider a \gls{vectorspace} $\featurespace$ over the 
+              field $\mathbb{F}$, where $\mathbb{F}$ is either the field of 
+			  real numbers $\mathbb{R}$ or the field of complex numbers $\mathbb{C}$. 
+	          An inner product\index{inner product} in $\featurespace$ is 
+			  a \gls{function} 
+ 			 \[
+ 				\innerprod{\cdot}{\cdot}: \featurespace \times \featurespace \to \mathbb{F},
+ 			 \]
+ 			 that satisfies the following properties for all 
+			 $\featurevec, \featurevec', \featurevec'' \in \featurespace$ 
+				and all scalars $\alpha \in \mathbb{F}$ \cite{Axler2025}:
+ 			\begin{itemize}
+ 				\item[(i)] Conjugate symmetry: $\innerprod{\featurevec}{\featurevec'} = \overline{\innerprod{\featurevec'}{\featurevec}}$,
+ 				\item[(ii)] Linearity in the first argument: $\innerprod{\alpha \featurevec + \featurevec''}{\featurevec'} = \alpha \innerprod{\featurevec}{\featurevec'} + \innerprod{\featurevec''}{\featurevec'}$,
+ 				\item[(iii)] Positive-definiteness: $\innerprod{\featurevec}{\featurevec} \geq 0$, with equality if and only if $\featurevec = \mathbf{0}$.
+ 			\end{itemize}
+ 			The pair $(\featurespace, \innerprod{\cdot}{\cdot})$ is called an inner product space. 
+			Each inner product induces a \gls{norm} via 
+			$\norm{\featurevec} \defeq \sqrt{\innerprod{\featurevec}{\featurevec}}$ for all 
+			$\featurevec \in \featurespace$, which in turn induces a \gls{metric} via 
+			$\metric{\featurevec}{\featurevec'} \defeq \norm{\featurevec - \featurevec'}$
+			for all $\featurevec, \featurevec' \in \featurespace$.
+ 		\\
+ 		See also: \gls{vector}, \gls{norm}, \gls{metricspace}.},
+ 	first={inner product},
+ 	type=math,
+ 	text={inner product}
+ }
+
+
+\newglossaryentry{trace}
+{name={trace (matrix)},
+  description={The\index{trace} trace $\tr{\mA}$ of a square \gls{matrix} 
+         	   $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ is the 
+			   sum of its diagonal entries \cite{StrangLinAlg2016}. 
+		 	   Formally, it is the \gls{linearmap} 
+		 		$$\tr{\cdot}: \mathbb{R}^{\nrfeatures \times \nrfeatures} 
+		 			\rightarrow \mathbb{R}: \mA \mapsto \sum_{\featureidx=1}^{\nrfeatures} A_{\featureidx,\featureidx}.$$     
+    	 		It satisfies the cyclic property $\tr{\mA\mB}=\tr{\mB\mA}$, for any \glspl{matrix} 
+    	 		$\mA,\mB \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ \cite[p. 301]{Axler2025}.
+				\begin{figure}
+					\begin{center}
+				\begin{tikzpicture}[font=\small, every node/.style={inner sep=1pt}]
+					% Matrix entries, manually placed
+				\node (a11) at (0,0)   {$A_{1,1}$};
+				\node (a12) at (1,0)   {$A_{1,2}$};
+				\node (a13) at (2,0)   {$A_{1,3}$};
+				\node (a21) at (0,-1)  {$A_{2,1}$};
+				\node (a22) at (1,-1)  {$A_{2,2}$};
+				\node (a23) at (2,-1)  {$A_{2,3}$};
+				\node (a31) at (0,-2)  {$A_{3,1}$};
+				\node (a32) at (1,-2)  {$A_{3,2}$};
+				\node (a33) at (2,-2)  {$A_{3,3}$};
+				% Very light bounding box (optional)
+				\draw[black] (-0.4,0.4) rectangle (2.4,-2.4);
+				% Tight ellipse around diagonal entries
+				\coordinate (C) at ($(a11)!0.5!(a33)$);
+				\draw[thick] (C) ellipse [x radius=2.1cm, y radius=0.35cm,rotate=-45];
+				\end{tikzpicture}
+				\end{center}
+				\caption{The trace $\tr{\mA}$ of a $3 \times 3$ matrix $\mA \in \mathbb{R}^{3\times 3}$ is 
+				the sum of three main diagonal entries $A_{1,1}, A_{2,2}, A_{3,3}$.}
+				 \end{figure}
+				Furthermore, if $\mA$ has \glspl{eigenvalue} $\eigval{1},\ldots,\eigval{\nrfeatures}$ 
+				(each repeated according to its algebraic multiplicity), then
+				\[\tr{\mA} = \sum_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}.
+				\]
+				This identity follows from the invariance of the trace under similarity 
+				transformations \cite[Ch.~10]{Axler2025}.\\
+    			See also: \gls{eigenvalue}, \gls{matrix}.},
+    first={trace},
+    type=math,
+    text={trace},
+    type=math
+}
+ 
+\newglossaryentry{stddev}
+{name={standard deviation},
+  description={The\index{standard deviation} standard deviation of a 
+               real-valued \gls{rv} $\feature$ is defined as the square 
+			   root of its \gls{variance}, i.e., 
+			   $\sqrt{\expect\big\{ \big( \feature - \expect\{\feature \} \big)^{2} \big\}}$. \\
+    See also: \gls{variance}, \gls{rv}, \gls{expectation}.},
+    first={standard deviation},
+    text={standard deviation},
+    type=math
+}
+
+
+\newglossaryentry{sequence}
+{name={sequence},
+	description={A sequence\index{sequence} is an ordered collection 
+		of values from a set $\mathcal{A}$. For example, a sequence of 
+	   	values from the set $\mathcal{A} = \{ \star, \otimes \}$ could be 
+	   	$$ a = \big( \star, \,\otimes, \,\star, \,\star, \,\otimes, \,\ldots \big). $$
+	   	Formally, a sequence $a$ is a \gls{function} \cite{RudinBookPrinciplesMatheAnalysis} 
+        		\[
+            	a: \mathbb{N} \rightarrow \mathcal{A}: \sampleidx \mapsto a_\sampleidx.
+        		\]        
+		We denote a sequence by $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+		or $\big( a^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$. Sometimes we also 
+		use the notation $\big\{ a^{(\sampleidx)} \big\}_{\sampleidx \in \mathbb{N}}$. 
+        		Note that the same value $a \in \mathcal{A}$ can appear multiple times 
+		in the sequence at different positions $\sampleidx$. 		
+        		Sequences are fundamental for the study of \gls{ml} methods, 
+        		for instance when describing successive iterates  
+        		$\{\weights^{(\iteridx)}\}_{\iteridx \in \mathbb{N}}$ of an iterative 
+		\gls{algorithm}. We can also use a sequence to represent an infinite 
+		\gls{dataset} 
+		$$\dataset = \big\{ \pair{\featurevec^{(1)}}{\truelabel^{(1)}},\,\pair{\featurevec^{(2)}}{\truelabel^{(2)}},\,\ldots \big\}.$$ 
+		See also: \gls{function}, \gls{dataset}. }, 
+	first={sequence},
+	text={sequence},
+	type=math, 
+	firstplural={sequences},
+	plural={sequences}
+}
+
+\newglossaryentry{convergence}
+{name={convergence},
+	description={Consider a \gls{sequence}\index{convergence} $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+		with numeric values $a_{\sampleidx} \in \mathbb{R}$. This \gls{sequence} 
+       	 	is said to converge to a value $a^\star$ if the values $a_{\sampleidx}$ become 
+		arbitrarily close to $a^\star$ for sufficiently large indices $\sampleidx$. 
+        		Mathematically speaking, the \gls{sequence} converges to $a^\star$ if 
+		\cite{RudinBook}, \cite{RudinBookPrinciplesMatheAnalysis}
+        		\[
+           	\forall \epsilon > 0, \; \exists N \in \mathbb{N} : \sampleidx > N \Rightarrow |a_{\sampleidx} - a^\star| < \epsilon.
+        		\]
+		We denote the convergence of a \gls{sequence} to $a^\star$ 
+		by 
+		\[
+			\lim_{\sampleidx \to \infty} a_{\sampleidx} = a^\star.
+		\]
+		\begin{figure}[H] 
+			\centering
+			\begin{tikzpicture}[x=1.2cm, y=2cm, >=stealth]
+			% Axes
+			\draw[->] (0.5,0) -- (6.5,0) node[right] {$\sampleidx$};
+			\draw[->] (0.5,0) -- (0.5,1.6) node[above] {$a_\sampleidx$};
+			% Epsilon neighbourhood (ε = 0.1)
+  			\def\eps{0.3}
+  			\fill[gray!30, opacity=0.4] (0, {1-\eps}) rectangle (6.3, {1+\eps});
+  			\draw[dotted] (0,{1+\eps}) -- (6.3,{1+\eps}) node[right] {$1+\varepsilon$};
+  			\draw[dotted] (0,{1-\eps}) -- (6.3,{1-\eps}) node[right] {$1-\varepsilon$};
+			% Limit line at 1
+			\draw[dashed] (0,1) -- (6.3,1) node[right] {$\lim_{\sampleidx \to \infty} a_\sampleidx = 1$};
+			% Sequence points (e.g. a_t = 1 - 0.6^t)
+			\foreach \t in {1,...,6} {
+				\pgfmathsetmacro{\at}{1 - 0.6^(\t)}
+				\fill (\t,\at) circle (2pt);
+			}
+			% Tick marks at t = 1, 2, 3
+ 		     	\foreach \t in {1,2,3} {
+    		    	\draw (\t,0.02) -- (\t,-0.02) node[below] {$\t$};
+  		    	}
+			% Indicate N (first index within ε-band)
+  			\def\N{3}
+  			\draw[densely dashed, thick, red] (\N,0) -- (\N,1.7);
+  			\node[above] at (\N,1.7) {$N$};
+			\end{tikzpicture}
+			\caption{A real-valued sequence $\big( a_{\sampleidx} \big)_{\sampleidx \in \mathbb{N}}$ 
+			converging to the limit $a^\star = 1$.\label{fig:convergence_dict}}
+		\end{figure} 
+		The concept of convergence of a real-valued \gls{sequence} 
+		(where $\mathcal{A}=\mathbb{R}$) extends naturally to a \gls{sequence} 
+		in an arbitrary \gls{metricspace} $\mathcal{A}$. Indeed, we just need to 
+		replace the absolute difference $|a_{\sampleidx} - a^\star|$ 
+		by the \gls{metric} $\metric{a_{\sampleidx}}{a^\star}$. 
+		Note that a \gls{sequence} can only converge if it is a 
+		\gls{cauchysequence} \cite{RudinBookPrinciplesMatheAnalysis}. 
+		However, not every \gls{cauchysequence} is converging unless 
+		the underlying \gls{metricspace} is complete.   
+		\\ 
+		See also: \gls{sequence}, \gls{metricspace}, \gls{cauchysequence}.},
+	first={convergence},
+	type=math,
+	text={convergence}, 
+}
+
+\newglossaryentry{johnsonlindenstrausslemma}
+{name={Johnson--Lindenstrauss lemma (JL lemma)},
+	description={The\index{Johnson--Lindenstrauss lemma (JL lemma)} JL lemma describes conditions for 
+  		the existence of a \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \to \mathbb{R}^{\nrfeatures'}$ 
+  		with $\nrfeatures' \ll \nrfeatures$ such that the pairwise \gls{eucliddist} 
+  		between \glspl{featurevec} of a finite \gls{dataset} is approximately preserved 
+  		\cite{vershynin2018high}, \cite{JMLR:v19:18-264}, \cite{johnson1984extensions}. 
+  		Consider a \gls{dataset} $\dataset = \big\{\featurevec^{(1)}, \,\dots, \,\featurevec^{(\samplesize)} \big\}$ 
+  		with \glspl{datapoint} characterized by \glspl{featurevec} in $\mathbb{R}^{\nrfeatures}$. 
+  		Then, for any $\nrfeatures'$ that satisfies
+		\[
+	  	\nrfeatures' \ge \frac{4 \ln(\samplesize)}{\varepsilon^2/2 - \varepsilon^3/3} \mbox{ for some } 0 < \varepsilon < 1
+		\]  
+   		there is a \gls{featuremap} $\featuremapvec$ such that \cite{ProofJLlemma}
+  		\begin{equation} 
+ 			\label{equ_def_approx_norm_JL_lemma_dict}
+ 			(1\!-\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}  
+ 			\!\le\!\normgeneric{\featuremapvec\big(\featurevec^{(\sampleidx)}\big)\!-\!\featuremapvec\big(\featurevec^{(\sampleidx')}\big)}{2} 
+			\!\le\!(1\!+\!\varepsilon)\normgeneric{\featurevec^{(\sampleidx)}\!-\!\featurevec^{(\sampleidx')}}{2}
+ 		\end{equation}
+		for all $\featurevec^{(\sampleidx)}, \featurevec^{(\sampleidx')} \in \dataset$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			% ---------- Original space: R^d ----------
+			\begin{scope}
+				% Points
+				\coordinate (x1) at (0.5,-0.6);   % anchor
+				\coordinate (x2) at (2.0,0.9);    % farther from x1 (long)
+				\coordinate (x3) at (1.1,0.3);    % closer to x1 (short)
+				\foreach \p in {x1,x2,x3} \fill (\p) circle (1.7pt);
+				% Labels
+				\node[below left]  at (x1) {\small $\featurevec^{(1)}$};
+				\node[above right] at (x2) {\small $\featurevec^{(2)}$};
+				\node[above left]  at (x3) {\small $\featurevec^{(3)}$};
+				\node [anchor=east] at (1.2,2.2) {$\mathbb{R}^{\nrfeatures}$};
+			\end{scope}
+			% ---------- Mapping arrow ----------
+			\begin{scope}[xshift=1cm]
+				\draw[->, thick] (2.9,2.2) -- (4.1,2.2)
+				node[midway, above] {$\featurevec \mapsto \vz \!\defeq\! \featuremapvec(\featurevec)$};
+			\end{scope}
+			% ---------- Transformed space: R^{d'} ----------
+			\begin{scope}[xshift=2cm]
+				% Images of points (preserving relative distances)
+				\coordinate (y1) at (4.7,-0.7);   % image of x1
+				\coordinate (y2) at (6.1,0.5);    % image of x2 (farther)
+				\coordinate (y3) at (5.3,-0.1);   % image of x3 (closer)
+				\foreach \p in {y1,y2,y3} \fill (\p) circle (1.7pt);
+				\node[below left]  at (y1) {\small $\vz^{(1)}$};
+				\node[above right] at (y2) {\small $\vz^{(2)}$};
+				\node[above left]  at (y3) {\small $\vz^{(3)}$};
+				\node [anchor=west] at (6.0,2.2) {$\mathbb{R}^{\nrfeatures'}$};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{The JL lemma offers precise conditions that guarantee the existence of 
+		         a \gls{featuremap} $\featuremapvec: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures'}$ 
+		         such that pairwise \glspl{eucliddist} between (the \glspl{featurevec} of) \glspl{datapoint} are 
+			approximately preserved. Roughly speaking, 
+			$\featuremapvec$ maps neighboring points in the original \gls{featurespace} 
+			to neighboring points in the new \gls{featurespace}.}
+		\end{figure}
+		The \gls{featuremap} $\featuremapvec$ can be obtained from a random \gls{matrix} 
+		$\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$ whose entries are \gls{iid} 
+		\glspl{gaussrv} $A_{i,j} \sim \mvnormal{0}{1/\nrfeatures'}$. 
+		It can be shown that the \gls{featuremap} $\featurevec \mapsto \underbrace{\mA \featurevec}_{\featuremapvec(\featurevec)}$ 
+		satisfies \eqref{equ_def_approx_norm_JL_lemma_dict} with \gls{probability} at least $1\!-\!1/\samplesize$ \cite{ProofJLlemma}. 
+		\\
+  		See also: \gls{matrix}, \gls{norm}, \gls{vectorspace}, \gls{euclidspace}, \gls{dimred}, \gls{pca}.},	
+	first={Johnson--Lindenstrauss lemma (JL lemma)},
+	type=math, 
+  	text={JL lemma}
 }

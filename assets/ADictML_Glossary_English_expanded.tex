@@ -4,7 +4,7 @@
 %% Repo root: /Users/junga1/AaltoDictionaryofML.github.io
 %% ------------------------------------------------------------------
 
-
+% !TeX spellcheck = en_US
 
 \newglossaryentry{imagesegmentation}
 {name={image segmentation}, 
@@ -31,51 +31,51 @@ defined by these attributes. For example, in a medical dataset,
  \begin{figure}[H]
  	\centering
 \begin{tikzpicture}[font=\small,x=1.7cm]
-	
-	\def\cellw{6.0}     
-	\def\cellh{0.5}     
-	\def\gap{1}       
-	\def\tfrac{0.8}     
-	\def\pA{0.9}        
-	
+	% --- Parameters ---
+	\def\cellw{6.0}     % total dataset width
+	\def\cellh{0.5}     % height of one row
+	\def\gap{1}       % vertical gap between rows
+	\def\tfrac{0.8}     % train fraction
+	\def\pA{0.9}        % proportion of stratum A (B = 1 - pA)
+	% Column labels
 	\node[anchor=south] at (0.5*\cellw, \cellh+0.2) {dataset};
 	\node[anchor=south] at ({0.5*\cellw}, {-(\cellh+\gap)+\cellh+0.2}) {train/val split without stratification};
 	\node[anchor=south] at (0.5*\cellw, {-2*(\cellh+\gap)+\cellh+0.2}) {with stratification};
-	
+	% y-positions
 	\pgfmathsetmacro{\yDataset}{0}
 	\pgfmathsetmacro{\yNoStrat}{-(\cellh+\gap)}
 	\pgfmathsetmacro{\yStrat}{-2*(\cellh+\gap)}
-	
+	% A/B border x (dataset coordinate)
 	\pgfmathsetmacro{\xAB}{\pA*\cellw}
 	\pgfmathsetmacro{\wA}{\pA*\cellw}
 	\pgfmathsetmacro{\wB}{(1-\pA)*\cellw}
-	
+	% --- Row 1: DATASET (only A/B border) ---
 	\draw (0,\yDataset) rectangle ++(\cellw,\cellh);
 	\draw[dashed,  line width=0.5mm] (\xAB,\yDataset) -- ++(0,\cellh);
-		
+		% Labels for strata in Dataset row
 	\node at (0.5*\wA, \yDataset+0.5*\cellh) {$s\!=\!1$};
 	\node at ({\xAB+0.5*\wB}, {\yDataset+0.5*\cellh}) {$s\!=\!2$};
-
+%	% --- Row 2: NO STRATIFICATION (shade right 20% as validation) ---
 	\draw (0,\yNoStrat) rectangle ++(\cellw,\cellh);
 	\pgfmathsetmacro{\xValStart}{\tfrac*\cellw}
 	\pgfmathsetmacro{\valw}{(1-\tfrac)*\cellw}
 	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++(\valw,\cellh);
-
-
+%	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++({(1-\tfrac)*\cellw,\cellh});
+%	% A/B border in dataset order only
 	\draw[dashed,  line width=0.5mm] (\xAB,\yNoStrat) -- ++(0,\cellh);
-	
+	% --- Row 3: STRATIFIED (shade val inside each stratum A and B) ---
 	\draw (0,\yStrat) rectangle ++(\cellw,\cellh);
-	
+	% A/B border at x = pA * cellw
 	\pgfmathsetmacro{\xAB}{\pA*\cellw}
 	\draw[dashed, line width=1mm] (\xAB,\yStrat) -- ++(0,\cellh);
-	
-	
-	\pgfmathsetmacro{\xAVal}{\tfrac*\wA}              
-	\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}          
+	% widths of strata A and B
+	% --- Validation area within A (right (1-tfrac) part of A) ---
+	\pgfmathsetmacro{\xAVal}{\tfrac*\wA}              % start inside A (A begins at x=0)
+	\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}          % width of A's validation
 	\fill[gray!35] (\xAVal,\yStrat) rectangle ++(\wAVal,\cellh);
-	
-	\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}       
-	\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}          
+	% --- Validation area within B (right (1-tfrac) part of B) ---
+	\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}       % start inside B
+	\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}          % width of B's validation
 	\fill[gray!35] (\xBVal,\yStrat) rectangle ++(\wBVal,\cellh);
 \end{tikzpicture}
  	\caption{Stratification ensures that both the training set and the validation set 
@@ -90,7 +90,7 @@ defined by these attributes. For example, in a medical dataset,
   See also: validation, $k$-fold cross-validation ($k$-fold CV), stratum.},
   text={stratification},
   first={stratification},
-  plural={stratifications}
+  plural={stratifications}%
 }
 
 \newglossaryentry{stratum}
@@ -151,15 +151,15 @@ defined by these attributes. For example, in a medical dataset,
     		\begin{figure}[H]
     			\begin{center}
     			\begin{tikzpicture}[x=2cm]
-			
+			% LEFT: Standard basis vectors and unit square
 			\begin{scope}
 			\draw[->, thick] (0,0) -- (1,0) node[below right] {${\bf x}$};
 			\draw[->, thick] (0,0) -- (0,1) node[above left] {${\bf y}$};
-			
-			
-			
+			%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+			%\node at (0.5,0.5) {\small unit square};
+			%\node at (0.5,-0.6) {standard basis};
 			\end{scope}
-			
+			% RIGHT: Transformed basis vectors and parallelogram
 			\begin{scope}[shift={(2.8,0)}]
 			\coordinate (A) at (1.5,0.5);
 			\coordinate (B) at (-0.2,1.2);
@@ -169,12 +169,12 @@ defined by these attributes. For example, in a medical dataset,
 			\draw[dashed] (A) -- ($(A)+(B)$);
 			\draw[dashed] (B) -- ($(A)+(B)$);
 			\node at (0.8,0.6) {\small $\det\,({\bf A})$};
-			
+			% Orientation arc
 			\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
-			
-			
+			%	\node[blue] at (0.25,1.25) {};
+			%	\node at (0.8,-0.6) {transformed basis};
 			\end{scope}
-			
+			% Arrow between plots
 			\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {${\bf A}$};
 			\end{tikzpicture}
 			\end{center}
@@ -229,26 +229,26 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 			height=6cm,
 			clip=false
 			]
-		
+		% Original nonlinear function h(x)
 			\addplot[blue, thick, domain=3:6.6] {2 + sin(deg(x))} 
 			node[pos=0.5, above right, yshift=3pt] {$f({\bf x})$};
-		
-		
+		% Tangent line as local linear approximation at x = 3
+		% h(3) = 2 + sin(3), h'(3) = cos(3)
 			\addplot[red, thick, domain=3.5:6.6] 
 			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
 			node[pos=0, below left] {$g({\bf x})$};
-                
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \addplot[green, thick, domain=3.5:6.6]
                 {2 + sin(deg(6)) + cos(deg(6))*(x - 6) - 0.5*sin(deg(6))*(x - 6)^2}
 			node[pos=0, below left, yshift=10pt] {$q({\bf x})$};
-                
-		
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% Mark point of approximation
 			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
-			    
+			    % Vertical dashed line (ruler) at x = 3
 			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
 			\node at (axis cs:6, -0.2) {${\bf x}'$};
-			    
-			    
+			    % Plot the two points
+			    % Coordinates of the two points
 			\pgfmathsetmacro{\xA}{-1.5}
 			\pgfmathsetmacro{\xB}{3}
 			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
@@ -300,7 +300,7 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 			\centering
 			\begin{tikzpicture}[>=stealth, node distance=0.2cm and 0.2cm,
 			every node/.style={inner sep=2pt, font=\large}, baseline]
-			
+			% Words (sentence: All human beings are born free and equal.)
 			\node (w1) [draw, fill=gray!10, rounded corners] {All};
 			\node (w2) [draw, fill=gray!10, right=of w1, rounded corners] {human};
 			\node (w3) [draw, fill=gray!10, right=of w2, rounded corners] {beings};
@@ -309,15 +309,15 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 			\node (w6) [draw, fill=gray!10, right=of w5, rounded corners] {free};
 			\node (w7) [draw, fill=gray!10, right=of w6, rounded corners] {and};
 			\node (w8) [draw, fill=blue!20, right=of w7, rounded corners] {equal};
-			
+			% Label "i" below the word "equal"
    	   		\node[font=\footnotesize, below=0.15cm of w8, align=center] (labeli) {$i$ \\ ${\bf q}^{(i)},\ {\bf k}^{(i)}$};
 			\node[font=\footnotesize, below=0.15cm of w1, align=center] (labelii) {$i'$ \\ ${\bf q}^{(i')},\ {\bf k}^{(i')}$};
-			
+			% Dummy node above for routing attention arrows
 	  		\node (eqTop) [above=1.8cm of w8] {};
-	 		
-	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.0cm) and +(up:1.0cm) .. (w6.north); 
-	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.2cm) and +(up:1.0cm) .. (w5.north); 
-			\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{({\bf w})}(i,i')$}  (w1.north); 
+	 		% Arrows from "equal" to earlier words (drawn above)
+	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.0cm) and +(up:1.0cm) .. (w6.north); % to "free"
+	 		\draw[->, thick, opacity=0.3] (w8.north) .. controls +(up:1.2cm) and +(up:1.0cm) .. (w5.north); % to "born"
+			\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{({\bf w})}(i,i')$}  (w1.north); % to "All"
 			\end{tikzpicture}
 			\caption{Attention mechanisms learn a parameterized function $f^{({\bf w})}(i,i')$ to measure 
 				how much token $i$ attends to token $i'$. One widely used construction of $f^{({\bf w})}(i,i')$ 
@@ -458,26 +458,26 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[>=stealth, scale=1.0]
-  			
+  			% Axes
   			\draw[->] (-3,0) -- (5.2,0) node[below] {${\bf c}$};
   			\draw[->] (0,-0.2) -- (0,4.2) node[left] {$t$};
-  			
+  			% Exponential boundary: t = 3 e^{-g}
   			\draw[thick, domain=-1:3, smooth, variable=\x, name path=boundary]
-    			plot ({\x},{exp(-\x)});
-  			
+    			plot ({\x},{exp(-\x)});%node[pos=0.45, below right] {};
+  			% Transparent epigraph region (above the curve)
   			\path[fill=gray!40, opacity=0.4]
     			(-1,3) -- (-1,{exp(1)}) -- plot[domain=-1:3] ({\x},{exp(-\x)})
    			-- (3,3) -- cycle;
-  			
+  			% Crossing with vertical axis (g=0): mark and label f^*
   			\fill (0,1) circle (1.6pt) node[left] {$f^{\ast}$};
-  			
-  			
+  			% Tangent at g=1: slope = -e^{-1}, passes through (1, e^{-1})
+  			% Equation: t = (2/e) - (1/e) * g
   			\draw[dashed, domain=-1:3, smooth, variable=\x]
     			plot ({\x},{(2/exp(1)) - (1/exp(1))*\x}); 
-   			
-  			
+   			% node[pos=0.15, above right] {tangent at $g=1$};
+  			% (Optional) mark the point of tangency
   			\fill (1,{1/exp(1)}) circle (1.2pt);
-  			
+  			% Label for shaded region
   			\node at (2.6,2.5) {$\mathcal{A}$};
   			\node [below,yshift=-3pt] at (0,-0.2) {$\mathbf{0}$};
   			\end{tikzpicture}
@@ -540,7 +540,7 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(4/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(4/(sin(2*\x)+2))});
 				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(1/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(1/(sin(2*\x)+2))});
 				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(0.0625/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(0.0625/(sin(2*\x)+2))});
-				
+				% Gradient Descent path
 				\draw[->,blue,ultra thick] (-3.5,4.5) -- (-3.3,3.8);
 				\draw[->,blue,ultra thick] (-3.3,3.8) -- (-3,3.1);
 				\draw[->,blue,ultra thick] (-3,3.1) -- (-2.6,2.4);
@@ -551,7 +551,7 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 				\draw[->,blue,ultra thick] (-0.4,0.5) -- (-0.1,0.2);
 				\node[blue,above left] at (-3.5,4.5) {start};
 				\node[blue,above] at (0.5,3) {gradient descent (GD)};
-				
+				% Newton's Method path 
 				\draw[->,red,ultra thick] (-3.5,4.5) -- (-2,2.5);
 				\draw[->,red,ultra thick] (-2,2.5) -- (-0.8,0.8);
 				\draw[->,red,ultra thick] (-0.8,0.8) -- (0,0.1);
@@ -581,30 +581,30 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 	\begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[scale=3]
-	
-	
-	
-	
+	% axes (light)
+	%\draw[very thin, gray!30] (-1.2,0) -- (1.2,0);
+	%\draw[very thin, gray!30] (0,-1.2) -- (0,1.2);
+	% unit circle for visual context
 	\draw[gray!40] (0,0) circle (1);
-	
-	\def\ang{35} 
-	
+	% parameters
+	\def\ang{35} % angle of v (degrees)
+	% vectors
 	\draw[->,thick] (0,0) -- (1,0) node[below right] {${\bf u}$};
 	\draw[->,thick] (0,0) -- ({cos(\ang)},{sin(\ang)}) node[above] {${\bf v}$};
-	
+	% projection of v onto u
 	\coordinate (P) at ({cos(\ang)},0);
 	\draw[dashed] ({cos(\ang)},{sin(\ang)}) -- (P);
 	\draw[->,thick] (0,0) -- (P) node[pos=0.5,below] {$\langle {\bf v}, {\bf u}\rangle {\bf u}$};
-	
+	% right-angle marker at foot of perpendicular
 	\draw ($(P)+(0,0.06)$) -- (P) -- ($(P)+(-0.06,0)$);
-	
-	
-	
-	
-	
+	% angle arc and label
+	%\draw (0.35,0) arc (0:\ang:0.35);
+	%\node at ({0.48*cos(\ang/2)},{0.48*sin(\ang/2)}) {$\theta$};	
+	% norm labels (unit vectors)
+	%\node[below] at (1,0) {$\|\mathbf u\|=1$};
 	\node[right] at ({cos(-\ang)},{sin(-\ang)}) {$\mathbb{S}^{(d)} = \{ {\bf w}\in \mathbb{R}^{d}: \langle {\bf w}, {\bf w}\rangle=1\}$};
-	
-	
+	% inner product hint
+	%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
 \end{tikzpicture}
 \caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$ 
 the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expantion coefficient for the projection 
@@ -637,28 +637,28 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\begin{figure}[H]
 			\centering
 		  	\begin{tikzpicture}[x=1cm,y=4cm]
-			
+			% Parameters
 				\def\srtwo{1.4142}
 				\def\eps{0.15}
 				\def\nmax{7}
-			
-			
-			
-			
+			% Axes
+			%	\draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
+			%	\draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
+			% epsilon band around sqrt(2)
 				\fill[gray!30, opacity=0.35]
 				(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
-				
-				
-				
-			
-			
+				%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
+				%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
+				%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
+			%		node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
+			% Double arrow showing epsilon band width
 				\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
 				node[above, right] {\footnotesize{$\varepsilon$}};
-					
+					% Limit line at sqrt(2)
 					\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
 					node[right] {\footnotesize{$\sqrt{2}$}};
-					
-					
+					% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
+					% Replace the foreach loop by:
 					      \fill (0,1.0000) circle (1.2pt) node [right] {$x^{(1)}$};
 					      \fill (1,1.5000) circle (1.2pt);
 					      \fill (2,1.4167) circle (1.2pt);
@@ -666,18 +666,18 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 					      \fill (4,1.41421) circle (1.2pt);
 					      \fill (5,1.4142136) circle (1.2pt);
 					      \fill (6,1.41421356) circle (1.2pt);
-			
+			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
 						\def{\mathcal{N}}{1}
 						\draw[densely dashed, thick, red] ({\mathcal{N}},0.88) -- ({\mathcal{N}},1.655);
 						\node[right, red] at ({\mathcal{N}},0.8) {$N$};
-						
+						% Formula box (fixed-point iteration)
 						\node[align=right, anchor=north, font=\small]
 						at (5,0.9)
 						{\footnotesize{$\displaystyle x^{(r+1)}=\frac{1}{2}\!\left(x^{(r)}+\frac{2}{x^{(r)}}\right), x^{(1)}=1.$}};
-						
-			
-			
-			
+						% Optional: annotate a few rational iterates
+			%			\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
+			%			\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
+			%			\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
 			\end{tikzpicture}
 		\caption{A Cauchy sequence $\big(x^{(r)}\big)_{r\in\mathbb{N}}$ 
 		in the metric space $\left( \mathbb{Q},|\cdot| \right)$. 
@@ -765,25 +765,25 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale=1.5]
-					
+					% Axes
 					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$w^{(t)}$};
 					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$w^{(t+1)}$};
-					
+					% Labels
 					\node at (2.1,2.2) {$\mathcal{F}^{(3)}$};
 					\node at (1.9,-1.5) {$\mathcal{F}^{(1)}$};
 					\node at (1.5,1.2) {$\mathcal{F}^{(2)}$};
-					
-					\draw[dashed] (1,-2) -- (1,2); 
-					\draw[dashed] (-2,1) -- (2,1); 
-					\draw[dashed] (-2,-1) -- (2,-1); 
-					\draw[dashed] (-1,-2) -- (-1,2); 
+					% Dashed lines at x=1 and y=1
+					\draw[dashed] (1,-2) -- (1,2); % Vertical line at x=1
+					\draw[dashed] (-2,1) -- (2,1); % Horizontal line at y=1
+					\draw[dashed] (-2,-1) -- (2,-1); % Horizontal line at y=1
+					\draw[dashed] (-1,-2) -- (-1,2); % Vertical line at x=1
 					\node[above,xshift=4pt,yshift=-1pt] at (1,0) {$1$};
 					\node[above,xshift=8pt,yshift=-1pt] at (0,-1) {$-1$};
-					
+					% First curve: y = 1/2 x + 1
 					\draw[line width=2,domain=-2:2,smooth,blue] plot(\x,{0.5*\x + 1});
-					
+					% Second curve: y = -x
 					\draw[line width=2,domain=-2:2,smooth,red] plot(\x,{-\x});
-					
+					% Third curve: y = x / |x| * min(|x|, 1)
 					\draw[line width=2, domain=-2:-1,smooth,darkgreen] plot(\x,{-1});
 					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
 					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
@@ -869,9 +869,9 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 					grid=none,
 					axis on top,
 					]
-					
+					% Function
 					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
-					
+					% Epigraph shading
 					\addplot [
 					name path=f,
 					draw=none,
@@ -888,7 +888,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 					soft clip={domain=-1.5:1.5},
 					];
 					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi}(f)$};
-				
+				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
 				\end{axis}
 			\end{tikzpicture}
 			\caption{Epigraph of the function $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
@@ -1002,14 +1002,14 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[>=Stealth, node distance=1cm and 1.5cm, every node/.style={font=\small}]
-			
+			% Styles
 			\tikzstyle{server} = [circle, fill=black, minimum size=6pt, inner sep=0pt]
 			\tikzstyle{client} = [circle, draw=black, minimum size=6pt, inner sep=0pt]
-			
+			% Time step labels
 			\node (label1) at (0,3.5) {broadcast};
 			\node[right=2.5cm of label1] (label2) {local update};
 			\node[right=2.5cm of label2] (label3) {aggregate};
-			
+			% Time step k
 			\node[server] (s1) at (label1 |- 0,2.5) {};
 			\node[client] (c1l) at ($(s1) + (-1cm,-1cm)$) {};
 			\node[client] (c1r) at ($(s1) + (1cm,-1cm)$) {};
@@ -1017,14 +1017,14 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 			\draw[->] (s1) -- (c1l) node[midway,left] {${\bf w}^{(t)}$};
 			\draw[->] (s1) -- (c1r) node[midway,right] {${\bf w}^{(t)}$};
 			\draw[->] (s1) -- (dots1);
-			
+			% Time step k+1 (local updates)
 			\node[server] (s2) at (label2 |- 0,2.5) {};
 			\node[client] (c2l) at ($(s2) + (-1cm,-1cm)$) {};
 			\node[client] (c2r) at ($(s2) + (1cm,-1cm)$) {};
 			\node[] (dots2) at ($(s2) + (0cm,-1cm)$) {\ldots};
 			\node[below=0.2cm of c2l] {$\mathbf{w}^{(t,1)}$};
 			\node[below=0.2cm of c2r] {$\mathbf{w}^{(t,n)}$};
-			
+			% Time step k+2 (aggregation)
 			\node[server] (s3) at (label3 |- 0,2.5) {};
 			\node[above=0.01cm of s3, yshift=-4pt] {${\bf w}^{(t+1)}$};
 			\node[client] (c3l) at ($(s3) + (-1cm,-1cm)$) {};
@@ -1104,10 +1104,10 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		 \begin{figure}[H]
 		 \centering
 		 \begin{tikzpicture}[scale=1]	
-		
+		% % Axes
 		 	\draw[->] (-0.5,0) -- (5.5,0) node[right] {$z_1$};
 		 	\draw[->] (0,-0.5) -- (0,4.5) node[above] {$z_2$};
-		
+		% % Example points with mini-images (can replace adjustbox with \includegraphics)
 		 	\foreach \x/\y/\label in {
   		 		1.2/0.5/3,
   		 		0.8/2.0/8,
@@ -1188,11 +1188,11 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		}
 		]
 		\coordinate (OR) at (0.00, 1.50);
-		
+		% concentric circles
 		\node[circle,inner sep=0,minimum size={6cm}](a) at (OR) {};
 		\node[circle,inner sep=0,minimum size={8cm}](b) at (OR) {};
 		\node[circle,inner sep=0,minimum size={8cm}](c) at (OR) {};
-		
+		% arcs and radii
 		\draw[red,line width=1,dashed] (a.-150) arc (-150:{-150+120}:3cm);
 		\draw[blue,line width=1,dashed] (b.160) arc (160:{160+50}:4cm);
 		\draw[black!30!green,line width=2,dashed] (c.20) arc (20:{160}:4cm);
@@ -1205,7 +1205,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\draw[blue,thin,dashed] (OR) -- (b.210);
 		\draw[red,thin,dashed] (OR) -- (a.-150);
 		\draw[red,thin,dashed] (OR) -- (a.-30);   
-		
+		% nodes
 		\node[punkt] (data) {observations};
 		\node[red,below=0.5cm of data] (data1) {data};
 		\node[above=of data] (dummy) {};
@@ -1215,7 +1215,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\node[blue,below=0.5cm of g,anchor=east] (g1) {loss} ; 
 		\node[black!30!blue,below=1cm of t,anchor=west] (g6) {inference} ; 
 		\node[black!30!green,above=1cm of hypothesis,anchor=south] (g3) {model} ; 
-		
+		% arrows
 		\draw [->,line width=0.5mm] (hypothesis.east) to [out=0,in=90] (t.north);
 		\draw [->,line width=0.5mm] (t.south) to [out=270,in=0] (data.east);
 		\draw [->,line width=0.5mm] (data.west) to [out=180,in=270] (g.south);
@@ -1255,20 +1255,20 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 			\begin{tikzpicture}[scale=1]
 			\draw[->] (-2, 0) -- (6, 0);
 			\node at (6.3, 0) {$h$};
-	        		
+	        		% loss at time t 
 			\draw[thick, blue, domain=0:3, samples=20] plot (\x-3, {-0.2*(\x)^2 + 2});
 			\node[anchor=west,yshift=4pt] at (0-3, {-0.2*(0)^2 + 2}) {$-L^{(t)}(h)$};
-			
+			% Marker and hypothesis label for h^(t)
 			\filldraw[blue] (1.5-3, {-0.2*(1.5)^2 + 2}) circle (2pt);
 			\node[anchor=north] at (1.5-3, -0.3) {$h^{(t)}$};		
 			\draw[dotted] (1.5-3, 0) -- (1.5-3, {-0.2*(1.5)^2 + 2});
-			
+			%%% time t+1
 			\draw[thick, red, domain=0:5, samples=20, dashed] plot (\x, {-0.15*(\x - 2)^2 + 3});
 			\node[anchor=west,yshift=4pt] at (3, {-0.15*(3 - 2)^2 + 3}) {$-L^{(t+1)}(h)$};
 			\filldraw[red] (2, {-0.15*(2 - 2)^2 + 3}) circle (2pt);
 			\node[anchor=north] at (2, -0.3) {$h^{(t+1)}$};
 			\draw[dotted] (2, 0) -- (2, {-0.15*(3 - 2)^2 + 3});
-			
+			%%% time t+2
 			\draw[thick, green!60!black, domain=3:5, samples=20, dotted] plot (\x+2, {-0.1*(\x - 4)^2 + 1.5});
 			\node[anchor=west,yshift=4pt] at (4.5+2, {-0.1*(4.5 - 4)^2 + 1.5}) {$-L^{(t+2)}(h)$};
 			\filldraw[green!60!black] (3.5+2, {-0.1*(3.5 - 4)^2 + 1.5}) circle (2pt);
@@ -1336,19 +1336,19 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[>=Latex, thick, node distance=1.6cm]
-		
+		% Nodes
 		\node (x) {${\bf x}$};
 		\node[draw, rounded corners, right=of x, inner sep=4pt] (enc) {$\text{encoder } h$};
 		\node[right=of enc] (z) {${\bf z}$};
 		\node[draw, rounded corners, right=of z, inner sep=4pt] (dec) {$\text{decoder } h^{*}$};
 		\node[right=of dec] (xhat) {$\hat{{\bf x}}$};
-		
+		% Arrows
 		\draw[->] (x) -- (enc);
 		\draw[->] (enc) -- node[above] {${\bf z}=h({\bf x})$} (z);
 		\draw[->] (z) -- (dec);
 		\draw[->] (dec) -- node[above] {$\hat{{\bf x}}=h^{*}({\bf z})$} (xhat);
-		
-		
+		% (Optional) reconstruction loss
+		%\draw[->, dashed] ($(xhat.south)+(0,-0.2)$) to[bend right=20] node[below] {$\loss$} ($(x.south)+(0,-0.2)$);
 		\end{tikzpicture}
 		\caption{Autoencoder with encoder $h$ mapping ${\bf x}\mapsto {\bf z}$ and 
 		decoder $h^*$ mapping ${\bf z}\mapsto \hat{{\bf x}}$.}
@@ -1428,7 +1428,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[every node/.style={anchor=base}]
-				  
+				  % --- Coordinate definitions ---
 				\def\colX{0}
 				\def\colY{1.6}
 				\def\colZ{3.2}
@@ -1438,7 +1438,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 				\def\rowTwo{-1.2}
 				\def\rowThree{-2.4}
 				\def\rowFour{-3.6}
-				
+				% Manually place matrix entries
 				\foreach \i/\label in {1/1, 2/2, 4/m} {
 					\pgfmathsetmacro{\y}{-1.2*(\i-1)}
 					\node (x\i1) at (0,\y) {$x^{(\label)}_{1}$};
@@ -1447,15 +1447,15 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 					\node (x\i3) at (4.8,\y) {$x^{(\label)}_{d}$};
 					\node (y\i) at (6.4,\y) {$y^{(\label)}$};
 				}
-				  
+				  % Outer rectangle for the full dataset
 				\draw[dashed, rounded corners, thick]
 				(-0.6,0.6) rectangle (6.9,-4.2);
 				\node at (3.1,0.9) {$\mathcal{D}^{(\mathrm{global})} $};
-			
+			% Rectangle for local dataset 1 (e.g., first two features)
 			\draw[dashed, rounded corners, thick]
 			(-0.9,0.9) rectangle (2.1,-4.0);
 			\node at (0.25,1.0) {$\mathcal{D}^{(1)}$};
-		  	
+		  	% --- Local dataset k (columns 2–3, rows 1–3) ---
 			\draw[dashed, rounded corners, thick]
 			($( \colZ + 1,,0.9 )$) rectangle
 			($( \colLabel + 0.4, -4.5)$);
@@ -1500,22 +1500,22 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
  		\begin{figure}[H]
  			\begin{center} 
 			\begin{tikzpicture}[x=1.5cm, y=1cm]
-  			
+  			% Adjustable parameters
  			\def\slope{0.4}
   			\def\offset{2.0}
-  			
-  			\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[below, xshift=-1cm] {$x$}; 
- 			\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {$y$};           
-  			
+  			% Axes
+  			\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[below, xshift=-1cm] {$x$}; % x-axis
+ 			\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {$y$};           % y-axis
+  			% Model line
   			\draw[color=black, thick, dashed, domain=-0.5:7.2, variable=\x] 
     			plot ({\x},{\slope*\x + \offset});
-			
+			% non-interpretable model
   			\draw[color=black, thick, dashed, domain=4:7.2, variable=\x] 
     			plot ({\x},{\slope*\x + \offset-(\x-4)*0.5});
   			\node[above] at (7.2, {\slope*7.2 + \offset}) {$\hat{h}(x)$};
   			\node[above] at (7.2, {\slope*7.2 + \offset - 0.5*(7.2 - 4)}) {$\hat{h}'(x)$};
- 			
-  			
+ 			%\node[above] at (7.2, {\slope*7.2 + \offset-(7.2-4)*0.3}) {$\learnthypothesis'(\feature)$};
+  			% Training Data points
   			\foreach \x/\y/\c/\s in {
       			1.2/1.0/blue/6, 1.4/1.0/blue/6, 1.7/1.0/blue/6,
       			2.2/3.9/blue/12, 2.6/4.2/blue/12, 3.0/4.4/blue/12
@@ -1525,14 +1525,14 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
     			\draw[<->, >={Latex[width=2mm,length=4mm]}, color=\c, thick]
       			(\x, {\slope*\x + \offset}) -- (pt);
   			}
-  			
+  			% test set with pseudo-labels
     			\foreach \x/\y/\c/\s in {
        			5.7/2.6/red/12, 5.9/2.6/red/12, 6.2/2.6/red/12
    			}{
      			\coordinate (pt) at (\x,{\slope*\x + \offset});
      			\node[fill=\c, circle, draw, minimum size=\s pt, scale=0.6] at (pt) {};
    			}
-  			
+  			% Legend
   			\draw[fill=blue] (4.2, 1.7) circle (0.1cm) node [black,xshift=0.2cm,anchor=west] {training set $\mathcal{D}$};
   			\draw[fill=red]  (4.2, 1.2) circle (0.1cm) node [black,xshift=0.2cm,anchor=west] {test set $\mathcal{D}'$};
 			\end{tikzpicture}
@@ -1582,7 +1582,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		by selecting different sets of features and labels (see Fig. \ref{fig:learning_tasks_cows_dict}).
     		\begin{figure}[H]
 			\centering
-			
+			% Top row: image
 			\begin{minipage}[t]{0.95\textwidth}
     			\centering
     			\includegraphics[width=\textwidth]{assets/CowsAustria.jpg}
@@ -1590,7 +1590,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 			\vspace{5mm}
 			\end{minipage}
 			\vspace{5mm}
-			
+			% Bottom row: two learning tasks
 			\begin{minipage}[t]{0.45\textwidth}
     			Task 1 (regression): \\
         			Features are the RGB values of all image pixels,
@@ -1669,13 +1669,13 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 				height=6cm,
 				clip=false
 			]
-			  
+			  % Nonlinear model h(x)
   			\addplot[blue, thick, domain=0:6] {2 + sin(deg(x))} node[pos=0.85, above right,yshift=3pt] {$\widehat{h}({\bf x})$};
-			 
+			 % Feature value x0
   			\addplot[dashed, gray] coordinates {(3,0) (3,6)};
-			
+			% Piecewise constant local approximation g(x)
   			\addplot[red, thick, domain=2.5:3.5] {2 + sin(deg(3))} node[pos=0.9, above] {$g({\bf x})$};
-			
+			% Optional: mark the point of approximation
   			\addplot[mark=*] coordinates {(3, {2 + sin(deg(3))})};
 			\node at (axis cs:3,-0.3) {${\bf x}^{(0)}$};
 			\end{axis}
@@ -1738,36 +1738,36 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 			height=6cm,
 			clip=false
 			]
-		
+		% Original nonlinear function h(x)
 			\addplot[blue, thick, domain=-2:6] {2 + sin(deg(x))} 
 			node[pos=0.5, above right, yshift=3pt] {$\hat{h}({\bf x})$};
-		
-		
+		% Tangent line as local linear approximation at x = 3
+		% h(3) = 2 + sin(3), h'(3) = cos(3)
 			\addplot[red, thick, domain=4.5:6.5] 
 			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
 			node[pos=0.95, above right] {$g({\bf x})$};
-		
+		% Mark point of approximation
 			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
-			    
+			    % Vertical dashed line (ruler) at x = 3
 			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
 			\node at (axis cs:6, -0.2) {${\bf x}'$};
-			    
-			    
+			    % Plot the two points
+			    % Coordinates of the two points
 			\pgfmathsetmacro{\xA}{-1.5}
 			\pgfmathsetmacro{\xB}{3}
 			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
 			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
 			\addplot[mark=*, only marks] coordinates {(\xA, \yA) (\xB, \yB)};
-		
-		
-			
+		%	\node at (axis cs:\xA, \yA+0.2) {$A$};
+		%	\node at (axis cs:\xB, \yB+0.2) {$B$};
+			% Draw dashed lines from the points to the x and y axes
 			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:\xA,0);
 			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:\xB,0);
 			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:0,\yA);
 			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:0,\yB);
-			 
+			 % Draw delta x
 			\draw[<->, thick] (axis cs:\xA,-0.4) -- node[below] {$\mleft\lVert \Delta {\bf x}\mright\rVert_{2}$} (axis cs:\xB,-0.4);
-			
+			% Draw delta y
 			\draw[<->, thick] (axis cs:-2.4,\yA) -- node[left] {$\leq L \mleft\lVert \Delta {\bf x}\mright\rVert_{2}$} (axis cs:-2.4,\yB);
 		\end{axis}
 		\vspace*{-10mm}
@@ -1809,7 +1809,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 					\draw[<-] (4,4) -- node[right] {$\nabla f({\bf w}^{(k)})$} (4,2);
 					\draw[->] (4,4) -- node[above] {$-\eta\nabla f({\bf w}^{(k)})$} (2,4);
 					\draw[<-] (4,2) -- node[below] {$1$} (3,2) ;
-					
+					%\draw[->] (-4.25,0) -- (4.25,0) node[right] {$a$};
 					\node[left] at (-4.1, 4.1) {$f(\cdot)$}; 
 					\draw[shift={(0,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\overline{{\bf w}}$};
 					\draw[shift={(4,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {${\bf w}$};
@@ -1879,39 +1879,39 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		\begin{figure}[H]
     			\centering
     			\begin{tikzpicture}[>=Latex, font=\small]
-        			
+        			% Styles
         			\tikzset{
             		space/.style={draw, thick, circle, minimum size=4.0cm},
             		pt/.style={circle, inner sep=1.5pt, draw, fill=black},
             		maparrow/.style={->, very thick},
             		distline/.style={dashed, thick}
         			}
-        			
+        			% Single space
         			\node[space,label=above:{$\mathcal{X}$}] (X) at (0,0) {};
-        			
+        			% Two points and their images under T inside the same space
         			\coordinate (x1)  at (-1.0,0.8);
         			\coordinate (x2)  at ( 1.0,0.8);
         			\coordinate (Tx1) at (-0.5,0.1);
         			\coordinate (Tx2) at ( 0.5,0.1);
-        			
+        			% Points x, x'
         			\node[pt,label=above left:{${\bf x}$}] at (x1) {};
         			\node[pt,label=above right:{${\bf x}'$}] at (x2) {};
-        			
+        			% Images T(x), T(x')
         			\node[pt] (TX1) at (Tx1) {};
         			\node[pt] (TX2) at (Tx2) {};
         			\node[anchor=east] at ($(TX1.west)+(-4pt,-2pt)$) {$\mathcal{F}{\bf x}$};
         			\node[anchor=west] at ($(TX2.east)+(4pt,-2pt)$) {$\mathcal{F}{\bf x}'$};
-        			
+        			% Contraction effect: distances shrink
         			\draw[distline] (x1) -- (x2)
             		node[midway, above=4pt] {$d({\bf x},{\bf x}')$};
         			\draw[distline] (Tx1) -- (Tx2)
             		node[midway, below=4pt] {$d(\mathcal{F}{\bf x},\mathcal{F}{\bf x}')$};
-        			
+        			% Fixed point in the same space
         			\coordinate (xs) at (0,-0.9);
         			\node[pt,label=below:{${\bf x}^\star$}] (XS) at (xs) {};
-        			
-        			
-            		
+        			% Small loop indicating T(x*) = x*
+        			%\draw[maparrow,shorten >=2pt,shorten <=2pt]
+            		%(XS) .. controls +(60:0.7) and +(120:0.7) .. (XS);
         			\node at (0,-1.6) {$\mathcal{F}{\bf x}^\star = {\bf x}^\star$};
     			\end{tikzpicture}
     		\caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ 
@@ -1947,14 +1947,14 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 			\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
-					
+					% Original quadratic function
 					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f({\bf w}')$};		
-					
+					% Quadratic function with larger curvature, centered at w = 2
 					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{\eta}\mleft\lVert {\bf w}-{\bf w}' \mright\rVert_{2}^{2}$};
-					
-					
+					% Axes
+					% Minimum point of second curve
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {${\bf w}$};
-					
+					%\node at (2,0.5) [anchor=north] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
 			\caption{The proximal operator updates a vector ${\bf w}$ by minimizing a penalized version 
@@ -1990,15 +1990,15 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
-			
-			
+			% Horizontal axis
+			% Left graph (single edge)
 			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
 			\node[above=0.5cm of A1, align=center] {disconnected};
 			\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
 			\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
 			\draw [line width=1 pt]  (A1) -- (B1);
 			\node at (0, -1) {(a)};
-			
+			% Middle graph (two edges, shifted right)
 			\begin{scope}[xshift=3.5cm]
 				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
 				\node[above=0.5cm of A2, align=center] {connected};
@@ -2036,15 +2036,15 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 	\begin{figure}[htbp]
 	\centering
 		\begin{tikzpicture}[>=Stealth, scale=2]
-		
+		% Initialization
 		\fill (0,0) circle (0.6pt) node[above] {\small ${\bf w}^{(0)}$};
 		\node at (-0.4,0) {\small $\mathcal{H}^{(1)}$};
 		\node at (-1.2,0) {\small $\mathcal{H}^{(2)}$};
 			\node at (-2,0) {\small $\mathcal{H}\ldots$};
-		
+		% T-step reachable sets (early stopping = smaller T)
 		\draw[densely dotted] (0,0) ellipse (0.8 and 0.4);
 		\draw[dashed] (0,0) ellipse (1.6 and 0.8);
-		
+		% Example gradient path (just illustrative)
 		\draw[->] (0,0) -- (0.8,0.) node [pos=0.6,above] {\tiny $1$ step};
 		\draw[->] (0.0,0.0) -- (0,-0.8) node [pos=0.9,right] {\tiny $2$ steps};
 		\end{tikzpicture}
@@ -2128,19 +2128,19 @@ sort={zerooneloss},
 			\begin{figure}[H]
 		\begin{center}
 			\begin{tikzpicture}[scale=1.0]
-				
+				% Hypothesis: simple linear map (underfits)
 				\def\slope{0.35}
 				\def\intercept{2.0}
 				\draw[thick,dashed,domain=0:6.5,variable=\x]
 				plot({\x},{\slope*\x+\intercept});
 				\node[above right] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
-				
-				
+				% Nonlinear pattern of data points (suggesting true relation is curved)
+				% (x, y) points laid out along a gentle curve
 				\foreach \i/\x/\y in {1/0.6/2.4, 2/1.2/2.1, 3/1.8/2.0, 4/2.4/2.3,
 					5/3.0/3.1, 6/3.6/4.0, 7/4.2/5.2, 8/4.8/6.0,
 					9/5.4/6.3, 10/6.0/6.1} {
 					\node[circle,draw,fill=blue!60,minimum size=5pt,inner sep=0pt] (p\i) at (\x,\y) {};
-					
+					% residual arrow to dashed hypothesis line
 					\draw[<->,color=blue!70] (\x,{\slope*\x+\intercept}) -- (p\i);
 				}
 			\end{tikzpicture}
@@ -2329,7 +2329,7 @@ sort={zerooneloss},
 			legend style={at={(0.97,0.97)}, anchor=north west},
 			domain=-3:3,
 			ylabel style={
-			yshift=10pt   
+			yshift=10pt   % shift label up by 10pt
 			},
 			samples=400,
 			ymin=-0.2, ymax=1.1,
@@ -2389,23 +2389,23 @@ sort={zerooneloss},
 		scale=1.2,
 		xmin=17, xmax=32,
 		ymin=55, ymax=71,
-		
-		
+		%	width=15cm,
+		%	height=20cm,
 		clip=true
 		]
-		
+		% --- Finland border (polyline) ---
 		\addplot[
 		color=black,
 		thick
 		] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
-		
+		% --- FMI sample stations ---
 		\addplot[
 		only marks,
 		mark=*,
 		mark options={fill=blue},
 		color=black
 		] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
-		
+		% Draw manual axes
 		\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {longitude (lon)};
 		\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {latitude (lat)};
 		\end{axis}
@@ -2493,7 +2493,7 @@ sort={zerooneloss},
 			\begin{tikzpicture}[scale=0.9]
 			\node [right] at (-5.1,1.7) {$f({\bf w})$} ;
 			\draw[ultra thick, domain=-4.1:4.1] plot (\x,  {(1/8)*\x*\x});
-		
+		%	\draw[dashed, thick, domain=1:3.6] plot (\x,  {\x - 1}) node[right] {$ f\big(\weights^{(\itercntr)}\big)\!+\!\big(\weights\!-\!\weights^{(\itercntr)}\big)^{T} \nabla f\big(\weights^{(\itercntr)}\big)$};
 			\draw [fill] (2.83,1) circle [radius=0.1] node[right] {${\bf w}$};
 			\draw[line width =0.5mm,dashed,->] (2.83,1) -- node[midway,above] {gradient step} (-1.5,1);
 			\draw[line width =0.2mm,dashed] (-1.5,1) --(-1.5,-1.5)  node [below, left]{$\widehat{{\bf w}}={\bf w}\!-\!\eta\nabla f\big({\bf w}\big)$} ;
@@ -2571,32 +2571,32 @@ sort={zerooneloss},
 			\centering
 			\begin{tikzpicture}
 				\begin{axis}[
-				
+				%title={Stem Plots of 3 Datasets},
 				    axis lines=none,
 					xlabel={$r$},
 					ylabel={},
 					legend pos=north west,
 					ymin=0, ymax=10,
 					xtick={1,2,3,4,5},
-				
+				%	ymajorgrids=true,
 					grid style=dashed,
 					every axis plot/.append style={very thick}
 					]
-					
+					% Dataset 1
 					\addplot+[only marks,mark=*] coordinates {
 						(1,2) (2,4) (3,3) (4,5) (5,7)
 					};
-				
-					
+				%	\addlegendentry{$\dataset^{(*)}$}
+					% Dataset 2
 					\addplot+[only marks,mark=square*] coordinates {
 						(1,3) (2,2) (3,6) (4,4) (5,5)
 					};
-				
-					
+				%	\addlegendentry{$\dataset^{(\square)}$}
+					% Dataset 3
 					\addplot+[only marks,mark=triangle*] coordinates {
 						(1,5) (2,7) (3,4) (4,6) (5,3)
 					};
-				
+				%	\addlegendentry{$\dataset^{(\triangle)}$}
 				\end{axis}
 			\end{tikzpicture}
 			\caption{Three datasets $\mathcal{D}^{(*)}$, $\mathcal{D}^{(\square)}$, 
@@ -2809,15 +2809,15 @@ plural={medians},
     			enlargelimits=true,
     			clip=false
   			]
-    			
-			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\mathbb{P}\left(x \leq \eta\right)$};    
-    			\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); 
-    			\draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); 
-    			
+    			% Shifted sigmoid CDF
+			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\mathbb{P}\left(x \leq \eta\right)$};    % Vertical and horizontal ruler at F(x) = 0.5
+    			\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
+    			\draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
+    			% Mark the median point
    			\filldraw[red] (axis cs:1,0.5) circle (2pt);
   		    \node[below] at (axis cs:1,0) {$M$};
 			\node[above right] at (axis cs:6.3,0) {$\eta$};
-    			
+    			% Label next to curve
   			\end{axis}
 			\end{tikzpicture} 
 			\end{center}
@@ -3099,19 +3099,19 @@ plural={medians},
 	 	\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick]
-			
+			% Nodes
 	 	 	\coordinate (a1) at (90:1.5);
   	  		\coordinate (a2) at (210:1.5);
       			\coordinate (a3) at (330:1.5);
-  			
+  			% Filled circle nodes
   	 		\fill (a1) circle (2pt) node[above=3pt] {$\nodeidx_1$};
   	 		\fill (a2) circle (2pt) node[below left=3pt] {$\nodeidx_2$};
   	 		\fill (a3) circle (2pt) node[below right=3pt] {$\nodeidx_3$};
-			
+			% Directed edges forming a cycle
 			\draw[->] (a1) -- (a2);
 			\draw[->] (a2) -- (a3);
 			\draw[->] (a3) -- (a1);
-			
+			% Labels
 			\node[above=3pt of a1] {$\nodeidx_1$};
 			\node[below left=3pt of a2] {$\nodeidx_2$};
 			\node[below right=3pt of a3] {$\nodeidx_3$};
@@ -3138,22 +3138,22 @@ plural={medians},
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[>=Latex, node distance=1.4cm, thick, every node/.style={circle, fill=black, inner sep=1.5pt}]
-			
+			% --- Left: DAG (directed chain) ---
 			\node (a1) {};
 			\node[right=of a1] (a2) {};
 			\node[right=of a2] (a3) {};
 			\draw[->] (a1) -- (a2);
 			\draw[->] (a2) -- (a3);
 			\node[shape=rectangle, draw=none, fill=none] at (1.5,-1.5) {(a)};
-			
-			
+			%\node[below=4pt of a2] {\small DAG};
+			% --- Right: same graph with cycle ---
 			\node[right=3.5cm of a3] (b1) {};
 			\node[right=of b1] (b2) {};
 			\node[right=of b2] (b3) {};
 			\draw[->] (b1) -- (b2);
 			\draw[->] (b2) -- (b3);
-			\draw[->, bend left=40] (b3) to (b1); 
-			
+			\draw[->, bend left=40] (b3) to (b1); % added edge forming a cycle
+			%\node[below=4pt of b2] {\small cyclic graph};
 			\node[shape=rectangle, draw=none, fill=none] at (8.3,-1.5) {(b)};
 			\end{tikzpicture}
 		\caption{(a) A DAG defined on three nodes $\mathcal{V}=\{1,\,2,\,3\}$. (b) Another 
@@ -3327,7 +3327,7 @@ description={Risk stratification\index{risk stratification} assigns
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[x=3cm, y=1cm]
-  			
+  			% Filled band around the quadratic curve with different boundary curves
 			\fill[blue!10] 
 			(-1, 5) -- plot[domain=-2:1, samples=100] ({\x+1}, {\x*\x + 1}) -- 
 			plot[domain=1:-2, samples=100] ({\x+1}, {\x*\x - 0.5}) -- cycle;
@@ -3406,27 +3406,27 @@ description={Risk stratification\index{risk stratification} assigns
 	  	\begin{figure}[H]
   		\begin{center}
 			\begin{tikzpicture}[scale=2, thick, >=stealth]
-
+%				% Central model w
 				\coordinate (w) at (3,0);
 				\fill (w) circle (1.2pt) node[below right] {${\bf z}$};
-
+% Clean nodes
 				\coordinate (w2) at (0.5,0.3);
 				\coordinate (w3) at (0.7,0.7);
 				\fill (w2) circle (1pt) node[above left] {${\bf x}^{(1)}$};
 				\fill (w3) circle (1pt) node[above left] {${\bf x}^{(2)}$};
 			    \node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
-
+%				% Dashed lines from w to good nodes
 				\draw[dashed] (w) -- (w2);
 				\draw[dashed] (w) -- (w3);
-
+%				% Draw unit vectors (scaled to 1cm)
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{{\bf x}^{(2)}- {\bf z}}{\mleft\lVert {\bf x}^{(2)}-{\bf z}\mright\rVert_{2}}$};
-
+%				\node at (-0.2,1.4) {\textbf{Clean}};
 				\coordinate (w4) at (5,0.2);
 				\node at (5,0.6) {\textbf{perturbed}};
 				\fill (w4) circle (1pt) node[below left] {${\bf x}^{(3)}$};
 				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
-
+%		% Optional dotted line from w to bad
 		\end{tikzpicture}
 		\caption{\label{opt_cond_GM_dict}
 			Consider a solution ${\bf z}$ of \eqref{equ_geometric_median_dict} that does not coincide 
@@ -3468,20 +3468,20 @@ description={Risk stratification\index{risk stratification} assigns
 	 			height=6cm,
 	 			clip=false
 	 		   ]
-	 		
+	 		% Original nonlinear function h(x)
 			\addplot[thick, domain=-2:6] {2 + sin(deg(x))} 
 	   		     node[pos=0.9, above right, yshift=10pt] {$\hat{h}({\bf x})$};
-	 		
-	 		
+	 		% Tangent line as local linear approximation at x = 1.5
+	 		% h(3) = 2 + sin(3), h'(3) = cos(3)
 	 		\addplot[blue, thick, domain=0.5:2.5] 
 	 		{2 + sin(deg(1.5)) + cos(deg(1.5))*(x - 1.5)}
 	 		node[pos=0.2, above] {$g({\bf x})$};
-	 		
+	 		% Mark point of approximation
 	 		\addplot[mark=*] coordinates {(1.5, {2 + sin(deg(1.5))})};
-	 		    
+	 		    % Vertical dashed line (ruler) at x = 1.5
 			\addplot[dashed, gray] coordinates {(1.5,0) (1.5,2.4)};
 	 		\node at (axis cs:1.5, -0.2) {${\bf x}'$};
-	      		
+	      		% add function values for finite set of featurevecs
 	       		\addplot[mark=*,blue] coordinates {(-1, {2 + sin(deg(-1))})};
 	       		\addplot[dashed, gray] coordinates {(-1,0) (-1,{2 + sin(deg(-1))})};
 	       		\node at (axis cs:-1, -0.2) {${\bf x}^{(1)}$};
@@ -3491,14 +3491,14 @@ description={Risk stratification\index{risk stratification} assigns
 	 	   	\addplot[mark=*,blue] coordinates {(5, {2 + sin(deg(5))})};
 	 	   	\addplot[dashed, gray] coordinates {(5,0) (5,{2 + sin(deg(5))})};
 	 	   	\node at (axis cs:5, -0.2) {${\bf x}^{(3)}$};
-	
-	
-	
-	
-	
-	
+	% 		    % Plot the two points
+	% 		    % Coordinates of the two points
+	% 		\pgfmathsetmacro{\xA}{-1.5}
+	% 		\pgfmathsetmacro{\xB}{3}
+	% 		\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+	% 		\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
 	 		\end{axis}
-	
+	% 	\vspace*{-10mm}
 		\end{tikzpicture}
 	 	\end{center}
 	 	\caption{A trained model $\hat{h}({\bf x})$ can be explained 
@@ -3784,25 +3784,25 @@ plural={stochastic algorithms},
 	\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}
-			
-			\draw[->] (-1,0) -- (7,0) node[right] {$y$}; 
-			
+			% Axes
+			\draw[->] (-1,0) -- (7,0) node[right] {$y$}; % x-axis
+			% Gaussian distribution centered at 3 with variance 1
 			\draw[thick,domain=-1:7,smooth,variable=\x] 
 			  plot ({\x}, {2*exp(-0.5*((\x-3)^2))});
-			
+			% Dashed line indicating the mean of the Gaussian
 			\draw[dashed] (3,0) -- (3,2.5);
 			\node[anchor=south] at ([yshift=-5pt] 3,2.5) {\small $\mu_{y|{\bf x}}$};
-			
+			% Double arrow indicating the variance
 			\draw[<->,thick] (3-1,1) -- (3+1,1.0);
 			\node[anchor=west] at ([yshift=2pt] 3,1.2) {\small $\sigma_{y|{\bf x}}$};
-			
-			
-			
-			  
+			% Posterior variance label
+			%\node[anchor=south east] at (3-0.5,1.8) {\small Posterior Variance};
+			% x-axis marks with crosses
+			  % x-axis marks with crosses
   			\foreach \x in {0.5} {
 				\node[red] at (\x, 0) {\bf \large $\times$};
  			 }
-  			
+  			% h(x) label for the first cross
   			\node[anchor=north] at (0.5,-0.2) {\small $\hat{h}({\bf x})$};
 		  \end{tikzpicture}
 		\end{center}
@@ -3827,17 +3827,17 @@ sort={k-fold CV},
 		\begin{figure}[H]
 		\centering
 			\begin{tikzpicture}[font=\small]
-				\def\k{5}          
-				\def\cellw{1.6}    
-				\def\cellh{0.40}   
-				\def\gap{0.18}     
-				
+				\def\k{5}          % number of folds
+				\def\cellw{1.6}    % width of one segment
+				\def\cellh{0.40}   % height of one segment
+				\def\gap{0.18}     % vertical gap between rows
+				% rows: i = 1..k; columns: j = 1..k
 				\foreach \i in {1,...,\k} {
-					
+					% row baseline y
 					\pgfmathsetmacro{\y}{-(\i-1)*(\cellh+\gap)}
-					
+					% row label
 					\node[anchor=east] at (-0.25,\y+0.5*\cellh) {fold \i};
-					
+					% draw k equal segments; shade the \i-th as validation
 					\foreach \j in {1,...,\k} {
 						\pgfmathsetmacro{\x}{(\j-1)*\cellw}
 						\ifnum\i=\j
@@ -3848,7 +3848,7 @@ sort={k-fold CV},
 						\fi
 					}
 				}
-				
+				% add labels D^{(j)} above the columns
 				\foreach \j in {1,...,\k} {
 					\pgfmathsetmacro{\x}{(\j-1)*\cellw + 0.5*\cellw}
 					\node[anchor=south] at (\x,\cellh+0.2) {$\mathcal{D}^{(\j)}$};
@@ -3929,18 +3929,18 @@ sort={k-fold CV},
 			\begin{center}
 				\begin{minipage}{0.4\textwidth}
 			\begin{tikzpicture}
-				
+				% Define the style for filled nodes
 				\begin{scope}[every node/.style={circle, fill=black, inner sep=0pt, minimum size=0.3cm}]
-					
+					% Define nodes
 					\node (1) at (0,0) {};
 					\node (2) [below left=of 1, xshift=-0.2cm, yshift=-1cm] {};
 					\node (3) [below right=of 1, xshift=0.2cm, yshift=-1cm] {};
-					\node (4) [below=of 1, yshift=0.5cm] {}; 
+					\node (4) [below=of 1, yshift=0.5cm] {}; % Isolated node
 				\end{scope}
-				
+				% Draw edges
 				\draw (1) -- (2);
 				\draw (1) -- (3);
-				
+				% Add labels (separate from filled nodes)
 				\node[above=0.2cm] at (1) {$i=1$};
 				\node[left=0.3cm] at (2) {$2$};
 				\node[right=0.3cm] at (3) {$3$};
@@ -3969,23 +3969,23 @@ sort={k-fold CV},
 				\vspace*{20mm}\\
 				\begin{minipage}{0.4\textwidth}
 			\begin{tikzpicture}[scale=3]
-
+%					% Axes
 					\draw[->] (-0.2, 0) -- (1.2, 0) node[right] {$v^{(1)}_{i}$};
 					\draw[->] (0, -0.2) -- (0, 1.2) node[above] {$v^{(2)}_{i}$};
-
-
-
-
-
-
-
+%					
+%					% Tailored tick marks and labels
+%					\draw (0,0) node[below left] {$0$};
+%					\draw (1/sqrt(3), 0) node[below] {$\frac{1}{\sqrt{3}}$} -- ++(0,0.05);
+%					\draw (0, 1) node[left] {$1$} -- ++(0.05,0);
+%					
+%					Data points
 					\filldraw[blue] (0.577, 0) circle (0.03cm) node[above right] {$i=1,2,3$};
-					\filldraw[blue] (0.577, 0) circle (0.03cm); 
-					\filldraw[blue] (0.577, 0) circle (0.03cm); 
+					\filldraw[blue] (0.577, 0) circle (0.03cm); % Second point overlaps
+					\filldraw[blue] (0.577, 0) circle (0.03cm); % Third point overlaps
 					\filldraw[red] (0, 1) circle (0.03cm) node[above right] {$4$};
-
-
-
+%					% Grid for reference
+%					\draw[dashed, gray] (1/sqrt(3), 0) -- (1/sqrt(3), 1);
+%					\draw[dashed, gray] (0, 1) -- (1, 1);
 					\node at (0.5,-0.5) {(c)};
 			\end{tikzpicture}
 				\end{minipage} 
@@ -4241,34 +4241,34 @@ sort={k-fold CV},
   		 	label/.style={font=\footnotesize},
   		 	thinline/.style={line width=0.6pt}
 		 	]
-		
+		% % --- Input: audio signal ---
 		 	\node[minimum width=3.8cm, minimum height=1.6cm] (audio) {};
-		 	
+		 	%\node[label, above=1mm of audio] {$\mathcal{X}$};
 		 	\node[label] at (audio.north) [yshift=0mm] {audio samples ${\bf x}\in \mathbb{R}^{d}$};
-		
+		% % A tiny waveform inside the audio box
 		 	\begin{scope}
-		 	
+		 	%\clip (audio.south west) ++(0.15,0.15) rectangle ($(audio.north east)+(-0.15,-0.15)$);
 		 	\draw[thinline]
 		 		($(audio.west)+(0.2,0)$) .. controls +(.3,.35) and +(-.3,.35) .. ++(0.8,0)
 		 		.. controls +(.3,-.35) and +(-.3,-.35) .. ++(0.8,0)
 		 		.. controls +(.3,.25) and +(-.3,.25) .. ++(0.8,0)
 		 		.. controls +(.3,-.25) and +(-.3,-.25) .. ++(0.8,0);
 		 	\end{scope}
-		
+		% % --- Hypothesis map ---
 		 	\node[box,right=1.0cm of audio, minimum width=2.2cm, minimum height=1.6cm] (model)
 		 	{$h$};
-		 	\draw[->,thinline] (audio) -- (model) ; 
-		
+		 	\draw[->,thinline] (audio) -- (model) ; %node[midway,above,label] {features \& inference};
+		% % --- Output: rating bar ---
 		 	\node[right=1.0cm of model, minimum width=3.2cm, minimum height=1.6cm] (rating) {};
 		 	\node[label, align=center] at ($(rating.north)+(0,-6mm)$)
 		 		{};
-		
+		% % Draw a minimalist horizontal score bar
 		 	\coordinate (barL) at ($(rating.west)+(0.4,0)$);
 		 	\coordinate (barR) at ($(rating.east)+(-0.4,0)$);
 		 	\def\score{0.82}
 		 	\coordinate (ptr) at ($(barL)!{\score}!(barR)$);
-		 	
-			
+		 	%\draw[thinline] (ptr) -- ++(0,-0.28);
+			%\fill (ptr) circle (1.2pt);
 		 	\node[label, above=0pt of ptr] {$h({\bf x})=0.82 (\approx \mbox{Freddie level})$};
 		 	\draw[->,thinline] (model) -- (rating);
 		 	\end{tikzpicture}
@@ -4319,26 +4319,26 @@ sort={k-fold CV},
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[>=Stealth, font=\small]
-			
+			% (a) Real line for regression
 			\begin{scope}[shift={(0,0)}]
 				\draw[->] (-2,0) -- (2,0);
 				\node[below=6pt] at (0,-0.7) {(a) $\mathcal{Y}\!=\!\mathbb{R}$ (regression)};
 			\end{scope}
-			
+			% (b) Plane for multi-label regression
 			\begin{scope}[shift={(7,0)}]
-				
+				% shaded rectangle
 				\fill[gray!20] (-1,-0.5) rectangle (1,0.5);
 				\draw[->] (-2,0) -- (2,0);
 				\draw[->] (0,-1) -- (0,1);
 				\node[below=6pt] at (0,-0.7) {(b) $\mathcal{Y}\!=\!\mathbb{R}^{2}$ (multi-label regression)};
 			\end{scope}
-			
+			% (c) Binary classification
 			\begin{scope}[shift={(0,-3)}]
 				\fill (-1,0) circle (1.2pt) node[below=2pt] {\text{``hot''}};
 				\fill ( 1,0) circle (1.2pt) node[below=2pt] {\text{``cold''}};
 				\node[below=14pt] at (0,-0.7) {(c) $|\mathcal{Y}|=2$ Binary classification};
 			\end{scope}
-			
+			% (d) Ordinal regression: directed chain
 			\begin{scope}[shift={(7,-3)}]
 				\node[circle, inner sep=1pt, draw] (n1) at (-1.5,0) {};
 				\node[circle, inner sep=1pt, draw] (n2) at (-0.5,0) {};
@@ -4407,15 +4407,15 @@ description = {Consider a dataset
 	\begin{center}
 	\begin{tikzpicture}[>=stealth, thick,y=2cm]
 		\foreach \x/\p in {1/0.3, 4/0.7}
-		{
+		{% Stem lines
 		\draw[gray] (\x,0) -- (\x,\p);
-		
+		% Dots at the end of stems
 		\fill[blue] (\x,\p) circle (2pt);
 		}
 		\node[anchor=south,align=center] at (1,0.3) {\small $p^{(\mathcal{D})}\left(\star\right)=3/10$};
 		\node[anchor=north] at (1,0) {\small $\star$};
 		\node[anchor=north] at (4,0) {\small $\otimes$};
-			
+			%--- Example datasets (same length, same frequencies, different permutations) ---
 		\node[anchor=west,text width=11cm] at (-1.2,-0.80) {
 			$\mathcal{D}= (\star,\star,\star,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes,\otimes)$
 		};
@@ -4524,42 +4524,42 @@ description = {Consider a dataset
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=0.6]
-			
+			% --------- 1D Line Feature Space (left) ---------
 			\begin{scope}[xshift=0cm]
-  				
+  				% Axis
  	 			\draw[->] (-0.5, 0) -- (3.5, 0) node[right] {$x_1$};
-  				
+  				% Points
   				\foreach \x/\lbl in {0.5/${\bf x}^{(1)}$, 1.5/${\bf x}^{(2)}$, 2.8/${\bf x}^{(3)}$}
     				\filldraw[blue] (\x,0) circle (2pt) node[above] {\lbl};
-  				
+  				% Label
   				\node at (1.5, -4.0)  {$\mathcal{X}^{(1)}$};
 				\node at (1.5, -6) {(a)};
 			\end{scope}
-			
+			% --------- 2-D Bounded (Disk) Feature Space (middle) ---------
 			\begin{scope}[xshift=8cm]
-  				
+  				% Circle boundary
   				\draw[thick] (0,0) circle (1.8);
   				\fill[gray!5] (0,0) circle (1.8);
-  				
+  				% Points inside circle
   				\filldraw[red] (0.8, 0.9) circle (2pt) node[anchor=south west] {${\bf x}^{(1)}$};
   				\filldraw[blue] (-1.2, 0.5) circle (2pt) node[anchor=south east] {${\bf x}^{(2)}$};
   				\filldraw[green!50!black] (0.3, -1.4) circle (2pt) node[anchor=north west] {${\bf x}^{(3)}$};
-  				
+  				% Label
   				\node at (0.5, -4) {$\mathcal{X}^{(2)}$};
 				\node at (0.5, -6) {(b)};
 			\end{scope}
-			
+			% --------- Graph-Based Feature Space (right) ---------
 			\begin{scope}[xshift=14cm, yshift=0.3cm]
-  				
+  				% Nodes
  	 			\filldraw[blue!60] (0,0) circle (2pt) node[anchor=north east] {${\bf x}^{(1)}$};
  	 			\filldraw[red!70] (2,1.2) circle (2pt) node[anchor=south west] {${\bf x}^{(2)}$};
   				\filldraw[green!50!black] (1,2.5) circle (2pt) node[anchor=south east] {${\bf x}^{(3)}$};
   				\filldraw[orange!80] (3,2.5) circle (2pt) node[anchor=south west] {${\bf x}^{(4)}$};
-  				
+  				% Edges
   				\draw[-] (0,0) -- (2,1.2);
   				\draw[-] (2,1.2) -- (1,2.5);
   				\draw[-] (1,2.5) -- (3,2.5);
-  				
+  				% Label
   				\node at (1.5, -4.2) {$\mathcal{X}^{(3)}$};
 				\node at (1.5, -6.2) {(c)};
 			\end{scope}
@@ -4603,13 +4603,13 @@ description = {Consider a dataset
 		\begin{figure}
 		\centering
 		\begin{tikzpicture}[scale=1]
-		
+		% Draw a smooth waveform (sine curve as proxy for audio)
 		\draw[thick, blue, domain=0:6.28, smooth, variable=\x] 
 			plot ({\x}, {sin(\x r)});
-		
+		% Mark sample points at regular intervals
 		\foreach \x [count=\i] in {0,0.5,...,6.28} {
 			\fill[red] (\x, {sin(\x r)}) circle (2pt);
-			
+			% Label only the first two samples
 			\ifnum\i=1
 				\node[above left] at (\x, {sin(\x r)}) {$x_1$};
 			\fi
@@ -4879,14 +4879,14 @@ description = {Consider a dataset
 		choice that depends on the specific machine learning (ML) application.
 		\begin{figure}[H]
     		\centering
-    			
+    			% Image as a datapoint
     			\begin{minipage}[t]{0.95\textwidth}
         			\centering
         			\includegraphics[width=\textwidth]{assets/CowsAustria.jpg}
         			\caption*{A single data point.}
         			\vspace{5mm}
     			\end{minipage}
-    			
+    			% Feature and label description
     			\begin{minipage}[t]{0.95\textwidth}
         			Features:
         			\begin{itemize}
@@ -4936,21 +4936,21 @@ description = {Consider a dataset
 		\begin{figure}[htbp] 
 			\centering
 			\begin{tikzpicture}[scale=1.2,x=1.5cm]
-				
-			
-			
-			
-				
+				% Straight line: y = x
+			%	\draw[thick] (-0.5,-0.5) -- (2.5,2.5)
+			%	node[pos=1, below right]
+			%	{$\hypothesis'(\feature)=\feature$};
+				% Quadratic: y = 0.5 x^2
 				\draw[thick, domain=-0.5:2.5, samples=10, smooth]
 				plot (\x,{0.5*\x*\x})
 				node[pos=0, above left]
 				{$\hat{h}(x)$};
-				
+				% Training data points
 				\fill[blue] (0,0) circle (4pt);
 				\fill[blue] (2,2) circle (4pt);
-				
+				% Manual legend
 				\node[below right] at (0,0) {training set};
-				
+				% validation data point 
 				\fill[red] (1,3) circle (4pt);
 				\node[above,yshift=2pt] at (1,3) {validation set};
 			\end{tikzpicture}
@@ -5058,20 +5058,20 @@ description = {Consider a dataset
   \def\xmin{0}
   \def\xmax{6.5}
   \draw[color=black, thick, dashed, domain=\xmin:\xmax, variable=\x] plot ({\x},{\slope*\x + \intercept}); 
-	
+	% Place label at the endpoint (xmax, h(xmax))
    \coordinate (hend) at (\xmax,{\slope*\xmax + \intercept});
 	\node[above right] at (hend) {$h(x)$};
    \foreach \i/\xval/\yval in {1/1.2/1.8, 2/3.0/2.6, 3/5.0/5.7} {
-      
+      % predicted label on the hypothesis line
       \coordinate (l\i) at (\xval, {\slope*\xval + \intercept});
-      
+      % actual label
       \coordinate (n\i) at (\xval, \yval);
-      
+      % draw data point
       \node[circle,draw,fill=blue,minimum size=6pt,scale=0.6] (pt\i) at (n\i) {};
-      
+      % residual arrow
       \draw[<->, color=blue, thick] (l\i) -- (n\i);
   }
-  
+  % Labels for data points
   \node[anchor=west,below,yshift=-2pt] at (n1) {$\big(x^{(1)},\,y^{(1)}\big)$};
   \node[anchor=west,below]        at (n2) {$\big(x^{(2)},\,y^{(2)}\big)$};
   \node[anchor=west,above]   at (n3) {$\big(x^{(3)},\,y^{(3)}\big)$};
@@ -5111,13 +5111,13 @@ out of a model $\mathcal{H}$ by minimizing the average loss
     \begin{figure}[H]
     \begin{center}
         \begin{tikzpicture}[yscale=0.3]
-      
+      % hypothesis line fitted (almost) to medium & large points
       \def\slope{1.55}
       \def\intercept{-2.05}
       \draw[thick,dashed,domain=0:6.5,variable=\x]
         plot({\x},{\slope*\x+\intercept});
       \node[] at (6.5,{\slope*6.5+\intercept}) {$h(x)$};
-      
+      % three data points with varying weights (sizes)
       \foreach \i/\xval/\yval/\scaleval in {1/1.2/1.8/0.6, 2/3.0/2.6/1.0, 3/5.0/5.7/1.5} {
         \node[circle,draw,fill=blue!60,minimum size=6pt,scale=\scaleval]
           (pt\i) at (\xval,\yval) {};
@@ -5198,13 +5198,13 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[scale=1.0]
-				
+				% Axes
 				\draw[->] (-0.5,0) -- (4.5,0) node[right] {${\bf w}$};
 				\draw[->] (0,-0.5) -- (0,3.5);
-				
+				% Objective function curve
 				\draw[thick,domain=0.3:4,smooth,variable=\x] 
 				plot ({\x}, {0.5*(\x-2)^2 + 0.5});
-				
+				% Label the curve
 				\node at (3.5,2.8) {$f({\bf w})$};
 			\end{tikzpicture} 
 			\end{center}
@@ -5267,13 +5267,13 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale = 1]
-					
-					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature $x$};       
-					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature $x$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   % Y-axis
 					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;     
 					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.6 + 2.0}) ;     
-					
-	          			
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
 					\draw[blue, thick] (5, 4.5) ellipse [x radius=0.2cm, y radius=1cm];
 					\node at (5, 5.8) [text=black, font=\small] {$\{ h: h(x)\!=\!w_{1}x\!+\!w_{0}; w_{1} \in [0.4,0.6]\}$};
 					\node at (6.7,4.5) {$h(x)$};    
@@ -5292,7 +5292,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 					\coordinate (n4)   at (2.2, 3.8);
 					\coordinate (n5) at (2.4, 3.8);
 					\coordinate (n6)   at (2.7,  3.8);
-					
+					% augemented data point obtained by perturbing feature, not touching label value 
 					\coordinate (n7)   at (3.9, 2.6);
 					\coordinate (n8) at (4.2, 2.6);
 					\coordinate (n9)   at (4.5,  2.6);
@@ -5430,23 +5430,23 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 	 	 \begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[x=3cm, y=1cm]
-			
-  			\def\hmin{0.2}   
-  			\def\hmax{0.8}   
-  			\def\ymin{-2.1}  
-  			\def\ymax{4.2}   
-  			
+			% --- editable bounds for the vertical strip (hypothesis space) ---
+  			\def\hmin{0.2}   % left x-bound of \mathcal{H}
+  			\def\hmax{0.8}   % right x-bound of \mathcal{H}
+  			\def\ymin{-2.1}  % lower y-bound (should cover your plot)
+  			\def\ymax{4.2}   % upper y-bound (should cover your plot)
+  			% Hypothesis space: vertical grey, semi-transparent strip
   			\fill[gray!40, opacity=0.35] (\hmin,\ymin) rectangle (\hmax,\ymax);
-  			
+  			% (optional) faint borders for the strip
   			\draw[gray!60] (\hmin,\ymin) -- (\hmin,\ymax);
   			\draw[gray!60] (\hmax,\ymin) -- (\hmax,\ymax);
-  			
+  			% Label for the strip
   			\node[rotate=0] at ({(\hmin+\hmax)/2}, {\ymax-0.2}) {$\mathcal{H}$};
 			\node[anchor=west] at (2, 4) {$\bar{L} \big( h\big) $};
 			\draw[line width=1, domain=-2:1, samples=100,dashed] plot  ({\x+1}, {\x*\x -0.5}) node[right] {$\widehat{L}\big(\mathcal{D}|h\big)$};
 			\draw[line width=1, domain=-1:2, samples=100] plot ({\x}, {\x*\x});
 			\draw[<->, thick] (1, -0.5) -- (1, 1) node[midway, right] {gap};
-			
+			% Horizontal axis for hypothesis variable
             		\draw[->, thick] (-1.2,-1) -- (2.2,-1) node[below right] {$h$};
 			\end{tikzpicture}
 			\end{center}
@@ -5584,14 +5584,14 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=1.2]
-					
+					% Axes
 					\draw[->] (-0.5,0) -- (5.5,0) node[right] {$h$};
 					\draw[->] (0,-0.5) -- (0,4.5) node[above] {$\widehat{L}\big(h|\mathcal{D}\big)$};
 					\draw[thick,domain=0.2:5,smooth,variable=\x,blue!60] plot ({\x},{(4 - 1.3*\x + 0.15*\x*\x)});
 					\foreach \x/\label in {0.7/$\widetilde{h}^{(0)}$, 1.5/$\widetilde{h}^{(1)}$, 2.3/$\widetilde{h}^{(2)}$, 3.0/$\widetilde{h}^{(3)}$} {
-						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); 
-						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   
-						\node[below] at (\x, -0.1) {\label};                             
+						\draw[dashed, gray] (\x, 0) -- (\x, {4 - 1.3*\x + 0.15*\x*\x}); % helper line
+						\filldraw[black] (\x, {4 - 1.3*\x + 0.15*\x*\x}) circle (2pt);   % point
+						\node[below] at (\x, -0.1) {\label};                             % label
 					}
 				\end{tikzpicture}
 			\end{center} 
@@ -6026,7 +6026,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
   		\begin{center}
    		\begin{minipage}{0.45\textwidth}
 		\begin{tikzpicture}
-				
+				%	 				% 		% Left part - Graph
 	 	 		\begin{scope}[every node/.style={circle, draw, minimum size=1cm}]
 	 				\node (1) at (0,0) {1};
 	 				\node (2) [below left=of 1] {2};
@@ -6068,18 +6068,18 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
-			
+			% Horizontal axis
 			\draw[->,line width=1pt] (-1, -1) -- (9, -1) node[below] {$\lambda_{2}$};
-			
+			% Ticks on the horizontal axis
 			\draw[thick] (0, -0.8) -- (0, -1.2) node[below] {{$\lambda_{2}\!=\!0$}};
 			\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\lambda_{2}\!=\!n$};
-			
+			% Left graph (single edge)
 			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
 			\node[above=0.5cm of A1, align=center] {\mbox{disconnected}};
 			\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
 			\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
 			\draw [line width=1 pt]  (A1) -- (B1);
-			
+			% Middle graph (two edges, shifted right)
 			\begin{scope}[xshift=3.5cm]
 				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
 				\node[above=0.5cm of A2, align=center] {\mbox{connected}};
@@ -6088,7 +6088,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 				\draw [line width=1 pt]  (A2) -- (B2);
 				\draw [line width=1 pt]  (B2) -- (C2);
 			\end{scope}
-			
+			% Right graph (three edges, shifted further right)
 			\begin{scope}[xshift=7cm]
 				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A3) at (0, 1.5) {};
 				\node[above=0.5cm of A3, align=center] {\mbox{complete graph}};
@@ -6180,23 +6180,23 @@ plural={kernel methods},
 \begin{figure}[H]
 \begin{center}
  \begin{tikzpicture}[auto,scale=0.6]
-        
-       
+        % Left rectangle (\featurespace)
+       % \draw [thick] (-9,-3) rectangle (-2,4) node [anchor=east,above] {$\featurespace$};
         \draw [thick] (-6,2) circle (0.1cm) node[anchor=west] {\hspace*{0mm}${\bf x}^{(5)}$};
        \draw [thick] (-8,1.6) circle (0.1cm) node[anchor=west] {\hspace*{0mm}${\bf x}^{(4)}$};
         \draw [thick] (-7.4,-1.7) circle (0.1cm) node[anchor=west] {\hspace*{0mm}${\bf x}^{(3)}$};
         \draw [thick] (-6,-1.9) circle (0.1cm) node[anchor=west] {\hspace*{0mm}${\bf x}^{(2)}$};
         \draw [thick] (-6.5,0.0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}${\bf x}^{(1)}$};
-
-
-      
+%
+%        % Right rectangle (\featurespace')
+      % \draw [thick] (0,-4) rectangle (7,3) node [anchor=east,above] {$\featurespace'$};
         \draw [thick] (4,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}${\bf z}^{(5)}$};
         \draw [thick] (5,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}${\bf z}^{(4)}$};
         \draw [thick] (6,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}${\bf z}^{(3)}$};
         \draw [thick] (7,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}${\bf z}^{(2)}$};
         \draw [thick] (2,0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}${\bf z}^{(1)}$};
-
-
+%
+%        % Arrow from left rectangle to right rectangle
        \draw[->,bend left=30] (-3,0) to node[midway,above] {${\bf z}= K\big({\bf x},\cdot\big)$} (1,0);
     \end{tikzpicture}
 \end{center}
@@ -6333,15 +6333,15 @@ sort={k-means++},
         		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}
-  			
+  			% all data points
   			\foreach \x/\y in {0.5/0.7, 1.2/1.4, 1.8/0.9, 2.2/1.8, 2.6/1.2, 3.1/1.6}
     			{\fill (\x,\y) circle (1.5pt);}
-  			
+  			% coreset points (highlighted)
   			\foreach \x/\y in {1.2/1.4, 2.6/1.2}{
     			\fill[blue] (\x,\y) circle (2pt);
     			\draw[blue, thick] (\x,\y) circle (6pt);
   			}
-  			
+  			% a simple label pointing to both coreset elements
   			\node[blue] (label) at (0.6,2.2) {\small coreset};
   			\draw[->,blue] (label) -- (1.2,1.5);
   			\draw[->,blue] (label) -- (2.6,1.3);
@@ -6434,45 +6434,45 @@ sort={k-means++},
 				feedback/.style={->, >=latex, dashed, very thin},
 				lab/.style={font=\scriptsize}
 				]
-				
+				% --- Source dataset
 				\node[dataset] (D) {$\mathcal{D}$};
-				
+				% --- Variant datasets (could be resample/reweight/transform)
 				\node[dataset, below left=of D]  (D1) {\small $\widetilde{\mathcal{D}}^{(1)}$};
 				\node[dataset, below=of D]       (D2) {\small $\widetilde{\mathcal{D}}^{(2)}$};
 				\node[dataset, below right=of D] (D3) {\small $\widetilde{\mathcal{D}}^{(3)}$};
 				\draw[flow] (D) -- (D1) node[midway, lab, above left=-1pt] {resample};
 				\draw[flow] (D) -- (D2) node[midway, lab, right] {};
 				\draw[flow] (D) -- (D3) node[midway, lab, above right=-1pt] {};
-				
+				% --- Base learners
 				\node[learner, below=5mm of D1] (L1) {\small $\mathcal{H}^{(1)}$};
 				\node[learner, below=5mm of D2] (L2) {\small $\mathcal{H}^{(2)}$};
 				\node[learner, below=5mm of D3] (L3) {\small $\mathcal{H}^{(3)}$};
-				
+				% --- Data-to-learner edges
 				\draw[flow] (D1) -- (L1);
 				\draw[flow] (D2) -- (L2);
 				\draw[flow] (D3) -- (L3);
-				
+				% --- Inter-learner dependencies (generic; like boosting-style feedback)
 				\draw[feedback] (L1.east) .. controls +(+7mm,0mm) and +(-7mm,0mm) .. (L2.west)
 				node[midway, lab, above] {};
 				\draw[feedback] (L2.east) .. controls +(+7mm,0mm) and +(-7mm,0mm) .. (L3.west);
-				
+				% (Optional: allow skip connections)
 				\draw[feedback] (L1.east) to[out=60, in=120] (L3.west);
-				
+				% --- Aggregator and final prediction
 				\node[op, below=8mm of L2] (agg) {\small $\phi_{\text{agg}}$};
 				\draw[flow] (L1) -- (agg);
 				\draw[flow] (L2) -- (agg);
 				\draw[flow] (L3) -- (agg);
-				
+				% --- Prediction display
 				\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
 				{\small $\hat{h}= \phi_{\text{agg}}\!\big(\widehat{h}^{(1)},\,\widehat{h}^{(2)},\,\widehat{h}^{(3)}\big)$};
 				\draw[flow] (agg) -- (yhat);
-				
+				% --- Tiny labels on learner outputs
 				\node[lab, below left=-1pt and -1pt of L1.south] {$\widehat{h}^{(1)}$};
 				\node[lab, below           =-1pt of L2.south]    {$\widehat{h}^{(2)}$};
 				\node[lab, below right=-1pt and -1pt of L3.south]{$\widehat{h}^{(3)}$};
-				
-				
-				
+				% --- Mini legend for dashed feedback
+				%	\node[lab, above right=2mm and 0mm of L3] (leg) {dashed: inter-learner info};
+				%	\draw[feedback] ($(leg.west)+(0mm,-1.5mm)$) -- ++(-8mm,0mm);
 			\end{tikzpicture}
 			\caption{A generic ensemble with three base learners, each  
 				using empirical risk minimization (ERM) to learn $\mathcal{H}^{(j)} \in \mathcal{H}^{(j)}$ 
@@ -6524,13 +6524,13 @@ sort={k-means++},
 			op/.style={draw, circle, inner sep=1pt},
 			>=latex
 			]
-			
+			% Original dataset
 			\node[dataset] (D) {$\mathcal{D}$};
-			
+			% Variants (closer to D)
 			\node[learner, below left=of D]  (L1) {empirical risk minimization (ERM) \\ $\mathcal{H}^{(1)},L^{(1)}$};
 			\node[learner, below=of D]       (L2) {empirical risk minimization (ERM) \\ $\mathcal{H}^{(2)},L^{(2)}$};
 			\node[learner, below right=of D] (L3) {empirical risk minimization (ERM) \\ $\mathcal{H}^{(3)},L^{(3)}$};
-			
+			% Arrows to variants (shorter labels)
 			\draw[->] (D) -- (L1) node[midway, above left=-1pt] {};
 			\draw[->] (D) -- (L2) node[midway, right]           {};
 			\draw[->] (D) -- (L3) node[midway, above right=-1pt]{};
@@ -6541,7 +6541,7 @@ sort={k-means++},
 			\draw[->] (L2) -- (agg);
 			\draw[->] (L3) -- (agg);
 			\draw[->] (agg) -- (yhat);
-			
+			% Tiny labels on learner outputs
 			\node[below left=-1pt and -1pt of L1.south] {$\widehat{h}^{(1)}$};
 			\node[below           =-1pt of L2.south]    {$\widehat{h}^{(2)}$};
 			\node[below right=-1pt and -1pt of L3.south]{$\widehat{h}^{(3)}$};
@@ -6581,20 +6581,20 @@ sort={k-means++},
  		\begin{figure}[H]
  		\begin{center}
  			\begin{tikzpicture}[>=Latex, font=\small]
- 				
+ 				% --- Population box ----------------------------------------------------
  				\node[draw, rounded corners, inner sep=6pt,
  				minimum width=5.2cm, minimum height=3.4cm] (pop) {};
  				\node[above=0pt of pop.north] {population};
- 				
+ 				% --- Population points as coordinates (no empty \node{})
  				\foreach \x/\y [count=\i] in {-2.0/0.3, -1.6/0.9, -1.2/-0.2, -0.8/0.5,
  					-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
  					1.4/0.4, 1.8/-0.1} {
  					\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
  					\fill (p\i) circle (1.6pt);
  				}
- 				
+ 				% --- Anchor for sample (coordinate, not node) --------------------------
  				\coordinate (sampleanchor) at ([xshift=1.8cm,yshift=0.5cm]pop.east);
- 				
+ 				% --- Sample sequence entries ------------------------------------------
  				\def\rowgap{0.55cm}
  				\def\ybase{0.95cm}
  				\node[anchor=west] (s1) at ($(sampleanchor)+(0, \ybase - 0*\rowgap)$)
@@ -6609,21 +6609,21 @@ sort={k-means++},
  				{$5:\;({\bf x}^{(5)},y^{(5)})$};
  				\node[anchor=west] (s6) at ($(sampleanchor)+(0, \ybase - 5*\rowgap)$)
  				{$6:\;({\bf x}^{(6)},y^{(6)})$};
- 				
+ 				% --- Auto-sized sample box (fit to first & last entry) -----------------
  				\node[draw, rounded corners, inner sep=6pt, fit=(s1)(s6)] (seqbox) {};
  				\node[above=0pt of seqbox.north]
  				{a sample};
- 				
+ 				% --- Arrows from population points to sample entries -------------------
  				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{{\bf z}}^{(1)}$};
  				\draw[->, thick] (p2) to[out=0,   in=180] ($(s1.west)+(1mm,0mm)$);
  				\draw[->, thick] (p7) to[out=10,  in=180] ($(s3.west)+(1mm,0mm)$);
 				\draw[->, thick] (p4) to[out=10,  in=180] ($(s4.west)+(1mm,0mm)$);
  				\draw[->, thick] (p5) to[out=-10, in=180] ($(s5.west)+(1mm,0mm)$);
- 				
+ 				% Duplicate selection: same population point chosen twice
  				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] ($(s2.west)+(1mm,0mm)$);
  				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] ($(s6.west)+(1mm,0mm)$);
- 				
- 				
+ 				% Optional overall sampling arrow (boxes stay aligned)
+ 				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
  			\end{tikzpicture}
  		\end{center}
  		\caption{A sample viewed as a finite sequence. 
@@ -6713,25 +6713,25 @@ sort={k-means++},
 			op/.style={draw, circle, inner sep=1pt},
 			>=latex
 			]
-			
+			% Original dataset
 			\node[dataset] (D) {$\mathcal{D}$};
-			
+			% Variants (closer to D)
 			\node[dataset, below left=of D]  (D1) {$\widetilde{\mathcal{D}}^{(1)}$};
 			\node[dataset, below=of D]       (D2) {$\widetilde{\mathcal{D}}^{(2)}$};
 			\node[dataset, below right=of D] (D3) {$\widetilde{\mathcal{D}}^{(3)}$};
-			
+			% Arrows to variants (shorter labels)
 			\draw[->] (D) -- (D1) node[midway, above left=-1pt] {resample};
 			\draw[->] (D) -- (D2) node[midway, right]           {resample};
 			\draw[->] (D) -- (D3) node[midway, above right=-1pt]{resample};
-			
+			% Base learners (reduced vertical gaps)
 			\node[learner, below=5mm of D1] (L1) {$\mathcal{H}^{(1)}$};
 			\node[learner, below=5mm of D2] (L2) {$\mathcal{H}^{(2)}$};
 			\node[learner, below=5mm of D3] (L3) {$\mathcal{H}^{(3)}$};
-			
+			% Feed variants into learners
 			\draw[->] (D1) -- (L1);
 			\draw[->] (D2) -- (L2);
 			\draw[->] (D3) -- (L3);
-			
+			% Aggregator and final prediction (tighter)
 			\node[op, below=8mm of L2] (agg) {$\phi_{\text{agg}}$};
 			\node[below=5mm of agg, align=right, inner sep=2pt] (yhat)
 			{$\hat{h}= \phi_{\text{agg}}\!\big(\widehat{h}^{(1)},\widehat{h}^{(2)},\widehat{h}^{(3)}\big)$};
@@ -6739,7 +6739,7 @@ sort={k-means++},
 			\draw[->] (L2) -- (agg);
 			\draw[->] (L3) -- (agg);
 			\draw[->] (agg) -- (yhat);
-			
+			% Tiny labels on learner outputs
 			\node[below left=-1pt and -1pt of L1.south] {$\widehat{h}^{(1)}$};
 			\node[below           =-1pt of L2.south]    {$\widehat{h}^{(2)}$};
 			\node[below right=-1pt and -1pt of L3.south]{$\widehat{h}^{(3)}$};
@@ -6884,24 +6884,24 @@ sort={k-means},
 		\begin{figure}[H]
 		\begin{center}
 		\begin{tikzpicture}[scale=1]
-			
+			% Styles
 			\tikzset{
 				data/.style={circle, fill=black, inner sep=1.2pt},
 				centroid/.style={thick, cross out, draw, minimum size=6pt, inner sep=0pt}
 			}
-			
+			% Cluster A data (with one labeled point)
 			\node[data] (xi) at (1.0,0.2) {};
 			\node[right=0pt of xi,yshift=2pt] {${\bf x}^{(r)}$};
-			
+			% The rest unlabeled
 			\foreach \p in {(-0.3,0.0),(0.2,-0.4),(0.6,0.8),(0.0,0.9),(1.1,-0.2)}
 								\node[data] at \p {};
-			
+			% Cluster B data (spread wider)
 			\foreach \p in {(2.5,1.0),(3.7,1.2),(2.6,2.3),(3.8,2.5),(3.0,2.9),(3.6,1.6)}
 			\node[data] at \p {};
-			
+			% Centroids as crosses
 			\node[centroid] (mu1) at (0.55,0.4) {};
 			\node[centroid] (mu2) at (3.1,1.85) {};
-			
+			% Labels
 			\node[above of=mu1,yshift=-25pt,xshift=-10pt] {${{\bf w}}^{(1)}$};
 			\node[above of=mu2,yshift=-25pt,xshift=-10pt] {${{\bf w}}^{(2)}$};
 		\end{tikzpicture}
@@ -6942,10 +6942,10 @@ sort={k-means},
 	cross/.style={line width=0.4pt},
 	lab/.style={font=\scriptsize}
 	]
-	
-	
+	% ===================== PANEL (a): Initial centers =====================
+	% ===================== PANEL (b): Assign to nearest =====================
 		\begin{scope}[shift={(0,0)}]
-			
+			% points
 			\coordinate (Ba1) at (0.2, 1.1);
 			\coordinate (Ba2) at (0.4, 0.6);
 			\coordinate (Ba3) at (0.8, 1.0);
@@ -6956,12 +6956,12 @@ sort={k-means},
 			\coordinate (Bb4) at (3.3, 0.2);
 			\node[pointA] at (Ba1) {}; \node[pointA] at (Ba2) {}; \node[pointA] at (Ba3) {}; \node[pointA] at (Ba4) {};
 			\node[pointB] at (Bb1) {}; \node[pointB] at (Bb2) {}; \node[pointB] at (Bb3) {}; \node[pointB] at (Bb4) {};
-			
+			% centers (old)
 			\coordinate (Bc1old) at (0.9,0.65);
 			\coordinate (Bc2old) at (2.8,1.8);
 			\node[center,label={[lab, xshift=-2pt]right:${{\bf w}}^{(1,t)}$}] (B-C1) at (Bc1old) {};
 			\node[center,label={[lab, xshift=-2pt]right:${{\bf w}}^{(2,t)}$}] (B-C2) at (Bc2old) {};
-			
+			% perpendicular bisector
 			\path let 
 			\p1=(B-C1), \p2=(B-C2),
 			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
@@ -6969,16 +6969,16 @@ sort={k-means},
 			in coordinate (B-M)    at ($ (B-C1)!0.5!(B-C2) $)
 			coordinate (B-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
 			\draw[dashed, thick] ($ (B-M) + 10.4*(B-Nhat) $) -- ($ (B-M) - 10.4*(B-Nhat) $);
-			
+			% minimal assignment spokes
 			\draw[assignment] (Ba2) -- (B-C1);
 			\draw[assignment] (Ba3) -- (B-C1);
 			\draw[assignment] (Bb2) -- (B-C2);
 			\draw[assignment] (Bb3) -- (B-C2);
 			\node[lab] at (1.6,-0.35) {(a) Assign to nearest cluster centroid};
 		\end{scope}
-		
+		% ===================== PANEL (c): Recompute means =====================
 		\begin{scope}[shift={(5.5,0)}]
-			
+			% points
 			\coordinate (Ca1) at (0.2, 1.1);
 			\coordinate (Ca2) at (0.4, 0.6);
 			\coordinate (Ca3) at (0.8, 1.0);
@@ -6989,26 +6989,26 @@ sort={k-means},
 			\coordinate (Cb4) at (3.3, 0.2);
 			\node[pointA] at (Ca1) {}; \node[pointA] at (Ca2) {}; \node[pointA] at (Ca3) {}; \node[pointA] at (Ca4) {};
 			\node[pointB] at (Cb1) {}; \node[pointB] at (Cb2) {}; \node[pointB] at (Cb3) {}; \node[pointB] at (Cb4) {};
-			
+			% centers (old and new)
 			\coordinate (Cc1old) at (0.9,0.65);
 			\coordinate (Cc2old) at (2.8,1.8);
 			\coordinate (Cc1new) at (0.5,0.725);
 			\coordinate (Cc2new) at (2.95,0.70);
 			\node[center, opacity=0.5] at (Cc1old) {};
 			\node[center, opacity=0.5] at (Cc2old) {};
-			
+			% crosses for new centers
 			\draw[cross] ($(Cc1new)+(-0.07,0)$) -- ($(Cc1new)+(0.07,0)$);
 			\draw[cross] ($(Cc1new)+(0,-0.07)$) -- ($(Cc1new)+(0,0.07)$);
 			\draw[cross] ($(Cc2new)+(-0.07,0)$) -- ($(Cc2new)+(0.07,0)$);
 			\draw[cross] ($(Cc2new)+(0,-0.07)$) -- ($(Cc2new)+(0,0.07)$);
-			
+			% movement arrows
 			\draw[move] (Cc1old) -- (Cc1new);
 			\draw[move] (Cc2old) -- (Cc2new);
 			\node[lab] at (1.6,-0.35) {(b) Recompute cluster centroids};
 		\end{scope}
-		
+		% ===================== PANEL (d): Update & new partition =====================
 		\begin{scope}[shift={(3,-4)}]
-			
+			% points
 			\coordinate (Da1) at (0.2, 1.1);
 			\coordinate (Da2) at (0.4, 0.6);
 			\coordinate (Da3) at (0.8, 1.0);
@@ -7019,12 +7019,12 @@ sort={k-means},
 			\coordinate (Db4) at (3.3, 0.2);
 			\node[pointA] at (Da1) {}; \node[pointA] at (Da2) {}; \node[pointA] at (Da3) {}; \node[pointA] at (Da4) {};
 			\node[pointB] at (Db1) {}; \node[pointB] at (Db2) {}; \node[pointB] at (Db3) {}; \node[pointB] at (Db4) {};
-			
+			% centers (new)
 			\coordinate (Dc1new) at (0.5,0.725);
 			\coordinate (Dc2new) at (2.95,0.70);
 			\node[center, label={[lab, xshift=-2pt]right:${{\bf w}}^{(1,t+1)}$}] (D-C1n) at (Dc1new) {};
 			\node[center, label={[lab]right:${{\bf w}}^{(2,t+1)}$}] (D-C2n) at (Dc2new) {};
-			
+			% perpendicular bisector
 			\path let 
 			\p1=(D-C1n), \p2=(D-C2n),
 			\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
@@ -7065,20 +7065,20 @@ sort={k-means},
 			 \begin{figure}[t]
 				\centering
 				\begin{tikzpicture}[>=Latex, font=\small,scale=1]
-				
-	
-				
+				% --- baseline axis (purely visual) ---
+	%			\draw[very thin] (-0.2,0) -- (5.6,0);
+				% --- fixed point ---
 				\node[circle,draw,inner sep=1.2pt,fill=white,label={above:${\bf w}^\ast$}] (xstar) at (8,0) {};
-				
+				% --- iterates ---
 				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(0)}$}] (x0) at (0.3,0) {};
 				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(1)}$}] (x1) at (4.3,0) {};
 				\node[circle,fill,inner sep=1pt,label={below:${\bf w}^{(2)}$}] (x2) at (6.5,0) {};
-				
+				% --- update arrows labelled by the update operator T ---
 				\draw[->] (x0) to[bend left=12] node[above,sloped] {$\mathcal{F}$} (x1);
 				\draw[->] (x1) to[bend left=12] node[above,sloped] {$\mathcal{F}$} (x2);
-				
-				
-				
+				%\draw[->] (x5) to[bend left=12] node[above,sloped] {$\fixedpointop$} (xstar);
+				% --- optional tiny stopping rule (comment out if too much) ---
+				% \node[below=4pt of x4] {$\|x^{(t+1)} - x^{(t)}\| < \varepsilon$};
 				\end{tikzpicture}
 				\caption{A fixed-point iteration consists of the repeated application of an 
 				operator $\mathcal{F}$ with some fixed point ${\bf w}^\ast$, i.e., 
@@ -7236,7 +7236,7 @@ sort={k-means},
 		independent. See Fig. \ref{fig:covariance-examples_dict} for visual illustrations.
 		\begin{figure}[H]
 		\begin{tikzpicture}
-		
+		% Negative covariance
 		\begin{scope}[shift={(0,0)}]
 			\begin{axis}[
 				width=4.5cm, height=4.5cm,
@@ -7251,7 +7251,7 @@ sort={k-means},
 			\end{axis}
 			\node at (1.5,-1) {(a)};
 		\end{scope}
-		
+		% Zero covariance
 		\begin{scope}[shift={(5.2cm,0)}]
 			\begin{axis}[
 				width=4.5cm, height=4.5cm,
@@ -7266,7 +7266,7 @@ sort={k-means},
 			\end{axis}
 			\node at (1.5,-1) {(b)};
 		\end{scope}
-		
+		% Positive covariance
 		\begin{scope}[shift={(10.4cm,0)}]
 			\begin{axis}[
 				width=4.5cm, height=4.5cm,
@@ -7517,20 +7517,20 @@ sort={k-means},
 		\begin{figure}[H]
  			\centering
   			\begin{tikzpicture}[scale=1]
-   			
+   			% Column space of X (a 1D subspace through the origin)
    			\draw[thick] (-1,-0.333) -- (3,1) node[pos=0.0,below right] {${\rm span}\left({\bf X}\right)$};
-			
+			%   % Label vector y
    			\coordinate (y) at (1,2);
    			\fill (y) circle (1.6pt) node[above] {${\bf y}$};
-   			
-   			
+   			% Orthogonal projection X \hat w of y onto col(X)
+   			% Line direction vector chosen as v=(3,1); proj(y) = ((y·v)/(v·v)) v = 0.5*(3,1) = (1.5,0.5)
    			\coordinate (xw) at (1.5,0.5);
    			\fill (xw) circle (1.6pt) node[below right] {${\bf X}\widehat{{\bf w}}$};
-   			
+   			% Residual (drawn as the perpendicular drop)
    			\draw[dashed] (y) -- (xw);
-   			
- 			
-    			
+   			% (Optional) origin for visual reference
+ 			% \fill (0,0) circle (0.8pt) node[below left] {$\mathbf 0$};
+    			% --- Right: normal equations ---
     			\begin{scope}[xshift=6.2cm]
        				\node[anchor=west] at (0,1.2) {normal equations};
        				\node[anchor=west] at (0,0.4) {${\bf X}^{T}{\bf X}\,\widehat{{\bf w}} \;=\; {\bf X}^{T}{\bf y}$};
@@ -7579,26 +7579,26 @@ sort={k-means},
 		  		\draw[dashed, thick] (0.5, 3.5) -- (10.5, 3.5) node[right] 
 		  		{$h$};
 		  		\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
-				  
+				  % --- hypothesis line (horizontal at y=3.5) ---
 				\coordinate (lineStart) at (0.5, 3.5);
 				\coordinate (lineEnd)   at (10.5, 3.5);
 				\draw[dashed, thick] (lineStart) -- (lineEnd) node[right] {$h$};
-				
-				
+				% --- projection of the outlier (ptB7) onto the hypothesis line ---
+				% same x-coordinate, y = 3.5 (height of hypothesis line)
 				\path let \p1 = (ptB7) in coordinate (proj7) at (\x1, 3.5);
-				
+				% --- draw residual vector ---
 				\draw[<->, very thick, red]
 					(proj7) -- node[right, xshift=2pt, fill=white, inner sep=1pt]
 					{$q^{(r)} \big( y^{(r)}\!-\!h\big({\bf x}^{(r)}\big) \big)^{2}$}
 					(ptB7);
-				
+				% --- emphasize points ---
 				\fill[red] (proj7) circle (1.2pt);
 				\fill[red] (ptB7)  circle (1.2pt);
 		  	\end{tikzpicture}
 		\caption{Weighted least squares can be used to mitigate the effect of outlier 
-		data points in a training set. 
-		
-		
+		data points in a training set. %In this example, the \gls{outlier} 
+		%(shown in red) has been assigned a small weight $\beta^{(7)}$ 
+		%to reduce its influence on the learned \gls{parameter} $\widehat{w}$. 
 		\label{fig_weighted_least_squares_dict}}
 		\end{figure}
 		See also: empirical risk minimization (ERM), squared error loss, linear regression, linear model.},
@@ -7720,15 +7720,15 @@ sort={k-means},
 		\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale = 1]
-					
-					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature ${\bf x}$};       
-					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature ${\bf x}$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   % Y-axis
 					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.4 + 2.0}) ;     
-					
-					
-	          			
-				
-				
+					%\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x]  plot ({\x},{\x*0.6 + 2.0}) ;     
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+				%	\draw[blue, thick] (5, 4.5) ellipse [x radius=0.2cm, y radius=1cm];
+				%	\node at (5, 5.8) [text=black, font=\small] {$\{ \hypothesis: \hypothesis(x)\!=\!w_{1}x\!+\!w_{0}; w_{1} \in [0.4,0.6]\}$};
 					\node at (6.7,4.5) {$h({\bf x})$};    
 					\coordinate (l1)   at (1.2, 2.48);
 					\coordinate (l2) at (1.4, 2.56);
@@ -7745,7 +7745,7 @@ sort={k-means},
 					\coordinate (n4)   at (2.2, 3.8);
 					\coordinate (n5) at (2.4, 3.8);
 					\coordinate (n6)   at (2.7,  3.8);
-					
+					% augemented data point obtained by perturbing feature, not touching label value 
 					\coordinate (n7)   at (3.9, 2.6);
 					\coordinate (n8) at (4.2, 2.6);
 					\coordinate (n9)   at (4.5,  2.6);
@@ -7770,8 +7770,8 @@ sort={k-means},
 					\draw[<->, color=red, thick] (l9) -- (c9);  
 					\draw[fill=blue] (6.2, 3.7)  circle (0.1cm) node [anchor=west,black,xshift=0.1cm] {original data point $\left( {\bf x},y\right)$};
 					\draw[fill=red] (6.2, 3.2)  circle (0.1cm) node [anchor=west,black,xshift=0.1cm] {augmented $\left( \mathcal{N}\left({\bf x},\alpha\mathbf{I}\right),y\right)$};
-				
-				
+				%	\node at (4.6,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=blue] {$\frac{1}{\samplesize} \sum\limits_{\sampleidx=1}^\samplesize \big(\truelabel^{(\sampleidx)} - \weights^{T}\featurevec^{(\sampleidx)}\big)^{2}$};
+				%	\node at (7.2,1.2)  [minimum size=12pt, font=\fontsize{12}{0}\selectfont, text=red] {$+\regparam \normgeneric{\weights}{2}^2 $};
 				\end{tikzpicture}
 				\caption{For a linear model, adding the penalty term $\alpha\mleft\lVert {\bf w}\mright\rVert_{2}^2$ to 
 				the objective function in empirical risk minimization (ERM) is equivalent to empirical risk minimization (ERM) on an augmented dataset  \label{fig_ridge_regression_dict} }
@@ -7804,9 +7804,9 @@ sort={k-means},
 			\begin{axis}[
 			ybar,
 			y=5cm,
-			x=2cm,                          
-			bar width=0.6cm,                   
-			
+			x=2cm,                          % ⬅️ Controls spacing between bars
+			bar width=0.6cm,                   % ⬅️ Controls bar thickness
+			%	bar shift=-0.5cm,                % ⬅️ Center bars (=-0.5 * bar width)
 			xlabel={$x_i$},
 			clip=false,
 			ylabel={$p(x_i)$},
@@ -7825,7 +7825,7 @@ sort={k-means},
 			(4,0.2)
 			(5,0.1)
 			};
-			
+			% Manual textboxes above bars
 			\node[font=\footnotesize,xshift=7pt] at (axis cs:1,0.13) {$p(x_i)\!\,\cdot\!\,x_i\!=\!0.1$};
 			\node[font=\footnotesize]at (axis cs:2,0.23) {$0.4$};
 			\node[font=\footnotesize]at (axis cs:3,0.43) {$1.2$};
@@ -7878,8 +7878,8 @@ sort={k-means},
 				axis lines=middle,
 				xlabel={$yh({\bf x})$},
 				ylabel={$L\left(({\bf x},y),h\right)$},
-				xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  
-				ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, 
+				xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  % Adjusted to be relative to axis end
+				ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, % Corrected to vertical position, rotated for readability
 				xmin=-3.5, xmax=3.5,
 				ymin=-0.5, ymax=2.5,
 				xtick={-3, -2, -1, 0, 1, 2, 3},
@@ -7890,7 +7890,7 @@ sort={k-means},
 				grid=both,
 				major grid style={line width=.2pt, draw=gray!50},
 				minor grid style={line width=.1pt, draw=gray!20},
-				legend pos=south west 
+				legend pos=south west % Positions legend at the bottom left
 				]
 					\addplot [red, thick] {ln(1 + exp(-x))};    
 			\end{axis}
@@ -7926,8 +7926,8 @@ sort={k-means},
         			axis lines=middle,
         			xlabel={$yh({\bf x})$},
         			ylabel={$L\left(({\bf x},y),h\right)$},
- 			xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  
-        			ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, 
+ 			xlabel style={at={(axis description cs:1.,0.3)}, anchor=north},  % Adjusted to be relative to axis end
+        			ylabel style={at={(axis description cs:0.5,1.1)}, anchor=center}, % Corrected to vertical position, rotated for readability
         			xmin=-3.5, xmax=3.5,
         			ymin=-0.5, ymax=2.5,
         			xtick={-3, -2, -1, 0, 1, 2, 3},
@@ -7938,10 +7938,10 @@ sort={k-means},
         			grid=both,
         			major grid style={line width=.2pt, draw=gray!50},
         			minor grid style={line width=.1pt, draw=gray!20},
-        			legend pos=south west 
+        			legend pos=south west % Positions legend at the bottom left
     			]
         			\addplot[blue, thick] {max(0, 1-x)};
-     			
+     			%   \addlegendentry{$\max(0, 1-x)$}
     			\end{axis}
 		\end{tikzpicture}
 		\caption{The hinge loss incurred by the prediction $h({\bf x}) \in \mathbb{R}$ 
@@ -8055,17 +8055,17 @@ sort={k-means},
 	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[scale=1]
-  			
+  			% Parameter space
   			\draw (0,0) ellipse (1.6 and 1.1);
   			\node at (0,1.5) {parameter space $\subseteq \mathbb{R}^{d}$};
   			\fill (-0.6,0.2) circle (1.5pt) node[above left] {${\bf w}'$};
   			\fill (0.7,-0.3) circle (1.5pt) node[below right] {${\bf w}''$};
-  			
+  			% Hypothesis space
   			\draw (6,0) ellipse (1.8 and 1.2);
   			\node at (6,1.6) {model $\mathcal{H}$};
   			\fill (5.4,0.1) circle (1.5pt) node[above left] {$h^{({\bf w}')}$};
   			\fill (6.7,-0.2) circle (1.5pt) node[below right] {$h^{({\bf w}'')}$};
-  
+  % Mapping (parameterization)
   			\draw[->] (-0.6,0.2) .. controls (2,0.9) .. (5.4,0.1);
   			\draw[->] (0.7,-0.3) .. controls (2,-0.9) .. (6.7,-0.2);
   			\node at (3,1.2) {${\bf w}\mapsto h^{({\bf w})}$};
@@ -8125,21 +8125,21 @@ sort={k-means},
 	\begin{figure}
 	\centering
 	\begin{tikzpicture}[scale=1]
-	
+	% --- Centroids ---
 	\coordinate (c1) at (0.8,0.7);
 	\fill[black] ($(c1)+(-0.05,-0.05)$) rectangle ($(c1)+(0.05,0.05)$);
 	\node[above left] at (c1) {${{\bf w}}^{(1)}$};
 	\coordinate (c2) at (6.6,1.6);
 	\fill[black] ($(c2)+(-0.05,-0.05)$) rectangle ($(c2)+(0.05,0.05)$);
 	\node[above left] at (c2) {${{\bf w}}^{(2)}$};
-	
+	% --- Cluster 1 (edit xscale/yscale/rotate to change spread/orientation) ---
 	\begin{scope}[shift={(c1)}, xscale=1.3, yscale=1.3, rotate=0]
 	\foreach \dx/\dy in {-0.6/-0.4, 0.1/0.9, 0.7/-0.6} {
 		\fill (\dx,\dy) circle (1.5pt);
 		\draw[dashed, gray] (\dx,\dy) -- (0,0);
 	}
 	\end{scope}
-	
+	% --- Cluster 2 ---
 	\begin{scope}[shift={(c2)}, xscale=1.5, yscale=1.5, rotate=0]
 	\foreach \dx/\dy in {-1.1/-0.5, -0.2/0.6, 0.6/-0.2} {
 		\fill (\dx,\dy) circle (1.5pt);
@@ -8277,15 +8277,15 @@ sort={k-means},
 		    axis lines=left,
 		    legend style={at={(0.5,-0.25)}, anchor=north, legend columns=3}
 		]
-		
+		% Cluster 1 
 		\addplot[only marks, color=blue, mark=*, mark size=3pt] coordinates {
 		    (1,1) (2,1.2) (1.8,2) (2.2,1.5) (1.5,2.5)
 		};
-		
+		% Cluster 2 
 		\addplot[only marks, color=red, mark=square*, mark size=3pt] coordinates {
 		    (7,8) (8,7.5) (7.5,8.5) (8.2,7.8) (7.7,7)
 		};
-		
+		% Cluster 3 
 		\addplot[only marks, color=green!60!black, mark=triangle*, mark size=3pt] coordinates {
 		    (5,3) (5.5,3.2) (5.2,2.8) (4.8,3.5) (5.1,3.1)
 		};
@@ -8361,18 +8361,18 @@ sort={k-means},
 				 \begin{figure}[H]
 					\centering
 				 \begin{tikzpicture}[>=stealth, line width=0.8pt]
-					
+					% Original vector x
 					\draw[->] (0,0) -- (2,1)
 						node[midway, above left] {${\bf x}$};
-					
+					% Matrix box A, vertically centered at y = 0.5
 					\node[
 						minimum width=1.6cm,
 						minimum height=1.2cm
-					] (A) at (3.0,0.5) {${\bf A}$};					
+					] (A) at (3.0,0.5) {${\bf A}$};					% Arrow from vector to matrix
 					\draw[->] (2,0.5) -- (2.5,0.5);
-					
+					% Arrow from matrix to output space
 					\draw[->] (3.5,0.5) -- (4.0,0.5);
-					
+					% Scaled eigenvector lambda x (collinear with x)
 					\draw[->] (4.6,0) -- (5.6,0.5)
 						node[midway, above] {$\lambda {\bf x}$};
 					\end{tikzpicture}
@@ -8691,7 +8691,7 @@ sort={k-means},
 		with features ${\bf x}$ and label $y$, as a function of the hypothesis $h\in \mathcal{H}$. 
 		\begin{figure}[H]
 			\begin{center}
-				\begin{tikzpicture}[scale = 0.7,
+				\begin{tikzpicture}[scale = 0.7,% enlarge arrowheads globally:
         			every axis/.append style={
           			axis line style={-Latex, thick},
           			tick style={thick}
@@ -8710,15 +8710,15 @@ sort={k-means},
 						ymin=-0.5,
 						ymax=2.5
 						]
-						
+						% Logistic loss: \ell(x) = ln(1 + e^{-x})
   						\addplot[red, line width=0.5mm,thick] {ln(1 + exp(-x))};
-						
+						% Absolute error: \ell(x) = |x|
   						\addplot[blue, line width=0.5mm, dashed, domain=-4:4] {0.3*abs(x)};
-  						
+  						% Squared error: \ell(x) = (1/2) x^2
   						\addplot[green!50!black, line width=0.5mm, dotted, domain=-4:4] {0.3*x^2};
-						
+						%\addplot [red, thick] {ln(1 + exp(-x))};    
 					\end{axis}
-					
+					%\node [above,centered,xshift=-5pt] at (1,5) {$\lossfunc{(\featurevec,\truelabel)}{\hypothesis}$};
 					\node [below] at (10,1) {$h({\bf x})$};
 						\node [right] at (4,6) {$L\left(({\bf x},y),h\right)$};
 				\end{tikzpicture}
@@ -8835,25 +8835,25 @@ sort={k-means},
   		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[scale=1.5]
-  			
+  			% Axes
   			\draw[->] (-0.5,0) -- (5.5,0) node[right] {face image ${\bf x}$};
   			\draw[->] (0,-0.2) -- (0,2.5) node[above] {name};
-  			
+  			% Sigmoid-like curve
   			\draw[thick, domain=0.5:5, samples=100, smooth, variable=\x, name path=sigmoid] 
   			plot ({\x}, {2/(1 + exp(-3*(\x - 3)))});
-  			
-  			
+  			%\node at (5.1, 0.2) {\small (e.g., face photo)};
+  			% Highlight point
   			\def\xval{3}
   			\pgfmathsetmacro{\yval}{2/(1 + exp(-3*(\xval - 3)))}
-  			
+  			% Ruler lines
   			\draw[dashed] (\xval,0) -- (\xval,\yval);
   			\draw[dashed] (0,\yval) -- (\xval,\yval);
-  			
+  			% Filled circle
   			\filldraw[fill=blue!20, draw=blue] (\xval,\yval) circle (0.1);
   			\node[anchor=south east] at (-0.1,\yval) {\footnotesize ``Alexander Jung''};
-  			
-  			\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{assets/AlexanderJung.jpg}}; 
-  			
+  			% Axis labels with image
+  			\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
+  			% Label on curve
   			\node[above right] at (4,2.2) {trained model $\hat{h}$};
   			\end{tikzpicture}
 			\end{center} 
@@ -8912,13 +8912,13 @@ sort={k-means},
     \begin{figure}[H]
  		\centering
  		\begin{tikzpicture}[>=stealth, node distance=2.3cm and 2.4cm]
- 
+ %--- Nodes (small filled circles) ------------------------------
   			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_1$}] (x1) {};
   			\node[circle, fill=black, inner sep=1.5pt, label=left:{$\feature_2$}] (x2) [below=of x1] {};
   			\node[circle, fill=black, inner sep=1.5pt, label=above:{$a_{1}$}] (h1) [right=of x1, yshift=5mm] {};
   			\node[circle, fill=black, inner sep=1.5pt, label=below:{$a_{2}$}] (h2) [right=of x2, yshift=-5mm] {};
   			\node[circle, fill=black, inner sep=1.5pt, label=right:{$h^{({\bf w})}({\bf x})$}] (y) [right=of h1, yshift=-2cm] {};
-  
+  %--- Directed edges (arbitrary DAG) ----------------------------
   			\draw[->] (x1) -- (h1) node [midway, above] {$w_{1}$};
   			\draw[->] (x2) -- (h1)node [pos=0.1, above] {$w_{2}$};
   			\draw[->] (x1) -- (h2) node [pos=0.8, above] {$w_{3}$};
@@ -8926,11 +8926,11 @@ sort={k-means},
   			\draw[->] (h1) -- (y) node [midway, above] {$w_{5}$};
   			\draw[->] (h2) -- (y) node [midway, above] {$w_{6}$};
 			\draw[->] (x1) -- (y) node [midway, above] {$w_{7}$};
-  			
-
-
-
-
+  			%\draw[->, dashed] (x1) to[bend left=20] (y); % skip connection
+%   %--- Labels ----------------------------------------------------
+%   			\node[above=1mm of h1] {\scriptsize hidden};
+%   			\node[above right=0mm and -2mm of y] {\scriptsize output};
+%   			\node[left=1mm of x1] {\scriptsize inputs};
  			\end{tikzpicture}
  			\caption{An ANN can be represented as a weighted directed acyclic graph (DAG) with 
 			nodes representing neurons or features of a data point. Features 
@@ -8940,7 +8940,7 @@ sort={k-means},
 			used to scale the inputs to the neurons. The output of some neurons are used as the 
 			prediction $h^{({\bf w})}({\bf x})$. \label{fig_ANN_DAG_dict}}
  			\end{figure}
-
+% 				\\
 		See also: label, activation function, layer, deep net.},
 	first={artificial neural network (ANN)},
 	plural={ANNs},
@@ -9194,16 +9194,16 @@ sort={k-means},
 			\begin{center}
 			\begin{tikzpicture}[neuron/.style={circle, draw, minimum size=1cm}, 
                     	thick, >=stealth]
-			
+			% Hidden layer neurons
 			\node[neuron] (h1) at (0, 2) {$h_1$};
 			\node[neuron] (h2) at (0, 0) {$h_2$};
 			\node[neuron] (h3) at (0, -2) {$h_3$};
-			
+			% Common target coordinate to merge arrows
 			\coordinate[right=3cm of h2] (outpoint);
-			
+			% Label the linear combination to the right of the arrow tips
 			\node[anchor=west] at ([xshift=0.2cm]outpoint) 
     			{$z = w_1 h_1 + w_2 h_2 + w_3 h_3$};
-			
+			% Arrows from hidden neurons to common point
 			\draw[->] (h1) -- node[above] {$w_1$} (outpoint);
 			\draw[->] (h2) -- node[above] {$w_2$} (outpoint);
 			\draw[->] (h3) -- node[below] {$w_3$} (outpoint);
@@ -9246,18 +9246,18 @@ sort={k-means},
 	allows to compute the probability $\mathbb{P}\left(x\in \mathcal{B}\right)$ (of 
 	the event $\mathcal{B} \subseteq \mathbb{R}$)
 	via a Lebesgue integral \cite[Ch. 3]{BertsekasProb}
-	
-	
-	
+	%is a particular representation of its \gls{probdist}. If the pdf exists, 
+	%it can be used to compute the \gls{probability} that $\feature$ takes 
+	%on a value from a \gls{measurable} set $\mathcal{B} \subseteq \mathbb{R}$ 
 	 $$\mathbb{P}\left(x\in \mathcal{B}\right) = \int_{\mathcal{B}} p^{(x)}\left(\eta\right) d 
 	 \eta.$$ 
 	 This definition extends naturally to a (continuous) vector-valued random variable (RV) 
 	 ${\bf x}\in \mathbb{R}^{d}$ as the Lebesgue integral 
 	 is defined for $\mathbb{R}^{d}$ with any dimension $d$. 
-	
-	
-	
-    
+	%If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, 
+	%it allows us to compute the \gls{probability} of $\featurevec$ belonging to a 
+	%\gls{measurable} region $\mathcal{R}$ via 
+    %$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
         		\\
 		See also: random variable (RV), probability distribution, probability, measurable, vector.},
 	first={probability density function (pdf)},
@@ -9441,28 +9441,28 @@ sort={Renyi},
 	    	\begin{figure}[H] 
 	    	\begin{center} 
 	    	\begin{tikzpicture}[scale=0.8, x=0.6cm,y=0.05cm]
-	    		
-	    		\def\hshift{0.5} 
-	    		
-	    		\draw[thick, dashed, domain=\hshift:8+\hshift, smooth, variable=\x] plot ({\x}, {\x^2}); 
-	    		
-	    		\coordinate (w) at (\hshift,{\hshift*\hshift}); 
-	    		\coordinate (wkplus1) at (4+\hshift,{(4+\hshift)^2}); 
-	    		\coordinate (wk) at (8+\hshift,{(8+\hshift)^2}); 
-	    		
-  				\draw[line width=1pt, transform canvas={yshift=-1pt}] (wk) -- +(-2, -{4*(8 + \hshift)} ) -- +(1, {2*(8 + \hshift)}); 
- 				\draw[line width=1pt, transform canvas={yshift=-1pt}] (w) -- +(-1, {-{2*\hshift}} ) -- +(1, {+{2*\hshift}})  node[below] {$\nabla f({\bf w})$};
-
+	    		% Parameter to shift the quadratic curve horizontally
+	    		\def\hshift{0.5} % Change this value to shift the curve horizontally
+	    		% Define the function (only the increasing part of x^2 for x >= 0)
+	    		\draw[thick, dashed, domain=\hshift:8+\hshift, smooth, variable=\x] plot ({\x}, {\x^2}); %node[right] {$f(x) = x^2$};
+	    		% Define points for the tangents
+	    		\coordinate (w) at (\hshift,{\hshift*\hshift}); % Point w on the curve (left end of the plot)
+	    		\coordinate (wkplus1) at (4+\hshift,{(4+\hshift)^2}); % Point w^{k+1} on the curve (x=1 + hshift, y=1)
+	    		\coordinate (wk) at (8+\hshift,{(8+\hshift)^2}); % Point w^k on the curve (right end of the plot)
+	    		% Calculate the slopes for the tangents
+  				\draw[line width=1pt, transform canvas={yshift=-1pt}] (wk) -- +(-2, -{4*(8 + \hshift)} ) -- +(1, {2*(8 + \hshift)}); % Tangent at w^k with positive slope
+ 				\draw[line width=1pt, transform canvas={yshift=-1pt}] (w) -- +(-1, {-{2*\hshift}} ) -- +(1, {+{2*\hshift}})  node[below] {$\nabla f({\bf w})$};% Tangent at w with slope 0 (since derivative at hshift = 0)
+%	    		% Draw filled circles at points w^k, w, and w^{k+1}
 	    		\filldraw (wk) circle (2pt) node[above left] {${\bf w}^{(t)}$} node[below right, xshift=-15pt,yshift=-15pt] {$\nabla f({\bf w}^{(t)})$} ;
 	    		\filldraw (w) circle (2pt) node[above right] {${\bf w}$} ;
 	    		\filldraw (wkplus1) circle (2pt) node[below right] {${\bf w}^{(t+1)}\!=\!{\bf w}^{(t)}\!-\!(1/\beta)\nabla f({\bf w}^{(t)})$};
-	    		    
-	    		\draw[dashed] (wk) -- ($(8,0) + (wk)$) ; 
-	    		\draw[dashed] (wkplus1) -- ($(12,0) + (wkplus1)$) ; 
+	    		    % Draw horizontal rulers to mark the function values at wk and wk_plus1
+	    		\draw[dashed] (wk) -- ($(8,0) + (wk)$) ; %node[left] {$f(\weights^{(\iteridx)})$};
+	    		\draw[dashed] (wkplus1) -- ($(12,0) + (wkplus1)$) ; %node[left] {$f(\weights^{(\iteridx+1)})$};
 	    		 \draw[<->, thick] ($(4,0) + (wk)$) -- ($(8,0) + (wkplus1)$) 
 	    		node[midway, right] {$ f\big({\bf w}^{(t)}\big)\!-\!f\big({\bf w}^{(t+1)}\big)\!\geq\!\frac{1}{2\beta}\mleft\lVert \nabla f({\bf w}^{(t)}) \mright\rVert_{2}^{2}$};
-
-
+%	    		% Label the curve
+%	    		\node at (2, 4) {};
 	    	\end{tikzpicture}
 	    	\end{center}
 	    	\caption{Consider an objective function $f({\bf w})$ that is $\beta$-smooth. 
@@ -9497,30 +9497,30 @@ sort={Renyi},
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}
-				
+				% Left part: Ellipse representing parameter space (with two dots)
 				\node[ellipse, minimum width=3cm, minimum height=2cm, draw, thick] (paramspace) {};
 				\node[below=0.1cm of paramspace] {parameter space $\mathcal{W}$};
-				
+				% Two dots inside the left ellipse
 				\node[black, circle, inner sep=2pt, fill] (theta1) at ($(paramspace.north west) + (1, -1)$) {};
 				\node[left=0.01cm of theta1] {${\bf w}$};
 				\node[black, circle, inner sep=2pt, fill] (theta2) at ($(paramspace.south east) + (-1.5, 1)$) {};
 				\node[left=0.01cm of theta2] {${\bf w}'$};
-				
+				% Right part: Ellipse containing two smaller plots
 				\node[ellipse, minimum width=7cm, minimum height=3cm, draw, thick, right=4cm of paramspace] (plotcloud) {};
 				\node[above=0.2cm of plotcloud] {model $\mathcal{H}$};
-				
+				% Axis for first smaller plot
 				\node (plot1start) at ($(plotcloud.south west) + (0.2, 0.2)$) {};
-				
-				
-				
+				%\draw[thick, ->] (plot1start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+				%\draw[thick, ->] (plot1start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in first smaller plot
 				\draw[thick, red] (plot1start) .. controls ++(0.8, 1) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 0.8)$) node[anchor=west] {$h^{({\bf w})}$};
-				
+				% Axis for second smaller plot
 				\node (plot2start) at ($(plotcloud.south west) + (1.0, 1.2)$) {};
-			
-			
-				
+			%	\draw[thick, ->] (plot2start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+			%	\draw[thick, ->] (plot2start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in second smaller plot
 				\draw[thick, blue] (plot2start) .. controls ++(0.8, 0.5) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 2.1)$) node[anchor=west] {$h^{({\bf w}')}$};
-				
+				% Connect the two dots in the parameter space to the two plots
 				\draw[thick, ->, bend right=20] (theta1) to ($(plot1start) + (0,0)$);
 				\draw[thick, ->, bend left=20] (theta2) to (plot2start);
 			\end{tikzpicture}
@@ -9549,30 +9549,30 @@ sort={Renyi},
 		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}
-				
+				% Left part: Ellipse representing parameter space (with two dots)
 				\node[ellipse, minimum width=3cm, minimum height=2cm, draw, thick] (paramspace) {};
 				\node[below=0.1cm of paramspace] {parameter space $\mathcal{W}$};
-				
+				% Two dots inside the left ellipse
 				\node[black, circle, inner sep=2pt, fill] (theta1) at ($(paramspace.north west) + (1, -1)$) {};
 				\node[left=0.01cm of theta1] {${\bf w}$};
 				\node[black, circle, inner sep=2pt, fill] (theta2) at ($(paramspace.south east) + (-1.5, 1)$) {};
 				\node[left=0.01cm of theta2] {${\bf w}'$};
-				
+				% Right part: Ellipse containing two smaller plots
 				\node[ellipse, minimum width=7cm, minimum height=3cm, draw, thick, right=4cm of paramspace] (plotcloud) {};
 				\node[above=0.2cm of plotcloud] {model $\mathcal{H}$};
-				
+				% Axis for first smaller plot
 				\node (plot1start) at ($(plotcloud.south west) + (0.2, 0.2)$) {};
-				
-				
-				
+				%\draw[thick, ->] (plot1start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+				%\draw[thick, ->] (plot1start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in first smaller plot
 				\draw[thick, red] (plot1start) .. controls ++(0.8, 1) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 0.8)$) node[anchor=west] {$h^{({\bf w})}$};
-				
+				% Axis for second smaller plot
 				\node (plot2start) at ($(plotcloud.south west) + (1.0, 1.2)$) {};
-			
-			
-				
+			%	\draw[thick, ->] (plot2start) -- ++(2, 0) node[anchor=north] {$\featurevec$};
+			%	\draw[thick, ->] (plot2start) -- ++(0, 1.5) node[anchor=east] {$\truelabel$};
+				% Simple plot line in second smaller plot
 				\draw[thick, blue] (plot2start) .. controls ++(0.8, 0.5) and ++(-0.8, -0.8) .. ($(plotcloud.south west) + (2.8, 2.1)$) node[anchor=west] {$h^{({\bf w}')}$};
-				
+				% Connect the two dots in the parameter space to the two plots
 				\draw[thick, ->, bend right=20] (theta1) to ($(plot1start) + (0,0)$);
 				\draw[thick, ->, bend left=20] (theta2) to (plot2start);
 			\end{tikzpicture}
@@ -9615,18 +9615,18 @@ sort={Renyi},
 		\begin{figure}[H]
 		\begin{center}
 			\begin{tikzpicture}
-				
+				% Define shift macros locally
 				\newcommand{\xshift}{0.5}
 				\newcommand{\yshift}{2}
-				
-				
+				% Define the shifted curves
+				% Define the shifted curves
   				\draw[very thick, blue] plot[smooth, tension=1] coordinates {(0,0) (2,1) (4,0) (6,-1) (8,0)};
   				\node[blue, right] at (0,0) {\textbf{cat}};
   				\draw[very thick, red, dashed] plot[smooth, tension=1] coordinates {(0 + \xshift,0 + \yshift) (2 + \xshift,1 + \yshift) (4 + \xshift,0 + \yshift) (6 + \xshift,-1 + \yshift) (8 + \xshift,0 + \yshift)};
   				\node[red, right] at (8 + \xshift,0 + \yshift) {\textbf{no cat}};
 				\fill[blue] (2,1) circle (2pt) node[above] {${\bf x}^{(1)}$};
 				\fill[blue] (6,-1) circle (2pt) node[above] {${\bf x}^{(2)}$};
-				  
+				  % Draw a bent arrow connecting the two points with custom in and out angles
 				  \draw[->, thin, >=latex, line width=0.5pt] (2,1) to[out=240, in=240] node[midway, below] {$\mathcal{T}^{(\eta)}$} (6,-1);
 			  \end{tikzpicture}
 			  \vspace*{-11mm}
@@ -9696,23 +9696,23 @@ sort={Renyi},
 			\begin{figure}[htbp] 
 			\centering
 			\begin{tikzpicture}[scale=1.1,x=2cm]
-				
+				% --- Local (scoped) parameters ---
 				\pgfmathsetmacro{\xmin}{1}
 				\pgfmathsetmacro{\ymin}{0.5}
 				\pgfmathsetmacro{\xA}{-0.2}
 				\pgfmathsetmacro{\xB}{2.4}
-				
+				% Quadratic curve; capture endpoint for label
 				\pgfmathsetmacro{\yB}{(\xB-\xmin)^2 + \ymin}
 				\draw[thick, domain=\xA:\xB, samples=40]
 				plot (\x,{(\x-\xmin)^2 + \ymin});
 				\node[anchor=west] at (\xB,\yB) {$f({\bf w})$};
-				
+				% Minimum point
 				\coordinate (xstar) at (\xmin,\ymin);
 				\fill (xstar) circle (1.6pt);
-				
+				% Guides
 				\draw[dashed] (\xmin,0) -- (xstar) node[below,yshift=-18pt] {$\widehat{{\bf w}}$};
 				\draw[dashed] (0,\ymin) -- (xstar);
-				
+				% Tangent at the minimum (horizontal, drawn relative to xstar)
 				\draw[thick] (xstar) ++(-0.7,0) -- ++(1.4,0);
 				\node [xshift=20pt,yshift=-5pt] at ($(xstar)+(1.0,0.18)$) {$\nabla f\big(\widehat{{\bf w}}\big)\!=\!\mathbf{0}$};
 			\end{tikzpicture}
@@ -9838,20 +9838,20 @@ sort={Renyi},
 			lbl/.style={font=\small},
 			box/.style={draw, rounded corners, inner sep=4pt}
 			]
-			
-			
+			%--- Layer positions -----------------------------------------------------------
+			% x-layer (inputs)
 			\node[neuron] (x1) at (0,1.8) {$x_1$};
 			\node[neuron] (x2) at (0,0)   {$x_2$};
 			\node[neuron] (x3) at (0,-1.8){$x_3$};
-			
+			% hidden layer h (e.g., with activation \sigma)
 			\node[neuron, right=2.8cm of x1] (h1) {$h_1$};
 			\node[neuron, right=2.8cm of x2] (h2) {$h_2$};
 			\node[neuron, right=2.8cm of x3] (h3) {$h_3$};
-			
+			% output layer (single output for illustration)
 			\node[neuron, right=2.8cm of h2] (yhat) {$\hat{y}=h({\bf x})$};
-			
+			% loss node
 			\node[neuron, right=2.6cm of yhat, minimum size=10mm] (loss) {$L$};
-			
+			%--- Forward connections (solid, left -> right) -------------------------------
 			\foreach \i in {1,2,3}{
 		  	\foreach \j in {1,2,3}{
 			\draw[conn] (x\i) -- (h\j);
@@ -9861,35 +9861,35 @@ sort={Renyi},
 		  	\draw[conn] (h\j) -- (yhat);
 			}
 			\draw[conn] (yhat) -- (loss);
-			
-			
+			%--- Backprop connections (dashed, right -> left) -----------------------------
+			% From loss to output
 			\draw[grad] (yhat) to[bend left=10] node[above, lbl] {$\nabla_{\hat{y}}L$} (loss);
-			
+			% From output to hidden
 			\foreach \j in {1,2,3}{
 		  	\draw[grad] (h\j) to[bend left=10] (yhat);
 			}
-			
+			% From hidden to inputs
 			\foreach \i in {1,2,3}{
 		  	\foreach \j in {1,2,3}{
 			\draw[grad] (x\i) to[bend left=10] (h\j);
 		  	}
 			}
-			
-			
-		
-		
-			
+			%--- Annotations ---------------------------------------------------------------
+			% Forward / Backward labels
+		%	\node[above=10mm of h1, lbl] (fwdlbl) {Forward pass (i.e., \glspl{prediction})};
+		%	\node[below=10mm of h3, lbl] (bwdlbl) {Backward pass (i.e., \glspl{gradient})};
+			% Weight / bias hints
 			\node[lbl] at ($(x1)!0.5!(h1)+(0,1.0)$) {$W^{(1)},\,b^{(1)}$};
 			\node[lbl] at ($(h1)!0.5!(yhat)+(0,1.0)$) {$W^{(2)},\,b^{(2)}$};
-			
-			\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {
+			% Legend
+			\node[draw, rounded corners, inner sep=3pt, below=1.4cm of yhat, align=left] (legend) {%
 			\begin{tikzpicture}[baseline={(0,0)}]
 		  	\draw[conn] (0,0) -- (1.0,0); \node[right=2mm] at (1.5,0) {\small forward pass (compute $h({\bf x})$)};
 		  	\draw[grad] (0,-0.5) -- (1.0,-0.5); \node[right=2mm] at (1.5,-0.5) {\small backward pass (compute $\nabla_{{\bf w}}L$)};
 			\end{tikzpicture}
 			};
-			
-			
+			% Caption label node (optional visual helpers)
+			%\node[lbl] at ($(yhat)!0.5!(loss)+(0,1.2)$) {$\mathcal{L}(\hat{y},y)$};
 			\node[lbl] at ($(x2)+(0,-2.8)$) {$a^{(0)}{=}\mathbf{x}$,\; $a^{(1)}{=}\sigma(z^{(1)})$,\; $a^{(2)}{=}h({\bf x})$};
 			\end{tikzpicture}
 			\caption{Solid arrows show the forward pass (i.e., data flow and loss calculation), while dashed arrows show the 
@@ -9932,9 +9932,9 @@ sort={Renyi},
 				\draw [black] (-1.5,0) -- (1.5,0);
 				\node at (0,-3.4) {(a)};
 			\end{tikzpicture}  
-			
+			%	\caption{Case 1}
 			\label{fig:VC_a}
-			\end{subfigure}
+			\end{subfigure}%
 			\begin{subfigure}{.3\textwidth}
 			\centering
 			\begin{tikzpicture}[scale =.4]
@@ -9944,7 +9944,7 @@ sort={Renyi},
 				\draw [black] (-1.2,0.3) -- (0.3,-1.2);
 				\node at (0,-3.4) {(b)};
 			\end{tikzpicture}  
-			
+			%	\caption{Case 2}
 			\label{fig:VC_b} 
 			\end{subfigure}
 			\begin{subfigure}{.3\textwidth}
@@ -9956,7 +9956,7 @@ sort={Renyi},
 				\filldraw [blue] (-1,-1) circle (3pt);
 				\node at (0,-3.4) {(c)};
 			\end{tikzpicture}  
-			
+			%	\caption{Case 3}
 			\label{fig:VC_c}
 			\end{subfigure}
 			\caption{Illustration of the VC dimension for a linear model $\mathcal{H}^{(2)}$ that is used 
@@ -9997,42 +9997,42 @@ sort={Renyi},
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[>=stealth, x=0.5cm, y=1cm]
-		
+		% --------- Titles ----------
 		\node[font=\footnotesize] at (2.5,3.6) {Euclidean space $\mathbb{R}^2$};
 		\node[font=\footnotesize] at (12.5,3.6) {undirected graph $\left( \mathcal{V},\mathcal{E}\right)$};
-		
+		% ===== Left panel: Euclidean space =====
 		\begin{scope}[shift={(0,0)}]
-			
+			% Axes
 			\draw[->] (0,0) -- (5.2,0) node[below right] {$\feature_1$};
 			\draw[->] (0,0) -- (0,3.2) node[left] {$\feature_2$};
-			
+			% Two points x and y
 			\coordinate (X) at (1.1,0.9);
 			\coordinate (Y) at (3.8,2.1);
 			\fill (X) circle (1.2pt) node[below left] {${\bf x}$};
 			\fill (Y) circle (1.2pt) node[above right] {${\bf x}'$};
-			
+			% Euclidean distance segment with label
 			\draw[dashed] (X) -- (Y)
 			node[midway, below right, xshift=1pt] {$\mleft\lVert {\bf x}-{\bf x}' \mright\rVert_{2}$};
 			\node at (3, -1) {(a)};
 		\end{scope}
-		
+		% ===== Right panel: Undirected graph =====
 		\begin{scope}[shift={(9.0,0)}]
-			
+			% Nodes
 			\coordinate (A) at (1.0,0.6);
 			\coordinate (B) at (3.1,0.9);
 			\coordinate (C) at (2.2,2.6);
 			\coordinate (D) at (4.8,2.2);
 			\coordinate (E) at (0.4,2.1);
-			
+			% Edges (undirected)
 			\draw (A)--(B)--(C)--(E)--(A);
 			\draw (C)--(D)--(B);
-			
+			% Highlight two nodes i (source) and j (target) and a shortest path
 			\fill (A) circle (1.2pt) node[below left] {$i$};
 			\fill (D) circle (1.2pt) node[above right] {$i'$};
-			
+			% One shortest path i -- B -- j (length 2)
 			\draw[very thick] (A)--(B)--(D);
 			\node[font=\footnotesize, above] at (5.0,0.7) {$d(i,i')\!=\!2$};
-			
+			% Other nodes
 			\fill (B) circle (1.2pt);
 			\fill (C) circle (1.2pt);
 			\fill (E) circle (1.2pt);
@@ -10071,7 +10071,7 @@ sort={Renyi},
     			= 
     			\expect_{\varepsilon_{1},\,\ldots,\,\varepsilon_{m} } 
 			\sup_{h\in \mathcal{H}} \frac{1}{m} \sum_{r=1}^m\varepsilon_rh\big({\bf x}^{(r)} \big).
-			
+			%\label{eq:def_emprical_rademacher_complexity_hypothesis_dict}
     		\end{equation}
 		Here, the expectation is taken with respect to 
 		the random variables (RVs) $\varepsilon_{1},\,\ldots,\,\varepsilon_{m}$,
@@ -10099,15 +10099,15 @@ sort={Renyi},
 	 	\begin{figure}[H]
 			\begin{center} 
 				\begin{tikzpicture}[scale = 1]
-					
-					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature $x$};       
-					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   
+					% Axes
+					\draw[->, very thick] (0,0.5) -- (7.7,0.5) node[right] {feature $x$};       % X-axis
+					\draw[->, very thick] (0.5,0) -- (0.5,4.2) node[above] {label $y$};   % Y-axis
 					\draw[color=black, thick, dashed, domain = -1: 6.2, variable = \x] 
 					 plot ({\x},{\x*0.4 + 2.0}) ;     
-					
-	          			
-					
-					
+					% Add a lasso around the two dashed lines
+	          			% Ellipse around the two dashed lines
+					%\draw[blue, thick] (5, 4.5) ellipse [x radius=0.2cm, y radius=1cm];
+					%\node at (5, 5.8) [text=black, font=\small] {$\{ \hypothesis: \hypothesis(x)\!=\!w_{1}x\!+\!w_{0}; w_{1} \in [0.4,0.6]\}$};
 					\node at (6.7,4.5) {$h^{({\bf w})}(x)$};    
 					\coordinate (l1)   at (1.2, 2.48);
 					\coordinate (l2) at (1.4, 2.56);
@@ -10124,7 +10124,7 @@ sort={Renyi},
 					\coordinate (n4)   at (2.2, 3.8);
 					\coordinate (n5) at (2.4, 3.8);
 					\coordinate (n6)   at (2.7,  3.8);
-					
+					% augemented data point obtained by perturbing feature, not touching label value 
 					\coordinate (n7)   at (3.9, 2.6);
 					\coordinate (n8) at (4.2, 2.6);
 					\coordinate (n9)   at (4.5,  2.6);
@@ -10172,683 +10172,5 @@ sort={Renyi},
   	plural={penalty terms}
 }
 
-\newglossaryentry{sequence}
-{name={sequence},
-	description={A sequence\index{sequence} is an ordered collection 
-		of values from a set $\mathcal{A}$. For example, a sequence of 
-	   	values from the set $\mathcal{A} = \{ \star, \otimes \}$ could be 
-	   	$$ a = \big( \star, \,\otimes, \,\star, \,\star, \,\otimes, \,\ldots \big). $$
-	   	Formally, a sequence $a$ is a function \cite{RudinBookPrinciplesMatheAnalysis} 
-        		\[
-            	a: \mathbb{N} \rightarrow \mathcal{A}: r\mapsto a_r.
-        		\]        
-		We denote a sequence by $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
-		or $\big( a^{(r)} \big)_{r\in \mathbb{N}}$. Sometimes we also 
-		use the notation $\big\{ a^{(r)} \big\}_{r\in \mathbb{N}}$. 
-        		Note that the same value $a \in \mathcal{A}$ can appear multiple times 
-		in the sequence at different positions $r$. 		
-        		Sequences are fundamental for the study of machine learning (ML) methods, 
-        		for instance when describing successive iterates  
-        		$\{{\bf w}^{(t)}\}_{t\in \mathbb{N}}$ of an iterative 
-		algorithm. We can also use a sequence to represent an infinite 
-		dataset 
-		$$\mathcal{D}= \big\{ \left( {\bf x}^{(1)},y^{(1)} \right),\,\left( {\bf x}^{(2)},y^{(2)} \right),\,\ldots \big\}.$$ 
-		See also: function, dataset. }, 
-	first={sequence},
-	text={sequence},
-	type=math, 
-	firstplural={sequences},
-	plural={sequences}
-}
-
-\newglossaryentry{convergence}
-{name={convergence},
-	description={Consider a sequence\index{convergence} $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
-		with numeric values $a_{r} \in \mathbb{R}$. This sequence 
-       	 	is said to converge to a value $a^\star$ if the values $a_{r}$ become 
-		arbitrarily close to $a^\star$ for sufficiently large indices $r$. 
-        		Mathematically speaking, the sequence converges to $a^\star$ if 
-		\cite{RudinBook}, \cite{RudinBookPrinciplesMatheAnalysis}
-        		\[
-           	\forall \epsilon > 0, \; \exists N \in \mathbb{N} : r> N \Rightarrow |a_{r} - a^\star| < \epsilon.
-        		\]
-		We denote the convergence of a sequence to $a^\star$ 
-		by 
-		\[
-			\lim_{r\to \infty} a_{r} = a^\star.
-		\]
-		\begin{figure}[H] 
-			\centering
-			\begin{tikzpicture}[x=1.2cm, y=2cm, >=stealth]
-			
-			\draw[->] (0.5,0) -- (6.5,0) node[right] {$r$};
-			\draw[->] (0.5,0) -- (0.5,1.6) node[above] {$a_r$};
-			
-  			\def\eps{0.3}
-  			\fill[gray!30, opacity=0.4] (0, {1-\eps}) rectangle (6.3, {1+\eps});
-  			\draw[dotted] (0,{1+\eps}) -- (6.3,{1+\eps}) node[right] {$1+\varepsilon$};
-  			\draw[dotted] (0,{1-\eps}) -- (6.3,{1-\eps}) node[right] {$1-\varepsilon$};
-			
-			\draw[dashed] (0,1) -- (6.3,1) node[right] {$\lim_{r\to \infty} a_r= 1$};
-			
-			\foreach \t in {1,...,6} {
-				\pgfmathsetmacro{\at}{1 - 0.6^(\t)}
-				\fill (\t,\at) circle (2pt);
-			}
-			
- 		     	\foreach \t in {1,2,3} {
-    		    	\draw (\t,0.02) -- (\t,-0.02) node[below] {$\t$};
-  		    	}
-			
-  			\def{\mathcal{N}}{3}
-  			\draw[densely dashed, thick, red] ({\mathcal{N}},0) -- ({\mathcal{N}},1.7);
-  			\node[above] at ({\mathcal{N}},1.7) {$N$};
-			\end{tikzpicture}
-			\caption{A real-valued sequence $\big( a_{r} \big)_{r\in \mathbb{N}}$ 
-			converging to the limit $a^\star = 1$.\label{fig:convergence_dict}}
-		\end{figure} 
-		The concept of convergence of a real-valued sequence 
-		(where $\mathcal{A}=\mathbb{R}$) extends naturally to a sequence 
-		in an arbitrary metric space $\mathcal{A}$. Indeed, we just need to 
-		replace the absolute difference $|a_{r} - a^\star|$ 
-		by the metric $d(a_{r},a^\star)$. 
-		Note that a sequence can only converge if it is a 
-		Cauchy sequence \cite{RudinBookPrinciplesMatheAnalysis}. 
-		However, not every Cauchy sequence is converging unless 
-		the underlying metric space is complete.   
-		\\ 
-		See also: sequence, metric space, Cauchy sequence.},
-	first={convergence},
-	type=math,
-	text={convergence}, 
-}
-
-\newglossaryentry{johnsonlindenstrausslemma}
-{name={Johnson--Lindenstrauss lemma (JL lemma)},
-	description={The\index{Johnson--Lindenstrauss lemma (JL lemma)} JL lemma describes conditions for 
-  		the existence of a feature map ${\bf \Phi}: \mathbb{R}^{d} \to \mathbb{R}^{d'}$ 
-  		with $d' \ll d$ such that the pairwise Euclidean distance 
-  		between feature vectors of a finite dataset is approximately preserved 
-  		\cite{vershynin2018high}, \cite{JMLR:v19:18-264}, \cite{johnson1984extensions}. 
-  		Consider a dataset $\mathcal{D}= \big\{{\bf x}^{(1)}, \,\dots, \,{\bf x}^{(m)} \big\}$ 
-  		with data points characterized by feature vectors in $\mathbb{R}^{d}$. 
-  		Then, for any $d'$ that satisfies
-		\[
-	  	d' \ge \frac{4 \ln(m)}{\varepsilon^2/2 - \varepsilon^3/3} \mbox{ for some } 0 < \varepsilon < 1
-		\]  
-   		there is a feature map ${\bf \Phi}$ such that \cite{ProofJLlemma}
-  		\begin{equation} 
- 			\label{equ_def_approx_norm_JL_lemma_dict}
- 			(1\!-\!\varepsilon)\mleft\lVert {\bf x}^{(r)}\!-\!{\bf x}^{(r')} \mright\rVert_{2}  
- 			\!\le\!\mleft\lVert {\bf \Phi}\big({\bf x}^{(r)}\big)\!-\!{\bf \Phi}\big({\bf x}^{(r')}\big) \mright\rVert_{2} 
-			\!\le\!(1\!+\!\varepsilon)\mleft\lVert {\bf x}^{(r)}\!-\!{\bf x}^{(r')} \mright\rVert_{2}
- 		\end{equation}
-		for all ${\bf x}^{(r)}, {\bf x}^{(r')} \in \mathcal{D}$. 
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}
-			
-			\begin{scope}
-				
-				\coordinate (x1) at (0.5,-0.6);   
-				\coordinate (x2) at (2.0,0.9);    
-				\coordinate (x3) at (1.1,0.3);    
-				\foreach \p in {x1,x2,x3} \fill (\p) circle (1.7pt);
-				
-				\node[below left]  at (x1) {\small ${\bf x}^{(1)}$};
-				\node[above right] at (x2) {\small ${\bf x}^{(2)}$};
-				\node[above left]  at (x3) {\small ${\bf x}^{(3)}$};
-				\node [anchor=east] at (1.2,2.2) {$\mathbb{R}^{d}$};
-			\end{scope}
-			
-			\begin{scope}[xshift=1cm]
-				\draw[->, thick] (2.9,2.2) -- (4.1,2.2)
-				node[midway, above] {${\bf x}\mapsto {\bf z}\!:=\! {\bf \Phi}({\bf x})$};
-			\end{scope}
-			
-			\begin{scope}[xshift=2cm]
-				
-				\coordinate (y1) at (4.7,-0.7);   
-				\coordinate (y2) at (6.1,0.5);    
-				\coordinate (y3) at (5.3,-0.1);   
-				\foreach \p in {y1,y2,y3} \fill (\p) circle (1.7pt);
-				\node[below left]  at (y1) {\small ${\bf z}^{(1)}$};
-				\node[above right] at (y2) {\small ${\bf z}^{(2)}$};
-				\node[above left]  at (y3) {\small ${\bf z}^{(3)}$};
-				\node [anchor=west] at (6.0,2.2) {$\mathbb{R}^{d'}$};
-			\end{scope}
-			\end{tikzpicture}
-		\caption{The JL lemma offers precise conditions that guarantee the existence of 
-		         a feature map ${\bf \Phi}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d'}$ 
-		         such that pairwise Euclidean distances between (the feature vectors of) data points are 
-			approximately preserved. Roughly speaking, 
-			${\bf \Phi}$ maps neighboring points in the original feature space 
-			to neighboring points in the new feature space.}
-		\end{figure}
-		The feature map ${\bf \Phi}$ can be obtained from a random matrix 
-		${\bf A}\in \mathbb{R}^{d' \times d}$ whose entries are independent and identically distributed (i.i.d.) 
-		Gaussian random variables (Gaussian RVs) $A_{i,j} \sim \mathcal{N}\left(0,1/d'\right)$. 
-		It can be shown that the feature map ${\bf x}\mapsto \underbrace{{\bf A}{\bf x}}_{{\bf \Phi}({\bf x})}$ 
-		satisfies \eqref{equ_def_approx_norm_JL_lemma_dict} with probability at least $1\!-\!1/m$ \cite{ProofJLlemma}. 
-		\\
-  		See also: matrix, norm, vector space, Euclidean space, dimensionality reduction, principal component analysis (PCA).},	
-	first={Johnson--Lindenstrauss lemma (JL lemma)},
-  	text={JL lemma}
-}
-
-\newglossaryentry{majmin}
-{name={majorize-minimize (MM)}, 
-	description={Consider an optimization problem $\min_{{\bf w}\in \mathcal{W}} f({\bf w})$ with 
-		some complicated (potentially non-convex and non-smooth) objective function. 
-		One important example of such an optimization problem is empirical risk minimization (ERM), which is used to learn the 
-		model parameters of a nonlinear model. 
-		An MM method is\index{majorize-minimize (MM)} an iterative optimization method 
-		that constructs a sequence ${\bf w}^{(1)},\,{\bf w}^{(2)},\,\ldots \in \mathcal{W}$ 
-		of model parameters as follows \cite{Lange2016MM}, \cite{BishopBook}, \cite{Hunter01022004}
-		(see also Fig. \ref{fig:majmin_dict}): 
-		\begin{itemize} 
-			\item During the $t$th iteration, the objective function $f(\cdot)$ 
-			 	is approximated by another function $g\big(\cdot;{\bf w}^{(t)}\big)$.
-	             	  	This approximation must be an upper bound for (i.e., must majorize) the original
-				objective function, i.e., $g\big({\bf w};{\bf w}^{(t)}\big) \geq f({\bf w})$ 
-			 	for all ${\bf w}\in \mathcal{W}$, and it must be tight for ${\bf w}^{(t)}$, i.e., 
-			 	$g\big({\bf w}^{(t)};{\bf w}^{(t)}\big) = f\big({\bf w}^{(t)}\big)$.
-			\item The new model parameters  ${\bf w}^{(t+1)}$ are then obtained by 
-				minimizing the approximation, i.e., 
-				 ${\bf w}^{(t+1)} \in \argmin_{{\bf w}\in \mathcal{W}}g\big({\bf w};{\bf w}^{(t)}\big)$. 
-		\end{itemize} 
-		\begin{figure}[H]
-			 \centering
-			 \begin{tikzpicture}[x=1.2cm,y=1cm]
-				
-				\def\xa{0}
-				\def\xb{2*pi}
-				\def\xo{3*pi/4}     
-				\def{\bf L}{0.4}        
-				\def{\bf R}{0.7}        
-				
-				\draw[->] (\xa-0.2,-2) -- (\xb+0.3,-2) node[right] {${\bf w}$};
-				
-				\draw[thick,samples=100,domain=\xa:\xb]
-				plot (\x,{sin(\x r)}) node[pos=0.1,above left,black] {\small $f({\bf w})$};
-				
-				\pgfmathsetmacro\yxo{sin(\xo r)}
-				
-				
-				
-				
-				
-				
-				\def\xL{2.70}
-				\def\xR{3.80}
-				\def\yO{0.70}
-				
-				\draw[dashed,samples=2,domain=0:\xL]
-				plot (\x,{\yO + (-0.7)*(\x - \xo)});
-				
-				\draw[dashed]
-				(\xL,{\yO+(-0.7)*(\xL-\xo)}) -- (\xR,{\yO+(-0.7)*(\xL-\xo)});
-				
-				
-				\draw[dashed,samples=2,domain=\xR:2*pi]
-				plot (\x,{\yO+(-0.7)*(\xL-\xo) + (0.7)*(\x - \xR)});
-				
-				\pgfmathparse{\xR + 0.65*(2*pi - \xR)} \let\xmid\pgfmathresult
-				\pgfmathparse{\yO + 0.7*(\xmid - \xR)} \let\ymid\pgfmathresult
-				
-				\node[right,black] at (\xmid,\ymid) {$g\big( {\bf w}; {\bf w}^{(t)} \big)$};
-				
-				\fill[red] (2.35619449,0.70710678) circle (1.2pt);
-				
-				\draw[densely dotted,gray] (\xo,-2) -- (\xo,\yO);
-				
-				\node[below] at (\xo,-2) {${\bf w}^{(t)}$};
-			\end{tikzpicture}
-			\caption{The construction of model parameters based on the iterative MM method.}
-			\label{fig:majmin_dict}
-		\end{figure}
-		Similar to gradient-based methods, the MM principle is also based on approximating an 
-		objective function locally, around the current model parameters, and then optimizing 
-		this approximation to obtain new model parameters. However, the construction 
-		of local approximations is very different. While gradient-based methods use linear functions 
-		for these approximations, MM methods can use nonlinear functions as long as 
-		they are upper bounds for the original objective function. 
-			 \\ 
-		See also: gradient-based method, expectation-maximization (EM).},
-	first={majorize–minimize (MM)},
-	type=math, 
-	text={MM}
-}
-
-\newglossaryentry{markovsinequality}
-{name={Markov's inequality},
-	description={Consider a real-valued nonnegative random variable (RV) $x$ for which 
-		the expectation $\mathbb{E} \{ x\}$ exists. \index{Markov's inequality} 
-	 	Markov's inequality provides an upper bound on the probability 
-	 	$\mathbb{P}\left(x\geq a\right)$ that $x$ exceeds a given positive threshold $a>0$.  
-	 	In particular,          
-	 	\begin{equation}
-            		\nonumber
-			\mathbb{P}\left(x \geq a\right) \leq \frac{\mathbb{E} \{ x\}}{a} \qquad \mbox{ holds for any } a > 0. 
-            		
-    		\end{equation}
-    		This inequality can be verified by noting that $\mathbb{P}\left(x \geq a\right)$ is the 
-		expectation $\mathbb{E} \{g(x)\}$ with the function 
-	 	$$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \mathbb{I}_{\{x \geq a\}}(x').$$ 
-	 	As illustrated in Fig. \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
-	 	$$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ 
-	 	This implies Markov's inequality via the monotonicity property 
-	 	of the Lebesgue integral \cite[p. 50]{folland1999real}. 
-    		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}[scale=1, x=0.8cm, y=0.8cm]
-			
-			\def\a{3.24}      
-			\def\xmax{10}     
-			\def\m{0.02}      
-			
-			
-			\draw[-{Latex}] (0,0) -- (\xmax+1,0) node[below right] {$x'$};
-			
-                \draw[-{Latex}] (0,0) -- (0,3.1)  node[left, text=blue!70!black] {$p^{(x)}\left(x'\right)$};
-			
-			\fill[blue!15, opacity=0.3]
-				plot[samples=400, domain=0:\xmax, smooth]
-				(\x,{ (6/sqrt(2*pi)) * (\x)^(1.5) * exp(-\x/2) }) -- (\xmax,0) -- (0,0) -- cycle;
-			
-			\draw[blue!70!black, very thick, samples=400, domain=0:\xmax, smooth]
-				plot (\x,{ (6/(sqrt(2*pi))) * (\x)^(1.5) * exp(-\x/2) })
-				node[pos=0.9, above right, xshift=2pt] {};
-			
-			\draw[dashed, gray] (\a,0) -- (\a,1.05);
-			\node[below] at (\a,0) {$a$};
-			\node[above] at (1*\a,3) {$\mathbb{P}\left(x \geq a\right) \leq \frac{\mathbb{E} \{ x\}}{a}$}; 
-			\node[below] at (0,0) {$0$};
-			
-			
-			\draw[green!60!black, ultra thick] (0,0) -- (\a,0);
-			\filldraw[white, draw=green!60!black, line width=0.8pt] (\a,0) circle (2pt);
-			
-			\draw[green!60!black, ultra thick] (\a,1) -- (\xmax,1)
-				node[pos=0.9, above, yshift=2pt] {$\mathbb{I}_{\{x \ge a\}}(x')$};
-			\filldraw[green!60!black] (\a,1) circle (2pt);
-			
-			\draw[red!70, very thick, samples=2, domain=0:\xmax]
-				plot (\x,{ \x*(1/\a) }); 
-			\node[align=right,red!70,yshift=20pt] at ({2.5*\a+0.2},{2.5}) {$f(x') = x'/a$};  
-			
-			\draw (0,1) -- ++(-0.12,0) node[left] {$1$};
-			\end{tikzpicture}
-            	\caption{The expectation $\mathbb{E} \{x\}$ and the probability $\mathbb{P}\left(x \geq a\right)$ 
-			of a nonnegative random variable (RV) $x$ with 
-                a probability density function (pdf) $p^{(x)}\left(\cdot\right)$           
-                
-			can be obtained via Lebesgue integrals of 
-			$f(x') = x'/a$ and $g(x') = \mathbb{I}_{\{x \geq a\}}(x')$, respectively.}
-            	\label{fig:markovsinequality_dict}
-        		\end{figure} 
-		See also: expectation, probability, concentration inequality.},
-	first={Markov's inequality},
-	type=math, 
-    	text={Markov's inequality}  
-}
-
-\newglossaryentry{chebyshevsinequality}
-{name={Chebyshev's inequality},
-	description={Consider a real-valued random variable (RV) $x$ for which 
-		the second moment $\mathbb{E} \{ x^{2} \}$ exists (and is finite). 
- 	 	The existence of the second moment implies the existence 
- 	 	of a finite expectation $\mu :=\mathbb{E} \{ x\}$ and a finite 
- 	 	variance $\sigma^{2}\!:=\!\mathbb{E} \big\{ \big( x\!-\!\mu \big)^{2} \big\}$ \cite[Proposition 6.12]{folland1999real}. 
- 	 	Chebyshev's inequality\index{Chebyshev's inequality} refers 
- 	 	to the following upper bound on the probability that $x$ 
- 	 	deviates from $\mu$ by more than a given threshold $\eta$ 
- 	 	\cite[Ch. 4]{FellerBook}. 
- 	 	In particular,   
- 		\begin{equation}
-           		\nonumber
-			\mathbb{P}\left(\big|x - \mu \big| \geq \eta \right) \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
-            		
-     		\end{equation}
- 		This upper bound can be obtained by applying Markov's inequality to 
- 		the new random variable (RV) $\tilde{x}\!:=\! \big(x\!-\!\mu \big)^2$. 
-  		\begin{figure}[H]
-   			\centering
-			\begin{tikzpicture}
-     			\begin{axis}[
-      			width=9cm, height=4.2cm,
-      			samples=300,
-      			axis lines=left,
-	  		ylabel={$p^{(x)}\left(x'\right)$},
-      			xlabel={$x'$},
-      			x label style={at={(axis description cs:1,0)}, anchor=west},
-	  		ylabel style={rotate=270,anchor=south,at={(axis description cs:0,1.02)}},
-      			xtick={-1.5,0,1.5},
-      			xticklabels={$-\eta$,$\mu$,$\eta$},
-      			ytick=\empty,
-      			ymin=0, ymax=0.45,
-      			domain=-4:4,
-      			clip=false
-    			]
-      			
-      			\addplot[name path=pdf, black, very thick] {exp(-0.5*x^2)/sqrt(2*pi)};
-      			\addplot[name path=axis, draw=none] {0};
-      			
-      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=1.5:4}];
-      			\addplot[red!70, opacity=0.25] fill between[of=pdf and axis, soft clip={domain=-4:-1.5}];
-      			
-      			\draw[densely dashed] (axis cs:0,0) -- (axis cs:0,0.42);
-      			\draw[dashed] (axis cs:1.5,0) -- (axis cs:1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
-      			\draw[dashed] (axis cs:-1.5,0) -- (axis cs:-1.5,{exp(-0.5*1.5^2)/sqrt(2*pi)});
-      			
-   			
-    			\end{axis}
-  			\end{tikzpicture}
-  		\caption{Chebyshev's inquality provides an upper bound on 
-              		the tail probability $\mathbb{P}\left(|x-\mu|\ge \eta\right)$ (i.e., shaded area) of
-			a real-valued random variable (RV) $x$ with a finite second moment.\label{fig:chebyshev_minimal_dict}} 
-		\end{figure}
-     		See also: expectation, Markov's inequality, concentration inequality.},
-    	first={Chebyshev's inequality},
-	type=math, 
-     	text={Chebyshev's inequality}  
-}
-
-\newglossaryentry{hoeffdingsinequality}
-{name={Hoeffding's inequality},
-	description={\index{Hoeffding's inequality} Hoeffding's inequality \cite{Hoeffding1963} is a fundamental concentration inequality 
-		that provides an upper bound on the probability that a sum (or average) of independent, bounded random variables (RVs) 
-		deviates from its mean by more than some threshold. 
-     		Let $x_1,\,\dots,\,x_n$ be independent real-valued random variables (RVs) $x_i$ taking values in $[a_i,b_i] \subset \mathbb{R}$, 
-		and $S_n :=\sum_{i=1}^n x_i$ and $\mathbb{E} \{S_n\} = \sum_{i=1}^n \mathbb{E} \{x_i\}$. 
-		Then, Hoeffding's inequality \cite[Th. 2.2.6]{vershynin2018high} states that
-        		\begin{equation}
-                		\nonumber
-			\mathbb{P}\left( |S_n - \mathbb{E} \{S_n\}| \geq t \right) 
-            		\leq 2 \exp \left( -\frac{2 t^2}{\sum\limits_{i=1}^n (b_i - a_i)^2} \right) \qquad \forall t > 0.
-            		
-        		\end{equation}
-    		Hoeffding's inequality typically provides sharper bounds than Chebyshev's inequality, 
-		but it is more restrictive by assuming bounded random variables (RVs).
-    		In the context of machine learning (ML), this result is useful for deriving guarantees for empirical risk minimization (ERM)  and in the context of MAB. 
-		 \\
-    		See also: concentration inequality, probability, random variable (RV), Chebyshev's inequality, expectation, probability space, Markov's inequality.},
-    first={Hoeffding's inequality},
-    text={Hoeffding's inequality}  
-}
-
-\newglossaryentry{rgg}
-{name={random geometric graph (RGG)},
-	description={An RGG\index{random geometric graph (RGG)} is a probabilistic model for graphs 
-		built from nodes randomly placed in a metric space. Given a metric space, the RGG is characterized by 
-		the number of nodes, the connection radius, and the probability distribution describing the node placement. 
-    		More precisely, for a node set $i=1, \,\ldots, \,n$, each node $i$ is assigned to a random position 
-		${\bf x}^{(i)} \in \mathcal{X}$, typically as realizations of independent and identically distributed (i.i.d.) random variables (RVs) taking values in a set $\mathcal{X}$. 
-		Together with a metric, this forms a metric space, often with the metric induced by a norm. 
-		A specific realization of an RGG contains an edge $\{i,i'\}$ if and only if the distance between the nodes 
-		with respect to the metric is smaller than some threshold, i.e., when $d({\bf x}^{(i)},{\bf x}^{(i')})\leq r$ 
-		for some threshold $r>0$, as illustrated in Fig. \ref{fig:rgg}.
-         	\begin{figure}[H]
-    			\centering
-    			\begin{tikzpicture}[x=0.6cm,y=0.6cm]
-        				\draw (-5,-5) rectangle (5,5);
-        				
-        				\node[below left] at (-5,-5) {\small $-5$};
-        				\node[above left]  at (-5, 5) {\small $5$};
-        				\node[below right] at ( 5,-5) {\small $5$};
-        				
-        				\fill (-2.0,-3.5) circle (2pt);
-        				\draw (-2.0,-3.5) circle (2.5);
-        				\node[anchor=east] at (-2.0,-3.5) {\small 1};
-        				\fill (-0.5,-3.3) circle (2pt);
-        				\draw (-0.5,-3.3) circle (2.5);
-        				\node[anchor=west] at (-0.5,-3.3) {\small 2};
-        				\draw (-2.0,-3.5) -- (-0.5,-3.3);
-        				
-        				\fill (3.0,3.5) circle (2pt);
-        				\draw (3.0,3.5) circle (2.5);
-        				\node[anchor=west] at (3.0,3.5) {\small 3};
-    			\end{tikzpicture}
-   		\caption{Illustration of an RGG with $ \mathcal{X}= [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ 
-			(with respect to the Euclidean distance), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, 
-			within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
-    			\label{fig:rgg}
-    		\end{figure}
-        		See also: graph, stochastic block model (SBM), Erd\H{o}s–R\'enyi graph (ER graph).},
-    first={random geometric graph (RGG)},
-    text={RGG}
-}
 
 
-
-
-
-\newglossaryentry{banachfixedpoint}
-{name={Banach's fixed-point theorem},
-    description={Banach's fixed-point theorem\index{Banach's fixed-point 
-	             theorem (contraction principle)} (also referred to as the contraction 
-				 principle \cite[9.23 Theorem]{RudinBookPrinciplesMatheAnalysis}) 
-				 states that every contractive operator $\mathcal{F}$ on a complete 
-				 metric space has a unique fixed point. Formally, 
-				 let $(\mathcal{X},d(\cdot,\cdot))$ be a non-empty complete 
-				 metric space and let $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ satisfy
-    			\[
-    				d(\mathcal{F}{\bf x},\mathcal{F}{\bf x}') \leq \kappa \cdot d({\bf x},{\bf x}') \qquad \forall {\bf x},{\bf x}'\in\mathcal{X},
-    			\]
-    			for some constant $\kappa \in [0,1)$. Then, $\mathcal{F}$ has a unique fixed 
-				point, i.e., there exists a unique ${\bf x}^\star\in\mathcal{X}$ with 
-				$\mathcal{F}{\bf x}^\star ={\bf x}^\star$, that can be computed by a 
-				fixed-point iteration. \\
-    \begin{figure}[t]
-    \centering
-    \begin{tikzpicture}[>=Latex, font=\small]
-    \tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
-    \def\dx{6.5}
-    \node[space,label=above:{$\mathcal{X}$}] (XL) at (0,0) {};
-    \node[space,label=above:{$\mathcal{X}$}] (XR) at (\dx,0) {};
-    \draw[maparrow] (XL.east) -- node[above=2pt] {$\mathcal{F}$} (XR.west);
-    \coordinate (x1) at (-0.8,0.9);
-    \coordinate (x2) at (0.9,0.5);
-    \node[pt,label=above left:{${\bf x}$}] at (x1) {};
-    \node[pt,label=right:{${\bf x}'$}] at (x2) {};
-    \coordinate (fx1) at (\dx-0.3,0.5);
-    \coordinate (fx2) at (\dx+0.6,0.5);
-    \node[pt] (FX1) at (fx1) {};
-    \node[pt] (FX2) at (fx2) {};
-    \node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\mathcal{F}{\bf x}$};
-    \node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\mathcal{F}{\bf x}'$};
-   
-   
-    \coordinate (xsL) at (0,-0.9);
-    \coordinate (xsR) at (\dx,-0.9);
-    \node[pt,label=below:{${\bf x}^\star$}] at (xsL) {};
-    \node[pt,label=below:{$\mathcal{F}{\bf x}^\star={\bf x}^\star$}] at (xsR) {};
-    \end{tikzpicture}
-    \caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$  
-	  has a unique fixed point ${\bf x}^\star$ with $\mathcal{F}{\bf x}^\star={\bf x}^\star$.}
-    \label{fig:banach_dict}
-    \end{figure}
-	\\
-    See also: fixed-point iteration, sequence, Cauchy sequence, contractive operator, metric space.},
-    text={Banach's fixed-point theorem},
-    first={Banach's fixed-point theorem (contraction principle)},
-    type=math
-} 
-
-\newglossaryentry{diagonalizable}
-{name={diagonalizable},
- description={A square matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
-               is called diagonalizable\index{diagonalizable} if it is similar  
- 			  to a diagonal matrix \cite{HornMatAnalysis,Axler2025}. 
- 			  Formally, ${\bf A}$ is diagonalizable if there exists an invertible matrix 
-			  $\mathbf{P}\in \mathbb{C}^{d\times d}$ such that 
-  		\[
-  			{\bf A}= \mathbf{P}{\bf D}\mathbf{P}^{-1},
-  		\]
-		where ${\bf D}\in \mathbb{C}^{d\times d}$ is a 
- 		diagonal matrix whose main diagonal entries are the eigenvalues 
- 		of ${\bf A}$. A matrix ${\bf A}\in \mathbb{R}^{d\times d}$ 
- 		is diagonalizable if and only if it has $d$ linearly independent 
- 		eigenvectors \cite{HornMatAnalysis}. 
- 		\\	
- 		See also: eigenvalue decomposition (EVD), eigenvalue, matrix.},
- 	first={diagonalizable},
- 	type=math,
- 	text={diagonalizable}
- }
-
-\newglossaryentry{schurdecomp}
-{name={Schur decomposition},
- description={Every square matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
-              admits a Schur decomposition\index{Schur decomposition} \cite[Thm. 7.1.3]{GolubVanLoanBook}
-			\[{\bf A}= \mathbf{U}\mathbf{T}\mathbf{U}^{H}. 
-			\]
-			Here, $\mathbf{U}\in \mathbb{C}^{d\times d}$ is a unitary 
-			matrix (i.e., $\mathbf{U}^{H}\mathbf{U}= \mathbf{I}$) and $\mathbf{T}$ is upper triangular 
-			with the eigenvalues of ${\bf A}$ on its diagonal.
-			Carefully note that the Schur decomposition exists also 
-			for a matrix ${\bf A}$ that is not diagonalizable, 
-			\begin{figure} 
-				\[
-				\big(\mathbf{U}^{(1)}\big)^{H} {\bf A}\mathbf{U}^{(1)}
-				=
-				\begin{pmatrix}
-				\big({\bf x}^{(1)}\big)^{H} \\
-				\big({\bf X}^{(2)}\big)^{H}
-				\end{pmatrix}
-				{\bf A}\begin{pmatrix}
-				{\bf x}^{(1)} & {\bf X}^{(2)}
-				\end{pmatrix}
-				=
-				\begin{pmatrix}
-				\lambda_{1} & {\bf b}^{H} \\
-				0 & {\bf A}^{(1)}
-				\end{pmatrix},
-				\]
-				\caption{The first step in the construction of the Schur decomposition.
-					Every matrix ${\bf A}\in \mathbb{C}^{n\times n}$ has at least one 
-				     eigenvalue $\lambda_{1}$ with unit-norm eigenvector 
-					 ${\bf x}^{(1)}$, ${\bf A}{\bf x}^{(1)} = \lambda_{1} {\bf x}^{(1)}$. This 
-					 eigenvector allows to decompose ${\bf A}$ as depicted. Here, 
-					 we extended ${\bf x}^{(1)}$ to an orthonormal basis
-					$\mathbf{Q}^{(1)} = \big( {\bf x}^{(1)} \,\big|\, {\bf X}^{(2)} \big)$
-					and used ${\bf b}^{H} := \big({\bf x}^{(1)}\big)^{H} {\bf A}{\bf X}^{(2)}$ and 
-					${\bf A}^{(1)} := \big({\bf X}^{(2)}\big)^{H} {\bf A}{\bf X}^{(2)}$.
-			 		Applying the same construction recursively to ${\bf A}^{(1)}$ yields the 
-				     Schur decomposition.}
-			\end{figure}
-			\\
- 		See also: eigenvalue decomposition (EVD), eigenvalue, matrix.},
-	first={Schur decomposition},
-	type=math,
-	text={Schur decomposition}
-}
-
-\newglossaryentry{unitary}
-{name={unitary (matrix)},
- description={A square matrix $\mathbf{U}\in \mathbb{C}^{d\times d}$ 
-			  is called unitary\index{unitary matrix} if its conjugate 
-			  transpose (Hermitian transpose) $\mathbf{U}^{H}$ is also its inverse, i.e., if 
- 		\[
- 			\mathbf{U}^{H} \mathbf{U}= \mathbf{U}\mathbf{U}^{H} = \mathbf{I}.
- 		\]
- 		Equivalently, the columns (and rows) of a unitary matrix form an 
-		orthonormal basis of $\mathbb{C}^{d}$ with respect to the standard 
-		inner product\cite{HornMatAnalysis,Axler2025}. 
- 		\\
- 		See also: matrix.},
- 	first={unitary},
- 	type=math,
- 	text={unitary}
- }
-
-\newglossaryentry{innerproduct}
-{name={inner product},
- description={Consider a vector space $\mathcal{X}$ over the 
-              field $\mathbb{F}$, where $\mathbb{F}$ is either the field of 
-			  real numbers $\mathbb{R}$ or the field of complex numbers $\mathbb{C}$. 
-	          An inner product\index{inner product} in $\mathcal{X}$ is 
-			  a function 
- 			 \[
- 				\langle \cdot, \cdot \rangle: \mathcal{X}\times \mathcal{X}\to \mathbb{F},
- 			 \]
- 			 that satisfies the following properties for all 
-			 ${\bf x}, {\bf x}', {\bf x}'' \in \mathcal{X}$ 
-				and all scalars $\alpha \in \mathbb{F}$ \cite{Axler2025}:
- 			\begin{itemize}
- 				\item[(i)] Conjugate symmetry: $\langle {\bf x}, {\bf x}' \rangle = \overline{\langle {\bf x}', {\bf x}\rangle}$,
- 				\item[(ii)] Linearity in the first argument: $\langle \alpha {\bf x}+ {\bf x}'', {\bf x}' \rangle = \alpha \langle {\bf x}, {\bf x}' \rangle + \langle {\bf x}'', {\bf x}' \rangle$,
- 				\item[(iii)] Positive-definiteness: $\langle {\bf x}, {\bf x}\rangle \geq 0$, with equality if and only if ${\bf x}= \mathbf{0}$.
- 			\end{itemize}
- 			The pair $(\mathcal{X}, \langle \cdot, \cdot \rangle)$ is called an inner product space. 
-			Each inner product induces a norm via 
-			$\Vert  {{\bf x}} \Vert :=\sqrt{\langle {\bf x}, {\bf x}\rangle}$ for all 
-			${\bf x}\in \mathcal{X}$, which in turn induces a metric via 
-			$d({\bf x},{\bf x}') :=\Vert  {{\bf x}- {\bf x}'} \Vert$
-			for all ${\bf x}, {\bf x}' \in \mathcal{X}$.
- 		\\
- 		See also: vector, norm, metric space.},
- 	first={inner product},
- 	type=math,
- 	text={inner product}
- }
-
-
-\newglossaryentry{trace}
-{name={trace (matrix)},
-  description={The\index{trace} trace ${\rm tr} \left({\bf A}\right)$ of a square matrix 
-         	   ${\bf A}\in \mathbb{R}^{d\times d}$ is the 
-			   sum of its diagonal entries \cite{StrangLinAlg2016}. 
-		 	   Formally, it is the linear map 
-		 		$${\rm tr} \left(\cdot\right): \mathbb{R}^{d\times d} 
-		 			\rightarrow \mathbb{R}: {\bf A}\mapsto \sum_{j=1}^{d} A_{j,j}.$$     
-    	 		It satisfies the cyclic property ${\rm tr} \left({\bf A}{\bf B}\right)={\rm tr} \left({\bf B}{\bf A}\right)$, for any matrices 
-    	 		${\bf A},{\bf B}\in \mathbb{R}^{d\times d}$ \cite[p. 301]{Axler2025}.
-				\begin{figure}
-					\begin{center}
-				\begin{tikzpicture}[font=\small, every node/.style={inner sep=1pt}]
-					
-				\node (a11) at (0,0)   {$A_{1,1}$};
-				\node (a12) at (1,0)   {$A_{1,2}$};
-				\node (a13) at (2,0)   {$A_{1,3}$};
-				\node (a21) at (0,-1)  {$A_{2,1}$};
-				\node (a22) at (1,-1)  {$A_{2,2}$};
-				\node (a23) at (2,-1)  {$A_{2,3}$};
-				\node (a31) at (0,-2)  {$A_{3,1}$};
-				\node (a32) at (1,-2)  {$A_{3,2}$};
-				\node (a33) at (2,-2)  {$A_{3,3}$};
-				
-				\draw[black] (-0.4,0.4) rectangle (2.4,-2.4);
-				
-				\coordinate (C) at ($(a11)!0.5!(a33)$);
-				\draw[thick] (C) ellipse [x radius=2.1cm, y radius=0.35cm,rotate=-45];
-				\end{tikzpicture}
-				\end{center}
-				\caption{The trace ${\rm tr} \left({\bf A}\right)$ of a $3 \times 3$ matrix ${\bf A}\in \mathbb{R}^{3\times 3}$ is 
-				the sum of three main diagonal entries $A_{1,1}, A_{2,2}, A_{3,3}$.}
-				 \end{figure}
-				Furthermore, if ${\bf A}$ has eigenvalues $\lambda_{1},\ldots,\lambda_{d}$ 
-				(each repeated according to its algebraic multiplicity), then
-				\[{\rm tr} \left({\bf A}\right) = \sum_{j=1}^{d} \lambda_{j}.
-				\]
-				This identity follows from the invariance of the trace under similarity 
-				transformations \cite[Ch.~10]{Axler2025}.\\
-    			See also: eigenvalue, matrix.},
-    first={trace},
-    type=math,
-    text={trace},
-    type=math
-}
- 
-\newglossaryentry{stddev}
-{name={standard deviation},
-  description={The\index{standard deviation} standard deviation of a 
-               real-valued random variable (RV) $x$ is defined as the square 
-			   root of its variance, i.e., 
-			   $\sqrt{\mathbb{E} \big\{ \big( x- \mathbb{E} \{x\} \big)^{2} \big\}}$. \\
-    See also: variance, random variable (RV), expectation.},
-    first={standard deviation},
-    type=math,
-    text={standard deviation},
-    type=math
-}
