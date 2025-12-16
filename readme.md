@@ -7,6 +7,18 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 
 ---
 
+<!-- ADICTML_STATS_BEGIN -->
+## 📘 Dictionary at a Glance
+
+- **Total terms:** 451
+- **Core ML:** 298
+- **math:** 140
+- **regulation:** 7
+- **reinflearning:** 6
+- **Last updated:** 2025-12-16
+
+<!-- ADICTML_STATS_END -->
+
 ## 📥 Download
 
 - **[📘 English PDF (latest release)](./ADictML_English.pdf)**

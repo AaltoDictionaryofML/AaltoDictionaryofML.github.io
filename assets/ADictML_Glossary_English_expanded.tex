@@ -14,116 +14,114 @@
  		See also: clustering.}, 
  	first={image segmentation}, 
  	text={image segmentation}
- } 
-
-
-
- 
+}
 
 \newglossaryentry{stratification}
 {name={stratification},
- description={The process of splitting a dataset into subsets, so called strata,
- according to some key attribute is called stratification\index{stratification} \cite{oecd2008glossary,Everitt2010,OxfordStatisticsDictionary}. 
- The goal is to ensure that a machine learning (ML) method performs well for each stratum 
-defined by these attributes. For example, in a medical dataset,
-  we may want to stratify a patient dataset by age groups to ensure that an
-  machine learning (ML) model performs well across all age groups.  
- \begin{figure}[H]
- 	\centering
-\begin{tikzpicture}[font=\small,x=1.7cm]
-	% --- Parameters ---
-	\def\cellw{6.0}     % total dataset width
-	\def\cellh{0.5}     % height of one row
-	\def\gap{1}       % vertical gap between rows
-	\def\tfrac{0.8}     % train fraction
-	\def\pA{0.9}        % proportion of stratum A (B = 1 - pA)
-	% Column labels
-	\node[anchor=south] at (0.5*\cellw, \cellh+0.2) {dataset};
-	\node[anchor=south] at ({0.5*\cellw}, {-(\cellh+\gap)+\cellh+0.2}) {train/val split without stratification};
-	\node[anchor=south] at (0.5*\cellw, {-2*(\cellh+\gap)+\cellh+0.2}) {with stratification};
-	% y-positions
-	\pgfmathsetmacro{\yDataset}{0}
-	\pgfmathsetmacro{\yNoStrat}{-(\cellh+\gap)}
-	\pgfmathsetmacro{\yStrat}{-2*(\cellh+\gap)}
-	% A/B border x (dataset coordinate)
-	\pgfmathsetmacro{\xAB}{\pA*\cellw}
-	\pgfmathsetmacro{\wA}{\pA*\cellw}
-	\pgfmathsetmacro{\wB}{(1-\pA)*\cellw}
-	% --- Row 1: DATASET (only A/B border) ---
-	\draw (0,\yDataset) rectangle ++(\cellw,\cellh);
-	\draw[dashed,  line width=0.5mm] (\xAB,\yDataset) -- ++(0,\cellh);
-		% Labels for strata in Dataset row
-	\node at (0.5*\wA, \yDataset+0.5*\cellh) {$s\!=\!1$};
-	\node at ({\xAB+0.5*\wB}, {\yDataset+0.5*\cellh}) {$s\!=\!2$};
-%	% --- Row 2: NO STRATIFICATION (shade right 20% as validation) ---
-	\draw (0,\yNoStrat) rectangle ++(\cellw,\cellh);
-	\pgfmathsetmacro{\xValStart}{\tfrac*\cellw}
-	\pgfmathsetmacro{\valw}{(1-\tfrac)*\cellw}
-	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++(\valw,\cellh);
-%	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++({(1-\tfrac)*\cellw,\cellh});
-%	% A/B border in dataset order only
-	\draw[dashed,  line width=0.5mm] (\xAB,\yNoStrat) -- ++(0,\cellh);
-	% --- Row 3: STRATIFIED (shade val inside each stratum A and B) ---
-	\draw (0,\yStrat) rectangle ++(\cellw,\cellh);
-	% A/B border at x = pA * cellw
-	\pgfmathsetmacro{\xAB}{\pA*\cellw}
-	\draw[dashed, line width=1mm] (\xAB,\yStrat) -- ++(0,\cellh);
-	% widths of strata A and B
-	% --- Validation area within A (right (1-tfrac) part of A) ---
-	\pgfmathsetmacro{\xAVal}{\tfrac*\wA}              % start inside A (A begins at x=0)
-	\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}          % width of A's validation
-	\fill[gray!35] (\xAVal,\yStrat) rectangle ++(\wAVal,\cellh);
-	% --- Validation area within B (right (1-tfrac) part of B) ---
-	\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}       % start inside B
-	\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}          % width of B's validation
-	\fill[gray!35] (\xBVal,\yStrat) rectangle ++(\wBVal,\cellh);
-\end{tikzpicture}
- 	\caption{Stratification ensures that both the training set and the validation set 
-	(shaded grey) have similar 
- 		distributions of a binary key attribute $s$.}
- \end{figure}
-  When splitting a dataset into a training set and a validation set, 
-  stratification ensures that both sets have similar distributions of the key attribute. 
-  Without stratification, using a small validation set may underrepresent or 
-  even completely miss data points with a rare attribute, leading to misleading 
-  performance estimates.\\ 
-  See also: validation, $k$-fold cross-validation ($k$-fold CV), stratum.},
-  text={stratification},
-  first={stratification},
-  plural={stratifications}%
+	description={The process of splitting a dataset into subsets, so called strata,
+ 		according to some key attribute is called stratification\index{stratification} 
+		\cite{Everitt2010}, \cite{OxfordStatisticsDictionary}, \cite{oecd2008glossary}. 
+ 		The goal is to ensure that an machine learning (ML) method performs well for each stratum 
+		defined by these attributes. For example, in a medical dataset,
+  		we may want to stratify a patient dataset by age groups to ensure that an
+  		machine learning (ML) model performs well across all age groups. \\
+  		When splitting a dataset into a training set and a validation set, 
+  		stratification ensures that both sets have similar distributions of the key attribute. 
+  		Without stratification, using a small validation set may underrepresent or 
+  		even completely miss data points with a rare attribute, leading to misleading 
+  		performance estimates. See Fig. \ref{fig_stratification_dict} for a visual illustration.
+ 		\begin{figure}[H]
+ 			\centering
+			\begin{tikzpicture}[font=\small,x=1.7cm]
+			% --- Parameters ---
+			\def\cellw{6.0}     % total dataset width
+			\def\cellh{0.5}     % height of one row
+			\def\gap{1}       % vertical gap between rows
+			\def\tfrac{0.8}     % train fraction
+			\def\pA{0.9}        % proportion of stratum A (B = 1 - pA)
+			% Column labels
+			\node[anchor=south] at (0.5*\cellw, \cellh+0.2) {dataset};
+			\node[anchor=south] at ({0.5*\cellw}, {-(\cellh+\gap)+\cellh+0.2}) {training set/validation set split without stratification};
+			\node[anchor=south] at (0.5*\cellw, {-2*(\cellh+\gap)+\cellh+0.2}) {with stratification};
+			% y-positions
+			\pgfmathsetmacro{\yDataset}{0}
+			\pgfmathsetmacro{\yNoStrat}{-(\cellh+\gap)}
+			\pgfmathsetmacro{\yStrat}{-2*(\cellh+\gap)}
+			% A/B border x (dataset coordinate)
+			\pgfmathsetmacro{\xAB}{\pA*\cellw}
+			\pgfmathsetmacro{\wA}{\pA*\cellw}
+			\pgfmathsetmacro{\wB}{(1-\pA)*\cellw}
+			% --- Row 1: DATASET (only A/B border) ---
+			\draw (0,\yDataset) rectangle ++(\cellw,\cellh);
+			\draw[dashed,  line width=0.5mm] (\xAB,\yDataset) -- ++(0,\cellh);
+			% Labels for strata in Dataset row
+			\node at (0.5*\wA, \yDataset+0.5*\cellh) {$s\!=\!1$};
+			\node at ({\xAB+0.5*\wB}, {\yDataset+0.5*\cellh}) {$s\!=\!2$};
+			%	% --- Row 2: NO STRATIFICATION (shade right 20% as validation) ---
+			\draw (0,\yNoStrat) rectangle ++(\cellw,\cellh);
+			\pgfmathsetmacro{\xValStart}{\tfrac*\cellw}
+			\pgfmathsetmacro{\valw}{(1-\tfrac)*\cellw}
+			\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++(\valw,\cellh);
+			%	\fill[gray!35] (\xValStart,\yNoStrat) rectangle ++({(1-\tfrac)*\cellw,\cellh});
+			%	% A/B border in dataset order only
+			\draw[dashed,  line width=0.5mm] (\xAB,\yNoStrat) -- ++(0,\cellh);
+			% --- Row 3: STRATIFIED (shade val inside each stratum A and B) ---
+			\draw (0,\yStrat) rectangle ++(\cellw,\cellh);
+			% A/B border at x = pA * cellw
+			\pgfmathsetmacro{\xAB}{\pA*\cellw}
+			\draw[dashed, line width=1mm] (\xAB,\yStrat) -- ++(0,\cellh);
+			% widths of strata A and B
+			% --- Validation area within A (right (1-tfrac) part of A) ---
+			\pgfmathsetmacro{\xAVal}{\tfrac*\wA}              % start inside A (A begins at x=0)
+			\pgfmathsetmacro{\wAVal}{(1-\tfrac)*\wA}          % width of A's validation
+			\fill[gray!35] (\xAVal,\yStrat) rectangle ++(\wAVal,\cellh);
+			% --- Validation area within B (right (1-tfrac) part of B) ---
+			\pgfmathsetmacro{\xBVal}{\xAB + \tfrac*\wB}       % start inside B
+			\pgfmathsetmacro{\wBVal}{(1-\tfrac)*\wB}          % width of B's validation
+			\fill[gray!35] (\xBVal,\yStrat) rectangle ++(\wBVal,\cellh);
+			\end{tikzpicture}
+ 		\caption{Stratification ensures that both the training set and the validation set 
+			(shaded grey) have similar distributions of a binary key attribute $s$. 
+			In other words, with stratification, both strata  
+			(i.e., $s\!=\!1$ and $s\!=\!2$ based on the key attribute) 
+			allocate the same validation proportion—20\% of their own width. \label{fig_stratification_dict}}
+ 		\end{figure}
+  		See also: stratum, validation, $k$-fold cross-validation ($k$-fold CV).},
+  	text={stratification},
+  	first={stratification},
+  	plural={stratifications}
 }
 
 \newglossaryentry{stratum}
 {name={stratum},
-	description={
-	A\index{stratum} stratum is a subset of data points that all 
-	possess a shared property (which could be a feature or a label). 
-	For example, in a weather dataset, all measurements from the same 
-	Finnish Meteorological Institute (FMI) weather station form one stratum.\\[0.5em]
-	\begin{center}
-\textbf{Example (CSV snippet):}\\
-  {\ttfamily
-  time,station,value,units\\
-  2023-06-01 12:00,Helsinki,18.2,degC\\
-  2023-06-01 13:00,Helsinki,18.5,degC\\
-  2023-06-01 14:00,Helsinki,19.0,degC\\
-  2023-06-01 12:00,Oulu,12.1,degC\\
-  2023-06-01 13:00,Oulu,12.4,degC\\
-  2023-06-01 14:00,Oulu,12.7,degC\\
-  2023-06-01 12:00,Tampere,15.3,degC\\
-  2023-06-01 13:00,Tampere,15.6,degC\\
-  2023-06-01 14:00,Tampere,16.0,degC
-  }
-	\end{center} 
-	Here, the rows for each station (\texttt{Helsinki}, \texttt{Oulu}, \texttt{Tampere}) 
-	represent different strata.\\ 
-	See also: stratification, dataset, data point.},
-  first={stratum},
-  firstplural={strata},
- plural={strata}, 
- text={stratum}
+	description={A\index{stratum} stratum is a subset of data points that all 
+		share a common property (which could be a feature or a label). 
+		For example, in a weather dataset, all measurements from the same 
+		Finnish Meteorological Institute (FMI) weather station form one stratum.
+		\begin{center}
+			Example (CSV snippet):\\
+  			{\ttfamily
+  			time, station, value, unit\\
+  			2023-06-01 12:00, Helsinki, 18.2, degree Celsius\\
+  			2023-06-01 13:00, Helsinki, 18.5, degree Celsius\\
+  			2023-06-01 14:00, Helsinki, 19.0, degree Celsius\\
+  			2023-06-01 12:00, Oulu, 12.1, degree Celsius\\
+  			2023-06-01 13:00, Oulu, 12.4, degree Celsius\\
+  			2023-06-01 14:00, Oulu, 12.7, degree Celsius\\
+  			2023-06-01 12:00, Tampere, 15.3, degree Celsius\\
+  			2023-06-01 13:00, Tampere, 15.6, degree Celsius\\
+  			2023-06-01 14:00, Tampere, 16.0, degree Celsius
+  			}
+		\end{center} 
+		Here, the rows for each station (i.e., \texttt{Helsinki}, \texttt{Oulu}, \texttt{Tampere}) 
+		represent different strata.
+		\\ 
+		See also: data point, dataset, stratification.},
+  	first={stratum},
+  	firstplural={strata},
+ 	plural={strata}, 
+ 	text={stratum}
 }
-
 
 \newglossaryentry{det}
 {name={determinant},
@@ -191,110 +189,110 @@ defined by these attributes. For example, in a medical dataset,
 \newglossaryentry{hessian}
 {name={Hessian},
  	description={Consider\index{Hessian} a function 
-	$f: \mathbb{R}^{d} \to \mathbb{R}$ for which the second-order 
-	partial derivatives exist at ${\bf x}'$. Then, the Hessian $\nabla^2 f({\bf x}')$ 
-	of $f$ at ${\bf x}$ is defined as the matrix of second-order 
-	partial derivatives of $f$ at ${\bf x}'$, 
-$$\nabla^{2} f({\bf x}') \;=\;
-\begin{pmatrix}
-\frac{\partial^{2} f}{\partial \feature_{1}^{2}}
-& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{2}}
-& \cdots
-& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{d}} \\
-\frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{1}}
-& \frac{\partial^{2} f}{\partial \feature_{2}^{2}}
-& \cdots
-& \frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{d}} \\
-\vdots & \vdots & \ddots & \vdots \\[1.2ex]
-\frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{1}}
-& \frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{2}}
-& \cdots
-& \frac{\partial^{2} f}{\partial \feature_{d}^{2}}
-\end{pmatrix}.$$
-If the second-order partial derivatives are continuous in a neighborhood around ${\bf x}'$, then the Hessian is a symmetric matrix, i.e.,
-$\frac{\partial^{2} f}{\partial \feature_{j}\, \partial \feature_{j'}} = 
-\frac{\partial^{2} f}{\partial \feature_{j'}\, \partial \feature_{j}}$ for all 
-$j, j'$ \cite{RudinBookPrinciplesMatheAnalysis}. If additionally $f$ 
-is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydConvexBook}.
-	\begin{figure}[H]
-	\begin{center}
-	\begin{tikzpicture}[x=0.5cm]
-		\begin{axis}[
-			hide axis,
-			xmin=3, xmax=6,
-			ymin=0, ymax=6,
-			domain=0:6,
-			samples=100,
-			width=10cm,
-			height=6cm,
-			clip=false
-			]
-		% Original nonlinear function h(x)
-			\addplot[blue, thick, domain=3:6.6] {2 + sin(deg(x))} 
-			node[pos=0.5, above right, yshift=3pt] {$f({\bf x})$};
-		% Tangent line as local linear approximation at x = 3
-		% h(3) = 2 + sin(3), h'(3) = cos(3)
-			\addplot[red, thick, domain=3.5:6.6] 
-			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
-			node[pos=0, below left] {$g({\bf x})$};
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                \addplot[green, thick, domain=3.5:6.6]
-                {2 + sin(deg(6)) + cos(deg(6))*(x - 6) - 0.5*sin(deg(6))*(x - 6)^2}
-			node[pos=0, below left, yshift=10pt] {$q({\bf x})$};
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		% Mark point of approximation
-			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
-			    % Vertical dashed line (ruler) at x = 3
-			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
-			\node at (axis cs:6, -0.2) {${\bf x}'$};
-			    % Plot the two points
-			    % Coordinates of the two points
-			\pgfmathsetmacro{\xA}{-1.5}
-			\pgfmathsetmacro{\xB}{3}
-			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
-			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
-		\end{axis}
-		\vspace*{-10mm}
-	\end{tikzpicture}
-		\vspace*{-5mm}
-	\end{center}
-	\caption{
-		A function $f({\bf x})$ that is sufficiently smooth at a 
-		point ${\bf x}'$ can be locally approximated by 
-		a quadratic function $q({\bf x})$ which allows for a more accurate approximation 
-		compared to a linear function $g({\bf x})$. \label{fig_quadapprox_hessian_dict}}
-\end{figure}
+		$f: \mathbb{R}^{d} \to \mathbb{R}$ for which the second-order 
+		partial derivatives exist at ${\bf x}'$. Then, the Hessian $\nabla^2 f({\bf x}')$ 
+		of $f$ at ${\bf x}$ is defined as the matrix of second-order 
+		partial derivatives of $f$ at ${\bf x}'$, i.e., 
+		$$\nabla^{2} f({\bf x}') \;=\;
+		\begin{pmatrix}
+			\frac{\partial^{2} f}{\partial \feature_{1}^{2}}
+			& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{d}} \\
+			\frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{1}}
+			& \frac{\partial^{2} f}{\partial \feature_{2}^{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{d}} \\
+			\vdots & \vdots & \ddots & \vdots \\[1.2ex]
+			\frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{1}}
+			& \frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{d}^{2}}
+		\end{pmatrix}.$$
+		If the second-order partial derivatives are continuous in a neighborhood around ${\bf x}'$, 
+		then the Hessian is a symmetric matrix, i.e.,
+		${\partial^{2} f}/{\partial \feature_{j}\, \partial \feature_{j'}} = 
+		{\partial^{2} f}/{\partial \feature_{j'}\, \partial \feature_{j}}$ for all 
+		$j, j'$ \cite{RudinBookPrinciplesMatheAnalysis}. If additionally $f$ 
+		is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydConvexBook}.\\
 		The Hessian $\nabla^2 f({\bf x}')$ can be used to compute a quadratic function 
-		$$q({\bf x}) = (1/2) ({\bf x}- {\bf x}')^{T} \underbrace{\nabla^2 f({\bf x}')}_{\text{Hessian}} 
+		$$q({\bf x}) = \frac{1}{2} ({\bf x}- {\bf x}')^{T} \underbrace{\nabla^2 f({\bf x}')}_{\text{Hessian}} 
 		({\bf x}- {\bf x}') +  ({\bf x}- {\bf x}')^{T} \underbrace{\nabla f({\bf x}')}_{\text{gradient}} 
 		+ f({\bf x}')$$
-		that approximates $f$ locally around ${\bf x}'$. 
-        		\\
-		See also: differentiable, matrix, function, quadratic function. }, 
+		that approximates $f$ locally around ${\bf x}'$ (see also Fig. \ref{fig_quadapprox_hessian_dict}). 
+		\begin{figure}[H]
+		\begin{center}
+		\begin{tikzpicture}[x=0.5cm]
+			\begin{axis}[
+				hide axis,
+				xmin=3, xmax=6,
+				ymin=0, ymax=6,
+				domain=0:6,
+				samples=100,
+				width=10cm,
+				height=6cm,
+				clip=false
+				]
+			% Original nonlinear function h(x)
+				\addplot[blue, thick, domain=3:6.6] {2 + sin(deg(x))} 
+				node[pos=0.5, above right, yshift=3pt] {$f({\bf x})$};
+			% Tangent line as local linear approximation at x = 3
+			% h(3) = 2 + sin(3), h'(3) = cos(3)
+				\addplot[red, thick, domain=3.5:6.6] 
+				{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
+				node[pos=0, below left] {$g({\bf x})$};
+                		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                			\addplot[green, thick, domain=3.5:6.6]
+                			{2 + sin(deg(6)) + cos(deg(6))*(x - 6) - 0.5*sin(deg(6))*(x - 6)^2}
+				node[pos=0, below left, yshift=10pt] {$q({\bf x})$};
+                		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			% Mark point of approximation
+				\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
+			% Vertical dashed line (ruler) at x = 3
+				\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
+				\node at (axis cs:6, -0.2) {${\bf x}'$};
+			% Plot the two points
+			% Coordinates of the two points
+				\pgfmathsetmacro{\xA}{-1.5}
+				\pgfmathsetmacro{\xB}{3}
+				\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+				\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+			\end{axis}
+			\vspace*{-10mm}
+		\end{tikzpicture}
+		\vspace*{-5mm}
+		\end{center}
+		\caption{A function $f({\bf x})$ that is sufficiently smooth at a 
+			point ${\bf x}'$ can be locally approximated by 
+			a quadratic function $q({\bf x})$, which provides a more accurate approximation 
+			compared to a linear function $g({\bf x})$. \label{fig_quadapprox_hessian_dict}}
+		\end{figure}
+		See also: function, matrix, quadratic function, differentiable. }, 
 	first={Hessian},
 	type=math,
 	text={Hessian}
 }
 
-
 \newglossaryentry{attention}
 {name={attention}, 
 	description={Some machine learning (ML) applications\index{attention} involve data points 
-	composed of smaller units, referred to as tokens. For example, a sentence 
-	consists of words, an image of pixel patches, and a network of nodes. In general, 
-	the tokens that constitute a single data point are not independent 
-	of one another. Instead, each token of a data point depends (or pays attention) 
-	to specific other tokens. Probabilistic models provide a principled framework for 
-	representing and analyzing such dependencies \cite{Blei2003}. Attention mechanisms use 
-	a more direct approach without explicit reference to a probabilistic model. The idea is to 
-		represent the relationship between two tokens $i$ and $i'$ using a parameterized function $f^{({\bf w})}(i,i')$, 
+		composed of smaller units, referred to as tokens. For example, a sentence 
+		consists of words, an image of pixel patches, and a network of nodes. In general, 
+		the tokens that constitute a single data point are not independent 
+		of one another. Instead, each token of a data point depends on (or pays attention to) 
+		specific other tokens. Probabilistic models provide a principled framework for 
+		representing and analyzing such dependencies \cite{Blei2003}. Attention mechanisms use 
+		a more direct approach without explicit reference to a probabilistic model. The idea is to 
+		represent the relationship between two tokens $i$ and $i'$ 
+		using a parameterized function $f^{({\bf w})}(i,i')$, 
 		where the parameters ${\bf w}$ are learned via a variant of empirical risk minimization (ERM). 
 		Practical attention mechanisms differ in their precise choice of attention model $f^{({\bf w})}(i,i')$ 
-		as well as in the precise empirical risk minimization (ERM) variant used to learn the parameters ${\bf w}$. One widely used family of attention mechanisms 
+		as well as in the precise empirical risk minimization (ERM) variant used to learn the parameters ${\bf w}$. 
+		One widely used family of attention mechanisms 
 		defines the parameters ${\bf w}$ in terms of two vectors associated with each token $i$, i.e.,
 		a query vector ${\bf q}^{(i)}$ and a key vector ${\bf k}^{(i')}$. For a given token $i$ 
 		with query ${\bf q}^{(i)}$, and another token $i'$ with key ${\bf k}^{(i')}$, the quantity 
-		$\big( {\bf q}^{(i)} \big)^{\top} {\bf k}^{(i')}$ quantifies the extent to which token $i$ attends 
+		$\big( {\bf q}^{(i)} \big)^{\top} {\bf k}^{(i')}$ indicates the extent to which token $i$ attends 
 		to (or depends on) token $i'$ (see Fig. \ref{fig_attention_dict}).
 		\begin{figure}[H]
 			\centering
@@ -320,85 +318,90 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 			\draw[->, thick, opacity=1]  (w8.north)  .. controls +(up:1.8cm) and +(up:1.0cm) ..  node[midway, text=black, above] {$f^{({\bf w})}(i,i')$}  (w1.north); % to "All"
 			\end{tikzpicture}
 			\caption{Attention mechanisms learn a parameterized function $f^{({\bf w})}(i,i')$ to measure 
-				how much token $i$ attends to token $i'$. One widely used construction of $f^{({\bf w})}(i,i')$ 
+				how much token $i$ attends to token $i'$. 
+				One widely used construction of $f^{({\bf w})}(i,i')$ 
 				uses query and key vectors, denoted by ${\bf q}^{(i)}$ and ${\bf k}^{(i)}$, assigned to each 
 				token $i$ \cite{vaswani2017attention}. \label{fig_attention_dict}}
 		\end{figure}
-		See also: function, natural language processing (NLP), token.},
+		See also: token, function, natural language processing (NLP).},
 	first={attention},
 	text={attention}
 }
 
 \newglossaryentry{transformer}
 {name={transformer},
- description={In the context of machine learning (ML), the term transformer\index{transformer} 
- 	refers to an ANNs that uses some form of attention mechanism 
- 	to capture dependencies among tokens \cite{vaswani2017attention}. 
- 	The attention mechansim is what sets transformers apart from 
-	previous models used for sequential data such as recurrent neural networks (RNNs). 
-	A transformer artificial neural network (ANN) often combines several attention layers 
-	that are combined via more traditional layer architectures. \\ 
-	See also: natural language processing (NLP), attention.
-  }, 
- first = {transformer}, 
- text={transformer},
- firstplural={transformers}, 
- plural = {transformers}
+	description={In the context of machine learning (ML), the term transformer\index{transformer} 
+ 		refers to an artificial neural network (ANN) that uses some form of attention mechanism 
+ 		to capture dependencies among tokens \cite{vaswani2017attention}. 
+ 		The attention mechansim is what sets transformers apart from 
+		previous models used for sequential data such as recurrent neural networks (RNNs). 
+		A transformer artificial neural network (ANN) often combines several attention layers 
+		via more traditional layer architectures. 
+		\\ 
+		See also: attention, natural language processing (NLP). }, 
+ 	first={transformer}, 
+ 	text={transformer},
+ 	firstplural={transformers}, 
+ 	plural={transformers}
 }
 
 \newglossaryentry{rnn}
 {name={recurrent neural network (RNN)},
- description={A\index{recurrent neural network (RNN)} RNN 
-  is a specific type of artificial neural network (ANN) that is designed for processing 
-    data that consists of a sequence of tokens. 
-	An RNN maintains an internal hidden state that is updated recurrently 
-	as new tokens are processed. This recurrent dependence allows 
-	information to propagate across time steps, making RNNs suitable for 
-	tasks such as speech recognition, language modeling, or time series prediction. 
-    However, their inherently sequential computation limits parallelization and 
-	is challenging for gradient-based methods. Variants like the long short-term memory (LSTM) 
-	and gated recurrent unit (GRU) mitigate these problems.}, 
- first = {recurrent neural network (RNN)},
- text={RNN},
- firstplural={recurrent neural networks (RNNs)}, 
- plural = {RNNs}
+	description={An\index{recurrent neural network (RNN)} RNN 
+  		is a specific type of artificial neural network (ANN) that is designed for processing 
+    		data that consist of a sequence of tokens. 
+		An RNN maintains an internal hidden state that is updated recurrently 
+		as new tokens are processed. This recurrent dependence allows 
+		information to propagate across time steps, making RNNs suitable for 
+		tasks such as speech recognition, language modeling, or time series prediction. 
+    		However, their inherently sequential computation limits parallelization and 
+		is challenging for gradient-based methods. Variants like the long short-term memory (LSTM) 
+		and gated recurrent unit (GRU) mitigate these problems.
+		\\
+		See also: artificial neural network (ANN), token. }, 
+ 	first={recurrent neural network (RNN)},
+ 	text={RNN},
+ 	firstplural={recurrent neural networks (RNNs)}, 
+ 	plural={RNNs}
 }
 
 \newglossaryentry{llm}
 {name={large language model (LLM)},
- description={A\index{large language model (LLM)} LLM is an umbrella term for machine learning (ML) 
-               methods that use high-dimensional machine learning (ML) models (with billions 
-			   of model parameters) trained on large collections of text data. 
- 			  LLMs are used to analyze or generate sequences of tokens which 
-               constitute text data. Many current LLMs use some variant of 
-			   a transformer that is trained via self-supervised learning:  
-			   The training is based on the task of predicting a few words that 
-			   are intentionally removed from a large text corpus. Thus, we can 
-			   construct labeled data points simply by selecting some words 
-			   from a given text as labels and the remaining words as features 
-			   of data points. This construction requires 
-		       very little human supervision and allows for generating sufficiently 
-		       large training sets for LLMs.\\ 
-			   See also: natural language processing (NLP), token, transformer.}, 
-  first = {LLM}, 
-  firstplural={LLMs}, 
-  text = {LLM}, 
-  plural = {LLMs} 
+	description={An\index{large language model (LLM)} LLM is an umbrella term for machine learning (ML) 
+		methods that use high-dimensional machine learning (ML) models (with billions 
+		of model parameters) trained on large collections of text data. 
+ 		LLMs are used to analyze or generate sequences of tokens that 
+               	constitute text data. Many current LLMs use some variant of 
+		a transformer that is trained via self-supervised learning, i.e.,
+		the training is based on the task of predicting a few words that 
+		are intentionally removed from a large text corpus. Thus, we can 
+		construct labeled data points simply by selecting some words 
+		from a given text as labels and the remaining words as features 
+		of data points. This construction requires 
+		very little human supervision and allows for generating sufficiently 
+		large training sets for LLMs.
+		\\ 
+		See also: token, transformer, natural language processing (NLP).}, 
+  	first={large language model (LLM)}, 
+  	firstplural={LLMs}, 
+  	text={LLM}, 
+  	plural={LLMs} 
 }
 
  \newglossaryentry{selfsupervisedlearning}
  {name={self-supervised learning},
-  description={Self-supervised learning\index{self-supervised learning} uses some of 
-  			   the features of a data point as its label. For 
-			   example, if a data point consists of a sentence within a text document, 
-			   we an use the last word of the sentence as the label which is 
-			   to be predicted from all the previous words (which form the features 
-			   of the data point). A main application of self-supervised learning 
-			   is in natural language processing (NLP) for the training of LLMs from large collections 
-			   of text data. \\ 
-      See also: feature, label, LLM.}, 
-   first = {self-supervised learning}, 
-   text = {self-supervised learning}
+ 	description={Self-supervised learning\index{self-supervised learning} uses some of 
+  		the features of a data point as its label. For 
+		example, if a data point consists of a sentence within a text document, 
+		we can use the last word of the sentence as the label that is 
+		to be predicted from all the previous words, which form the features 
+		of the data point. A main application of self-supervised learning 
+		is in natural language processing (NLP) for the training of LLMs from large collections 
+		of text data. 
+		\\ 
+      		See also: feature, label, large language model (LLM).}, 
+   	first={self-supervised learning}, 
+   	text={self-supervised learning}
 }
 
 \newglossaryentry{optproblem}
@@ -422,18 +425,17 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 
 \newglossaryentry{optmethod}
 {name={optimization method},
-	description={
-	An\index{optimization method} optimization method is 
-	an algorithm that takes a representation of an 
-	optimization problem as input and computes an (approximate) 
-	solution as its output. A central example of an optimization 
-	problem in machine learning (ML) is empirical risk minimization (ERM). By applying an appropriate 
-	optimization method to empirical risk minimization (ERM), we obtain a concrete learning 
-	algorithm \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr},
-	\cite{nesterov04}.
+	description={An\index{optimization method} optimization method is 
+		an algorithm that takes a representation of an 
+		optimization problem as input and computes an (approximate) 
+		solution as its output. A central example of an optimization problem 
+		in machine learning (ML) is empirical risk minimization (ERM). By applying an appropriate 
+		optimization method to empirical risk minimization (ERM), we obtain a concrete learning 
+		algorithm \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr},
+		\cite{nesterov04}.
 		 \\
 		 See also: algorithm, optimization problem.},
-	type= math, 
+	type=math, 
 	first={optimization method},
 	firstplural={optimization methods}, 
 	plural={optimization methods}, 
@@ -514,8 +516,8 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 \newglossaryentry{newtonmethod}
 {name={Newton's method},
 	description={Newton's method\index{Newton's method} is an iterative optimization method for finding 
-	local minima or maxima of a differentiable objective function $f({\bf w})$. 
-	Like gradient-based methods, Newton's method also 
+		local minima or maxima of a differentiable objective function $f({\bf w})$. 
+		Like gradient-based methods, Newton's method also 
 		computes a new estimate $\widehat{{\bf w}}_{t+1}$ by optimizing a local approximation of $f({\bf w})$ around 
 		the current estimate $\widehat{{\bf w}}_{t}$. In contrast to gradient-based methods, which use the gradient to build 
 		a local linear approximation, Newton's method uses the Hessian matrix to build a local quadratic approximation. 
@@ -570,57 +572,58 @@ is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydC
 
 \newglossaryentry{hilbertspace}
 {name={Hilbert space},
- description={A\index{Hilbert space} Hilbert space $\mathcal{H}$ is a complete 
-    inner product space. Thus, $\mathcal{H}$ is a vector space 
-	equipped with an inner product $\langle \cdot, \cdot \rangle$. The inner product 
-	induces a norm $\mleft\lVert \cdot \mright\rVert_{2}$ via $\mleft\lVert {\bf w}\mright\rVert_{2} = \sqrt{\langle {\bf w}, {\bf w}\rangle}$. 
-  	Furthermore, $\mathcal{H}$ is complete in the sense that every 
- 	Cauchy sequence $\big( {\bf w}^{(r)} \big)_{r\in \mathbb{N}}$ 
-	in $\mathcal{H}$ converges to a limit $\lim_{r\rightarrow \infty} {\bf w}^{(r)}$ 
-	that is also contained in $\mathcal{H}$. 
-	\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[scale=3]
-	% axes (light)
-	%\draw[very thin, gray!30] (-1.2,0) -- (1.2,0);
-	%\draw[very thin, gray!30] (0,-1.2) -- (0,1.2);
-	% unit circle for visual context
-	\draw[gray!40] (0,0) circle (1);
-	% parameters
-	\def\ang{35} % angle of v (degrees)
-	% vectors
-	\draw[->,thick] (0,0) -- (1,0) node[below right] {${\bf u}$};
-	\draw[->,thick] (0,0) -- ({cos(\ang)},{sin(\ang)}) node[above] {${\bf v}$};
-	% projection of v onto u
-	\coordinate (P) at ({cos(\ang)},0);
-	\draw[dashed] ({cos(\ang)},{sin(\ang)}) -- (P);
-	\draw[->,thick] (0,0) -- (P) node[pos=0.5,below] {$\langle {\bf v}, {\bf u}\rangle {\bf u}$};
-	% right-angle marker at foot of perpendicular
-	\draw ($(P)+(0,0.06)$) -- (P) -- ($(P)+(-0.06,0)$);
-	% angle arc and label
-	%\draw (0.35,0) arc (0:\ang:0.35);
-	%\node at ({0.48*cos(\ang/2)},{0.48*sin(\ang/2)}) {$\theta$};	
-	% norm labels (unit vectors)
-	%\node[below] at (1,0) {$\|\mathbf u\|=1$};
-	\node[right] at ({cos(-\ang)},{sin(-\ang)}) {$\mathbb{S}^{(d)} = \{ {\bf w}\in \mathbb{R}^{d}: \langle {\bf w}, {\bf w}\rangle=1\}$};
-	% inner product hint
-	%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
-\end{tikzpicture}
-\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$ 
-the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expantion coefficient for the projection 
-of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ spanned by ${\bf u}$. 
-The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this projection.\label{fig_hilbertspace_dict}}
-\end{figure}
-	One important example of a Hilbert space 
- 	is the Euclidean space $\mathbb{R}^{d}$ with the 
- 	inner product $\langle {\bf w}, {\bf w}' \rangle = {\bf w}^{\top} {\bf w}'$ \\
-   	See also: vector space.},
+	description={A\index{Hilbert space} Hilbert space $\mathcal{H}$ is a complete 
+    		inner product space. Thus, $\mathcal{H}$ is a vector space 
+		equipped with an inner product $\langle \cdot, \cdot \rangle$. The inner product 
+		induces a norm $\mleft\lVert \cdot \mright\rVert_{2}$ via $\mleft\lVert {\bf w}\mright\rVert_{2} = \sqrt{\langle {\bf w}, {\bf w}\rangle}$. 
+  		Furthermore, $\mathcal{H}$ is complete in the sense that every 
+ 		Cauchy sequence $\big( {\bf w}^{(r)} \big)_{r\in \mathbb{N}}$ 
+		in $\mathcal{H}$ converges to a limit $\lim_{r\rightarrow \infty} {\bf w}^{(r)}$ 
+		that is also contained in $\mathcal{H}$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=3]
+			% axes (light)
+			%\draw[very thin, gray!30] (-1.2,0) -- (1.2,0);
+			%\draw[very thin, gray!30] (0,-1.2) -- (0,1.2);
+			% unit circle for visual context
+			\draw[gray!40] (0,0) circle (1);
+			% parameters
+			\def\ang{35} % angle of v (degrees)
+			% vectors
+			\draw[->,thick] (0,0) -- (1,0) node[below right] {${\bf u}$};
+			\draw[->,thick] (0,0) -- ({cos(\ang)},{sin(\ang)}) node[above] {${\bf v}$};
+			% projection of v onto u
+			\coordinate (P) at ({cos(\ang)},0);
+			\draw[dashed] ({cos(\ang)},{sin(\ang)}) -- (P);
+			\draw[->,thick] (0,0) -- (P) node[pos=0.5,below] {$\langle {\bf v}, {\bf u}\rangle {\bf u}$};
+			% right-angle marker at foot of perpendicular
+			\draw ($(P)+(0,0.06)$) -- (P) -- ($(P)+(-0.06,0)$);
+			% angle arc and label
+			%\draw (0.35,0) arc (0:\ang:0.35);
+			%\node at ({0.48*cos(\ang/2)},{0.48*sin(\ang/2)}) {$\theta$};	
+			% norm labels (unit vectors)
+			%\node[below] at (1,0) {$\|\mathbf u\|=1$};
+			\node[right] at ({cos(-\ang)},{sin(-\ang)}) {$\mathbb{S}^{(d)} = \{ {\bf w}\in \mathbb{R}^{d}: \langle {\bf w}, {\bf w}\rangle=1\}$};
+			% inner product hint
+			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
+			\end{tikzpicture}
+		\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$ 
+			the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expansion coefficient for the projection 
+			of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ spanned by ${\bf u}$. 
+			The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this projection.\label{fig_hilbertspace_dict}}
+		\end{figure}
+		One important example of a Hilbert space 
+ 		is the Euclidean space $\mathbb{R}^{d}$ with the 
+ 		inner product $\langle {\bf w}, {\bf w}' \rangle = {\bf w}^{\top} {\bf w}'$. 
+		\\
+   		See also: vector space.},
    	type=math, 
- 	first = {Hilbert space}, 
-    text = {Hilbert space},
+ 	first={Hilbert space}, 
+    	text={Hilbert space},
    	plural={Hilbert spaces},
    	firstplural={Hilbert spaces}
-  }
+}
 
 \newglossaryentry{cauchysequence}
 {name={Cauchy sequence},
@@ -634,61 +637,60 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\forall \epsilon > 0, \exists N \in \mathbb{N} \text{ such that } 
 		\forall r, r' \geq N, \ d({\bf x}^{(r)},{\bf x}^{(r')}) < \epsilon.
 		\] 
+		Fig.\ \ref{fig:fpit_cauchy_sqrt2_dict} shows a Cauchy sequence in the metric space $\left( \mathbb{Q},|\cdot| \right)$ of 
+		rational numbers.  
 		\begin{figure}[H]
 			\centering
 		  	\begin{tikzpicture}[x=1cm,y=4cm]
 			% Parameters
-				\def\srtwo{1.4142}
-				\def\eps{0.15}
-				\def\nmax{7}
+			\def\srtwo{1.4142}
+			\def\eps{0.15}
+			\def\nmax{7}
 			% Axes
-			%	\draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
-			%	\draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
+			% \draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
+			% \draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
 			% epsilon band around sqrt(2)
-				\fill[gray!30, opacity=0.35]
-				(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
-				%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
-				%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
-				%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
-			%		node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
+			\fill[gray!30, opacity=0.35]
+			(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
+			%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
+			%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
 			% Double arrow showing epsilon band width
-				\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
-				node[above, right] {\footnotesize{$\varepsilon$}};
-					% Limit line at sqrt(2)
-					\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
-					node[right] {\footnotesize{$\sqrt{2}$}};
-					% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
-					% Replace the foreach loop by:
-					      \fill (0,1.0000) circle (1.2pt) node [right] {$x^{(1)}$};
-					      \fill (1,1.5000) circle (1.2pt);
-					      \fill (2,1.4167) circle (1.2pt);
-					      \fill (3,1.4142) circle (1.2pt);
-					      \fill (4,1.41421) circle (1.2pt);
-					      \fill (5,1.4142136) circle (1.2pt);
-					      \fill (6,1.41421356) circle (1.2pt);
+			\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
+			node[above, right] {\footnotesize{$\varepsilon$}};
+			% Limit line at sqrt(2)
+			\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
+			node[right] {\footnotesize{$\sqrt{2}$}};
+			% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
+			% Replace the foreach loop by:
+			\fill (0,1.0000) circle (1.2pt) node [right] {$x^{(1)}$};
+			\fill (1,1.5000) circle (1.2pt);
+			\fill (2,1.4167) circle (1.2pt);
+			\fill (3,1.4142) circle (1.2pt);
+			\fill (4,1.41421) circle (1.2pt);
+			\fill (5,1.4142136) circle (1.2pt);
+			\fill (6,1.41421356) circle (1.2pt);
 			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
-						\def{\mathcal{N}}{1}
-						\draw[densely dashed, thick, red] ({\mathcal{N}},0.88) -- ({\mathcal{N}},1.655);
-						\node[right, red] at ({\mathcal{N}},0.8) {$N$};
-						% Formula box (fixed-point iteration)
-						\node[align=right, anchor=north, font=\small]
-						at (5,0.9)
-						{\footnotesize{$\displaystyle x^{(r+1)}=\frac{1}{2}\!\left(x^{(r)}+\frac{2}{x^{(r)}}\right), x^{(1)}=1.$}};
-						% Optional: annotate a few rational iterates
-			%			\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
-			%			\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
-			%			\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
+			\def{\mathcal{N}}{1}
+			\draw[densely dashed, thick, red] ({\mathcal{N}},0.88) -- ({\mathcal{N}},1.655);
+			\node[right, red] at ({\mathcal{N}},0.8) {$N$};
+			% Formula box (fixed-point iteration)
+			\node[align=right, anchor=north, font=\small]
+			at (5,0.9)
+			{\footnotesize{$\displaystyle x^{(r+1)}=\frac{1}{2}\!\left(x^{(r)}+\frac{2}{x^{(r)}}\right), x^{(1)}=1.$}};
+			% Optional: annotate a few rational iterates
+			%	\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
+			%	\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
+			%	\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
 			\end{tikzpicture}
 		\caption{A Cauchy sequence $\big(x^{(r)}\big)_{r\in\mathbb{N}}$ 
-		in the metric space $\left( \mathbb{Q},|\cdot| \right)$. 
-		This sequence is generated by a fixed-point iteration used to approximate 
-		$\sqrt{2}$. For all $r\ge N$, the sequence elements lie within a band of width $\varepsilon$. 
-		Note that the sequence does not converge in $\mathbb{Q}$, 
-		since $\sqrt{2} \notin \mathbb{Q}$ \cite[Example 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}}
+			in the metric space $\left( \mathbb{Q},|\cdot| \right)$. 
+			This sequence is generated by a fixed-point iteration used to approximate 
+			$\sqrt{2}$. For all $r\ge N$, the sequence elements lie within a band of width $\varepsilon$. 
+			Note that the sequence does not converge in $\mathbb{Q}$, 
+			since $\sqrt{2} \notin \mathbb{Q}$ \cite[Example 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}}
 		\end{figure}
-		Fig.\ \ref{fig:fpit_cauchy_sqrt2_dict} shows a Cauchy sequence in the metric space $\left( \mathbb{Q},|\cdot| \right)$ of 
-		rational numbers.  
-		\\ 
 		See also: sequence, metric space. }, 
 	type=math,
 	first={Cauchy sequence},
@@ -720,21 +722,21 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method 
-	     for solving an optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
-		 repeatedly applying an operator $\mathcal{F}$, i.e., 
-		 \begin{equation} 
+	     	for solving an optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
+		repeatedly applying an operator $\mathcal{F}$, i.e., 
+		\begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
 		 	{\bf w}^{(t+1)} = \mathcal{F}{\bf w}^{(t)} \mbox{, for } t=0, \,1, \,\ldots.
-		 \end{equation} 
-		 The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
-		 $\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
-		 convex function $f({\bf w})$, the fixed points of the operator $\mathcal{F}: {\bf w}\mapsto {\bf w}- \nabla f({\bf w})$ 
-		 coincide with the minimizers of $f({\bf w})$. In general, for a given optimization problem 
-		 with solution $\widehat{{\bf w}}$, there are many different operators 
-		 $\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. Clearly, we should use an 
-		 operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the 
-		 distance to a solution such that
-		 \begin{equation} 
+		\end{equation} 
+		The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
+		$\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
+		convex function $f({\bf w})$, the fixed points of the operator $\mathcal{F}: {\bf w}\mapsto {\bf w}- \nabla f({\bf w})$ 
+		coincide with the minimizers of $f({\bf w})$. In general, for a given optimization problem 
+		with solution $\widehat{{\bf w}}$, there are many different operators 
+		$\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. Clearly, we should use an 
+		operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the 
+		distance to a solution such that
+		\begin{equation} 
 			\nonumber
 			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{{\bf w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F}{\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
 		\end{equation}
@@ -756,11 +758,12 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		\end{equation} 
 		Here, $\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}$ is the distance between 
 		the initialization ${\bf w}^{(0)}$ and the solution $\widehat{{\bf w}}$. 
-		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive 
-		operator $\mathcal{F}$ is guaranteed to converge to a fixed-point of $\mathcal{F}$ \cite[Corollary 5.16]{Bauschke:2017}. 
+		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive operator  
+		$\mathcal{F}$ is guaranteed to converge to a fixed-point of $\mathcal{F}$ \cite[Corollary 5.16]{Bauschke:2017}. 
 		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator, 
 		and a contractive operator. All of these operators are defined on the 1-D space $\mathbb{R}$. 
-		Another example of a firmly non-expansive operator is the proximal operator of a convex function \cite{Bauschke:2017}, \cite{ProximalMethods}. 
+		Another example of a firmly non-expansive operator is the proximal operator of a convex function 
+		\cite{ProximalMethods}, \cite{Bauschke:2017}. 
 		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 		\begin{figure}[H]
 			\begin{center} 
@@ -792,7 +795,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 			\caption{Example of a non-expansive operator $\mathcal{F}^{(1)}$, a firmly non-expansive operator $\mathcal{F}^{(2)}$, and 
 				a contractive operator $\mathcal{F}^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: optimization problem, differentiable, convex, function, model parameters, contractive operator, proximal operator.},
+		See also: optimization problem, differentiable, convex, function, model parameter, contractive operator, proximal operator.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
@@ -802,10 +805,10 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 
 \newglossaryentry{ergraph}
 {name={Erd\H{o}s–R\'enyi graph (ER graph)},
-	description={An ER graph\index{Erd\H{o}s–R\'enyi graph (ER graph)} \cite{erdds1959random, gilbert1959random} 
-            is a probabilistic model for graphs defined over a given node set $i=1, \,\ldots, \,n$. 
-            One way to define the ER graph is via the collection of independent and identically distributed (i.i.d.) binary 
-            random variables (RVs) $b^{(\{i,i'\})} \in \{0,1\}$, 
+	description={An ER graph\index{Erd\H{o}s–R\'enyi graph (ER graph)} \cite{erdds1959random}, \cite{gilbert1959random} 
+            	is a probabilistic model for graphs defined over a given node set $i=1, \,\ldots, \,n$. 
+            	One way to define the ER graph is via the collection of independent and identically distributed (i.i.d.) binary 
+            	random variables (RVs) $b^{(\{i,i'\})} \in \{0,1\}$, 
 		for each pair of different nodes $i, i'$. A specific realization  
 		of an ER graph contains an edge $\{i,i'\}$ if and only if 
 		$b^{(\{i,i'\})}=1$. The ER graph is parameterized by the 
@@ -846,8 +849,8 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 
 \newglossaryentry{epigraph}
 {name={epigraph},
-  description={The epigraph\index{epigraph} of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
-  	is the set of points lying on or above its graph (see Fig. \ref{fig_epigraph_dict}), i.e., 
+	description={The epigraph\index{epigraph} of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+  		is the set of points lying on or above its graph (see Fig. \ref{fig_epigraph_dict}), i.e., 
 		\[
 		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
 		\]
@@ -891,7 +894,7 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Epigraph of the function $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
+		\caption{Epigraph of the function $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
 		\end{figure}
 		See also: function, convex.},
 	first={epigraph},
@@ -1134,26 +1137,25 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 \newglossaryentry{diagnosis}
 {name={diagnosis},
 	description={Consider\index{diagnosis} an empirical risk minimization (ERM)-based method that resulted in a trained model 
-	(or learned hypothesis) $\hat{h}\in \mathcal{H}$. We can diagnose the 
-	method by comparing the training error $E_{t}$ with the validation error $E_{v}$ 
-	incurred by $\hat{h}$ on the training set and the validation set. 
-	\begin{figure}[htbp]
-	\begin{center}
-		\begin{tikzpicture}[ycomb]
-			\draw[color=green,line width=26pt]
-			plot coordinates{(0,3)};
-			\node [below] at (0,0) {training error} ; 
-			\draw[color=red,line width=26pt]
-			plot coordinates{(5,5)};
-			\node [below] at (5,0) {validation error} ; 
-			\draw[dashed,line width=2] (-1,2) -- (7,2) node[right,text width=5cm]{baseline \\ (e.g., Bayes risk, existing ML methods or human performance)};
-		\end{tikzpicture}
-	\end{center}
-	\caption{We can diagnose a empirical risk minimization (ERM)-based machine learning (ML) method by comparing its training error 
-		with its validation error. Ideally both are on the same level as a baseline.\label{fig_diagnosis_dict}}
+		(or learned hypothesis) $\hat{h}\in \mathcal{H}$. We can diagnose the 
+		method by comparing the training error $E_{t}$ with the validation error $E_{v}$ 
+		incurred by $\hat{h}$ on the training set and the validation set. 
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[ycomb]
+				\draw[color=green,line width=26pt]
+				plot coordinates{(0,3)};
+				\node [below] at (0,0) {training error} ; 
+				\draw[color=red,line width=26pt]
+				plot coordinates{(5,5)};
+				\node [below] at (5,0) {validation error} ; 
+				\draw[dashed,line width=2] (-1,2) -- (7,2) node[right,text width=5cm]{baseline \\ (e.g., Bayes risk, existing machine learning (ML) methods, or human performance)};
+			\end{tikzpicture}
+			\end{center}
+		\caption{We can diagnose an empirical risk minimization (ERM)-based machine learning (ML) method by comparing its training error 
+			with its validation error. Ideally, both are on the same level as a baseline.\label{fig_diagnosis_dict}}
 		\end{figure}
-	 			\\ 
-		See also: validation, $k$-fold cross-validation ($k$-fold CV), generalization, baseline.},
+		See also: baseline, validation, $k$-fold cross-validation ($k$-fold CV), generalization.},
 	first={diagnosis},
 	text={diagnosis}
 } 
@@ -1161,85 +1163,84 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 \newglossaryentry{ml}
 {name={machine learning (ML)},
 	description={ML\index{machine learning (ML)} methods aim to learn (or find) 
-	a useful hypothesis map $\hat{h}\!\in\!\mathcal{H}$ out of 
-	a model $\mathcal{H}$. The learned $\hat{h}$ is used to compute 
-	a prediction $\hat{y}=\hat{h}({\bf x})$ for 
-	the label $y$ of a data point. The learning is guided 
-	by some quantitative measure for the loss incurred by the predictions 
-	obtrained from learned hypothesis typically different 
-	from the actual label $y$. Different ML methods use different 
-	design choices for this quantitative measure (or loss function) as well as 
-	different choices for the model and the data points (i.e., 
-	their features and labels) \cite[Ch. 3]{MLBasics}. 
-	\begin{figure}[ht]
-	\centering
-	\hspace*{5mm}
-	\begin{tikzpicture}[
-		node distance=1cm,
-		auto,
-		punkt/.style={
-			rectangle,
-			rounded corners,
-			draw=black,
-			very thick,
-			text width=3cm,
-			minimum height=1cm,
-			align=center
-		}
-		]
-		\coordinate (OR) at (0.00, 1.50);
-		% concentric circles
-		\node[circle,inner sep=0,minimum size={6cm}](a) at (OR) {};
-		\node[circle,inner sep=0,minimum size={8cm}](b) at (OR) {};
-		\node[circle,inner sep=0,minimum size={8cm}](c) at (OR) {};
-		% arcs and radii
-		\draw[red,line width=1,dashed] (a.-150) arc (-150:{-150+120}:3cm);
-		\draw[blue,line width=1,dashed] (b.160) arc (160:{160+50}:4cm);
-		\draw[black!30!green,line width=2,dashed] (c.20) arc (20:{160}:4cm);
-		\draw[black!30!blue,line width=2,dashed] ([shift={(-30:6cm)}]OR) arc (-30:{20}:6cm);
-		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(-30:6cm)}]OR);
-		\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(20:6cm)}]OR);
-		\draw[black!30!green,line width=2,dashed] (OR) -- (c.20);
-		\draw[black!30!green,line width=2,dashed] (OR) -- (c.160);
-		\draw[blue,thin,dashed] (OR) -- (b.160);
-		\draw[blue,thin,dashed] (OR) -- (b.210);
-		\draw[red,thin,dashed] (OR) -- (a.-150);
-		\draw[red,thin,dashed] (OR) -- (a.-30);   
-		% nodes
-		\node[punkt] (data) {observations};
-		\node[red,below=0.5cm of data] (data1) {data};
-		\node[above=of data] (dummy) {};
-		\node[punkt,above=1cm of dummy] (hypothesis) {hypothesis};
-		\node[right=1.4cm of dummy] (t) {make prediction} ; 
-		\node[left=1.4cm of dummy] (g) {assess and adapt} ;
-		\node[blue,below=0.5cm of g,anchor=east] (g1) {loss} ; 
-		\node[black!30!blue,below=1cm of t,anchor=west] (g6) {inference} ; 
-		\node[black!30!green,above=1cm of hypothesis,anchor=south] (g3) {model} ; 
-		% arrows
-		\draw [->,line width=0.5mm] (hypothesis.east) to [out=0,in=90] (t.north);
-		\draw [->,line width=0.5mm] (t.south) to [out=270,in=0] (data.east);
-		\draw [->,line width=0.5mm] (data.west) to [out=180,in=270] (g.south);
-		\draw [->,line width=0.5mm] (g.north) to [out=90,in=180] (hypothesis.west);
-		\end{tikzpicture}
-		\vspace*{-9mm}
+		a useful hypothesis map $\hat{h}\!\in\!\mathcal{H}$ out of 
+		a model $\mathcal{H}$. The learned $\hat{h}$ is used to compute 
+		a prediction $\hat{y}=\hat{h}({\bf x})$ for 
+		the label $y$ of a data point. The learning process is guided 
+		by a quantitative measure of the loss incurred when  
+		the predictions obtained from the learned hypothesis differ from  
+		the actual label $y$. Different ML methods use different 
+		design choices for this quantitative measure (or loss function) as well as 
+		different choices for the model and the data points (i.e., 
+		their features and labels) \cite[Ch. 3]{MLBasics}. 
+		\begin{figure}[H]
+			\centering
+			\hspace*{5mm}
+			\begin{tikzpicture}[
+				node distance=1cm,
+				auto,
+				punkt/.style={
+				rectangle,
+				rounded corners,
+				draw=black,
+				very thick,
+				text width=3cm,
+				minimum height=1cm,
+				align=center
+				}
+				]
+				\coordinate (OR) at (0.00, 1.50);
+				% concentric circles
+				\node[circle,inner sep=0,minimum size={6cm}](a) at (OR) {};
+				\node[circle,inner sep=0,minimum size={8cm}](b) at (OR) {};
+				\node[circle,inner sep=0,minimum size={8cm}](c) at (OR) {};
+				% arcs and radii
+				\draw[red,line width=1,dashed] (a.-150) arc (-150:{-150+120}:3cm);
+				\draw[blue,line width=1,dashed] (b.160) arc (160:{160+50}:4cm);
+				\draw[black!30!green,line width=2,dashed] (c.20) arc (20:{160}:4cm);
+				\draw[black!30!blue,line width=2,dashed] ([shift={(-30:6cm)}]OR) arc (-30:{20}:6cm);
+				\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(-30:6cm)}]OR);
+				\draw[black!30!blue,line width=2,dashed] (OR) --([shift={(20:6cm)}]OR);
+				\draw[black!30!green,line width=2,dashed] (OR) -- (c.20);
+				\draw[black!30!green,line width=2,dashed] (OR) -- (c.160);
+				\draw[blue,thin,dashed] (OR) -- (b.160);
+				\draw[blue,thin,dashed] (OR) -- (b.210);
+				\draw[red,thin,dashed] (OR) -- (a.-150);
+				\draw[red,thin,dashed] (OR) -- (a.-30);   
+				% nodes
+				\node[punkt] (data) {observations};
+				\node[red,below=0.5cm of data] (data1) {data};
+				\node[above=of data] (dummy) {};
+				\node[punkt,above=1cm of dummy] (hypothesis) {hypothesis};
+				\node[right=1.4cm of dummy] (t) {make a prediction} ; 
+				\node[left=1.4cm of dummy] (g) {assess and adapt} ;
+				\node[blue,below=0.5cm of g,anchor=east] (g1) {loss} ; 
+				\node[black!30!blue,below=1cm of t,anchor=west] (g6) {inference} ; 
+				\node[black!30!green,above=1cm of hypothesis,anchor=south] (g3) {model} ; 
+				% arrows
+				\draw [->,line width=0.5mm] (hypothesis.east) to [out=0,in=90] (t.north);
+				\draw [->,line width=0.5mm] (t.south) to [out=270,in=0] (data.east);
+				\draw [->,line width=0.5mm] (data.west) to [out=180,in=270] (g.south);
+				\draw [->,line width=0.5mm] (g.north) to [out=90,in=180] (hypothesis.west);
+			\end{tikzpicture}
+			\vspace*{-9mm}
 		\caption{ML learns a hypothesis out of a model (or hypothesis space) 
 			by trying to minimize the loss incurred by the predictions 
 			for the labels of data points. The predictions are 
-			comptued solely from the features of the data points.}
-		\label{fig_AlexMLBP_dict}
-	\end{figure}
-	Another distinction between ML methods is how they access data points during 
-	learning. For example, some methods have access to a complete dataset 
-	during training which allows them to use empirical risk minimization (ERM) \cite{MLBasics}, \cite{HastieWainwrightBook}. 
-	In contrast, online learning methods access data 
-	sequentially and, in turn, update the learned hypothesis 
-	whenever a new data point arrives \cite{PredictionLearningGames,HazanOCO,Bottou99}.
+			computed solely from the features of the data points.}
+			\label{fig_AlexMLBP_dict}
+		\end{figure}
+		Another distinction between ML methods is how they access data points during 
+		learning. For example, some methods have access to a complete dataset 
+		during training, which allows them to use empirical risk minimization (ERM) \cite{MLBasics}, \cite{HastieWainwrightBook}. 
+		In contrast, online learning methods access data 
+		sequentially and, in turn, update the learned hypothesis 
+		whenever a new data point arrives \cite{PredictionLearningGames}, \cite{HazanOCO}, \cite{Bottou99}.
 	 			\\ 
 		See also: model, data, loss, empirical risk minimization (ERM), online learning.},
 	first={machine learning (ML)},
 	text={ML}
-} 
-
+}
 
 \newglossaryentry{featlearn}
 {name={feature learning},
@@ -1256,22 +1257,23 @@ The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this
 		uses $\mathcal{X}:=\mathbb{R}^{d}$, $\mathcal{X}' :=\mathbb{R}^{d'}$ 
 		with $d' < d$, and a hypothesis space 
 		$$\mathcal{H}:=\big\{ {\bf \Phi}: \mathbb{R}^{d}
-		\!\rightarrow\! \mathbb{R}^{d'}\!:\!{\bf x}'\!:=\!\mathbf{F}{\bf x}\mbox{ with some } \mathbf{F}\!\in\! \mathbb{R}^{d' \!\times d} \big\}.$$ Principal component analysis (PCA) measures the usefulness of a specific map ${\bf \Phi}({\bf x})= \mathbf{F}{\bf x}$ 
-	by the minimum linear reconstruction error incurred on a dataset such that 
-$$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert \mathbf{G}\mathbf{F}{\bf x}^{(r)} - {\bf x}^{(r)} \mright\rVert_{2}^{2}.$$ 
+		\!\rightarrow\! \mathbb{R}^{d'}\!:\!{\bf x}'\!:=\!\mathbf{F}{\bf x}\mbox{ with some } \mathbf{F}\!\in\! \mathbb{R}^{d' \!\times d} \big\}.$$ 
+		Principal component analysis (PCA) measures the usefulness of a specific map ${\bf \Phi}({\bf x})= \mathbf{F}{\bf x}$ 
+		by the minimum linear reconstruction error incurred on a dataset such that 
+		$$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert \mathbf{G}\mathbf{F}{\bf x}^{(r)} - {\bf x}^{(r)} \mright\rVert_{2}^{2}.$$ 
 			\\ 
 		See also: feature, feature space, hypothesis space, principal component analysis (PCA).}, 
 	first={feature learning},
 	text={feature learning}
-} 
+}
 
 \newglossaryentry{encoder} 
 {name={encoder}, 
- description={See autoencoder.}, 
- first={encoder}, 
- plural = {encoders}, 
- text = {encoder}, 
- firstplural={encoders}
+	description={See autoencoder\index{encoder}.}, 
+ 	first={encoder}, 
+ 	plural={encoders}, 
+ 	text={encoder}, 
+ 	firstplural={encoders}
 }
 
 \newglossaryentry{autoencoder}
@@ -1280,33 +1282,33 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		learns an encoder map $h\in \mathcal{H}$ and a decoder map 
 		$h^{*} \in \mathcal{H}^{*}$. Different autoencoders use different 
 		models $\mathcal{H}, \mathcal{H}^{*}$, e.g., ANNs with different architectures. 
-        The special case of an autoeencoder using (vector-valued) linear models for 
+        		The special case of an autoencoder using (vector-valued) linear models for 
 		$\mathcal{H}, \mathcal{H}^{*}$ results in principal component analysis (PCA). 
 		\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[>=Latex, thick, node distance=1.6cm]
-		% Nodes
-		\node (x) {${\bf x}$};
-		\node[draw, rounded corners, right=of x, inner sep=4pt] (enc) {$\text{encoder } h$};
-		\node[right=of enc] (z) {${\bf z}$};
-		\node[draw, rounded corners, right=of z, inner sep=4pt] (dec) {$\text{decoder } h^{*}$};
-		\node[right=of dec] (xhat) {$\hat{{\bf x}}$};
-		% Arrows
-		\draw[->] (x) -- (enc);
-		\draw[->] (enc) -- node[above] {${\bf z}=h({\bf x})$} (z);
-		\draw[->] (z) -- (dec);
-		\draw[->] (dec) -- node[above] {$\hat{{\bf x}}=h^{*}({\bf z})$} (xhat);
-		% (Optional) reconstruction loss
-		%\draw[->, dashed] ($(xhat.south)+(0,-0.2)$) to[bend right=20] node[below] {$\loss$} ($(x.south)+(0,-0.2)$);
-		\end{tikzpicture}
-		\caption{Autoencoder with encoder $h$ mapping ${\bf x}\mapsto {\bf z}$ and 
-		decoder $h^*$ mapping ${\bf z}\mapsto \hat{{\bf x}}$.}
+			\centering
+			\begin{tikzpicture}[>=Latex, thick, node distance=1.6cm]
+			% Nodes
+			\node (x) {${\bf x}$};
+			\node[draw, rounded corners, right=of x, inner sep=4pt] (enc) {$\text{encoder } h$};
+			\node[right=of enc] (z) {${\bf z}$};
+			\node[draw, rounded corners, right=of z, inner sep=4pt] (dec) {$\text{decoder } h^{*}$};
+			\node[right=of dec] (xhat) {$\hat{{\bf x}}$};
+			% Arrows
+			\draw[->] (x) -- (enc);
+			\draw[->] (enc) -- node[above] {${\bf z}=h({\bf x})$} (z);
+			\draw[->] (z) -- (dec);
+			\draw[->] (dec) -- node[above] {$\hat{{\bf x}}=h^{*}({\bf z})$} (xhat);
+			% (Optional) reconstruction loss
+			%\draw[->, dashed] ($(xhat.south)+(0,-0.2)$) to[bend right=20] node[below] {$\loss$} ($(x.south)+(0,-0.2)$);
+			\end{tikzpicture}
+		\caption{Autoencoder with an encoder $h$ mapping ${\bf x}\mapsto {\bf z}$ and 
+			a decoder $h^*$ mapping ${\bf z}\mapsto \hat{{\bf x}}$.}
 		\end{figure}
 		The training of the encoder and decoder can be implemented via empirical risk minimization (ERM) using a loss that measures 
 		the deviation of the reconstructed feature vector $h^{*}\big(h\big({\bf x}\big) \big)$
 		from the original feature vector ${\bf x}$.
 					\\ 
-		See also: feature learning, dimensionality reduction.},
+		See also: encoder, feature learning, dimensionality reduction.},
 	first={autoencoder},
 	text={autoencoder}
 } 
@@ -1360,18 +1362,19 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 
 \newglossaryentry{vfl}
 {name={vertical federated learning (VFL)},
-	description={In VFL\index{vertical federated learning (VFL)} different devices have 
-	             access to different features of the same set of data points \cite{VFLChapter}. 
-				 Formally, the underlying global dataset is
-				 \[\mathcal{D}^{(\mathrm{global})} :=\left\{ \left({\bf x}^{(1)}, y^{(1)}\right), \,\ldots, \,\left({\bf x}^{(m)}, y^{(m)}\right) \right\}.
-				 \]
-				We denote by ${\bf x}^{(r)} = \big( x^{(r)}_{1}, \,\ldots, \,x^{(r)}_{d'} \big)\,^{T}$, for $r=1, \,\ldots, \,m$, 
-	     		the complete feature vectors for the data points. Each device $i\in \mathcal{V}$ 
-				observes only a subset $\mathcal{F}^{(i)} \subseteq \{1, \,\ldots, \,d'\}$ of features, resulting 
-				in a local dataset $\mathcal{D}^{(i)}$ with feature vectors
-				\[
-					{\bf x}^{(i,r)} = \big( x^{(r)}_{\featureidx_{1}}, \,\ldots, \,x^{(r)}_{\featureidx_{d}} \big)\,^{T}.
-				\]
+	description={In VFL,\index{vertical federated learning (VFL)} different devices have 
+		access to different features of the same set of data points \cite{VFLChapter}. 
+		Formally, the underlying global dataset is
+		\[
+		\mathcal{D}^{(\mathrm{global})} :=\left\{ \left({\bf x}^{(1)}, y^{(1)}\right), \,\ldots, \,\left({\bf x}^{(m)}, y^{(m)}\right) \right\}.
+		\]
+		We denote by ${\bf x}^{(r)} = \big( x^{(r)}_{1}, \,\ldots, \,x^{(r)}_{d'} \big)\,^{T}$, for $r=1, \,\ldots, \,m$, 
+	     	the complete feature vectors for the data points. Each device $i\in \mathcal{V}$ 
+		observes only a subset $\mathcal{F}^{(i)} \subseteq \{1, \,\ldots, \,d'\}$ of features, resulting 
+		in a local dataset $\mathcal{D}^{(i)}$ with feature vectors
+		\[
+		{\bf x}^{(i,r)} = \big( x^{(r)}_{\featureidx_{1}}, \,\ldots, \,x^{(r)}_{\featureidx_{d}} \big)\,^{T}.
+		\]
 		Some of the devices may also have access to the labels $y^{(r)}$, for $r=1, \,\ldots, \,m$, 
 		of the global dataset (see Fig. \ref{fig_vertical_FL_dict}). 
 		\begin{figure}[H]
@@ -1396,23 +1399,24 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 					\node (x\i3) at (4.8,\y) {$x^{(\label)}_{d}$};
 					\node (y\i) at (6.4,\y) {$y^{(\label)}$};
 				}
-				  % Outer rectangle for the full dataset
+				% Outer rectangle for the full dataset
 				\draw[dashed, rounded corners, thick]
 				(-0.6,0.6) rectangle (6.9,-4.2);
 				\node at (3.1,0.9) {$\mathcal{D}^{(\mathrm{global})} $};
-			% Rectangle for local dataset 1 (e.g., first two features)
-			\draw[dashed, rounded corners, thick]
-			(-0.9,0.9) rectangle (2.1,-4.0);
-			\node at (0.25,1.0) {$\mathcal{D}^{(1)}$};
-		  	% --- Local dataset k (columns 2–3, rows 1–3) ---
-			\draw[dashed, rounded corners, thick]
-			($( \colZ + 1,,0.9 )$) rectangle
-			($( \colLabel + 0.4, -4.5)$);
+				% Rectangle for local dataset 1 (e.g., first two features)
+				\draw[dashed, rounded corners, thick]
+				(-0.9,0.9) rectangle (2.1,-4.0);
+				\node at (0.25,1.0) {$\mathcal{D}^{(1)}$};
+		  		% --- Local dataset k (columns 2–3, rows 1–3) ---
+				\draw[dashed, rounded corners, thick]
+				($( \colZ + 1,,0.9 )$) rectangle
+				($( \colLabel + 0.4, -4.5)$);
 				\node at ($( \colZ + 0.9,-5 )$) {$\mathcal{D}^{(i)}$};
 			\end{tikzpicture}
 			\end{center}
-			\caption{VFL uses local datasets that are derived from the data points of a common global dataset. 
-				The local datasets differ in the choice of features used to characterize the data points.\label{fig_vertical_FL_dict}}
+		\caption{VFL uses local datasets that are derived from the data points of a common global dataset. 
+			The local datasets differ in the choice of features used to characterize 
+			the data points.\label{fig_vertical_FL_dict}}
 		\end{figure}
 		One potential application of VFL is to enable collaboration between 
 		different healthcare providers. Each provider collects distinct types of measurements—such as blood 
@@ -1420,10 +1424,10 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		application is a national social insurance system, where health records, financial 
 		indicators, consumer behavior, and mobility data are collected by different 
 		institutions. VFL enables joint learning across these parties while allowing 
-		well-defined levels of privacy protection. We can view VFL as a specific form of 
+		well-defined levels of privacy protection. We can view VFL as a specific form of
 		model parallelism.
 		\\
-		See also: federated learning (FL), privacy protection, model parallelism.},
+		See also: privacy protection, federated learning (FL), model parallelism.},
 	first={vertical federated learning (VFL)},
 	text={VFL}
 } 
@@ -1574,7 +1578,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 {name={explainability},
 	description={We\index{explainability} define the (subjective) explainability of an machine learning (ML) method 
 		as the level of simulatability \cite{Colin:2022aa} of the predictions 
-		delivered by an machine learning (ML) system to a human user. Quantitative measures for the 
+		delivered by an machine learning (ML) system to a human user. Quantitative measures of the 
 		(subjective) explainability of a trained model can be constructed by 
 		comparing its predictions with the predictions provided by a user 
 		on a test set \cite{Colin:2022aa}, \cite{Zhang:2024aa}. Alternatively, we can use 
@@ -1656,7 +1660,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		A linear model using a small number of well-chosen features is generally considered 
 		more interpretable \cite{rudin2019stop}, \cite{Ribeiro2016}.
 		The linear model is attractive because it can typically be trained using scalable convex 
-		optimization methods \cite{hastie01statisticallearning}, \cite{BertsekasNonLinProgr}. 
+		optimization methods \cite{BertsekasNonLinProgr}, \cite{hastie01statisticallearning}. 
 		Moreover, linear models often permit rigorous 
 		statistical analysis, including fundamental limits on the minimum achievable risk \cite{Wain2019}. 
 		They are also useful for analyzing more complex nonlinear models such as ANNs. For instance, 
@@ -1674,10 +1678,10 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		analysis—Rademacher’s Theorem—states that if $\hat{h}$ is Lipschitz continuous with 
 		some constant $L$ over an open set $\Omega\subseteq \mathbb{R}^{d}$, then $\hat{h}$ 
 		is differentiable almost everywhere in $\Omega$ \cite[Th.~3.1]{heinonen2005lectures}.
-	\begin{figure}[H]
-	\begin{center}
-	\begin{tikzpicture}[x=0.5cm]
-		\begin{axis}[
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[x=0.5cm]
+			\begin{axis}[
 			hide axis,
 			xmin=-3, xmax=6,
 			ymin=0, ymax=6,
@@ -1687,28 +1691,28 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 			height=6cm,
 			clip=false
 			]
-		% Original nonlinear function h(x)
+			% Original nonlinear function h(x)
 			\addplot[blue, thick, domain=-2:6] {2 + sin(deg(x))} 
 			node[pos=0.5, above right, yshift=3pt] {$\hat{h}({\bf x})$};
-		% Tangent line as local linear approximation at x = 3
-		% h(3) = 2 + sin(3), h'(3) = cos(3)
+			% Tangent line as local linear approximation at x = 3
+			% h(3) = 2 + sin(3), h'(3) = cos(3)
 			\addplot[red, thick, domain=4.5:6.5] 
 			{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
 			node[pos=0.95, above right] {$g({\bf x})$};
-		% Mark point of approximation
+			% Mark point of approximation
 			\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
-			    % Vertical dashed line (ruler) at x = 3
+			% Vertical dashed line (ruler) at x = 3
 			\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
 			\node at (axis cs:6, -0.2) {${\bf x}'$};
-			    % Plot the two points
-			    % Coordinates of the two points
+			% Plot the two points
+			% Coordinates of the two points
 			\pgfmathsetmacro{\xA}{-1.5}
 			\pgfmathsetmacro{\xB}{3}
 			\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
 			\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
 			\addplot[mark=*, only marks] coordinates {(\xA, \yA) (\xB, \yB)};
-		%	\node at (axis cs:\xA, \yA+0.2) {$A$};
-		%	\node at (axis cs:\xB, \yB+0.2) {$B$};
+			%	\node at (axis cs:\xA, \yA+0.2) {$A$};
+			%	\node at (axis cs:\xB, \yB+0.2) {$B$};
 			% Draw dashed lines from the points to the x and y axes
 			\draw[dashed, gray] (axis cs:\xA,\yA) -- (axis cs:\xA,0);
 			\draw[dashed, gray] (axis cs:\xB,\yB) -- (axis cs:\xB,0);
@@ -1718,17 +1722,16 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 			\draw[<->, thick] (axis cs:\xA,-0.4) -- node[below] {$\mleft\lVert \Delta {\bf x}\mright\rVert_{2}$} (axis cs:\xB,-0.4);
 			% Draw delta y
 			\draw[<->, thick] (axis cs:-2.4,\yA) -- node[left] {$\leq L \mleft\lVert \Delta {\bf x}\mright\rVert_{2}$} (axis cs:-2.4,\yB);
-		\end{axis}
-		\vspace*{-10mm}
-	\end{tikzpicture}
-		\vspace*{-5mm}
-	\end{center}
-	\caption{
-		A trained model $\hat{h}({\bf x})$ that is differentiable at a point ${\bf x}'$ 
-		can be locally approximated by a linear map $g \in \mathcal{H}^{(d)}$. This local approximation 
-		is determined by the gradient $\nabla \hat{h}({\bf x}')$.}
-		\label{fig_linapprox_dict}
-	\end{figure}
+			\end{axis}
+			\vspace*{-10mm}
+			\end{tikzpicture}
+			\vspace*{-5mm}
+			\end{center}
+		\caption{A trained model $\hat{h}({\bf x})$ that is differentiable at a point ${\bf x}'$ 
+			can be locally approximated by a linear map $g \in \mathcal{H}^{(d)}$. This local approximation 
+			is determined by the gradient $\nabla \hat{h}({\bf x}')$.}
+			\label{fig_linapprox_dict}
+		\end{figure}
 		See also: model, hypothesis space, linear map, interpretability, LIME.}, 
    first={linear model},
    plural={linear models},
@@ -1745,7 +1748,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		Many machine learning (ML) methods involve operators whose domain and co-domain 
 		are Euclidean spaces.
 							\\ 
-		See also: vector space, function, Hilbert space.},
+		See also: function, vector space, Hilbert space.},
 	first={operator},
 	type=math, 
 	plural={operators},
@@ -1906,46 +1909,44 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 	first={connected},
 	text={connected}
 }
-	
-
 
 \newglossaryentry{earlystopping}
 {name={early stopping}, 
 	description={Consider an empirical risk minimization (ERM)-based method that uses an 
-	iterative optimization method (such as gradient descent (GD)) to learn model parameters 
-	via minimizing the empirical risk on a given training set.
-	Early stopping\index{early stopping} refers to terminating the iterations 
-	even if they still substantially decrease the empirical risk on the 
-	training set. Instead of monitoring the objective function (which is the 
-	empirical risk on the training set), early stopping monitors the validation error 
-	incurred by the model parameters in each iteration. Early stopping can be 
-	interpreted as an implementation of regularization via model 
-	pruning. Indeed, terminating an iterative optimization method after a small number 
-	of iterations restricts the set of model parameters that can be reached from the 
-	initialization (see Fig.\ \ref{fig_early_stopping_dict}).
-	\begin{figure}[htbp]
-	\centering
-		\begin{tikzpicture}[>=Stealth, scale=2]
-		% Initialization
-		\fill (0,0) circle (0.6pt) node[above] {\small ${\bf w}^{(0)}$};
-		\node at (-0.4,0) {\small $\mathcal{H}^{(1)}$};
-		\node at (-1.2,0) {\small $\mathcal{H}^{(2)}$};
+		iterative optimization method (such as gradient descent (GD)) to learn model parameters 
+		by minimizing the empirical risk on a given training set.
+		Early stopping\index{early stopping} refers to terminating the iterations 
+		even if they still substantially decrease the empirical risk on the 
+		training set. Instead of monitoring the objective function (which is the 
+		empirical risk on the training set), early stopping monitors the validation error 
+		incurred by the model parameters in each iteration. Early stopping can be 
+		interpreted as an implementation of regularization via model 
+		pruning. Indeed, terminating an iterative optimization method after a small number 
+		of iterations restricts the set of model parameters that can be reached from the 
+		initialization (see Fig.\ \ref{fig_early_stopping_dict}).
+		\begin{figure}[H]
+		\centering
+			\begin{tikzpicture}[>=Stealth, scale=2]
+			% Initialization
+			\fill (0,0) circle (0.6pt) node[above] {\small ${\bf w}^{(0)}$};
+			\node at (-0.4,0) {\small $\mathcal{H}^{(1)}$};
+			\node at (-1.2,0) {\small $\mathcal{H}^{(2)}$};
 			\node at (-2,0) {\small $\mathcal{H}\ldots$};
-		% T-step reachable sets (early stopping = smaller T)
-		\draw[densely dotted] (0,0) ellipse (0.8 and 0.4);
-		\draw[dashed] (0,0) ellipse (1.6 and 0.8);
-		% Example gradient path (just illustrative)
-		\draw[->] (0,0) -- (0.8,0.) node [pos=0.6,above] {\tiny $1$ step};
-		\draw[->] (0.0,0.0) -- (0,-0.8) node [pos=0.9,right] {\tiny $2$ steps};
-		\end{tikzpicture}
+			% T-step reachable sets (early stopping = smaller T)
+			\draw[densely dotted] (0,0) ellipse (0.8 and 0.4);
+			\draw[dashed] (0,0) ellipse (1.6 and 0.8);
+			% Example gradient path (just illustrative)
+			\draw[->] (0,0) -- (0.8,0.) node [pos=0.6,above] {\tiny $1$ step};
+			\draw[->] (0.0,0.0) -- (0,-0.8) node [pos=0.9,right] {\tiny $2$ steps};
+			\end{tikzpicture}
 		\caption{A gradient-based method for empirical risk minimization (ERM) using a hypothesis space $\mathcal{H}$ 
-		    defines a nested sequence of effective hypothesis spaces 
+		    	defines a nested sequence of effective hypothesis spaces 
 			$\mathcal{H}^{(1)} \subseteq \mathcal{H}^{(2)} \subseteq \ldots \subseteq \mathcal{H}$. 
 			The effective hypothesis space $\mathcal{H}^{(t)}$ is 
-		    determined by all model parameters that can be reached from the initialization 
+		    	determined by all model parameters that can be reached from the initialization 
 			${\bf w}^{(0)}$ within $t$ gradient steps. \label{fig_early_stopping_dict}}
-		\end{figure} \\ 
-		See also: gradient-based method, regularization, overfitting.},
+		\end{figure}
+		See also: regularization, gradient-based method, overfitting.},
 	first={early stopping},
 	text={early stopping}
 }
@@ -1971,7 +1972,7 @@ $$\min_{\mathbf{G}\in \mathbb{R}^{d\!\!\!\times d'}} \sum_{r=1}^{m} \mleft\lVert
 		and 2) how many iterations are needed to obtain useful model parameters. One important 
 		example of an iterative optimization technique is gradient descent (GD).
 					\\ 
-		See also: machine learning (ML), empirical risk minimization (ERM), gradient step, model parameters, gradient descent (GD).}, 
+		See also: machine learning (ML), empirical risk minimization (ERM), gradient step, model parameter, gradient descent (GD).}, 
 	first={computational aspects},
 	text={computational aspects}
 }
@@ -2008,14 +2009,13 @@ sort={zerooneloss},
 	
 \newglossaryentry{underfitting}
 {name={underfitting},
-	description={
-		Consider\index{underfitting} an machine learning (ML) method that applies empirical risk minimization (ERM) 
+	description={Consider\index{underfitting} an machine learning (ML) method applying empirical risk minimization (ERM) 
 		to learn a hypothesis that minimizes the empirical risk 
 		on a given training set. The method is said to underfit if it fails to achieve a sufficiently low empirical risk on the training set. 
 		Underfitting typically occurs when the chosen model is too simple 
 		to capture the underlying relationship between features and 
 		labels. 
-			\begin{figure}[H]
+		\begin{figure}[H]
 		\begin{center}
 			\begin{tikzpicture}[scale=1.0]
 				% Hypothesis: simple linear map (underfits)
@@ -2034,19 +2034,19 @@ sort={zerooneloss},
 					\draw[<->,color=blue!70] (\x,{\slope*\x+\intercept}) -- (p\i);
 				}
 			\end{tikzpicture}
-			\caption{No linear hypothesis $h$ can capture the relation 
-			         between features and labels for 
-					 the depicted training set. Thus, any method that uses a 
-					 linear model will underfit this training set.}
-			\label{fig_underfitting_min_dict}
+			\caption{No linear hypothesis $h$ can capture the relationship 
+				between features and labels for 
+				the depicted training set. Thus, any method that uses a 
+				linear model will underfit this training set.}
+				\label{fig_underfitting_min_dict}
 		\end{center}
-	\end{figure} 
-		For example, a machine learning (ML) method using a linear model 
-		on data with a highly non-linear relation between features 
+		\end{figure} 
+		For example, an machine learning (ML) method using a linear model 
+		on data with a highly nonlinear relationship between features 
 		and label will not be able to learn a hypothesis with small 
-		average loss on the training set, let alone a small risk. 
+		average loss on the training set, let alone a low risk. 
 					\\ 
-		See also: model, training set, risk, overfitting.},
+		See also: training set, model, risk, overfitting.},
 	first={underfitting},
 	text={underfitting}
 }
@@ -2065,7 +2065,6 @@ sort={zerooneloss},
 	first={overfitting},
 	text={overfitting}
 }
-
 
 \newglossaryentry{diffusionmethod}
 {name={diffusion method},
@@ -2113,22 +2112,20 @@ sort={zerooneloss},
     text={denoising autoencoder}
 }
 
-
-
 \newglossaryentry{normaldist} 
 {name={normal distribution}, 
- description={See\index{normal distribution} Gaussian random variable (Gaussian RV).},
- first={normal distribution}, 
- firstplural={normal distributions},
- plural={normal distributions},
- type=math, 
- text={normal distribution}
+	description={See\index{normal distribution} Gaussian random variable (Gaussian RV).},
+ 	first={normal distribution}, 
+ 	firstplural={normal distributions},
+ 	plural={normal distributions},
+	type=math, 
+ 	text={normal distribution}
 }
 	
 \newglossaryentry{gaussrv}
 {name={Gaussian random variable (Gaussian RV)}, 
 	description={A\index{Gaussian random variable (Gaussian RV)} standard Gaussian random variable (RV) is a 
-		real-valued random variable (RV) $x$ with probability density function (pdf) \cite{BertsekasProb}, \cite{GrayProbBook}, \cite{papoulis}
+		real-valued random variable (RV) $x$ with probability density function (pdf) \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
 		\begin{equation}
 			\nonumber
 			p(x) = \frac{1}{\sqrt{2\pi}} \exp\,(-x^2/2). 
@@ -2176,13 +2173,13 @@ sort={zerooneloss},
 
 \newglossaryentry{gaussian} 
 {name={Gaussian}, 
- description={See\index{Gaussian} Gaussian random variable (Gaussian RV).},
- first={Gaussian},
- type=math,
- text={Gaussian},
- firstplural={Gaussians},  
- plural={Gaussians}
- }
+	description={See\index{Gaussian} Gaussian random variable (Gaussian RV).},
+ 	first={Gaussian},
+ 	type=math,
+ 	text={Gaussian},
+	firstplural={Gaussians},  
+ 	plural={Gaussians}
+}
 	
 \newglossaryentry{clt}
 {name={central limit theorem (CLT)},
@@ -2250,83 +2247,85 @@ sort={zerooneloss},
 
 \newglossaryentry{GaussProc}
 {name={Gaussian process (GP)},
-  description={A\index{Gaussian process (GP)} GP is a collection of random variables (RVs) 
-  	$\{f({\bf x})\}_{{\bf x}\in \mathcal{X}}$ indexed by input values ${\bf x}$ 
-  	from some input space $\mathcal{X}$ such that, for any finite subset 
-  	${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathcal{X}$, 
-  	the corresponding random variables (RVs) $f({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)})$ 
-	have a joint multivariate normal distribution 
-  	\[
-  	f \left( {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
-  	\]
-  	For a fixed input space $\mathcal{X}$, a GP is 
-	fully specified (or parameterized) by: 1) a mean function 
-	$\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$; and 2) 
-	a covariance function $K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
-  	{\bf Example.} We can interpret the temperature distribution across Finland (at a specific 
-  	point in time) as the realization of a GP $f({\bf x})$, where each input 
-	${\bf x}= (\text{lat}, \text{lon})$ denotes a geographic location. Temperature 
-	observations from Finnish Meteorological Institute (FMI) weather stations provide values $f({\bf x})$ at specific 
-	locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to predict the temperature 
-	nearby Finnish Meteorological Institute (FMI) weather stations and to quantify the uncertainty 
-  	of these predictions. 
-  	\begin{figure}[H]
-  	\begin{center}
-  		\begin{tikzpicture}
-		\begin{axis}[
-		axis equal,
-		hide axis,
-		scale=1.2,
-		xmin=17, xmax=32,
-		ymin=55, ymax=71,
-		%	width=15cm,
-		%	height=20cm,
-		clip=true
-		]
-		% --- Finland border (polyline) ---
-		\addplot[
-		color=black,
-		thick
-		] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
-		% --- FMI sample stations ---
-		\addplot[
-		only marks,
-		mark=*,
-		mark options={fill=blue},
-		color=black
-		] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
-		% Draw manual axes
-		\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {longitude (lon)};
-		\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {latitude (lat)};
-		\end{axis}
-		\end{tikzpicture}
-		\vspace*{-15mm}
-	\end{center}
-	\caption{For a given point in time, we can interpret the current temperature distribution 
-	over Finland as a realization of a GP indexed by geographic coordinates and 
-	sampled at Finnish Meteorological Institute (FMI) weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
-	\end{figure}
-	See also: multivariate normal distribution, uncertainty, Gaussian random variable (Gaussian RV).}, 
-  first={GP}, 
-  type=math, 
-  text={GP}
+	description={A\index{Gaussian process (GP)} GP is a collection of random variables (RVs) 
+  		$\{f({\bf x})\}_{{\bf x}\in \mathcal{X}}$ indexed by input values ${\bf x}$ 
+  		from some input space $\mathcal{X}$ such that, for any finite subset 
+  		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathcal{X}$, 
+  		the corresponding random variables (RVs) $f({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)})$ 
+		have a joint multivariate normal distribution 
+  		\[
+  		f \left( {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  		\]
+  		For a fixed input space $\mathcal{X}$, a GP is 
+		fully specified (or parameterized) by: 1) a mean function 
+		$\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$; and 2) 
+		a covariance function 
+		$K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
+  		Example: We can interpret the temperature distribution across Finland (at a specific 
+  		point in time) as the realization of a GP $f({\bf x})$, where each input 
+		${\bf x}= (\text{lat}, \text{lon})$ denotes a geographic location. Temperature 
+		observations from Finnish Meteorological Institute (FMI) weather stations provide values $f({\bf x})$ at specific 
+		locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to predict the temperature 
+		nearby Finnish Meteorological Institute (FMI) weather stations and to quantify the uncertainty 
+  		of these predictions. 
+  		\begin{figure}[H]
+  		\begin{center}
+  			\begin{tikzpicture}
+			\begin{axis}[
+			axis equal,
+			hide axis,
+			scale=1.2,
+			xmin=17, xmax=32,
+			ymin=55, ymax=71,
+			%	width=15cm,
+			%	height=20cm,
+			clip=true
+			]
+			% --- Finland border (polyline) ---
+			\addplot[
+			color=black,
+			thick
+			] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+			% --- FMI sample stations ---
+			\addplot[
+			only marks,
+			mark=*,
+			mark options={fill=blue},
+			color=black
+			] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+			% Draw manual axes
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {longitude (lon)};
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {latitude (lat)};
+			\end{axis}
+			\end{tikzpicture}
+			\vspace*{-5mm}
+		\end{center}
+		\caption{For a given point in time, we can interpret the current temperature distribution 
+		over Finland as a realization of a GP indexed by geographic coordinates and 
+		sampled at Finnish Meteorological Institute (FMI) weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
+		\end{figure}
+		See also: multivariate normal distribution, uncertainty, Gaussian random variable (Gaussian RV).}, 
+  	first={GP}, 
+  	type=math, 
+  	text={GP}
 }
 
 \newglossaryentry{trustAI}
 {name={trustworthy artificial intelligence (trustworthy AI)},
 	description={Besides the computational aspects and statistical aspects, a third main design aspect of 
-		machine learning (ML) methods is their trustworthiness\index{trustworthy artificial intelligence (trustworthy AI)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
+		machine learning (ML) methods is their 
+		trustworthiness\index{trustworthy artificial intelligence (trustworthy AI)} \cite{pfau2024engineeringtrustworthyaideveloper}. 
 		The EU has put forward seven key requirements (KRs) for trustworthy 
 		AI (which typically build on machine learning (ML) methods) \cite{ALTAIEU}: 
-	\begin{enumerate}[label=\arabic*)]
-		\item KR1 – Human agency and oversight;
-		\item KR2 – Technical robustness and safety;
-		\item KR3 – Privacy and data governance;
-		\item KR4 – Transparency;
-		\item KR5 – Diversity, non-discrimination and fairness; 
-		\item KR6 – Societal and environmental well-being;
-		\item KR7 – Accountability. 
-	\end{enumerate}
+		\begin{enumerate}[label=\arabic*)]
+			\item KR1 – Human agency and oversight;
+			\item KR2 – Technical robustness and safety;
+			\item KR3 – Privacy and data governance;
+			\item KR4 – Transparency;
+			\item KR5 – Diversity, nondiscrimination and fairness; 
+			\item KR6 – Societal and environmental well-being;
+			\item KR7 – Accountability. 
+		\end{enumerate}
 		See also: computational aspects, statistical aspects, machine learning (ML), AI, robustness, data, transparency.},
 	first={trustworthy artificial intelligence (trustworthy AI)},
 	text={trustworthy AI}
@@ -2350,19 +2349,19 @@ sort={zerooneloss},
 
 \newglossaryentry{projection}
 {name={projection}, 
-       description={Consider\index{projection} a subset $\mathcal{W}\subseteq \mathbb{R}^{d}$ of 
-	   the $d$-dimensional Euclidean space. We define the projection $P_{\mathcal{W}}\big( {\bf w}\big) $
-	   of a vector ${\bf w}\in \mathbb{R}^{d}$ onto $\mathcal{W}$ as
-	   \begin{equation} 
-   	   	\nonumber
-		\label{equ_def_proj_generic_dict}
-  	    	P_{\mathcal{W}}\big( {\bf w}\big)  = \argmin_{{\bf w}' \in \mathcal{W}} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}. 
-        	    \end{equation}
-	    In other words, $P_{\mathcal{W}}\big( {\bf w}\big) $ is the vector in $\mathcal{W}$ 
-	    that is closest to ${\bf w}$. The projection is only well defined for subsets $\mathcal{W}$ 
-	    for which the above minimum exists \cite{BoydConvexBook}.
+       	description={Consider\index{projection} a subset $\mathcal{W}\subseteq \mathbb{R}^{d}$ of 
+		the $d$-dimensional Euclidean space. We define the projection $P_{\mathcal{W}}\big( {\bf w}\big) $
+	   	of a vector ${\bf w}\in \mathbb{R}^{d}$ onto $\mathcal{W}$ as
+	   	\begin{equation} 
+   	   		\nonumber
+			\label{equ_def_proj_generic_dict}
+  	    		P_{\mathcal{W}}\big( {\bf w}\big)  = \argmin_{{\bf w}' \in \mathcal{W}} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}. 
+        	    	\end{equation}
+	    	In other words, $P_{\mathcal{W}}\big( {\bf w}\big) $ is the vector in $\mathcal{W}$ 
+	    	that is closest to ${\bf w}$. The projection is only well defined for subsets $\mathcal{W}$ 
+	    	for which the above minimum exists \cite{BoydConvexBook}.
 		 			\\ 
-	    See also: Euclidean space, vector, minimum.},
+	    	See also: Euclidean space, vector, minimum.},
 	first={projection},
 	text={projection}
 }
@@ -2397,7 +2396,7 @@ sort={zerooneloss},
 		onto the constraint set $\mathcal{W}$.}
 		\label{fig_projected_GD_dict}
 		\end{figure}
-		See also: empirical risk minimization (ERM), model, parameter space, objective function, smooth, gradient descent (GD), model parameters, gradient step, projection.},
+		See also: empirical risk minimization (ERM), model, parameter space, objective function, smooth, gradient descent (GD), model parameter, gradient step, projection.},
 	first={projected gradient descent (projected GD)},
 	type=math, 
 	text={projected GD}
@@ -2405,22 +2404,22 @@ sort={zerooneloss},
 
 \newglossaryentry{diffpriv}
 {name={differential privacy (DP)},
-  description={Consider\index{differential privacy (DP)} some machine learning (ML) method $\mathcal{A}$ 
-  	that reads in a dataset (e.g., the training set 
-  	used for empirical risk minimization (ERM)) and delivers some output $\mathcal{A}(\mathcal{D})$. The output 
-  	could be either the learned model parameters or the predictions for specific data points. 
-  	DP is a precise measure of privacy leakage incurred by revealing the 
-  	output. Roughly speaking, an machine learning (ML) method is differentially private if the probability distribution 
-  	of the output $\mathcal{A}(\mathcal{D})$ remains largely unchanged if the sensitive attribute 
-  	of one data point in the training set is changed. Note that DP 
-  	builds on a probabilistic model for an machine learning (ML) method, i.e., we interpret its output $\mathcal{A}(\mathcal{D})$ 
-  	as the realization of a random variable (RV). The randomness in the output can be ensured 
-  	by intentionally adding the realization of an auxiliary random variable (RV) (i.e., adding noise) to 
-  	the output of the machine learning (ML) method.
+	description={Consider\index{differential privacy (DP)} some machine learning (ML) method $\mathcal{A}$ 
+  		that reads in a dataset (e.g., the training set 
+  		used for empirical risk minimization (ERM)) and delivers some output $\mathcal{A}(\mathcal{D})$. The output 
+  		could be either the learned model parameters or the predictions for specific data points. 
+  		DP is a precise measure of privacy leakage incurred by revealing the 
+  		output. Roughly speaking, an machine learning (ML) method is differentially private if the probability distribution 
+  		of the output $\mathcal{A}(\mathcal{D})$ remains largely unchanged when the sensitive attribute 
+  		of one data point in the training set is changed. Note that DP 
+  		builds on a probabilistic model for an machine learning (ML) method, i.e., we interpret its output $\mathcal{A}(\mathcal{D})$ 
+  		as the realization of an random variable (RV). The randomness in the output can be ensured 
+  		by intentionally adding the realization of an auxiliary random variable (RV) (i.e., adding noise) to 
+  		the output of the machine learning (ML) method.
 				\\ 
-	See also: privacy leakage, sensitive attribute, privacy attack, privacy funnel.}, 
-  first={DP}, 
-  text={DP} 
+		See also: output, privacy leakage, sensitive attribute, privacy attack, privacy funnel.}, 
+  	first={DP}, 
+  	text={DP} 
 }
 
 \newglossaryentry{robustness}
@@ -2439,18 +2438,17 @@ sort={zerooneloss},
 
 \newglossaryentry{stability}
 {name={stability},
-	description={
-	Mathematically, a machine learning (ML) method is a map $\mathcal{A}$ from a given dataset $\mathcal{D}$ 
-	to an output $\mathcal{A}(\mathcal{D})$. As a case in point, consider an empirical risk minimization (ERM)-based 
-	machine learning (ML) method that maps a training set $\mathcal{D}$ to the learned model parameters 
-	$\mathcal{A}(\mathcal{D}) = \widehat{{\bf w}}$ which achieve the minimum average loss 
-	on the training set. Instead of the learned model parameters, the 
-	output $\mathcal{A}(\mathcal{D})$ could also be the predictions obtained from 
-	the trained model. Stability\index{stability} refers to the desirable property 
-	of $\mathcal{A}$ that small changes in the input dataset $\mathcal{D}$ result in small 
-	changes in the output $\mathcal{A}(\mathcal{D})$. The notion of stability is intimately related 
-	to the notion of generalization. In particular, there are formal notions of stability  
-	that allow to bound the generalization gap (see \cite[Ch.~13]{ShalevMLBook}).
+	description={Mathematically, an machine learning (ML) method is a map $\mathcal{A}$ from a given dataset $\mathcal{D}$ 
+		to an output $\mathcal{A}(\mathcal{D})$. As a case in point, consider an empirical risk minimization (ERM)-based 
+		machine learning (ML) method that maps a training set $\mathcal{D}$ to the learned model parameters 
+		$\mathcal{A}(\mathcal{D}) = \widehat{{\bf w}}$, which achieve the minimum average loss 
+		on the training set. Instead of the learned model parameters, the 
+		output $\mathcal{A}(\mathcal{D})$ could also be the predictions obtained from 
+		the trained model. Stability\index{stability} refers to the desirable property 
+		of $\mathcal{A}$ that small changes in the input dataset $\mathcal{D}$ result in small 
+		changes in the output $\mathcal{A}(\mathcal{D})$. The notion of stability is intimately related 
+		to the notion of generalization. In particular, there are formal notions of stability  
+		that allow us to bound the generalization gap (see \cite[Ch.~13]{ShalevMLBook}).
 		To build intuition, consider the three datasets depicted in Fig. \ref{fig_three_data_stability_dict}, each 
 		of which is equally likely under the same data-generating probability distribution. Since the 
 		optimal model parameters are determined by this underlying probability distribution, an accurate 
@@ -2461,14 +2459,14 @@ sort={zerooneloss},
 			\centering
 			\begin{tikzpicture}
 				\begin{axis}[
-				%title={Stem Plots of 3 Datasets},
-				    axis lines=none,
+					%title={Stem Plots of 3 Datasets},
+					axis lines=none,
 					xlabel={$r$},
 					ylabel={},
 					legend pos=north west,
 					ymin=0, ymax=10,
 					xtick={1,2,3,4,5},
-				%	ymajorgrids=true,
+					%	ymajorgrids=true,
 					grid style=dashed,
 					every axis plot/.append style={very thick}
 					]
@@ -2476,20 +2474,20 @@ sort={zerooneloss},
 					\addplot+[only marks,mark=*] coordinates {
 						(1,2) (2,4) (3,3) (4,5) (5,7)
 					};
-				%	\addlegendentry{$\dataset^{(*)}$}
+					%	\addlegendentry{$\dataset^{(*)}$}
 					% Dataset 2
 					\addplot+[only marks,mark=square*] coordinates {
 						(1,3) (2,2) (3,6) (4,4) (5,5)
 					};
-				%	\addlegendentry{$\dataset^{(\square)}$}
+					%	\addlegendentry{$\dataset^{(\square)}$}
 					% Dataset 3
 					\addplot+[only marks,mark=triangle*] coordinates {
 						(1,5) (2,7) (3,4) (4,6) (5,3)
 					};
-				%	\addlegendentry{$\dataset^{(\triangle)}$}
+					%	\addlegendentry{$\dataset^{(\triangle)}$}
 				\end{axis}
 			\end{tikzpicture}
-			\caption{Three datasets $\mathcal{D}^{(*)}$, $\mathcal{D}^{(\square)}$, 
+		\caption{Three datasets $\mathcal{D}^{(*)}$, $\mathcal{D}^{(\square)}$, 
 			and $\mathcal{D}^{(\triangle)}$, each sampled independently from the same 
 			data-generating probability distribution. A stable machine learning (ML) method should return 
 			similar outputs when trained on any of these datasets. \label{fig_three_data_stability_dict}}
@@ -2513,7 +2511,7 @@ sort={zerooneloss},
 		of the map $\mathcal{A}(\mathcal{D})$. In general, just making $\mathcal{A}(\mathcal{D})$ non-invertible 
 		is typically insufficient for privacy protection. We need to make $\mathcal{A}(\mathcal{D})$ sufficiently non-invertible. 
 					\\ 
-		See also: machine learning (ML), dataset, model parameters, prediction, data point, feature, label, sensitive attribute, map.}, 
+		See also: machine learning (ML), dataset, model parameter, prediction, data point, feature, label, sensitive attribute, map.}, 
 	first={privacy protection}, 
 	text={privacy protection} 
 }
@@ -2573,7 +2571,7 @@ sort={zerooneloss},
 	description={Consider a multi-class classification problem with a 
 		feature space $\mathcal{X}$ and a finite label space 
               	$\mathcal{Y}= \{1,\,\ldots,\,k\}$.  A data point with a 
-              	feature vector ${\bf x}$ is represented by a probability mass function (pmf) 
+              	feature vector ${\bf x}$ is represented as a probability mass function (pmf) 
               	${\bf y}= (\truelabel_{1},\,\ldots,\,\truelabel_{k})^{T}$ 
               	over~$\mathcal{Y}$, where $\truelabel_{c}$ denotes the 
               	probability that a randomly chosen data point with 
@@ -2590,7 +2588,7 @@ sort={zerooneloss},
               	\end{equation}
 		The cross-entropy loss quantifies the dissimilarity between the true 
 		probability mass function (pmf) ${\bf y}$ and the predicted probability mass function (pmf) $\hat{{\bf y}}$. It is 
-		also a measure for the expected number of bits required to encode labels 
+		also a measure of the expected number of bits required to encode labels 
 		drawn from the true probability mass function (pmf) ${\bf y}$ when using a coding scheme optimized for 
 		the predicted probability mass function (pmf) $\hat{{\bf y}}$ \cite{coverthomas}. \\
 		Note that, for binary classification (with $k= 2$), the 
@@ -2624,7 +2622,7 @@ sort={zerooneloss},
 		that have almost identical features but different labels. In such 
 		cases, instead of assigning to each data point a single label $y\in \mathcal{Y}$, 
 		it can be more useful to assign an entire probability distribution over the label space. 
-		This probability distribution can be represented by a probability mass function (pmf) 
+		This probability distribution can be represented as a probability mass function (pmf) 
 		${\bf y}= \big( \truelabel_{1},\,\ldots,\,\truelabel_{k}\big)^{T} \in \Delta^{k}$. 
 		We can view the entries $\truelabel_{c}$, for $c=1,\,\ldots,\,k$, 
 		as soft labels of a data point. Mathematically, the soft label $\truelabel_{c}$  
@@ -2776,8 +2774,8 @@ plural={medians},
 	   as the expectation $\mathbb{E} \big\{ \big( x - \mathbb{E} \{x \} \big)^{2} \big\}$ of 
 	   the squared difference between $x$ and its expectation $\mathbb{E} \{x \}$. 
 	   We extend this definition to vector-valued random variables (RVs) ${\bf x}$ 
-	   as $\mathbb{E} \big\{ \big\| {\bf x}- \mathbb{E} \{{\bf x}\} \big\|_{2}^{2} \big\}$.
-					\\ 
+		 as $\mathbb{E} \big\{ \big\| {\bf x}- \mathbb{E} \{{\bf x}\} \big\|_{2}^{2} \big\} = {\rm tr} \left(\mathbf{C}^{({\bf x})}\right)$,
+          i.e., the sum of the variances of each entry of ${\bf x}$, which can be written compactly as the trace of the covariance matrix $\mathbf{C}^{({\bf x})}$ of ${\bf x}$. \\ 	 
 		See also: random variable (RV), expectation, vector.},
 	first={variance},
 	type=math,
@@ -2980,20 +2978,19 @@ plural={medians},
 }
 
 
-
 \newglossaryentry{riskstratification}
 {name={risk stratification},
-description={Risk stratification\index{risk stratification} assigns 
-			 data points to risk groups (or strata) by 
-			 quantizing the prediction $\hat{h}({\bf x})$ 
-			 obtained from a trained risk prognosis model. Typical choices for these 
-			 strata include low, intermediate, and high risk 
-             \cite{Collins:2012aa,Steyerberg2019}.\\
-			See also: prediction,clustering.},
-			first={risk stratification},
-			text={risk stratification}
+	description={Risk stratification\index{risk stratification} assigns 
+		data points to risk groups (or strata) by 
+		quantizing the prediction $\hat{h}({\bf x})$ 
+		obtained from a trained risk prognosis model. Typical choices for these 
+		strata include low, intermediate, and high risk 
+             	\cite{Collins:2012aa}, \cite{Steyerberg2019}.
+		\\
+		See also: stratification, prediction, clustering.},
+	first={risk stratification},
+	text={risk stratification}
 }
-
 
 \newglossaryentry{uncertainty}
 {name={uncertainty},
@@ -3326,7 +3323,7 @@ description={Risk stratification\index{risk stratification} assigns
 		from input to output; it also includes intermediate computational 
      		steps $s_1, \,\ldots, \,s_T$.
 				\\ 
-		See also: linear regression, training set, model parameters, gradient step, output, model, stochastic.},
+		See also: linear regression, training set, model parameter, gradient step, output, model, stochastic.},
 	first={algorithm},
 	text={algorithm} 
 }
@@ -3398,7 +3395,7 @@ plural={stochastic algorithms},
 		notable example of an online algorithm in machine learning (ML) is online gradient descent (online GD), which incrementally 
 		updates model parameters as new data points arrive. 
 					\\ 
-		See also: algorithm, data, data point, uncertainty, machine learning (ML), online gradient descent (online GD), model parameters, online learning.},
+		See also: algorithm, data, data point, uncertainty, machine learning (ML), online gradient descent (online GD), model parameter, online learning.},
 	first={online algorithm},
 	text={online algorithm} 
 }
@@ -3441,7 +3438,7 @@ plural={stochastic algorithms},
 		is an umbrella term for machine learning (ML) methods that use a deep 
 		net as their model \cite{Goodfellow-et-al-2016}.
 				\\ 
-		See also: artificial neural network (ANN), layer, LLM, model.},
+		See also: artificial neural network (ANN), layer, large language model (LLM), model.},
 	first={deep net},
 	text={deep net} 
 }
@@ -3521,7 +3518,7 @@ plural={stochastic algorithms},
 \newglossaryentry{kfoldcv}
 {name={$k$-fold cross-validation ($k$-fold CV)},
 sort={k-fold CV},
-	description={A method\index{$k$-fold cross-validation ($k$-fold CV)} for evaluating the 
+	description={A $k$-fold CV is a method\index{$k$-fold cross-validation ($k$-fold CV)} for evaluating the 
  		generalization gap of an empirical risk minimization (ERM)-based machine learning (ML) method. The idea is to divide a dataset 
  		$\mathcal{D}$ evenly into $k$ subsets (or folds) $\mathcal{D}^{(1)},\,\ldots,\,\mathcal{D}^{(k)}$.
 		\begin{figure}[H]
@@ -3554,7 +3551,7 @@ sort={k-fold CV},
 					\node[anchor=south] at (\x,\cellh+0.2) {$\mathcal{D}^{(\j)}$};
 				}
 			\end{tikzpicture}
-		\caption{In $k$-fold cross-validation, the available dataset $\mathcal{D}$ is 
+		\caption{In $k$-fold CV, the available dataset $\mathcal{D}$ is 
 		evenly divided into $k$ folds $\mathcal{D}^{(1)},\,\ldots,\,\mathcal{D}^{(k)}$. Each fold is used once as a 
 		validation set, while the remaining $k-1$ folds form the training set.		
 		\label{fig_kfoldcv_dict}}
@@ -3740,7 +3737,7 @@ sort={k-fold CV},
 		For a parametric hypothesis space, which consists of hypothesis maps determined by 
 		model parameters ${\bf w}$, we can define the estimation error as $\Delta {\bf w}= \widehat{{\bf w}} - \overline{{\bf w}}$ \cite{hastie01statisticallearning}, \cite{kay}.
 					\\ 
-		See also: data point, feature vector, label, hypothesis, machine learning (ML), empirical risk minimization (ERM), hypothesis space, map, model parameters.},
+		See also: data point, feature vector, label, hypothesis, machine learning (ML), empirical risk minimization (ERM), hypothesis space, map, model parameter.},
 	first={estimation error},
 	text={estimation error} 
 }
@@ -3846,7 +3843,7 @@ sort={k-fold CV},
 		training local models and combining the updated local model parameters. In contrast to FedAvg, which uses 
 		stochastic gradient descent (SGD) to train local models, FedProx uses a proximal operator for the training \cite{FedProx2020}.
 					\\ 
-		See also: federated learning (FL), algorithm, local model, model parameters, FedAvg, stochastic gradient descent (SGD), proximal operator.}, 
+		See also: federated learning (FL), algorithm, local model, model parameter, FedAvg, stochastic gradient descent (SGD), proximal operator.}, 
 	first={FedProx}, 
 	text={FedProx} 
 }
@@ -3937,15 +3934,14 @@ sort={k-fold CV},
 		These parameters might be the coefficients used in a linear map or the 
 		weights and bias terms of an artificial neural network (ANN).
 					\\ 
-		See also: hypothesis space, model parameters, artificial neural network (ANN).},
+		See also: hypothesis space, model parameter, artificial neural network (ANN).},
 	first={effective dimension},
 	text={effective dimension}  
 }
 
 \newglossaryentry{labelspace}
 {name={label space},
-	description={
-		In a machine learning (ML) application\index{label space}, each data point is described by a 
+	description={In an machine learning (ML) application\index{label space}, each data point is described by a 
 		set of features together with an associated label. 
 		The set of all admissible label values is called the label space,
 		denoted by $\mathcal{Y}$. Importantly, $\mathcal{Y}$ may include values that no 
@@ -3959,7 +3955,8 @@ sort={k-fold CV},
 			% (a) Real line for regression
 			\begin{scope}[shift={(0,0)}]
 				\draw[->] (-2,0) -- (2,0);
-				\node[below=6pt] at (0,-0.7) {(a) $\mathcal{Y}\!=\!\mathbb{R}$ (regression)};
+				\node[below=6pt] at (0,-0.7) {$\mathcal{Y}\!=\!\mathbb{R}$ (regression)};
+				\node at (0,-2) {(a)};
 			\end{scope}
 			% (b) Plane for multi-label regression
 			\begin{scope}[shift={(7,0)}]
@@ -3967,13 +3964,15 @@ sort={k-fold CV},
 				\fill[gray!20] (-1,-0.5) rectangle (1,0.5);
 				\draw[->] (-2,0) -- (2,0);
 				\draw[->] (0,-1) -- (0,1);
-				\node[below=6pt] at (0,-0.7) {(b) $\mathcal{Y}\!=\!\mathbb{R}^{2}$ (multi-label regression)};
+				\node[below=6pt] at (0,-0.7) {$\mathcal{Y}\!=\!\mathbb{R}^{2}$ (multi-label regression)};
+				\node at (0,-2) {(b)};
 			\end{scope}
 			% (c) Binary classification
 			\begin{scope}[shift={(0,-3)}]
 				\fill (-1,0) circle (1.2pt) node[below=2pt] {\text{``hot''}};
 				\fill ( 1,0) circle (1.2pt) node[below=2pt] {\text{``cold''}};
-				\node[below=14pt] at (0,-0.7) {(c) $|\mathcal{Y}|=2$ Binary classification};
+				\node[below=14pt] at (0,-0.7) {$|\mathcal{Y}|=2$ (binary classification)};
+				\node at (0,-2.3) {(c)};
 			\end{scope}
 			% (d) Ordinal regression: directed chain
 			\begin{scope}[shift={(7,-3)}]
@@ -3988,19 +3987,21 @@ sort={k-fold CV},
 				\node[below=2pt of n2] {2};
 				\node[below=2pt of n3] {3};
 				\node[below=2pt of n4] {4};
-				\node[below=14pt] at (0,-0.7) {(d) $\mathcal{Y}\!=\!\{1,2,3,4\}$ (ordinal regression)};
+				\node[below=14pt] at (0,-0.7) {$\mathcal{Y}\!=\!\{1,\,2,\,3,\,4\}$ (ordinal regression)};
+				\node at (0,-2.3) {(d)};
 			\end{scope}
 		\end{tikzpicture}
-		\caption{\label{fig_label_spaces_dict}	Examples of label spaces and corresponding flavours of 
-		machine learning (ML).}
+		\caption{\label{fig_label_spaces_dict} Examples of label spaces and the corresponding types of machine learning (ML).
+			(a) Regression. (b) Multi-label regression. (c) Binary classification. (d) Ordinal regression.}
 		\end{figure}
-		The choice of label space $\mathcal{Y}$ determines the flavour of machine learning (ML) methods 
-		appropriate for the application at hand. Regression methods use the $\mathcal{Y}= \mathbb{R}$ while binary classification methods 
+		The choice of the label space $\mathcal{Y}$ determines the type of machine learning (ML) methods 
+		appropriate for the application at hand. Regression methods use the $\mathcal{Y}= \mathbb{R}$, 
+		while binary classification methods 
 		use a label space $\mathcal{Y}$ that consists of two different 
 		elements, i.e., $|\mathcal{Y}|=2$. Ordinal regression methods use a finite, ordered set of 
-		label values, e.g., $\mathcal{Y}= \{1,2,3,4\}$ with the natural ordering $1 < 2 < 3 < 4$. 
+		label values, e.g., $\mathcal{Y}= \{1,\,2,\,3,\,4\}$ with the natural ordering $1 < 2 < 3 < 4$. 
 					\\ 
-		See also:  data point,label, regression, classification.}, 
+		See also:  data point, label, regression, classification.}, 
 	first={label space},
 	text={label space}  
 }
@@ -4394,8 +4395,6 @@ description = {Consider a dataset
  	first={labeled data point},
  	text={labeled data point}  
 }
-
-
  
 \newglossaryentry{samplespace}
 {name={sample space}, 
@@ -4418,7 +4417,7 @@ description = {Consider a dataset
 		A realization of ${\bf x}$ is any element ${\bf a}\in \mathcal{N}$ such that there exists 
 		an element $\omega' \in \Omega$ with ${\bf x}(\omega') = {\bf a}$.
 			\\
-		See also: random variable (RV), probability space, measurable.}, 
+		See also: random variable (RV), outcome, probability space, measurable.}, 
 	first={realization},
 	text={realization}  
 }
@@ -4452,7 +4451,7 @@ description = {Consider a dataset
 		chosen subset of the overall training set. We use the data points in this subset 
 		to estimate the gradient of training error and, in turn, to update the model parameters.
 			\\
-		See also: stochastic gradient descent (SGD), training set, data point, gradient, training error, model parameters.}, 
+		See also: stochastic gradient descent (SGD), training set, data point, gradient, training error, model parameter.}, 
  	first={batch},
  	firstplural={batches}, 
  	plural={batches}, 
@@ -5367,7 +5366,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		\end{equation}
 		Here, $\edgeweight_{i,i'}>0$ denotes the weight of the undirected edge $\{i,i'\}\in \mathcal{E}$.
 				\\
-		See also: local model, model parameters, graph, discrepancy, hypothesis, map.},
+		See also: local model, model parameter, graph, discrepancy, hypothesis, map.},
 	first={generalized total variation (GTV)},
 	text={GTV} 
 }
@@ -5467,7 +5466,7 @@ out of a model $\mathcal{H}$ by minimizing the average loss
 		families, each of them assigned to a node of an federated learning network (FL network). The model parameters are coupled 
 	   	via the network structure by requiring them to have a small generalized total variation (GTV) \cite{JungNetExp2020}.
 	   		\\
-		See also: federated learning network (FL network), model parameters, generalized total variation (GTV).},
+		See also: federated learning network (FL network), model parameter, generalized total variation (GTV).},
 	first={networked exponential family (nExpFam)},
 	text={nExpFam} 
 }
@@ -5853,15 +5852,15 @@ allow us to separate the data points using a linear classifier.  \label{fig_lins
 \newglossaryentry{cm}
 {name={confusion matrix}, 
 	description={Consider\index{confusion matrix} a finite dataset 
-	             with $m$ data points, each characterized 
-				 by a feature vector ${\bf x}$ and a labels 
-				 $y\in \mathcal{Y}$ with finite label space $\mathcal{Y}= \{1, \,\ldots, \,k\}$. 
-				 For a given hypothesis $h$, the confusion matrix is a 
+		with $m$ data points, each characterized 
+		by a feature vector ${\bf x}$ and a label 
+		$y\in \mathcal{Y}$ with a finite label space $\mathcal{Y}= \{1, \,\ldots, \,k\}$. 
+		For a given hypothesis $h$, the confusion matrix is a 
 		$k\times k$ matrix where each row corresponds 
 		to a specific value of the true label $y\in \mathcal{Y}$ 
 		and each column to a specific value of the prediction $h({\bf x}) \in \mathcal{Y}$. 
-		The matrix entry in the $c$-th row and $c'$-th 
-		column is the number of data points with true label 
+		The matrix entry in the $c$th row and $c'$th 
+		column is the number of data points with the true label 
 		$y= c$ that are predicted as 
 		$h({\bf x}) = c'$. The sum of the main 
 		diagonal entries is the number of correctly classified 
@@ -5959,8 +5958,6 @@ sort={k-means++},
 	text={CFL} 
 }
 
-
-
 \newglossaryentry{coreset}
 {name={coreset}, 
 	description={A coreset\index{coreset} is a small subset of a larger dataset 
@@ -6007,7 +6004,7 @@ sort={k-means++},
        		statistical properties compared with the regular data points. We refer to 
 		a data point that substantially deviates from the statistical properties of 
 		most data points as an outlier. Different methods for outlier detection 
-		use different measures for this deviation. 
+		use different measures of this deviation. 
         		Statistical learning theory studies fundamental limits on the ability to 
 		mitigate outliers reliably \cite{doi:10.1137/0222052}, \cite{10.1214/20-AOS1961}.
         		\\
@@ -6224,10 +6221,10 @@ sort={k-means++},
  				\node[above=0pt of pop.north] {population};
  				% --- Population points as coordinates (no empty \node{})
  				\foreach \x/\y [count=\i] in {-2.0/0.3, -1.6/0.9, -1.2/-0.2, -0.8/0.5,
- 					-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
- 					1.4/0.4, 1.8/-0.1} {
- 					\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
- 					\fill (p\i) circle (1.6pt);
+ 				-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
+ 				1.4/0.4, 1.8/-0.1} {
+ 				\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
+ 				\fill (p\i) circle (1.6pt);
  				}
  				% --- Anchor for sample (coordinate, not node) --------------------------
  				\coordinate (sampleanchor) at ([xshift=1.8cm,yshift=0.5cm]pop.east);
@@ -6277,13 +6274,13 @@ sort={k-means++},
 		\\
  		See also: sequence, independent and identically distributed assumption (i.i.d.\ assumption), dataset.},
  	first={sample},
-	type=math, 
+	type=math,
  	text={sample}
 }
 
 \newglossaryentry{auc}
 {name={area under the curve (AUC)}, 
-	description={The AUC\index{area under the curve (AUC)} is a quantitative measure for the 
+	description={The AUC\index{area under the curve (AUC)} is a quantitative measure of the 
  		usefulness of a binary classifier \cite{Hanley:1982aa}. It 
 		is defined (using the natural measure of the Euclidean space $\mathbb{R}^{2}$) as the area  
 		under the receiver operating characteristic (ROC) curve.
@@ -6439,6 +6436,8 @@ sort={k-means++},
 				\\
 		See also: hypothesis, map, feature vector, vector, decision region, neighborhood, function.},
 	first={decision boundary},
+	firstplural={decision boundaries},
+	plural={decision boundaries},
 	text={decision boundary} 
 }
 
@@ -6811,7 +6810,7 @@ sort={k-means},
 	description={The\index{covariance matrix} covariance matrix of 
 		an random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ is defined as 
 		the expectation (if it exists)
-		$$\mathbb{E} \bigg \{ \big( {\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)  
+		$$\mathbf{C}^{({\bf x})} :=\mathbb{E} \bigg \{ \big( {\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)  
 		\big({\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)\,^{T} \bigg\}.$$
 				\\
 		See also: covariance, matrix, random variable (RV).},
@@ -6963,7 +6962,7 @@ sort={k-means},
 	first={maximum likelihood},
 	text={maximum likelihood}
 }
-
+	
 \newglossaryentry{polyreg}
 {name={polynomial regression}, 
 	description={Polynomial\index{polynomial regression} 
@@ -7499,18 +7498,18 @@ sort={k-means},
 \newglossaryentry{logloss}
 {name={logistic loss}, 
 	description={Consider\index{logistic loss} 
-		a data point characterized by the features ${\bf x}$ and a 
+		a data point characterized by features ${\bf x}$ and a 
 		binary label $y\in \{-1,1\}$. We use a real-valued hypothesis 
 		$h$ to predict the label $y$ from the features 
 		${\bf x}$. The logistic loss incurred by this prediction is 
 		defined as \cite{BishopBook}
-	\begin{equation} 
-		\label{equ_log_loss_gls_dict}
-		L\left(({\bf x},y),h\right) :=\log\, ( 1 + \exp\,(- yh({\bf x}))).
-	\end{equation}
-	\begin{figure}[H]
-	\begin{center}
-		\begin{tikzpicture}
+		\begin{equation} 
+			\label{equ_log_loss_gls_dict}
+			L\left(({\bf x},y),h\right) :=\log\, ( 1 + \exp\,(- yh({\bf x}))).
+		\end{equation}
+		\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}
 			\begin{axis}[
 				axis lines=middle,
 				xlabel={$yh({\bf x})$},
@@ -7531,17 +7530,17 @@ sort={k-means},
 				]
 					\addplot [red, thick] {ln(1 + exp(-x))};    
 			\end{axis}
-		\end{tikzpicture}
+			\end{tikzpicture}
 		\caption{The logistic loss incurred by the prediction $h({\bf x}) \in \mathbb{R}$ 
 			for a data point with label $y\in \{-1,1\}$.}
-		\label{fig_logloss_dict}
-	\end{center}
-	\end{figure}
-	Note that the expression \eqref{equ_log_loss_gls_dict} 
-	for the logistic loss applies only for the label space $\mathcal{Y}= \{ -1,1\}$ 
-	and when using the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
+			\label{fig_logloss_dict}
+		\end{center}
+		\end{figure}
+		Note that the expression \eqref{equ_log_loss_gls_dict} 
+		for the logistic loss applies only for the label space $\mathcal{Y}= \{ -1,1\}$ 
+		and when using the thresholding rule \eqref{equ_def_threshold_bin_classifier_dict}. 
 		\\
-		See also: classification, classifier, loss, linear model.},
+		See also: loss, classification, classifier, linear model.},
 	first={logistic loss},
 	text={logistic loss}
 }
@@ -7554,7 +7553,7 @@ sort={k-means},
 		hypothesis map $h({\bf x})$ is defined as 
 		\begin{equation} 
 			\label{equ_hinge_loss_gls_dict}
-				L\left(({\bf x},y),h\right) :=\max \{ 0 , 1 - yh({\bf x}) \}. 
+			L\left(({\bf x},y),h\right) :=\max \{ 0 , 1 - yh({\bf x}) \}. 
 		\end{equation}
 		\begin{figure}[H]
 		\begin{center}
@@ -7594,13 +7593,11 @@ sort={k-means},
 
 \newglossaryentry{iidasspt}
 {name={independent and identically distributed assumption (i.i.d.\ assumption)}, 
-	description={The independent and identically distributed (i.i.d.) assumption
-	             \index{independent and identically distributed assumption (i.i.d.\ assumption)} 
-		         is a widely used probabilistic model for the generation of data points. 
-				 In particular, data points are represented by 
-				 independent and identically distributed (i.i.d.) random variables (RVs).
+	description={The independent and identically distributed (i.i.d.) assumption\index{independent and identically distributed assumption (i.i.d.\ assumption)} 
+		is a widely used probabilistic model for the generation of data points. 
+		In particular, data points are represented as independent and identically distributed (i.i.d.) random variables (RVs).
 				\\
-		See also: independent and identically distributed (i.i.d.), data point, probabilistic model, random variable (RV).},
+		See also: independent and identically distributed (i.i.d.), probabilistic model, data point, random variable (RV).},
 	first={independent and identically distributed assumption (i.i.d.\ assumption)},
 	text={i.i.d.\ assumption} 
 }
@@ -7734,7 +7731,6 @@ sort={k-means},
 	first={AI},
 	text={AI} 
 }
-
  
 \newglossaryentry{reward}
 {name={reward}, 
@@ -7756,7 +7752,7 @@ sort={k-means},
 {name={clustering error}, 
 	description={Consider a clustering method\index{clustering error} 
 	that decomposes a given dataset into clusters. 
-	The clustering error is a quantitative measure for the 
+	The clustering error is a quantitative measure of the 
 	usefulness of the clusters. Different clustering 
 	methods use different choices for the clustering error. 
 	\begin{figure}
@@ -7786,7 +7782,7 @@ sort={k-means},
 	\end{tikzpicture}
 	\caption{For data point with numeric feature vectors, we can 
 	     use the average squared Euclidean distance to the nearest 
-		 cluster centroids as a measure for the clustering error.\label{fig_clustering_error_dict}}
+		 cluster centroids as a measure of the clustering error.\label{fig_clustering_error_dict}}
 	\end{figure}
 	 For example, the hard clustering method $k$-means measures 
 	 the clustering error via the average squared Euclidean distance 
@@ -8049,7 +8045,7 @@ sort={k-means},
 		contains the eigenvalues $\lambda_{j}$ corresponding to the eigenvectors ${\bf v}^{(j)}$. 
 		Note that the above decomposition exists only if the matrix ${\bf A}$ is diagonalizable.
 				\\
-		See also: matrix, eigenvector, eigenvalue.},
+		See also: matrix, eigenvector, eigenvalue, diagonalizable.},
 	first={eigenvalue decomposition (EVD)},
 	type=math, 
 	plural={EVDs},
@@ -8130,7 +8126,7 @@ sort={k-means},
 		might be the empirical risk $\widehat{L}\big( h^{({\bf w})} \big| \mathcal{D}\big)$ viewed 
 		as a function of the model parameters ${\bf w}$ that select a hypothesis $h^{({\bf w})} \in \mathcal{H}$.
 				\\
-		See also: subgradient, generalization, gradient descent (GD), function, gradient, objective function, empirical risk, model parameters, hypothesis.},
+		See also: subgradient, generalization, gradient descent (GD), function, gradient, objective function, empirical risk, model parameter, hypothesis.},
 	first={subgradient descent},
 	text={subgradient descent} 
 }
@@ -8165,7 +8161,7 @@ sort={k-means},
 		over all data points in the training set (indexed by $r=1, \,\ldots, \,m$) 
 		with a sum over a randomly chosen subset $\mathcal{B}\subseteq \{1, \,\ldots, \,m\}$.\label{fig_sgd_approx_dict}}
 		\end{figure}
-		See also: gradient descent (GD), gradient, objective function, stochastic, model, empirical risk minimization (ERM), training set, data point, empirical risk, function, model parameters, batch, parameter.},
+		See also: gradient descent (GD), gradient, objective function, stochastic, model, empirical risk minimization (ERM), training set, data point, empirical risk, function, model parameter, batch, parameter.},
 	first={stochastic gradient descent (SGD)},
 	text={SGD} 
 }
@@ -8850,7 +8846,7 @@ sort={k-means},
 			$h_{1}$,$h_{2}$, and $h_{3}$. These outputs are combined linearly to compute $z$, which can 
 			be used either as output of the artificial neural network (ANN) or as input to another layer.\label{fig_weights_dict}}
 		\end{figure}
-		See also: hypothesis space, model parameters, feature, linear model, artificial neural network (ANN), layer, activation.},
+		See also: hypothesis space, model parameter, feature, linear model, artificial neural network (ANN), layer, activation.},
 	first={weights},
 	text={weights}
 }
@@ -9167,7 +9163,7 @@ sort={Renyi},
 			selects a hypothesis map $h^{({\bf w})} \in \mathcal{H}$.
 				 \label{fig_param_model_dict}} 
 			\end{figure}
-			See also: parameter space, model, model parameters.},
+			See also: parameter space, model, model parameter.},
 		first={parametric model},
 		firstplural={parametric models},
 		plural={parametric models},
@@ -9219,7 +9215,7 @@ sort={Renyi},
 			selects a hypothesis map $h^{({\bf w})} \in \mathcal{H}$.
 				 \label{fig_param_space_dict}} 
 			\end{figure}
-			See also: parameter, model, model parameters.},
+			See also: parameter, model, model parameter.},
 		first={parameter space},
 		text={parameter space}
 }
@@ -9431,18 +9427,18 @@ sort={Renyi},
 \newglossaryentry{cav}
 {name={concept activation vector (CAV)},
 	description={Consider a deep net, consisting\index{concept activation vector (CAV)} of 
-	             several hidden layers, trained to predict the label of a 
-				 data point from its feature vector. One way to explain the behavior 
-				 of the trained deep net is by using the activations of a 
-				 hidden layer as a new feature vector ${\bf z}$. We then probe 
-				 the geometry of the resulting new feature space by applying the 
-				 deep net to data points that represent a specific concept 
-				 $\mathcal{C}$. By applying the deep net also to data points 
-				 that do not belong to this concept, we can train a binary linear classifier 
-				 $g({\bf z})$ that distinguishes between concept and non-concept data points 
-				 based on the activations of the hidden layer. The resulting 
-				decision boundary is a hyperplane whose normal vector is 
-				the CAV \cite{kim2018interpretability} for the concept $\mathcal{C}$. 
+		several hidden layers, trained to predict the label of a 
+		data point from its feature vector. One way to explain the behavior 
+		of the trained deep net is by using the activations of a 
+		hidden layer as a new feature vector ${\bf z}$. We then probe 
+		the geometry of the resulting new feature space by applying the 
+		deep net to data points that represent a specific concept 
+		$\mathcal{C}$. By applying the deep net also to data points 
+		that do not belong to this concept, we can train a binary linear classifier 
+		$g({\bf z})$ that distinguishes between concept and non-concept data points 
+		based on the activations of the hidden layer. The resulting 
+		decision boundary is a hyperplane whose normal vector is 
+		the CAV \cite{kim2018interpretability} for the concept $\mathcal{C}$. 
 				\\
 		 See also: deep net, linear model, trustworthy artificial intelligence (trustworthy AI), interpretability, transparency.}, 
 	first={concept activation vector (CAV)},
@@ -9687,7 +9683,7 @@ sort={Renyi},
         		$\mathcal{G}=\left( \mathcal{V},\mathcal{E}\right)$, with the metric $d(i,i')$ 
 		defined by the length of the shortest path connecting nodes $i$ and $i'$. 
 			\\
-		See also: Euclidean space, undirected graph, feature space,. },
+		See also: Euclidean space, undirected graph, feature space. },
     	text={metric space}, 
 	first={metric space}, 
 	type=math, 
@@ -9808,6 +9804,3 @@ sort={Renyi},
   	firstplural={penalty terms},
   	plural={penalty terms}
 }
-
-
-
