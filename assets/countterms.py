@@ -1,31 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Count glossary entries by type for ADictML, and update README.md + feed.xml.
+Count glossary entries by type for ADictML, and update README.md + feed.xml,
+using category titles parsed from ADictML_English.tex (\printglossary[...]).
 
 Spyder-friendly (no CLI args).
-
-What it does
-------------
-1) Scans ADictML_English.tex and all reachable \\input{...} files.
-2) Counts \\newglossaryentry{...}{...} by "type=..." (default type is ML).
-3) Updates:
-   - README.md: inserts/updates a "Dictionary at a Glance" block (idempotent)
-   - feed.xml: appends counts to <channel><description> (idempotent-ish via a prefix)
-
-Assumptions
------------
-- This script is in a subfolder (e.g. assets/)
-- Repository root is one folder above this script
-- Files exist in repo root:
-    ADictML_English.tex
-    README.md
-    feed.xml
 """
 
 import re
 from pathlib import Path
 from collections import Counter
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 import xml.etree.ElementTree as ET
 
 # ---------------- Configuration ----------------
@@ -36,26 +20,19 @@ DEFAULT_TYPE = "ML"
 README_NAME = "README.md"
 FEED_NAME = "feed.xml"
 
-# README insertion markers (idempotent update)
 README_STATS_BEGIN = "<!-- ADICTML_STATS_BEGIN -->"
 README_STATS_END   = "<!-- ADICTML_STATS_END -->"
 
-# For feed.xml description update
 FEED_STATS_PREFIX = "Current coverage:"
-
-# If you want to rename types in the README/RSS (optional)
-TYPE_LABEL_OVERRIDES = {
-    "ML": "Core ML",
-    # Example:
-    # "MathTools": "Math & Optimization",
-    # "Regulation": "Regulation & Governance",
-}
 
 # -----------------------------------------------
 
 INPUT_RE = re.compile(r'\\input\{([^}]+)\}')
 NEW_ENTRY_RE = re.compile(r'\\newglossaryentry\s*\{[^}]+\}\s*\{', re.MULTILINE)
 TYPE_RE = re.compile(r'type\s*=\s*([a-zA-Z]+)')
+
+# Parse \printglossary[ ... ] blocks
+PRINTGLOSSARY_RE = re.compile(r'\\printglossary\s*\[(.*?)\]', re.DOTALL)
 
 def read_text(path: Path) -> str:
     try:
@@ -78,18 +55,12 @@ def find_matching_brace(text: str, start: int) -> int:
     raise ValueError("Unmatched brace in file")
 
 def extract_glossary_entries(text: str):
-    """
-    Yields the *body* of the second argument of \\newglossaryentry{key}{BODY}.
-    """
     for m in NEW_ENTRY_RE.finditer(text):
-        brace_start = m.end() - 1  # points to '{' starting BODY
+        brace_start = m.end() - 1
         brace_end = find_matching_brace(text, brace_start)
         yield text[brace_start + 1 : brace_end]
 
 def collect_tex_files(main_file: Path):
-    """
-    Collect reachable .tex files via \\input{...} recursion.
-    """
     seen = set()
     stack = [main_file]
 
@@ -108,43 +79,75 @@ def collect_tex_files(main_file: Path):
 
     return seen
 
-def format_rfc822_helsinki(dt: datetime) -> str:
+def _extract_opt_value(opts: str, key: str):
     """
-    Format as RFC 822 / RSS pubDate style with +0200 offset (EET).
+    Extract key=value from a \printglossary option string.
+    Handles:
+      title={...}  title="..."  title=Word
+      type=math
     """
-    # Finland in December is typically EET (+0200).
-    helsinki = timezone(timedelta(hours=2))
-    dt = dt.astimezone(helsinki)
-    return dt.strftime("%a, %d %b %Y %H:%M:%S %z")
+    # title={...}
+    m = re.search(rf'\b{re.escape(key)}\s*=\s*\{{([^}}]*)\}}', opts)
+    if m:
+        return m.group(1).strip()
 
-def label_for_type(t: str) -> str:
-    return TYPE_LABEL_OVERRIDES.get(t, t)
+    # title="..."
+    m = re.search(rf'\b{re.escape(key)}\s*=\s*"([^"]*)"', opts)
+    if m:
+        return m.group(1).strip()
 
-def build_stats(counts: Counter, total: int):
+    # title=bareword (until comma or ])
+    m = re.search(rf'\b{re.escape(key)}\s*=\s*([^,\]]+)', opts)
+    if m:
+        return m.group(1).strip()
+
+    return None
+
+def parse_category_titles_from_main(main_tex_text: str):
+    """
+    Returns a dict: type -> title, based on \printglossary[...] lines.
+    For the default glossary (no type=...), we map DEFAULT_TYPE -> its title (if present).
+    """
+    type_to_title = {}
+
+    for m in PRINTGLOSSARY_RE.finditer(main_tex_text):
+        opts = m.group(1)
+
+        gtype = _extract_opt_value(opts, "type")  # e.g., "math"
+        title = _extract_opt_value(opts, "title") # e.g., "Mathematical Tools"
+
+        # If no title is present, don't invent one
+        if not title:
+            continue
+
+        if gtype:
+            type_to_title[gtype] = title
+        else:
+            # This is the "default glossary" => use as label for DEFAULT_TYPE (ML)
+            type_to_title[DEFAULT_TYPE] = title
+
+    return type_to_title
+
+def build_stats(counts: Counter, total: int, type_to_title: dict):
     """
     Returns:
       - lines for README bullet list
-      - a compact one-line stats string for RSS description
+      - compact one-line stats string for RSS description
     """
-    # Sort by count desc, then name asc (stable and informative)
+    def label_for_type(t: str) -> str:
+        return type_to_title.get(t, t)
+
     items = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
 
-    # README bullet lines
     readme_lines = [f"- **Total terms:** {total}"]
     for t, c in items:
         readme_lines.append(f"- **{label_for_type(t)}:** {c}")
 
-    # RSS one-liner
     parts = [f"{label_for_type(t)} {c}" for t, c in items]
     rss_line = f"{FEED_STATS_PREFIX} {total} terms (" + " · ".join(parts) + ")."
-
     return readme_lines, rss_line
 
 def update_readme(readme_path: Path, readme_lines, last_updated_str: str) -> bool:
-    """
-    Insert or replace the stats block in README.md using markers.
-    Returns True if file changed.
-    """
     if not readme_path.exists():
         print(f"[WARN] README not found: {readme_path}")
         return False
@@ -169,12 +172,9 @@ def update_readme(readme_path: Path, readme_lines, last_updated_str: str) -> boo
         )
         updated = pattern.sub(block.strip("\n"), original)
     else:
-        # Insert right after the first horizontal rule '---' if possible,
-        # otherwise append at top after the title.
         if "\n---\n" in original:
             updated = original.replace("\n---\n", "\n---\n\n" + block, 1)
         else:
-            # Fallback: after the first line (title) and possible blank line
             lines = original.splitlines()
             if lines:
                 updated = "\n".join([lines[0], "", block, *lines[1:]]) + "\n"
@@ -184,21 +184,15 @@ def update_readme(readme_path: Path, readme_lines, last_updated_str: str) -> boo
     if updated != original:
         write_text(readme_path, updated)
         return True
-
     return False
 
 def update_feed(feed_path: Path, rss_stats_line: str) -> bool:
-    """
-    Updates <channel><description> to include stats.
-    Returns True if file changed.
-    """
     if not feed_path.exists():
         print(f"[WARN] feed.xml not found: {feed_path}")
         return False
 
     original = read_text(feed_path)
 
-    # Parse XML (preserve main structure)
     try:
         tree = ET.ElementTree(ET.fromstring(original))
     except ET.ParseError as e:
@@ -218,30 +212,15 @@ def update_feed(feed_path: Path, rss_stats_line: str) -> bool:
 
     base_desc = (desc.text or "").strip()
 
-    # Remove any previous stats line we added
-    # Strategy: if FEED_STATS_PREFIX appears, strip from there to end (simple, robust).
+    # Remove previous stats line (strip everything after prefix)
     if FEED_STATS_PREFIX in base_desc:
         base_desc = base_desc.split(FEED_STATS_PREFIX, 1)[0].strip()
-        # Remove trailing punctuation/space artifacts
         base_desc = base_desc.rstrip(" .")
 
-    new_desc = base_desc
-    if new_desc:
-        new_desc = new_desc.rstrip()
-        new_desc += " "
-    new_desc += rss_stats_line
+    new_desc = (base_desc + " " if base_desc else "") + rss_stats_line
 
     if new_desc != (desc.text or "").strip():
         desc.text = new_desc
-
-        # Optionally update lastBuildDate as well (uncomment if desired)
-        # lbd = channel.find("lastBuildDate")
-        # if lbd is not None:
-        #     lbd.text = format_rfc822_helsinki(datetime.now())
-
-        # Write back. ElementTree doesn't preserve original formatting perfectly,
-        # but keeps valid RSS. If you care about exact whitespace, we can switch
-        # to a minimal regex update instead.
         xml_bytes = ET.tostring(root, encoding="utf-8", xml_declaration=True)
         updated = xml_bytes.decode("utf-8")
 
@@ -262,6 +241,17 @@ def main():
     if not main_tex.exists():
         raise FileNotFoundError(f"Main TeX file not found: {main_tex}")
 
+    main_tex_text = read_text(main_tex)
+
+    # NEW: category titles from \printglossary[...] in ADictML_English.tex
+    type_to_title = parse_category_titles_from_main(main_tex_text)
+    if type_to_title:
+        print("[INFO] Category titles from ADictML_English.tex:")
+        for k in sorted(type_to_title):
+            print(f"  - {k} -> {type_to_title[k]}")
+    else:
+        print("[WARN] No \\printglossary[...] titles found; falling back to raw type names.")
+
     tex_files = collect_tex_files(main_tex)
 
     counts = Counter()
@@ -277,7 +267,6 @@ def main():
             else:
                 counts[DEFAULT_TYPE] += 1
 
-    # Console output (kept from your original script)
     print("\nGlossary entry counts by type")
     print("--------------------------------")
     for k in sorted(counts):
@@ -286,23 +275,16 @@ def main():
     print(f"{'TOTAL':15s}: {total:4d}")
     print(f"\nScanned {len(tex_files)} TeX files.")
 
-    # Build text for README + RSS
     now = datetime.now()
     last_updated_str = now.strftime("%Y-%m-%d")
-    readme_lines, rss_stats_line = build_stats(counts, total)
+
+    readme_lines, rss_stats_line = build_stats(counts, total, type_to_title)
 
     changed_readme = update_readme(readme_path, readme_lines, last_updated_str)
     changed_feed = update_feed(feed_path, rss_stats_line)
 
-    if changed_readme:
-        print(f"[OK] Updated {readme_path.name}")
-    else:
-        print(f"[OK] {readme_path.name} unchanged")
-
-    if changed_feed:
-        print(f"[OK] Updated {feed_path.name}")
-    else:
-        print(f"[OK] {feed_path.name} unchanged")
+    print(f"[OK] {readme_path.name} {'updated' if changed_readme else 'unchanged'}")
+    print(f"[OK] {feed_path.name} {'updated' if changed_feed else 'unchanged'}")
 
 # Run automatically in Spyder
 main()
