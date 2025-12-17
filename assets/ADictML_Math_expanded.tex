@@ -2976,62 +2976,80 @@ sort={sigma-field},
 \newglossaryentry{banachfixedpoint}
 {name={Banach's fixed-point theorem},
 	description={Banach's fixed-point theorem\index{Banach's fixed-point 
-		theorem} (also referred to as the contraction 
-		principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}) 
+		theorem} (also referred to as the contraction principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis},\cite{Kelley1995}) 
 		states that every contractive operator $\mathcal{F}$ on a complete 
-		metric space has a unique fixed point. Formally, 
-		let $(\mathcal{X},d(\cdot,\cdot))$ be a non-empty complete 
-		metric space and let $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ satisfy
+		metric space $\mathcal{W}$ has a unique fixed point. 
+		Formally, let $(\mathcal{W},d(\cdot,\cdot))$ be a non-empty 
+		complete metric space and let $\mathcal{F}:\mathcal{W}\to\mathcal{W}$ satisfy
     		\[
-    		d(\mathcal{F}{\bf x},\mathcal{F}{\bf x}') \leq \kappa \cdot d({\bf x},{\bf x}') \qquad \forall {\bf x},{\bf x}'\in\mathcal{X}\]
-    		for some constant $\kappa \in [0,1)$. Then, $\mathcal{F}$ has a unique fixed 
-		point, i.e., there exists a unique ${\bf x}^\star\in\mathcal{X}$ with 
-		$\mathcal{F}{\bf x}^\star ={\bf x}^\star$, which can be computed by a 
-		fixed-point iteration.
-    		\begin{figure}[H]
+    		d(\mathcal{F}{\bf w},\mathcal{F}{\bf w}') \leq \kappa\cdot d({\bf w},{\bf w}') \qquad \forall {\bf w},{\bf w}'\in\mathcal{W}\]
+    		for some constant $\kappa\in [0,1)$. Then, $\mathcal{F}$ has a unique fixed point, 
+			  i.e., there exists a unique ${\bf w}^\star\in\mathcal{W}$ with 
+			$\mathcal{F}{\bf w}^\star ={\bf w}^\star$. Moreover, for any initial 
+			${\bf w}^{(0)}\in\mathcal{W}$, the fixed-point iteration 
+			${\bf w}^{(t)}\!=\!\mathcal{F}{\bf w}^{(t-1)}$, for $t=1,2,\dots$, 
+			converges to ${\bf w}^\star$ at a rate governed by $\kappa$. 
+			In particular, 
+			\[ d({\bf w}^{(t)},{\bf w}^\star) \leq \kappa^{t}
+			 \cdot d({\bf w}^{(0)},{\bf w}^\star) \mbox{, for }t=1,2,\dots. \]   		
+			\begin{figure}[H]
     			\centering
     			\begin{tikzpicture}[>=Latex, font=\small]
     			\tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
     			\def\dx{6.5}
-    			\node[space,label=above:{$\mathcal{X}$}] (XL) at (0,0) {};
-    			\node[space,label=above:{$\mathcal{X}$}] (XR) at (\dx,0) {};
+    			\node[space,label=above:{$\mathcal{W}$}] (XL) at (0,0) {};
+    			\node[space,label=above:{$\mathcal{W}$}] (XR) at (\dx,0) {};
     			\draw[maparrow] (XL.east) -- node[above=2pt] {$\mathcal{F}$} (XR.west);
     			\coordinate (x1) at (-0.8,0.9);
     			\coordinate (x2) at (0.9,0.5);
-    			\node[pt,label=above left:{${\bf x}$}] at (x1) {};
-    			\node[pt,label=right:{${\bf x}'$}] at (x2) {};
+    			\node[pt,label=above left:{${\bf w}$}] at (x1) {};
+    			\node[pt,label=right:{${\bf w}'$}] at (x2) {};
     			\coordinate (fx1) at (\dx-0.3,0.5);
     			\coordinate (fx2) at (\dx+0.6,0.5);
     			\node[pt] (FX1) at (fx1) {};
     			\node[pt] (FX2) at (fx2) {};
-    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\mathcal{F}{\bf x}$};
-    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\mathcal{F}{\bf x}'$};
-   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'}$};
-   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\featurevec}{\featurevec'}$};
+    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\mathcal{F}{\bf w}$};
+    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\mathcal{F}{\bf w}'$};
+   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \weights}{\fixedpointop \weights'}$};
+   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\weights}{\weights'}$};
     			\coordinate (xsL) at (0,-0.9);
     			\coordinate (xsR) at (\dx,-0.9);
-    			\node[pt,label=below:{${\bf x}^\star$}] at (xsL) {};
-    			\node[pt,label=below:{$\mathcal{F}{\bf x}^\star={\bf x}^\star$}] at (xsR) {};
+    			\node[pt,label=below:{${\bf w}^\star$}] at (xsL) {};
+    			\node[pt,label=below:{$\mathcal{F}{\bf w}^\star\!=\!{\bf w}^\star$}] at (xsR) {};
     			\end{tikzpicture}
-   	 	\caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$  
-	  		has a unique fixed point ${\bf x}^\star$ with $\mathcal{F}{\bf x}^\star={\bf x}^\star$.}
+   	 			\caption{A contractive operator $\mathcal{F}:\mathcal{W}\to\mathcal{W}$  
+	  					 has a unique fixed point ${\bf w}^\star$ with 
+						 $\mathcal{F}{\bf w}^\star\!=\!{\bf w}^\star$.}
     			\label{fig:banach_dict}
     		\end{figure}
-    		See also: contractive operator, metric space, fixed-point iteration, sequence, Cauchy sequence.},
-    	first={Banach's fixed-point theorem},
+    		See also: contractive operator, metric space, fixed-point iteration, sequence.},
+    first={Banach's fixed-point theorem},
 	text={Banach's fixed-point theorem},
-    	type=math
+    type=math
 }
+
+\newglossaryentry{cvxoptproblem}
+{name={convex optimization problem}, 
+	description={See\index{convex optimization problem} convex optimization.},
+	first={convex optimization problem},
+	firstplural={convex optimization problems}, 
+	type=math,
+	plural={convex optimization problems}, 
+	text={convex optimization problem}
+}
+
 
 \newglossaryentry{optproblem}
 {name={optimization problem}, 
 	description={An\index{optimization problem} optimization problem is a mathematical 
 		   structure consisting of an objective function $f: \mathcal{U} \rightarrow \mathcal{V}$ 
 		   defined over an optimization variable ${\bf w}\in \mathcal{U}$, together with a 
-		   feasible set $\mathcal{W} \subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
+		   feasible set $\mathcal{W}\subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
 		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
-		   we can determine whether $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
-		   or $\mathbf{a} > \mathbf{b}$. The goal of optimization is to find those values ${\bf w}\in \mathcal{W}$ 
+		   we can determine whether $\mathbf{a} \leq \mathbf{b}$ or not. Here, ``$\leq$'' denotes a 
+		   general partial order relation, which may differ from the standard numerical order on 
+		   real numbers \cite[Sec. 2.4.]{BoydConvexBook}. 
+		   The goal in optimization is to find those values ${\bf w}\in \mathcal{W}$ 
 		   for which the objective $f({\bf w})$ is extremal—i.e., minimal or maximal \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
 		   \\
 		   See also: objective function.},
@@ -3330,8 +3348,22 @@ sort={sigma-field},
  			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2} 
 			\leq 	\mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2} \mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
  		\end{equation} 
-		Non-expansiveness is typically not sufficient to guarantee convergence 
-		of a fixed-point iteration that uses $\mathcal{F}$.
+		\begin{figure}[H]
+			\centering
+		\begin{tikzpicture}[thick,font=\small]
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{${\bf w}^\star$}] at (0,0) {};
+		\draw[dashed] (0,0) circle[radius=2.7];
+		\node[circle,fill=black,inner sep=1.6pt,label=right:{${\bf w}$}] at (2.3,1.4) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\mathcal{F}{\bf w}$}] at (1.27,0.77) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=above:{$\mathcal{F}' {\bf w}$}] at (-0.23,2.68) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\mathcal{F}''{\bf w}$}] at (1.03,2.04) {};
+		\end{tikzpicture}
+		\caption{The result of applying a contractive operator $\mathcal{F}$, a non-expansive operator 
+		         $\mathcal{F}'$ and a firmly non-expansive operator $\mathcal{F}''$. These 
+				 operators have the common fixed point ${\bf w}^\star$. \label{fig_nonexpansiveop_dict}}
+       \end{figure}
+		Non-expansiveness is not sufficient to guarantee convergence 
+		of a fixed-point iteration that uses $\mathcal{F}$ (see Fig.\ \ref{fig_nonexpansiveop_dict}).
 		\\
  		See also: fixed-point iteration, contractive operator.},
  	type=math, 

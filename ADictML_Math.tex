@@ -2973,63 +2973,81 @@ sort={sigma-field},
 \newglossaryentry{banachfixedpoint}
 {name={Banach's fixed-point theorem},
 	description={Banach's fixed-point theorem\index{Banach's fixed-point 
-		theorem} (also referred to as the contraction 
-		principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}) 
+		theorem} (also referred to as the contraction principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis},\cite{Kelley1995}) 
 		states that every \gls{contractop} $\fixedpointop$ on a complete 
-		\gls{metricspace} has a unique fixed point. Formally, 
-		let $(\featurespace,\metric{\cdot}{\cdot})$ be a non-empty complete 
-		\gls{metricspace} and let $\fixedpointop:\featurespace\to\featurespace$ satisfy
+		\gls{metricspace} $\paramspace$ has a unique \gls{fixedpoint}. 
+		Formally, let $(\paramspace,\metric{\cdot}{\cdot})$ be a non-empty 
+		complete \gls{metricspace} and let $\fixedpointop:\paramspace\to\paramspace$ satisfy
     		\[
-    		\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'} \leq \kappa \cdot \metric{\featurevec}{\featurevec'} \qquad \forall \featurevec,\featurevec'\in\featurespace
+    		\metric{\fixedpointop \weights}{\fixedpointop \weights'} \leq \contractfac \cdot \metric{\weights}{\weights'} \qquad \forall \weights,\weights'\in\paramspace
     		\]
-    		for some constant $\kappa \in [0,1)$. Then, $\fixedpointop$ has a unique fixed 
-		point, i.e., there exists a unique $\featurevec^\star\in\featurespace$ with 
-		$\fixedpointop \featurevec^\star =\featurevec^\star$, which can be computed by a 
-		\gls{fixedpointiter}.
-    		\begin{figure}[H]
+    		for some constant $\contractfac \in [0,1)$. Then, $\fixedpointop$ has a unique \gls{fixedpoint}, 
+			  i.e., there exists a unique $\weights^\star\in\paramspace$ with 
+			$\fixedpointop \weights^\star =\weights^\star$. Moreover, for any initial 
+			$\weights^{(0)}\in\paramspace$, the \gls{fixedpointiter} 
+			$\weights^{(\iteridx)}\!=\!\fixedpointop \weights^{(\iteridx-1)}$, for $\iteridx=1,2,\dots$, 
+			converges to $\weights^\star$ at a rate governed by $\contractfac$. 
+			In particular, 
+			\[ \metric{\weights^{(\iteridx)}}{\weights^\star} \leq \contractfac^{\iteridx}
+			 \cdot \metric{\weights^{(0)}}{\weights^\star} \mbox{, for }\iteridx=1,2,\dots. \]   		
+			\begin{figure}[H]
     			\centering
     			\begin{tikzpicture}[>=Latex, font=\small]
     			\tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
     			\def\dx{6.5}
-    			\node[space,label=above:{$\featurespace$}] (XL) at (0,0) {};
-    			\node[space,label=above:{$\featurespace$}] (XR) at (\dx,0) {};
+    			\node[space,label=above:{$\paramspace$}] (XL) at (0,0) {};
+    			\node[space,label=above:{$\paramspace$}] (XR) at (\dx,0) {};
     			\draw[maparrow] (XL.east) -- node[above=2pt] {$\fixedpointop$} (XR.west);
     			\coordinate (x1) at (-0.8,0.9);
     			\coordinate (x2) at (0.9,0.5);
-    			\node[pt,label=above left:{$\featurevec$}] at (x1) {};
-    			\node[pt,label=right:{$\featurevec'$}] at (x2) {};
+    			\node[pt,label=above left:{$\weights$}] at (x1) {};
+    			\node[pt,label=right:{$\weights'$}] at (x2) {};
     			\coordinate (fx1) at (\dx-0.3,0.5);
     			\coordinate (fx2) at (\dx+0.6,0.5);
     			\node[pt] (FX1) at (fx1) {};
     			\node[pt] (FX2) at (fx2) {};
-    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\fixedpointop \featurevec$};
-    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\fixedpointop \featurevec'$};
-   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'}$};
-   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\featurevec}{\featurevec'}$};
+    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\fixedpointop \weights$};
+    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\fixedpointop \weights'$};
+   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \weights}{\fixedpointop \weights'}$};
+   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\weights}{\weights'}$};
     			\coordinate (xsL) at (0,-0.9);
     			\coordinate (xsR) at (\dx,-0.9);
-    			\node[pt,label=below:{$\featurevec^\star$}] at (xsL) {};
-    			\node[pt,label=below:{$\fixedpointop \featurevec^\star=\featurevec^\star$}] at (xsR) {};
+    			\node[pt,label=below:{$\weights^\star$}] at (xsL) {};
+    			\node[pt,label=below:{$\fixedpointop \weights^\star\!=\!\weights^\star$}] at (xsR) {};
     			\end{tikzpicture}
-   	 	\caption{A \gls{contractop} $\fixedpointop:\featurespace\to\featurespace$  
-	  		has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.}
+   	 			\caption{A \gls{contractop} $\fixedpointop:\paramspace\to\paramspace$  
+	  					 has a unique \gls{fixedpoint} $\weights^\star$ with 
+						 $\fixedpointop \weights^\star\!=\!\weights^\star$.}
     			\label{fig:banach_dict}
     		\end{figure}
-    		See also: \gls{contractop}, \gls{metricspace}, \gls{fixedpointiter}, \gls{sequence}, \gls{cauchysequence}.},
-    	first={Banach's fixed-point theorem},
+    		See also: \gls{contractop}, \gls{metricspace}, \gls{fixedpointiter}, \gls{sequence}.},
+    first={Banach's fixed-point theorem},
 	text={Banach's fixed-point theorem},
-    	type=math
+    type=math
 }
+
+\newglossaryentry{cvxoptproblem}
+{name={convex optimization problem}, 
+	description={See\index{convex optimization problem} \gls{convexopt}.},
+	first={convex optimization problem},
+	firstplural={convex optimization problems}, 
+	type=math,
+	plural={convex optimization problems}, 
+	text={convex optimization problem}
+}
+
 
 \newglossaryentry{optproblem}
 {name={optimization problem}, 
 	description={An\index{optimization problem} optimization problem is a mathematical 
 		   structure consisting of an \gls{objfunc} $f: \mathcal{U} \rightarrow \mathcal{V}$ 
 		   defined over an optimization variable $\weights \in \mathcal{U}$, together with a 
-		   feasible set $\mathcal{W} \subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
+		   feasible set $\paramspace \subseteq \mathcal{U}$. The \gls{co-domain} $\mathcal{V}$ is 
 		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
-		   we can determine whether $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
-		   or $\mathbf{a} > \mathbf{b}$. The goal of optimization is to find those values $\weights \in \mathcal{W}$ 
+		   we can determine whether $\mathbf{a} \leq \mathbf{b}$ or not. Here, ``$\leq$'' denotes a 
+		   general partial order relation, which may differ from the standard numerical order on 
+		   real numbers \cite[Sec. 2.4.]{BoydConvexBook}. 
+		   The goal in optimization is to find those values $\weights \in \paramspace$ 
 		   for which the objective $f(\weights)$ is extremal—i.e., minimal or maximal \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
 		   \\
 		   See also: \gls{objfunc}.},
@@ -3329,8 +3347,22 @@ sort={sigma-field},
  			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2} 
 			\leq 	\normgeneric{\weights - \weights'}{2} \mbox{ for any } \weights, \weights' \in \hilbertspace. 
  		\end{equation} 
-		Non-expansiveness is typically not sufficient to guarantee \gls{convergence} 
-		of a \gls{fixedpointiter} that uses $\fixedpointop$.
+		\begin{figure}[H]
+			\centering
+		\begin{tikzpicture}[thick,font=\small]
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\weights^\star$}] at (0,0) {};
+		\draw[dashed] (0,0) circle[radius=2.7];
+		\node[circle,fill=black,inner sep=1.6pt,label=right:{$\weights$}] at (2.3,1.4) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\fixedpointop \weights$}] at (1.27,0.77) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=above:{$\fixedpointop' \weights$}] at (-0.23,2.68) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\fixedpointop''\weights$}] at (1.03,2.04) {};
+		\end{tikzpicture}
+		\caption{The result of applying a \gls{contractop} $\fixedpointop$, a \gls{nonexpansiveop} 
+		         $\fixedpointop'$ and a \gls{firmlynonexpansiveop} $\fixedpointop''$. These 
+				 \glspl{operator} have the common \gls{fixedpoint} $\weights^\star$. \label{fig_nonexpansiveop_dict}}
+       \end{figure}
+		Non-expansiveness is not sufficient to guarantee \gls{convergence} 
+		of a \gls{fixedpointiter} that uses $\fixedpointop$ (see Fig.\ \ref{fig_nonexpansiveop_dict}).
 		\\
  		See also: \gls{fixedpointiter}, \gls{contractop}.},
  	type=math, 
