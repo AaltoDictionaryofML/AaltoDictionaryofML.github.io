@@ -802,7 +802,7 @@
 
 \newglossaryentry{stdnormvec}
 {name={standard normal random vector}, 
-	description={A\index{standard normal vector} standard normal random vector is a random 
+	description={A\index{standard normal random vector} standard normal random vector is a random 
 		vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
 		whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
 		It is a special case of a multivariate normal distribution, ${\bf x}\sim \mathcal(\mathbf{0},\mathbf{I})$.
@@ -2800,6 +2800,104 @@ sort={sigma-field},
 	firstplural={fixed-point iterations}, 
 	plural={fixed-point iterations}
 }
+
+\newglossaryentry{epigraph}
+{name={epigraph},
+	description={The epigraph\index{epigraph} of a real-valued function $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+  		is the set of points lying on or above its graph (see Fig. \ref{fig_epigraph_dict}), i.e., 
+		\[
+		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+		\]
+		A function is convex if and only if its epigraph is a convex set \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				\begin{axis}[
+					axis lines = middle,
+					xlabel = $x$,
+					ylabel = {},
+					xmin=-2, xmax=2,
+					ymin=0, ymax=4.5,
+					samples=100,
+					domain=-1.5:1.5,
+					thick,
+					width=8cm,
+					height=6cm,
+					grid=none,
+					axis on top,
+					]
+					% Function
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					% Epigraph shading
+					\addplot [
+					name path=f,
+					draw=none,
+					ytick=\empty,
+					domain=-1.5:1.5,
+					] {x^2};
+					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+					\addplot [
+					blue!20,
+					opacity=0.6,
+					draw=none,
+					] fill between [
+					of=f and top,
+					soft clip={domain=-1.5:1.5},
+					];
+					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi}(f)$};
+				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
+				\end{axis}
+			\end{tikzpicture}
+		\caption{Epigraph of the function $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
+		\end{figure}
+		See also: function, convex.},
+	first={epigraph},
+	text={epigraph},
+	firstplural={epigraphs},
+	plural={epigraphs}
+}
+
+\newglossaryentry{nullspace}
+{name={nullspace},
+	description={The nullspace\index{nullspace} of a matrix ${\bf A}\in \mathbb{R}^{d' \times d}$, 
+		denoted by ${\rm null}\left({\bf A}\right)$, is the set of all vectors $\mathbf{n} \in \mathbb{R}^d$ 
+    		such that $${\bf A}\mathbf{n} = \mathbf{0}.$$ 
+		Consider a feature learning method that uses the matrix ${\bf A}$ to transform 
+		a feature vector $\mathbf{x} \in \mathbb{R}^{d}$ of a data point 
+		into a new feature vector ${\bf z}= {\bf A}\mathbf{x} \in \mathbb{R}^{d'}$. 
+		The nullspace ${\rm null}\left({\bf A}\right)$ characterizes all directions in the original 
+    		feature space $\mathbb{R}^{d}$ along which the transformation 
+		${\bf A}\mathbf{x}$ remains unchanged. In other words, adding any vector from 
+		the nullspace to a feature vector ${\bf x}$ does not affect the transformed 
+		representation ${\bf z}$. This property can be exploited to enforce invariances in the 
+		predictions (computed from ${\bf A}\mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
+		illustrates one such invariance. It shows rotated versions of two handwritten digits, 
+		which approximately lie along 1-D curves in the original feature space. 
+		These curves are aligned with a direction vector $\mathbf{n} \in \mathbb{R}^{d}$. 
+    		To ensure that the trained model is invariant to such rotations, we can 
+		choose the transformation matrix ${\bf A}$ such that $\mathbf{n} \in {\rm null}\left({\bf A}\right)$. 
+		This ensures that ${\bf A}\mathbf{x}$, and hence the resulting prediction, 
+		is approximately insensitive to rotations of the input image.
+		\begin{figure}[H]
+      			\centering
+      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace/nullspace_0_1.png}
+	  		\caption{
+			Rotated handwritings of two different digits. The rotations are approximately 
+			aligned along straight lines parallel to the vector $\mathbf{n}$. For a 
+			binary classifier distinguishing between these digits, a natural choice is 
+			a linear feature map ${\bf x}\mapsto \mathbf{A}{\bf x}$ with a 
+			matrix ${\bf A}$ whose nullspace contains $\mathbf{n}$, i.e., $\mathbf{n} \in \mathrm{null}({\bf A})$.
+                \label{fig:nullspace-rotation-dict}}	
+	       	\end{figure}
+		See also: matrix, feature map, feature learning. \\ 
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace/nullspace.py}{click me}},
+ 	first={nullspace},
+ 	firstplural={nullspaces},
+	type=math, 
+ 	plural={nullspaces},
+ 	text={nullspace}
+}
+
 
 \newglossaryentry{fixedpoint}
 {name={fixed point},

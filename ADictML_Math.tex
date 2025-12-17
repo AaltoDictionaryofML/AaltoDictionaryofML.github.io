@@ -797,7 +797,7 @@
 
 \newglossaryentry{stdnormvec}
 {name={standard normal random vector}, 
-	description={A\index{standard normal vector} standard normal random \gls{vector} is a random 
+	description={A\index{standard normal random vector} standard normal random \gls{vector} is a random 
 		\gls{vector} $\vx=\big(x_{1}, \,\ldots, \,x_{\nrfeatures}\big)\,^{T}$ 
 		whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
 		It is a special case of a \gls{mvndist}, $\vx \sim \mathcal(\mathbf{0},\mathbf{I})$.
@@ -2799,6 +2799,104 @@ sort={sigma-field},
 	firstplural={fixed-point iterations}, 
 	plural={fixed-point iterations}
 }
+
+\newglossaryentry{epigraph}
+{name={epigraph},
+	description={The epigraph\index{epigraph} of a real-valued \gls{function} $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
+  		is the set of points lying on or above its \gls{graph} (see Fig. \ref{fig_epigraph_dict}), i.e., 
+		\[
+		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+		\]
+		A \gls{function} is \gls{convex} if and only if its epigraph is a \gls{convex} set \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				\begin{axis}[
+					axis lines = middle,
+					xlabel = $x$,
+					ylabel = {},
+					xmin=-2, xmax=2,
+					ymin=0, ymax=4.5,
+					samples=100,
+					domain=-1.5:1.5,
+					thick,
+					width=8cm,
+					height=6cm,
+					grid=none,
+					axis on top,
+					]
+					% Function
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					% Epigraph shading
+					\addplot [
+					name path=f,
+					draw=none,
+					ytick=\empty,
+					domain=-1.5:1.5,
+					] {x^2};
+					\path[name path=top] (axis cs:-1.5,4) -- (axis cs:1.5,4);
+					\addplot [
+					blue!20,
+					opacity=0.6,
+					draw=none,
+					] fill between [
+					of=f and top,
+					soft clip={domain=-1.5:1.5},
+					];
+					    \node[font=\small] at (axis cs:-1.0,2.3) {$\operatorname{epi}(f)$};
+				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
+				\end{axis}
+			\end{tikzpicture}
+		\caption{Epigraph of the \gls{function} $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
+		\end{figure}
+		See also: \gls{function}, \gls{convex}.},
+	first={epigraph},
+	text={epigraph},
+	firstplural={epigraphs},
+	plural={epigraphs}
+}
+
+\newglossaryentry{nullspace}
+{name={nullspace},
+	description={The nullspace\index{nullspace} of a \gls{matrix} $\mA \in \mathbb{R}^{\nrfeatures' \times \nrfeatures}$, 
+		denoted by $\nullspace{\mA}$, is the set of all \glspl{vector} $\mathbf{n} \in \mathbb{R}^\nrfeatures$ 
+    		such that $$\mA \mathbf{n} = \mathbf{0}.$$ 
+		Consider a \gls{featlearn} method that uses the \gls{matrix} $\mA$ to transform 
+		a \gls{featurevec} $\mathbf{x} \in \mathbb{R}^{\nrfeatures}$ of a \gls{datapoint} 
+		into a new \gls{featurevec} $\vz = \mA \mathbf{x} \in \mathbb{R}^{\nrfeatures'}$. 
+		The nullspace $\nullspace{\mA}$ characterizes all directions in the original 
+    		\gls{featurespace} $\mathbb{R}^{\nrfeatures}$ along which the transformation 
+		$\mA \mathbf{x}$ remains unchanged. In other words, adding any \gls{vector} from 
+		the nullspace to a \gls{featurevec} $\featurevec$ does not affect the transformed 
+		representation $\vz$. This property can be exploited to enforce invariances in the 
+		\glspl{prediction} (computed from $\mA \mathbf{x}$). Fig.\ \ref{fig:nullspace-rotation-dict} 
+		illustrates one such invariance. It shows rotated versions of two handwritten digits, 
+		which approximately lie along 1-D curves in the original \gls{featurespace}. 
+		These curves are aligned with a direction \gls{vector} $\mathbf{n} \in \mathbb{R}^{\nrfeatures}$. 
+    		To ensure that the trained \gls{model} is invariant to such rotations, we can 
+		choose the transformation \gls{matrix} $\mA$ such that $\mathbf{n} \in \nullspace{\mA}$. 
+		This ensures that $\mA \mathbf{x}$, and hence the resulting \gls{prediction}, 
+		is approximately insensitive to rotations of the input image.
+		\begin{figure}[H]
+      			\centering
+      			\includegraphics[width=0.6\textwidth]{assets/pythonsnacks/nullspace/nullspace_0_1.png}
+	  		\caption{
+			Rotated handwritings of two different digits. The rotations are approximately 
+			aligned along straight lines parallel to the \gls{vector} $\mathbf{n}$. For a 
+			binary \gls{classifier} distinguishing between these digits, a natural choice is 
+			a linear \gls{featuremap} $\featurevec \mapsto \mathbf{A}\featurevec$ with a 
+			\gls{matrix} $\mA$ whose nullspace contains $\mathbf{n}$, i.e., $\mathbf{n} \in \mathrm{null}(\mA)$.
+                \label{fig:nullspace-rotation-dict}}	
+	       	\end{figure}
+		See also: \gls{matrix}, \gls{featuremap}, \gls{featlearn}. \\ 
+		Python demo: \href{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/blob/main/assets/pythonsnacks/nullspace/nullspace.py}{click me}},
+ 	first={nullspace},
+ 	firstplural={nullspaces},
+	type=math, 
+ 	plural={nullspaces},
+ 	text={nullspace}
+}
+
 
 \newglossaryentry{fixedpoint}
 {name={fixed point},
