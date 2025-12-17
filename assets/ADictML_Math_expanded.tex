@@ -7,21 +7,21 @@
 \newglossaryentry{psd}
 {name={positive semi-definite (psd)},
 	description={A\index{positive semi-definite (psd)} (real-valued) 
-	            symmetric matrix $\mathbf{Q}= \mathbf{Q}\,^{T} \in \mathbb{R}^{d\times d}$ 
-	 	         is referred to as psd if ${\bf x}\,^{T} \mathbf{Q}{\bf x}\geq 0$ 
-				 for every vector ${\bf x}\in \mathbb{R}^{d}$. 
-				 A psd matrix $\mathbf{Q}$ admits a spectral decomposition with nonnegative 
-				 eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d} \geq 0$
-				 \cite{HornMatAnalysis,Axler2025}. 
-	 	         The notion of being psd can be extended from matrices to (real-valued) 
-	 	         symmetric kernel maps $K: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}$ 
-	 	         (with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
-	 	         as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$, 
-	 	         the resulting matrix $\mathbf{Q}\in \mathbb{R}^{m\times m}$ with 
-		        entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
-		        is psd \cite{LearningKernelsBook}.
+		symmetric matrix $\mathbf{Q}= \mathbf{Q}\,^{T} \in \mathbb{R}^{d\times d}$ 
+	 	 is referred to as psd if ${\bf x}\,^{T} \mathbf{Q}{\bf x}\geq 0$ 
+		for every vector ${\bf x}\in \mathbb{R}^{d}$. 
+		A psd matrix $\mathbf{Q}$ admits a spectral decomposition with nonnegative 
+		eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d} \geq 0$
+		\cite{HornMatAnalysis}, \cite{Axler2025}. 
+	 	The notion of being psd can be extended from matrices to (real-valued) 
+	 	symmetric kernel maps $K: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}$ 
+	 	(with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
+	 	as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$, 
+	 	the resulting matrix $\mathbf{Q}\in \mathbb{R}^{m\times m}$ with 
+		entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
+		is psd \cite{LearningKernelsBook}.
 			\\
-		See also: matrix, kernel.},
+		See also: symmetric matrix, kernel.},
 	first={positive semi-definite (psd)},
 	type=math, 
 	text={psd}  
@@ -802,10 +802,11 @@
 
 \newglossaryentry{stdnormvec}
 {name={standard normal random vector}, 
-	description={A\index{standard normal random vector} standard normal random vector is a random 
-		vector ${\bf x}=\big(x_{1}, \,\ldots, \,x_{d}\big)\,^{T}$ 
-		whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
-		It is a special case of a multivariate normal distribution, ${\bf x}\sim \mathcal(\mathbf{0},\mathbf{I})$.
+	description={A\index{standard normal random vector} standard normal random vector 
+	             is a random variable (RV) ${\bf x}=\big(\feature_{1}, \,\ldots, \,\feature_{d}\big)\,^{T}$ 
+		         whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
+		         The probability distribution of a standard normal random vector is a special case 
+				 of a multivariate normal distribution, ${\bf x}\sim \mathcal{N}(\mathbf{0},\mathbf{I})$.
 		\\ 
 		See also: vector, independent and identically distributed (i.i.d.), Gaussian random variable (Gaussian RV), multivariate normal distribution, random variable (RV).}, 
 	first={standard normal random vector},
@@ -1179,6 +1180,632 @@
 	first={probabilistic principal component analysis (PPCA)},
 	type=math, 
 	text={PPCA}
+}
+
+\newglossaryentry{contractop}
+{name={contractive operator},
+	description={An\index{contractive operator} operator 
+		$\mathcal{F}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}$
+		is a contraction (or contractive) if, for some $\kappa\in [0,1)$, 
+ 	   	\cite{BausckeCombette}, \cite{ProximalMethods}
+		\begin{equation} 
+			\nonumber
+			\mleft\lVert  \mathcal{F}{\bf w}\!-\!\mathcal{F}{\bf w}' \mright\rVert_{2}  \leq 
+			 \kappa\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{2} \mbox{ holds for any } {\bf w},{\bf w}' \in \mathbb{R}^{d}.
+		\end{equation} 
+		The notion of a contractive operator generalizes naturally from $\mathbb{R}^{d}$ 
+		to arbitrary metric spaces \cite{BausckeCombette}.
+		\begin{figure}[H]
+    			\centering
+    			\begin{tikzpicture}[>=Latex, font=\small]
+        			% Styles
+        			\tikzset{
+            		space/.style={draw, thick, circle, minimum size=4.0cm},
+            		pt/.style={circle, inner sep=1.5pt, draw, fill=black},
+            		maparrow/.style={->, very thick},
+            		distline/.style={dashed, thick}
+        			}
+        			% Single space
+        			\node[space,label=above:{$\mathcal{X}$}] (X) at (0,0) {};
+        			% Two points and their images under T inside the same space
+        			\coordinate (x1)  at (-1.0,0.8);
+        			\coordinate (x2)  at ( 1.0,0.8);
+        			\coordinate (Tx1) at (-0.5,0.1);
+        			\coordinate (Tx2) at ( 0.5,0.1);
+        			% Points x, x'
+        			\node[pt,label=above left:{${\bf x}$}] at (x1) {};
+        			\node[pt,label=above right:{${\bf x}'$}] at (x2) {};
+        			% Images T(x), T(x')
+        			\node[pt] (TX1) at (Tx1) {};
+        			\node[pt] (TX2) at (Tx2) {};
+        			\node[anchor=east] at ($(TX1.west)+(-4pt,-2pt)$) {$\mathcal{F}{\bf x}$};
+        			\node[anchor=west] at ($(TX2.east)+(4pt,-2pt)$) {$\mathcal{F}{\bf x}'$};
+        			% Contraction effect: distances shrink
+        			\draw[distline] (x1) -- (x2)
+            		node[midway, above=4pt] {$d({\bf x},{\bf x}')$};
+        			\draw[distline] (Tx1) -- (Tx2)
+            		node[midway, below=4pt] {$d(\mathcal{F}{\bf x},\mathcal{F}{\bf x}')$};
+        			% Fixed point in the same space
+        			\coordinate (xs) at (0,-0.9);
+        			\node[pt,label=below:{${\bf x}^\star$}] (XS) at (xs) {};
+        			% Small loop indicating T(x*) = x*
+        			%\draw[maparrow,shorten >=2pt,shorten <=2pt]
+            		%(XS) .. controls +(60:0.7) and +(120:0.7) .. (XS);
+        			\node at (0,-1.6) {$\mathcal{F}{\bf x}^\star = {\bf x}^\star$};
+    			\end{tikzpicture}
+    		\caption{A contractive operator $\mathcal{F}:\mathcal{X}\to\mathcal{X}$ 
+      			has a unique fixed point ${\bf x}^\star$ with $\mathcal{F}{\bf x}^\star={\bf x}^\star$.
+      			For any two points ${\bf x},{\bf x}'$ in the same space, the distance between their images
+      			$\mathcal{F}{\bf x}$ and $\mathcal{F}{\bf x}'$ is strictly smaller.}
+    			\label{fig:contract_dict}
+		\end{figure}
+		Intuitively, a contractive operator brings any two points 
+		from its domain closer together by at least a factor of $\kappa$.
+		\\ 
+		See also: operator, metric space. },
+	first={contractive operator},
+	text={contractive operator}, 
+	type=math,
+	firstplural={contractive operators}, 
+	plural={contractive operators}
+}
+
+\newglossaryentry{proxop}
+{name={proximal operator},
+	description={Given\index{proximal operator} a convex 
+		function $f({\bf w}')$, we define its proximal operator as \cite{Bauschke:2017}, \cite{ProximalMethods}  
+		$${\rm\bf prox}_{f(\cdot),\rho}({\bf w}):=\argmin_{{\bf w}' \in \mathbb{R}^{d}} \bigg[ f({\bf w}')\!+\!\frac{\rho}{2} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
+		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal operator 
+		amounts to minimizing a penalized variant of $f({\bf w}')$. The penalty term is the 
+		scaled squared Euclidean distance to a given vector ${\bf w}$ (which is the input to the proximal operator). 
+		The proximal operator can be interpreted as a generalization of the gradient step, which is defined 
+		for a smooth convex function $f({\bf w}')$. Indeed, taking a 
+		gradient step with step size $\eta$ at the current vector ${\bf w}$ 
+		is the same as applying the proximal operator of the function $\tilde{f}({\bf w}')= \big( \nabla f({\bf w})\big)\,^{T} ({\bf w}'-{\bf w})$ 
+		and using $\rho=1/\eta$.
+			\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=0.8]
+					% Original quadratic function
+					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f({\bf w}')$};		
+					% Quadratic function with larger curvature, centered at w = 2
+					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{\eta}\mleft\lVert {\bf w}-{\bf w}' \mright\rVert_{2}^{2}$};
+					% Axes
+					% Minimum point of second curve
+					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {${\bf w}$};
+					%\node at (2,0.5) [anchor=north] {$\weights$};
+				\end{tikzpicture}
+			\end{center}
+			\caption{The proximal operator updates a vector ${\bf w}$ by minimizing a penalized version 
+				of the function $f(\cdot)$. The penalty term is the scaled squared Euclidean distance between the optimization 
+				variable ${\bf w}'$ and the given vector ${\bf w}$.	\label{fig_proxoperator_opt_dict}}
+		\end{figure}
+		See also: convex, function, gradient step.},
+	first={proximal operator},
+	type=math,
+	firstplural={proximal operators},
+	plural={proximal operators},
+	text={proximal operator}
+}
+
+\newglossaryentry{connected}
+{name={connected}, 
+	description={An\index{connected} 
+		undirected graph $\mathcal{G}=\left( \mathcal{V},\mathcal{E}\right)$ is connected if, for every 
+		non-empty subset $\mathcal{V}' \subset \mathcal{V}$, we can find at least one edge 
+		connecting a node in $\mathcal{V}'$ with some node in $\mathcal{V}\setminus \mathcal{V}'$.
+		We illustrate two examples of undirected graphs in Fig. \ref{fig_connected_dict}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			% Horizontal axis
+			% Left graph (single edge)
+			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
+			\node[above=0.5cm of A1, align=center] {disconnected};
+			\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
+			\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
+			\draw [line width=1 pt]  (A1) -- (B1);
+			\node at (0, -1) {(a)};
+			% Middle graph (two edges, shifted right)
+			\begin{scope}[xshift=3.5cm]
+				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
+				\node[above=0.5cm of A2, align=center] {connected};
+				\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B2) [below right=0.8cm and 0.5cm of A2] {};
+				\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C2) [below left=0.8cm and 0.5cm of A2] {};
+				\draw [line width=1 pt]  (A2) -- (B2);
+				\draw [line width=1 pt]  (B2) -- (C2);
+				\node at (0, -1) {(b)};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{(a) A graph that is disconnected. (b) A graph that is connected. \label{fig_connected_dict}}
+		\end{figure} 
+		See also: undirected graph, algebraic connectivity.}, 
+	type=math, 
+	first={connected},
+	text={connected}
+}
+
+\newglossaryentry{GaussProc}
+{name={Gaussian process (GP)},
+	description={A\index{Gaussian process (GP)} GP is a collection of random variables (RVs) 
+  		$\{f({\bf x})\}_{{\bf x}\in \mathcal{X}}$ indexed by input values ${\bf x}$ 
+  		from some input space $\mathcal{X}$ such that, for any finite subset 
+  		${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathcal{X}$, 
+  		the corresponding random variables (RVs) $f({\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)})$ 
+		have a joint multivariate normal distribution 
+  		\[
+  		f \left( {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  		\]
+  		For a fixed input space $\mathcal{X}$, a GP is 
+		fully specified (or parameterized) by: 1) a mean function 
+		$\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$; and 2) 
+		a covariance function 
+		$K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
+  		Example: We can interpret the temperature distribution across Finland (at a specific 
+  		point in time) as the realization of a GP $f({\bf x})$, where each input 
+		${\bf x}= (\text{lat}, \text{lon})$ denotes a geographic location. Temperature 
+		observations from Finnish Meteorological Institute (FMI) weather stations provide values $f({\bf x})$ at specific 
+		locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to predict the temperature 
+		nearby Finnish Meteorological Institute (FMI) weather stations and to quantify the uncertainty 
+  		of these predictions. 
+  		\begin{figure}[H]
+  		\begin{center}
+  			\begin{tikzpicture}
+			\begin{axis}[
+			axis equal,
+			hide axis,
+			scale=1.2,
+			xmin=17, xmax=32,
+			ymin=55, ymax=71,
+			%	width=15cm,
+			%	height=20cm,
+			clip=true
+			]
+			% --- Finland border (polyline) ---
+			\addplot[
+			color=black,
+			thick
+			] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+			% --- FMI sample stations ---
+			\addplot[
+			only marks,
+			mark=*,
+			mark options={fill=blue},
+			color=black
+			] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+			% Draw manual axes
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {longitude (lon)};
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {latitude (lat)};
+			\end{axis}
+			\end{tikzpicture}
+			\vspace*{-5mm}
+		\end{center}
+		\caption{For a given point in time, we can interpret the current temperature distribution 
+		over Finland as a realization of a GP indexed by geographic coordinates and 
+		sampled at Finnish Meteorological Institute (FMI) weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
+		\end{figure}
+		See also: multivariate normal distribution, uncertainty, Gaussian random variable (Gaussian RV).}, 
+  	first={GP}, 
+  	type=math, 
+  	text={GP}
+}
+
+\newglossaryentry{normaldist} 
+{name={normal distribution}, 
+	description={See\index{normal distribution} Gaussian random variable (Gaussian RV).},
+ 	first={normal distribution}, 
+ 	firstplural={normal distributions},
+ 	plural={normal distributions},
+	type=math, 
+ 	text={normal distribution}
+}
+	
+\newglossaryentry{gaussrv}
+{name={Gaussian random variable (Gaussian RV)}, 
+	description={A\index{Gaussian random variable (Gaussian RV)} standard Gaussian random variable (RV) is a 
+		real-valued random variable (RV) $x$ with probability density function (pdf) \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
+		\begin{equation}
+			\nonumber
+			p(x) = \frac{1}{\sqrt{2\pi}} \exp\,(-x^2/2). 
+		\end{equation}
+		Given a standard Gaussian random variable (RV) $x$, we can construct a general Gaussian 
+		random variable (RV) $x'$ with mean $\mu$ and variance $\sigma^2$ via $x' :=\sigma x + \mu$. 
+		The probability distribution of a Gaussian random variable (RV) is referred to as normal distribution, 
+		denoted by $\mathcal{N}\left(\mu,\sigma^{2}\right)$. 
+		\\ 
+		A Gaussian random vector ${\bf x}\in \mathbb{R}^{d}$ with 
+		covariance matrix $\mathbf{C}$ and mean ${\bm \mu}$ can be constructed as \cite{GrayProbBook}, \cite{papoulis}, \cite{Lapidoth09}
+		\[
+		{\bf x}:=\mathbf{A} {\bf z}+ {\bm \mu}
+		\]
+		where ${\bf z}:=\big( z_{1}, \,\ldots, \,z_{d} \big)\,^{T}$ is a vector 
+		of independent and identically distributed (i.i.d.) standard Gaussian random variables (RVs), and ${\bf A}\in \mathbb{R}^{d\times d}$ is any matrix satisfying ${\bf A}{\bf A}\,^{T} = {\bf C}$. 
+		The probability distribution of a Gaussian random vector is referred to as the multivariate normal distribution, 
+		denoted by $\mathcal{N}\left(\bm \mu,\mathbf{C}\right)$.
+		\\
+		We can interpret a Gaussian random vector ${\bf x}=\big(\feature_{1},\,\ldots,\,\feature_{d}\big)$ as a stochastic process 
+		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,d\}$. A GPs is a 
+		stochastic process over an arbitray index set $\mathcal{I}$ such that any restriction 
+		to a finite subset $\mathcal{I}' \subseteq \mathcal{I}$ yields a Gaussian 
+		random vector \cite{Rasmussen2006Gaussian}.
+  		\\
+        		Gaussian random variables (RVs) are widely used probabilistic models in the 
+				statistical analysis of machine learning (ML) methods. Their significance arises 
+				partly from the central limit theorem (CLT) which provides conditions under which 
+				the average of many independent random variables (RVs) (not necessarily Gaussian themselves) 
+				tends toward a Gaussian random variable (RV) \cite{ross2013first}.
+		\\ 
+		The multivariate normal distribution is also distinct in that it represents maximum uncertainty. 
+		Among all vector-valued random variables (RVs) with a given covariance matrix ${\bf C}$, the 
+		random variable (RV) ${\bf x}\sim \mathcal{N}\left(\bm \mu,\mathbf{C}\right)$ maximizes differential entropy 
+		\cite[Th. 8.6.5]{coverthomas}. This makes GPs a natural choice for 
+		capturing uncertainty or the lack of (domain) knowledge.
+		\\ 
+		See also: multivariate normal distribution, GP, probabilistic model, central limit theorem (CLT), differential entropy.},
+	first={Gaussian random variable (Gaussian RV)},
+	type=math, 
+	plural={Gaussian RVs}, 
+	firstplural={Gaussian random variables (Gaussian RVs)}, 
+	text={Gaussian RV}
+}
+
+\newglossaryentry{gaussian} 
+{name={Gaussian}, 
+	description={See\index{Gaussian} Gaussian random variable (Gaussian RV).},
+ 	first={Gaussian},
+ 	type=math,
+ 	text={Gaussian},
+	firstplural={Gaussians},  
+ 	plural={Gaussians}
+}
+	
+\newglossaryentry{clt}
+{name={central limit theorem (CLT)},
+	description={Consider a sequence of independent and identically distributed (i.i.d.) random variables (RVs) \( x^{(r)} \), for \( r= 1, \,2, \,\ldots \), 
+		each with mean zero and finite variance \( \sigma^2 > 0 \). 
+		The\index{central limit theorem (CLT)} CLT states that the normalized sum 
+		\[
+		s^{(m)} :=\frac{1}{\sqrt{m}} \sum_{r= 1}^{m} x^{(r)} 
+		\]
+		converges in distribution to a Gaussian random variable (Gaussian RV) with mean zero and variance \( \sigma^2 \) as \( m\to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}.
+		One elegant way to derive the CLT is via the characteristic function of the normalized sum \( s^{(m)} \). 
+		Let $ \phi(t) = \mathbb{E} \big\{ \exp \big( j t x\big) \big\}$ (with the imaginary unit $j = \sqrt{-1}$) 
+		be the common characteristic function of each sum and $x^{(r)}$, and let \( \phi^{(m)}(t) \) 
+		denote the characteristic function of \( s^{(m)} \). Define an operator \( \mathcal{T} \) acting on characteristic functions 
+		such that
+		\[
+		\phi^{(m)}(t) = \mathcal{T}(\phi^{(m-1)})(t) :=\phi\left( \frac{t}{\sqrt{m}} \right) \cdot \phi^{(m-1)}\left( \frac{\sqrt{m-1}}{\sqrt{m}} t \right).
+		\]
+		This fixed-point iteration captures the effect of recursively adding an independent and identically distributed (i.i.d.) random variable (RV) ${\bf x}^{(m)}$ 
+		and rescaling. Iteratively applying \( \mathcal{T} \) leads to convergence of \( \phi^{(m)}(t) \) toward the fixed point
+		\[
+		\phi^*(t) = \exp\,(-t^2 \sigma^2 / 2)
+		\]
+		which is the characteristic function of a Gaussian random variable (Gaussian RV) with mean zero and variance 
+		\( \sigma^2 \). Generalizations of the CLT allow for dependent or nonidentically distributed random variables (RVs) \cite[Sec.~2.8]{AsympVanderVaartBook}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+			width=10cm,
+			height=6cm,
+			xlabel={},
+			ylabel={},
+			legend style={at={(0.97,0.97)}, anchor=north west},
+			domain=-3:3,
+			ylabel style={
+			yshift=10pt   % shift label up by 10pt
+			},
+			samples=400,
+			ymin=-0.2, ymax=1.1,
+			axis lines=middle,
+			clip=false,
+			grid=both,
+			]
+			\addplot[thick, blue,domain=-2:2] {cos(x/sqrt(1) r)^1};
+			\addlegendentry{$m=1$}
+			\addplot[thick, red] {cos(x/sqrt(2) r)^2};
+			\addlegendentry{$m=2$}
+			\addplot[thick, green!60!black] {cos(x/sqrt(3) r)^3};
+			\addlegendentry{$m=3$}
+			\addplot[thick, dashed, black] {exp(-x^2/2)};
+			\addlegendentry{$\exp\,(-t^2/2)$}
+			\node[anchor=south, rotate=0] at (axis cs:-0.08,1.05) {$\phi^{(m)}(t)$};
+			\node[anchor=north, rotate=0] at (axis cs: 3.2,0.1) {$t$};
+			\end{axis}
+			\end{tikzpicture}
+			\caption{Characteristic functions of normalized sums of independent and identically distributed (i.i.d.) random variables (RVs) $x^{(r)} \in \{-1,1\}$ 
+			for $r=1,\,\ldots,\,m$ compared to the Gaussian limit.}
+		\end{figure}
+		See also: random variable (RV), Gaussian random variable (Gaussian RV).},
+	first={central limit theorem (CLT)},
+	type=math, 
+	text={CLT}
+}
+
+\newglossaryentry{probmodel}
+{name={probabilistic model}, 
+	description={A probabilistic model\index{probabilistic model} for the 
+		generation of data points consists of random variables (RVs) 
+		with a joint probability distribution \cite{BertsekasProb}. 
+		This joint probability distribution typically involves parameters that have to 
+		be manually chosen or learned via statistical inference methods such as 
+		maximum likelihood estimation \cite{LC}.
+					\\ 
+		See also: model, data point, random variable (RV), probability distribution, parameter, maximum likelihood, realization. }, 
+	first={probabilistic model}, 
+	plural={probabilistic models},
+	firstplural={probabilistic models},
+	type=math,
+	text={probabilistic model} 
+}
+
+\newglossaryentry{mean}
+{name={mean}, plural={means},
+	description={The\index{mean} mean of a random variable (RV) ${\bf x}$, which takes 
+ 		on values in a Euclidean space $\mathbb{R}^{d}$, is its 
+ 		expectation $\mathbb{E} \{{\bf x}\}$. It is defined as the Lebesgue 
+ 		integral of ${\bf x}$ with respect to the underlying probability distribution $P$ (e.g., 
+		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
+		\[
+			\mathbb{E} \{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x}\, \mathrm{d}P({\bf x}).
+		\]  
+		We also use the term to refer to the average of a finite dataset
+		$\mathcal{D}= \left\{ {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}\right\}$. 
+		However, these two definitions are essentially the same. Indeed, we can use 
+		a dataset to construct a discrete random variable (RV) $\widetilde{{\bf x}}^{(\mathcal{D})}={\bf x}^{(I)}$ on 
+		the sample space $\{1, \,\ldots, \,m\}$. Here, the index $I$ is 
+		chosen uniformly at random, $\mathbb{P}\left(I=r\right)=1/m$ for all 
+		$r=1,\ldots,m$. The mean of $\widetilde{{\bf x}}^{(\mathcal{D})}$ is 
+		precisely the average $({1}/{m}) \sum_{r=1}^{m} {\bf x}^{(r)}$.
+		For a random variable (RV) with finite second-order moment, i.e., 
+		$\mathbb{E} \{ \mleft\lVert {\bf x}\mright\rVert_{2}^{2} \}$ is well-defined and fnite, 
+		the mean is characterized as the solution of the 
+		following risk minimization problem \cite{BertsekasProb}:
+		\[
+			\mathbb{E} \{{\bf x}\} = \argmin_{{\bf c}\in \mathbb{R}^{d}} 
+			\mathbb{E} \big\{\mleft\lVert {\bf x}- {\bf c}\mright\rVert_{2}^{2}\big \}.
+		\]
+		For the random variable (RV) $\widetilde{{\bf x}}^{(\mathcal{D})}$, associated with a dataset, 
+		this optimization problem reduces to empirical risk minimization (ERM) with squared error loss on $\mathcal{D}$. 
+		\\ 
+		See also: random variable (RV), expectation, probability distribution, empirical risk minimization (ERM).}, 
+	first={mean}, 
+	type=math,
+	text={mean} 
+}
+
+\newglossaryentry{median}
+{name={median}, 
+plural={medians},
+	description={A\index{median} median $\mathrm{med}\,(x)$ of a real-valued random variable (RV) $x$ 
+ 		is any number $M \in \mathbb{R}$ such that $\mathbb{P}\left( x \leq M\right) \geq 1/2$ and 
+		$\mathbb{P}\left( x \geq M\right) \geq 1/2$ 
+		(see Fig. \ref{fig_median1_dict}) \cite{LC}. 
+ 		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}
+ 			\begin{axis}[
+    			axis lines=middle,
+    			xlabel={},
+    			ylabel={},
+    			ymin=0, ymax=1.1,
+    			xmin=-2, xmax=6,
+    			xtick=\empty,
+    			ytick={0,1/2,1},
+    			domain=-2:6,
+    			samples=200,
+    			width=10cm,
+    			height=6cm,
+    			smooth,
+    			enlargelimits=true,
+    			clip=false
+  			]
+    			% Shifted sigmoid CDF
+			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\mathbb{P}\left(x \leq \eta\right)$};    % Vertical and horizontal ruler at F(x) = 0.5
+    			\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
+    			\draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
+    			% Mark the median point
+   			\filldraw[red] (axis cs:1,0.5) circle (2pt);
+  		    	\node[below] at (axis cs:1,0) {$M$};
+			\node[above right] at (axis cs:6.3,0) {$\eta$};
+    			% Label next to curve
+  			\end{axis}
+			\end{tikzpicture} 
+			\end{center}
+		\caption{The median of a real-valued random variable (RV) is any number $M$ 
+			that partitions $\mathbb{R}$ into two rays with equal probability. \label{fig_median1_dict}}
+ 		\end{figure}  
+ 		We can define the median $\mathrm{med}\,(\mathcal{D})$ 
+ 		of a dataset $\mathcal{D}= \{ x^{(1)}, \,\ldots, \,x^{(m)} \in \mathbb{R} \}$ 
+ 		via a specific random variable (RV) $\tilde{x}^{(\mathcal{D})}$ that is naturally associated with $\mathcal{D}$. 
+ 		In particular, this random variable (RV) is defined on the sample space $\{1, \,\ldots, \,m\}$ 
+		via $\tilde{x}^{(\mathcal{D})} :=x^{(I)}$. Here, the index $I$ is chosen uniformly 
+		at random, i.e., $\mathbb{P}\left(I = r\right)=1/m$ for 
+ 		all $r=1, \,\ldots, \,m$. If the random variable (RV) $x$ is integrable, any 
+		median of $x$ solves the optimization problem: 
+ 		$$\min_{x' \in \mathbb{R}} \mathbb{E} {|x - x'|}.$$ 
+		For a the above random variable (RV) $\tilde{x}$ (constructed from a dataset $\mathcal{D}$), 
+		this optimization problem is empirical risk minimization (ERM) on $\mathcal{D}$ using absolute error loss. 
+ 		Like the mean, the median of a dataset $\mathcal{D}$ can also be used 
+ 		to estimate parameters of an underlying probabilistic model. Compared 
+ 		with the mean, the median is more robust to outliers. For example, 
+ 		a median of a dataset $\mathcal{D}$ with more than one data point does not 
+ 		change even if we arbitrarily increase the largest element of $\mathcal{D}$ (see Fig. \ref{fig_median2_dict}). 
+		In contrast, the mean will increase arbitrarily.
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+			\begin{scope}
+				\foreach \x/\y in {
+					1/2, 4/3, 7/4
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] {$\mathrm{med}\,(\mathcal{D})\!=\!{\rm mean}(\mathcal{D})$};
+				\node at (7.5, -4) {(a)};
+			\end{scope}
+			\begin{scope}[xshift=12cm]
+				\foreach \x/\y in {
+					1/2, 4/3, 7/10
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick] (0.5, 7.5) -- (10.5, 7.5) node[right] 
+				{${\rm mean}\,\big(\widetilde{\mathcal{D}}\big)$};
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] 
+				{$\mathrm{med}\,\big(\widetilde{\mathcal{D}}\big)$};
+				\node[above right=2pt and 2pt, red] at (ptB7) {outlier};
+				\node at (7.5, -4) {(b)};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{The median is robust against outlier contamination. (a) Original dataset $\mathcal{D}$. (b) Noisy 
+			dataset $\widetilde{\mathcal{D}}$ including an outlier. \label{fig_median2_dict}}
+		\end{figure}
+		See also: mean, outlier, robustness, least absolute deviation regression.}, 
+	first={median}, 
+	type=math,
+	text={median} 
+}
+
+\newglossaryentry{variance}
+{name={variance},
+	description={The\index{variance} variance of a real-valued random variable (RV) $x$ is defined 
+	   	as the expectation $\mathbb{E} \big\{ \big( x - \mathbb{E} \{x \} \big)^{2} \big\}$ of 
+	   	the squared difference between $x$ and its expectation $\mathbb{E} \{x \}$. 
+	   	We extend this definition to vector-valued random variables (RVs) ${\bf x}$ 
+	   	as $\mathbb{E} \big\{ \big\| {\bf x}- \mathbb{E} \{{\bf x}\} \big\|_{2}^{2} \big\} = {\rm tr} \left(\mathbf{C}^{({\bf x})}\right)$,
+          	i.e., the sum of the variances of each entry of ${\bf x}$, which can be written compactly 
+		as the trace of the covariance matrix $\mathbf{C}^{({\bf x})}$ of ${\bf x}$. 
+          	\\ 	 
+		See also: random variable (RV), expectation, vector.},
+	first={variance},
+	type=math,
+	text={variance} 
+}
+
+
+\newglossaryentry{probabilitysimplex}
+{name={probability simplex},
+	description={The\index{probability simplex} probability simplex
+   		$\Delta^{k-1}$ is the set of all vectors 
+   		in $\mathbb{R}^k$ with nonnegative entries 
+ 		that sum to one \cite{BoydConvexBook}. Each element of $\Delta^{k-1}$ 
+		represents a probability mass function (pmf) of an random variable (RV) $y \in \{1,\,\ldots,\,k\}$.
+		\\
+		See also: probability, vector, probability mass function (pmf), random variable (RV). },
+  	first={probability simplex},
+  	plural={probability simplexes},
+  	firstplural={probability simplexes},
+  	type=math,
+  	text={probability simplex}
+}
+
+\newglossaryentry{projection}
+{name={projection}, 
+       	description={Consider\index{projection} a bounded subset $\mathcal{W}\subseteq \mathbb{R}^{d}$ of 
+		the $d$-dimensional Euclidean space. We define the projection 
+		$P_{\mathcal{W}}\big( {\bf w}\big) $ of a vector 
+		${\bf w}\in \mathbb{R}^{d}$ onto $\mathcal{W}$ as
+	   	\begin{equation} 
+   	   		\nonumber
+			\label{equ_def_proj_generic_dict}
+  	    		P_{\mathcal{W}}\big( {\bf w}\big)  = \argmin_{{\bf w}' \in \mathcal{W}} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}. 
+        	    	\end{equation}
+	    In other words, $P_{\mathcal{W}}\big( {\bf w}\big) $ is the vector in $\mathcal{W}$ 
+	    that is closest to ${\bf w}$. The projection is only well defined for subsets $\mathcal{W}$ 
+	    for which the above minimum exists \cite{BoydConvexBook}.
+		 			\\ 
+	    See also: Euclidean space, vector, minimum.},
+	first={projection},
+    type=math, 
+	text={projection}
+}
+
+\newglossaryentry{projgd}
+{name={projected gradient descent (projected GD)},
+	description={Consider an empirical risk minimization (ERM)-based method that uses a parameterized model with  
+		parameter space $\mathcal{W}\subseteq \mathbb{R}^{d}$. Even if 
+		the objective function of empirical risk minimization (ERM) is smooth, we cannot use basic gradient descent (GD), as 
+		it does not take into account constraints on the optimization variable (i.e., the model parameters). 
+		Projected\index{projected gradient descent (projected GD)} gradient descent (GD) 
+		extends basic gradient descent (GD) to address this issue. 
+		A single iteration of projected gradient descent (GD) consists of first taking a gradient step 
+		and then projecting the result back onto the parameter space. 
+		See Fig. \ref{fig_projected_GD_dict} for a visual illustration.
+		\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[scale=0.9]
+			\node [right] at (-5.1,1.7) {$f({\bf w})$} ;
+			\draw[ultra thick, domain=-4.1:4.1] plot (\x,  {(1/8)*\x*\x});
+		%	\draw[dashed, thick, domain=1:3.6] plot (\x,  {\x - 1}) node[right] {$ f\big(\weights^{(\itercntr)}\big)\!+\!\big(\weights\!-\!\weights^{(\itercntr)}\big)^{T} \nabla f\big(\weights^{(\itercntr)}\big)$};
+			\draw [fill] (2.83,1) circle [radius=0.1] node[right] {${\bf w}$};
+			\draw[line width =0.5mm,dashed,->] (2.83,1) -- node[midway,above] {gradient step} (-1.5,1);
+			\draw[line width =0.2mm,dashed] (-1.5,1) --(-1.5,-1.5)  node [below, left]{$\widehat{{\bf w}}={\bf w}\!-\!\eta\nabla f\big({\bf w}\big)$} ;
+			\draw[line width =0.5mm,dashed,->] (-1.5,-1.5)  -- node[midway,above] {} (1,-1.5) ; 
+			\draw [fill] (1,-1.5) circle [radius=0.1] node[below] {$P_{\mathcal{W}}\big( \widehat{{\bf w}}\big) $};
+			\draw[line width=1mm] (1,-1.5) -- (3,-1.5) node[midway, above] {$\mathcal{W}$};
+			\end{tikzpicture}
+		\vspace*{-5mm}
+		\end{center}
+		\caption{Projected gradient descent (GD) augments a basic gradient step with a projection back 
+		onto the constraint set $\mathcal{W}$.}
+		\label{fig_projected_GD_dict}
+		\end{figure}
+		See also: empirical risk minimization (ERM), model, parameter space, objective function, smooth, gradient descent (GD), model parameter, gradient step, projection.},
+	first={projected gradient descent (projected GD)},
+	type=math, 
+	text={projected GD}
+}
+
+\newglossaryentry{proximable}
+{name={proximable},
+	description={A\index{proximable} 
+		convex function for which the proximal operator can be computed efficiently is 
+		sometimes referred to as proximable or simple \cite{Condat2013}.
+					\\ 
+		See also: convex, function, proximal operator.},
+	first={proximable},
+	type=math, 
+	text={proximable}
+}
+
+\newglossaryentry{operator} 
+{name={operator}, 
+	description={An\index{operator} operator is a function 
+		whose domain and co-domain have a specific 
+		mathematical structure such as a vector space, a Hilbert space,
+		or a metric space \cite{Bauschke:2017}, \cite{DunfordSchwartz1988}. 
+		Many machine learning (ML) methods involve operators whose domain and co-domain 
+		are Euclidean spaces.
+							\\ 
+		See also: function, vector space, Hilbert space.},
+	first={operator},
+	type=math, 
+	plural={operators},
+	firstplural={operators},
+	text={operator}
+}
+
+\newglossaryentry{ergraph}
+{name={Erd\H{o}s–R\'enyi graph (ER graph)},
+	description={An ER graph\index{Erd\H{o}s–R\'enyi graph (ER graph)} \cite{erdds1959random}, \cite{gilbert1959random} 
+            	is a probabilistic model for graphs defined over a given node set $i=1, \,\ldots, \,n$. 
+            	One way to define the ER graph is via the collection of independent and identically distributed (i.i.d.) binary 
+            	random variables (RVs) $b^{(\{i,i'\})} \in \{0,1\}$, 
+		for each pair of different nodes $i, i'$. A specific realization  
+		of an ER graph contains an edge $\{i,i'\}$ if and only if 
+		$b^{(\{i,i'\})}=1$. The ER graph is parameterized by the 
+		number $n$ of nodes and the probability $\mathbb{P}\left(b^{(\{i,i'\})}=1\right)$.	
+		\\
+		See also: graph, probabilistic model, independent and identically distributed (i.i.d.), random variable (RV), realization, probability.},
+	first={Erd\H{o}s–R\'enyi graph (ER graph)},
+	type=math, 
+	text={ER graph}
 }
 
 \newglossaryentry{condprobdist}
@@ -1675,6 +2302,7 @@
 	first={random variable (RV)},
 	firstplural={random variables (RVs)},
 	plural={RVs},
+	type=math,
 	text={RV}  
 }
 
@@ -2395,6 +3023,25 @@ sort={sigma-field},
     	type=math
 }
 
+\newglossaryentry{optproblem}
+{name={optimization problem}, 
+	description={An\index{optimization problem} optimization problem is a mathematical 
+		   structure consisting of an objective function $f: \mathcal{U} \rightarrow \mathcal{V}$ 
+		   defined over an optimization variable ${\bf w}\in \mathcal{U}$, together with a 
+		   feasible set $\mathcal{W} \subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
+		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
+		   we can determine whether $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
+		   or $\mathbf{a} > \mathbf{b}$. The goal of optimization is to find those values ${\bf w}\in \mathcal{W}$ 
+		   for which the objective $f({\bf w})$ is extremal—i.e., minimal or maximal \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
+		   \\
+		   See also: objective function.},
+	first={optimization problem},
+	firstplural={optimization problems}, 
+	type=math,
+	plural={optimization problems}, 
+	text={optimization problem}
+}
+
 \newglossaryentry{optmethod}
 {name={optimization method},
 	description={An\index{optimization method} optimization method is 
@@ -2682,9 +3329,10 @@ sort={sigma-field},
  			\nonumber
  			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2} 
 			\leq 	\mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2} \mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
- 		\end{equation}
+ 		\end{equation} 
 		Non-expansiveness is typically not sufficient to guarantee convergence 
-		of a fixed-point iteration that uses $\mathcal{F}$.\\ 
+		of a fixed-point iteration that uses $\mathcal{F}$.
+		\\
  		See also: fixed-point iteration, contractive operator.},
  	type=math, 
 	first={non-expansive operator},
@@ -2692,7 +3340,6 @@ sort={sigma-field},
 	firstplural={non-expansive operators},
  	text={non-expansive operator}
 }
-
 
 \newglossaryentry{firmlynonexpansiveop}
 {name={firmly non-expansive operator},
@@ -3261,7 +3908,6 @@ sort={sigma-field},
   	text={JL lemma}
 }
 
-
 \newglossaryentry{statespace}
 {name={state space},
 	description={The state space\index{state space} of a system is a set that 
@@ -3315,7 +3961,7 @@ sort={sigma-field},
 		\\
 		See also: function, vector.},
 	first={subgradient},
-	type=math, 
+	type=math,
 	text={subgradient} 
 }
 
@@ -3328,7 +3974,7 @@ sort={sigma-field},
 					\\ 
 		See also: differentiable, function, convex.},
 	first={strongly convex},
-	type=math, 
+	type=math,
 	text={strongly convex} 
 }
 
@@ -3529,7 +4175,7 @@ sort={sigma-field},
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\mathcal{T}^{(f,\eta)}({\bf w})$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{The basic gradient step \eqref{equ_def_gd_basic_dict} maps a given vector ${\bf w}$ 
+		\caption{The basic gradient step \eqref{equ_def_gd_basic_dict} maps a given vector ${\bf w}$ 
 			to the updated vector ${\bf w}'$. It defines an operator 
 			$\mathcal{T}^{(f,\eta)}(\cdot): \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}:
 			 {\bf w}\mapsto \widehat{{\bf w}}$.}
@@ -3559,7 +4205,7 @@ sort={sigma-field},
 	text={gradient step}
 }
 
- \newglossaryentry{mirrordescent}
+\newglossaryentry{mirrordescent}
  {name={mirror descent},
  	description={Mirror descent\index{mirror descent} is an iterative optimization method  
 	             obtained by generalizing the gradient step. The 
@@ -3636,3 +4282,358 @@ sort={sigma-field},
 	text={Bregman divergence}
 }
 
+\newglossaryentry{derivative} 
+{name={derivative}, 
+	description={See\index{derivative} partial derivative.}, 
+ 	first={derivative}, 
+ 	text={derivative}, 
+ 	type=math, 
+ 	plural={derivatives}, 
+ 	firstplural={derivatives}
+}
+
+\newglossaryentry{partialderivative}
+{name={partial derivative},
+	description={Consider a real-valued function 
+		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}: {\bf x}\mapsto f({\bf x})$. 
+	     	The partial derivative\index{partial derivative} of $f({\bf x})$ 
+		with respect to the entry $\feature_{j}$ measures how  
+		$f$ changes when $\feature_j$ varies while all 
+        		other entries $x_{j'}$, for $j' \in [d] \setminus \{j\}$, 
+		are held fixed. It is defined as \cite{RudinBookPrinciplesMatheAnalysis}
+        		$$
+            	\frac{\partial f({\bf x})}{\partial \feature_j}
+            	= \lim_{\varepsilon \rightarrow 0} 
+              	\frac{f(\feature_1,\,\ldots,\,\feature_{j}+\varepsilon,\,\ldots,\,\feature_d) 
+			  - f(\feature_1,\,\ldots,\,\feature_j,\,\ldots,\,\feature_d)}{\varepsilon}.$$
+		Note that the partial derivative is only defined if this limit exists. 
+		For a differentiable function, the partial derivatives of $f$ are the entries 
+		of the gradient $\nabla f$. 
+		\\
+        		See also: function, derivative, gradient.},
+    	first={partial derivative},
+	firstplural={partial derivatives},
+	type=math, 
+	plural={partial derivatives},
+    	text={partial derivative}
+}
+
+\newglossaryentry{algconn}
+{name={algebraic connectivity},
+	description={The\index{algebraic connectivity} algebraic connectivity of 
+		an undirected graph is the second-smallest eigenvalue $\lambda_{2}$ 
+		of its Laplacian matrix. 
+		An undirected graph is connected if and only if $\lambda_{2} >0$ 
+		(see Fig. \ref{fig_algconn_dict}) \cite{ChungSpecGraphTheory}, \cite{Spielman2019}. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			% Horizontal axis
+			\draw[->,line width=1pt] (-1, -1) -- (9, -1) node[below] {$\lambda_{2}$};
+			% Ticks on the horizontal axis
+			\draw[thick] (0, -0.8) -- (0, -1.2) node[below] {{$\lambda_{2}\!=\!0$}};
+			\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\lambda_{2}\!=\!n$};
+			% Left graph (single edge)
+			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
+			\node[above=0.5cm of A1, align=center] {\mbox{disconnected}};
+			\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
+			\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
+			\draw [line width=1 pt]  (A1) -- (B1);
+			% Middle graph (two edges, shifted right)
+			\begin{scope}[xshift=3.5cm]
+				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
+				\node[above=0.5cm of A2, align=center] {\mbox{connected}};
+				\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B2) [below right=0.8cm and 0.5cm of A2] {};
+				\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C2) [below left=0.8cm and 0.5cm of A2] {};
+				\draw [line width=1 pt]  (A2) -- (B2);
+				\draw [line width=1 pt]  (B2) -- (C2);
+			\end{scope}
+			% Right graph (three edges, shifted further right)
+			\begin{scope}[xshift=7cm]
+				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A3) at (0, 1.5) {};
+				\node[above=0.5cm of A3, align=center] {\mbox{complete graph}};
+				\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B3) [below right=0.8cm and 0.5cm of A3] {};
+				\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C3) [below left=0.8cm and 0.5cm of A3] {};
+				\draw [line width=1 pt] (A3) -- (B3);
+				\draw [line width=1 pt]  (B3) -- (C3);
+				\draw [line width=1 pt]  (A3) -- (C3);
+			\end{scope}
+			\end{tikzpicture}
+		\caption{Three examples of undirected graphs. \label{fig_algconn_dict}}
+		\end{figure}
+		See also: undirected graph, eigenvalue, Laplacian matrix, connected.},
+	first={algebraic connectivity},
+	type=math,
+	text={algebraic connectivity}
+}
+
+\newglossaryentry{cfwmaxmin}
+{name={Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)}, 
+	description={Consider\index{Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)} a positive semi-definite (psd) 
+		matrix $\mathbf{Q}\in \mathbb{R}^{d\times d}$ with 
+		eigenvalue decomposition (EVD) (or spectral decomposition), i.e.,
+		$$\mathbf{Q}= \sum_{j=1}^{d} \lambda_{j} {\bf u}^{(j)} \big(  {\bf u}^{(j)}  \big)\,^{T}.$$ 
+		Here, we use the ordered (in ascending order) eigenvalues 
+		\begin{equation}
+			\nonumber
+		 	\lambda_{1}  \leq \ldots \leq \lambda_{n}. 
+		\end{equation}
+		The CFW min–max characterization \cite[Th. 8.1.2]{GolubVanLoanBook} 
+		represents the eigenvalues of $\mathbf{Q}$ as the solutions to certain optimization problems.
+			\\
+		See also: positive semi-definite (psd), matrix, eigenvalue decomposition (EVD), eigenvalue, optimization problem.}, 
+	first={Courant–Fischer–Weyl min–max characterization (CFW min–max characterization)}, 
+	type=math,
+	text={CFW min–max characterization}
+}
+
+\newglossaryentry{sample}
+{name={sample}, plural={samples},
+	description={In the context of machine learning (ML), a\index{sample} sample is a finite sequence 
+ 		(of length $m$) of data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$. 
+ 		The number $m$ is called the sample size. 
+ 		Empirical risk minimization (ERM)-based methods use a sample to train a model (or learn a 
+ 		hypothesis) by minimizing the average loss (i.e., the empirical risk) over that sample. 
+ 		Since a sample is defined as a sequence, the same data point may 
+		appear more than once. By contrast, some authors in statistics define a sample 
+		as a set of data points, in which case duplicates are not allowed \cite{Everitt2010}, \cite{OxfordStatisticsDictionary}.
+ 		These two views (i.e., sequence versus set) can be reconciled by regarding a sample as a sequence of 
+ 		feature–label pairs, $\left( {\bf x}^{(1)},y^{(1)} \right), \,\ldots, 
+ 		\,\left( {\bf x}^{(m)},y^{(m)} \right)$. The $r$th 
+ 		pair consists of the features ${\bf x}^{(r)}$ and the label $y^{(r)}$ 
+ 		of an unique underlying data point $\widetilde{{\bf z}}^{(r)}$. While the 
+ 		underlying data points $\widetilde{{\bf z}}^{(1)},\,\ldots,\,\widetilde{{\bf z}}^{(m)}$ 
+ 		are unique, some of them can have identical features and labels.  
+ 		\begin{figure}[H]
+ 		\begin{center}
+ 			\begin{tikzpicture}[>=Latex, font=\small]
+ 				% --- Population box ----------------------------------------------------
+ 				\node[draw, rounded corners, inner sep=6pt,
+ 				minimum width=5.2cm, minimum height=3.4cm] (pop) {};
+ 				\node[above=0pt of pop.north] {population};
+ 				% --- Population points as coordinates (no empty \node{})
+ 				\foreach \x/\y [count=\i] in {-2.0/0.3, -1.6/0.9, -1.2/-0.2, -0.8/0.5,
+ 				-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
+ 				1.4/0.4, 1.8/-0.1} {
+ 				\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
+ 				\fill (p\i) circle (1.6pt);
+ 				}
+ 				% --- Anchor for sample (coordinate, not node) --------------------------
+ 				\coordinate (sampleanchor) at ([xshift=1.8cm,yshift=0.5cm]pop.east);
+ 				% --- Sample sequence entries ------------------------------------------
+ 				\def\rowgap{0.55cm}
+ 				\def\ybase{0.95cm}
+ 				\node[anchor=west] (s1) at ($(sampleanchor)+(0, \ybase - 0*\rowgap)$)
+ 				{$1:\;({\bf x}^{(1)},y^{(1)})$};
+ 				\node[anchor=west] (s2) at ($(sampleanchor)+(0, \ybase - 1*\rowgap)$)
+ 				{$2:\;({\bf x}^{(2)},y^{(2)})$};
+ 				\node[anchor=west] (s3) at ($(sampleanchor)+(0, \ybase - 2*\rowgap)$)
+ 				{$3:\;({\bf x}^{(3)},y^{(3)})$};
+ 				\node[anchor=west] (s4) at ($(sampleanchor)+(0, \ybase - 3*\rowgap)$)
+ 				{$4:\;({\bf x}^{(4)},y^{(4)})$};
+ 				\node[anchor=west] (s5) at ($(sampleanchor)+(0, \ybase - 4*\rowgap)$)
+ 				{$5:\;({\bf x}^{(5)},y^{(5)})$};
+ 				\node[anchor=west] (s6) at ($(sampleanchor)+(0, \ybase - 5*\rowgap)$)
+ 				{$6:\;({\bf x}^{(6)},y^{(6)})$};
+ 				% --- Auto-sized sample box (fit to first & last entry) -----------------
+ 				\node[draw, rounded corners, inner sep=6pt, fit=(s1)(s6)] (seqbox) {};
+ 				\node[above=0pt of seqbox.north]
+ 				{a sample};
+ 				% --- Arrows from population points to sample entries -------------------
+ 				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{{\bf z}}^{(1)}$};
+ 				\draw[->, thick] (p2) to[out=0,   in=180] ($(s1.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p7) to[out=10,  in=180] ($(s3.west)+(1mm,0mm)$);
+				\draw[->, thick] (p4) to[out=10,  in=180] ($(s4.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p5) to[out=-10, in=180] ($(s5.west)+(1mm,0mm)$);
+ 				% Duplicate selection: same population point chosen twice
+ 				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] ($(s2.west)+(1mm,0mm)$);
+ 				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] ($(s6.west)+(1mm,0mm)$);
+ 				% Optional overall sampling arrow (boxes stay aligned)
+ 				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
+ 			\end{tikzpicture}
+ 		\end{center}
+ 		\caption{A sample viewed as a finite sequence. 
+		        Each element of this sample consists of the feature vector 
+			and the label of a data point from an underlying population.
+			The same data point may occur more than once in the sample. 
+ 			\label{fig:sample-sequence_dict}}
+ 		\end{figure} 	
+ 		For the analysis of machine learning (ML) methods, it is common to interpret (the generation of) a 
+		sample as the realization of a stochastic process indexed by $\{1,\,\ldots,\,m\}$. 
+		A widely used assumption is the independent and identically distributed assumption (i.i.d.\ assumption), where sample elements 
+		$\left( {\bf x}^{(r)},y^{(r)} \right)$, 
+		for $r=1,\,\ldots,\,m$, are independent and identically distributed (i.i.d.) random variables (RVs) with a common probability distribution.  
+		\\
+ 		See also: sequence, independent and identically distributed assumption (i.i.d.\ assumption), dataset.},
+ 	first={sample},
+	type=math,
+ 	text={sample}
+}
+
+\newglossaryentry{posterior}
+{name={posterior}, 
+	description={The\index{posterior} study and design of machine learning (ML) methods is often based on a 
+         	probabilistic model for the data generation process. Within a 
+		probabilistic model, we view (the generation of) a data point with 
+		features ${\bf x}$ and label $y$ as an 
+		random variable (RV) with probability distribution $\mathbb{P}^{({\bf x},y)}$. 
+		It turns out that the optimal prediction for the label 
+		$y$, given the feature vector ${\bf x}$, is fully 
+		determined by the conditional probability distribution 
+		of $y$ given (or conditioned on) ${\bf x}$.
+		\\
+		See also: probabilistic model, conditional probability distribution. }, 
+ 	first={posterior}, 
+ 	type=math, 
+ 	text={posterior} 
+}
+
+\newglossaryentry{det}
+{name={determinant},
+	description={The\index{determinant} determinant $\det\,({\bf A})$ of a square matrix 
+		${\bf A}=\linebreak \big( {\bf a}^{(1)},\,\ldots,\,{\bf a}^{(d)} \big) \in \mathbb{R}^{d\times d}$ is a 
+		function of its columns ${\bf a}^{(1)},\,\ldots,\,{\bf a}^{(d)} \in \mathbb{R}^{d}$, i.e., it satisfies 
+		the following properties \cite{DirschmidHansJorg1996TuF}:
+		\begin{itemize}
+			\item Normalized: $$\det\,(\mathbf{I}) = 1$$ 
+			\item Multilinear: \begin{align} \nonumber \det \big({\bf a}^{(1)},\,\ldots,\,\alpha{\bf u}+ \beta {\bf v},\,\ldots,\,{\bf a}^{(d)} \big) & = \alpha\det \big({\bf a}^{(1)},\,\ldots,\,{\bf u},\,\ldots,\,{\bf a}^{(d)} \big) \\ 
+			& +\beta\det \big({\bf a}^{(1)},\,\ldots,\,{\bf v},\,\ldots,\,{\bf a}^{(d)} \big) \nonumber
+			\end{align}
+			\item Antisymmetric: $$\det \big(\ldots,\,{\bf a}^{(j)}, \,\ldots, \,{\bf a}^{(j')},\,\ldots \big) = - \det \big(\ldots,\,{\bf a}^{(j')}, \,\ldots, \,{\bf a}^{(j)},\,\ldots \big).$$ 
+		\end{itemize} 
+		We can interpret a matrix ${\bf A}$ as a linear transformation on $\mathbb{R}^{d}$.
+		The determinant $\det\,({\bf A})$ characterizes how volumes in $\mathbb{R}^d$ (and their orientation) 
+		are altered by this transformation (see Fig. \ref{fig_det_dict}) \cite{GolubVanLoanBook}, \cite{Strang2007}. 
+ 		In particular, $\det\,({\bf A}) > 0$ preserves orientation, $\det\,({\bf A}) < 0$ reverses orientation, 
+ 		and $\det\,({\bf A}) = 0$ collapses volume entirely, indicating that ${\bf A}$ is non-invertible. 
+ 		The determinant also satisfies $\det\,({\bf A}{\bf B}) = \det\,({\bf A}) \cdot \det\,({\bf B})$, and if ${\bf A}$ is 
+ 		diagonalizable with eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d}$, then 
+		$\det\,({\bf A}) = \prod_{j=1}^{d} \lambda_{j}$ \cite{HornMatAnalysis}.
+    		For the special cases $d=2$ (i.e., two-dimensional or 2-D) and $d=3$ (i.e., three-dimensional or 3-D), 
+		the determinant can be interpreted as an oriented area or volume spanned by the column vectors of ${\bf A}$.
+    		\begin{figure}[H]
+    			\begin{center}
+    			\begin{tikzpicture}[x=2cm]
+			% LEFT: Standard basis vectors and unit square
+			\begin{scope}
+			\draw[->, thick] (0,0) -- (1,0) node[below right] {${\bf x}$};
+			\draw[->, thick] (0,0) -- (0,1) node[above left] {${\bf y}$};
+			%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+			%\node at (0.5,0.5) {\small unit square};
+			%\node at (0.5,-0.6) {standard basis};
+			\end{scope}
+			% RIGHT: Transformed basis vectors and parallelogram
+			\begin{scope}[shift={(2.8,0)}]
+			\coordinate (A) at (1.5,0.5);
+			\coordinate (B) at (-0.2,1.2);
+			\draw[->, very thick, red] (0,0) -- (A) node[below right] {${\bf A}{\bf x}$};
+			\draw[->, very thick, red] (0,0) -- (B) node[above left] {${\bf A}{\bf y}$};
+			\draw[fill=red!20, opacity=0.6] (0,0) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+			\draw[dashed] (A) -- ($(A)+(B)$);
+			\draw[dashed] (B) -- ($(A)+(B)$);
+			\node at (0.8,0.6) {\small $\det\,({\bf A})$};
+			% Orientation arc
+			\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
+			%	\node[blue] at (0.25,1.25) {};
+			%	\node at (0.8,-0.6) {transformed basis};
+			\end{scope}
+			% Arrow between plots
+			\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {${\bf A}$};
+			\end{tikzpicture}
+			\end{center}
+			\caption{We can interpret a square matrix ${\bf A}$ as a linear transformation of $\mathbb{R}^{d}$ 
+				into itself. The determinant $\det\,({\bf A})$ characterizes how this transformation alters an oriented volume.
+				\label{fig_det_dict}}
+		\end{figure}
+		See also: eigenvalue, inverse matrix.},
+	first={determinant},
+	type=math,
+	text={determinant}
+}
+
+\newglossaryentry{hessian}
+{name={Hessian},
+ 	description={Consider\index{Hessian} a function 
+		$f: \mathbb{R}^{d} \to \mathbb{R}$ for which the second-order 
+		partial derivatives exist at ${\bf x}'$. Then, the Hessian $\nabla^2 f({\bf x}')$ 
+		of $f$ at ${\bf x}$ is defined as the matrix of second-order 
+		partial derivatives of $f$ at ${\bf x}'$, i.e., 
+		$$\nabla^{2} f({\bf x}') \;=\;
+		\begin{pmatrix}
+			\frac{\partial^{2} f}{\partial \feature_{1}^{2}}
+			& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{1}\, \partial \feature_{d}} \\
+			\frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{1}}
+			& \frac{\partial^{2} f}{\partial \feature_{2}^{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{2}\, \partial \feature_{d}} \\
+			\vdots & \vdots & \ddots & \vdots \\[1.2ex]
+			\frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{1}}
+			& \frac{\partial^{2} f}{\partial \feature_{d}\, \partial \feature_{2}}
+			& \cdots
+			& \frac{\partial^{2} f}{\partial \feature_{d}^{2}}
+		\end{pmatrix}.$$
+		If the second-order partial derivatives are continuous in a neighborhood around ${\bf x}'$, 
+		then the Hessian is a symmetric matrix, i.e.,
+		${\partial^{2} f}/{\partial \feature_{j}\, \partial \feature_{j'}} = 
+		{\partial^{2} f}/{\partial \feature_{j'}\, \partial \feature_{j}}$ for all 
+		$j, j'$ \cite{RudinBookPrinciplesMatheAnalysis}. If additionally $f$ 
+		is convex, then the Hessian is a positive semi-definite (psd) matrix \cite{BoydConvexBook}.\\
+		The Hessian $\nabla^2 f({\bf x}')$ can be used to compute a quadratic function 
+		$$q({\bf x}) = \frac{1}{2} ({\bf x}- {\bf x}')^{T} \underbrace{\nabla^2 f({\bf x}')}_{\text{Hessian}} 
+		({\bf x}- {\bf x}') +  ({\bf x}- {\bf x}')^{T} \underbrace{\nabla f({\bf x}')}_{\text{gradient}} 
+		+ f({\bf x}')$$
+		that approximates $f$ locally around ${\bf x}'$ (see also Fig. \ref{fig_quadapprox_hessian_dict}). 
+		\begin{figure}[H]
+		\begin{center}
+		\begin{tikzpicture}[x=0.5cm]
+			\begin{axis}[
+				hide axis,
+				xmin=3, xmax=6,
+				ymin=0, ymax=6,
+				domain=0:6,
+				samples=100,
+				width=10cm,
+				height=6cm,
+				clip=false
+				]
+			% Original nonlinear function h(x)
+				\addplot[blue, thick, domain=3:6.6] {2 + sin(deg(x))} 
+				node[pos=0.5, above right, yshift=3pt] {$f({\bf x})$};
+			% Tangent line as local linear approximation at x = 3
+			% h(3) = 2 + sin(3), h'(3) = cos(3)
+				\addplot[red, thick, domain=3.5:6.6] 
+				{2 + sin(deg(6)) + cos(deg(6))*(x - 6)}
+				node[pos=0, below left] {$g({\bf x})$};
+                		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                			\addplot[green, thick, domain=3.5:6.6]
+                			{2 + sin(deg(6)) + cos(deg(6))*(x - 6) - 0.5*sin(deg(6))*(x - 6)^2}
+				node[pos=0, below left, yshift=10pt] {$q({\bf x})$};
+                		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			% Mark point of approximation
+				\addplot[mark=*] coordinates {(6, {2 + sin(deg(6))})};
+			% Vertical dashed line (ruler) at x = 3
+				\addplot[dashed, gray] coordinates {(6,0) (6,2.4)};
+				\node at (axis cs:6, -0.2) {${\bf x}'$};
+			% Plot the two points
+			% Coordinates of the two points
+				\pgfmathsetmacro{\xA}{-1.5}
+				\pgfmathsetmacro{\xB}{3}
+				\pgfmathsetmacro{\yA}{2 + sin(deg(\xA))}
+				\pgfmathsetmacro{\yB}{2 + sin(deg(\xB))}
+			\end{axis}
+			\vspace*{-10mm}
+		\end{tikzpicture}
+		\vspace*{-5mm}
+		\end{center}
+		\caption{A function $f({\bf x})$ that is sufficiently smooth at a 
+			point ${\bf x}'$ can be locally approximated by 
+			a quadratic function $q({\bf x})$, which provides a more accurate approximation 
+			compared to a linear function $g({\bf x})$. \label{fig_quadapprox_hessian_dict}}
+		\end{figure}
+		See also: function, matrix, quadratic function, differentiable. }, 
+	first={Hessian},
+	type=math,
+	text={Hessian}
+}

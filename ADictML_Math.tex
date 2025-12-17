@@ -797,10 +797,11 @@
 
 \newglossaryentry{stdnormvec}
 {name={standard normal random vector}, 
-	description={A\index{standard normal random vector} standard normal random \gls{vector} is a random 
-		\gls{vector} $\vx=\big(x_{1}, \,\ldots, \,x_{\nrfeatures}\big)\,^{T}$ 
-		whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
-		It is a special case of a \gls{mvndist}, $\vx \sim \mathcal(\mathbf{0},\mathbf{I})$.
+	description={A\index{standard normal random vector} standard normal random \gls{vector} 
+	             is a \gls{rv} $\featurevec=\big(\feature_{1}, \,\ldots, \,\feature_{\nrfeatures}\big)\,^{T}$ 
+		         whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
+		         The \gls{probdist} of a standard normal random \gls{vector} is a special case 
+				 of a \gls{mvndist}, $\featurevec \sim \mathcal{N}(\mathbf{0},\mathbf{I})$.
 		\\ 
 		See also: \gls{vector}, \gls{iid}, \gls{gaussrv}, \gls{mvndist}, \gls{rv}.}, 
 	first={standard normal random vector},
@@ -1175,6 +1176,632 @@
 	first={probabilistic principal component analysis (PPCA)},
 	type=math, 
 	text={PPCA}
+}
+
+\newglossaryentry{contractop}
+{name={contractive operator},
+	description={An\index{contractive operator} \gls{operator} 
+		$\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
+		is a contraction (or contractive) if, for some $\contractfac \in [0,1)$, 
+ 	   	\cite{BausckeCombette}, \cite{ProximalMethods}
+		\begin{equation} 
+			\nonumber
+			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq 
+			 \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\nrfeatures}.
+		\end{equation} 
+		The notion of a contractive \gls{operator} generalizes naturally from $\mathbb{R}^{\nrfeatures}$ 
+		to arbitrary \glspl{metricspace} \cite{BausckeCombette}.
+		\begin{figure}[H]
+    			\centering
+    			\begin{tikzpicture}[>=Latex, font=\small]
+        			% Styles
+        			\tikzset{
+            		space/.style={draw, thick, circle, minimum size=4.0cm},
+            		pt/.style={circle, inner sep=1.5pt, draw, fill=black},
+            		maparrow/.style={->, very thick},
+            		distline/.style={dashed, thick}
+        			}
+        			% Single space
+        			\node[space,label=above:{$\featurespace$}] (X) at (0,0) {};
+        			% Two points and their images under T inside the same space
+        			\coordinate (x1)  at (-1.0,0.8);
+        			\coordinate (x2)  at ( 1.0,0.8);
+        			\coordinate (Tx1) at (-0.5,0.1);
+        			\coordinate (Tx2) at ( 0.5,0.1);
+        			% Points x, x'
+        			\node[pt,label=above left:{$\featurevec$}] at (x1) {};
+        			\node[pt,label=above right:{$\featurevec'$}] at (x2) {};
+        			% Images T(x), T(x')
+        			\node[pt] (TX1) at (Tx1) {};
+        			\node[pt] (TX2) at (Tx2) {};
+        			\node[anchor=east] at ($(TX1.west)+(-4pt,-2pt)$) {$\fixedpointop \featurevec$};
+        			\node[anchor=west] at ($(TX2.east)+(4pt,-2pt)$) {$\fixedpointop \featurevec'$};
+        			% Contraction effect: distances shrink
+        			\draw[distline] (x1) -- (x2)
+            		node[midway, above=4pt] {$\metric{\featurevec}{\featurevec'}$};
+        			\draw[distline] (Tx1) -- (Tx2)
+            		node[midway, below=4pt] {$\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'}$};
+        			% Fixed point in the same space
+        			\coordinate (xs) at (0,-0.9);
+        			\node[pt,label=below:{$\featurevec^\star$}] (XS) at (xs) {};
+        			% Small loop indicating T(x*) = x*
+        			%\draw[maparrow,shorten >=2pt,shorten <=2pt]
+            		%(XS) .. controls +(60:0.7) and +(120:0.7) .. (XS);
+        			\node at (0,-1.6) {$\fixedpointop \featurevec^\star = \featurevec^\star$};
+    			\end{tikzpicture}
+    		\caption{A contractive \gls{operator} $\fixedpointop:\featurespace\to\featurespace$ 
+      			has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.
+      			For any two points $\featurevec,\featurevec'$ in the same space, the distance between their images
+      			$\fixedpointop\featurevec$ and $\fixedpointop\featurevec'$ is strictly smaller.}
+    			\label{fig:contract_dict}
+		\end{figure}
+		Intuitively, a contractive \gls{operator} brings any two points 
+		from its \gls{domain} closer together by at least a factor of $\contractfac$.
+		\\ 
+		See also: \gls{operator}, \gls{metricspace}. },
+	first={contractive operator},
+	text={contractive operator}, 
+	type=math,
+	firstplural={contractive operators}, 
+	plural={contractive operators}
+}
+
+\newglossaryentry{proxop}
+{name={proximal operator},
+	description={Given\index{proximal operator} a \gls{convex} 
+		\gls{function} $f(\weights')$, we define its proximal \gls{operator} as \cite{Bauschke:2017}, \cite{ProximalMethods}  
+		$$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!\frac{\rho}{2} \normgeneric{\weights- \weights'}{2}^{2}\bigg] \mbox{ with } \rho > 0. $$ 
+		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal \gls{operator} 
+		amounts to minimizing a penalized variant of $f(\weights')$. The \gls{penaltyterm} is the 
+		scaled squared \gls{eucliddist} to a given \gls{vector} $\weights$ (which is the input to the proximal \gls{operator}). 
+		The proximal \gls{operator} can be interpreted as a \gls{generalization} of the \gls{gradstep}, which is defined 
+		for a \gls{smooth} \gls{convex} \gls{function} $f(\weights')$. Indeed, taking a 
+		\gls{gradstep} with \gls{stepsize} $\lrate$ at the current \gls{vector} $\weights$ 
+		is the same as applying the proximal \gls{operator} of the \gls{function} $\tilde{f}(\weights')= \big( \nabla f(\weights)\big)\,^{T} (\weights'-\weights)$ 
+		and using $\rho=1/\lrate$.
+			\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}[scale=0.8]
+					% Original quadratic function
+					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f(\weights')$};		
+					% Quadratic function with larger curvature, centered at w = 2
+					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{\lrate}\normgeneric{\weights-\weights'}{2}^{2}$};
+					% Axes
+					% Minimum point of second curve
+					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
+					%\node at (2,0.5) [anchor=north] {$\weights$};
+				\end{tikzpicture}
+			\end{center}
+			\caption{The proximal \gls{operator} updates a \gls{vector} $\weights$ by minimizing a penalized version 
+				of the \gls{function} $f(\cdot)$. The \gls{penaltyterm} is the scaled squared \gls{eucliddist} between the optimization 
+				variable $\weights'$ and the given \gls{vector} $\weights$.	\label{fig_proxoperator_opt_dict}}
+		\end{figure}
+		See also: \gls{convex}, \gls{function}, \gls{gradstep}.},
+	first={proximal operator},
+	type=math,
+	firstplural={proximal operators},
+	plural={proximal operators},
+	text={proximal operator}
+}
+
+\newglossaryentry{connected}
+{name={connected}, 
+	description={An\index{connected} 
+		\gls{undirectedgraph} $\graph=\pair{\nodes}{\edges}$ is connected if, for every 
+		non-empty subset $\nodes' \subset \nodes$, we can find at least one edge 
+		connecting a node in $\nodes'$ with some node in $\nodes \setminus \nodes'$.
+		We illustrate two examples of \glspl{undirectedgraph} in Fig. \ref{fig_connected_dict}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			% Horizontal axis
+			% Left graph (single edge)
+			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
+			\node[above=0.5cm of A1, align=center] {disconnected};
+			\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B1) [below right=0.8cm and 0.5cm of A1] {};
+			\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C1) [below left=0.8cm and 0.5cm of A1] {};
+			\draw [line width=1 pt]  (A1) -- (B1);
+			\node at (0, -1) {(a)};
+			% Middle graph (two edges, shifted right)
+			\begin{scope}[xshift=3.5cm]
+				\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A2) at (0, 1.5) {};
+				\node[above=0.5cm of A2, align=center] {connected};
+				\node[circle, fill=black, inner sep=1.5pt, label=below right:{2}] (B2) [below right=0.8cm and 0.5cm of A2] {};
+				\node[circle, fill=black, inner sep=1.5pt, label=below left:{3}] (C2) [below left=0.8cm and 0.5cm of A2] {};
+				\draw [line width=1 pt]  (A2) -- (B2);
+				\draw [line width=1 pt]  (B2) -- (C2);
+				\node at (0, -1) {(b)};
+			\end{scope}
+			\end{tikzpicture}
+		\caption{(a) A \gls{graph} that is disconnected. (b) A \gls{graph} that is connected. \label{fig_connected_dict}}
+		\end{figure} 
+		See also: \gls{undirectedgraph}, \gls{algconn}.}, 
+	type=math, 
+	first={connected},
+	text={connected}
+}
+
+\newglossaryentry{GaussProc}
+{name={Gaussian process (GP)},
+	description={A\index{Gaussian process (GP)} GP is a collection of \glspl{rv} 
+  		$\{f(\featurevec)\}_{\featurevec \in \featurespace}$ indexed by input values $\featurevec$ 
+  		from some input space $\featurespace$ such that, for any finite subset 
+  		$\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \featurespace$, 
+  		the corresponding \glspl{rv} $f(\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)})$ 
+		have a joint \gls{mvndist} 
+  		\[
+  		f \left( \featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \right) \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K}).
+  		\]
+  		For a fixed input space $\featurespace$, a GP is 
+		fully specified (or parameterized) by: 1) a \gls{mean} \gls{function} 
+		$\mu(\featurevec) = \expect\{ f(\featurevec)\}$; and 2) 
+		a \gls{covariance} \gls{function} 
+		$\kernelmap{\featurevec}{\featurevec'}= \expect\{ \big(f(\featurevec)-\mu(\featurevec)\big) \big(f(\featurevec')-\mu(\featurevec')\big) \big\}$.\\
+  		Example: We can interpret the temperature distribution across Finland (at a specific 
+  		point in time) as the \gls{realization} of a GP $f(\featurevec)$, where each input 
+		$\featurevec = (\text{lat}, \text{lon})$ denotes a geographic location. Temperature 
+		observations from \gls{fmi} weather stations provide values $f(\featurevec)$ at specific 
+		locations (see Fig. \ref{fig_gp_FMI_dict}). A GP allows us to predict the temperature 
+		nearby \gls{fmi} weather stations and to quantify the \gls{uncertainty} 
+  		of these \glspl{prediction}. 
+  		\begin{figure}[H]
+  		\begin{center}
+  			\begin{tikzpicture}
+			\begin{axis}[
+			axis equal,
+			hide axis,
+			scale=1.2,
+			xmin=17, xmax=32,
+			ymin=55, ymax=71,
+			%	width=15cm,
+			%	height=20cm,
+			clip=true
+			]
+			% --- Finland border (polyline) ---
+			\addplot[
+			color=black,
+			thick
+			] table [x=lon, y=lat, col sep=comma] {assets/finland_border.csv};
+			% --- FMI sample stations ---
+			\addplot[
+			only marks,
+			mark=*,
+			mark options={fill=blue},
+			color=black
+			] table [x=lon, y=lat, col sep=comma] {assets/fmi_stations_subset.csv};
+			% Draw manual axes
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:25.5,59) node[anchor=west] {longitude (lon)};
+			\draw[->, thick] (axis cs:19,59) -- (axis cs:19,65.5) node[anchor=south] {latitude (lat)};
+			\end{axis}
+			\end{tikzpicture}
+			\vspace*{-5mm}
+		\end{center}
+		\caption{For a given point in time, we can interpret the current temperature distribution 
+		over Finland as a \gls{realization} of a GP indexed by geographic coordinates and 
+		sampled at \gls{fmi} weather stations. The weather stations are indicated by blue dots. \label{fig_gp_FMI_dict}}
+		\end{figure}
+		See also: \gls{mvndist}, \gls{uncertainty}, \gls{gaussrv}.}, 
+  	first={GP}, 
+  	type=math, 
+  	text={GP}
+}
+
+\newglossaryentry{normaldist} 
+{name={normal distribution}, 
+	description={See\index{normal distribution} \gls{gaussrv}.},
+ 	first={normal distribution}, 
+ 	firstplural={normal distributions},
+ 	plural={normal distributions},
+	type=math, 
+ 	text={normal distribution}
+}
+	
+\newglossaryentry{gaussrv}
+{name={Gaussian random variable (Gaussian RV)}, 
+	description={A\index{Gaussian random variable (Gaussian RV)} standard \gls{gaussian} \gls{rv} is a 
+		real-valued \gls{rv} $x$ with \gls{pdf} \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
+		\begin{equation}
+			\nonumber
+			p(x) = \frac{1}{\sqrt{2\pi}} \exp\,(-x^2/2). 
+		\end{equation}
+		Given a standard \gls{gaussian} \gls{rv} $x$, we can construct a general \gls{gaussian} 
+		\gls{rv} $x'$ with \gls{mean} $\mu$ and \gls{variance} $\sigma^2$ via $x' \defeq \sigma x + \mu$. 
+		The \gls{probdist} of a \gls{gaussian} \gls{rv} is referred to as \gls{normaldist}, 
+		denoted by $\mvnormal{\mu}{\sigma^{2}}$. 
+		\\ 
+		A \gls{gaussian} random \gls{vector} $\featurevec \in \mathbb{R}^{\featuredim}$ with 
+		\gls{covmtx} $\mathbf{C}$ and \gls{mean} ${\bm \mu}$ can be constructed as \cite{GrayProbBook}, \cite{papoulis}, \cite{Lapidoth09}
+		\[
+		\featurevec \defeq \mathbf{A} \vz + {\bm \mu}
+		\]
+		where $\vz \defeq \big( z_{1}, \,\ldots, \,z_{\featuredim} \big)\,^{T}$ is a \gls{vector} 
+		of \gls{iid} standard \gls{gaussian} \glspl{rv}, and $\mA \in \mathbb{R}^{\featuredim \times \featuredim}$ is any \gls{matrix} satisfying $\mA \mA\,^{T} = \mC$. 
+		The \gls{probdist} of a \gls{gaussian} random \gls{vector} is referred to as the \gls{mvndist}, 
+		denoted by $\mvnormal{\bm \mu}{\mathbf{C}}$.
+		\\
+		We can interpret a \gls{gaussian} random \gls{vector} $\featurevec=\big(\feature_{1},\,\ldots,\,\feature_{\nrfeatures}\big)$ as a \gls{stochproc} 
+		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,\nrfeatures\}$. A \glspl{GaussProc} is a 
+		\gls{stochproc} over an arbitray index set $\mathcal{I}$ such that any restriction 
+		to a finite subset $\mathcal{I}' \subseteq \mathcal{I}$ yields a \gls{gaussian} 
+		random \gls{vector} \cite{Rasmussen2006Gaussian}.
+  		\\
+        		\Gls{gaussian} \glspl{rv} are widely used \glspl{probmodel} in the 
+				statistical analysis of \gls{ml} methods. Their significance arises 
+				partly from the \gls{clt} which provides conditions under which 
+				the average of many independent \glspl{rv} (not necessarily \gls{gaussian} themselves) 
+				tends toward a \gls{gaussian} \gls{rv} \cite{ross2013first}.
+		\\ 
+		The \gls{mvndist} is also distinct in that it represents \gls{maximum} \gls{uncertainty}. 
+		Among all \gls{vector}-valued \glspl{rv} with a given \gls{covmtx} $\mC$, the 
+		\gls{rv} $\vx \sim \mvnormal{\bm \mu}{\mathbf{C}}$ maximizes \gls{diffentropy} 
+		\cite[Th. 8.6.5]{coverthomas}. This makes \glspl{GaussProc} a natural choice for 
+		capturing \gls{uncertainty} or the lack of (domain) knowledge.
+		\\ 
+		See also: \gls{mvndist}, \gls{GaussProc}, \gls{probmodel}, \gls{clt}, \gls{diffentropy}.},
+	first={Gaussian random variable (Gaussian RV)},
+	type=math, 
+	plural={Gaussian RVs}, 
+	firstplural={Gaussian random variables (Gaussian RVs)}, 
+	text={Gaussian RV}
+}
+
+\newglossaryentry{gaussian} 
+{name={Gaussian}, 
+	description={See\index{Gaussian} \gls{gaussrv}.},
+ 	first={Gaussian},
+ 	type=math,
+ 	text={Gaussian},
+	firstplural={Gaussians},  
+ 	plural={Gaussians}
+}
+	
+\newglossaryentry{clt}
+{name={central limit theorem (CLT)},
+	description={Consider a sequence of \gls{iid} \glspl{rv} \( \feature^{(\sampleidx)} \), for \( \sampleidx = 1, \,2, \,\ldots \), 
+		each with \gls{mean} zero and finite \gls{variance} \( \sigma^2 > 0 \). 
+		The\index{central limit theorem (CLT)} CLT states that the normalized sum 
+		\[
+		s^{(\samplesize)} \defeq \frac{1}{\sqrt{\samplesize}} \sum_{\sampleidx = 1}^{\samplesize} \feature^{(\sampleidx)} 
+		\]
+		converges in distribution to a \gls{gaussrv} with \gls{mean} zero and \gls{variance} \( \sigma^2 \) as \( \samplesize \to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}.
+		One elegant way to derive the CLT is via the \gls{characteristicfunc} of the normalized sum \( s^{(\samplesize)} \). 
+		Let $ \phi(t) = \expect \big\{ \exp \big( j t \feature \big) \big\}$ (with the imaginary unit $j = \sqrt{-1}$) 
+		be the common \gls{characteristicfunc} of each sum and $\feature^{(\sampleidx)}$, and let \( \phi^{(\samplesize)}(t) \) 
+		denote the \gls{characteristicfunc} of \( s^{(\samplesize)} \). Define an \gls{operator} \( \mathcal{T} \) acting on \glspl{characteristicfunc} 
+		such that
+		\[
+		\phi^{(\samplesize)}(t) = \mathcal{T}(\phi^{(\samplesize-1)})(t) \defeq \phi\left( \frac{t}{\sqrt{\samplesize}} \right) \cdot \phi^{(\samplesize-1)}\left( \frac{\sqrt{\samplesize-1}}{\sqrt{\samplesize}} t \right).
+		\]
+		This \gls{fixedpointiter} captures the effect of recursively adding an \gls{iid} \gls{rv} $\featurevec^{(\samplesize)}$ 
+		and rescaling. Iteratively applying \( \mathcal{T} \) leads to \gls{convergence} of \( \phi^{(\samplesize)}(t) \) toward the fixed point
+		\[
+		\phi^*(t) = \exp\,(-t^2 \sigma^2 / 2)
+		\]
+		which is the \gls{characteristicfunc} of a \gls{gaussrv} with \gls{mean} zero and \gls{variance} 
+		\( \sigma^2 \). \Glspl{generalization} of the CLT allow for dependent or nonidentically distributed \glspl{rv} \cite[Sec.~2.8]{AsympVanderVaartBook}.
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			\begin{axis}[
+			width=10cm,
+			height=6cm,
+			xlabel={},
+			ylabel={},
+			legend style={at={(0.97,0.97)}, anchor=north west},
+			domain=-3:3,
+			ylabel style={
+			yshift=10pt   % shift label up by 10pt
+			},
+			samples=400,
+			ymin=-0.2, ymax=1.1,
+			axis lines=middle,
+			clip=false,
+			grid=both,
+			]
+			\addplot[thick, blue,domain=-2:2] {cos(x/sqrt(1) r)^1};
+			\addlegendentry{$m=1$}
+			\addplot[thick, red] {cos(x/sqrt(2) r)^2};
+			\addlegendentry{$m=2$}
+			\addplot[thick, green!60!black] {cos(x/sqrt(3) r)^3};
+			\addlegendentry{$m=3$}
+			\addplot[thick, dashed, black] {exp(-x^2/2)};
+			\addlegendentry{$\exp\,(-t^2/2)$}
+			\node[anchor=south, rotate=0] at (axis cs:-0.08,1.05) {$\phi^{(m)}(t)$};
+			\node[anchor=north, rotate=0] at (axis cs: 3.2,0.1) {$t$};
+			\end{axis}
+			\end{tikzpicture}
+			\caption{\Glspl{characteristicfunc} of normalized sums of \gls{iid} \glspl{rv} $x^{(\sampleidx)} \in \{-1,1\}$ 
+			for $\sampleidx=1,\,\ldots,\,\samplesize$ compared to the \gls{gaussian} limit.}
+		\end{figure}
+		See also: \gls{rv}, \gls{gaussrv}.},
+	first={central limit theorem (CLT)},
+	type=math, 
+	text={CLT}
+}
+
+\newglossaryentry{probmodel}
+{name={probabilistic model}, 
+	description={A probabilistic \gls{model}\index{probabilistic model} for the 
+		generation of \glspl{datapoint} consists of \glspl{rv} 
+		with a joint \gls{probdist} \cite{BertsekasProb}. 
+		This joint \gls{probdist} typically involves \glspl{parameter} that have to 
+		be manually chosen or learned via statistical inference methods such as 
+		\gls{maxlikelihood} estimation \cite{LC}.
+					\\ 
+		See also: \gls{model}, \gls{datapoint}, \gls{rv}, \gls{probdist}, \gls{parameter}, \gls{maxlikelihood}, \gls{realization}. }, 
+	first={probabilistic model}, 
+	plural={probabilistic models},
+	firstplural={probabilistic models},
+	type=math,
+	text={probabilistic model} 
+}
+
+\newglossaryentry{mean}
+{name={mean}, plural={means},
+	description={The\index{mean} mean of a \gls{rv} $\featurevec$, which takes 
+ 		on values in a \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$, is its 
+ 		\gls{expectation} $\expect\{\featurevec\}$. It is defined as the Lebesgue 
+ 		integral of $\featurevec$ with respect to the underlying \gls{probdist} $P$ (e.g., 
+		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
+		\[
+			\expect\{\featurevec\} = \int_{\mathbb{R}^{\dimlocalmodel}} \vx \, \mathrm{d}P(\vx).
+		\]  
+		We also use the term to refer to the average of a finite \gls{dataset}
+		$\dataset = \left\{ \vx^{(1)}, \,\ldots, \,\vx^{(\samplesize)} \in \mathbb{R}^{\dimlocalmodel}\right\}$. 
+		However, these two definitions are essentially the same. Indeed, we can use 
+		a \gls{dataset} to construct a discrete \gls{rv} $\widetilde{\vx}^{(\dataset)}=\vx^{(I)}$ on 
+		the \gls{samplespace} $\{1, \,\ldots, \,\samplesize\}$. Here, the index $I$ is 
+		chosen uniformly at random, $\prob{I=\sampleidx}=1/\samplesize$ for all 
+		$\sampleidx=1,\ldots,\samplesize$. The mean of $\widetilde{\vx}^{(\dataset)}$ is 
+		precisely the average $({1}/{\samplesize}) \sum_{\sampleidx=1}^{\samplesize} \vx^{(\sampleidx)}$.
+		For a \gls{rv} with finite second-order moment, i.e., 
+		$\expect\{ \normgeneric{\featurevec}{2}^{2} \}$ is well-defined and fnite, 
+		the mean is characterized as the solution of the 
+		following \gls{risk} minimization problem \cite{BertsekasProb}:
+		\[
+			\expect\{\featurevec\} = \argmin_{\vc \in \mathbb{R}^{\nrfeatures}} 
+			\expect \big\{\normgeneric{\featurevec - \vc}{2}^{2}\big \}.
+		\]
+		For the \gls{rv} $\widetilde{\vx}^{(\dataset)}$, associated with a \gls{dataset}, 
+		this \gls{optproblem} reduces to \gls{erm} with \gls{sqerrloss} on $\dataset$. 
+		\\ 
+		See also: \gls{rv}, \gls{expectation}, \gls{probdist}, \gls{erm}.}, 
+	first={mean}, 
+	type=math,
+	text={mean} 
+}
+
+\newglossaryentry{median}
+{name={median}, 
+plural={medians},
+	description={A\index{median} median $\med\,(x)$ of a real-valued \gls{rv} $x$ 
+ 		is any number $M \in \mathbb{R}$ such that $\prob{ x \leq M} \geq 1/2$ and 
+		$\prob{ x \geq M} \geq 1/2$ 
+		(see Fig. \ref{fig_median1_dict}) \cite{LC}. 
+ 		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}
+ 			\begin{axis}[
+    			axis lines=middle,
+    			xlabel={},
+    			ylabel={},
+    			ymin=0, ymax=1.1,
+    			xmin=-2, xmax=6,
+    			xtick=\empty,
+    			ytick={0,1/2,1},
+    			domain=-2:6,
+    			samples=200,
+    			width=10cm,
+    			height=6cm,
+    			smooth,
+    			enlargelimits=true,
+    			clip=false
+  			]
+    			% Shifted sigmoid CDF
+			\addplot[thick, blue, name path=cdf] {1/(1 + exp(-(x - 1)))} node[pos=0.5, above, yshift=15pt] {$\prob{x \leq \eta}$};    % Vertical and horizontal ruler at F(x) = 0.5
+    			\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,0.5); % vertical
+    			\draw[dashed, gray] (axis cs:-2,0.5) -- (axis cs:1,0.5); % horizontal
+    			% Mark the median point
+   			\filldraw[red] (axis cs:1,0.5) circle (2pt);
+  		    	\node[below] at (axis cs:1,0) {$M$};
+			\node[above right] at (axis cs:6.3,0) {$\eta$};
+    			% Label next to curve
+  			\end{axis}
+			\end{tikzpicture} 
+			\end{center}
+		\caption{The median of a real-valued \gls{rv} is any number $M$ 
+			that partitions $\mathbb{R}$ into two rays with equal \gls{probability}. \label{fig_median1_dict}}
+ 		\end{figure}  
+ 		We can define the median $\med\,(\dataset)$ 
+ 		of a \gls{dataset} $\dataset = \{ x^{(1)}, \,\ldots, \,x^{(\samplesize)} \in \mathbb{R} \}$ 
+ 		via a specific \gls{rv} $\tilde{x}^{(\dataset)}$ that is naturally associated with $\dataset$. 
+ 		In particular, this \gls{rv} is defined on the \gls{samplespace} $\{1, \,\ldots, \,\samplesize\}$ 
+		via $\tilde{x}^{(\dataset)} \defeq x^{(I)}$. Here, the index $I$ is chosen uniformly 
+		at random, i.e., $\prob{I = \sampleidx}=1/\samplesize$ for 
+ 		all $\sampleidx=1, \,\ldots, \,\samplesize$. If the \gls{rv} $x$ is integrable, any 
+		median of $x$ solves the \gls{optproblem}: 
+ 		$$\min_{x' \in \mathbb{R}} \expect{|x - x'|}.$$ 
+		For a the above \gls{rv} $\tilde{x}$ (constructed from a \gls{dataset} $\dataset$), 
+		this \gls{optproblem} is \gls{erm} on $\dataset$ using \gls{abserr}. 
+ 		Like the \gls{mean}, the median of a \gls{dataset} $\dataset$ can also be used 
+ 		to estimate \glspl{parameter} of an underlying \gls{probmodel}. Compared 
+ 		with the \gls{mean}, the median is more robust to \glspl{outlier}. For example, 
+ 		a median of a \gls{dataset} $\dataset$ with more than one \gls{datapoint} does not 
+ 		change even if we arbitrarily increase the largest element of $\dataset$ (see Fig. \ref{fig_median2_dict}). 
+		In contrast, the \gls{mean} will increase arbitrarily.
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.7, y=0.5cm, x=0.5cm]
+			\begin{scope}
+				\foreach \x/\y in {
+					1/2, 4/3, 7/4
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptA\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] {$\med\,(\dataset)\!=\!{\rm mean}(\dataset)$};
+				\node at (7.5, -4) {(a)};
+			\end{scope}
+			\begin{scope}[xshift=12cm]
+				\foreach \x/\y in {
+					1/2, 4/3, 7/10
+				} {
+					\draw[dashed, gray] (\x, 0) -- (\x, \y);
+					\filldraw[blue] (\x, \y) circle (2pt);
+					\node[circle, inner sep=0pt] (ptB\x) at (\x, \y) {};
+				}
+				\draw[dashed, thick] (0.5, 7.5) -- (10.5, 7.5) node[right] 
+				{${\rm mean}\,\big(\widetilde{\dataset}\big)$};
+				\draw[dashed, thick] (0.5, 3) -- (10.5, 3) node[right] 
+				{$\med\,\big(\widetilde{\dataset}\big)$};
+				\node[above right=2pt and 2pt, red] at (ptB7) {\gls{outlier}};
+				\node at (7.5, -4) {(b)};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{The median is robust against \gls{outlier} contamination. (a) Original \gls{dataset} $\dataset$. (b) Noisy 
+			\gls{dataset} $\widetilde{\dataset}$ including an \gls{outlier}. \label{fig_median2_dict}}
+		\end{figure}
+		See also: \gls{mean}, \gls{outlier}, \gls{robustness}, \gls{ladregression}.}, 
+	first={median}, 
+	type=math,
+	text={median} 
+}
+
+\newglossaryentry{variance}
+{name={variance},
+	description={The\index{variance} variance of a real-valued \gls{rv} $\feature$ is defined 
+	   	as the \gls{expectation} $\expect\big\{ \big( x - \expect\{x \} \big)^{2} \big\}$ of 
+	   	the squared difference between $\feature$ and its \gls{expectation} $\expect\{x \}$. 
+	   	We extend this definition to \gls{vector}-valued \glspl{rv} $\featurevec$ 
+	   	as $\expect\big\{ \big\| \featurevec - \expect\{\featurevec \} \big\|_{2}^{2} \big\} = \tr{\covmtx{\featurevec}}$,
+          	i.e., the sum of the variances of each entry of $\featurevec$, which can be written compactly 
+		as the \gls{trace} of the \gls{covmtx} $\covmtx{\featurevec}$ of $\featurevec$. 
+          	\\ 	 
+		See also: \gls{rv}, \gls{expectation}, \gls{vector}.},
+	first={variance},
+	type=math,
+	text={variance} 
+}
+
+
+\newglossaryentry{probabilitysimplex}
+{name={probability simplex},
+	description={The\index{probability simplex} \gls{probability} simplex
+   		$\simplex{\nrcluster-1}$ is the set of all \glspl{vector} 
+   		in $\mathbb{R}^\nrcluster$ with nonnegative entries 
+ 		that sum to one \cite{BoydConvexBook}. Each element of $\simplex{\nrcluster-1}$ 
+		represents a \gls{pmf} of an \gls{rv} $y \in \{1,\,\ldots,\,\nrcluster\}$.
+		\\
+		See also: \gls{probability}, \gls{vector}, \gls{pmf}, \gls{rv}. },
+  	first={probability simplex},
+  	plural={probability simplexes},
+  	firstplural={probability simplexes},
+  	type=math,
+  	text={probability simplex}
+}
+
+\newglossaryentry{projection}
+{name={projection}, 
+       	description={Consider\index{projection} a bounded subset $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$ of 
+		the $\dimlocalmodel$-dimensional \gls{euclidspace}. We define the projection 
+		$\projection{\paramspace}{\weights}$ of a \gls{vector} 
+		$\weights \in \mathbb{R}^{\dimlocalmodel}$ onto $\paramspace$ as
+	   	\begin{equation} 
+   	   		\nonumber
+			\label{equ_def_proj_generic_dict}
+  	    		\projection{\paramspace}{\weights} = \argmin_{\weights' \in \paramspace} \normgeneric{\weights - \weights'}{2}. 
+        	    	\end{equation}
+	    In other words, $\projection{\paramspace}{\weights}$ is the \gls{vector} in $\paramspace$ 
+	    that is closest to $\weights$. The projection is only well defined for subsets $\paramspace$ 
+	    for which the above \gls{minimum} exists \cite{BoydConvexBook}.
+		 			\\ 
+	    See also: \gls{euclidspace}, \gls{vector}, \gls{minimum}.},
+	first={projection},
+    type=math, 
+	text={projection}
+}
+
+\newglossaryentry{projgd}
+{name={projected gradient descent (projected GD)},
+	description={Consider an \gls{erm}-based method that uses a parameterized \gls{model} with  
+		\gls{paramspace} $\paramspace \subseteq \mathbb{R}^{\dimlocalmodel}$. Even if 
+		the \gls{objfunc} of \gls{erm} is \gls{smooth}, we cannot use basic \gls{gd}, as 
+		it does not take into account constraints on the optimization variable (i.e., the \glspl{modelparam}). 
+		Projected\index{projected gradient descent (projected GD)} \gls{gd} 
+		extends basic \gls{gd} to address this issue. 
+		A single iteration of projected \gls{gd} consists of first taking a \gls{gradstep} 
+		and then projecting the result back onto the \gls{paramspace}. 
+		See Fig. \ref{fig_projected_GD_dict} for a visual illustration.
+		\begin{figure}[H]
+		\begin{center}
+			\begin{tikzpicture}[scale=0.9]
+			\node [right] at (-5.1,1.7) {$f(\weights)$} ;
+			\draw[ultra thick, domain=-4.1:4.1] plot (\x,  {(1/8)*\x*\x});
+		%	\draw[dashed, thick, domain=1:3.6] plot (\x,  {\x - 1}) node[right] {$ f\big(\weights^{(\itercntr)}\big)\!+\!\big(\weights\!-\!\weights^{(\itercntr)}\big)^{T} \nabla f\big(\weights^{(\itercntr)}\big)$};
+			\draw [fill] (2.83,1) circle [radius=0.1] node[right] {$\weights$};
+			\draw[line width =0.5mm,dashed,->] (2.83,1) -- node[midway,above] {\gls{gradstep}} (-1.5,1);
+			\draw[line width =0.2mm,dashed] (-1.5,1) --(-1.5,-1.5)  node [below, left]{$\widehat{\weights}=\weights\!-\!\lrate \nabla f\big(\weights\big)$} ;
+			\draw[line width =0.5mm,dashed,->] (-1.5,-1.5)  -- node[midway,above] {} (1,-1.5) ; 
+			\draw [fill] (1,-1.5) circle [radius=0.1] node[below] {$\projection{\paramspace}{\widehat{\weights}}$};
+			\draw[line width=1mm] (1,-1.5) -- (3,-1.5) node[midway, above] {$\paramspace$};
+			\end{tikzpicture}
+		\vspace*{-5mm}
+		\end{center}
+		\caption{Projected \gls{gd} augments a basic \gls{gradstep} with a \gls{projection} back 
+		onto the constraint set $\paramspace$.}
+		\label{fig_projected_GD_dict}
+		\end{figure}
+		See also: \gls{erm}, \gls{model}, \gls{paramspace}, \gls{objfunc}, \gls{smooth}, \gls{gd}, \gls{modelparam}, \gls{gradstep}, \gls{projection}.},
+	first={projected gradient descent (projected GD)},
+	type=math, 
+	text={projected GD}
+}
+
+\newglossaryentry{proximable}
+{name={proximable},
+	description={A\index{proximable} 
+		\gls{convex} \gls{function} for which the \gls{proxop} can be computed efficiently is 
+		sometimes referred to as proximable or simple \cite{Condat2013}.
+					\\ 
+		See also: \gls{convex}, \gls{function}, \gls{proxop}.},
+	first={proximable},
+	type=math, 
+	text={proximable}
+}
+
+\newglossaryentry{operator} 
+{name={operator}, 
+	description={An\index{operator} operator is a \gls{function} 
+		whose \gls{domain} and \gls{co-domain} have a specific 
+		mathematical structure such as a \gls{vectorspace}, a \gls{hilbertspace},
+		or a \gls{metricspace} \cite{Bauschke:2017}, \cite{DunfordSchwartz1988}. 
+		Many \gls{ml} methods involve operators whose \gls{domain} and \gls{co-domain} 
+		are \glspl{euclidspace}.
+							\\ 
+		See also: \gls{function}, \gls{vectorspace}, \gls{hilbertspace}.},
+	first={operator},
+	type=math, 
+	plural={operators},
+	firstplural={operators},
+	text={operator}
+}
+
+\newglossaryentry{ergraph}
+{name={Erd\H{o}s–R\'enyi graph (ER graph)},
+	description={An ER \gls{graph}\index{Erd\H{o}s–R\'enyi graph (ER graph)} \cite{erdds1959random}, \cite{gilbert1959random} 
+            	is a \gls{probmodel} for \glspl{graph} defined over a given node set $\nodeidx=1, \,\ldots, \,\nrnodes$. 
+            	One way to define the ER \gls{graph} is via the collection of \gls{iid} binary 
+            	\glspl{rv} $b^{(\edge{\nodeidx}{\nodeidx'})} \in \{0,1\}$, 
+		for each pair of different nodes $\nodeidx, \nodeidx'$. A specific \gls{realization}  
+		of an ER \gls{graph} contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if 
+		$b^{(\edge{\nodeidx}{\nodeidx'})}=1$. The ER \gls{graph} is parameterized by the 
+		number $\nrnodes$ of nodes and the \gls{probability} $\prob{b^{(\edge{\nodeidx}{\nodeidx'})}=1}$.	
+		\\
+		See also: \gls{graph}, \gls{probmodel}, \gls{iid}, \gls{rv}, \gls{realization}, \gls{probability}.},
+	first={Erd\H{o}s–R\'enyi graph (ER graph)},
+	type=math, 
+	text={ER graph}
 }
 
 \newglossaryentry{condprobdist}
