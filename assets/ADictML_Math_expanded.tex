@@ -2395,6 +2395,433 @@ sort={sigma-field},
     	type=math
 }
 
+\newglossaryentry{optmethod}
+{name={optimization method},
+	description={An\index{optimization method} optimization method is 
+		an algorithm that takes a representation of an 
+		optimization problem as input and computes an (approximate) 
+		solution as its output. A central example of an optimization problem 
+		in machine learning (ML) is empirical risk minimization (ERM). By applying an appropriate 
+		optimization method to empirical risk minimization (ERM), we obtain a concrete learning 
+		algorithm \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr},
+		\cite{nesterov04}.
+		 \\
+		 See also: algorithm, optimization problem.},
+	type=math, 
+	first={optimization method},
+	firstplural={optimization methods}, 
+	plural={optimization methods}, 
+	text={optimization method}
+}
+
+\newglossaryentry{convexopt}
+{name={convex optimization},
+ 	description={Convex optimization\index{convex optimization} studies the 
+		formulation, properties, and efficient solution methods for convex optimization problems \cite{BoydConvexBook}.  
+		A convex optimization problem (defined on the Euclidean space $\mathbb{R}^{d}$) 
+		consists of a convex objective function $f: \mathbb{R}^{d} \rightarrow \mathbb{R}$  
+    		and a convex constraint set $\mathcal{C}$ for the optimization variable ${\bf w}$.  
+    		It can be written compactly as \cite{BoydConvexBook}
+		$$ \min_{{\bf w}\in \mathcal{C}}  f({\bf w}).$$ 
+		Alternatively, a convex optimization problem can be expressed in 
+		terms of convex constraint functions $g_1,\,\ldots,\,g_k$ as
+		\begin{align} 
+			\min_{{\bf w}\in \mathbb{R}^{d}} & f({\bf w})   \nonumber \\ 
+			\mbox{s.t.} \quad & g_{r}({\bf w}) \leq 0, \quad r=1,\,\ldots,\,k. \label{equ_def_convx_opt_constr_dict}
+		\end{align} 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[>=stealth, scale=1.0]
+  			% Axes
+  			\draw[->] (-3,0) -- (5.2,0) node[below] {${\bf c}$};
+  			\draw[->] (0,-0.2) -- (0,4.2) node[left] {$t$};
+  			% Exponential boundary: t = 3 e^{-g}
+  			\draw[thick, domain=-1:3, smooth, variable=\x, name path=boundary]
+    			plot ({\x},{exp(-\x)});%node[pos=0.45, below right] {};
+  			% Transparent epigraph region (above the curve)
+  			\path[fill=gray!40, opacity=0.4]
+    			(-1,3) -- (-1,{exp(1)}) -- plot[domain=-1:3] ({\x},{exp(-\x)})
+   			-- (3,3) -- cycle;
+  			% Crossing with vertical axis (g=0): mark and label f^*
+  			\fill (0,1) circle (1.6pt) node[left] {$f^{\ast}$};
+  			% Tangent at g=1: slope = -e^{-1}, passes through (1, e^{-1})
+  			% Equation: t = (2/e) - (1/e) * g
+  			\draw[dashed, domain=-1:3, smooth, variable=\x]
+    			plot ({\x},{(2/exp(1)) - (1/exp(1))*\x}); 
+   			% node[pos=0.15, above right] {tangent at $g=1$};
+  			% (Optional) mark the point of tangency
+  			\fill (1,{1/exp(1)}) circle (1.2pt);
+  			% Label for shaded region
+  			\node at (2.6,2.5) {$\mathcal{A}$};
+  			\node [below,yshift=-3pt] at (0,-0.2) {$\mathbf{0}$};
+  			\end{tikzpicture}
+  		\caption{A convex optimization problem \eqref{equ_def_convx_opt_constr_dict} can be represented 
+  			by a set $\mathcal{A}$ that consists of objective values $t$ and constraint values 
+  			${\bf c}=\big(c_{1},\,\ldots,\,c_{d}\big)^{T}$ that are achievable, i.e., 
+  			$f({\bf w}) \leq t, g_{1}({\bf w})\leq c_{1},\,\ldots, \,g_{k}({\bf w}) \leq c_{k}$ 
+  			by some ${\bf w}\in \mathbb{R}^{d}$. The optimal value $f^{\ast}$ of the 
+  			optimization problem is the smallest $t$ for which $(\mathbf{0},t) \in \mathcal{A}$. }
+		\end{figure}
+		The formulation \eqref{equ_def_convx_opt_constr_dict} lends, in turn, to the 
+		epigraph form of \cite[Sec. 5.3]{BoydConvexBook} 
+		$$\inf \big\{ t \in \mathbb{R} : (\mathbf{0}, t) \in \mathcal{A} \big\}$$ 
+		with the set 
+		\begin{align} 
+			\mathcal{A} :=\big\{ ({\bf c},t) & \in \mathbb{R}^{d} \times \mathbb{R} : 
+    			f({\bf w}) \leq t, \, \nonumber \\ 
+   			&  g_{r}({\bf w}) \leq c_{r}, \,
+    			r= 1,\,\ldots,\,k, 
+    			\text{ for some } {\bf w}\in \mathbb{R}^{d} \big\}. \nonumber
+		\end{align}
+		It can be shown that, since $f,g_{1},\,\ldots,\,g_{k}$ are convex functions, 
+    		$\mathcal{A}$ is a convex set \cite[Ch. 2]{BoydConvexBook}.
+		The set $\mathcal{A}$ fully characterizes the optimization problem~\eqref{equ_def_convx_opt_constr_dict} 
+		and can be interpreted as the epigraph of the objective function~$f$ over the 
+		feasible region defined by the constraint functions $g_1,\,\ldots,\,g_k$.
+		\\ 
+    		See also: convex, optimization problem, optimization method. },
+	first={convex optimization},
+	type=math,
+  	text={convex optimization}
+}
+
+\newglossaryentry{newtonmethod}
+{name={Newton's method},
+	description={Newton's method\index{Newton's method} is an iterative optimization method for finding 
+		local minima or maxima of a differentiable objective function $f({\bf w})$. 
+		Like gradient-based methods, Newton's method also 
+		computes a new estimate $\widehat{{\bf w}}_{t+1}$ by optimizing a local approximation of $f({\bf w})$ around 
+		the current estimate $\widehat{{\bf w}}_{t}$. In contrast to gradient-based methods, which use the gradient to build 
+		a local linear approximation, Newton's method uses the Hessian matrix to build a local quadratic approximation. 
+		In particular, starting from an initial estimate $\widehat{{\bf w}}_{0}$, Newton's method iteratively updates the estimate according to 
+		\[
+		\widehat{{\bf w}}_{t+1}= \widehat{{\bf w}}_{t}- \big( \nabla^2 f\big(\widehat{{\bf w}}_{t}\big) \big)^{-1} \nabla f\big( \widehat{{\bf w}}_{t} \big) \mbox{, for } t=0,\,1,\,\ldots.
+		\]
+		Here, $\nabla f\big(\widehat{{\bf w}}_{t} \big)$ is the gradient, and $\nabla^2 f({\bf w}^{(t)})$ is 
+		the Hessian of the objective function $f$. Since using a quadratic function as local approximation is more accurate 
+		than using a linear function (which is a special case of a quadratic function), Newton's method tends to 
+		converge faster than gradient-based methods (see Fig. \ref{fig_newtonmethod_dict}). However, this faster convergence comes at the increased computational 
+		complexity of the iterations. Indeed, each iteration of Newton's method requires the inversion of the Hessian. 
+		\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[samples=200,smooth]
+			\begin{scope}
+				\clip(-5,-2) rectangle (5,5);
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(20/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(20/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(16/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(16/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(12/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(12/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(8/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(8/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(4/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(4/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(1/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(1/(sin(2*\x)+2))});
+				\draw[thin] plot[domain=0:360] ({1.5*cos(\x)*sqrt(0.0625/(sin(2*\x)+2))},{1.5*sin(\x)*sqrt(0.0625/(sin(2*\x)+2))});
+				% Gradient Descent path
+				\draw[->,blue,ultra thick] (-3.5,4.5) -- (-3.3,3.8);
+				\draw[->,blue,ultra thick] (-3.3,3.8) -- (-3,3.1);
+				\draw[->,blue,ultra thick] (-3,3.1) -- (-2.6,2.4);
+				\draw[->,blue,ultra thick] (-2.6,2.4) -- (-2.1,1.8);
+				\draw[->,blue,ultra thick] (-2.1,1.8) -- (-1.5,1.3);
+				\draw[->,blue,ultra thick] (-1.5,1.3) -- (-0.9,0.9);
+				\draw[->,blue,ultra thick] (-0.9,0.9) -- (-0.4,0.5);
+				\draw[->,blue,ultra thick] (-0.4,0.5) -- (-0.1,0.2);
+				\node[blue,above left] at (-3.5,4.5) {start};
+				\node[blue,above] at (0.5,3) {gradient descent (GD)};
+				% Newton's Method path 
+				\draw[->,red,ultra thick] (-3.5,4.5) -- (-2,2.5);
+				\draw[->,red,ultra thick] (-2,2.5) -- (-0.8,0.8);
+				\draw[->,red,ultra thick] (-0.8,0.8) -- (0,0.1);
+				\node[red,above] at (1.5,4) {Newton's method};
+				\node at (0,0) [circle,fill,inner sep=1pt,label=below:minimum] {};
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Comparison of gradient descent (GD) (blue) and Newton's method (red) paths toward the minimum of a 
+			loss function. \label{fig_newtonmethod_dict}}
+		\end{figure}
+		See also: optimization method, gradient, Hessian, gradient descent (GD). },
+  	first={newtonmethod},
+ 	type=math,
+  	text={newtonmethod} 
+}
+
+\newglossaryentry{hilbertspace}
+{name={Hilbert space},
+	description={A\index{Hilbert space} Hilbert space $\mathcal{H}$ is a complete 
+    		inner product space. Thus, $\mathcal{H}$ is a vector space 
+		equipped with an inner product $\langle \cdot, \cdot \rangle$. The inner product 
+		induces a norm $\mleft\lVert \cdot \mright\rVert_{2}$ via $\mleft\lVert {\bf w}\mright\rVert_{2} = \sqrt{\langle {\bf w}, {\bf w}\rangle}$. 
+  		Furthermore, $\mathcal{H}$ is complete in the sense that every 
+ 		Cauchy sequence $\big( {\bf w}^{(r)} \big)_{r\in \mathbb{N}}$ 
+		in $\mathcal{H}$ converges to a limit $\lim_{r\rightarrow \infty} {\bf w}^{(r)}$ 
+		that is also contained in $\mathcal{H}$. 
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}[scale=3]
+			% axes (light)
+			%\draw[very thin, gray!30] (-1.2,0) -- (1.2,0);
+			%\draw[very thin, gray!30] (0,-1.2) -- (0,1.2);
+			% unit circle for visual context
+			\draw[gray!40] (0,0) circle (1);
+			% parameters
+			\def\ang{35} % angle of v (degrees)
+			% vectors
+			\draw[->,thick] (0,0) -- (1,0) node[below right] {${\bf u}$};
+			\draw[->,thick] (0,0) -- ({cos(\ang)},{sin(\ang)}) node[above] {${\bf v}$};
+			% projection of v onto u
+			\coordinate (P) at ({cos(\ang)},0);
+			\draw[dashed] ({cos(\ang)},{sin(\ang)}) -- (P);
+			\draw[->,thick] (0,0) -- (P) node[pos=0.5,below] {$\langle {\bf v}, {\bf u}\rangle {\bf u}$};
+			% right-angle marker at foot of perpendicular
+			\draw ($(P)+(0,0.06)$) -- (P) -- ($(P)+(-0.06,0)$);
+			% angle arc and label
+			%\draw (0.35,0) arc (0:\ang:0.35);
+			%\node at ({0.48*cos(\ang/2)},{0.48*sin(\ang/2)}) {$\theta$};	
+			% norm labels (unit vectors)
+			%\node[below] at (1,0) {$\|\mathbf u\|=1$};
+			\node[right] at ({cos(-\ang)},{sin(-\ang)}) {$\mathbb{S}^{(d)} = \{ {\bf w}\in \mathbb{R}^{d}: \langle {\bf w}, {\bf w}\rangle=1\}$};
+			% inner product hint
+			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
+			\end{tikzpicture}
+		\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$ 
+			the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expansion coefficient for the projection 
+			of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ spanned by ${\bf u}$. 
+			The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this projection.\label{fig_hilbertspace_dict}}
+		\end{figure}
+		One important example of a Hilbert space 
+ 		is the Euclidean space $\mathbb{R}^{d}$ with the 
+ 		inner product $\langle {\bf w}, {\bf w}' \rangle = {\bf w}^{\top} {\bf w}'$. 
+		\\
+   		See also: vector space.},
+   	type=math, 
+ 	first={Hilbert space}, 
+    	text={Hilbert space},
+   	plural={Hilbert spaces},
+   	firstplural={Hilbert spaces}
+}
+
+\newglossaryentry{cauchysequence}
+{name={Cauchy sequence},
+	description={A\index{Cauchy sequence} Cauchy sequence is a sequence
+		$\big( {\bf x}^{(r)}\big)_{r\in \mathbb{N}}$ 
+		in a metric space $\left( \mathcal{X},d(\cdot,\cdot) \right)$ such 
+		that the elements ${\bf x}^{(r)}\in \mathcal{X}$ 
+		become arbitrarily close to each other eventually. 
+		In other words \cite[Def. 3.8]{RudinBookPrinciplesMatheAnalysis}, 
+		\[
+		\forall \epsilon > 0, \exists N \in \mathbb{N} \text{ such that } 
+		\forall r, r' \geq N, \ d({\bf x}^{(r)},{\bf x}^{(r')}) < \epsilon.
+		\] 
+		Fig.\ \ref{fig:fpit_cauchy_sqrt2_dict} shows a Cauchy sequence in the metric space $\left( \mathbb{Q},|\cdot| \right)$ of 
+		rational numbers.  
+		\begin{figure}[H]
+			\centering
+		  	\begin{tikzpicture}[x=1cm,y=4cm]
+			% Parameters
+			\def\srtwo{1.4142}
+			\def\eps{0.15}
+			\def\nmax{7}
+			% Axes
+			% \draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
+			% \draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
+			% epsilon band around sqrt(2)
+			\fill[gray!30, opacity=0.35]
+			(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
+			%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
+			%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
+			% Double arrow showing epsilon band width
+			\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
+			node[above, right] {\footnotesize{$\varepsilon$}};
+			% Limit line at sqrt(2)
+			\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
+			node[right] {\footnotesize{$\sqrt{2}$}};
+			% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
+			% Replace the foreach loop by:
+			\fill (0,1.0000) circle (1.2pt) node [right] {$x^{(1)}$};
+			\fill (1,1.5000) circle (1.2pt);
+			\fill (2,1.4167) circle (1.2pt);
+			\fill (3,1.4142) circle (1.2pt);
+			\fill (4,1.41421) circle (1.2pt);
+			\fill (5,1.4142136) circle (1.2pt);
+			\fill (6,1.41421356) circle (1.2pt);
+			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
+			\def{\mathcal{N}}{1}
+			\draw[densely dashed, thick, red] ({\mathcal{N}},0.88) -- ({\mathcal{N}},1.655);
+			\node[right, red] at ({\mathcal{N}},0.8) {$N$};
+			% Formula box (fixed-point iteration)
+			\node[align=right, anchor=north, font=\small]
+			at (5,0.9)
+			{\footnotesize{$\displaystyle x^{(r+1)}=\frac{1}{2}\!\left(x^{(r)}+\frac{2}{x^{(r)}}\right), x^{(1)}=1.$}};
+			% Optional: annotate a few rational iterates
+			%	\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
+			%	\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
+			%	\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
+			\end{tikzpicture}
+		\caption{A Cauchy sequence $\big(x^{(r)}\big)_{r\in\mathbb{N}}$ 
+			in the metric space $\left( \mathbb{Q},|\cdot| \right)$. 
+			This sequence is generated by a fixed-point iteration used to approximate 
+			$\sqrt{2}$. For all $r\ge N$, the sequence elements lie within a band of width $\varepsilon$. 
+			Note that the sequence does not converge in $\mathbb{Q}$, 
+			since $\sqrt{2} \notin \mathbb{Q}$ \cite[Example 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}}
+		\end{figure}
+		See also: sequence, metric space. }, 
+	type=math,
+	first={Cauchy sequence},
+	text={Cauchy sequence},
+	plural={Cauchy sequences},
+	firstplural={Cauchy sequences}
+}
+
+\newglossaryentry{nonexpansiveop}
+{name={non-expansive operator},
+ 	description={An\index{non-expansive operator} operator 
+		$\mathcal{F}: \mathcal{H}\rightarrow \mathcal{H}$ defined on a 
+		Hilbert space $\mathcal{H}$ is called non-expansive if it does 
+		not increase distances. 
+		In other words,  
+ 		\begin{equation} 
+ 			\nonumber
+ 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2} 
+			\leq 	\mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2} \mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
+ 		\end{equation}
+		Non-expansiveness is typically not sufficient to guarantee convergence 
+		of a fixed-point iteration that uses $\mathcal{F}$.\\ 
+ 		See also: fixed-point iteration, contractive operator.},
+ 	type=math, 
+	first={non-expansive operator},
+ 	plural={non-expansive operators},
+	firstplural={non-expansive operators},
+ 	text={non-expansive operator}
+}
+
+
+\newglossaryentry{firmlynonexpansiveop}
+{name={firmly non-expansive operator},
+ 	description={An\index{firmly non-expansive operator} operator 
+		$\mathcal{F}: \mathcal{H}\rightarrow \mathcal{H}$ defined on a 
+		Hilbert space $\mathcal{H}$ is called firmly non-expansive if it satisfies 
+ 		\begin{equation} 
+ 			\nonumber
+ 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2}^2  
+			\leq 	\langle  {\bf w}- {\bf w}',  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \rangle 
+			\mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
+ 		\end{equation}
+		Any firmly non-expansive operator is necessarily also a non-expansive operator \cite{BausckeCombette}. 
+		Every fixed-point iteration that uses a firmly non-expansive operator converges 
+		to a fixed point of the operator \cite{BausckeCombette}.
+		\\ 
+ 		See also: fixed-point iteration, contractive operator.},
+ 	type=math, 
+	first={firmly non-expansive operator},
+ 	plural={firmly non-expansive operators},
+	firstplural={firmly non-expansive operators},
+ 	text={firmly non-expansive operator}
+}
+
+\newglossaryentry{fixedpointiter}
+{name={fixed-point iteration},
+	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method 
+	     	for solving an optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
+		repeatedly applying an operator $\mathcal{F}$, i.e., 
+		\begin{equation} 
+		 	\label{equ_def_fixed_point_dict} 
+		 	{\bf w}^{(t+1)} = \mathcal{F}{\bf w}^{(t)} \mbox{, for } t=0, \,1, \,\ldots.
+		\end{equation} 
+		The operator $\mathcal{F}$ is chosen such that any of its fixed points is a solution 
+		$\widehat{{\bf w}}$ to the given optimization problem. For example, given a differentiable and 
+		convex function $f({\bf w})$, the fixed points of the operator $\mathcal{F}: {\bf w}\mapsto {\bf w}- \nabla f({\bf w})$ 
+		coincide with the minimizers of $f({\bf w})$. In general, for a given optimization problem 
+		with solution $\widehat{{\bf w}}$, there are many different operators 
+		$\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. Clearly, we should use an 
+		operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the 
+		distance to a solution such that
+		\begin{equation} 
+			\nonumber
+			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{{\bf w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F}{\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
+		\end{equation}
+		Thus, we require $\mathcal{F}$ to be at least a non-expansive operator, i.e., the iteration \eqref{equ_def_fixed_point_dict} 
+		should not result in worse model parameters that have a larger distance to a solution $\widehat{{\bf w}}$. 
+		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
+		reduce the distance to a solution $\widehat{{\bf w}}$. This requirement can be made precise using 
+		the notion of a contractive operator \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
+		The operator $\mathcal{F}$ is a contractive operator if, for some $\kappa\in [0,1)$,
+		\begin{equation} 
+			\nonumber
+			\mleft\lVert  \mathcal{F}{\bf w}\!-\!\mathcal{F}{\bf w}' \mright\rVert_{2}  \leq  \kappa\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{2} \mbox{ holds for any } {\bf w},{\bf w}'.
+		\end{equation}
+		For a contractive operator $\mathcal{F}$, the fixed-point iteration \eqref{equ_def_fixed_point_dict} generates 
+		a sequence ${\bf w}^{(t)}$ that converges quite rapidly. In particular \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}, 
+		\begin{equation} 
+			\nonumber
+			\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2} \leq \kappa^{t} 	\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}. 
+		\end{equation} 
+		Here, $\mleft\lVert  {\bf w}^{(0)} - \widehat{{\bf w}} \mright\rVert_{2}$ is the distance between 
+		the initialization ${\bf w}^{(0)}$ and the solution $\widehat{{\bf w}}$. 
+		It turns out that a fixed-point iteration \eqref{equ_def_fixed_point_dict} with a firmly non-expansive operator  
+		$\mathcal{F}$ is guaranteed to converge to a fixed-point of $\mathcal{F}$ \cite[Corollary 5.16]{Bauschke:2017}. 
+		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly non-expansive operator, a non-expansive operator, 
+		and a contractive operator. All of these operators are defined on the 1-D space $\mathbb{R}$. 
+		Another example of a firmly non-expansive operator is the proximal operator of a convex function 
+		\cite{ProximalMethods}, \cite{Bauschke:2017}. 
+		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+		\begin{figure}[H]
+			\begin{center} 
+				\begin{tikzpicture}[scale=1.5]
+					% Axes
+					\draw[line width=1pt, ->] (-2,0) -- (2,0) node[right] {$w^{(t)}$};
+					\draw[line width=1pt, ->] (0,-2) -- (0,2) node[above] {$w^{(t+1)}$};
+					% Labels
+					\node at (2.1,2.2) {$\mathcal{F}^{(3)}$};
+					\node at (1.9,-1.5) {$\mathcal{F}^{(1)}$};
+					\node at (1.5,1.2) {$\mathcal{F}^{(2)}$};
+					% Dashed lines at x=1 and y=1
+					\draw[dashed] (1,-2) -- (1,2); % Vertical line at x=1
+					\draw[dashed] (-2,1) -- (2,1); % Horizontal line at y=1
+					\draw[dashed] (-2,-1) -- (2,-1); % Horizontal line at y=1
+					\draw[dashed] (-1,-2) -- (-1,2); % Vertical line at x=1
+					\node[above,xshift=4pt,yshift=-1pt] at (1,0) {$1$};
+					\node[above,xshift=8pt,yshift=-1pt] at (0,-1) {$-1$};
+					% First curve: y = 1/2 x + 1
+					\draw[line width=2,domain=-2:2,smooth,blue] plot(\x,{0.5*\x + 1});
+					% Second curve: y = -x
+					\draw[line width=2,domain=-2:2,smooth,red] plot(\x,{-\x});
+					% Third curve: y = x / |x| * min(|x|, 1)
+					\draw[line width=2, domain=-2:-1,smooth,darkgreen] plot(\x,{-1});
+					\draw[line width=2,domain=-1:1,smooth,darkgreen] plot(\x,{\x});
+					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
+				\end{tikzpicture}
+			\end{center} 
+			\caption{Example of a non-expansive operator $\mathcal{F}^{(1)}$, a firmly non-expansive operator $\mathcal{F}^{(2)}$, and 
+				a contractive operator $\mathcal{F}^{(3)}$. \label{fig_examples_nonexp_dict}}
+		\end{figure} 
+		See also: optimization problem, differentiable, convex, function, model parameter, contractive operator, proximal operator.},
+	first={fixed-point iteration},
+	text={fixed-point iteration},
+	type=math, 
+	firstplural={fixed-point iterations}, 
+	plural={fixed-point iterations}
+}
+
+\newglossaryentry{fixedpoint}
+{name={fixed point},
+	description={Consider some operator $\mathcal{F}: \mathcal{H}\rightarrow \mathcal{H}$ 
+	             defined on a Hilbert space $\mathcal{H}$. A 
+				vector $\widehat{{\bf w}} \in \mathcal{H}$ 
+				is called a fixed point\index{fixed point} of the operator $\mathcal{F}$ 
+				if it satisfies 
+				\[
+					\mathcal{F}\widehat{{\bf w}} = \widehat{{\bf w}}.
+				\]
+				In other words, applying the operator $\mathcal{F}$ to its fixed point $\widehat{{\bf w}}$ 
+				returns the same vector $\widehat{{\bf w}}$. 
+		\\
+		See also: fixed-point iteration.},
+	first={fixed point},
+	text={fixed point},
+	type=math, 
+	firstplural={fixed points}, 
+	plural={fixed points}
+}
+
 \newglossaryentry{diagonalizable}
 {name={diagonalizable},
 	description={A square matrix ${\bf A}\in \mathbb{C}^{d\times d}$ 
