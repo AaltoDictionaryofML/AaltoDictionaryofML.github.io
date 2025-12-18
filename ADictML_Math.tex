@@ -2973,63 +2973,81 @@ sort={sigma-field},
 \newglossaryentry{banachfixedpoint}
 {name={Banach's fixed-point theorem},
 	description={Banach's fixed-point theorem\index{Banach's fixed-point 
-		theorem} (also referred to as the contraction 
-		principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis}) 
+		theorem} (also referred to as the contraction principle \cite[Th. 9.23]{RudinBookPrinciplesMatheAnalysis},\cite{Kelley1995}) 
 		states that every \gls{contractop} $\fixedpointop$ on a complete 
-		\gls{metricspace} has a unique fixed point. Formally, 
-		let $(\featurespace,\metric{\cdot}{\cdot})$ be a non-empty complete 
-		\gls{metricspace} and let $\fixedpointop:\featurespace\to\featurespace$ satisfy
+		\gls{metricspace} $\paramspace$ has a unique \gls{fixedpoint}. 
+		Formally, let $(\paramspace,\metric{\cdot}{\cdot})$ be a non-empty 
+		complete \gls{metricspace} and let $\fixedpointop:\paramspace\to\paramspace$ satisfy
     		\[
-    		\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'} \leq \kappa \cdot \metric{\featurevec}{\featurevec'} \qquad \forall \featurevec,\featurevec'\in\featurespace
+    		\metric{\fixedpointop \weights}{\fixedpointop \weights'} \leq \contractfac \cdot \metric{\weights}{\weights'} \qquad \forall \weights,\weights'\in\paramspace
     		\]
-    		for some constant $\kappa \in [0,1)$. Then, $\fixedpointop$ has a unique fixed 
-		point, i.e., there exists a unique $\featurevec^\star\in\featurespace$ with 
-		$\fixedpointop \featurevec^\star =\featurevec^\star$, which can be computed by a 
-		\gls{fixedpointiter}.
-    		\begin{figure}[H]
+    		for some constant $\contractfac \in [0,1)$. Then, $\fixedpointop$ has a unique \gls{fixedpoint}, 
+			  i.e., there exists a unique $\weights^\star\in\paramspace$ with 
+			$\fixedpointop \weights^\star =\weights^\star$. Moreover, for any initial 
+			$\weights^{(0)}\in\paramspace$, the \gls{fixedpointiter} 
+			$\weights^{(\iteridx)}\!=\!\fixedpointop \weights^{(\iteridx-1)}$, for $\iteridx=1,2,\dots$, 
+			converges to $\weights^\star$ at a rate governed by $\contractfac$. 
+			In particular, 
+			\[ \metric{\weights^{(\iteridx)}}{\weights^\star} \leq \contractfac^{\iteridx}
+			 \cdot \metric{\weights^{(0)}}{\weights^\star} \mbox{, for }\iteridx=1,2,\dots. \]   		
+			\begin{figure}[H]
     			\centering
     			\begin{tikzpicture}[>=Latex, font=\small]
     			\tikzset{space/.style={draw, thick, circle, minimum size=4.0cm},pt/.style={circle, inner sep=1.5pt, draw, fill=black},maparrow/.style={->, very thick},link/.style={->, thick},distline/.style={dashed, thick}}
     			\def\dx{6.5}
-    			\node[space,label=above:{$\featurespace$}] (XL) at (0,0) {};
-    			\node[space,label=above:{$\featurespace$}] (XR) at (\dx,0) {};
+    			\node[space,label=above:{$\paramspace$}] (XL) at (0,0) {};
+    			\node[space,label=above:{$\paramspace$}] (XR) at (\dx,0) {};
     			\draw[maparrow] (XL.east) -- node[above=2pt] {$\fixedpointop$} (XR.west);
     			\coordinate (x1) at (-0.8,0.9);
     			\coordinate (x2) at (0.9,0.5);
-    			\node[pt,label=above left:{$\featurevec$}] at (x1) {};
-    			\node[pt,label=right:{$\featurevec'$}] at (x2) {};
+    			\node[pt,label=above left:{$\weights$}] at (x1) {};
+    			\node[pt,label=right:{$\weights'$}] at (x2) {};
     			\coordinate (fx1) at (\dx-0.3,0.5);
     			\coordinate (fx2) at (\dx+0.6,0.5);
     			\node[pt] (FX1) at (fx1) {};
     			\node[pt] (FX2) at (fx2) {};
-    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\fixedpointop \featurevec$};
-    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\fixedpointop \featurevec'$};
-   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \featurevec}{\fixedpointop \featurevec'}$};
-   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\featurevec}{\featurevec'}$};
+    			\node[anchor=east] at ($(FX1.west)+(-6pt,-2pt)$) {$\fixedpointop \weights$};
+    			\node[anchor=west] at ($(FX2.east)+(6pt,-2pt)$) {$\fixedpointop \weights'$};
+   			% \draw[distline] (x1) -- (x2) node[midway, above=6pt, sloped] {$\metric{\fixedpointop \weights}{\fixedpointop \weights'}$};
+   			% \draw[distline] (fx1) -- (fx2) node[midway, above=6pt, sloped] {$\metric{\weights}{\weights'}$};
     			\coordinate (xsL) at (0,-0.9);
     			\coordinate (xsR) at (\dx,-0.9);
-    			\node[pt,label=below:{$\featurevec^\star$}] at (xsL) {};
-    			\node[pt,label=below:{$\fixedpointop \featurevec^\star=\featurevec^\star$}] at (xsR) {};
+    			\node[pt,label=below:{$\weights^\star$}] at (xsL) {};
+    			\node[pt,label=below:{$\fixedpointop \weights^\star\!=\!\weights^\star$}] at (xsR) {};
     			\end{tikzpicture}
-   	 	\caption{A \gls{contractop} $\fixedpointop:\featurespace\to\featurespace$  
-	  		has a unique fixed point $\featurevec^\star$ with $\fixedpointop \featurevec^\star=\featurevec^\star$.}
+   	 			\caption{A \gls{contractop} $\fixedpointop:\paramspace\to\paramspace$  
+	  					 has a unique \gls{fixedpoint} $\weights^\star$ with 
+						 $\fixedpointop \weights^\star\!=\!\weights^\star$.}
     			\label{fig:banach_dict}
     		\end{figure}
-    		See also: \gls{contractop}, \gls{metricspace}, \gls{fixedpointiter}, \gls{sequence}, \gls{cauchysequence}.},
-    	first={Banach's fixed-point theorem},
+    		See also: \gls{contractop}, \gls{fixedpointiter}.},
+    first={Banach's fixed-point theorem},
 	text={Banach's fixed-point theorem},
-    	type=math
+    type=math
 }
+
+\newglossaryentry{cvxoptproblem}
+{name={convex optimization problem}, 
+	description={See\index{convex optimization problem} \gls{convexopt}.},
+	first={convex optimization problem},
+	firstplural={convex optimization problems}, 
+	type=math,
+	plural={convex optimization problems}, 
+	text={convex optimization problem}
+}
+
 
 \newglossaryentry{optproblem}
 {name={optimization problem}, 
 	description={An\index{optimization problem} optimization problem is a mathematical 
 		   structure consisting of an \gls{objfunc} $f: \mathcal{U} \rightarrow \mathcal{V}$ 
 		   defined over an optimization variable $\weights \in \mathcal{U}$, together with a 
-		   feasible set $\mathcal{W} \subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
+		   feasible set $\paramspace \subseteq \mathcal{U}$. The \gls{co-domain} $\mathcal{V}$ is 
 		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
-		   we can determine whether $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
-		   or $\mathbf{a} > \mathbf{b}$. The goal of optimization is to find those values $\weights \in \mathcal{W}$ 
+		   we can determine whether $\mathbf{a} \leq \mathbf{b}$ or not. Here, ``$\leq$'' denotes a 
+		   general partial order relation, which may differ from the standard numerical order on 
+		   real numbers \cite[Sec. 2.4.]{BoydConvexBook}. 
+		   The goal in optimization is to find those values $\weights \in \paramspace$ 
 		   for which the objective $f(\weights)$ is extremal—i.e., minimal or maximal \cite{BoydConvexBook}, \cite{BertsekasNonLinProgr}, \cite{nesterov04}.
 		   \\
 		   See also: \gls{objfunc}.},
@@ -3329,8 +3347,22 @@ sort={sigma-field},
  			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2} 
 			\leq 	\normgeneric{\weights - \weights'}{2} \mbox{ for any } \weights, \weights' \in \hilbertspace. 
  		\end{equation} 
-		Non-expansiveness is typically not sufficient to guarantee \gls{convergence} 
-		of a \gls{fixedpointiter} that uses $\fixedpointop$.
+		\begin{figure}[H]
+			\centering
+		\begin{tikzpicture}[thick,font=\small]
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\weights^\star$}] at (0,0) {};
+		\draw[dashed] (0,0) circle[radius=2.7];
+		\node[circle,fill=black,inner sep=1.6pt,label=right:{$\weights$}] at (2.3,1.4) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\fixedpointop \weights$}] at (1.27,0.77) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=above:{$\fixedpointop' \weights$}] at (-0.23,2.68) {};
+		\node[circle,fill=black,inner sep=1.6pt,label=below:{$\fixedpointop''\weights$}] at (1.03,2.04) {};
+		\end{tikzpicture}
+		\caption{The result of applying a \gls{contractop} $\fixedpointop$, a \gls{nonexpansiveop} 
+		         $\fixedpointop'$ and a \gls{firmlynonexpansiveop} $\fixedpointop''$. These 
+				 \glspl{operator} have the common \gls{fixedpoint} $\weights^\star$. \label{fig_nonexpansiveop_dict}}
+       \end{figure}
+		Non-expansiveness is not sufficient to guarantee \gls{convergence} 
+		of a \gls{fixedpointiter} that uses $\fixedpointop$ (see Fig.\ \ref{fig_nonexpansiveop_dict}).
 		\\
  		See also: \gls{fixedpointiter}, \gls{contractop}.},
  	type=math, 
@@ -3372,7 +3404,7 @@ sort={sigma-field},
 		 	\label{equ_def_fixed_point_dict} 
 		 	\weights^{(\iteridx+1)} = \fixedpointop \weights^{(\iteridx)} \mbox{, for } \iteridx=0, \,1, \,\ldots.
 		\end{equation} 
-		The \gls{operator} $\fixedpointop$ is chosen such that any of its fixed points is a solution 
+		The \gls{operator} $\fixedpointop$ is chosen such that any of its \glspl{fixedpoint} is a solution 
 		$\widehat{\weights}$ to the given \gls{optproblem}. For example, given a \gls{differentiable} and 
 		\gls{convex} \gls{function} $f(\weights)$, the fixed points of the \gls{operator} $\fixedpointop: \weights \mapsto \weights - \nabla f(\weights)$ 
 		coincide with the minimizers of $f(\weights)$. In general, for a given \gls{optproblem} 
@@ -3402,12 +3434,13 @@ sort={sigma-field},
 		\end{equation} 
 		Here, $\normgeneric{ \weights^{(0)} - \widehat{\weights}}{2}$ is the distance between 
 		the initialization $\weights^{(0)}$ and the solution $\widehat{\weights}$. 
-		It turns out that a fixed-point \gls{iteration} \eqref{equ_def_fixed_point_dict} with a firmly \gls{nonexpansiveop}  
-		$\fixedpointop$ is guaranteed to converge to a fixed-point of $\fixedpointop$ \cite[Corollary 5.16]{Bauschke:2017}. 
-		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a firmly \gls{nonexpansiveop}, a \gls{nonexpansiveop}, 
-		and a \gls{contractop}. All of these \glspl{operator} are defined on the 1-D space $\mathbb{R}$. 
-		Another example of a firmly \gls{nonexpansiveop} is the \gls{proxop} of a \gls{convex} \gls{function} 
-		\cite{ProximalMethods}, \cite{Bauschke:2017}. 
+		It turns out that a fixed-point \gls{iteration} \eqref{equ_def_fixed_point_dict} with a 
+		\gls{firmlynonexpansiveop} $\fixedpointop$ is guaranteed to converge to a 
+		\gls{fixedpoint} of $\fixedpointop$ \cite[Corollary 5.16]{Bauschke:2017}. 
+		Fig. \ref{fig_examples_nonexp_dict} depicts examples of a \gls{nonexpansiveop}, 
+		a \gls{firmlynonexpansiveop}, and a \gls{contractop}. All of these \glspl{operator} are 
+		defined on the 1-D space $\mathbb{R}$. Another example of a firmly \gls{nonexpansiveop} 
+		is the \gls{proxop} of a \gls{convex} \gls{function} \cite{ProximalMethods}, \cite{Bauschke:2017}. 
 		\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
 		\begin{figure}[H]
 			\begin{center} 
@@ -3436,10 +3469,10 @@ sort={sigma-field},
 					\draw[line width=2,domain=1:2,smooth,darkgreen] plot(\x,{1});
 				\end{tikzpicture}
 			\end{center} 
-			\caption{Example of a \gls{nonexpansiveop} $\fixedpointop^{(1)}$, a firmly \gls{nonexpansiveop} $\fixedpointop^{(2)}$, and 
-				a \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
+			\caption{Example of a \gls{nonexpansiveop} $\fixedpointop^{(1)}$, a \gls{firmlynonexpansiveop} 
+					  $\fixedpointop^{(2)}$, and a \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: \gls{optproblem}, \gls{differentiable}, \gls{convex}, \gls{function}, \gls{modelparam}, \gls{contractop}, \gls{proxop}.},
+		See also: \gls{contractop}, \gls{proxop}.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
@@ -3447,16 +3480,36 @@ sort={sigma-field},
 	plural={fixed-point iterations}
 }
 
+\newglossaryentry{graphoffunction}
+{name={graph of a function},
+ description={Given a \gls{function} $f\!:\!\featurespace \to \labelspace$, 
+			  the graph of $f$ is the subset of $\featurespace \times \labelspace$ 
+			  defined as
+				\[
+				  \{ (\featurevec,f(\featurevec)) : \featurevec \in \featurespace \,\}.
+				\]
+				The graph of a \gls{function} provides a geometric representation 
+				that is widely used in analysis, topology, and optimization.}, 
+	first={graph},
+	text={graph},
+	type=math, 
+	firstplural={graphs},
+	plural={graphs}
+}
+
+
 \newglossaryentry{epigraph}
 {name={epigraph},
-	description={The epigraph\index{epigraph} of a real-valued \gls{function} $f : \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ 
-  		is the set of points lying on or above its \gls{graph} (see Fig. \ref{fig_epigraph_dict}), i.e., 
-		\[
-		\operatorname{epi}(f) = \left\{ (\mathbf{x}, t) \in \mathbb{R}^n \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
-		\]
-		A \gls{function} is \gls{convex} if and only if its epigraph is a \gls{convex} set \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
-		\begin{figure}[H]
-			\centering
+	description={The epigraph\index{epigraph} of a real-valued \gls{function} 
+	             $f : \mathbb{R}^\nrfeatures \to \mathbb{R} \cup \{+\infty\}$ 
+  				 is the set of points lying on or above its \gls{graphoffunction} 
+				 (see Fig. \ref{fig_epigraph_dict}), i.e., 
+				 \[\operatorname{epi}(f) = \left\{ (\weights, t) \in \mathbb{R}^\nrfeatures \times \mathbb{R} \,\middle|\, f(\mathbf{x}) \leq t \right\}.
+				 \]
+				 A \gls{function} is \gls{convex} if and only if its epigraph is a 
+				 \gls{convex} set \cite{BoydConvexBook}, \cite{BertCvxAnalOpt}.
+				\begin{figure}[H]
+				\centering
 			\begin{tikzpicture}[scale=1.0]
 				\begin{axis}[
 					axis lines = middle,
@@ -3473,7 +3526,7 @@ sort={sigma-field},
 					axis on top,
 					]
 					% Function
-					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(x)$};
+					\addplot [blue, thick, domain=-1.5:1.5] {x^2} node [pos=0.85, anchor=south west, xshift=5pt] {$f(\weights)$};
 					% Epigraph shading
 					\addplot [
 					name path=f,
@@ -3494,11 +3547,13 @@ sort={sigma-field},
 				%	\node[align=center, fill=white, draw=black, rounded corners, font=\small] at (axis cs:0.5,3.5) {Epigraph\\$\{(x,t) \mid f(x) \le t\}$};
 				\end{axis}
 			\end{tikzpicture}
-		\caption{Epigraph of the \gls{function} $f(x) = x^2$ (i.e., the shaded area). \label{fig_epigraph_dict}}
+		\caption{Epigraph of the \gls{function} $f(\weight) = \weight^2$ (i.e., 
+		the shaded area). \label{fig_epigraph_dict}}
 		\end{figure}
 		See also: \gls{function}, \gls{convex}.},
 	first={epigraph},
 	text={epigraph},
+	type=math, 
 	firstplural={epigraphs},
 	plural={epigraphs}
 }
@@ -3555,8 +3610,11 @@ sort={sigma-field},
 				\[
 					\fixedpointop \widehat{\weights} = \widehat{\weights}.
 				\]
-				In other words, applying the \gls{operator} $\fixedpointop$ to its fixed point $\widehat{\weights}$ 
-				returns the same \gls{vector} $\widehat{\weights}$. 
+				In other words, applying the \gls{operator} $\fixedpointop$ to its fixed 
+				point $\widehat{\weights}$ returns the same \gls{vector} $\widehat{\weights}$. 
+				Finding a fixed point of a suitable \gls{operator} $\fixedpointop$ is a common 
+				approach for solving various \glspl{optproblem} (e.g., an instance of \gls{erm}). 
+				A popular method for computing approximations of a fixed point is the \gls{fixedpointiter}. 
 		\\
 		See also: \gls{fixedpointiter}.},
 	first={fixed point},
@@ -3565,6 +3623,32 @@ sort={sigma-field},
 	firstplural={fixed points}, 
 	plural={fixed points}
 }
+
+\newglossaryentry{fixedpointeq}
+{name={fixed-point equation},
+  description={A fixed-point equation\index{fixed-point equation} is an equation of the form
+				\[\weights = \fixedpointop(\weights),
+				\]
+				where $\fixedpointop:\hilbertspace \to \hilbertspace$ is an \gls{operator} defined 
+				on a \gls{hilbertspace} $\hilbertspace$.  
+				Solving a fixed-point equation amounts to finding the \glspl{fixedpoint} of 
+				$\fixedpointop$. Many \glsps{optproblem}, including instances of \gls{erm}, 
+				can be cast in this form. For example, minimizing a \gls{smooth} \gls{convex} 
+				\gls{function} $f$ is equivalent to solving the fixed-point equation 
+				$$\weights = \fixedpointop \weights \mbox{ with }  
+				\fixedpointop: \weights \mapsto \weights - \eta \nabla f(\weights)$$. 
+				Here, $\lrate>0$ can be choosen freely. The above fixed-point 
+				equation is nothing but the \gls{zerogradientcondition} for the 
+				minimizer of $f$ \cite{BoydConvexBook}. Similarly, one can reforulate the
+				 optimality conditions (KKT conditions) of \glspl{optproblem} with constraints as a 
+				 fixed-point equation \cite{pock_chambolle_2016,BoydConvexBook}}, 
+	type=math, 
+	first={fixed-point equation},
+ 	text={fixed-point equation}, 
+	plural={fixed-point equations}, 
+	firstplural={fixed-point equations}
+}
+
 
 \newglossaryentry{diagonalizable}
 {name={diagonalizable},
@@ -4465,7 +4549,7 @@ sort={sigma-field},
 		is smooth if it is \gls{differentiable} and its \gls{gradient} $\nabla f(\weights)$ is continuous at all $\weights \in \mathbb{R}^{\dimlocalmodel}$  \cite{nesterov04}, \cite{CvxBubeck2015}. 
 		A smooth \gls{function} $f$ is referred to as $\beta$-smooth if the \gls{gradient} 
 		$\nabla f(\weights)$ is Lipschitz continuous with Lipschitz constant $\beta$, i.e., 
-		$$\| \nabla f(\weights) - \nabla f(\weights') \| \leq \beta \| \weights - \weights' \| \mbox{, for any } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel}.$$ 
+		$$\normgeneric{\nabla f(\weights) - \nabla f(\weights')}{} \leq \beta \normgeneric{\weights - \weights'}{} \mbox{, for any } \weights,\weights' \in \mathbb{R}^{\dimlocalmodel}.$$ 
 		The constant $\beta$ quantifies the smoothness of the \gls{function} $f$: the smaller the $\beta$, 
 		the smoother $f$ is. \Glspl{optproblem} with a smooth \gls{objfunc} can be solved effectively by 
 		\glspl{gdmethod}. Indeed, \glspl{gdmethod} approximate the \gls{objfunc} locally around a current 
@@ -4606,15 +4690,25 @@ sort={sigma-field},
 			\label{equ_def_gd_basic_dict} 
 			\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
 		\end{equation} 
-		Mathematically, the \gls{gradient} step is an \gls{operator} $\mathcal{T}^{(f,\lrate)}$ 
-		that is paramet\-rized by the \gls{function} $f$ and the \gls{stepsize} $\lrate$. 
+		The \gls{gradient} step amounts to applying the \gls{operator} 
+		 $$\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
+		 	 \weights \mapsto \weights - \lrate \nabla f(\weights).$$ 
+		 For a \gls{convex} \gls{function} $f(\cdot)$ that is sufficiently \gls{smooth} and a sufficiently 
+		 small \gls{learnrate} $\lrate > 0$, one can verify that $\mathcal{T}^{(f,\lrate)}$ becomes 
+		 a \gls{firmlynonexpansiveop} \cite[Cor. 18.16]{BausckeCombette}. %Moreover, for 
+		 a \gls{strcvx} and \gls{smooth} \gls{function} $f(\cdot)$ and an appropriate choice of \gls{learnrate}, 
+		 one can verify that $\mathcal{T}^{(f,\lrate)}$ is a \gls{contractop} \cite[Thm. 2.1.14.]{nesterov04}. 
+		 In these cases, \glspl{gdmethod} are instances of a \gls{fixedpointiter} since the 
+		 \gls{operator} $\mathcal{T}^{(f,\lrate)}$ has a \gls{fixedpoint} that coincides with 
+		 the minimizer of $f(\cdot)$ (see \gls{zerogradientcondition}).
+	 % and, in turn, the resulting \gls{gdmetod} is an instance of a \gls{fixedpointiteration}.
 		\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
 					\draw[loosely dotted] (-4,0) grid (4,4);
 					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x,  {(1/4)*\x*\x});
 					\draw[red, thick, domain=2:4.7] plot (\x,  {2*\x - 4});
-					\draw[<-] (4,4) -- node[right] {$\nabla f(\weights^{(\itercntr)})$} (4,2);
+					\draw[<-] (4,4) -- node[right] {$\normgeneric{\nabla f(\weights^{(\itercntr)})}{}$} (4,2);
 					\draw[->] (4,4) -- node[above] {$-\lrate \nabla f(\weights^{(\itercntr)})$} (2,4);
 					\draw[<-] (4,2) -- node[below] {$1$} (3,2) ;
 					%\draw[->] (-4.25,0) -- (4.25,0) node[right] {$a$};
@@ -4624,15 +4718,14 @@ sort={sigma-field},
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\mathcal{T}^{(f,\lrate)}(\weights)$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{The basic \gls{gradient} step \eqref{equ_def_gd_basic_dict} maps a given \gls{vector} $\weights$ 
-				to the updated \gls{vector} $\weights'$. It defines an \gls{operator} 
-				$\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
-				 \weights \mapsto \widehat{\weights}$.}
+		\caption{The basic \gls{gradient} step \eqref{equ_def_gd_basic_dict} maps a given \gls{vector} $\weights$ 
+			to the updated \gls{vector} $\weights'$.}
 			\label{fig_basic_GD_step_single_dict}
 		\end{figure}
-		Note that the \gls{gradient} step \eqref{equ_def_gd_basic_dict} optimizes locally—in a \gls{neighborhood} whose size is 
-		determined by the \gls{stepsize} $\lrate$—a linear approximation 
-		to the \gls{function} $f(\cdot)$. A natural \gls{generalization} of \eqref{equ_def_gd_basic_dict} is to locally 
+		Note that the \gls{gradient} step \eqref{equ_def_gd_basic_dict} optimizes 
+		locally—in a \gls{neighborhood} whose size is determined by the \gls{stepsize} 
+		$\lrate$—a linear approximation to the \gls{function} $f(\cdot)$. 
+		A natural \gls{generalization} of \eqref{equ_def_gd_basic_dict} is to locally 
 		optimize the \gls{function} itself—instead of its linear approximation—such that
 		\begin{align} 
 			\label{equ_approx_gd_step_dict}
@@ -4641,12 +4734,13 @@ sort={sigma-field},
 		We intentionally use the same symbol $\lrate$ for the \gls{parameter} in \eqref{equ_approx_gd_step_dict} 
 		as we used for the \gls{stepsize} in \eqref{equ_def_gd_basic_dict}. The larger the $\lrate$ we choose in 
 		\eqref{equ_approx_gd_step_dict}, the more progress the update will make toward reducing the 
-		\gls{function} value $f(\widehat{\weights})$. Note that, much like the \gls{gradient} step \eqref{equ_def_gd_basic_dict}, 
-		the update \eqref{equ_approx_gd_step_dict} also defines an \gls{operator} 
-		that is parameterized by the \gls{function} $f(\cdot)$ and the \gls{learnrate} $\lrate$. For a \gls{convex} \gls{function}  
-		$f(\cdot)$, this \gls{operator} is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
+		\gls{function} value $f(\widehat{\weights})$. Note that, much like the \gls{gradient} 
+		step \eqref{equ_def_gd_basic_dict}, the update \eqref{equ_approx_gd_step_dict} also 
+		defines an \gls{operator} that is parameterized by the \gls{function} $f(\cdot)$ and 
+		the \gls{learnrate} $\lrate$. For a \gls{convex} \gls{function} $f(\cdot)$, 
+		this \gls{operator} is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
 					\\ 
-		See also: \gls{differentiable}, \gls{function}, \gls{vector}, \gls{gradient}, \gls{stepsize}, \gls{neighborhood}, \gls{generalization}, \gls{parameter}, \gls{learnrate}, \gls{convex}, \gls{proxop}.},
+		See also: \gls{differentiable}, \gls{gradient}, \gls{stepsize}, \gls{proxop}.},
 	first={gradient step},
 	type=math,
 	firstplural={gradient steps},

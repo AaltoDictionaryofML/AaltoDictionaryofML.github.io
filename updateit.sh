@@ -50,6 +50,9 @@ python assets/FlattenGlossary.py
 echo "[INFO] Running DependencyGraph.py ..."
 python assets/DependencyGraph.py
 
+echo "[INFO] Running countterms.py ..."
+python assets/countterms.py
+
 # --- Clean LaTeX junk (flexible + safe) ---
 echo "[INFO] Cleaning LaTeX temporary files ..."
 find . -maxdepth 2 -type f \( \
