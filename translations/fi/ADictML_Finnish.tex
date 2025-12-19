@@ -8,41 +8,42 @@
 \usepackage{../../assets/pdfplots}
 \usepackage{amsthm}
 \usepackage{amsmath,graphicx}
-\DeclareMathOperator*{\aargmin}{arg\,min}
 \usepackage{booktabs} 
 \usepackage{algorithm, algpseudocode}
 \usepackage{imakeidx}
+\usepackage{mleftright}
 \usepackage[utf8]{inputenc}  % Legacy engine compatibility
 \usepackage[T1]{fontenc}
 \newcommand\Square[1]{+(-#1,-#1) rectangle +(#1,#1)}
 \usepackage{hyperref}       % hyperlinks
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0} % or any tone you prefer
 
-% ---- Speed toggle ----
-\newif\iffastdraft
-\fastdraftfalse      % set to \fastdraftfalse for the final build
+ % ---- Speed toggle ----
+ \newif\iffastdraft
+ \fastdraftfalse       % set to \fastdraftfalse for the final build
 
-
-%\usepackage[automake,stylemods={tree}]{glossaries-extra}
-%\usepackage[automake=false]{glossaries-extra}
   
-\iffastdraft
- \usepackage[automake=false]{glossaries-extra}
-\else
- \usepackage[automake,stylemods={tree}]{glossaries-extra}
-\fi
+ \iffastdraft
+  \usepackage[automake=false]{glossaries-extra}
+ \else
+  \usepackage[automake,stylemods={tree}]{glossaries-extra}
+ \fi
  
 
 \usepackage{etoolbox}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
 
-%Define a new custom key for tagging entries
-%\glsaddkey{tag}{}{\glstag}  % define the custom field "tag"
-%Define explicitly named glossaries
-%\newglossary*{main}{Main Glossary}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.17}
+
+
 \newglossary*{basic}{Basic Terms}
-\newglossary*{math}{Tools}
-\newglossary*{systems}{ML Systems}
+\newglossary*{math}{Mathematical Tools}
+\newglossary*{mlsystems}{ML Systems}
 \newglossary*{advanced}{Advanced Terms}
+\newglossary*{regulation}{ML Regulation}
+\newglossary*{reinflearning}{Reinforcement Learning}
 
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -69,22 +70,8 @@
 \captionsetup[figure]{name=Fig., labelsep=period} % Customize figure caption format
 \renewcommand{\thetable}{\Roman{table}} % Use Roman numerals
 
-
-% New packages
-\usepackage{titling} % Better title
-%\usepackage[style=ieee,sorting=none,citetracker,pagetracker=page,backend=biber,backref=true]{biblatex} % Proper bibliography
-%\usepackage[numbib,nottoc]{tocbibind} % Bibliography to ToC
-
-%\usepackage{silence}
-%\WarningFilter{latex}{Empty bibliography}
-%\WarningFilter{latex}{Citation}
-
-%\addbibresource{../../assets/Literature.bib}
-
-
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{intersections}
-
 
 \usepackage{xspace}
 \renewcommand{\baselinestretch}{1.5}
@@ -93,6 +80,7 @@
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{calc}
+\usetikzlibrary{matrix}
 \usetikzlibrary{shapes.misc}
 \usetikzlibrary{trees, arrows.meta}
 \tikzstyle{mybox}=[draw=red,very thick,
@@ -157,24 +145,28 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 
 \makeglossaries
 
-\iffastdraft
-\glsdisablehyper  % fewer hypertargets created
-\else
-\glsenablehyper
-\fi
-
+ \iffastdraft
+ \glsdisablehyper  % fewer hypertargets created
+ \else
+ \glsenablehyper
+ \fi
+ 
 \input{../../assets/ml_macros.tex}
 
 
-\iffastdraft
-% \makeindex        % skip
-\else
-\makeindex
-\fi
+ \iffastdraft
+ % \makeindex        % skip
+ \else
+ \makeindex
+ \fi
 
+\input{ADictML_Regulation_Finnish.tex}
+\input{ADictML_MLSystems_Finnish.tex}
+\input{ADictML_Math_Finnish.tex}
+\input{ADictML_RL_Finnish.tex}
 \input{ADictML_Glossary_Finnish.tex}
 
-%\makeglossaries
+ %\makeglossaries
 
 \glsaddkey
 {section}% key
@@ -201,6 +193,8 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
      {\end{list}}
 \makeatother
 
+
+
 \begin{document}
 \bstctlcite{bstctl:nodash}
 
@@ -209,33 +203,26 @@ rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 	% \small Comments are warmly welcome at \url{alex.jung@aalto.fi}.
 }
 
-%\title {\vspace*{10mm}
-%	{\huge {\bf The {\fontsize{40}{48}\selectfont \textbf{\textsf{A\hspace*{-2mm}''}}}\hspace*{-4mm}alto \\ Dictionary of Machine Learning}}  \\[-5mm] 
-	% \small Comments are warmly welcome at \url{alex.jung@aalto.fi}.
-%}
-
 %\author{\hspace{-2mm}Alexander Jung, \ Konstantina Olioumtsevits, \ and \ Juliette Gronier \\[-2mm]% <-this % stops a space
 %\thanks{}
 %}
 
-\author{\hspace{-2mm}Alexander Jung${}^{1}$, \ Konstantina Olioumtsevits${}^{1}$, \ Ekkehard Schnoor${}^{1}$, \\[-2mm]
-	Tommi Flores Ryynänen${}^{1}$,\ Juliette Gronier${}^{2}$ ja Salvatore Rastelli${}^{1}$ \\[-2mm]
-	Käännös Mikko Seesto${}^{1}$, Janita Thusberg${}^{1}$ ja Helli Manninen${}^{1}$ \\[-2mm]
-	${}^{1}$Aalto-yliopisto \quad ${}^{2}$ENS Lyon
+\author{\hspace{-2mm}Alexander Jung${}^{1}$, \ Konstantina Olioumtsevits${}^{1}$, \ 
+	Ekkehard Schnoor${}^{1}$, \\[-2mm] Tommi Flores Ryynänen${}^{1}$,\ 
+	Juliette Gronier${}^{2}$, and Salvatore Rastelli${}^{1}$ \\[-2mm]
+	Käännös Mikko Seesto${}^{1}$, Janita Thusberg${}^{1}$ ja Helli Manninen${}^{1}$  \\[-2mm]
+	${}^{1}$Aalto University \quad ${}^{2}$ENS Lyon
 }
 
-%\predate{\begin{center} {\large Käännös Mikko Seesto, Janita Thusberg ja Helli Manninen} \end{center} \\[5mm]}
-
 \maketitle
-
-
-\begin{center}
-	\resizebox{4cm}{!}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}}\\[8mm]
-	{\large	please cite as: A.\ Jung, K.\ Olioumtsevits, E.\ Schnoor, T.\ Ryynänen, J.\ Gronier ja S.\ Rastelli, \textit{Aallon koneoppimisen sanakirja}. Käännös J.\ Thusberg, H.\ Manninen ja M.\ Seesto. Espoo, Suomi: Aalto-yliopisto, 2025.}
+	\begin{center}
+		\resizebox{4cm}{!}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}}\\[10mm]
+%	\resizebox{4cm}{\qrcode{https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io}}\\[10mm]
+{\large	please cite as: A.\ Jung, K.\ Olioumtsevits, E.\ Schnoor, T.\ Ryynänen, J.\ Gronier, and S.\ Rastelli, \textit{Aallon koneoppimisen sanakirja}. Käännös J.\ Thusberg, H.\ Manninen ja M.\ Seesto. Espoo, Finland: Aalto University, 2025.}
 \end{center}
 
 \newpage 
-\noindent{\bf\Large Acknowledgment}\
+\noindent{\bf\Large Acknowledgment}
 
 \noindent This dictionary of machine learning evolved through the development 
 and teaching of several courses, including CS-E3210 Machine Learning: Basic Principles, 
@@ -246,21 +233,23 @@ Aalto University \url{https://www.aalto.fi/en}, to adult learners via
 The Finnish Institute of Technology (FITech) \url{https://fitech.io/en/}, and to international 
 students through the European University Alliance Unite! \url{https://www.aalto.fi/en/unite}.
 
-\noindent We are grateful to the students who provided valuable feedback that helped shape this dictionary. 
-Special thanks to Mikko Seesto for his meticulous proofreading.
+\noindent We are grateful to the students who provided valuable feedback that helped 
+to shape this dictionary. Special thanks to Mikko Seesto for his meticulous proofreading.
 
 \noindent This work was supported by
 \begin{itemize} 
-	\item the Research Council of Finland (grant 331197, 363624, 349966);
+	\item the Research Council of Finland (grants 331197, 363624, 349966);
 	\item the European Union (grant 952410);
 	\item the Jane and Aatos Erkko Foundation (grant A835); 
 	\item Business Finland, as part of the project Forward-Looking AI Governance in Banking and Insurance (FLAIG).
 \end{itemize} 
 
+
+
 \newpage
+%\addcontentsline{toc}{section}{List of Symbols}
 \tableofcontents
 
-\newpage 
 \input{ListSymbols_Finnish.tex}
 
 \newpage
@@ -270,13 +259,19 @@ Special thanks to Mikko Seesto for his meticulous proofreading.
 \glsaddallunused
 
 
-\printglossary[type=math,title={Tools}, nonumberlist]
+\printglossary[type=math,title={Mathematical Tools}, nonumberlist]
 
 \newpage
 \printglossary[title={Machine Learning Concepts}, nonumberlist]
 
-\printglossary[type=systems, title={Machine Learning Systems}, nonumberlist]
+\newpage
+\printglossary[type=reinflearning, title={Reinforcement Learning}, nonumberlist]
 
+\newpage
+\printglossary[type=mlsystems, title={Machine Learning Systems}, nonumberlist]
+
+\newpage
+\printglossary[type=regulation, title={Machine Learning Regulation}, nonumberlist]
 
 
 \iffastdraft
@@ -284,16 +279,15 @@ Special thanks to Mikko Seesto for his meticulous proofreading.
 \else
 % Suppress page numbers on index pages
 \newpage
-\pagenumbering{gobble}
-\pagestyle{empty}
+%\pagenumbering{gobble}
+%\pagestyle{empty}
+\addcontentsline{toc}{section}{Index}
 \printindex
 \fi
 
 
 \newpage
-% The bibliography seems to not work for some reason
 \bibliographystyle{IEEEtran}
 \bibliography{../../assets/Literature.bib}
-%\printbibliography[heading=bibintoc]
 
 \end{document}
