@@ -2,24 +2,24 @@
 {name={Markov decision process (MDP)},
 	description={An MDP \index{Markov decision process (MDP)} is a mathematical 
 	        structure for the study of \gls{reinforcementlearning}. 
-		Formally, an MDP is a \gls{stochproc} that is defined by a specific choice for 
-		\begin{itemize}
+			Formally, an MDP is a \gls{stochproc} that is defined by a specific choice for 
+			\begin{itemize}
     			\item a \gls{statespace} $\statespace$;
     			\item an \gls{actionspace} $\actionspace$;
     			\item a transition \gls{function} $\prob{\state' \mid \state, \arm}$ 
-			specifying the \gls{probdist} over the next state 
-			$\state' \in \statespace$, given the current state 
-			$\state \in \statespace$ and action $\arm \in \mathcal{A}$;
+			          specifying the \gls{condprobdist} $\probdist^{(\state' \mid \state, \arm)}$ 
+					  over the next \gls{state} $\state' \in \statespace$, given the current \gls{state} 
+					  $\state \in \statespace$ and action $\arm \in \actionspace$;
     			\item a \gls{reward} \gls{function} $\reward(\state, \arm) \in \mathbb{R}$ 
-			that assigns a numerical \gls{reward} to each 
-			state-action pair $(\state,\arm)$.
-		\end{itemize}
-		These components define the \gls{probdist} of a \gls{sequence}
-		$$ \state_{1},\,\arm_{1},\,\reward_{1},\,\state_{2},\,\arm_{2},\,\reward_{2},\,\ldots,\,\state_{\timeidx},\,\arm_{\timeidx},\,\reward_{\timeidx}$$ 
-		of \glspl{rv}. The defining property of an MDP is the \gls{markovprop}. That is, at 
-		time instant $\timeidx$, the \gls{condprobdist} of the 
-		next state $\state_{\timeidx+1}$ and \gls{reward} $\reward_{\timeidx}$ 
-		depends on the past only via the current state $\state_{\timeidx}$ and action $\arm_{\timeidx}$. 
+					  that assigns a numerical \gls{reward} to each \gls{state}-\gls{action} 
+					  pair $(\state,\arm)$.
+			\end{itemize}
+			For a given policy $\policy$, these components define the \gls{probdist} of a 
+			\gls{sequence} $$ \state_{1},\,\arm_{1},\,\reward_{1},\,\state_{2},\,\arm_{2},\,\reward_{2},\,\ldots,\,\state_{\timeidx},\,\arm_{\timeidx},\,\reward_{\timeidx}$$ 
+			of \glspl{rv}. The defining property of an MDP is the \gls{markovprop}. 
+			That is, at time $\timeidx$, the \gls{condprobdist} of the next state 
+			$\state_{\timeidx+1}$ and \gls{reward} $\reward_{\timeidx}$ depends on the 
+			past only via the current \gls{state} $\state_{\timeidx}$ and action $\arm_{\timeidx}$. 
 		\\
 		See also: \gls{reinforcementlearning}, \gls{stochproc}, \gls{function}, \gls{probdist}, \gls{reward}, \gls{prediction}.},
  	first={Markov decision process (MDP)},
@@ -29,25 +29,94 @@
  	text={MDP} 
 }
 
-%\newglossaryentry{markovproperty}
-%{name={Markov property},
-%	description={Markov property \index{Markov property} is the memoryless property of a \gls{stochproc}. A \gls{stochproc} has the Markov property iff its future is independent from its future given the present. That is, the next state and \gls{reward} only depend on the current state and action, not on the entire history of interactions. A \gls{stochproc} with this property is a \gls{mdp}.
-		%The defining property of an MDP is the Markov property. That is, the next state $s'$ and \gls{reward} only depend on the current state $s$ and action $a$, not on the entire history of interactions. 
-%		\\
-%		See also: \gls{mdp}, \gls{stochproc}, \gls{reinforcementlearning}.},
-%	first={Markov property},
-%	text={Markov property} 
-%}
+\newglossaryentry{statevaluefunction}
+{name={state-value function},
+	description={For a given \gls{mdp}, any \gls{policy} $\policy$ naturally induces 
+	             a value \gls{function} \index{state-value function} 
+				 $\statevaluefunc{\policy}:\statespace \rightarrow \mathbb{R}$. 
+				 The value $\statevaluefunc{\policy}(\state)$ is the expected 
+				 return when the \gls{mdp} starts in given state $\state \in \statespace$ 
+				  and \glspl{action} are selected according to $\policy$.},
+	first={state-value function},
+	type=reinflearning,
+	plural={state-value functions},
+	firstplural={state-value functions},
+	text={state-value function}
+}
+
+\newglossaryentry{valuefunction}
+{name={value function},
+	description={In the context of a \gls{mdp}, a value \gls{function} \index{value function} 
+				 $\valuefunc: \statespace \rightarrow \mathbb{R}$ assigns to each state 
+				 $\state \in \statespace$ a real number $\valuefunc(\state)$ that quantifies 
+				 the long-term desirability of being in state $\state$.},
+	first={value function},
+	type=reinflearning,
+	plural={value functions},
+	firstplural={value functions},
+	text={value function}
+}
+
+\newglossaryentry{policy}
+{name={policy (reinforcement learning)},
+	description={A policy \index{policy} is a \gls{function} specifies how 
+	 			 the next \gls{action} $\arm_{\timeidx}$ in a \gls{mdp} 
+				 is chosen when the current \gls{state} is $\state_{\timeidx}$. 
+				 Typically, a policy is stochastic, meaning that it defines a 
+				 \gls{condprobdist} $\probdist^{(\arm \mid \state)}$ over the 
+				 \glspl{action} for a given current \gls{state}. We can view 
+				 a policy also as a \gls{hypothesis} that uses \glspl{feature} 
+				 derived from the current \gls{state} to predict the best next 
+				 \gls{action} \cite{SuttonEd2}.
+		\\
+		See also: \gls{mdp}, \gls{action}, \gls{state}.},
+	first={policy},
+	type=reinflearning,
+	plural={policies},
+	firstplural={policies},
+	text={policy}
+}
+
+
+\newglossaryentry{bellmanoperator}
+{name={Bellman operator},
+	description={The Bellman operator \index{Bellman operator} $\fixedpointop$ 
+	             associated with an \gls{mdp} maps a \gls{valuefunction} $\valuefunc: \statespace \rightarrow \mathbb{R}$ 
+				 to another \gls{valuefunction} $\valuefunc': \statespace \rightarrow \mathbb{R}$ 
+				according to
+				\[
+		       	\valuefunc'(\state) =\max_{\arm \in \actionspace}
+					\Bigl(
+						\reward(\state,\arm)
+					+ \gamma \, \expect\{ \valuefunc(\state') \mid \state,\arm \}
+				\Bigr),
+					\]
+				where $\gamma \in (0,1)$ is a discount factor and $\state'$ is the 
+				next state generated according to the transition \gls{function}. 
+				$\state' \sim \prob{\state' \mid \state,\arm}$.
+				The \gls{statevaluefunction} $\valuefunc^\star$ 
+				of the optimal \gls{policy} $\policy^\star$ 
+				is a \gls{fixedpoint} of the Bellman operator, 
+				$\valuefunc^\star = \mathcal{T} \valuefunc^\star$.},
+	first={Bellman operator},
+	type=reinflearning,
+	plural={Bellman operators},
+	firstplural={Bellman operators},
+	text={Bellman operator}
+}
+
+
 
 \newglossaryentry{reinforcementlearning}
 {name={reinforcement learning (RL)},
 	description={RL\index{reinforcement learning (RL)} refers to an \gls{onlinelearning} setting where 
-		we can only evaluate the usefulness of a single \gls{hypothesis} (i.e., a choice of \glspl{modelparam}) 
-		at each time step $\timeidx$. In particular, RL methods apply the current \gls{hypothesis} 
-		$\hypothesis^{(\timeidx)}$ to the \gls{featurevec} $\featurevec^{(\timeidx)}$ of the 
-		newly received \gls{datapoint}. The usefulness of the resulting \gls{prediction} 
-		$\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ is quantified by a \gls{reward} 
-		signal $\reward^{(\timeidx)}$ (see Fig. \ref{fig_reinforcementlearning_dict}). 
+		we can only evaluate the usefulness of a single \gls{hypothesis} (i.e., a specific 
+		choice of \glspl{modelparam}) at each time step $\timeidx$. In particular, RL 
+		methods apply the current \gls{hypothesis} $\hypothesis^{(\timeidx)}$ to the 
+		\gls{featurevec} $\featurevec^{(\timeidx)}$ of the newly received \gls{datapoint} 
+		to predict the next \gls{action}. 
+		The usefulness of the resulting \gls{prediction} $\hypothesis^{(\timeidx)}(\featurevec^{(\timeidx)})$ 
+		is quantified by a \gls{reward} signal $\reward^{(\timeidx)}$ (see Fig. \ref{fig_reinforcementlearning_dict}). 
 		\begin{figure}[H]
 		\begin{center}
 			\begin{tikzpicture}[scale=1]
@@ -130,23 +199,34 @@
 
 \newglossaryentry{mab}
 {name={multiarmed bandit (MAB)},
-	description={An MAB \index{multiarmed bandit (MAB)} problem is a precise 
-		formulation of a sequential decision-making task under \gls{uncertainty}. At each 
-		discrete time step $\iteridx$, a learner selects one of several possible 
-		actions—called arms—from a finite set $\actionset$. Pulling arm $\arm$ at time 
-		$\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$ that is drawn from an unknown 
-		\gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$. We obtain different classes 
-		of MAB problems by placing different restrictions on this \gls{probdist}. In the simplest 
-		setting, the \gls{probdist} $\prob{\reward^{(\arm,\iteridx)}}$ does not depend on $\timeidx$. 
-		Given an MAB problem, the goal is to construct \gls{ml} methods that maximize the cumulative 
-		\gls{reward} over time by strategically balancing exploration (i.e., gathering information 
-		about uncertain arms) and exploitation (i.e., selecting arms known to perform well). 
-		MAB problems form an important special case of \gls{reinforcementlearning} problems \cite{Bubeck2012}, \cite{SuttonEd2}.
-					\\ 
+	description={A MAB \index{multiarmed bandit (MAB)} is a precise 
+		         formulation of a sequential decision-making task under \gls{uncertainty}. 
+				 At each time step $\iteridx$, one must choose an \gls{action} from an finite 
+				 \gls{actionspace} $\actionspace$. Choosing \gls{action} 
+				 $\arm$ at time $\iteridx$ yields a \gls{reward} $\reward^{(\arm,\iteridx)}$. 
+				 Each MAB induces a \gls{ml} problem: Learn a \gls{hypothesis} that 
+				 predicts the optimal \gls{action} $\arm_{\timeidx}$ at time $\timeidx$. 
+				 This \gls{prediction} must be based on the \glspl{action} 
+				 and \glspl{reward} received up to time $\timeidx-1$ 
+				  \cite{Bubeck2012}, \cite{SuttonEd2}. 
 		See also: \gls{reward}, \gls{regret}.},
 	first={MAB},
 	type=reinflearning,
 	text={MAB}
+}
+
+\newglossaryentry{stochmab}
+{name={stochastic multiarmed bandit (MAB)},
+	description={An stochastic \gls{mab} \index{stochastic multiarmed bandit (MAB)} 
+	             is a \gls{stochproc} that is obtained from a \gls{mab}. In particular, 
+				 the \gls{reward} $\reward^{(\arm,\iteridx)}$ is modelled as a \gls{rv}		 
+				 with an unknown \gls{probdist} $\probdist^{\big(\reward^{(\arm,\iteridx)}\big)}$ \cite{Bubeck2012,HazanOCO}. 
+				 In the simplest setting, the \gls{probdist} $\probdist^{\big(\reward^{(\arm,\iteridx)}\big)}$ 
+				 does not depend on $\timeidx$, i.e., it is time invariant. \\ 
+		See also: \gls{reward}, \gls{regret}.},
+	first={stochastic MAB},
+	type=reinflearning,
+	text={stochastic MAB}
 }
 
 \newglossaryentry{regret}
