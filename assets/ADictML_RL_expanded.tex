@@ -26,8 +26,27 @@
 			That is, at time $t$, the conditional probability distribution of the next state 
 			$\state_{t+1}$ and reward $\reward_{t}$ depends on the 
 			past only via the current state $\state_{t}$ and action $\arm_{t}$. 
+			Reinforcement learning (RL) methods try to learn a policy $\pi$ that 
+			maximizes the expected return 
+			 \[
+			 	\mathbb{E} \!\left\{ 
+			 	\sum_{t=1}^{\infty} 
+			 	\gamma^{t-1} \reward_{t} 
+			 	\;\middle|\; \state_{1} 
+			 	\right\}. 
+			 \]
+			 The conditioning on the initial state $\state_{1}$  indicates that the expected 
+			 return is evaluated by following the policy $\pi$ from a given initial state.
+			 The expected return involves the discount factor $\gamma\in (0,1)$ 
+			 that determines the relative importance of future rewards compared 
+			 to the immediate reward. 
+			 The discount factor $\gamma$ is typically fixed for a given Markov decision process (MDP) and 
+			 controls the trade-off between short-term and long-term reward. 
+			 MDPs are widely used in robotics, game playing, and autonomous systems, to model 
+			 decision-making problems where an agent interacts with an environment to 
+			 achieve a goal\cite{SuttonEd2}, \cite{Bertsekas2012}.
 		\\
-		See also: reinforcement learning (RL), stochastic process, function, probability distribution, reward, prediction.},
+		See also: reinforcement learning (RL), stochastic process, function,  reward.},
  	first={Markov decision process (MDP)},
 	type=reinflearning, 
 	plural={MDPs}, 
@@ -87,23 +106,41 @@
 \newglossaryentry{bellmanoperator}
 {name={Bellman operator},
 	description={The Bellman operator \index{Bellman operator} $\mathcal{F}$ 
-	             associated with an Markov decision process (MDP) maps a value function $v: \mathcal{S}\rightarrow \mathbb{R}$ 
+	             associated with an Markov decision process (MDP) is defined on the space of all 
+				 value functions. In particular, it maps a 
+				 value function $v: \mathcal{S}\rightarrow \mathbb{R}$ 
 				 to another value function $v': \mathcal{S}\rightarrow \mathbb{R}$ 
 				according to
 				\[
 		       	v'(s) =\max_{a\in \mathcal{A}}
 					\Bigl(
-						r(s,a)
-					+ \gamma \, \mathbb{E} \{ v(s') \mid s,a\}
+						\mathbb{E} \{ r(s,a)\mid s,a\}
+					+ \gamma\, \mathbb{E} \{ v(s') \mid s,a\}
 				\Bigr),
 					\]
-				where $\gamma \in (0,1)$ is a discount factor and $s'$ is the 
+				where $\gamma\in (0,1)$ is a discount factor and $s'$ is the 
 				next state generated according to the transition function. 
 				$s' \sim \mathbb{P}\left(s' \mid s,a\right)$.
-				The state-value function $v^\star$ 
-				of the optimal policy $\pi^\star$ 
-				is a fixed point of the Bellman operator, 
-				$v^\star = \mathcal{T} v^\star$.},
+				The state-value function $v^\star$ of the optimal 
+				policy $\pi^\star$ is a fixed point of the Bellman operator, 
+				$v^\star = \mathcal{F}v^\star$. This fixed-point equation 
+			    lends naturally to the value iteration method for computing the state-value function 
+			    of an optimal policy. Beside the Bellman operator 
+				associated with an Markov decision process (MDP), there is also a Bellman operator 
+				$\mathcal{F}^{(\pi)}$ associated with a policy $\pi$. 
+				In this case, the Bellman operator is defined as
+				\[
+				\mathcal{F}^{(\pi)} v(s) = \mathbb{E} \{ r(s,a) \mid s,a\}
+				+ \gamma\, \mathbb{E} \{ v(s') \mid s,a\},
+				\]
+				where $s' \sim \mathbb{P}\left(s' \mid s,a\right)$ and $a$ is selected
+				according to $\pi$. The state-value function $v_{\pi}$ is a 
+				fixed point of $\mathcal{F}^{(\pi)}$, $v_{\pi}= \mathcal{F}^{(\pi)}v_{\pi}$. This fixed-point equation can 
+				be solved by a fixed-point iteration which is know as policy evaluation. 
+				The Bellman operator is named after Richard Bellman, who introduced it in the context of
+				dynamic programming \cite{Bellman1957}. The Bellman operator is a key
+				concept in reinforcement learning (RL) and is used to derive algorithms for
+				solving MDPs, such as value iteration and policy iteration\cite{SuttonEd2}.}, 
 	first={Bellman operator},
 	type=reinflearning,
 	plural={Bellman operators},
@@ -111,7 +148,15 @@
 	text={Bellman operator}
 }
 
-
+\newglossaryentry{policyevaluation}
+{name={policy evaluation (reinforcement learning)},
+ description={Policy evaluation refers to computing the state-value function $v_{\pi}$ 
+		                   of a given policy $\pi$ in a Markov decision process (MDP). One widely used method is based 
+		                   on the characterization of $v_{\pi}$ as a fixed point of 
+		                   the Bellman operator $\mathcal{F}^{(\pi)}$.} , 
+	text = {policy evaluation}, 
+	first = {policy evaluation} 
+}
 
 \newglossaryentry{reinforcementlearning}
 {name={reinforcement learning (RL)},

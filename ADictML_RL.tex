@@ -20,8 +20,27 @@
 			That is, at time $\timeidx$, the \gls{condprobdist} of the next state 
 			$\state_{\timeidx+1}$ and \gls{reward} $\reward_{\timeidx}$ depends on the 
 			past only via the current \gls{state} $\state_{\timeidx}$ and action $\arm_{\timeidx}$. 
+			\Gls{reinforcementlearning} methods try to learn a \gls{policy} $\policy$ that 
+			maximizes the expected return 
+			 \[
+			 	\expect\!\left\{ 
+			 	\sum_{\timeidx=1}^{\infty} 
+			 	\discountfac^{\timeidx-1} \reward_{\timeidx} 
+			 	\;\middle|\; \state_{1} 
+			 	\right\}. 
+			 \]
+			 The conditioning on the initial \gls{state} $\state_{1}$  indicates that the expected 
+			 return is evaluated by following the \gls{policy} $\policy$ from a given initial \gls{state}.
+			 The expected return involves the discount factor $\discountfac \in (0,1)$ 
+			 that determines the relative importance of future \glspl{reward} compared 
+			 to the immediate \gls{reward}. 
+			 The discount factor $\discountfac$ is typically fixed for a given \gls{mdp} and 
+			 controls the trade-off between short-term and long-term \gls{reward}. 
+			 MDPs are widely used in robotics, game playing, and autonomous systems, to model 
+			 decision-making problems where an agent interacts with an environment to 
+			 achieve a goal\cite{SuttonEd2}, \cite{Bertsekas2012}.
 		\\
-		See also: \gls{reinforcementlearning}, \gls{stochproc}, \gls{function}, \gls{probdist}, \gls{reward}, \gls{prediction}.},
+		See also: \gls{reinforcementlearning}, \gls{stochproc}, \gls{function},  \gls{reward}.},
  	first={Markov decision process (MDP)},
 	type=reinflearning, 
 	plural={MDPs}, 
@@ -81,23 +100,41 @@
 \newglossaryentry{bellmanoperator}
 {name={Bellman operator},
 	description={The Bellman operator \index{Bellman operator} $\fixedpointop$ 
-	             associated with an \gls{mdp} maps a \gls{valuefunction} $\valuefunc: \statespace \rightarrow \mathbb{R}$ 
+	             associated with an \gls{mdp} is defined on the space of all 
+				 \glspl{valuefunction}. In particular, it maps a 
+				 \gls{valuefunction} $\valuefunc: \statespace \rightarrow \mathbb{R}$ 
 				 to another \gls{valuefunction} $\valuefunc': \statespace \rightarrow \mathbb{R}$ 
 				according to
 				\[
 		       	\valuefunc'(\state) =\max_{\arm \in \actionspace}
 					\Bigl(
-						\reward(\state,\arm)
-					+ \gamma \, \expect\{ \valuefunc(\state') \mid \state,\arm \}
+						\expect\{ \reward(\state,\arm)\mid \state,\arm \}
+					+ \discountfac \, \expect\{ \valuefunc(\state') \mid \state,\arm \}
 				\Bigr),
 					\]
-				where $\gamma \in (0,1)$ is a discount factor and $\state'$ is the 
+				where $\discountfac \in (0,1)$ is a discount factor and $\state'$ is the 
 				next state generated according to the transition \gls{function}. 
 				$\state' \sim \prob{\state' \mid \state,\arm}$.
-				The \gls{statevaluefunction} $\valuefunc^\star$ 
-				of the optimal \gls{policy} $\policy^\star$ 
-				is a \gls{fixedpoint} of the Bellman operator, 
-				$\valuefunc^\star = \mathcal{T} \valuefunc^\star$.},
+				The \gls{statevaluefunction} $\valuefunc^\star$ of the optimal 
+				\gls{policy} $\policy^\star$ is a \gls{fixedpoint} of the Bellman operator, 
+				$\valuefunc^\star = \fixedpointop \valuefunc^\star$. This \gls{fixedpointeq} 
+			    lends naturally to the value iteration method for computing the \gls{statevaluefunction} 
+			    of an optimal \gls{policy}. Beside the Bellman operator 
+				associated with an \gls{mdp}, there is also a Bellman operator 
+				$\fixedpointop^{(\policy)}$ associated with a \gls{policy} $\policy$. 
+				In this case, the Bellman operator is defined as
+				\[
+				\fixedpointop^{(\policy)} \valuefunc(\state) = \expect\{ \reward(\state,\arm) \mid \state,\arm \}
+				+ \discountfac \, \expect\{ \valuefunc(\state') \mid \state,\arm \},
+				\]
+				where $\state' \sim \prob{\state' \mid \state,\arm}$ and $\arm$ is selected
+				according to $\policy$. The \gls{statevaluefunction} $\statevaluefunc{\policy}$ is a 
+				\gls{fixedpoint} of $\fixedpointop^{(\policy)}$, $\statevaluefunc{\policy}= \fixedpointop^{(\policy)}\statevaluefunc{\policy}$. This \gls{fixedpointeq} can 
+				be solved by a \gls{fixedpointiter} which is know as \gls{policyevaluation}. 
+				The Bellman operator is named after Richard Bellman, who introduced it in the context of
+				dynamic programming \cite{Bellman1957}. The Bellman operator is a key
+				concept in \gls{reinforcementlearning} and is used to derive algorithms for
+				solving \glspl{mdp}, such as value iteration and policy iteration\cite{SuttonEd2}.}, 
 	first={Bellman operator},
 	type=reinflearning,
 	plural={Bellman operators},
@@ -105,7 +142,15 @@
 	text={Bellman operator}
 }
 
-
+\newglossaryentry{policyevaluation}
+{name={policy evaluation (reinforcement learning)},
+ description={Policy evaluation refers to computing the \gls{statevaluefunction} $\statevaluefunc{\policy}$ 
+		                   of a given \gls{policy} $\policy$ in a \gls{mdp}. One widely used method is based 
+		                   on the characterization of $\statevaluefunc{\policy}$ as a \gls{fixedpoint} of 
+		                   the \gls{bellmanoperator} $\fixedpointop^{(\policy)}$.} , 
+	text = {policy evaluation}, 
+	first = {policy evaluation} 
+}
 
 \newglossaryentry{reinforcementlearning}
 {name={reinforcement learning (RL)},
