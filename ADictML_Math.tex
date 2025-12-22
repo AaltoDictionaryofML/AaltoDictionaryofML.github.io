@@ -3507,14 +3507,14 @@ sort={sigma-field},
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
- description={Given a \gls{function} $f\!:\!\featurespace \to \labelspace$, 
+ description={Given\index{graph of a function} a \gls{function} $f\!:\!\featurespace \to \labelspace$, 
 			  the graph of $f$ is the subset of $\featurespace \times \labelspace$ 
 			  defined as
 				\[
 				  \{ (\featurevec,f(\featurevec)) : \featurevec \in \featurespace \,\}.
 				\]
 				The graph of a \gls{function} provides a geometric representation 
-				that is widely used in analysis, topology, and optimization.}, 
+				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.}, 
 	first={graph},
 	text={graph},
 	type=math, 
@@ -4033,68 +4033,188 @@ sort={sigma-field},
 }	
 
 \newglossaryentry{methodofmultipliers}
-{name={method of multipliers},
- description={The \index{method of multipliers} method of multipliers is an 
-              iterative \gls{optmethod} for solving a 
-			  constrained \gls{optproblem} of the form \cite{DistrOptStatistLearningADMM}
-			  \[
-			  \min_{\featurevec \in \mathbb{R}^{\nrfeatures}} \; f(\featurevec)
-			  \mbox{ subject to } \mathbf{A} \featurevec  = \mathbf{0}.
+{name={method of multipliers (MoM)},
+ description={The \index{method of multipliers (MoM)} MoM is an 
+        	  iterative \gls{optmethod} for solving a constrained \gls{optproblem} 
+			  of the form \cite{DistrOptStatistLearningADMM}
+ 			  \[\min_{\vx \in \mathbb{R}^{\nrfeatures}} \; f(\vx)
+					\quad \text{ subject to } \mathbf{A}\vx = \vb.
 			  \]
-			  ??? DISCUSS FIXED-POINT FORMULATION based on AUGMENTED LAGRANGIAN ???
-			 }, 
- first={method of multipliers},
+			Here, $f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ denotes 
+			the \gls{objfunc}, $\mathbf{A} \in \mathbb{R}^{m \times \nrfeatures}$ 
+			is a given \gls{matrix}, and $\vb \in \mathbb{R}^{m}$ is a given 
+			\gls{vector}. MoM is based on the augmented \gls{lagrangian}
+			\[L_\rho(\vx,\vy) = f(\vx) + \vy^\top \mathbf{A}\vx
+			+ \frac{\rho}{2}\normgeneric{\mathbf{A}\vx - \vb}{2}^{2},
+			\]
+			where $\vy$ denotes the vector of Lagrange multipliers and $\rho>0$
+			is a penalty parameter. The MoM constructs a \gls{sequence} of estimates 
+			$\pair{\vx^{(1)}}{\vy^{(1)}},\ldots$ that converge to a solution of 
+			the \gls{optproblem}. In particulat, during each iteration $\iteridx$, 
+			the current estimates $\vx^{(\itercntr)},\vy^{(\itercntr)}$
+			are updated as follows
+			\begin{align*} 
+				\vx^{(\itercntr+1)} &= \argmin_{\vx \in \mathbb{R}^{\nrfeatures}} L_\rho(\vx,\vy^{(\itercntr)}), \\
+				\vy^{(\itercntr+1)} &= \vy^{(\itercntr)} + \rho\, \big(\mathbf{A}\vx^{(\itercntr+1)} - \vb\big).
+			\end{align*}
+			The MoM can be written as a \gls{fixedpointiter} of the form
+			\[
+			 \big( \vx^{(\itercntr+1)},\vy^{(\itercntr+1)} \big) = \fixedpointop \big(\vx^{(\itercntr)},\vy^{(\itercntr)} \big),
+			\]
+			with 
+			\begin{align} 
+				\fixedpointop:\mathbb{R}^{\nrfeatures}\!\times\!\mathbb{R}^{m}\!\to\!
+			\mathbb{R}^{\nrfeatures}\!\times\!\mathbb{R}^{m}\!:\!\big(\vx,\vy\big)\!&\mapsto\!\big(\vx',\vy\!+\!\rho \big(\mathbf{A}\vx'\!-\!\vb\big) \big) \nonumber \\ 
+			& \mbox{ with } \vx' = \argmin_{\vx \in \mathbb{R}^{\nrfeatures}} L_\rho(\vx,\vy). \nonumber
+			\end{align}
+			\\
+			See also: \gls{optproblem}, \gls{lagrangian}, \gls{fixedpointiter}}, 
+ first={method of multipliers (MoM)},
  type=math,
- text={method of multipliers}
+ text={MoM}
 }	
+
+\newglossaryentry{augmentedlagrangian}
+{name={augmented Lagrangian},
+	description={The augmented \gls{lagrangian}\index{augmented Lagrangian} is a modification 
+	 			 of the standard \gls{lagrangian} that includes an additional quadratic 
+				 penalty term for constraint violations. It is used in the \gls{methodofmultipliers} 
+				 for iteratively solving constrained \glspl{optproblem}.
+		\\
+		See also: \gls{methodofmultipliers}.},
+	first={augmented Lagrangian},
+	text={augmented Lagrangian},
+	plural={augmented Lagrangians},
+	type=math
+}
 
 
 
 \newglossaryentry{lagrangian}
 {name={Lagrangian},
-	description={The Lagrangian\index{Lagrangian} of an \gls{optproblem} of %standard
-		the form 
-		\begin{align}
-			\min_{\weights \in \mathbb{R}^{\nrfeatures}} & f_0(\weights)   \nonumber \\ 
-			\mbox{s.t.} \quad & f_{i}(\weights) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
-			& g_j(\weights) = 0, \quad j=1, \,\ldots,\,l \nonumber
-		\end{align}
-		is \cite{BoydConvexBook}
-		\begin{equation}
-			\nonumber
-			L(\weights, \lambda, \nu) \defeq f_0(\weights) + \sum_{i=1}^{k} \lambda_i f_i(\weights) + \sum_{j=1}^{l} \nu_j g_j(\weights).
-		\end{equation}
+	description={Consider a constrained \gls{optproblem} of the form
+				 \begin{align} 
+				  \min_{\weights \in \mathbb{R}^{\nrfeatures}} & f_0(\weights)   \nonumber \\ 
+						\mbox{s.t.} \quad & f_{i}(\weights) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
+										& g_j(\weights) = 0, \quad j=1, \,\ldots,\,l. \nonumber
+						\end{align}
+				  Here, $f_0: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ is the 
+					 \gls{objfunc}, $f_i: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$, 
+					$i=1,\,\ldots,\,k$ are the inequality constraint \glspl{function}, 
+					and $g_j: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$, 
+					$j=1,\,\ldots,\,l$ are the equality constraint \glspl{function}.		
+				  The Lagrangian\index{Lagrangian} of the above \gls{optproblem} of %standard
+				  the form is defined as \cite{BoydConvexBook}
+				 \begin{equation}
+					\nonumber
+					L(\weights, {\bm \lambda}, {\bm \nu}) \defeq f_0(\weights) + \sum_{i=1}^{k} \lambda_i f_i(\weights) + \sum_{j=1}^{l} \nu_j g_j(\weights).
+				\end{equation}
+				Here, ${\bm \lambda} \in \mathbb{R}_{+}^{k}$ (i.e., $\lambda_i \geq 0$ for all $i=1,\ldots,k$) 
+				and ${\bm \nu} \in \mathbb{R}^{l}$ are the multipliers associated with the inequality and equality 
+				constraints, respectively. The Lagrangian is a useful tool for the analysis of constrained 
+				\glspl{optproblem} and the design of \glspl{optmethod}.  	
 		\\
-		See also: \gls{optproblem}, \gls{convexopt}, \gls{dual}.},
+		See also: \gls{optproblem}, \gls{convexopt}, \gls{dualproblem}.},
 	first={Lagrangian},
 	text={Lagrangian},
 	plural={Lagrangians},
 	type=math
 }
 
-\newglossaryentry{dual}
-{name={Lagrange dual problem},
-	description={The \gls{lagrangian}\index{Lagrange dual problem} of an \gls{optproblem} of %standard
-		the form 
-		\begin{align}
-			\min_{\weights \in \mathbb{R}^{\nrfeatures}} & f_0(\weights)   \nonumber \\ 
-			\mbox{s.t.} \quad & f_{i}(\weights) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
-			& g_j(\weights) = 0, \quad j=1, \,\ldots,\,l \nonumber
-		\end{align}
-		is 
-		\begin{align}
-			\max_{\lambda \in \mathbb{R}^{k}, \nu \in \mathbb{R}^l} \inf_{\weights \in \mathbb{R}^{\nrfeatures}} & L(\weights, \lambda, \nu) \nonumber \\
-			\mbox{s.t.} \quad & \lambda \leq 0 \nonumber
-		\end{align}
-		where $L$ is the \gls{lagrangian} of the \gls{optproblem}. \\
-		See also: \gls{lagrangian}, \gls{optproblem}, \gls{convexopt}.},
-	first={Lagrange dual problem},
-	text={dual},
-	plural={Lagrange dual problems},
-	type=math
-	% Todo: add dual feasibility
+\newglossaryentry{kktconditions}
+{name={Karush--Kuhn--Tucker (KKT) conditions},
+ description={Consider a constrained \gls{optproblem} with \gls{lagrangian}
+			  \[
+			  L(\vx, {\bm \lambda}, {\bm \nu}) 
+			  = f_0(\vx) 
+			  + \sum_{i=1}^{k} \lambda_i f_i(\vx) 
+			  + \sum_{j=1}^{l} \nu_j g_j(\vx),
+			  \]
+			  with \gls{differentiable} \glspl{function} $f_0, f_1, \ldots, f_k, g_1, \ldots, g_l$.	
+			  The \index{Karush--Kuhn--Tucker (KKT) conditions} KKT conditions are  
+			  a system of equations and inequalities for the primal and 
+			  dual variables $\big(\vx,{\bm \lambda},{\bm \nu}\big)$ \cite[Sec. 5.5.3]{BoydConvexBook}:
+			  \begin{align}
+			  \nabla_{\vx} L(\vx, {\bm \lambda}, {\bm \nu}) &= \mathbf{0}
+			  && \text{(stationarity)} \nonumber\\
+			  f_i(\vx) &\le 0, \quad i=1,\ldots,k
+			  && \text{(primal feasibility)} \nonumber\\
+			  g_j(\vx) &= 0, \quad j=1,\ldots,l
+			  && \text{(primal feasibility)} \nonumber\\
+			  \lambda_i &\ge 0, \quad i=1,\ldots,k
+			  && \text{(dual feasibility)} \nonumber\\
+			  \lambda_i f_i(\vx) &= 0, \quad i=1,\ldots,k
+			  && \text{(complementary slackness).} \nonumber
+			  \end{align}
+			  If the primal problem results in a zero \gls{dualitygap}, 
+			  any solution $(\vx^\star,{\bm \lambda}^\star,{\bm \nu}^\star)$ 
+			  must satisfy the KKT conditions. Conversely, if the primal problem 
+			  is \gls{convex} and some regularity conditions hold, any solution 
+			  $(\vx^\star,{\bm \lambda}^\star,{\bm \nu}^\star)$ 
+			  that satisfies the KKT conditions is also optimal \cite{BoydConvexBook}.
+			  The KKT conditions can be written as a \gls{fixedpointeq} 
+			  and therfore be solved via \glspl{fixedpointiter}.},
+ first={Karush--Kuhn--Tucker (KKT) conditions},
+ text={KKT conditions},
+ type=math
 }
 
+\newglossaryentry{dualitygap}
+{name={duality gap},
+ description={Consider a constrained \gls{optproblem} with \gls{lagrangian}
+			  \[
+			  L(\vx, {\bm \lambda}, {\bm \nu})
+			  = f_0(\vx)
+			  + \sum_{i=1}^{k} \lambda_i f_i(\vx)
+			  + \sum_{j=1}^{l} \nu_j g_j(\vx).
+			  \]
+			  The \gls{dualproblem} is defined as
+			  \[
+			  \max_{{\bm \lambda}\in \mathbb{R}_+^k,{\bm \nu} \in \mathbb{R}^l} 
+			  \underbrace{q({\bm \lambda},{\bm \nu})}_{\defeq \inf_{\vx} L(\vx,{\bm \lambda},{\bm \nu})}.
+			  \]
+			  Let $p^\star$ denote the optimal value of the primal problem and
+			  $d^\star$ the optimal value of the associated \gls{dualproblem}. The
+			  \index{duality gap} duality gap is defined as
+			  \[
+			  p^\star - d^\star \;\ge\; 0.
+			  \]
+			  The duality gap is always nonnegative, even for non-\gls{convex} 
+			  and \gls{nonsmooth} \glspl{optproblem}. When the duality gap is
+			  zero, i.e., $p^\star = d^\star$, strong duality is said to hold \cite[Ch. 5]{BoydConvexBook}.},
+ first={duality gap},
+ text={duality gap},
+ type=math
+}
+
+\newglossaryentry{dualproblem}
+{name={dual problem},
+ description={Consider a constrained \gls{optproblem}, which we 
+ 			  refer to as primal problem in what follows, of the form
+    		  \[\min_{\vx}\; f(\vx)
+     			\quad \text{subject to }\;
+                 g_i(\vx)\le 0, i=1,\ldots,k; \; h_j(\vx)=0, j=1,\ldots,l.
+              \]
+     		  The \gls{lagrangian} associated with this problem can be used to 
+     		  construct a lower bound on the optimal value of the primal problem. 
+      		  This\index{dual problem} lower bound is captured by the \gls{function}
+     		 \[q({\bm \lambda},{\bm \nu})=\inf_{\vx} L(\vx,{\bm \lambda},{\bm \nu}),
+      			 \]
+     		  where $L(\vx,{\bm \lambda},{\bm \nu})$ denotes the \gls{lagrangian}. 
+	  		  For any ${\bm \lambda} \ge \mathbf{0}$, ${\bm \nu} \in \mathbb{R}^{l}$ 
+	  		  and $\vx$ that satisfies the constraints of the primal problem \cite[Ch. 5]{BoydConvexBook},
+	         $$q({\bm \lambda},{\bm \nu}) \leq f(\vx).$$
+              Making this lower bound maximally tight amounts to the optimization problem,
+              \[
+              \max_{{\bm \lambda}\geq\mathbf{0},{\bm \nu}}\; q({\bm \lambda},{\bm \nu}). 
+              \]
+              This \gls{optproblem} is referred to as the dual problem associated with 
+			  the original primal problem.},
+ first={dual problem},
+ type=math,
+ text={dual problem}
+}
+	
 \newglossaryentry{statespace}
 {name={state space},
 	description={The state space\index{state space} of a system is constituted  
@@ -4462,14 +4582,41 @@ sort={sigma-field},
 	text={EVD} 
 }
 
+ \newglossaryentry{singularvalue}
+ {name={singular value}, 
+   description={See\index{singular value} \gls{svd}.},
+ 	first={singular value},
+	type=math,
+	plural={singular values},
+	firstplural={singular values},
+	text={singular value} 
+}
+
 \newglossaryentry{svd}
 {name={singular value decomposition (SVD)}, 
   	description={The\index{singular value decomposition (SVD)} SVD  
   		for a \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \dimlocalmodel}$ 
 		is a factorization of the form 
 		$$\mA = \mathbf{V} {\bm \Lambda} \mathbf{U}\,^{T}$$ 
-		with orthonormal \glspl{matrix} $\mV \in \mathbb{R}^{\samplesize \times \samplesize}$ 
-		and $\mU \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel}$ \cite{GolubVanLoanBook}. 
+		with orthonormal \glspl{matrix} $\mV = \big(\vv^{(1)},\ldots,\vv^{(\samplesize)}\big) \in \mathbb{R}^{\samplesize \times \samplesize}$ 
+		and $\mU = \big( \vu^{(1)},\ldots,\vu^{(\dimlocalmodel)} \big) \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel}$ \cite{GolubVanLoanBook}. 
+		\begin{figure}[htbp]
+		 	\centering	
+		 \begin{tikzpicture}[>=latex, line cap=round, line join=round, scale=1]
+		 	\def\xL{0}
+		 	\def\xR{6}
+		 	\def\len{2.0}
+		 	\def\sone{1.6}
+		 	\def\stwo{0.7}
+		 	\draw[thick,->] (\xL,0) -- ++(\len,0) node[midway,below] {$\vu^{(1)}$};
+			\draw[thick,->] (\xL,0) -- ++(0,\len) node[midway,left] {$\vu^{(2)}$};
+			\draw[dashed,->] (\xL+2.9,0) -- (\xR-0.9,0);
+			\begin{scope}[shift={(\xR,0)},rotate=30]
+			\draw[thick,->] (0,0) -- (\sone*\len,0) node[midway,below] {$\lambda_1 \vv^{(1)}$};
+			\draw[thick,->] (0,0) -- (0,\stwo*\len) node[midway,left] {$\lambda_2 \vv^{(2)}$};
+			\end{scope}
+		 	\end{tikzpicture}
+		 \end{figure}
 		The \gls{matrix} ${\bm \Lambda} \in \mathbb{R}^{\samplesize \times \dimlocalmodel}$ is 
 		only nonzero along the main diagonal, whose entries $\Lambda_{\featureidx,\featureidx}$ 
 		are nonnegative and referred to as singular values.

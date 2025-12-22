@@ -3508,14 +3508,14 @@ sort={sigma-field},
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
- description={Given a function $f\!:\!\mathcal{X}\to \mathcal{Y}$, 
+ description={Given\index{graph of a function} a function $f\!:\!\mathcal{X}\to \mathcal{Y}$, 
 			  the graph of $f$ is the subset of $\mathcal{X}\times \mathcal{Y}$ 
 			  defined as
 				\[
 				  \{ ({\bf x},f({\bf x})) : {\bf x}\in \mathcal{X}\,\}.
 				\]
 				The graph of a function provides a geometric representation 
-				that is widely used in analysis, topology, and optimization.}, 
+				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.}, 
 	first={graph},
 	text={graph},
 	type=math, 
@@ -4033,68 +4033,187 @@ sort={sigma-field},
 }	
 
 \newglossaryentry{methodofmultipliers}
-{name={method of multipliers},
- description={The \index{method of multipliers} method of multipliers is an 
-              iterative optimization method for solving a 
-			  constrained optimization problem of the form \cite{DistrOptStatistLearningADMM}
-			  \[
-			  \min_{{\bf x}\in \mathbb{R}^{d}} \; f({\bf x})
-			  \mbox{ subject to } \mathbf{A} {\bf x}= \mathbf{0}.
+{name={method of multipliers (MoM)},
+ description={The \index{method of multipliers (MoM)} MoM is an 
+        	  iterative optimization method for solving a constrained optimization problem 
+			  of the form \cite{DistrOptStatistLearningADMM}
+ 			  \[\min_{{\bf x}\in \mathbb{R}^{d}} \; f({\bf x})
+					\quad \text{ subject to } \mathbf{A}{\bf x}= {\bf b}.
 			  \]
-			  ??? DISCUSS FIXED-POINT FORMULATION based on AUGMENTED LAGRANGIAN ???
-			 }, 
- first={method of multipliers},
+			Here, $f: \mathbb{R}^{d} \rightarrow \mathbb{R}$ denotes 
+			the objective function, $\mathbf{A} \in \mathbb{R}^{m \times d}$ 
+			is a given matrix, and ${\bf b}\in \mathbb{R}^{m}$ is a given 
+			vector. MoM is based on the augmented Lagrangian
+			\[L_\rho({\bf x},{\bf y}) = f({\bf x}) + {\bf y}^\top \mathbf{A}{\bf x}+ \frac{\rho}{2}\mleft\lVert \mathbf{A}{\bf x}- {\bf b}\mright\rVert_{2}^{2},
+			\]
+			where ${\bf y}$ denotes the vector of Lagrange multipliers and $\rho>0$
+			is a penalty parameter. The MoM constructs a sequence of estimates 
+			$\left( {\bf x}^{(1)},{\bf y}^{(1)} \right),\ldots$ that converge to a solution of 
+			the optimization problem. In particulat, during each iteration $t$, 
+			the current estimates ${\bf x}^{(k)},{\bf y}^{(k)}$
+			are updated as follows
+			\begin{align*} 
+				{\bf x}^{(k+1)} &= \argmin_{{\bf x}\in \mathbb{R}^{d}} L_\rho({\bf x},{\bf y}^{(k)}), \\
+				{\bf y}^{(k+1)} &= {\bf y}^{(k)} + \rho\, \big(\mathbf{A}{\bf x}^{(k+1)} - {\bf b}\big).
+			\end{align*}
+			The MoM can be written as a fixed-point iteration of the form
+			\[
+			 \big( {\bf x}^{(k+1)},{\bf y}^{(k+1)} \big) = \mathcal{F}\big({\bf x}^{(k)},{\bf y}^{(k)} \big),
+			\]
+			with 
+			\begin{align} 
+				\mathcal{F}:\mathbb{R}^{d}\!\times\!\mathbb{R}^{m}\!\to\!
+			\mathbb{R}^{d}\!\times\!\mathbb{R}^{m}\!:\!\big({\bf x},{\bf y}\big)\!&\mapsto\!\big({\bf x}',{\bf y}\!+\!\rho \big(\mathbf{A}{\bf x}'\!-\!{\bf b}\big) \big) \nonumber \\ 
+			& \mbox{ with } {\bf x}' = \argmin_{{\bf x}\in \mathbb{R}^{d}} L_\rho({\bf x},{\bf y}). \nonumber
+			\end{align}
+			\\
+			See also: optimization problem, Lagrangian, fixed-point iteration}, 
+ first={method of multipliers (MoM)},
  type=math,
- text={method of multipliers}
+ text={MoM}
 }	
+
+\newglossaryentry{augmentedlagrangian}
+{name={augmented Lagrangian},
+	description={The augmented Lagrangian\index{augmented Lagrangian} is a modification 
+	 			 of the standard Lagrangian that includes an additional quadratic 
+				 penalty term for constraint violations. It is used in the method of multipliers (MoM) 
+				 for iteratively solving constrained optimization problems.
+		\\
+		See also: method of multipliers (MoM).},
+	first={augmented Lagrangian},
+	text={augmented Lagrangian},
+	plural={augmented Lagrangians},
+	type=math
+}
 
 
 
 \newglossaryentry{lagrangian}
 {name={Lagrangian},
-	description={The Lagrangian\index{Lagrangian} of an optimization problem of %standard
-		the form 
-		\begin{align}
-			\min_{{\bf w}\in \mathbb{R}^{d}} & f_0({\bf w})   \nonumber \\ 
-			\mbox{s.t.} \quad & f_{i}({\bf w}) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
-			& g_j({\bf w}) = 0, \quad j=1, \,\ldots,\,l \nonumber
-		\end{align}
-		is \cite{BoydConvexBook}
-		\begin{equation}
-			\nonumber
-			L({\bf w}, \lambda, \nu) :=f_0({\bf w}) + \sum_{i=1}^{k} \lambda_i f_i({\bf w}) + \sum_{j=1}^{l} \nu_j g_j({\bf w}).
-		\end{equation}
+	description={Consider a constrained optimization problem of the form
+				 \begin{align} 
+				  \min_{{\bf w}\in \mathbb{R}^{d}} & f_0({\bf w})   \nonumber \\ 
+						\mbox{s.t.} \quad & f_{i}({\bf w}) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
+										& g_j({\bf w}) = 0, \quad j=1, \,\ldots,\,l. \nonumber
+						\end{align}
+				  Here, $f_0: \mathbb{R}^{d} \rightarrow \mathbb{R}$ is the 
+					 objective function, $f_i: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
+					$i=1,\,\ldots,\,k$ are the inequality constraint functions, 
+					and $g_j: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
+					$j=1,\,\ldots,\,l$ are the equality constraint functions.		
+				  The Lagrangian\index{Lagrangian} of the above optimization problem of %standard
+				  the form is defined as \cite{BoydConvexBook}
+				 \begin{equation}
+					\nonumber
+					L({\bf w}, {\bm \lambda}, {\bm \nu}) :=f_0({\bf w}) + \sum_{i=1}^{k} \lambda_i f_i({\bf w}) + \sum_{j=1}^{l} \nu_j g_j({\bf w}).
+				\end{equation}
+				Here, ${\bm \lambda} \in \mathbb{R}_{+}^{k}$ (i.e., $\lambda_i \geq 0$ for all $i=1,\ldots,k$) 
+				and ${\bm \nu} \in \mathbb{R}^{l}$ are the multipliers associated with the inequality and equality 
+				constraints, respectively. The Lagrangian is a useful tool for the analysis of constrained 
+				optimization problems and the design of optimization methods.  	
 		\\
-		See also: optimization problem, convex optimization, Lagrange dual problem.},
+		See also: optimization problem, convex optimization, dual problem.},
 	first={Lagrangian},
 	text={Lagrangian},
 	plural={Lagrangians},
 	type=math
 }
 
-\newglossaryentry{dual}
-{name={Lagrange dual problem},
-	description={The Lagrangian\index{Lagrange dual problem} of an optimization problem of %standard
-		the form 
-		\begin{align}
-			\min_{{\bf w}\in \mathbb{R}^{d}} & f_0({\bf w})   \nonumber \\ 
-			\mbox{s.t.} \quad & f_{i}({\bf w}) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
-			& g_j({\bf w}) = 0, \quad j=1, \,\ldots,\,l \nonumber
-		\end{align}
-		is 
-		\begin{align}
-			\max_{\lambda \in \mathbb{R}^{k}, \nu \in \mathbb{R}^l} \inf_{{\bf w}\in \mathbb{R}^{d}} & L({\bf w}, \lambda, \nu) \nonumber \\
-			\mbox{s.t.} \quad & \lambda \leq 0 \nonumber
-		\end{align}
-		where $L$ is the Lagrangian of the optimization problem. \\
-		See also: Lagrangian, optimization problem, convex optimization.},
-	first={Lagrange dual problem},
-	text={dual},
-	plural={Lagrange dual problems},
-	type=math
-	% Todo: add dual feasibility
+\newglossaryentry{kktconditions}
+{name={Karush--Kuhn--Tucker (KKT) conditions},
+ description={Consider a constrained optimization problem with Lagrangian
+			  \[
+			  L({\bf x}, {\bm \lambda}, {\bm \nu}) 
+			  = f_0({\bf x}) 
+			  + \sum_{i=1}^{k} \lambda_i f_i({\bf x}) 
+			  + \sum_{j=1}^{l} \nu_j g_j({\bf x}),
+			  \]
+			  with differentiable functions $f_0, f_1, \ldots, f_k, g_1, \ldots, g_l$.	
+			  The \index{Karush--Kuhn--Tucker (KKT) conditions} KKT conditions are  
+			  a system of equations and inequalities for the primal and 
+			  dual variables $\big({\bf x},{\bm \lambda},{\bm \nu}\big)$ \cite[Sec. 5.5.3]{BoydConvexBook}:
+			  \begin{align}
+			  \nabla_{{\bf x}} L({\bf x}, {\bm \lambda}, {\bm \nu}) &= \mathbf{0}
+			  && \text{(stationarity)} \nonumber\\
+			  f_i({\bf x}) &\le 0, \quad i=1,\ldots,k
+			  && \text{(primal feasibility)} \nonumber\\
+			  g_j({\bf x}) &= 0, \quad j=1,\ldots,l
+			  && \text{(primal feasibility)} \nonumber\\
+			  \lambda_i &\ge 0, \quad i=1,\ldots,k
+			  && \text{(dual feasibility)} \nonumber\\
+			  \lambda_i f_i({\bf x}) &= 0, \quad i=1,\ldots,k
+			  && \text{(complementary slackness).} \nonumber
+			  \end{align}
+			  If the primal problem results in a zero duality gap, 
+			  any solution $({\bf x}^\star,{\bm \lambda}^\star,{\bm \nu}^\star)$ 
+			  must satisfy the KKT conditions. Conversely, if the primal problem 
+			  is convex and some regularity conditions hold, any solution 
+			  $({\bf x}^\star,{\bm \lambda}^\star,{\bm \nu}^\star)$ 
+			  that satisfies the KKT conditions is also optimal \cite{BoydConvexBook}.
+			  The KKT conditions can be written as a fixed-point equation 
+			  and therfore be solved via fixed-point iterations.},
+ first={Karush--Kuhn--Tucker (KKT) conditions},
+ text={KKT conditions},
+ type=math
 }
 
+\newglossaryentry{dualitygap}
+{name={duality gap},
+ description={Consider a constrained optimization problem with Lagrangian
+			  \[
+			  L({\bf x}, {\bm \lambda}, {\bm \nu})
+			  = f_0({\bf x})
+			  + \sum_{i=1}^{k} \lambda_i f_i({\bf x})
+			  + \sum_{j=1}^{l} \nu_j g_j({\bf x}).
+			  \]
+			  The dual problem is defined as
+			  \[
+			  \max_{{\bm \lambda}\in \mathbb{R}_+^k,{\bm \nu} \in \mathbb{R}^l} 
+			  \underbrace{q({\bm \lambda},{\bm \nu})}_{:=\inf_{{\bf x}} L({\bf x},{\bm \lambda},{\bm \nu})}.
+			  \]
+			  Let $p^\star$ denote the optimal value of the primal problem and
+			  $d^\star$ the optimal value of the associated dual problem. The
+			  \index{duality gap} duality gap is defined as
+			  \[
+			  p^\star - d^\star \;\ge\; 0.
+			  \]
+			  The duality gap is always nonnegative, even for non-convex 
+			  and non-smooth optimization problems. When the duality gap is
+			  zero, i.e., $p^\star = d^\star$, strong duality is said to hold \cite[Ch. 5]{BoydConvexBook}.},
+ first={duality gap},
+ text={duality gap},
+ type=math
+}
+
+\newglossaryentry{dualproblem}
+{name={dual problem},
+ description={Consider a constrained optimization problem, which we 
+ 			  refer to as primal problem in what follows, of the form
+    		  \[\min_{{\bf x}}\; f({\bf x})
+     			\quad \text{subject to }\;
+                 g_i({\bf x})\le 0, i=1,\ldots,k; \; h_j({\bf x})=0, j=1,\ldots,l.
+              \]
+     		  The Lagrangian associated with this problem can be used to 
+     		  construct a lower bound on the optimal value of the primal problem. 
+      		  This\index{dual problem} lower bound is captured by the function
+     		 \[q({\bm \lambda},{\bm \nu})=\inf_{{\bf x}} L({\bf x},{\bm \lambda},{\bm \nu}),
+      			 \]
+     		  where $L({\bf x},{\bm \lambda},{\bm \nu})$ denotes the Lagrangian. 
+	  		  For any ${\bm \lambda} \ge \mathbf{0}$, ${\bm \nu} \in \mathbb{R}^{l}$ 
+	  		  and ${\bf x}$ that satisfies the constraints of the primal problem \cite[Ch. 5]{BoydConvexBook},
+	         $$q({\bm \lambda},{\bm \nu}) \leq f({\bf x}).$$
+              Making this lower bound maximally tight amounts to the optimization problem,
+              \[
+              \max_{{\bm \lambda}\geq\mathbf{0},{\bm \nu}}\; q({\bm \lambda},{\bm \nu}). 
+              \]
+              This optimization problem is referred to as the dual problem associated with 
+			  the original primal problem.},
+ first={dual problem},
+ type=math,
+ text={dual problem}
+}
+	
 \newglossaryentry{statespace}
 {name={state space},
 	description={The state space\index{state space} of a system is constituted  
@@ -4462,14 +4581,41 @@ sort={sigma-field},
 	text={EVD} 
 }
 
+ \newglossaryentry{singularvalue}
+ {name={singular value}, 
+   description={See\index{singular value} singular value decomposition (SVD).},
+ 	first={singular value},
+	type=math,
+	plural={singular values},
+	firstplural={singular values},
+	text={singular value} 
+}
+
 \newglossaryentry{svd}
 {name={singular value decomposition (SVD)}, 
   	description={The\index{singular value decomposition (SVD)} SVD  
   		for a matrix ${\bf A}\in \mathbb{R}^{m\times d}$ 
 		is a factorization of the form 
 		$${\bf A}= \mathbf{V} {\bm \Lambda} \mathbf{U}\,^{T}$$ 
-		with orthonormal matrices $\mathbf{V}\in \mathbb{R}^{m\times m}$ 
-		and $\mathbf{U}\in \mathbb{R}^{d\times d}$ \cite{GolubVanLoanBook}. 
+		with orthonormal matrices $\mathbf{V}= \big({\bf v}^{(1)},\ldots,{\bf v}^{(m)}\big) \in \mathbb{R}^{m\times m}$ 
+		and $\mathbf{U}= \big( {\bf u}^{(1)},\ldots,{\bf u}^{(d)} \big) \in \mathbb{R}^{d\times d}$ \cite{GolubVanLoanBook}. 
+		\begin{figure}[htbp]
+		 	\centering	
+		 \begin{tikzpicture}[>=latex, line cap=round, line join=round, scale=1]
+		 	\def\xL{0}
+		 	\def\xR{6}
+		 	\def\len{2.0}
+		 	\def\sone{1.6}
+		 	\def\stwo{0.7}
+		 	\draw[thick,->] (\xL,0) -- ++(\len,0) node[midway,below] {${\bf u}^{(1)}$};
+			\draw[thick,->] (\xL,0) -- ++(0,\len) node[midway,left] {${\bf u}^{(2)}$};
+			\draw[dashed,->] (\xL+2.9,0) -- (\xR-0.9,0);
+			\begin{scope}[shift={(\xR,0)},rotate=30]
+			\draw[thick,->] (0,0) -- (\sone*\len,0) node[midway,below] {$\lambda_1 {\bf v}^{(1)}$};
+			\draw[thick,->] (0,0) -- (0,\stwo*\len) node[midway,left] {$\lambda_2 {\bf v}^{(2)}$};
+			\end{scope}
+		 	\end{tikzpicture}
+		 \end{figure}
 		The matrix ${\bm \Lambda} \in \mathbb{R}^{m\times d}$ is 
 		only nonzero along the main diagonal, whose entries $\Lambda_{j,j}$ 
 		are nonnegative and referred to as singular values.
