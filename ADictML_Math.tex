@@ -4112,9 +4112,34 @@ sort={sigma-field},
 					 \gls{objfunc}, $f_i: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$, 
 					$i=1,\,\ldots,\,k$ are the inequality constraint \glspl{function}, 
 					and $g_j: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$, 
-					$j=1,\,\ldots,\,l$ are the equality constraint \glspl{function}.		
-				  The Lagrangian\index{Lagrangian} of the above \gls{optproblem} of %standard
-				  the form is defined as \cite{BoydConvexBook}
+					$j=1,\,\ldots,\,l$ are the equality constraint \glspl{function}.	
+				  \begin{figure}[H]
+					\centering
+					\begin{tikzpicture}[>=stealth, scale=1.0]
+					\path[fill=gray!40,opacity=0.4,draw=none,rotate around={-40:(1.6,2.1)}] (1.6,2.1) ellipse [x radius=2.7,y radius=0.65];
+					\node at (1.6,2.1) {$\mathcal{G}$};
+					\draw [->] (-3,0) -- (5,0) node[right] {};
+					\draw [->] (0,-0.2) -- (0,4.2) node[above] {};
+					\path[name path=line] (-2.6,2.55) -- (4.8,0.85);
+					\path[name path=yaxis] (0,-0.2) -- (0,4.2);
+					\draw[thick] (-2.6,2.55) -- (4.8,0.85);
+					\draw[] (-2.6,2.55) -- (0,2.55); 
+					\node[above] at ($(-2.6,2.55)!0.5!(0,2.55)$) {\small $1$};
+					\node[below right,yshift=-2pt] at (0,2.55) {\small $\lambda$};
+					\path[name intersections={of=line and yaxis, by=I}];
+					\fill (I) circle (1.6pt) node[below left,xshift=-2pt] {$L(\weights,\lambda)$};
+					\fill ($( -2.6,2.55)!0.8!(4.8,0.85)$) circle (1.6pt) node[above right] {$\pair{f_{0}(\weights)}{f_{1}(\weights)}$};
+					% Labels
+					\end{tikzpicture}
+					\caption{An \gls{optproblem} with \gls{objfunc} $f_{0}(\weights)$ and 
+					         a single inequality constraint $f_{1}(\weights) \leq 0$  can be represented 
+							 by a set $\mathcal{G} \defeq \big\{ \big(f_{1}(\weights),\,f_{0}(\weights)\big) : \weights \in \mathbb{R}^{\nrfeatures} \big\}$.
+							 The value of the Lagrangian $L(\weights, \lambda)$ is the vertical intercept of a line with slope $-\lambda$ 
+							 that passes through the point $\pair{f_{1}(\weights)}{f_{0}(\weights)} \in \mathcal{G}$ \cite{BoydConvexBook} 
+							 \label{fig_Langrian_dict}.
+							 }
+					\end{figure}		
+				  The Lagrangian\index{Lagrangian} of the above \gls{optproblem} is defined as \cite{BoydConvexBook}
 				 \begin{equation}
 					\nonumber
 					L(\weights, {\bm \lambda}, {\bm \nu}) \defeq f_0(\weights) + \sum_{i=1}^{k} \lambda_i f_i(\weights) + \sum_{j=1}^{l} \nu_j g_j(\weights).
@@ -4122,7 +4147,14 @@ sort={sigma-field},
 				Here, ${\bm \lambda} \in \mathbb{R}_{+}^{k}$ (i.e., $\lambda_i \geq 0$ for all $i=1,\ldots,k$) 
 				and ${\bm \nu} \in \mathbb{R}^{l}$ are the multipliers associated with the inequality and equality 
 				constraints, respectively. The Lagrangian is a useful tool for the analysis of constrained 
-				\glspl{optproblem} and the design of \glspl{optmethod}.  	
+				\glspl{optproblem} and the design of \glspl{optmethod}. For example the Lagrangian allows 
+				to define a \gls{dualproblem} which provides a lower bound for the optimal value of a constrained 
+				\gls{optproblem}. This lower bound, in turn, can be used to construct a stopping criterion for 
+				iterative \glspl{optmethod} \cite{BoydConvexBook}. Fig.\ \ref{fig_Langrian_dict} provides a 
+				geometric interpretation of the Lagrangian for a constrained \gls{optproblem} with a single 
+				inequality constraint ($k=1$) and no equality constraints ($l=0$) (see \cite[Sec. 5.3]{BoydConvexBook}). 
+				Here, the Lagrangian $L(\weights, \lambda)$ is given by the location of the intersection between the vertical 
+		        axis and a straight line with slope $-\lambda$ that passes through a point $\pair{f_{1}(\weights)}{f_{0}(\weights)}$. 
 		\\
 		See also: \gls{optproblem}, \gls{convexopt}, \gls{dualproblem}.},
 	first={Lagrangian},
