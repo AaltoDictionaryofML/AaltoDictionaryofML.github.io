@@ -3160,7 +3160,7 @@ sort={sigma-field},
   			by a set $\mathcal{A}$ that consists of objective values $t$ and constraint values 
   			${\bf c}=\big(c_{1},\,\ldots,\,c_{d}\big)^{T}$ that are achievable, i.e., 
   			$f({\bf w}) \leq t, g_{1}({\bf w})\leq c_{1},\,\ldots, \,g_{k}({\bf w}) \leq c_{k}$ 
-  			by some ${\bf w}\in \mathbb{R}^{d}$. The optimal value $f^{\ast}$ of the 
+  			for some ${\bf w}\in \mathbb{R}^{d}$. The optimal value $f^{\ast}$ of the 
   			optimization problem is the smallest $t$ for which $(\mathbf{0},t) \in \mathcal{A}$. }
 		\end{figure}
 		The formulation \eqref{equ_def_convx_opt_constr_dict} lends, in turn, to the 
@@ -4103,14 +4103,14 @@ sort={sigma-field},
 {name={Lagrangian},
 	description={Consider a constrained optimization problem of the form
 				 \begin{align} 
-				  \min_{{\bf w}\in \mathbb{R}^{d}} & f_0({\bf w})   \nonumber \\ 
-						\mbox{s.t.} \quad & f_{i}({\bf w}) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
-										& g_j({\bf w}) = 0, \quad j=1, \,\ldots,\,l. \nonumber
+				  \min_{{\bf w}\in \mathbb{R}^{d}} & f({\bf w})   \nonumber \\ 
+						\mbox{s.t.} \quad & g_{i}({\bf w}) \leq 0, \quad i=1,\,\ldots,\,k \nonumber \\
+										& h_j({\bf w}) = 0, \quad j=1, \,\ldots,\,l. \nonumber
 						\end{align}
-				  Here, $f_0: \mathbb{R}^{d} \rightarrow \mathbb{R}$ is the 
-					 objective function, $f_i: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
+				  Here, $f: \mathbb{R}^{d} \rightarrow \mathbb{R}$ is the 
+					 objective function, $g_i: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
 					$i=1,\,\ldots,\,k$ are the inequality constraint functions, 
-					and $g_j: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
+					and $h_j: \mathbb{R}^{d} \rightarrow \mathbb{R}$, 
 					$j=1,\,\ldots,\,l$ are the equality constraint functions.	
 				  \begin{figure}[H]
 					\centering
@@ -4127,21 +4127,21 @@ sort={sigma-field},
 					\node[below right,yshift=-2pt] at (0,2.55) {\small $\lambda$};
 					\path[name intersections={of=line and yaxis, by=I}];
 					\fill (I) circle (1.6pt) node[below left,xshift=-2pt] {$L({\bf w},\lambda)$};
-					\fill ($( -2.6,2.55)!0.8!(4.8,0.85)$) circle (1.6pt) node[above right] {$\left( f_{0}({\bf w}),f_{1}({\bf w}) \right)$};
+					\fill ($( -2.6,2.55)!0.8!(4.8,0.85)$) circle (1.6pt) node[above right] {$\left( g_{1}({\bf w}),f({\bf w}) \right)$};
 					% Labels
 					\end{tikzpicture}
-					\caption{An optimization problem with objective function $f_{0}({\bf w})$ and 
-					         a single inequality constraint $f_{1}({\bf w}) \leq 0$  can be represented 
-							 by a set $\mathcal{G} :=\big\{ \big(f_{1}({\bf w}),\,f_{0}({\bf w})\big) : {\bf w}\in \mathbb{R}^{d} \big\}$.
+					\caption{An optimization problem with objective function $f({\bf w})$ and 
+					         a single inequality constraint $g_{1}({\bf w}) \leq 0$  can be represented 
+							 by a set $\mathcal{G} :=\big\{ \big(g_{1}({\bf w}),\,f({\bf w})\big) : {\bf w}\in \mathbb{R}^{d} \big\}$.
 							 The value of the Lagrangian $L({\bf w}, \lambda)$ is the vertical intercept of a line with slope $-\lambda$ 
-							 that passes through the point $\left( f_{1}({\bf w}),f_{0}({\bf w}) \right) \in \mathcal{G}$ \cite{BoydConvexBook} 
+							 that passes through the point $\left( g_{1}({\bf w}),f({\bf w}) \right) \in \mathcal{G}$ \cite{BoydConvexBook} 
 							 \label{fig_Langrian_dict}.
 							 }
 					\end{figure}		
 				  The Lagrangian\index{Lagrangian} of the above optimization problem is defined as \cite{BoydConvexBook}
 				 \begin{equation}
 					\nonumber
-					L({\bf w}, {\bm \lambda}, {\bm \nu}) :=f_0({\bf w}) + \sum_{i=1}^{k} \lambda_i f_i({\bf w}) + \sum_{j=1}^{l} \nu_j g_j({\bf w}).
+					L({\bf w}, {\bm \lambda}, {\bm \nu}) :=f({\bf w}) + \sum_{i=1}^{k} \lambda_i g_i({\bf w}) + \sum_{j=1}^{l} \nu_j h_j({\bf w}).
 				\end{equation}
 				Here, ${\bm \lambda} \in \mathbb{R}_{+}^{k}$ (i.e., $\lambda_i \geq 0$ for all $i=1,\ldots,k$) 
 				and ${\bm \nu} \in \mathbb{R}^{l}$ are the multipliers associated with the inequality and equality 
@@ -4152,8 +4152,7 @@ sort={sigma-field},
 				iterative optimization methods \cite{BoydConvexBook}. Fig.\ \ref{fig_Langrian_dict} provides a 
 				geometric interpretation of the Lagrangian for a constrained optimization problem with a single 
 				inequality constraint ($k=1$) and no equality constraints ($l=0$) (see \cite[Sec. 5.3]{BoydConvexBook}). 
-				Here, the Lagrangian $L({\bf w}, \lambda)$ is given by the location of the intersection between the vertical 
-		        axis and a straight line with slope $-\lambda$ that passes through a point $\left( f_{1}({\bf w}),f_{0}({\bf w}) \right)$. 
+				Here, the Lagrangian $L({\bf w}, \lambda)$ is the vertical intercept of a straight line with slope $-\lambda$ that passes through a point $\left( g_{1}({\bf w}),f({\bf w}) \right)$. 
 		\\
 		See also: optimization problem, convex optimization, dual problem.},
 	first={Lagrangian},
@@ -4167,24 +4166,24 @@ sort={sigma-field},
  description={Consider a constrained optimization problem with Lagrangian
 			  \[
 			  L({\bf x}, {\bm \lambda}, {\bm \nu}) 
-			  = f_0({\bf x}) 
-			  + \sum_{i=1}^{k} \lambda_i f_i({\bf x}) 
-			  + \sum_{j=1}^{l} \nu_j g_j({\bf x}),
+			  = f({\bf x}) 
+			  + \sum_{i=1}^{k} \lambda_i g_i({\bf x}) 
+			  + \sum_{j=1}^{l} \nu_j h_j({\bf x}),
 			  \]
-			  with differentiable functions $f_0, f_1, \ldots, f_k, g_1, \ldots, g_l$.	
+			  with differentiable functions $f, g_1, \ldots, g_k, h_1, \ldots, h_l$.	
 			  The \index{Karush--Kuhn--Tucker (KKT) conditions} KKT conditions are  
 			  a system of equations and inequalities for the primal and 
 			  dual variables $\big({\bf x},{\bm \lambda},{\bm \nu}\big)$ \cite[Sec. 5.5.3]{BoydConvexBook}:
 			  \begin{align}
 			  \nabla_{{\bf x}} L({\bf x}, {\bm \lambda}, {\bm \nu}) &= \mathbf{0}
 			  && \text{(stationarity)} \nonumber\\
-			  f_i({\bf x}) &\le 0, \quad i=1,\ldots,k
+			  g_i({\bf x}) &\le 0, \quad i=1,\ldots,k
 			  && \text{(primal feasibility)} \nonumber\\
-			  g_j({\bf x}) &= 0, \quad j=1,\ldots,l
+			  h_j({\bf x}) &= 0, \quad j=1,\ldots,l
 			  && \text{(primal feasibility)} \nonumber\\
 			  \lambda_i &\ge 0, \quad i=1,\ldots,k
 			  && \text{(dual feasibility)} \nonumber\\
-			  \lambda_i f_i({\bf x}) &= 0, \quad i=1,\ldots,k
+			  \lambda_i g_i({\bf x}) &= 0, \quad i=1,\ldots,k
 			  && \text{(complementary slackness).} \nonumber
 			  \end{align}
 			  If the primal problem results in a zero duality gap, 
@@ -4232,31 +4231,170 @@ sort={sigma-field},
 \newglossaryentry{dualproblem}
 {name={dual problem},
  description={Consider a constrained optimization problem, which we 
- 			  refer to as primal problem in what follows, of the form
-    		  \[\min_{{\bf x}}\; f({\bf x})
-     			\quad \text{subject to }\;
-                 g_i({\bf x})\le 0, i=1,\ldots,k; \; h_j({\bf x})=0, j=1,\ldots,l.
-              \]
-     		  The Lagrangian associated with this problem can be used to 
-     		  construct a lower bound on the optimal value of the primal problem. 
-      		  This\index{dual problem} lower bound is captured by the function
-     		 \[q({\bm \lambda},{\bm \nu})=\inf_{{\bf x}} L({\bf x},{\bm \lambda},{\bm \nu}),
-      			 \]
-     		  where $L({\bf x},{\bm \lambda},{\bm \nu})$ denotes the Lagrangian. 
-	  		  For any ${\bm \lambda} \ge \mathbf{0}$, ${\bm \nu} \in \mathbb{R}^{l}$ 
-	  		  and ${\bf x}$ that satisfies the constraints of the primal problem \cite[Ch. 5]{BoydConvexBook},
-	         $$q({\bm \lambda},{\bm \nu}) \leq f({\bf x}).$$
+ 					  refer to as primal problem in what follows, of the form
+    				  \[\min_{{\bf x}\in \mathbb{R}^{d}}\; f({\bf x})
+     					\quad \text{subject to }\;
+          			       g_i({\bf x})\le 0, i=1,\ldots,k; \; h_j({\bf x})=0, j=1,\ldots,l.
+        			      \]
+     	               and its associated Lagrange dual function $q({\bm \lambda},{\bm \nu})$. 
+     	               For any ${\bm \lambda} \ge \mathbf{0}$, ${\bm \nu} \in \mathbb{R}^{l}$ 
+     	               and ${\bf x}$ that satisfies the constraints of the primal problem \cite[Ch. 5]{BoydConvexBook},
+     	               $$q({\bm \lambda},{\bm \nu}) \leq f({\bf x}).$$
+     		  \begin{figure}[H]
+     		  	\centering
+     		  	\begin{tikzpicture}[>=stealth, scale=1.0]
+     		  		% --- Thick polyline: exposed frontier (top-left to bottom-right) ---
+     		  		% --- Thick convex polyline: 4 segments (top-left to bottom-right) ---
+     		  		% Slopes become less negative (increasing), so the chain is convex.
+     		  		\coordinate (G1) at (-0.8,3.55);
+     		  		\coordinate (G3) at ( 1.6,1.25);
+     		  		\coordinate (G5) at ( 4.0,1.1);
+     		  		% --- Grey shaded polygon (north-east closure) ---
+     		  		\path[fill=gray!35, opacity=0.5, draw=none]
+     		  		(G1) --
+     		  		(G3) --
+     		  		(G5) --
+     		  		(4.0,3.95) --
+     		  		(-0.8,3.95) --
+     		  		cycle;
+     		  		\draw[thick] (G1) -- (G3)  -- (G5);
+     		  		% --- Thin closure: north-east half-rectangle ---
+     		  		\draw[thin] (G1) -- (-0.8,3.95) -- (4.0,3.95) -- (G5);
+     		  		\node at (1.6,2.1) {$\mathcal{A}$};
+     		  		% Axes
+     		  		\draw [->] (-3,0) -- (7,0) node [below] {$u$};
+     		  		\draw [->] (0,-0.2) -- (0,5.2) node [left] {$t$};
+     		  		% Supporting line
+     		  			\path[name path=line1] (-2.6,4.25) -- (G3);
+     		  		\path[name path=line] (-2.6,1.65) -- (G3);
+     		  		\path[name path=yaxis] (0,-0.2) -- (0,4.2);
+     		  	%	\draw[thick] (-2.6,2.55) -- (G3);
+     		  		\draw[thick] (-2.6,4.25) -- (G3) -- ++($(G3)-(-2.6,4.25)$);
+     		  		\draw[thick] (-2.6,1.65) -- (G3) -- ++($(G3)-(-2.6,1.65)$);
+     		  		%\draw[dashed] (-2.6,2.55) -- (0,2.55);
+     		  		%\node[above] at ($(-2.6,2.55)!0.5! (0,2.55)$) {\small $1$};
+     		  		%\node[below right,yshift=-2pt] at (0,2.55) {\small $\lambda$};
+     		  		% Intersection and points
+     		  		\path[name intersections={of=line and yaxis, by=I}];
+     		  		\fill (I) circle (1.6pt) node[below left,xshift=-2pt,yshift=2pt] {$q(\lambda)$};
+     		  			\path[name intersections={of=line1 and yaxis, by=I1}];
+     		  		\fill (I1) circle (1.6pt) node[below left,xshift=-2pt,yshift=2pt] {$q(\lambda')$};
+     		  	\end{tikzpicture}
+     		  	\caption{The dual problem of a constrained optimization problem is to find a supporting hyperplane with 
+     		  		     largest vertical intercept \cite [Sec. 5.3]{BoydConvexBook}.	\label{fig_dual_problem_dict}}
+     		  \end{figure}
               Making this lower bound maximally tight amounts to the optimization problem,
               \[
               \max_{{\bm \lambda}\geq\mathbf{0},{\bm \nu}}\; q({\bm \lambda},{\bm \nu}). 
               \]
               This optimization problem is referred to as the dual problem associated with 
-			  the original primal problem.},
+			  the original primal problem.
+			   Fig.\ \ref{fig_dual_problem_dict} illustrates the dual problem for an optimization problem 
+			   with a single inequality constraint. This optimization problem can be characterized by 
+			   the set $\mathcal{A}=\{(u,t): f({\bf x}) \leq t, g_1({\bf x}) \leq u \mbox{ for some } {\bf x}\in \mathbb{R}^{d}\}$ \cite [Sec. 5.3]{BoydConvexBook}. The dual problem amounts to finding a supporting hyperplane 
+			   for the set $\mathcal{A}$ with largest vertical intercept. 
+			  },
  first={dual problem},
  type=math,
  text={dual problem}
 }
+
+\newglossaryentry{boundary}
+{name={boundary},
+   description={Consider\index{boundary} a subset $\mathcal{C} \subseteq \mathbb{R}^n$. The boundary 
+   	                        of $\mathcal{C}$, denoted by $\left| \partial \mathcal{C}\right|$, is the set of all points 
+   	                         ${\bf x}\in \mathbb{R}^n$ such that every open ball centred at ${\bf x}$ intersects 
+   	                         both $\mathcal{C}$ and its complement $\mathbb{R}^n \setminus \mathcal{C}$.},
+   	 first ={boundary}, 
+   	 type=math,
+   	 text={boundary}
+}
+
+\newglossaryentry{lagrangedualfunc}
+{name={Lagrange dual function},
+description={Consider\index{Lagrange dual function} a constrained optimization problem
+	                    of the form
+					   \[\min_{{\bf x}\in \mathbb{R}^{d}}\; f({\bf x})
+						   \quad \text{subject to }\;
+						    g_i({\bf x})\le 0, i=1,\ldots,k; \; h_j({\bf x})=0, j=1,\ldots,l.
+					   \]
+				        A useful tool for the analysis of such an optimization problem is the 
+				        Lagrange dual function, 
+						\begin{equation} 
+						q: \mathbb{R}^{k}_{+} \times \mathbb{R}^{l}:	q({\bm \lambda},{\bm \nu})=\inf_{{\bf x}\in \mathbb{R}^{d}} L({\bf x},{\bm \lambda},{\bm \nu}), 
+	                    \end{equation}
+						where $L({\bf x},{\bm \lambda},{\bm \nu}) :=f({\bf x}) + \sum_{i=1}^{k} \lambda_i g_i({\bf x}) + \sum_{j=1}^{l} \nu_{j} h_{j}({\bf x})$ denotes the Lagrangian of the original optimization problem. 
+					\begin{figure}[H]
+						\centering
+						\begin{tikzpicture}[>=stealth, scale=1.0]
+						% --- Thick polyline: exposed frontier (top-left to bottom-right) ---
+							% --- Thick convex polyline: 4 segments (top-left to bottom-right) ---
+							% Slopes become less negative (increasing), so the chain is convex.
+							\coordinate (G1) at (-0.8,3.55);
+							\coordinate (G3) at ( 1.6,1.25);
+							\coordinate (G5) at ( 4.0,1.1);
+							% --- Grey shaded polygon (north-east closure) ---
+							\path[fill=gray!35, opacity=0.5, draw=none]
+							(G1) --
+							(G3) --
+							(G5) --
+							(4.0,3.95) --
+							(-0.8,3.95) --
+							cycle;
+							\draw[thick] (G1) -- (G3)  -- (G5);
+							% --- Thin closure: north-east half-rectangle ---
+							\draw[thin] (G1) -- (-0.8,3.95) -- (4.0,3.95) -- (G5);
+							\node at (1.6,2.1) {$\mathcal{A}$};
+							% Axes
+							\draw [->] (-3,0) -- (7,0) node [below] {$u$};
+							\draw [->] (0,-0.2) -- (0,5.2) node [left] {$t$};
+							% Supporting line
+							\path[name path=line] (-2.6,2.55) -- (G3);
+							\path[name path=yaxis] (0,-0.2) -- (0,4.2);
+							%	\draw[thick] (-2.6,2.55) -- (G3);
+							\draw[thick] (-2.6,2.55) -- (G3) -- ++($(G3)-(-2.6,2.55)$);
+							\draw[dashed] (-2.6,2.55) -- (0,2.55);
+							\node[above] at ($(-2.6,2.55)!0.5! (0,2.55)$) {\small $1$};
+							\node[below right,yshift=-2pt] at (0,2.55) {\small $\lambda$};
+							% Intersection and points
+							\path[name intersections={of=line and yaxis, by=I}];
+							\fill (I) circle (1.6pt) node[below left,xshift=-2pt] {$q(\lambda)$};
+						\end{tikzpicture}
+						\caption{The Lagrange dual function $q(\lambda)$, for a given $\lambda\geq0$, is the vertical intercept 
+							of a supporting hyperplane, with normal vector $(\lambda,1)$, 
+							to the set $\mathcal{A}=\{(u,t): f({\bf x}) \leq t, g_{1}({\bf x}) \leq u \mbox{ for some } {\bf x}\in \mathbb{R}^{d}\}$ \cite [Sec. 5.3]{BoydConvexBook}.	\label{fig_dual_function_dict}}
+					\end{figure}
+						Fig.\ \ref{fig_dual_function_dict} illustrates the function $q(\lambda)$ obtained 
+						for an optimization problem with a single inequality constraint. For a given value $\lambda \geq 0$, 
+						$q(\lambda)$ is the vertical intercept of a supporting hyperplane with normal vector 
+						$(\lambda,1)$ to the set $\mathcal{A}=\{(u,t): f({\bf x}) \leq t, g_{1}({\bf x}) \leq u \mbox{ for some } {\bf x}\in \mathbb{R}^{d}\}$ \cite [Sec. 5.3]{BoydConvexBook}. },
+					first={Lagrange dual function},
+					type=math,
+					text={Lagrange dual function}
+}
 	
+\newglossaryentry{supportinghyperplane}
+{name={supporting hyperplane},
+	description={Let\index{supporting hyperplane} $\mathcal{C} \subseteq \mathbb{R}^d$ be a nonempty set.
+						   A hyperplane
+							\[  \{ {\bf x}\in \mathbb{R}^d : \langle {\bf a}, {\bf x}\rangle = b \},
+								\quad {\bf a}\in \mathbb{R}^d \setminus \{ \mathbf{0} \}, \ b \in \mathbb{R},
+							\]
+							is called a supporting hyperplane of $\mathcal{C}$ if
+							\begin{align*}
+							 {\bf a}^{T} {\bf x}\le b 
+			\quad \text{for all } {\bf x}\in \mathcal{C},
+		\end{align*}
+		and there exists at least one point ${\bf x}^\star$ in the boundary of $\mathcal{C}$ such that
+		 ${\bf a}^{T} {\bf x}= b$ \cite{BoydConvexBook}. The vector ${\bf a}$ is then a normal vector 
+		 to the supporting hyperplane, pointing towards the halfspace that does not 
+		 contain the set $\mathcal{C}$ (see \cite[Sec. 2.5.2]{BoydConvexBook}). 
+	}, 
+	first={supporting hyperplane}, 
+	text={supporting hyperplane}, 
+	type=math
+}
+		
 \newglossaryentry{statespace}
 {name={state space},
 	description={The state space\index{state space} of a system is constituted  
