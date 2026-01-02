@@ -312,11 +312,11 @@
 \newglossaryentry{discrepancy}
 {name={discrepancy},
 	description={Consider\index{discrepancy} an federated learning (FL) application with networked data 
-		represented by an federated learning network (FL network). federated learning (FL) methods use a discrepancy measure 
+		represented by an Federated Learning Network (FL network). federated learning (FL) methods use a discrepancy measure 
 		to compare hypothesis maps from local models at nodes $i,i'$, 
-		connected by an edge in the federated learning network (FL network).
+		connected by an edge in the Federated Learning Network (FL network).
 					\\ 
-		See also: federated learning (FL), federated learning network (FL network), local model.},
+		See also: federated learning (FL), Federated Learning Network (FL network), local model.},
 	first={discrepancy},
 	firstplural={discrepancies}, 
   	plural={discrepancies}, 
@@ -390,9 +390,9 @@
 \newglossaryentry{FedGD}
 {name={federated gradient descent (FedGD)},
 	description={An\index{federated gradient descent (FedGD)} federated learning (FL) distributed algorithm that 
-		can be implemented as message passing across an federated learning network (FL network). 
+		can be implemented as message passing across an Federated Learning Network (FL network). 
 		\\ 
-		See also: federated learning (FL), distributed algorithm, federated learning network (FL network), gradient step, gradient-based method.},
+		See also: federated learning (FL), distributed algorithm, Federated Learning Network (FL network), gradient step, gradient-based method.},
 	first={FedGD},
 	text={FedGD}
 } 
@@ -400,9 +400,9 @@
 \newglossaryentry{FedSGD}
 {name={federated stochastic gradient descent (FedSGD)},
 	description={An\index{federated stochastic gradient descent (FedSGD)} federated learning (FL) distributed algorithm that 
-		can be implemented as message passing across an federated learning network (FL network). 
+		can be implemented as message passing across an Federated Learning Network (FL network). 
 		\\ 
-		See also: federated learning (FL), distributed algorithm, federated learning network (FL network), gradient step, gradient-based method, stochastic gradient descent (SGD).},
+		See also: federated learning (FL), distributed algorithm, Federated Learning Network (FL network), gradient step, gradient-based method, stochastic gradient descent (SGD).},
 	first={FedSGD},
 	text={FedSGD}
 } 
@@ -1735,19 +1735,52 @@ sort={zerooneloss},
 	text={optimism in the face of uncertainty} 
 }
 
-\newglossaryentry{empgraph}
+\newglossaryentry{flnetwork}
 {name={federated learning network (FL network)},
-	description={An federated learning (FL) network\index{federated learning network (FL network)} consists of 
-		an undirected weighted graph $\mathcal{G}$. The nodes of $\mathcal{G}$ represent devices 
-		that can access a local dataset and train a local model. The edges of $\mathcal{G}$ represent 
-		communication links between devices as well as statistical similarities between their local datasets. 
-		A principled approach to train the local models is generalized total variation minimization (GTVMin). The solutions of generalized total variation minimization (GTVMin) are local 
-		model parameters that optimally balance the loss incurred on local datasets with their discrepancy 
-		across the edges of $\mathcal{G}$.
-	    			\\ 
+	description={An federated learning (FL) network\index{federated learning network (FL network)} is an 
+				undirected weighted graph
+				\[
+					\mathcal{G}= (\mathcal{V},\mathcal{E},{\bf A}),
+				\]
+				where nodes $i\in \mathcal{V}$ represent participating devices 
+				and edges $\{i,i'\} \in \mathcal{E}$ indicate potential interaction
+				or collaboration. The edge weights $\edgeweight_{i,i'} \ge 0$ 
+				quantify the strength of interaction, which may reflect communication capacity, 
+				statistical similarity between local datasets, or both.
+				\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			scale=1,
+			node/.style={circle, draw=black, fill=black, inner sep=2pt},
+			edge/.style={line width=0.9pt},
+			wlab/.style={midway, fill=white, inner sep=1pt, font=\scriptsize}
+		]
+			% Nodes
+			\node[node] (v1) at (0,0) {};
+			\node[node] (v2) at (2,0) {};
+			\node[node] (v3) at (1,1.5) {};
+			\node[node] (v4) at (3,1.5) {};
+			% Labels
+			\node[anchor=north] at (v1) {$\nodeidx_1$};
+			\node[anchor=north] at (v2) {$\nodeidx_2$};
+			\node[anchor=south] at (v3) {$\nodeidx_3$};
+			\node[anchor=south] at (v4) {$\nodeidx_4$};
+			% Undirected weighted edges
+			\draw[edge] (v1) -- node[wlab] {$\edgeweight_{1,2}$} (v2);
+			\draw[edge] (v2) -- node[wlab] {$\edgeweight_{2,3}$} (v3);
+			\draw[edge] (v3) -- node[wlab] {$\edgeweight_{3,1}$} (v1);
+			\draw[edge] (v2) -- node[wlab] {$\edgeweight_{2,4}$} (v4);
+		\end{tikzpicture}
+		\caption{An federated learning (FL) network with nodes $\mathcal{V}=\{\nodeidx_1,\nodeidx_2,\nodeidx_3,\nodeidx_4\}$ 
+		representing four devices of an federated learning system (FL system).}
+		\end{figure}
+		The Federated Learning Network (FL network) specifies which devices can interact and with what strength. 
+	    \\ 
 		See also: federated learning (FL), graph, device, generalized total variation minimization (GTVMin).},
-	first={federated learning network (FL network)},
-	text={FL network} 
+	first={Federated Learning Network (FL network)},
+	text={FL network}, 
+	plural={FL networks}, 
+	firstplural={Federated Learning Networks (FL networks)}
 }
 
 \newglossaryentry{norm}
@@ -3088,10 +3121,10 @@ sort={k-fold CV},
 
 \newglossaryentry{netmodel}
 {name={networked model},
- 	description={A\index{networked model} networked model over an federated learning network (FL network) $\mathcal{G}= \left( \mathcal{V},\mathcal{E}\right)$ assigns 
-   		a local model (i.e., a hypothesis space) to each node $i\in \mathcal{V}$ of the federated learning network (FL network) $\mathcal{G}$.
+ 	description={A\index{networked model} networked model over an Federated Learning Network (FL network) $\mathcal{G}= \left( \mathcal{V},\mathcal{E}\right)$ assigns 
+   		a local model (i.e., a hypothesis space) to each node $i\in \mathcal{V}$ of the Federated Learning Network (FL network) $\mathcal{G}$.
    		\\
-		See also: model, federated learning network (FL network), local model, hypothesis space.}, 
+		See also: model, Federated Learning Network (FL network), local model, hypothesis space.}, 
    first={networked model},
    text={networked model}  
 }
@@ -4068,10 +4101,10 @@ sort={k-fold CV},
 \newglossaryentry{netexpfam}
 {name={networked exponential families (nExpFam)}, 
 	description={A\index{networked exponential families (nExpFam)} collection of exponential 
-		families, each of them assigned to a node of an federated learning network (FL network). The model parameters are coupled 
+		families, each of them assigned to a node of an Federated Learning Network (FL network). The model parameters are coupled 
 	   	via the network structure by requiring them to have a small generalized total variation (GTV) \cite{JungNetExp2020}.
 	   		\\
-		See also: federated learning network (FL network), model parameter, generalized total variation (GTV).},
+		See also: Federated Learning Network (FL network), model parameter, generalized total variation (GTV).},
 	first={networked exponential family (nExpFam)},
 	text={nExpFam} 
 }
@@ -4510,12 +4543,12 @@ sort={k-means++},
 {name={clustered federated learning (CFL)}, 
 	description={CFL\index{clustered federated learning (CFL)} trains local models for the 
  		devices in a federated learning (FL) application by using a clustering assumption, i.e., the devices 
- 		of an federated learning network (FL network) form clusters. Two devices in the same cluster generate 
+ 		of an Federated Learning Network (FL network) form clusters. Two devices in the same cluster generate 
  		local datasets with similar statistical properties. CFL pools the local datasets of devices 
  		in the same cluster to obtain a training set for a cluster-specific model. 
  		Generalized total variation minimization (GTVMin) clusters devices implicitly by enforcing approximate similarity of model parameters 
- 		across well-connected nodes of the federated learning network (FL network).\\ 
- 		See also: federated learning (FL), clustering assumption, federated learning network (FL network), cluster, graph clustering.},
+ 		across well-connected nodes of the Federated Learning Network (FL network).\\ 
+ 		See also: federated learning (FL), clustering assumption, Federated Learning Network (FL network), cluster, graph clustering.},
 	first={clustered federated learning (CFL)},
 	text={CFL} 
 }
@@ -7451,9 +7484,9 @@ sort={k-means},
 		In contrast to a single dataset used in basic machine learning (ML) methods, a local dataset is also 
 		related to other local datasets via different notions of similarity. These similarities 
 		might arise from probabilistic models or communication infrastructure and 
-		are encoded in the edges of an federated learning network (FL network).
+		are encoded in the edges of an Federated Learning Network (FL network).
 				\\
-		See also: dataset, data point, feature, label, machine learning (ML), probabilistic model, federated learning network (FL network).},
+		See also: dataset, data point, feature, label, machine learning (ML), probabilistic model, Federated Learning Network (FL network).},
 	first={local dataset},
 	text={local dataset}
 }
@@ -7461,12 +7494,12 @@ sort={k-means},
 \newglossaryentry{localmodel}
 {name={local model}, plural={local models}, 
 	description={Consider\index{local model} a collection of devices that are represented 
-		as nodes $\mathcal{V}$ of an federated learning network (FL network). A local model $\mathcal{H}^{(i)}$ 
+		as nodes $\mathcal{V}$ of an Federated Learning Network (FL network). A local model $\mathcal{H}^{(i)}$ 
 		is a hypothesis space assigned to a node $i\in \mathcal{V}$. Different nodes can have 
 		different hypothesis spaces, i.e., in general, $\mathcal{H}^{(i)} \neq \mathcal{H}^{(i')}$ 
 		for different nodes $i, i' \in \mathcal{V}$. 
 				\\
-		See also: device, federated learning network (FL network), model, hypothesis space. },
+		See also: device, Federated Learning Network (FL network), model, hypothesis space. },
 	first={local model},
 	text={local model}
 }
@@ -7535,12 +7568,12 @@ sort={k-means},
 
 \newglossaryentry{edgeweight}
 {name={edge weight},
-	description={Each\index{edge weight} edge $\{i,i'\}$ of an federated learning network (FL network) is 
+	description={Each\index{edge weight} edge $\{i,i'\}$ of an Federated Learning Network (FL network) is 
 		assigned a nonnegative edge weight $\edgeweight_{i,i'}\geq0$. 
 		A zero edge weight $\edgeweight_{i,i'}=0$ indicates the absence 
 		of an edge between nodes $i, i' \in \mathcal{V}$.
 				\\
-		See also: federated learning network (FL network).}, 
+		See also: Federated Learning Network (FL network).}, 
 	first={edge weight},
 	firstplural={edge weights},
 	plural={edge weights},
