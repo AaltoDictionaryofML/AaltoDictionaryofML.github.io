@@ -5704,3 +5704,129 @@ sort={Renyi},
     	text={empirical distribution},
 	type=math
 }
+
+\newglossaryentry{dualnorm}
+{name={dual norm},
+	description={Every \gls{norm} $\normgeneric{\cdot}{}$ defined on a \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$ 
+		has an associated dual \gls{norm}\index{dual norm}, which is denoted by $\normgeneric{\cdot}{*}$ and defined as 
+		$\normgeneric{\vy}{*} \defeq \sup_{\norm{\vx}{} \le 1} \vy\,^{T} \vx$. 
+		The dual \gls{norm} measures the largest possible inner product between $\vy$ 
+		and any \gls{vector} in the unit ball of the original \gls{norm}. For further details, see 
+		\cite[Sec.~A.1.6]{BoydConvexBook}.
+					\\ 
+		See also: \gls{norm}, \gls{euclidspace}, \gls{vector}.},
+	first={dual norm},
+	type=math, 
+	text={dual norm}
+}
+
+\newglossaryentry{geometricmedian}
+{name={geometric median (GM)},
+	description={The GM\index{geometric median (GM)} of a set of \glspl{inputvec} $\vx^{(1)}, \,\ldots, \,\vx^{(\samplesize)}$ 
+		in $\mathbb{R}^{\dimlocalmodel}$ is a point $\vz \in \mathbb{R}^{\dimlocalmodel}$ that 
+		minimizes the sum of distances to the \glspl{vector} \cite{BoydConvexBook} such that 
+		\begin{equation} 
+			\label{equ_geometric_median_dict}
+			\vz \in \argmin_{\vy \in \mathbb{R}^{\dimlocalmodel}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\vy - \vx^{(\sampleidx)}}{2}.
+		\end{equation} 
+		Fig. \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
+		If $\vz$ does not coincide with any of the \glspl{inputvec}, then the unit \glspl{vector} pointing 
+		from $\vz$ to each $\vx^{(\sampleidx)}$ must sum to zero—this is the zero-\gls{subgradient}  
+		(optimality) condition for \eqref{equ_geometric_median_dict}. It turns out that the solution to 
+		\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy  
+		\glspl{inputvec} as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
+	  	\begin{figure}[H]
+  		\begin{center}
+			\begin{tikzpicture}[scale=2, thick, >=stealth]
+				%				% Central model w
+				\coordinate (w) at (3,0);
+				\fill (w) circle (1.2pt) node[below right] {$\vz$};
+				% Clean nodes
+				\coordinate (w2) at (0.5,0.3);
+				\coordinate (w3) at (0.7,0.7);
+				\fill (w2) circle (1pt) node[above left] {$\vx^{(1)}$};
+				\fill (w3) circle (1pt) node[above left] {$\vx^{(2)}$};
+			    	\node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
+				%				% Dashed lines from w to good nodes
+				\draw[dashed] (w) -- (w2);
+				\draw[dashed] (w) -- (w3);
+				%				% Draw unit vectors (scaled to 1cm)
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{\vx^{(2)}- \vz}{\normgeneric{\vx^{(2)}-\vz}{2}}$};
+				%				\node at (-0.2,1.4) {\textbf{Clean}};
+				\coordinate (w4) at (5,0.2);
+				\node at (5,0.6) {\textbf{perturbed}};
+				\fill (w4) circle (1pt) node[below left] {$\vx^{(3)}$};
+				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
+				%		% Optional dotted line from w to bad
+			\end{tikzpicture}
+		\caption{\label{opt_cond_GM_dict}
+			Consider a solution $\vz$ of \eqref{equ_geometric_median_dict} that does not coincide 
+			with any of the \glspl{inputvec}. The optimality condition for \eqref{equ_geometric_median_dict} 
+			requires that the unit \glspl{vector} from $\vz$ to the \glspl{inputvec} sum to zero.}
+			\end{center}
+		\end{figure}
+		See also: \gls{vector}, \gls{subgradient}.},
+	first={geometric median (GM)},
+	type=math, 
+	text={GM}
+}
+
+\newglossaryentry{norm}
+{name={norm},
+	description={A norm\index{norm} is a \gls{function} that maps each (\gls{vector}) element 
+		of a \gls{vectorspace} to a nonnegative real number. This \gls{function} must be 
+		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}.
+		\\
+		See also: \gls{function}, \gls{vector}, \gls{vectorspace}.},
+	first={norm},
+	type=math, 
+	text={norm} 
+}
+
+\newglossaryentry{maximum}
+{name={maximum},
+	description={The maximum\index{maximum} of a set $\mathcal{A} \subseteq \mathbb{R}$ 
+     		of real numbers is the greatest element in that set, if such an element exists. A set $\mathcal{A}$ 
+     		has a maximum if it is bounded above and attains its \gls{supremum} \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.
+				\\ 
+		See also: \gls{supremum}.},
+ 	first={maximum},
+ 	firstplural={maxima},
+	type=math, 
+ 	plural={maxima},
+ 	text={maximum}
+}
+
+\newglossaryentry{supremum}
+{name={supremum (or least upper bound)},
+	description={The supremum\index{supremum (or least upper bound)} of a set of real numbers is 
+		the smallest number that is greater than or equal to every element in the set. More formally, a 
+		real number $a$ is the supremum of a set $\mathcal{A} \subseteq \mathbb{R}$ if: 1) $a$ 
+		is an upper bound of $\mathcal{A}$; and 2) no number smaller than $a$ is an upper 
+		bound of $\mathcal{A}$. Every non-empty set of real numbers that is bounded above 
+		has a supremum, even if it does not contain its supremum as an element \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.},
+	firstplural={suprema}, 
+  	plural={suprema},
+	type=math, 
+	first={supremum (or least upper bound)},
+	text={supremum}
+}
+
+\newglossaryentry{infimum}
+{name={infimum (or greatest lower bound)},
+	description={The infimum\index{infimum (or greatest lower bound)} of a set of 
+	             real numbers is the largest number that is less than or equal 
+				 to every element in the set. More formally, a real number $a$ is 
+				 the infimum of a set $\mathcal{A} \subseteq \mathbb{R}$ if: 1) $a$ 
+				 is a lower bound of $\mathcal{A}$; and 2) no number larger than 
+				 $a$ is a lower bound of $\mathcal{A}$. Every non-empty set of real 
+				 numbers that is bounded below has an infimum, even if it does 
+		         not contain its infimum as an element \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.},
+	firstplural={infima}, 
+  	plural={infima},
+	type=math, 
+	first={infimum (or greatest lower bound)},
+	text={infimum}
+}
+

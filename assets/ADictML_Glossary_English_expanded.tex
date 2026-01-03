@@ -282,33 +282,6 @@
 	text={privacy attack}
 }
 
-\newglossaryentry{maximum}
-{name={maximum},
-	description={The maximum\index{maximum} of a set $\mathcal{A} \subseteq \mathbb{R}$ 
-     		of real numbers is the greatest element in that set, if such an element exists. A set $\mathcal{A}$ 
-     		has a maximum if it is bounded above and attains its supremum (or least upper bound) \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.
-				\\ 
-		See also: supremum (or least upper bound).},
- 	first={maximum},
- 	firstplural={maxima},
- 	plural={maxima},
- 	text={maximum}
-}
-
-\newglossaryentry{supremum}
-{name={supremum (or least upper bound)},
-	description={The supremum\index{supremum (or least upper bound)} of a set of real numbers is 
-		the smallest number that is greater than or equal to every element in the set. More formally, a 
-		real number $a$ is the supremum of a set $\mathcal{A} \subseteq \mathbb{R}$ if: 1) $a$ 
-		is an upper bound of $\mathcal{A}$; and 2) no number smaller than $a$ is an upper bound of $\mathcal{A}$. 
-		Every non-empty set of real numbers that is bounded above has a supremum, even if it does 
-		not contain its supremum as an element \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.},
-	firstplural={suprema}, 
-  	plural={suprema},
-	first={supremum (or least upper bound)},
-	text={supremum}
-}
-
 \newglossaryentry{discrepancy}
 {name={discrepancy},
 	description={Consider\index{discrepancy} an federated learning (FL) application with networked data 
@@ -1753,8 +1726,8 @@ sort={zerooneloss},
 			scale=1,
 			node/.style={circle, draw=black, fill=black, inner sep=2pt},
 			edge/.style={line width=0.9pt},
-			wlab/.style={midway, fill=white, inner sep=1pt, font=\scriptsize}
-		]
+			wlab/.style={fill=white, inner sep=1pt, font=\scriptsize}
+			]
 			% Nodes
 			\node[node] (v1) at (0,0) {};
 			\node[node] (v2) at (2,0) {};
@@ -1765,12 +1738,12 @@ sort={zerooneloss},
 			\node[anchor=north] at (v2) {$\nodeidx_2$};
 			\node[anchor=south] at (v3) {$\nodeidx_3$};
 			\node[anchor=south] at (v4) {$\nodeidx_4$};
-			% Undirected weighted edges
-			\draw[edge] (v1) -- node[wlab] {$\edgeweight_{1,2}$} (v2);
-			\draw[edge] (v2) -- node[wlab] {$\edgeweight_{2,3}$} (v3);
-			\draw[edge] (v3) -- node[wlab] {$\edgeweight_{3,1}$} (v1);
-			\draw[edge] (v2) -- node[wlab] {$\edgeweight_{2,4}$} (v4);
-		\end{tikzpicture}
+			% Undirected weighted edges + weight labels next to edges
+			\draw[edge] (v1) -- node[wlab, pos=0.5, below, yshift=-2pt] {$\edgeweight_{1,2}$} (v2);
+			\draw[edge] (v2) -- node[wlab, pos=0.55, left,  xshift=-2pt] {$\edgeweight_{2,3}$} (v3);
+			\draw[edge] (v3) -- node[wlab, pos=0.45, left,  xshift=-2pt] {$\edgeweight_{3,1}$} (v1);
+			\draw[edge] (v2) -- node[wlab, pos=0.55, right, xshift=2pt] {$\edgeweight_{2,4}$} (v4);
+			\end{tikzpicture}
 		\caption{An federated learning (FL) network with nodes $\mathcal{V}=\{\nodeidx_1,\nodeidx_2,\nodeidx_3,\nodeidx_4\}$ 
 		representing four devices of an federated learning system (FL system).}
 		\end{figure}
@@ -1783,81 +1756,7 @@ sort={zerooneloss},
 	firstplural={Federated Learning Networks (FL networks)}
 }
 
-\newglossaryentry{norm}
-{name={norm},
-	description={A norm\index{norm} is a function that maps each (vector) element 
-		of a vector space to a nonnegative real number. This function must be 
-		homogeneous and definite, and it must satisfy the triangle inequality \cite{HornMatAnalysis}.
-		\\
-		See also: function, vector, vector space.},
-	first={norm},
-	text={norm} 
-}
 
-\newglossaryentry{dualnorm}
-{name={dual norm},
-	description={Every norm $\mleft\lVert \cdot \mright\rVert_{}$ defined on a Euclidean space $\mathbb{R}^{d}$ 
-		has an associated dual norm\index{dual norm}, which is denoted by $\mleft\lVert \cdot \mright\rVert_{*}$ and defined as 
-		$\mleft\lVert {\bf y}\mright\rVert_{*} :=\sup_{\Vert  {{\bf x}} \Vert{} \le 1} {\bf y}\,^{T} {\bf x}$. 
-		The dual norm measures the largest possible inner product between ${\bf y}$ 
-		and any vector in the unit ball of the original norm. For further details, see 
-		\cite[Sec.~A.1.6]{BoydConvexBook}.
-					\\ 
-		See also: norm, Euclidean space, vector.},
-	first={dual norm},
-	text={dual norm}
-}
-
-\newglossaryentry{geometricmedian}
-{name={geometric median (GM)},
-	description={The GM\index{geometric median (GM)} of a set of input vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$ 
-		in $\mathbb{R}^{d}$ is a point ${\bf z}\in \mathbb{R}^{d}$ that 
-		minimizes the sum of distances to the vectors \cite{BoydConvexBook} such that 
-		\begin{equation} 
-			\label{equ_geometric_median_dict}
-			{\bf z}\in \argmin_{{\bf y}\in \mathbb{R}^{d}} \sum_{r=1}^{m} \mleft\lVert {\bf y}- {\bf x}^{(r)} \mright\rVert_{2}.
-		\end{equation} 
-		Fig. \ref{opt_cond_GM_dict} illustrates a fundamental property of the GM:
-		If ${\bf z}$ does not coincide with any of the input vectors, then the unit vectors pointing 
-		from ${\bf z}$ to each ${\bf x}^{(r)}$ must sum to zero—this is the zero-subgradient  
-		(optimality) condition for \eqref{equ_geometric_median_dict}. It turns out that the solution to 
-		\eqref{equ_geometric_median_dict} cannot be arbitrarily pulled away from trustworthy  
-		input vectors as long as they are the majority \cite[Th. 2.2]{Lopuhaae1991}.
-	  	\begin{figure}[H]
-  		\begin{center}
-			\begin{tikzpicture}[scale=2, thick, >=stealth]
-				%				% Central model w
-				\coordinate (w) at (3,0);
-				\fill (w) circle (1.2pt) node[below right] {${\bf z}$};
-				% Clean nodes
-				\coordinate (w2) at (0.5,0.3);
-				\coordinate (w3) at (0.7,0.7);
-				\fill (w2) circle (1pt) node[above left] {${\bf x}^{(1)}$};
-				\fill (w3) circle (1pt) node[above left] {${\bf x}^{(2)}$};
-			    	\node[anchor=west] at ($(w2) +(-0.2,0.9)$) {\textbf{clean}};
-				%				% Dashed lines from w to good nodes
-				\draw[dashed] (w) -- (w2);
-				\draw[dashed] (w) -- (w3);
-				%				% Draw unit vectors (scaled to 1cm)
-				\draw[->, thick, red] (w) -- ($(w)!1cm!(w2)$) ;
-				\draw[->, thick, red] (w) -- ($(w)!1cm!(w3)$) node[pos=0.9, right,yshift=7pt] {$\frac{{\bf x}^{(2)}- {\bf z}}{\mleft\lVert {\bf x}^{(2)}-{\bf z}\mright\rVert_{2}}$};
-				%				\node at (-0.2,1.4) {\textbf{Clean}};
-				\coordinate (w4) at (5,0.2);
-				\node at (5,0.6) {\textbf{perturbed}};
-				\fill (w4) circle (1pt) node[below left] {${\bf x}^{(3)}$};
-				\draw[->, thick, red] (w) -- ($(w)!1cm!(w4)$) ;
-				%		% Optional dotted line from w to bad
-			\end{tikzpicture}
-		\caption{\label{opt_cond_GM_dict}
-			Consider a solution ${\bf z}$ of \eqref{equ_geometric_median_dict} that does not coincide 
-			with any of the input vectors. The optimality condition for \eqref{equ_geometric_median_dict} 
-			requires that the unit vectors from ${\bf z}$ to the input vectors sum to zero.}
-			\end{center}
-		\end{figure}
-		See also: vector, subgradient.},
-	first={geometric median (GM)},
-	text={GM}
-}
 
 \newglossaryentry{explanation}
 {name={explanation}, plural={explanations},
