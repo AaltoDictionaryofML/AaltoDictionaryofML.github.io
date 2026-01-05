@@ -1079,8 +1079,8 @@
 }
 
 \newglossaryentry{em}
-{name={expectation–maximization (EM)}, 
-	description={\index{expectation–maximization (EM)}
+{name={odotusarvon maksimointi}, 
+	description={\index{odotusarvon maksimointi}
 	    The EM \gls{algorithm} \cite{dempster1977maximum} is an iterative \gls{optmethod} for 
 		approximately solving certain \gls{maxlikelihood} \glspl{optproblem} 
 		that are difficult to solve directly \cite[Sec. 9.4]{BishopBook}, \cite[Sec. 11.4.7]{Murphy2012}.
@@ -1161,9 +1161,9 @@
 		and infinite \glspl{featurespace} such as $\mathbb{R}^{\featuredim}$; see \cite[Sec. 11.4.7]{Murphy2012} for details. 
 			\\
 		See also: \gls{probmodel}, \gls{maxlikelihood}, \gls{optproblem}. },
-	first={expectation–maximization (EM)},
+	first={odotusarvon maksimointi},
 	type=math, 
-	text={EM}
+	text={odotusarvon maksimointi}
 }
 
 \newglossaryentry{ppca}
@@ -2270,8 +2270,8 @@ plural={mediaani},
 }
 
 \newglossaryentry{rv}
-{name={random variable (RV)}, plural={RVs},
- 	description={An RV\index{random variable (RV)} is a \gls{function} that maps the 
+{name={satunnaismuuttuja}, plural={satunnaismuuttujat},
+ 	description={An RV\index{satunnaismuuttuja} is a \gls{function} that maps the 
 		\glspl{outcome} of a \gls{randomexperiment} to elements of a \gls{measurable} space 
 		\cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
  		Mathematically, an RV is a \gls{function} $x: \samplespace \rightarrow \featurespace$ 
@@ -2290,11 +2290,11 @@ plural={mediaani},
  		and study the properties of collections of RVs \cite{BillingsleyProbMeasure}.
 			\\
 		See also: \gls{function}, \gls{randomexperiment}, \gls{samplespace}, \gls{probspace}, \gls{vector}, \gls{euclidspace}, \gls{probability}, \gls{measurable}.}, 
-	first={random variable (RV)},
-	firstplural={random variables (RVs)},
-	plural={RVs},
+	first={satunnaismuuttuja},
+	firstplural={satunnaismuuttuja},
+	plural={satunnaismuuttujat},
 	type=math,
-	text={RV}  
+	text={satunnaismuuttuja}  
 }
 
 \newglossaryentry{outcome}
@@ -4284,20 +4284,90 @@ sort={sigma-field},
 	text={concentration inequality}
 }
 
+\newglossaryentry{covariance}
+{name={kovarianssi}, 
+	description={The\index{kovarianssi} covariance between two real-valued 
+		\glspl{rv} $x$ and $y$, defined on a common \gls{probspace}, measures their linear 
+		dependence. It is defined as 
+		$$
+		\cov{x}{y} = \expect\big\{ \big(x - \expect\{ x\} \big)\big(y - \expect\{y\} \big)\big\}.
+		$$
+		A positive covariance indicates that $x$ and $y$ tend to increase together, 
+		while a negative covariance suggests that one tends to increase as the other decreases. 
+		If $\cov{x}{y} = 0$, the \glspl{rv} are said to be uncorrelated, though not necessarily statistically 
+		independent. See Fig. \ref{fig:covariance-examples_dict} for visual illustrations.
+		\begin{figure}[H]
+			\begin{tikzpicture}
+				% Negative covariance
+				\begin{scope}[shift={(0,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={$\cov{x}{y} <0$},
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {-x + rand});
+					\end{axis}
+					\node at (1.5,-1) {(a)};
+				\end{scope}
+				% Zero covariance
+				\begin{scope}[shift={(5.2cm,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={$\cov{x}{y} =0$}, 
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {rand});
+					\end{axis}
+					\node at (1.5,-1) {(b)};
+				\end{scope}
+				% Positive covariance
+				\begin{scope}[shift={(10.4cm,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={$\cov{x}{y} > 0$},
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {x + rand});
+					\end{axis}
+					\node at (1.5,-1) {(c)};
+				\end{scope}
+			\end{tikzpicture}
+			\caption{\Glspl{scatterplot} illustrating \glspl{realization} from three different \glspl{probmodel} for two 
+				\glspl{rv} with different covariance values. (a) Negative. (b) Zero. (c) Positive.}
+			\label{fig:covariance-examples_dict}
+		\end{figure}
+		See also: \gls{probmodel}, \gls{expectation}. },
+	first={kovarianssi},
+	text={kovarianssi},
+	type=math
+}
+
 \newglossaryentry{covmtx}
-{name={covariance matrix}, 
-	description={The\index{covariance matrix} \gls{covariance} \gls{matrix} of 
+{name={kovarianssimatriisi}, 
+	description={The\index{kovarianssimatriisi} \gls{covariance} \gls{matrix} of 
 		an \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ is defined as 
 		the \gls{expectation} (if it exists)
 		$$\covmtx{\featurevec} \defeq \expect \bigg \{ \big( \featurevec - \expect \big\{ \featurevec \big\} \big)  
 		\big(\featurevec - \expect \big\{ \featurevec \big\} \big)\,^{T} \bigg\}.$$
 		\\
 		See also: \gls{covariance}, \gls{matrix}, \gls{rv}.},
-	first={covariance matrix},
-	plural={covariance matrices},
-	firstplural={covariance matrices},
+	first={kovarianssimatriisi},
+	plural={kovarianssimatriisit},
+	firstplural={kovarianssimatriisit},
 	type=math, 
-	text={covariance matrix} 
+	text={kovarianssimatriisi} 
 }
 
 \newglossaryentry{samplecovmtx}
@@ -4409,8 +4479,8 @@ sort={sigma-field},
 }
 
 \newglossaryentry{probdist}
-{name={probability distribution}, 
-	description={To\index{probability distribution} analyze \gls{ml} methods, it can be useful 
+{name={todennäköisyysjakauma}, 
+	description={To\index{todennäköisyysjakauma} analyze \gls{ml} methods, it can be useful 
 		to interpret \glspl{datapoint} as \gls{iid} \glspl{realization} of a \gls{rv}. The typical 
 		properties of such \glspl{datapoint} are then governed by the \gls{probability} distribution 
 		of this \gls{rv}. The \gls{probability} distribution of a binary \gls{rv} $\truelabel \in \{0,1\}$ 
@@ -4422,11 +4492,11 @@ sort={sigma-field},
 		\cite{BillingsleyProbMeasure}, \cite{GrayProbBook}.
 		\\
 		See also: \gls{iid}, \gls{realization}, \gls{rv}, \gls{probability}, \gls{pdf}.},
-	first={probability distribution},
-	plural={probability distributions},
-	firstplural={probability distributions},
+	first={todennäköisyysjakauma},
+	plural={todennäköisyysjakaumat},
+	firstplural={todennäköisyysjakaumat},
 	type=math,
-	text={probability distribution}
+	text={todennäköisyysjakauma}
 }
 
 \newglossaryentry{pdf}
