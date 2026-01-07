@@ -120,7 +120,7 @@
 		\]
 		where $\complexconjugate{(\cdot)}$ denotes complex conjugation.
 		\\
-		See also: \gls{transpose}, \gls{matrix}. },
+		See also: \gls{transpose}, \gls{matrix}, \gls{hermitian}. },
  	first={conjugate transpose},
     	type=math, 
  	text={conjugate transpose}
@@ -193,12 +193,16 @@
 
 \newglossaryentry{basis}
 {name={basis},
-	description={A basis\index{basis} of a \gls{vectorspace} $\mathcal{V}$ 
-		is a set of \gls{linearlyindep} \glspl{vector} $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\}$ such 
-		that any \gls{vector} $\va \in \mathcal{A}$ can be expressed as a linear combination 
-		of the basis \glspl{vector}, i.e.,	
-		$$ \va = \sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} 
+	description={A basis\index{basis} of a finite-dimensional \gls{vectorspace} $\mathcal{V}$ over $\mathbb{R}$
+            (similar for $\mathbb{C}$ or general fields $\mathbb{F}$)
+		is a set of \gls{linearlyindep} \glspl{vector} $\mathcal{B} = \{\vb^{(1)}, \,\ldots, \,\vb^{(\nrfeatures)}\} 
+            \subseteq \mathcal{V}$, such that any \gls{vector} $\vv \in \mathcal{V}$ can be expressed as a 
+            linear combination of the basis \glspl{vector} $\vb^{(1)}, \,\ldots, \,\vb^{(\nrfeatures)}$, i.e.,	
+		$$ \vv = \sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \vb^{(\featureidx)} 
 		\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{\nrfeatures} \in \mathbb{R}. $$
+            The  scalars $\alpha_{1}, \,\ldots, \,\alpha_{\nrfeatures} \in \mathbb{R}$ can be regarded as the coordinates
+            of $\va$ with respect to the basis $\mathcal{B}$. In this situation, any basis of  $\mathcal{V}$ has 
+            the same number $\nrfeatures$ of elements, which is also called the dimension of $\mathcal{V}$.
 			\\
 		See also: \gls{vectorspace}, \gls{linearlyindep}, \gls{vector}. },
 	text={basis}, 
@@ -821,6 +825,9 @@
 }
 
 \newglossaryentry{continuous}
+% This is perfectly fine, of course, to give the epsilon-delta-definition of continuity. The (equivalent) definition using  
+% limits is perhaps though easier to understand, so it could be an alternative and could at least be briefly mentioned - 
+% but  of course, just a remark, perfectly fine as it is.
 {name={continuous}, 
 	description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ is 
 		continuous at a point $\featurevec' \in \mathbb{R}^{\nrfeatures}$ if, for 
@@ -1402,13 +1409,14 @@
 \newglossaryentry{gaussrv}
 {name={Gaussian random variable (Gaussian RV)}, 
 	description={A\index{Gaussian random variable (Gaussian RV)} standard \gls{gaussian} \gls{rv} is a 
-		real-valued \gls{rv} $x$ with \gls{pdf} \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
+		real-valued \gls{rv} $\feature$ with \gls{pdf} \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
 		\begin{equation}
 			\nonumber
-			p(x) = \frac{1}{\sqrt{2\pi}} \exp\,(-x^2/2). 
+			\pdf{\feature}{\eta} = \frac{1}{\sqrt{2\pi}} \exp\,(-\eta^2/2). 
 		\end{equation}
-		Given a standard \gls{gaussian} \gls{rv} $x$, we can construct a general \gls{gaussian} 
-		\gls{rv} $x'$ with \gls{mean} $\mu$ and \gls{variance} $\sigma^2$ via $x' \defeq \sigma x + \mu$. 
+		Given a standard \gls{gaussian} \gls{rv} $\feature$, we can construct a general \gls{gaussian} 
+		\gls{rv} $\feature'$ with \gls{mean} $\mu$ and \gls{variance} $\sigma^2$ via 
+            $\feature' \defeq \sigma \feature + \mu$. 
 		The \gls{probdist} of a \gls{gaussian} \gls{rv} is referred to as \gls{normaldist}, 
 		denoted by $\mvnormal{\mu}{\sigma^{2}}$. 
 		\\ 
@@ -1422,8 +1430,8 @@
 		The \gls{probdist} of a \gls{gaussian} random \gls{vector} is referred to as the \gls{mvndist}, 
 		denoted by $\mvnormal{\bm \mu}{\mathbf{C}}$.
 		\\
-		We can interpret a \gls{gaussian} random \gls{vector} $\featurevec=\big(\feature_{1},\,\ldots,\,\feature_{\nrfeatures}\big)$ as a \gls{stochproc} 
-		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,\nrfeatures\}$. A \glspl{GaussProc} is a 
+		We can interpret a \gls{gaussian} random \gls{vector} $\featurevec=\big(\feature_{1},\,\ldots,\,\feature_{\nrfeatures}\big)^{T}$ as a \gls{stochproc} 
+		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,\nrfeatures\}$. A \gls{GaussProc} is a 
 		\gls{stochproc} over an arbitray index set $\mathcal{I}$ such that any restriction 
 		to a finite subset $\mathcal{I}' \subseteq \mathcal{I}$ yields a \gls{gaussian} 
 		random \gls{vector} \cite{Rasmussen2006Gaussian}.
@@ -1466,6 +1474,9 @@
 		\[
 		s^{(\samplesize)} \defeq \frac{1}{\sqrt{\samplesize}} \sum_{\sampleidx = 1}^{\samplesize} \feature^{(\sampleidx)} 
 		\]
+            %%% Should "convergence in distribution" be defined here? Or in a separate entry along with other notions of 
+            %%% convergence of random variables? Possibly either way would be ok, it depends how much technical details
+            %%% the dictionary is supposed to cover.
 		converges in distribution to a \gls{gaussrv} with \gls{mean} zero and \gls{variance} \( \sigma^2 \) as \( \samplesize \to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}.
 		One elegant way to derive the CLT is via the \gls{characteristicfunc} of the normalized sum \( s^{(\samplesize)} \). 
 		Let $ \phi(t) = \expect \big\{ \exp \big( j t \feature \big) \big\}$ (with the imaginary unit $j = \sqrt{-1}$) 
@@ -2077,8 +2088,10 @@ plural={medians},
 		with a \gls{pdf} $\pdf{x}{\cdot}$, the differential \gls{entropy} 
 		is defined as \cite{coverthomas}
 		\[
-		h(\featurevec) \defeq - \int_{\featurevec' \in \mathbb{R}^{\nrfeatures}} \log p(\featurevec') \, d \pdf{\featurevec}{\featurevec'} .
-		\]
+		h(\featurevec) \defeq - \int_{\featurevec' \in \mathbb{R}^{\nrfeatures}} 
+            %\log p(\featurevec') \, d \pdf{\featurevec}{\featurevec'} .
+		\log p(\featurevec') \pdf{\featurevec}{\featurevec'} \, d \featurevec'.
+            \]
 		Differential \gls{entropy} can be negative and lacks some properties of 
 		\gls{entropy} for discrete-valued \glspl{rv}, such as invariance under 
 		a change of variables \cite{coverthomas}. Among all \glspl{rv} with a 
@@ -2506,7 +2519,7 @@ plural={medians},
 \newglossaryentry{conditionalexpect}
 {name={conditional expectation}, 
 	description={Consider a numeric \gls{rv} $\featurevec \in \mathbb{R}^{\nrfeatures}$ defined on a 
-                 \gls{probspace} $\mathcal{P}=(\samplespace,\,\eventspace,\,\probmeasure)$. 
+                 \gls{probspace} $(\samplespace,\,\sigmaalgebra,\,\probmeasure)$. 
                  Let $\sigmaalgebra' \subseteq \sigmaalgebra$ be a (sub-)\gls{sigmaalgebra} that 
                  represents partial information about the \gls{outcome} of a \gls{randomexperiment}. 
                  The conditional \gls{expectation}\index{conditional expectation} of 
@@ -2519,7 +2532,7 @@ plural={medians},
     		\int_{\mathcal{A}} \expect\{\featurevec \mid \sigmaalgebra'\} {\rm d} \probmeasure =
     		\int_{\mathcal{A}} \featurevec {\rm d} \probmeasure \quad \text{for any } \mathcal{A} \in \sigmaalgebra'.
 		$$
-               	Intuitively, $\expect\{\featurevec \mid \eventspace'\}$ summarizes 
+               	Intuitively, $\expect\{\featurevec \mid \sigmaalgebra'\}$ summarizes 
                	the average value of $\featurevec$ using only information contained 
                	in the (typically smaller) \gls{sigmaalgebra} $\sigmaalgebra'$ 
 		\cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}. 
@@ -2882,7 +2895,7 @@ sort={sigma-field},
  	 	In particular,   
  		\begin{equation}
            		\nonumber
-			\prob{\big|x - \mu \big| \geq \eta } \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
+			\prob{\big|x - \mu \big| \geq \eta } \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for any } \eta > 0.
             		%\label{eq:chebyshevsinequality_dict}
      		\end{equation}
  		This upper bound can be obtained by applying \gls{markovsinequality} to 
@@ -3245,8 +3258,8 @@ sort={sigma-field},
 \newglossaryentry{hilbertspace}
 {name={Hilbert space},
 	description={A\index{Hilbert space} Hilbert space $\hilbertspace$ is a complete 
-    		inner product space. Thus, $\hilbertspace$ is a \gls{vectorspace} 
-		equipped with an inner product $\innerprod{\cdot}{\cdot}$. The inner product 
+    		\gls{inner product} space. Thus, $\hilbertspace$ is a \gls{vectorspace} 
+		equipped with an \gls{inner product} $\innerprod{\cdot}{\cdot}$. The \gls{inner product} 
 		induces a \gls{norm} $\normgeneric{\cdot}{2}$ via $\normgeneric{\weights}{2} = \sqrt{\innerprod{\weights}{\weights}}$. 
   		Furthermore, $\hilbertspace$ is complete in the sense that every 
  		\gls{cauchysequence} $\big( \weights^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$ 
@@ -3281,13 +3294,13 @@ sort={sigma-field},
 			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
 			\end{tikzpicture}
 		\caption{For two unit-\gls{norm} \glspl{vector} $\vu, \vv \in \sphere{\nrfeatures} \subseteq \mathbb{R}^{\nrfeatures}$ 
-			the inner product $\innerprod{\vu}{\vv}$ is the expansion coefficient for the \gls{projection} 
+			the \gls{inner product} $\innerprod{\vu}{\vv}$ is the expansion coefficient for the \gls{projection} 
 			of $\vv$ onto the \gls{subspace} $\{ c \vu: c \in \reals \}$ spanned by $\vu$. 
 			The absolute value $|\innerprod{\vu}{\vv}|$ measures the \gls{norm} of this \gls{projection}.\label{fig_hilbertspace_dict}}
 		\end{figure}
 		One important example of a Hilbert space 
  		is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ with the 
- 		inner product $\innerprod{\weights}{\weights'} = \weights^{\top} \weights'$. 
+ 		\gls{inner product} $\innerprod{\weights}{\weights'} = \weights^{\top} \weights'$. 
 		\\
    		See also: \gls{vectorspace}.},
    	type=math, 
@@ -3338,9 +3351,17 @@ sort={sigma-field},
 			% Replace the foreach loop by:
 			\fill (0,1.0000) circle (1.2pt) node [right] {$\feature^{(1)}$};
 			\fill (1,1.5000) circle (1.2pt);
-			\fill (2,1.4167) circle (1.2pt);
-			\fill (3,1.4142) circle (1.2pt);
-			\fill (4,1.41421) circle (1.2pt);
+			% \fill (2,1.4167) circle (1.2pt);
+			% \fill (3,1.4142) circle (1.2pt);
+			% \fill (4,1.41421) circle (1.2pt);
+			% \fill (5,1.4142136) circle (1.2pt);
+			% \fill (6,1.41421356) circle (1.2pt);
+                %%% minor adaption of figure - by "naked eye" the final values of the sequence are hard to distinguish from 
+                %%% the limit \sqrt{2}. In this way, it is illustrated more clearly that this doesn't need to be the case for convergence.
+                %%% furthermore, it also avoids the illusion of monotonicity, by including jumps above and below the limit.
+                \fill (2,1.45) circle (1.2pt);
+			\fill (3,1.39) circle (1.2pt);
+			\fill (4,1.41) circle (1.2pt);
 			\fill (5,1.4142136) circle (1.2pt);
 			\fill (6,1.41421356) circle (1.2pt);
 			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
@@ -3363,7 +3384,7 @@ sort={sigma-field},
 			Note that the \gls{sequence} does not converge in $\mathbb{Q}$, 
 			since $\sqrt{2} \notin \mathbb{Q}$ \cite[Example 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}}
 		\end{figure}
-		See also: \gls{sequence}, \gls{metricspace}. }, 
+		See also: \gls{sequence}, \gls{metricspace}, \gls{convergence}. }, 
 	type=math,
 	first={Cauchy sequence},
 	text={Cauchy sequence},
@@ -3433,7 +3454,8 @@ sort={sigma-field},
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point \gls{iteration} is an iterative method 
-	     	for solving an \gls{optproblem}. It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
+	    for solving a \gls{fixedpointeq}, which in an \gls{ml} context often arises from an \gls{optproblem}. 
+            It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
 		repeatedly applying an \gls{operator} $\fixedpointop$, i.e., 
 		\begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -3507,7 +3529,7 @@ sort={sigma-field},
 			\caption{Example of a \gls{nonexpansiveop} $\fixedpointop^{(1)}$, a \gls{firmlynonexpansiveop} 
 				$\fixedpointop^{(2)}$, and a \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: \gls{contractop}, \gls{proxop}.},
+		See also: \gls{contractop}, \gls{proxop}, \gls{bellmanoperator}, \gls{policyevaluation}, \gls{valueiteration}.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
@@ -3517,14 +3539,17 @@ sort={sigma-field},
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
- description={Given\index{graph of a function} a \gls{function} $f\!:\!\featurespace \to \labelspace$, 
+ description={Given\index{graph of a function} a \gls{function} $f\!:\!\featurespace \to \labelspace$
+                with \gls{domain} $\featurespace$ and \gls{co-domain} $\labelspace$, 
 			  the graph of $f$ is the subset of $\featurespace \times \labelspace$ 
 			  defined as
 				\[
 				  \{ (\featurevec,f(\featurevec)) : \featurevec \in \featurespace \,\}.
 				\]
 				The graph of a \gls{function} provides a geometric representation 
-				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.}, 
+				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.
+                    \\ 
+                    See also: \gls{epigraph}.}, 
 	first={graph},
 	text={graph},
 	type=math, 
@@ -3634,6 +3659,9 @@ sort={sigma-field},
 }
 
 \newglossaryentry{fixedpoint}
+% For most ML applications it is sufficient of course to consider Hilbert spaces, mostly just \R^d, of course. 
+% Still, other % entries in the dictionary are much more general, e.g. Banach's fixed point theorem is formulated 
+% in a general setting.
 {name={fixed point},
 	description={Consider some \gls{operator} $\fixedpointop: \hilbertspace \rightarrow \hilbertspace$ 
 		defined on a \gls{hilbertspace} $\hilbertspace$. A 
@@ -3669,10 +3697,10 @@ sort={sigma-field},
 				can be cast in this form. For example, minimizing a \gls{smooth} \gls{convex} 
 				\gls{function} $f$ is equivalent to solving the fixed-point equation 
 				$$\weights = \fixedpointop \weights \mbox{ with }  
-				\fixedpointop: \weights \mapsto \weights - \eta \nabla f(\weights)$$. 
+				\fixedpointop: \weights \mapsto \weights - \eta \nabla f(\weights).$$
 				Here, $\lrate>0$ can be choosen freely. The above fixed-point 
 				equation is nothing but the \gls{zerogradientcondition} for the 
-				minimizer of $f$ \cite{BoydConvexBook}. Similarly, one can reforulate the
+				minimizer of $f$ \cite{BoydConvexBook}. Similarly, one can reformulate the
 				 optimality conditions (KKT conditions) of \glspl{optproblem} with constraints as a 
 				 fixed-point equation \cite{pock_chambolle_2016,BoydConvexBook}}, 
 	type=math, 
@@ -3690,7 +3718,7 @@ sort={sigma-field},
  		Formally, $\mA$ is diagonalizable if there exists an invertible \gls{matrix} 
 		$\mP \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ such that 
   		\[
-  			\mA = \mP \mD \mP^{-1}
+  			\mA = \mP \mD \mP^{-1},
   		\]
 		where $\mD \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ is a 
  		diagonal \gls{matrix} whose main diagonal entries are the \glspl{eigenvalue} 
@@ -4034,8 +4062,10 @@ sort={sigma-field},
 			  In particular, ADMM can be used to solve an \gls{optproblem} of the form 
 			  \[
 			  \min_{\featurevec \in \mathbb{R}^{\nrfeatures},\featurevec' \in \mathbb{R}^{\nrfeatures'}} \; f(\featurevec)
-			  + g(\featurevec'), \mbox{ subject to } \mathbf{A} \featurevec - \mathbf{B}\featurevec' = \vc.
+			  + g(\featurevec'), \mbox{ subject to } \mA \featurevec - \mB \featurevec' = \vc,
 			  \]
+              for given \glspl{matrix} $\mA \in \mathbb{R}^{p \times \nrfeatures}$ and $\mB \in \mathbb{R}^{p \times \nrfeatures'}$,
+              and a given \gls{vector} $\vc \in \mathbb{R}^p$.
 			 }, 
  first={alternating direction method of multipliers (ADMM)},
  type=math,
@@ -4303,9 +4333,33 @@ sort={sigma-field},
 \newglossaryentry{boundary}
 {name={boundary},
    description={Consider\index{boundary} a subset $\mathcal{C} \subseteq \mathbb{R}^n$. The boundary 
-   	                        of $\mathcal{C}$, denoted by $\bd{\mathcal{C}}$, is the set of all points 
-   	                         $\vx \in \mathbb{R}^n$ such that every open ball centred at $\vx$ intersects 
-   	                         both $\mathcal{C}$ and its complement $\mathbb{R}^n \setminus \mathcal{C}$.},
+   	            of $\mathcal{C}$, denoted by $\partial{\mathcal{C}}$, is the set of all points $\vx \in \mathbb{R}^n$ such that every open (with       respect to some \gls{norm} $\norm{\,\cdot\,}$) ball 
+                    $B_\varepsilon(\vx) = \{\vy \in \mathbb{R}^n: \norm{\vy - \vx} < \varepsilon\}$ 
+                    of radius $\varepsilon > 0$ centered at $\vx$ intersects both $\mathcal{C}$ and its complement $\mathbb{R}^n \setminus \mathcal{C}$.
+                        \begin{figure}
+                        \centering
+                        \begin{tikzpicture}[scale=1, >=stealth]
+                        \def\setpath{plot [smooth cycle, tension=0.8] coordinates {(-2, 0.5) (-0.5, 2.2) (1.8, 1.2) (1.5, -1.5) (-1.2, -1.8)}}
+                        \coordinate (xPoint) at (1.8, 1.2);
+                        \fill[gray!30] \setpath;
+                        \draw[thick, dashed] \setpath;
+                        \draw[thin] (xPoint) circle (0.6cm);
+                        \fill (xPoint) circle (2pt);
+                        \node at (-0.2, 0) [font=\large] {$\mathcal{C}$};
+                        \node (bdyLabel) at (-2.5, 1.5) {$\partial \mathcal{C}$ (boundary)};
+                        \draw[->, thin] (bdyLabel) -- (-0.6, 2.15);
+                        \node[right] at ($(xPoint)+(0.1,0)$) {$\vx$};
+                        \node (ballLabel) at (2.8, 2.2) {$B_\varepsilon(\vx)$};
+                        \draw[->, thin] (ballLabel) -- ($(xPoint)+(45:0.6cm)$);
+                        \end{tikzpicture}
+                        \caption{Boundary of set $\mathcal{C}$ and an $\varepsilon$-ball around $\vx \in \partial \mathcal{C}$.}
+                        \end{figure}
+                        Elements of the boundary $\partial{\mathcal{C}}$ can, but do not have to be contained in $\mathcal{C}$ itself. 
+                        The notion of a boundary can be generalized to arbitrary \glspl{metricspace}.
+                            },
+                             %%% It seems that the command \bd is used to denote the "cluster boundary" in the FL book,
+                             %%% which is not the same as the topological boundary. Instead, simply "\partial" would make 
+                             %%% sense here.   
    	 first ={boundary}, 
    	 type=math,
    	 text={boundary}
@@ -4649,9 +4703,9 @@ description={Consider\index{Lagrange dual function} a constrained \gls{optproble
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
 	description={An upper bound on the \gls{probability}\index{concentration inequality} that 
-		an \gls{rv} deviates more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
+		a \gls{rv} deviates more than a prescribed amount from its \gls{expectation} \cite{Wain2019}. 
 		\\
-		See also: \gls{probability}, \gls{rv}, \gls{expectation}.}, 
+		See also: \gls{probability}, \gls{rv}, \gls{expectation}, \gls{markovsinequality}, \gls{chebyshevsinequality}, \gls{hoeffdingsinequality}, \gls{chernoffbound}.}, 
 	type=math, 
 	first={concentration inequality},
 	firstplural={concentration inequalities},
@@ -4733,9 +4787,11 @@ description={Consider\index{Lagrange dual function} a constrained \gls{optproble
 \newglossaryentry{eigenvector}
 {name={eigenvector}, plural={eigenvectors}, 
 	description={An\index{eigenvector} 
-		eigenvector of a \gls{matrix} $\mathbf{A} \in \mathbb{R}^{\featuredim \times \featuredim}$ 
+		eigenvector of a \gls{matrix} $\mA \in \mathbb{R}^{\featuredim \times \featuredim}$ 
 		is a nonzero \gls{vector} $\vx \in \mathbb{R}^{\featuredim} \setminus \{ \mathbf{0} \}$ 
-		such that $\mathbf{A} \vx = \lambda \vx$ with some \gls{eigenvalue} $\lambda$.
+		such that $\mA  \vx = \lambda \vx$ with some \gls{eigenvalue} $\lambda$.
+            Eigenvectors to the \gls{eigenvalue} $\lambda$ span a \gls{subspace} of $\mathbb{R}^{\featuredim}$,
+            namely the \gls{nullspace} of $\mA  - \lambda \mI$.
 				\\
 		See also: \gls{matrix}, \gls{vector}, \gls{eigenvalue}.},
 	first={eigenvector},
@@ -5092,7 +5148,7 @@ sort={Renyi},
 		 For a \gls{convex} \gls{function} $f(\cdot)$ that is sufficiently \gls{smooth} and a sufficiently 
 		 small \gls{learnrate} $\lrate > 0$, one can verify that $\mathcal{T}^{(f,\lrate)}$ becomes 
 		 a \gls{firmlynonexpansiveop} \cite[Cor. 18.16]{BausckeCombette}. %Moreover, for 
-		 a \gls{strcvx} and \gls{smooth} \gls{function} $f(\cdot)$ and an appropriate choice of \gls{learnrate}, 
+		 A \gls{strcvx} and \gls{smooth} \gls{function} $f(\cdot)$ and an appropriate choice of \gls{learnrate}, 
 		 one can verify that $\mathcal{T}^{(f,\lrate)}$ is a \gls{contractop} \cite[Thm. 2.1.14.]{nesterov04}. 
 		 In these cases, \glspl{gdmethod} are instances of a \gls{fixedpointiter} since the 
 		 \gls{operator} $\mathcal{T}^{(f,\lrate)}$ has a \gls{fixedpoint} that coincides with 
@@ -5132,11 +5188,15 @@ sort={Renyi},
 		\eqref{equ_approx_gd_step_dict}, the more progress the update will make toward reducing the 
 		\gls{function} value $f(\widehat{\weights})$. Note that, much like the \gls{gradient} 
 		step \eqref{equ_def_gd_basic_dict}, the update \eqref{equ_approx_gd_step_dict} also 
-		defines an \gls{operator} that is parameterized by the \gls{function} $f(\cdot)$ and 
+		%defines an \gls{operator} that is parameterized by the \gls{function} $f(\cdot)$ and 
+            defines an \gls{operator} that depends on the \gls{function} $f(\cdot)$ and on
+            % avoiding to say "parameterized by a function", which seems somewhat unusual, as "paramters" usually refer
+            % to tunable scalars; 
+            % as a remark/question: $f(\cdot)$ or just the simple $f$ to denote a function?
 		the \gls{learnrate} $\lrate$. For a \gls{convex} \gls{function} $f(\cdot)$, 
 		this \gls{operator} is known as the \gls{proxop} of $f(\cdot)$ \cite{ProximalMethods}. 
 					\\ 
-		See also: \gls{differentiable}, \gls{gradient}, \gls{stepsize}, \gls{proxop}.},
+		See also: \gls{differentiable}, \gls{gradient}, \gls{sgd}, \gls{fixedpointeq}, \gls{stepsize}, \gls{proxop},                      \gls{fixedpointeq}.},
 	first={gradient step},
 	type=math,
 	firstplural={gradient steps},
@@ -5201,7 +5261,8 @@ sort={Renyi},
 			\draw[rounded corners=0.04cm] (0.50,0.36)--(0.50,0.36)--(0.50,0.36)--cycle;
 			%\node[anchor=west] at (1.05,0.85) {\small contour lines of $\phi$};
 			\end{tikzpicture}
-		\caption{Contour lines of a \gls{convex} \gls{function} $\phi(\cdot)$ defined on a 
+		\caption{Contour lines $\{\weights \in \paramspace \, : \, \phi(\weights) = c\}$ for different values of $c \in \mathbb{R}$ 
+                of a \gls{convex} \gls{function} $\phi(\cdot)$ defined on a 
 			\gls{convex} set $\paramspace$. The density of the contour lines can be used 
 			to steer the \gls{learnrate} used in a \gls{gradstep}, i.e., if the 
 			current \gls{modelparam} lies in a region with dense contour lines, 
@@ -5214,7 +5275,7 @@ sort={Renyi},
 		\big(\weights-\weights'\big). 
 		\]
 		which can be interpreted as a squared \gls{norm} of the displacement 
-		$\weights-\weights'$ induced by $\nabla^{2}\phi(\weights')$.
+		$\weights-\weights'$ induced by the \gls{hessian} $\nabla^{2}\phi(\weights')$.
 		\\
 		See also: \gls{gradstep}, \gls{proxop}.},
 	first={Bregman divergence},
@@ -5272,7 +5333,11 @@ sort={Renyi},
 			\draw[->,line width=1pt] (-1, -1) -- (9, -1) node[below] {$\eigval{2}$};
 			% Ticks on the horizontal axis
 			\draw[thick] (0, -0.8) -- (0, -1.2) node[below] {{$\eigval{2}\!=\!0$}};
-			\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\eigval{2}\!=\!\nrnodes$};
+			%\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\eigval{2}\!=\!\nrnodes$};
+                \draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\eigval{2}\!=\! 3$};
+                % }\!=\!\nrnodes = 3 in this specific case
+                \draw[thick] (3.5, -0.8) -- (3.5, -1.2) node[below] {$\eigval{2}\!=\! 1$};
+                % could make sense to add this explicitly for the second example, too
 			% Left graph (single edge)
 			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
 			\node[above=0.5cm of A1, align=center] {\mbox{disconnected}};
@@ -5581,9 +5646,9 @@ sort={Renyi},
 \newglossaryentry{denautoencoder}
 {name={denoising autoencoder},
 	description={A denoising\index{denoising autoencoder} \gls{autoencoder} extends the basic 
-		\gls{autoencoder} by perturbing (e.g., by adding noise to) 
+		\gls{autoencoder} by perturbing (e.g., by intentionally adding noise to) 
 		the \gls{inputvec} (or \gls{featurevec}) before feeding it 
-		into the \gls{autoencoder} itself \cite[Sec. 14.2.2]{Goodfellow-et-al-2016}.
+		into the \gls{autoencoder} itself during the \gls{training} \cite[Sec. 14.2.2]{Goodfellow-et-al-2016}.
 		Once trained, we can use a denoising \gls{autoencoder} to 
 		denoise a corrupted representation of a \gls{datapoint} (see Fig.\ \ref{fig:clean-noisy_dict}).   
 		\begin{figure}[H]
@@ -5710,7 +5775,7 @@ sort={Renyi},
 	description={Every \gls{norm} $\normgeneric{\cdot}{}$ defined on a \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$ 
 		has an associated dual \gls{norm}\index{dual norm}, which is denoted by $\normgeneric{\cdot}{*}$ and defined as 
 		$\normgeneric{\vy}{*} \defeq \sup_{\norm{\vx}{} \le 1} \vy\,^{T} \vx$. 
-		The dual \gls{norm} measures the largest possible inner product between $\vy$ 
+		The dual \gls{norm} measures the largest possible \gls{inner product} between $\vy$ 
 		and any \gls{vector} in the unit ball of the original \gls{norm}. For further details, see 
 		\cite[Sec.~A.1.6]{BoydConvexBook}.
 					\\ 
