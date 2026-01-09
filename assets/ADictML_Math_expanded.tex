@@ -126,7 +126,7 @@
 		\]
 		where $\overline{(\cdot)}$ denotes complex conjugation.
 		\\
-		See also: transpose, matrix. },
+		See also: transpose, matrix, Hermitian. },
  	first={conjugate transpose},
     	type=math, 
  	text={conjugate transpose}
@@ -199,12 +199,16 @@
 
 \newglossaryentry{basis}
 {name={basis},
-	description={A basis\index{basis} of a vector space $\mathcal{V}$ 
-		is a set of linearly independent vectors $\{{\bf a}^{(1)}, \,\ldots, \,{\bf a}^{(d)}\}$ such 
-		that any vector ${\bf a}\in \mathcal{A}$ can be expressed as a linear combination 
-		of the basis vectors, i.e.,	
-		$$ {\bf a}= \sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} 
-		\quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{d} \in \mathbb{R}. $$
+	description={A basis\index{basis} of a finite-dimensional vector space $\mathcal{V}$ 
+	             is a set of linearly independent vectors $\mathcal{B} = \{{\bf b}^{(1)}, \,\ldots, \,{\bf b}^{(d)}\} 
+                 \subseteq \mathcal{V}$, such that any vector ${\bf v}\in \mathcal{V}$ 
+			     can be expressed as a linear combination of the basis vectors ${\bf b}^{(1)}, \,\ldots, \,{\bf b}^{(d)}$, i.e.,	
+				 $$ {\bf v}= \sum_{j=1}^{d} \alpha_{j} {\bf b}^{(j)} 
+				 \quad \text{ for some } \alpha_{1}, \,\ldots, \,\alpha_{d}. $$
+                 The  scalars $\alpha_{1}, \,\ldots, \,\alpha_{d} $ can be regarded 
+				 as the coordinates of ${\bf v}$ with respect to the basis $\mathcal{B}$. 
+				 Any basis of $\mathcal{V}$ has the same number $d$ of elements, 
+				 which is the dimension of $\mathcal{V}$.
 			\\
 		See also: vector space, linearly independent, vector. },
 	text={basis}, 
@@ -826,6 +830,9 @@
 }
 
 \newglossaryentry{continuous}
+% This is perfectly fine, of course, to give the epsilon-delta-definition of continuity. The (equivalent) definition using  
+% limits is perhaps though easier to understand, so it could be an alternative and could at least be briefly mentioned - 
+% but  of course, just a remark, perfectly fine as it is.
 {name={continuous}, 
 	description={A function\index{continuous} $f: \mathbb{R}^{d} \to \mathbb{R}$ is 
 		continuous at a point ${\bf x}' \in \mathbb{R}^{d}$ if, for 
@@ -1409,10 +1416,11 @@
 		real-valued random variable (RV) $x$ with probability density function (pdf) \cite{BertsekasProb}, \cite{papoulis}, \cite{GrayProbBook}
 		\begin{equation}
 			\nonumber
-			p(x) = \frac{1}{\sqrt{2\pi}} \exp\,(-x^2/2). 
+			p^{(x)}\left(\eta\right) = \frac{1}{\sqrt{2\pi}} \exp\,(-\eta^2/2). 
 		\end{equation}
 		Given a standard Gaussian random variable (RV) $x$, we can construct a general Gaussian 
-		random variable (RV) $x'$ with mean $\mu$ and variance $\sigma^2$ via $x' :=\sigma x + \mu$. 
+		random variable (RV) $x'$ with mean $\mu$ and variance $\sigma^2$ via 
+            $x' :=\sigma x+ \mu$. 
 		The probability distribution of a Gaussian random variable (RV) is referred to as normal distribution, 
 		denoted by $\mathcal{N}\left(\mu,\sigma^{2}\right)$. 
 		\\ 
@@ -1426,8 +1434,8 @@
 		The probability distribution of a Gaussian random vector is referred to as the multivariate normal distribution, 
 		denoted by $\mathcal{N}\left(\bm \mu,\mathbf{C}\right)$.
 		\\
-		We can interpret a Gaussian random vector ${\bf x}=\big(\feature_{1},\,\ldots,\,\feature_{d}\big)$ as a stochastic process 
-		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,d\}$. A GPs is a 
+		We can interpret a Gaussian random vector ${\bf x}=\big(\feature_{1},\,\ldots,\,\feature_{d}\big)^{T}$ as a stochastic process 
+		indexed by the set $\mathcal{I}=\{1,\,\ldots,\,d\}$. A GP is a 
 		stochastic process over an arbitray index set $\mathcal{I}$ such that any restriction 
 		to a finite subset $\mathcal{I}' \subseteq \mathcal{I}$ yields a Gaussian 
 		random vector \cite{Rasmussen2006Gaussian}.
@@ -1470,6 +1478,9 @@
 		\[
 		s^{(m)} :=\frac{1}{\sqrt{m}} \sum_{r= 1}^{m} x^{(r)} 
 		\]
+            %%% Should "convergence in distribution" be defined here? Or in a separate entry along with other notions of 
+            %%% convergence of random variables? Possibly either way would be ok, it depends how much technical details
+            %%% the dictionary is supposed to cover.
 		converges in distribution to a Gaussian random variable (Gaussian RV) with mean zero and variance \( \sigma^2 \) as \( m\to \infty \) \cite[Proposition~2.17]{AsympVanderVaartBook}.
 		One elegant way to derive the CLT is via the characteristic function of the normalized sum \( s^{(m)} \). 
 		Let $ \phi(t) = \mathbb{E} \big\{ \exp \big( j t x\big) \big\}$ (with the imaginary unit $j = \sqrt{-1}$) 
@@ -2081,8 +2092,10 @@ plural={medians},
 		with a probability density function (pdf) $p^{(x)}\left(\cdot\right)$, the differential entropy 
 		is defined as \cite{coverthomas}
 		\[
-		h({\bf x}) :=- \int_{{\bf x}' \in \mathbb{R}^{d}} \log p({\bf x}') \, d p^{({\bf x})}\left({\bf x}'\right) .
-		\]
+		h({\bf x}) :=- \int_{{\bf x}' \in \mathbb{R}^{d}} 
+            %\log p(\featurevec') \, d \pdf{\featurevec}{\featurevec'} .
+		\log p({\bf x}') p^{({\bf x})}\left({\bf x}'\right) \, d {\bf x}'.
+            \]
 		Differential entropy can be negative and lacks some properties of 
 		entropy for discrete-valued random variables (RVs), such as invariance under 
 		a change of variables \cite{coverthomas}. Among all random variables (RVs) with a 
@@ -2509,7 +2522,7 @@ plural={medians},
 \newglossaryentry{conditionalexpect}
 {name={conditional expectation}, 
 	description={Consider a numeric random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ defined on a 
-                 probability space $\mathcal{P}=(\Omega,\,\mathcal{F},\,\mathbb{P})$. 
+                 probability space $(\Omega,\,\Sigma,\,\mathbb{P})$. 
                  Let $\Sigma' \subseteq \Sigma$ be a (sub-)$\sigma$-algebra that 
                  represents partial information about the outcome of a random experiment. 
                  The conditional expectation\index{conditional expectation} of 
@@ -2522,7 +2535,7 @@ plural={medians},
     		\int_{\mathcal{A}} \mathbb{E} \{{\bf x}\mid \Sigma'\} {\rm d} \mathbb{P}=
     		\int_{\mathcal{A}} {\bf x}{\rm d} \mathbb{P}\quad \text{for any } \mathcal{A} \in \Sigma'.
 		$$
-               	Intuitively, $\mathbb{E} \{{\bf x}\mid \mathcal{F}'\}$ summarizes 
+               	Intuitively, $\mathbb{E} \{{\bf x}\mid \Sigma'\}$ summarizes 
                	the average value of ${\bf x}$ using only information contained 
                	in the (typically smaller) $\sigma$-algebra $\Sigma'$ 
 		\cite{BillingsleyProbMeasure}, \cite{GrayProbBook}, \cite{ross2013first}. 
@@ -2885,7 +2898,7 @@ sort={sigma-field},
  	 	In particular,   
  		\begin{equation}
            		\nonumber
-			\mathbb{P}\left(\big|x - \mu \big| \geq \eta \right) \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for some } \eta > 0.
+			\mathbb{P}\left(\big|x - \mu \big| \geq \eta \right) \leq \frac{\sigma^2}{\eta^2} \qquad \mbox{ for any } \eta > 0.
             		%\label{eq:chebyshevsinequality_dict}
      		\end{equation}
  		This upper bound can be obtained by applying Markov's inequality to 
@@ -3339,9 +3352,17 @@ sort={sigma-field},
 			% Replace the foreach loop by:
 			\fill (0,1.0000) circle (1.2pt) node [right] {$x^{(1)}$};
 			\fill (1,1.5000) circle (1.2pt);
-			\fill (2,1.4167) circle (1.2pt);
-			\fill (3,1.4142) circle (1.2pt);
-			\fill (4,1.41421) circle (1.2pt);
+			% \fill (2,1.4167) circle (1.2pt);
+			% \fill (3,1.4142) circle (1.2pt);
+			% \fill (4,1.41421) circle (1.2pt);
+			% \fill (5,1.4142136) circle (1.2pt);
+			% \fill (6,1.41421356) circle (1.2pt);
+                %%% minor adaption of figure - by "naked eye" the final values of the sequence are hard to distinguish from 
+                %%% the limit \sqrt{2}. In this way, it is illustrated more clearly that this doesn't need to be the case for convergence.
+                %%% furthermore, it also avoids the illusion of monotonicity, by including jumps above and below the limit.
+                \fill (2,1.45) circle (1.2pt);
+			\fill (3,1.39) circle (1.2pt);
+			\fill (4,1.41) circle (1.2pt);
 			\fill (5,1.4142136) circle (1.2pt);
 			\fill (6,1.41421356) circle (1.2pt);
 			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
@@ -3364,7 +3385,7 @@ sort={sigma-field},
 			Note that the sequence does not converge in $\mathbb{Q}$, 
 			since $\sqrt{2} \notin \mathbb{Q}$ \cite[Example 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}}
 		\end{figure}
-		See also: sequence, metric space. }, 
+		See also: sequence, metric space, convergence. }, 
 	type=math,
 	first={Cauchy sequence},
 	text={Cauchy sequence},
@@ -3434,7 +3455,8 @@ sort={sigma-field},
 \newglossaryentry{fixedpointiter}
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method 
-	     	for solving an optimization problem. It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
+	    for solving a fixed-point equation, which in an machine learning (ML) context often arises from an optimization problem. 
+            It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
 		repeatedly applying an operator $\mathcal{F}$, i.e., 
 		\begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -3508,7 +3530,7 @@ sort={sigma-field},
 			\caption{Example of a non-expansive operator $\mathcal{F}^{(1)}$, a firmly non-expansive operator 
 				$\mathcal{F}^{(2)}$, and a contractive operator $\mathcal{F}^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: contractive operator, proximal operator.},
+		See also: contractive operator, proximal operator, Bellman operator, policy evaluation, value iteration.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
@@ -3518,14 +3540,17 @@ sort={sigma-field},
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
- description={Given\index{graph of a function} a function $f\!:\!\mathcal{X}\to \mathcal{Y}$, 
+ description={Given\index{graph of a function} a function $f\!:\!\mathcal{X}\to \mathcal{Y}$
+                with domain $\mathcal{X}$ and co-domain $\mathcal{Y}$, 
 			  the graph of $f$ is the subset of $\mathcal{X}\times \mathcal{Y}$ 
 			  defined as
 				\[
 				  \{ ({\bf x},f({\bf x})) : {\bf x}\in \mathcal{X}\,\}.
 				\]
 				The graph of a function provides a geometric representation 
-				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.}, 
+				that is widely used in analysis, topology, and optimization \cite{MunkresTopology2000,RockafellarBook}.
+                    \\ 
+                    See also: epigraph.}, 
 	first={graph},
 	text={graph},
 	type=math, 
@@ -3635,6 +3660,9 @@ sort={sigma-field},
 }
 
 \newglossaryentry{fixedpoint}
+% For most ML applications it is sufficient of course to consider Hilbert spaces, mostly just \R^d, of course. 
+% Still, other % entries in the dictionary are much more general, e.g. Banach's fixed point theorem is formulated 
+% in a general setting.
 {name={fixed point},
 	description={Consider some operator $\mathcal{F}: \mathcal{H}\rightarrow \mathcal{H}$ 
 		defined on a Hilbert space $\mathcal{H}$. A 
@@ -3670,10 +3698,10 @@ sort={sigma-field},
 				can be cast in this form. For example, minimizing a smooth convex 
 				function $f$ is equivalent to solving the fixed-point equation 
 				$${\bf w}= \mathcal{F}{\bf w}\mbox{ with }  
-				\mathcal{F}: {\bf w}\mapsto {\bf w}- \eta \nabla f({\bf w})$$. 
+				\mathcal{F}: {\bf w}\mapsto {\bf w}- \eta \nabla f({\bf w}).$$
 				Here, $\eta>0$ can be choosen freely. The above fixed-point 
 				equation is nothing but the zero-gradient condition for the 
-				minimizer of $f$ \cite{BoydConvexBook}. Similarly, one can reforulate the
+				minimizer of $f$ \cite{BoydConvexBook}. Similarly, one can reformulate the
 				 optimality conditions (KKT conditions) of optimization problems with constraints as a 
 				 fixed-point equation \cite{pock_chambolle_2016,BoydConvexBook}}, 
 	type=math, 
@@ -3691,7 +3719,7 @@ sort={sigma-field},
  		Formally, ${\bf A}$ is diagonalizable if there exists an invertible matrix 
 		$\mathbf{P}\in \mathbb{C}^{d\times d}$ such that 
   		\[
-  			{\bf A}= \mathbf{P}{\bf D}\mathbf{P}^{-1}
+  			{\bf A}= \mathbf{P}{\bf D}\mathbf{P}^{-1},
   		\]
 		where ${\bf D}\in \mathbb{C}^{d\times d}$ is a 
  		diagonal matrix whose main diagonal entries are the eigenvalues 
@@ -4034,8 +4062,10 @@ sort={sigma-field},
 			  In particular, ADMM can be used to solve an optimization problem of the form 
 			  \[
 			  \min_{{\bf x}\in \mathbb{R}^{d},{\bf x}' \in \mathbb{R}^{d'}} \; f({\bf x})
-			  + g({\bf x}'), \mbox{ subject to } \mathbf{A} {\bf x}- \mathbf{B}{\bf x}' = {\bf c}.
+			  + g({\bf x}'), \mbox{ subject to } {\bf A}{\bf x}- {\bf B}{\bf x}' = {\bf c},
 			  \]
+              for given matrices ${\bf A}\in \mathbb{R}^{p \times d}$ and ${\bf B}\in \mathbb{R}^{p \times d'}$,
+              and a given vector ${\bf c}\in \mathbb{R}^p$.
 			 }, 
  first={alternating direction method of multipliers (ADMM)},
  type=math,
@@ -4301,13 +4331,80 @@ sort={sigma-field},
 
 \newglossaryentry{boundary}
 {name={boundary},
-   description={Consider\index{boundary} a subset $\mathcal{C} \subseteq \mathbb{R}^n$. The boundary 
-   	                        of $\mathcal{C}$, denoted by $\left| \partial \mathcal{C}\right|$, is the set of all points 
-   	                         ${\bf x}\in \mathbb{R}^n$ such that every open ball centred at ${\bf x}$ intersects 
-   	                         both $\mathcal{C}$ and its complement $\mathbb{R}^n \setminus \mathcal{C}$.},
+   description={Consider\index{boundary} a subset $\mathcal{C} \subseteq \mathbb{R}^n$. 
+                 The boundary of $\mathcal{C}$, denoted by $\partial \mathcal{C}$, is the 
+				 set of all points ${\bf x}\in \mathbb{R}^n$ such that every closed ball 
+                 $\overline{\mathcal{B}}_{\varepsilon}({\bf x}) = \{{\bf y}\in \mathbb{R}^n: \Vert  {{\bf y}- {\bf x}} \Vert \leq \varepsilon\}$ 
+                 of radius $\varepsilon > 0$ centered at ${\bf x}$ intersects both $\mathcal{C}$ 
+				 and its complement $\mathbb{R}^n \setminus \mathcal{C}$.
+                \begin{figure}
+					 \centering
+					 \begin{tikzpicture}[scale=1, >=stealth]
+					 \def\setpath{plot [smooth cycle, tension=0.8] coordinates {(-2, 0.5) (-0.5, 2.2) (1.8, 1.2) (1.5, -1.5) (-1.2, -1.8)}}
+					 \fill[gray!30] \setpath;
+					 \draw[thick, dashed] \setpath;
+					 \coordinate (xPoint) at (1.8, 1.2);
+					 \draw[thin] (xPoint) circle (0.6cm);
+					 \fill (xPoint) circle (2pt);
+					 \node at (-0.2, 0) [font=\large] {$\mathcal{C}$};
+					 \node[right] at ($(xPoint)+(0.1,0)$) {${\bf x}$};
+					 \node (ballLabel) at (2.8, 2.2) {$\mathcal{B}_{\varepsilon}({\bf x})$};
+					 \draw[->, thin] (ballLabel) -- ($(xPoint)+(45:0.6cm)$);
+					 \node[anchor=east] (legendText) at (7.2, 0.0) {boundary $\partial \mathcal{C}$};
+					 \draw[thick, dashed] ($(legendText.west)+(-0.6,0)$) -- ($(legendText.west)+(-0.1,0)$);
+					 \end{tikzpicture}
+                      \caption{Boundary of set $\mathcal{C}$ and an closed ball $\overline{\mathcal{B}}_{\varepsilon}({\bf x})$ around 
+				            ${\bf x}\!\in\!\partial \mathcal{C}$.}
+                \end{figure}
+					Note that the boundary $\partial \mathcal{C}$ 
+					might contain elements do not belong to $\mathcal{C}$ itself. 
+                    The notion of a boundary can be generalized to arbitrary metric spaces, including 
+					an undirected graph with metric given by the length of the shortest path.},
+                             %%% It seems that the command \bd is used to denote the "cluster boundary" in the FL book,
+                             %%% which is not the same as the topological boundary. Instead, simply "\partial" would make 
+                             %%% sense here.   
    	 first ={boundary}, 
    	 type=math,
    	 text={boundary}
+}
+
+ \newglossaryentry{neighborhood}
+ {name={neighborhood},
+ 	description={Consider some metric space $\mathcal{X}$ with metric 
+		$d: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}_{+}$.	
+ 		The\index{neighborhood} neighborhood of a point ${\bf x}\in \mathcal{X}$ 
+ 		is the set of other points having a sufficiently small distance to ${\bf x}$. 
+ 		For example, the $\epsilon$-neighborhood of ${\bf x}$ is defined as
+ 		$$ \{ {\bf x}' \in \mathcal{X}: d({\bf x}, {\bf x}') \leq \epsilon \}.$$
+		If $\mathcal{X}$ is an undirected graph, which is a special case of 
+ 		a metric space, the neighborhood of a node $i\in \mathcal{V}$ 
+ 		is the set of its neighbors.
+ 				\\ 
+ 		See also: metric, neighbor.},
+ 	first={neighborhood},
+	type=math, 
+	firstplural={neighborhoods},
+ 	plural={neighborhoods},
+ 	text={neighborhood} 
+ }
+
+
+\newglossaryentry{metric}
+{name={metric}, plural={metrics},
+	description={A\index{metric} metric is a quantitative measure used to compare objects. 
+	     	In mathematics, a metric measures the distance between two points in a space and must 
+			follow specific rules, i.e., the distance is always nonnegative, zero only if the 
+			points are the same, symmetric, and it satisfies the triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In the context of 
+		machine learning (ML), the term metric refers to a quantitative measure of how well a model performs (somewhat 
+		similar to a loss function). Examples include accuracy, precision, and the average 
+		$0/1$ loss on a test set \cite{BishopBook}, \cite{Goodfellow-et-al-2016}. 
+		The term loss function is typically used in the context of model training, 
+		while the term metric is used in the context of model validation.
+		\\ 
+		See also: accuracy, precision, validation, loss.},
+	first={metric}, 
+	type=math, 
+	text={metric}
 }
 
 \newglossaryentry{lagrangedualfunc}
@@ -4648,9 +4745,9 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
 	description={An upper bound on the probability\index{concentration inequality} that 
-		an random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
+		a random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
 		\\
-		See also: probability, random variable (RV), expectation.}, 
+		See also: probability, random variable (RV), expectation, Markov's inequality, Chebyshev's inequality, Hoeffding's inequality, Chernoff bound.}, 
 	type=math, 
 	first={concentration inequality},
 	firstplural={concentration inequalities},
@@ -4732,9 +4829,11 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 \newglossaryentry{eigenvector}
 {name={eigenvector}, plural={eigenvectors}, 
 	description={An\index{eigenvector} 
-		eigenvector of a matrix $\mathbf{A} \in \mathbb{R}^{d\times d}$ 
+		eigenvector of a matrix ${\bf A}\in \mathbb{R}^{d\times d}$ 
 		is a nonzero vector ${\bf x}\in \mathbb{R}^{d} \setminus \{ \mathbf{0} \}$ 
-		such that $\mathbf{A} {\bf x}= \lambda {\bf x}$ with some eigenvalue $\lambda$.
+		such that ${\bf A}{\bf x}= \lambda {\bf x}$ with some eigenvalue $\lambda$.
+            Eigenvectors to the eigenvalue $\lambda$ span a subspace of $\mathbb{R}^{d}$,
+            namely the nullspace of ${\bf A}- \lambda \mathbf{I}$.
 				\\
 		See also: matrix, vector, eigenvalue.},
 	first={eigenvector},
@@ -5091,7 +5190,7 @@ sort={Renyi},
 		 For a convex function $f(\cdot)$ that is sufficiently smooth and a sufficiently 
 		 small learning rate $\eta> 0$, one can verify that $\mathcal{T}^{(f,\eta)}$ becomes 
 		 a firmly non-expansive operator \cite[Cor. 18.16]{BausckeCombette}. %Moreover, for 
-		 a strongly convex and smooth function $f(\cdot)$ and an appropriate choice of learning rate, 
+		 A strongly convex and smooth function $f(\cdot)$ and an appropriate choice of learning rate, 
 		 one can verify that $\mathcal{T}^{(f,\eta)}$ is a contractive operator \cite[Thm. 2.1.14.]{nesterov04}. 
 		 In these cases, gradient-based methods are instances of a fixed-point iteration since the 
 		 operator $\mathcal{T}^{(f,\eta)}$ has a fixed point that coincides with 
@@ -5131,11 +5230,15 @@ sort={Renyi},
 		\eqref{equ_approx_gd_step_dict}, the more progress the update will make toward reducing the 
 		function value $f(\widehat{{\bf w}})$. Note that, much like the gradient 
 		step \eqref{equ_def_gd_basic_dict}, the update \eqref{equ_approx_gd_step_dict} also 
-		defines an operator that is parameterized by the function $f(\cdot)$ and 
+		%defines an \gls{operator} that is parameterized by the \gls{function} $f(\cdot)$ and 
+            defines an operator that depends on the function $f(\cdot)$ and on
+            % avoiding to say "parameterized by a function", which seems somewhat unusual, as "paramters" usually refer
+            % to tunable scalars; 
+            % as a remark/question: $f(\cdot)$ or just the simple $f$ to denote a function?
 		the learning rate $\eta$. For a convex function $f(\cdot)$, 
 		this operator is known as the proximal operator of $f(\cdot)$ \cite{ProximalMethods}. 
 					\\ 
-		See also: differentiable, gradient, step size, proximal operator.},
+		See also: differentiable, gradient, subgradient descent, fixed-point equation, step size, proximal operator,                      fixed-point equation.},
 	first={gradient step},
 	type=math,
 	firstplural={gradient steps},
@@ -5200,7 +5303,8 @@ sort={Renyi},
 			\draw[rounded corners=0.04cm] (0.50,0.36)--(0.50,0.36)--(0.50,0.36)--cycle;
 			%\node[anchor=west] at (1.05,0.85) {\small contour lines of $\phi$};
 			\end{tikzpicture}
-		\caption{Contour lines of a convex function $\phi(\cdot)$ defined on a 
+		\caption{Contour lines $\{{\bf w}\in \mathcal{W}\, : \, \phi({\bf w}) = c\}$ for different values of $c \in \mathbb{R}$ 
+                of a convex function $\phi(\cdot)$ defined on a 
 			convex set $\mathcal{W}$. The density of the contour lines can be used 
 			to steer the learning rate used in a gradient step, i.e., if the 
 			current model parameter lies in a region with dense contour lines, 
@@ -5213,7 +5317,7 @@ sort={Renyi},
 		\big({\bf w}-{\bf w}'\big). 
 		\]
 		which can be interpreted as a squared norm of the displacement 
-		${\bf w}-{\bf w}'$ induced by $\nabla^{2}\phi({\bf w}')$.
+		${\bf w}-{\bf w}'$ induced by the Hessian $\nabla^{2}\phi({\bf w}')$.
 		\\
 		See also: gradient step, proximal operator.},
 	first={Bregman divergence},
@@ -5271,7 +5375,11 @@ sort={Renyi},
 			\draw[->,line width=1pt] (-1, -1) -- (9, -1) node[below] {$\lambda_{2}$};
 			% Ticks on the horizontal axis
 			\draw[thick] (0, -0.8) -- (0, -1.2) node[below] {{$\lambda_{2}\!=\!0$}};
-			\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\lambda_{2}\!=\!n$};
+			%\draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\eigval{2}\!=\!\nrnodes$};
+                \draw[thick] (7, -0.8) -- (7, -1.2) node[below] {$\lambda_{2}\!=\! 3$};
+                % }\!=\!\nrnodes = 3 in this specific case
+                \draw[thick] (3.5, -0.8) -- (3.5, -1.2) node[below] {$\lambda_{2}\!=\! 1$};
+                % could make sense to add this explicitly for the second example, too
 			% Left graph (single edge)
 			\node[circle, fill=black, inner sep=1.5pt, label=above:{1}] (A1) at (0, 1.5) {};
 			\node[above=0.5cm of A1, align=center] {\mbox{disconnected}};
@@ -5580,9 +5688,9 @@ sort={Renyi},
 \newglossaryentry{denautoencoder}
 {name={denoising autoencoder},
 	description={A denoising\index{denoising autoencoder} autoencoder extends the basic 
-		autoencoder by perturbing (e.g., by adding noise to) 
+		autoencoder by perturbing (e.g., by intentionally adding noise to) 
 		the input vector (or feature vector) before feeding it 
-		into the autoencoder itself \cite[Sec. 14.2.2]{Goodfellow-et-al-2016}.
+		into the autoencoder itself during the training \cite[Sec. 14.2.2]{Goodfellow-et-al-2016}.
 		Once trained, we can use a denoising autoencoder to 
 		denoise a corrupted representation of a data point (see Fig.\ \ref{fig:clean-noisy_dict}).   
 		\begin{figure}[H]
