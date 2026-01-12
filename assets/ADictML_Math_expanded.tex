@@ -747,15 +747,25 @@
 	text={halfspace}
 }
 
-\newglossaryentry{subspace}
-{name={subspace},
-	description={A subset of a vector space $\mathcal{V}$ is a subspace\index{subspace} of $\mathcal{V}$ if it is also a 
-		vector space with respect to the same operations as $\mathcal{V}$.
-			   \\
-		See also: vector space.},
-	type=math, 
-	first={subspace},
-	text={subspace}
+
+\newglossaryentry{subspace}{name={subspace},description={A subset of a vector space $\mathcal{V}$ is a subspace\index{subspace} of $\mathcal{V}$ if it is also a vector space with respect to the same operations as $\mathcal{V}$. Figure \ref{fig:subspace} illustrates this for the 
+vector space $\mathbb{R}^2$ (over the field $\mathbb{R}$).
+    \begin{figure}[H] 
+	\centering
+        \begin{tikzpicture}[>=stealth,scale=0.9]
+        \draw[->,thick](-2.5,0)--(2.5,0)node[right]{$x$};
+        \draw[->,thick](0,-2.5)--(0,2.5)node[above]{$y$};
+        \draw[ultra thick,blue!70!black](-2.2,-1.1)--(2.2,1.1)node[right]{$\mathcal{U}_1$};
+        \draw[ultra thick,red!70!black](-1,2)--(1,-2)node[below]{$\mathcal{U}_2$};
+        \filldraw[black](0,0)circle(1.5pt)node[anchor=north east]{$\mathbf{0}$};
+        \end{tikzpicture}
+        \caption{Any ${\bf x}\in \mathbb{R}^2$ defines a subspace of $\mathcal{U}_{\bf x}\subset \mathbb{R}^2$ by $\mathcal{U}_{\bf x}= \{ \lambda \cdot {\bf x}\; : \; \lambda \in \mathbb{R}\} \subset \mathbb{R}^2$. For ${\bf x}\neq \mathbf{0}$, this corresponds to straight lines through the origin (illustrated by $\mathcal{U}_1$ and $\mathcal{U}_2$), for the zero vector ${\bf x}=\mathbf{0}$ this leads to the trivial subspace $\{\mathbf{0}\}$ just containing the zero vector. \label{fig:subspace}}
+    \end{figure}
+    See also: vector space, dimension, basis.},
+    type=math,
+    plural={subspaces}
+    first={subspace},
+    text={subspace}
 }
 
 \newglossaryentry{columnspace}
@@ -2324,7 +2334,7 @@ plural={medians},
 }
 
 \newglossaryentry{rv}
-{name={random variable (RV)}, plural={RVs},
+{name={random variable (RV)}, 
  	description={An RV\index{random variable (RV)} is a function that maps the 
 		outcomes of a random experiment to elements of a measurable space 
 		\cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
@@ -4545,21 +4555,28 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 	text={differentiable} 
 }
 
+
 \newglossaryentry{gradient}
 {name={gradient},
 	description={For\index{gradient} a real-valued function 
 		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}: {\bf w}\mapsto f({\bf w})$, 
 		if a vector ${\bf g}$ exists such that 
-		$\lim_{{\bf w}\rightarrow {\bf w}'} {f({\bf w}) - \big(f({\bf w}') + {\bf g}\,^{T} ({\bf w}- {\bf w}') \big) }/{\| {\bf w}- {\bf w}'\|}=0$, 
-		it is referred to as the gradient of $f$ at ${\bf w}'$. If it exists, the gradient is unique and 
-		denoted by $\nabla f({\bf w}')$ or $\nabla f({\bf w})\big|_{{\bf w}'}$ \cite{RudinBookPrinciplesMatheAnalysis}.
-		\\
-		See also: function, vector.},
+		$\lim_{{\bf w}\rightarrow {\bf w}'} {f({\bf w}) - \big(f({\bf w}') + {\bf g}\,^{T} ({\bf w}- {\bf w}') \big)       }/{\| {\bf w}- {\bf w}'\|}=0$, 
+		it is referred to as the gradient of $f$ at ${\bf w}'$. 
+            If it exists, the gradient is unique and denoted by $\nabla f({\bf w}')$ or $\nabla f({\bf w})\big|_{{\bf w}'}$ 
+		\cite{RudinBookPrinciplesMatheAnalysis}.
+            For a differentiable function, the gradient is the vector whose entries are the 
+		partial derivatives of $f$ with respect to each input component, such that 
+		$\nabla f({\bf w}) = [\frac{\partial f}{\partial \feature_1}, \dots, \frac{\partial f}{\partial \feature_{d}}]^T$. 
+		Geometrically, the gradient points in the direction of steepest ascent. \\
+		See also: function, vector, partial derivative, differentiable, gradient-based method, gradient descent (GD), zero-gradient condition,  Hessian.},
 	first={gradient},
 	plural={gradients},
 	type=math, 
 	text={gradient}
 }
+
+
 
 \newglossaryentry{subgradient}
 {name={subgradient}, plural={subgradients},
@@ -4766,6 +4783,77 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 	firstplural={concentration inequalities},
 	plural={concentration inequalities},  
 	text={concentration inequality}
+}
+
+
+\newglossaryentry{covariance}
+{name={covariance}, 
+	description={The\index{covariance} covariance between two real-valued 
+		random variables (RVs) $x$ and $y$, defined on a common probability space, measures their linear 
+		dependence. It is defined as 
+		$$
+		{\rm cov}\left(x,y\right) = \mathbb{E} \big\{ \big(x - \mathbb{E} \{ x\} \big)\big(y - \mathbb{E} \{y\} \big)\big\}.
+		$$
+		A positive covariance indicates that $x$ and $y$ tend to increase together, 
+		while a negative covariance suggests that one tends to increase as the other decreases. 
+		If ${\rm cov}\left(x,y\right) = 0$, the random variables (RVs) are said to be uncorrelated, though not necessarily statistically 
+		independent. See Fig. \ref{fig:covariance-examples_dict} for visual illustrations.
+		\begin{figure}[H]
+			\begin{tikzpicture}
+				% Negative covariance
+				\begin{scope}[shift={(0,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={${\rm cov}\left(x,y\right) <0$},
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {-x + rand});
+					\end{axis}
+					\node at (1.5,-1) {(a)};
+				\end{scope}
+				% Zero covariance
+				\begin{scope}[shift={(5.2cm,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={${\rm cov}\left(x,y\right) =0$}, 
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {rand});
+					\end{axis}
+					\node at (1.5,-1) {(b)};
+				\end{scope}
+				% Positive covariance
+				\begin{scope}[shift={(10.4cm,0)}]
+					\begin{axis}[
+						width=4.5cm, height=4.5cm,
+						title={${\rm cov}\left(x,y\right) > 0$},
+						xlabel={$x$}, ylabel={$y$},
+						xmin=-3, xmax=3, ymin=-3, ymax=3,
+						xtick=\empty, ytick=\empty,
+						axis lines=middle, enlargelimits
+						]
+						\addplot+[only marks, mark=*, samples=50, domain=-2:2] 
+						({x}, {x + rand});
+					\end{axis}
+					\node at (1.5,-1) {(c)};
+				\end{scope}
+			\end{tikzpicture}
+			\caption{Scatter plots illustrating realizations from three different probabilistic models for two 
+				random variables (RVs) with different covariance values. (a) Negative. (b) Zero. (c) Positive.}
+			\label{fig:covariance-examples_dict}
+		\end{figure}
+		See also: probabilistic model, expectation. },
+	first={covariance},
+	text={covariance},
+	type=math
 }
 
 \newglossaryentry{covmtx}
