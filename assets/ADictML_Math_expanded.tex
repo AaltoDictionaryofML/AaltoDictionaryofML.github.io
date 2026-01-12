@@ -104,9 +104,9 @@
 	description={The transpose\index{transpose} of a real-valued matrix is obtained by exchanging 
 		rows and columns. For a matrix ${\bf A}\in \mathbb{R}^{m\times d}$, 
 		its transpose is denoted by ${\bf A}^{T}$ and satisfies 
-		$\big({\bf A}^{T}\big)_{j,j'}=\mA_{featureidx',j}$.
+		$\big({\bf A}^{T}\big)_{j,j'}=\mA_{j',j}$.
 		\\
-		See also: matrix. },
+		See also: matrix, symmetric matrix. },
  	first={transpose},
     	type=math, 
  	text={transpose}
@@ -240,7 +240,7 @@
         				node[midway, below=8pt] {$d\quad (d> m)$};
 			\end{tikzpicture}
 		\end{figure}
-		See also: matrix. },
+		See also: matrix, tall matrix, Johnson--Lindenstrauss lemma (JL lemma), random projection. },
 	text={wide matrix}, 
 	firstplural={wide matrices}, 
 	plural={wide matrices}, 
@@ -355,7 +355,7 @@
         				node[midway, below=8pt] {$d$};
 			\end{tikzpicture}
 		\end{figure}
-		See also: matrix. },
+		See also: matrix, wide matrix. },
 	text={tall matrix}, 
 	firstplural={tall matrices}, 
 	plural={tall matrices}, 
@@ -703,21 +703,23 @@
 
 \newglossaryentry{hyperplane}
 {name={hyperplane},
-	description={A hyperplane\index{hyperplane} is an $(d-1)$-dimensional affine 
+	description={A hyperplane\index{hyperplane} is a $(d-1)$-dimensional affine 
 		subspace of a $d$-dimensional vector space. In the 
 		context of a Euclidean space $\mathbb{R}^{d}$, a 
 		hyperplane is a set of the form
  		\[ 
 		\{ {\bf x}\in \mathbb{R}^d: {\bf w}^\top {\bf x}= b \}
   		\]
-                 where ${\bf w}\in \mathbb{R}^d \setminus \{0\}$ is a normal vector 
-                 and $b \in \mathbb{R}$ is an offset. Such a hyperplane partitions 
+            where ${\bf w}\in \mathbb{R}^d \setminus \{0\}$ is a normal vector 
+            and $b \in \mathbb{R}$ is an offset. Such a hyperplane  divides
+            %partitions 
+            %strictly speaking, this is not a partioning (e.g., exactly of the sets would need to include the boundary
 		$\mathbb{R}^d$ into two halfspaces
-		\[\{ {\bf x}\in \mathbb{R}^d: {\bf w}^\top {\bf x}\leq b \} \quad 
-		\text{and} \quad \{ {\bf x}\in \mathbb{R}^d: {\bf w}^\top {\bf x}\geq b \}.\]
+		\[\{ {\bf x}\in \mathbb{R}^d: {\bf w}^\top {\bf x}> b \} \quad 
+		\text{and} \quad \{ {\bf x}\in \mathbb{R}^d: {\bf w}^\top {\bf x}> b \}.\]
  		Hyperplanes arise as the decision boundaries of linear classifiers.
 		\\
-		See also: subspace, vector space, Euclidean space, decision boundary. },
+		See also: inner product, subspace, vector space, Euclidean space, decision boundary. },
 	first={hyperplane},
 	type=math,
 	plural={hyperplanes}, 
@@ -1085,7 +1087,7 @@
 		Markov chain can be generalized from discrete time (with index set $\mathbb{N}$) 
 		to continuous time (with index set $\mathbb{R}$) \cite{NorrisMarkovChains1997}. 
 		\\ 
-		See also: stochastic process, conditional probability distribution.},
+		See also: stochastic process, Markov decision process (MDP), conditional probability distribution.},
 	first={Markov chain},
 	type=math,
     	text={Markov chain}, 
@@ -1402,7 +1404,7 @@
 
 \newglossaryentry{normaldist} 
 {name={normal distribution}, 
-	description={See\index{normal distribution} Gaussian random variable (Gaussian RV).},
+	description={See\index{normal distribution} Gaussian random variable (Gaussian RV), multivariate normal distribution, central limit theorem (CLT).},
  	first={normal distribution}, 
  	firstplural={normal distributions},
  	plural={normal distributions},
@@ -1543,16 +1545,18 @@
                 outcomes (e.g., survival or death of a patient). Such 
 				a process can be modeled as a random experiment with 
 				sample space $\Omega$ containing all possible outcomes. 
-				The indicator function $\mathbb{I}_{\mathcal{C}}$ of an event 
-				$\mathcal{C}\subseteq \Omega$ is a function defined as \cite{BertsekasProb} 
-				\[\mathbb{I}_{\mathcal{C}}(\omega) = \begin{cases}
-					1, & \text{if } \omega\in \mathcal{C}, \\
-					0, & \text{if } \omega\notin \mathcal{C}.
+				The indicator function $\mathbb{I}_{\mathcal{A}}$ of an event 
+				$\mathcal{A} \subseteq \Omega$ is a function defined as \cite{BertsekasProb} 
+				\[\mathbb{I}_{\mathcal{A}}(\omega) = 
+                        \begin{cases}
+					1, & \text{if } \omega\in \mathcal{A}, \\
+					0, & \text{if } \omega\notin \mathcal{A}.
 					\end{cases}
 				\]
 				The notion of an indicator function is not limited to outcomes of 
-				a random experiment. Utlimately it is just a principled way to 
-				to represent a set $\mathcal{C}$ by a functions $\mathbb{I}_{\mathcal{C}}$ \cite{BoydConvexBook}.}, 
+				a random experiment. Ultimately, it is just a principled way to 
+				represent a set $\mathcal{A}$ by a function $\mathbb{I}_{\mathcal{A}}$ \cite{BoydConvexBook}.
+                    For a probability space $(\Omega, \Sigma, \mathbb{P}\left(\cdot\right))$ and $\mathcal{A} \in \Sigma$, the indicator function $\mathbb{I}_{\mathcal{A}}$ is a random variable (RV) and it holds that $\mathbb{E} \{\mathbb{I}_{\mathcal{A}}\} = \mathbb{P}\left(\mathcal{A}\right)$.}, 
   first={indicator function},
   plural={indicator functions}, 
   type=math, 
@@ -1581,12 +1585,14 @@
 	description={The\index{mean} mean of an random variable (RV) ${\bf x}$, which takes 
  		on values in a Euclidean space $\mathbb{R}^{d}$, is its 
  		expectation $\mathbb{E} \{{\bf x}\}$. It is defined as the Lebesgue 
- 		integral of ${\bf x}$ with respect to the underlying probability distribution $P$ (e.g., 
+ 		integral of ${\bf x}$ with respect to the underlying probability distribution $\mathbb{P}\left(\right)$ (e.g., 
 		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
 		\[
-			\mathbb{E} \{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x}\, \mathrm{d}P({\bf x}).
+                \mathbb{E} \{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x}\, \mathrm{d}P({\bf x}).
 		\]  
-		We also use the term to refer to the average of a finite dataset
+            %%% are we assuming a density function here to keep the presentation simple? 
+            %%% otherwise, P(\vx) is to be interpreted as a "push-forward measure" from the probability space to $\mathbb{R}^{\dimlocalmodel}$?
+		We also use the term to refer to the sample mean of a finite dataset
 		$\mathcal{D}= \left\{ {\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)} \in \mathbb{R}^{d}\right\}$. 
 		However, these two definitions are essentially the same. Indeed, we can use 
 		a dataset to construct a discrete random variable (RV) $\widetilde{{\bf x}}^{(\mathcal{D})}={\bf x}^{(I)}$ on 
@@ -1602,7 +1608,7 @@
 			\mathbb{E} \{{\bf x}\} = \argmin_{{\bf c}\in \mathbb{R}^{d}} 
 			\mathbb{E} \big\{\mleft\lVert {\bf x}- {\bf c}\mright\rVert_{2}^{2}\big \}.
 		\]
-		For the random variable (RV) $\widetilde{{\bf x}}^{(\mathcal{D})}$, associated with a dataset, 
+		For the random variable (RV) $\widetilde{{\bf x}}^{(\mathcal{D})}$, associated with a dataset $\mathcal{D}$, 
 		this optimization problem reduces to empirical risk minimization (ERM) with squared error loss on $\mathcal{D}$. 
 		\\ 
 		See also: random variable (RV), expectation, probability distribution, empirical risk minimization (ERM).}, 
@@ -1945,10 +1951,11 @@ plural={medians},
 			\end{tikzpicture}
 			\end{minipage}
 		\caption{Two equivalent views of a vector ${\bf x}= \big( 2, -1, 3, 0, -2, 1 \big)^{T} \in \mathbb{R}^{6}$.
-			(a) As a numeric array. (b) As a map $j\mapsto x_j$.}
+			(a) As a numeric array. (b) As a map $j\mapsto x_j$, where
+                $j\in \{1, \dots, 6\}$.}
 			\label{fig:vector-function-dual_dict}
 		\end{figure}
-		See also: vector space, Euclidean space, linear map.},
+		See also: vector space, Euclidean space, basis, matrix, linear map.},
 	first={vector},
 	firstplural={vectors},
 	type=math,
@@ -2002,7 +2009,7 @@ plural={medians},
 		$\big(\Omega,\mathcal{F},\mathbb{P}\left(\cdot\right) \big)$, is the collection of all 
 		real-valued random variables (RVs) $x: \Omega\rightarrow \mathbb{R}$ \cite{RudinBook}, \cite{folland1999real}.  
 		\\
-		See also: vector, Euclidean space, linear model, linear map.},
+		See also: vector, basis, Euclidean space, Hilbert space, linear model, linear map.},
 	first={vector space},
 	plural={vector spaces}, 
 	firstplural={vector spaces}, 
@@ -2399,15 +2406,14 @@ plural={medians},
 		\int_{\Omega} |f(x)|\,\mathrm{d}\mu < \infty.
 		\]
 		In this case, the Lebesgue integral $\int_{\Omega} f(x)\,\mathrm{d}\mu$ 
-		is well-defined and finite. An random variable (RV) $x$ defined on the sample space 
+		is well-defined and finite. A random variable (RV) $x$ defined on the sample space 
 		of a probability space $(\Omega, \,\Sigma, \,\mathbb{P})$ 
 		is integrable if 
 		\[
 		\mathbb{E} \{|x|\}
 		= \int_{\Omega} |x(\omega)|\,\mathrm{d}\mathbb{P}< \infty
 		\]
-		which ensures that the expectation $\mathbb{E} \{|x|\}$ 
-		exists and is finite. 
+		which is equivalent to the existence of the expectation $\mathbb{E} \{x\}$ (i.e., it is finite). 
 		\\ 
 		See also: measure space, measure.},
 	first={integrable},
@@ -2466,13 +2472,16 @@ plural={medians},
 	description={The Lebesgue integral\index{Lebesgue integral} 
 		assigns each integrable function 
 		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}$ a number 
-		$\int_{{\bf x}} f({\bf x}) d{\bf x}$ 
+		$\int_{\mathbb{R}^{d}} f({\bf x}) d{\bf x}$ 
 		that is referred to as the integral of $f$. 
 		The integral of $f$ can be interpreted as the volume that 
 		is enclosed by the function $f$ in the space 
-		$\mathbb{R}^{d+1}$. We can compute it be increasingly 
-		accurate approximations by simple functions 
+		$\mathbb{R}^{d+1}$. We can compute it by increasingly 
+		accurate approximations using simple functions 
 		\cite[Ch. 1]{RudinBook}. 
+            %%% Remark: the approach shown here is more similar to the Riemann integral,
+            %%% whereas the Lebesgue integral typically uses a "level set decomposition".
+            %%% Still, not a major issue, as different approaches for multi-dimensional integration exist.
 		\begin{figure}[H]
 			\centering
 			\begin{tikzpicture}[scale=1.5]
@@ -2485,7 +2494,7 @@ plural={medians},
   			\fill[gray!20] (0,0) -- plot[domain=0:3] (\x,{0.5+0.3*\x+0.1*\x*\x}) -- (3,0) -- cycle;
   			% Lower simple function: left-endpoint rectangles for [0,1], [1,2], [2,3]
   			\draw[fill=gray!50,opacity=0.35] (0,0) rectangle (1,0.5);
-  			\node at (0.5,-0.2) {$\mathcal{C}^{(1)}$}; 
+  			%\node at (0.5,-0.2) {$\cluster^{(1)}$}; 
   			\draw[fill=gray!50,opacity=0.35] (1,0) rectangle (2,0.9);
   			\draw[fill=gray!50,opacity=0.35] (2,0) rectangle (3,1.5);
   			% Step lines of the simple function
@@ -2506,7 +2515,7 @@ plural={medians},
 		\end{figure}
  		It is useful to think of the Lebesgue integral as a function that maps 
  		an integrable function $f$ to the value of its integral, 
-		$$ f \mapsto \int_{{\bf x}} f({\bf x}) d{\bf x}.$$ 
+		$$ f \mapsto \int_{\mathbb{R}^{d}} f({\bf x}) d{\bf x}.$$ 
 		The precise definition of this function, whose domain 
 		consists of the integrable functions, is a cornerstone of 
 		measure theory \cite[Ch. 1]{RudinBook}.
@@ -2582,16 +2591,18 @@ plural={medians},
 
 \newglossaryentry{iid}
 {name={independent and identically distributed (i.i.d.)}, 
-	description={A collection of random variables (RVs)\linebreak ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$ is 
+	description={A collection of random variables (RVs)\linebreak ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$ 
+            defined on the same probability space $(\Omega, \Sigma, \mathbb{P}\left(\cdot\right))$ is 
 		referred to as i.i.d.\index{independent and identically distributed (i.i.d.)} 
 		if each ${\bf z}^{(r)}$ follows the same probability distribution, and 
 		the random variables (RVs) are mutually independent. That is, for any collection of 
-		events $\mathcal{A}_1, \,\ldots, \,\mathcal{A}_m$, we have
+		events $\mathcal{A}_1, \,\ldots, \,\mathcal{A}_m\in \Sigma$, we have
        		\[
           		\mathbb{P}\left( {\bf z}^{(1)} \in \mathcal{A}_1, \,\ldots, \,{\bf z}^{(m)} \in \mathcal{A}_{m}\right) 
          		= \prod_{r=1}^{m} \mathbb{P}\left( {\bf z}^{(r)} \in \mathcal{A}_r\right).
          	\]
-				\\
+		Probability theory also guarantees the existence and construction of independent copies of random variables (RVs) 
+            \cite[Theorem 2.19]{klenke2020probability}.\\
 		See also: random variable (RV), probability distribution, event, data point, independent and identically distributed assumption (i.i.d.\ assumption).},
 	first={independent and identically distributed (i.i.d.)},
 	type=math, 
@@ -3784,7 +3795,7 @@ sort={sigma-field},
 {name={unitary matrix},
 	description={A square matrix $\mathbf{U}\in \mathbb{C}^{d\times d}$ 
 		is called unitary\index{unitary matrix} if its conjugate transpose 
-		(or Hermitian transpose) $\mathbf{U}^{H}$ is also its inverse, i.e., if 
+		(or Hermitian transpose) $\mathbf{U}^{H}$ is also its inverse matrix, i.e., if 
  		\[
  			\mathbf{U}^{H} \mathbf{U}= \mathbf{U}\mathbf{U}^{H} = \mathbf{I}.
  		\]
@@ -3823,7 +3834,7 @@ sort={sigma-field},
 		$d({\bf x},{\bf x}') :=\Vert  {{\bf x}- {\bf x}'} \Vert$
 		for all ${\bf x}, {\bf x}' \in \mathcal{X}$.
  		\\
- 		See also: norm, vector, metric space.},
+ 		See also: norm, vector, Hilbert space, metric space.},
  	first={inner product},
  	type=math,
  	text={inner product}
@@ -3907,10 +3918,10 @@ sort={sigma-field},
         		Sequences are fundamental for the study of machine learning (ML) methods, 
         		for instance when describing successive iterates  
         		$\{{\bf w}^{(t)}\}_{t\in \mathbb{N}}$ of an iterative 
-		algorithm. We can also use a sequence to represent an infinite 
-		dataset 
+		algorithm updating a parameter vector. 
+            We can also use a sequence to represent an infinite dataset 
 		$$\mathcal{D}= \big\{ \left( {\bf x}^{(1)},y^{(1)} \right),\,\left( {\bf x}^{(2)},y^{(2)} \right),\,\ldots \big\}.$$ 
-		See also: function, dataset. }, 
+		See also: function, convergence, Cauchy sequence, dataset. }, 
 	first={sequence},
 	text={sequence},
 	type=math, 
@@ -4348,12 +4359,12 @@ sort={sigma-field},
 					 \fill (xPoint) circle (2pt);
 					 \node at (-0.2, 0) [font=\large] {$\mathcal{C}$};
 					 \node[right] at ($(xPoint)+(0.1,0)$) {${\bf x}$};
-					 \node (ballLabel) at (2.8, 2.2) {$\mathcal{B}_{\varepsilon}({\bf x})$};
+					 \node (ballLabel) at (2.8, 2.2) {$\overline{\mathcal{B}}_{\varepsilon}({\bf x})$};
 					 \draw[->, thin] (ballLabel) -- ($(xPoint)+(45:0.6cm)$);
 					 \node[anchor=east] (legendText) at (7.2, 0.0) {boundary $\partial \mathcal{C}$};
 					 \draw[thick, dashed] ($(legendText.west)+(-0.6,0)$) -- ($(legendText.west)+(-0.1,0)$);
 					 \end{tikzpicture}
-                      \caption{Boundary of set $\mathcal{C}$ and an closed ball $\overline{\mathcal{B}}_{\varepsilon}({\bf x})$ around 
+                      \caption{Boundary of set $\mathcal{C}$ and a closed ball $\overline{\mathcal{B}}_{\varepsilon}({\bf x})$ around 
 				            ${\bf x}\!\in\!\partial \mathcal{C}$.}
                 \end{figure}
 					Note that the boundary $\partial \mathcal{C}$ 
@@ -4362,7 +4373,8 @@ sort={sigma-field},
 					an undirected graph with metric given by the length of the shortest path.},
                              %%% It seems that the command \bd is used to denote the "cluster boundary" in the FL book,
                              %%% which is not the same as the topological boundary. Instead, simply "\partial" would make 
-                             %%% sense here.   
+                             %%% sense here. 
+							 %%% AJ: i have now tried to accommodate boundaries in graphs as special case.  
    	 first ={boundary}, 
    	 type=math,
    	 text={boundary}
@@ -4563,12 +4575,13 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 
 \newglossaryentry{strcvx}
 {name={strongly convex},
-	description={A\index{strongly convex} continuously differentiable real-valued 
-		function $f({\bf x})$ is strongly convex with coefficient $\sigma$ if 
+	description={A\index{strongly convex} continuously differentiable 
+		function $f: \mathcal{U} \to \mathbb{R}$ with a domain $\mathcal{U} \subset  \mathbb{R}^d$  is strongly convex with coefficient $\sigma$ if 
 		$f({\bf y}) \geq f({\bf x}) + \nabla f({\bf x})\,^{T} ({\bf y}- {\bf x}) + (\sigma/2) \mleft\lVert {\bf y}- {\bf x}\mright\rVert_{2}^{2}$ 
+            for all ${\bf x}, {\bf y}\in \mathcal{U}$
 		\cite{nesterov04}, \cite[Sec. B.1.1]{CvxAlgBertsekas}.
 					\\ 
-		See also: differentiable, function, convex.},
+		See also: differentiable, function, strictly convex, convex.},
 	first={strongly convex},
 	type=math,
 	text={strongly convex} 
@@ -4576,9 +4589,9 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
 
 \newglossaryentry{strictlyconvex}
 {name={strictly convex},
-	description={A\index{strictly convex} real-valued function $f({\bf x})$ 
-		is strictly convex if, for any two distinct 
-		${\bf x},{\bf y}$ in its domain and any $\lambda\in(0,1)$, it satisfies \cite[Def. 3.1.1]{BoydConvexBook}
+	description={A \index{strictly convex} real-valued function $f: \mathcal{U} \to \mathbb{R}$ 
+            with a domain $\mathcal{U} \subset  \mathbb{R}^d$ is strictly convex, if, for any two distinct 
+		${\bf x},{\bf y}\in \mathcal{U}$ and any $\lambda\in(0,1)$, it satisfies \cite[Def. 3.1.1]{BoydConvexBook}
 		\[
 			f(\lambda{\bf x}+(1-\lambda){\bf y})
 			< \lambda f({\bf x})+(1-\lambda)f({\bf y}).
@@ -4728,7 +4741,7 @@ description={Consider\index{Lagrange dual function} a constrained optimization p
  		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}$ is a measurable 
  		function that takes on only finitely many values. In other words, 
  		$$f({\bf x}) = \sum_{c=1}^{k} \alpha_{c} \mathcal{I}^{(\mathcal{C}^{(c)})}({\bf x})$$ 
- 		where $\mathbb{I}_{\mathcal{C}}$ denotes the indicator function of a 
+ 		where $\mathbb{I}_{\mathcal{C}}$ denotes the indicatorfunc of a 
  		subset $\mathcal{C}\subset \mathbb{R}^{d}$ and 
  		$\alpha_{1},\,\ldots,\,\alpha_{k} \in \mathbb{R}$ are arbitrary coefficients. 
  		The subsets $\mathcal{C}^{(1)},\,\ldots,\,\mathcal{C}^{(k)}$ in the above 
