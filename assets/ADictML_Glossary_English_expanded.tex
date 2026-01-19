@@ -3603,7 +3603,7 @@ sort={k-fold CV},
 		to learn patterns that extend beyond the training set. Most machine learning systems (ML systems)  
 		use empirical risk minimization (ERM) to learn a hypothesis $\hat{h}\in \mathcal{H}$ by minimizing 
 		the average loss over a training set of data points ${\bf z}^{(1)}, \,\ldots, \,{\bf z}^{(m)}$, 
-		which is denoted by $\mathcal{D}^{(\rm train)}$. However, success on the training set does not guarantee success on 
+		which is denoted by $\mathcal{D}^{(\rm t)}$. However, success on the training set does not guarantee success on 
 		unseen data—this discrepancy is the challenge of generalization. \\ To study generalization 
 		mathematically, we need to formalize the notion of ``unseen'' data. A widely used 
 		approach is to assume a probabilistic model for data generation, such as the independent and identically distributed assumption (i.i.d.\ assumption). 
@@ -3613,7 +3613,7 @@ sort={k-fold CV},
 		\[
 		\bar{L} \big( \hat{h}\big) =\expect_{{\bf z}\sim p({\bf z})} \big\{ L(\hat{h}, {\bf z}) \big\}.
 		\]
-		The difference between risk $\bar{L} \big( \hat{h}\big) $ and empirical risk $\widehat{L}\big(\hat{h}|\mathcal{D}^{(\rm train)}\big)$ 
+		The difference between risk $\bar{L} \big( \hat{h}\big) $ and empirical risk $\widehat{L}\big(\hat{h}|\mathcal{D}^{(\rm t)}\big)$ 
 		is known as the generalization gap. Tools from probability theory, such as concentration inequalities 
 		and uniform convergence, allow us to bound this gap under certain conditions \cite{ShalevMLBook}.\\
 		Generalization without probability: Probability theory is one way to study how well a 
@@ -3645,7 +3645,7 @@ sort={k-fold CV},
 		                   	\end{tikzpicture}
 		                   	\caption{Two data points ${\bf z}^{(1)},{\bf z}^{(2)}$ that are used as a training set 
 		                   		to learn a hypothesis $\hat{h}$ via empirical risk minimization (ERM). We can evaluate $\hat{h}$ 
-		                   		outside $\mathcal{D}^{(\rm train)}$ either by an independent and identically distributed assumption (i.i.d.\ assumption) with some underlying probability distribution $p({\bf z})$ 
+		                   		outside $\mathcal{D}^{(\rm t)}$ either by an independent and identically distributed assumption (i.i.d.\ assumption) with some underlying probability distribution $p({\bf z})$ 
 		                   		or by perturbing the data points.}
 		                   	\label{fig:polynomial_fit_dict}
 		      \end{figure}
@@ -3655,12 +3655,53 @@ sort={k-fold CV},
 	text={generalization} 
 }
 
+\newglossaryentry{nonparametric}
+{name={nonparametric}, 
+	description={Nonparametric\index{nonparametric} machine learning (ML) methods do not assume a fixed 
+		model structure with a finite number of model parameters. Instead, 
+		the complexity of the learned hypothesis can grow with the number of data points in the	
+		training set \cite{MLBasics}, \cite{BishopBook}. Examples of nonparametric 
+		machine learning (ML) methods include locally weighted learning (LWL) and Gaussian processes (GPs). 
+				\\
+		See also: locally weighted learning (LWL), Gaussian process (GP), machine learning (ML).}, 
+	first={nonparametric},
+	text={nonparametric} 
+}
+
+\newglossaryentry{knnregression}
+{name={k-nearest neighbors regression (KNNR)},
+	description={KNNR\index{k-nearest neighbors regression (KNNR)} is a widely used instance of 
+		locally weighted learning (LWL) for regression \cite{MLBasics}, \cite{BishopBook}. 
+		To make a prediction for a given data point ${\bf z}$, KNNR identifies the 
+		$k$ data points in the training set that are closest to ${\bf z}$ according 
+		to some metric. The prediction is then obtained as the average of the 
+		labels of these $k$ nearest neighbors. 
+				\\
+	See also: locally weighted learning (LWL), regression, data point, training set.}, 
+	first={k-nearest neighbors regression (KNNR)},
+	text={KNNR} 
+}
+
+\newglossaryentry{locallyweightedlearning}
+{name={locally weighted learning (LWL)},
+	description={LWL\index{locally weighted learning (LWL)} is a nonparametric machine learning (ML) method 
+		that makes predictions for a given data point ${\bf z}$ based on a 
+		weighted combination of the labels of the data points in the training set. 
+		The weights reflect the similarity between the data point ${\bf z}$ and each 
+		data point in the training set. A widely used instance of LWL is 
+		k-nearest neighbors regression (KNNR) \cite{MLBasics}, \cite{BishopBook}, \cite{LocallyWeightedLearning}.
+				\\
+	See also: nonparametric, k-nearest neighbors regression (KNNR), data point, training set.}, 
+ first={locally weighted learning (LWL)},
+ text={LWL} 
+}
+
 \newglossaryentry{gengap}
 {name={generalization gap}, 
 	description={Generalization gap is the difference\index{generalization gap} 
 		between the performance of a hypothesis $h\in \mathcal{H}$ 
-	  	on the training set $\mathcal{D}^{(\rm train)}$ and its performance 
-	  	on data points outside $\mathcal{D}^{(\rm train)}$. We can make this notion 
+	  	on the training set $\mathcal{D}^{(\rm t)}$ and its performance 
+	  	on data points outside $\mathcal{D}^{(\rm t)}$. We can make this notion 
 	  	precise by using a probabilistic model that allows us to compute 
 	  	the risk (or expected loss) $\bar{L} \big( \hat{h}\big) $ 
 	  	of a hypothesis $h$. 
@@ -3690,7 +3731,7 @@ sort={k-fold CV},
 		\caption{The generalization gap can be defined as 
 			the difference between the 
 			risk $\bar{L} \big( h\big) $ and the average loss (or empirical risk) 
-			$\widehat{L}\big(h|\mathcal{D}^{(\rm train)}\big)$ computed on a training set.}
+			$\widehat{L}\big(h|\mathcal{D}^{(\rm t)}\big)$ computed on a training set.}
 		\end{figure}
 	  	In practice, the probability distribution underlying this expectation is 
 	  	unknown. Thus, we need to estimate the expectation based on 

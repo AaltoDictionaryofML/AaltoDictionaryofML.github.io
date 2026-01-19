@@ -10,13 +10,13 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 <!-- ADICTML_STATS_BEGIN -->
 ## 📘 Dictionary at a Glance
 
-- **Total terms:** 496
-- **Machine Learning Concepts:** 283
+- **Total terms:** 499
+- **Machine Learning Concepts:** 286
 - **Mathematical Tools:** 184
 - **Reinforcement Learning:** 13
 - **Machine Learning Regulation:** 10
 - **Machine Learning Systems:** 6
-- **Last updated:** 2026-01-16
+- **Last updated:** 2026-01-19
 
 <!-- ADICTML_STATS_END -->
 
