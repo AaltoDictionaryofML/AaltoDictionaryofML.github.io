@@ -158,7 +158,7 @@
 		if there is no nontrivial linear combination of these vectors that 
 		equals the zero vector \cite{StrangLinAlg2016}. 
 		In other words, $$\sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} = \mathbf{0}	
-		\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{k} = 0.$$ 
+		\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{d} = 0.$$ 
 			\\ 
 		See also: vector space, vector, dimension, basis.}, 
 	text={linearly independent}, 
@@ -253,7 +253,7 @@
 	 	This set of all possible outcomes is referred to as the sample space of 
 	 	the experiment. The key characteristic of a random experiment is that its 
 	 	outcome is unpredictable (or uncertain). Any measurement or observation 
-	 	of the outcome is an random variable (RV), i.e., a function of the outcome $\omega\in \Omega$. 
+	 	of the outcome is a random variable (RV), i.e., a function of the outcome $\omega\in \Omega$. 
 	 	Probability theory uses a probability space as a mathematical structure for the study of 
 	 	random experiments. A key conceptual property of a random experiment is that it can 
 	 	be repeated under identical conditions. Strictly speaking, repeating a random experiment 
@@ -380,7 +380,7 @@
 				\addlegendentry{$x^{3}$}
 			\end{axis}
 			\end{tikzpicture}
-		\caption{The first few powers of an random variable (RV) $x$. The MGF 
+		\caption{The first few powers of a random variable (RV) $x$. The MGF 
 			encodes the moments of $x$, which are the expectations 
 			of the powers $x^{k}$ for $k=1,\,2,\,\ldots$.}
 		\end{figure}
@@ -806,7 +806,7 @@
 \newglossaryentry{stdnormvec}
 {name={standard normal random vector}, 
 	description={A\index{standard normal random vector} standard normal random vector 
-		is an random variable (RV) ${\bf x}=\big(\feature_{1}, \,\ldots, \,\feature_{d}\big)\,^{T}$ 
+		is a random variable (RV) ${\bf x}=\big(\feature_{1}, \,\ldots, \,\feature_{d}\big)\,^{T}$ 
 		whose entries are independent and identically distributed (i.i.d.) Gaussian random variables (Gaussian RVs) $x_{j} \sim \mathcal{N}(0,1)$. 
 		The probability distribution of a standard normal random vector is a special case 
 		of a multivariate normal distribution ${\bf x}\sim \mathcal{N}(\mathbf{0},\mathbf{I})$.
@@ -1099,7 +1099,7 @@
 		consider an machine learning (ML) application involving a single observed data point 
 		with feature $x\in \mathcal{X}$, where $\mathcal{X}$ 
 		is a finite feature space. The data generation 
-		is modeled via a probabilistic model that consists of an random variable (RV) $x'$ 
+		is modeled via a probabilistic model that consists of a random variable (RV) $x'$ 
 		with probability mass function (pmf) $p^{(x')}\left(\cdot;{\bf w}\right)$. Here, 
 		the actual model parameters ${\bf w}\in \mathcal{W}$—used for the data 
 		generation via sampling from $p^{(x')}\left(\cdot;{\bf w}\right)$—are unknown. A widely 
@@ -1385,7 +1385,7 @@
 		See also: multivariate normal distribution, uncertainty, Gaussian random variable (Gaussian RV).}, 
   	first={Gaussian process (GP)},
 	plural={GPs},
-	firstplural={Gaussian processes (GPs)},	 
+	firstplural={Gaussian processes (GPs)},
   	type=math, 
   	text={GP}
 }
@@ -1546,7 +1546,7 @@
 		a random experiment. Ultimately, it is just a principled way to 
 		represent a set $\mathcal{A}$ by a function $\mathbb{I}_{\mathcal{A}}$ \cite{BoydConvexBook}.
 		For a probability space $(\Omega, \Sigma, \mathbb{P}\left(\cdot\right))$ and $\mathcal{A} \in \Sigma$, 
-		the indicator function $\mathbb{I}_{\mathcal{A}}$ is an random variable (RV) and it holds that 
+		the indicator function $\mathbb{I}_{\mathcal{A}}$ is a random variable (RV) and it holds that 
 		$\mathbb{E} \{\mathbb{I}_{\mathcal{A}}\} = \mathbb{P}\left(\mathcal{A}\right)$.
 		\\
 		See also: outcome, random experiment, function. }, 
@@ -1573,12 +1573,90 @@
 	text={probabilistic model} 
 }
 
+\newglossaryentry{LapMat}
+{name={Laplacian matrix},
+	description={The\index{Laplacian matrix} structure of a graph $\mathcal{G}$, with 
+		nodes $i=1, \,\ldots, \,n$, can be analyzed using the properties of 
+		special matrices that are associated with $\mathcal{G}$. One such matrix is the 
+		graph Laplacian matrix ${\bf L}^{(\mathcal{G})} \in \mathbb{R}^{n\times n}$, 
+		which is defined for an undirected and weighted graph \cite{Luxburg2007}, \cite{Ng2001}. 
+		It is defined elementwise as (see Fig. \ref{fig_lap_mtx_dict})
+		\begin{equation}
+			\nonumber
+			L^{(\mathcal{G})}_{i,i'} :=\begin{cases} - \edgeweight_{i,i'}, & \mbox{ for } i\neq i', \{i,i'\}\!\in\!\mathcal{E}\\ 
+			\sum\limits_{i'' \neq i} \edgeweight_{i,i''}, & \mbox{ for } i= i' \\ 
+							0, & \mbox{ else.} \end{cases}
+	 	\end{equation}
+  		Here, $\edgeweight_{i,i'}$ denotes the edge weight of an edge $\{i,i'\} \in \mathcal{E}$. 
+  		\begin{figure}[H]
+  		\begin{center}
+   		\begin{minipage}{0.45\textwidth}
+		\begin{tikzpicture}
+				%	 				% 		% Left part - Graph
+	 	 		\begin{scope}[every node/.style={circle, draw, minimum size=1cm}]
+	 				\node (1) at (0,0) {1};
+	 				\node (2) [below left=of 1] {2};
+	 				\node (3) [below right=of 1] {3};
+	 				\draw (1) -- (2);
+	 				\draw (1) -- (3);
+	 			\end{scope}
+				\node at (0,-3) {(a)};
+	 	\end{tikzpicture}
+	 	\end{minipage} 
+	 	\hspace*{-15mm}
+ 		\begin{minipage}{0.45\textwidth}
+	 			 \begin{equation} 
+	 				 {\bf L}^{(\mathcal{G})} = \begin{pmatrix} 2 & -1& -1 \\ -1& 1 & 0 \\  -1 & 0 & 1 \end{pmatrix}  
+	 				 \nonumber
+	 			\end{equation} 
+				\begin{minipage}{\textwidth}
+				\vspace{3.5ex}
+				\centering
+				{\selectfont (b)}
+				\end{minipage}
+	 	\end{minipage}
+	 	\caption{\label{fig_lap_mtx_dict} (a) Some undirected graph $\mathcal{G}$ with three nodes $i=1,2,3$. 
+	 		 (b) The Laplacian matrix ${\bf L}^{(\mathcal{G})}  \in \mathbb{R}^{3 \times 3}$ of $\mathcal{G}$.} 
+	 	\end{center}
+	 	\end{figure}
+		See also: graph, matrix, edge weight.},
+	first={Laplacian matrix},
+	type=math, 
+	plural={Laplacian matrices},
+	firstplural={Laplacian matrices},
+	text={Laplacian matrix}
+}
+
+\newglossaryentry{kernelmap}
+{name={kernel (linear map)}, 
+ 	description={See \index{kernel (linear map)} nullspace.},
+ 	first={kernel},
+	type=math, 
+	plural={kernels},
+	firstplural={kernels},
+	text={kernel} 
+}
+
+\newglossaryentry{kld}
+{name={Kullback–Leibler divergence (KL divergence)}, 
+ 	description={The\index{Kullback–Leibler divergence (KL divergence)} KL divergence is a quantitative 
+ 		 measure of how different one probability distribution is from another \cite{coverthomas}.  
+		 		\\
+		See also: probability distribution.},
+ 	first={Kullback–Leibler divergence (KL divergence)},
+	type=math, 
+	plural={KL divergences},
+	firstplural={Kullback–Leibler divergences (KL divergences)},
+	text={KL divergence} 
+}
+
+
 \newglossaryentry{mean}
 {name={mean},
-	description={The\index{mean} mean of an random variable (RV) ${\bf x}$, which takes 
+	description={The\index{mean} mean of a random variable (RV) ${\bf x}$, which takes 
  		on values in a Euclidean space $\mathbb{R}^{d}$, is its 
  		expectation $\mathbb{E} \{{\bf x}\}$. It is defined as the Lebesgue 
- 		integral of ${\bf x}$ with respect to the underlying probability distribution $\mathbb{P}\left(\right)$ (e.g., 
+ 		integral of ${\bf x}$ with respect to the underlying probability distribution $\mathbb{P}\left(\cdot\right)$ (e.g., 
 		see \cite{RudinBookPrinciplesMatheAnalysis} or \cite{BillingsleyProbMeasure}), i.e.,
 		\[
 			\mathbb{E} \{{\bf x}\} = \int_{\mathbb{R}^{d}} {\bf x}\, \mathrm{d}P({\bf x}).
@@ -1593,7 +1671,7 @@
 		chosen uniformly at random, $\mathbb{P}\left(I=r\right)=1/m$ for all 
 		$r=1,\ldots,m$. The mean of $\widetilde{{\bf x}}^{(\mathcal{D})}$ is 
 		precisely the average $({1}/{m}) \sum_{r=1}^{m} {\bf x}^{(r)}$.
-		For an random variable (RV) with finite second-order moment, i.e., 
+		For a random variable (RV) with finite second-order moment, i.e., 
 		$\mathbb{E} \{ \mleft\lVert {\bf x}\mright\rVert_{2}^{2} \}$ is well-defined and fnite, 
 		the mean is characterized as the solution of the 
 		following risk minimization problem \cite{BertsekasProb}:
@@ -1730,7 +1808,7 @@ plural={medians},
    		$\Delta^{k-1}$ is the set of all vectors 
    		in $\mathbb{R}^k$ with nonnegative entries 
  		that sum to one \cite{BoydConvexBook}. Each element of $\Delta^{k-1}$ 
-		represents a probability mass function (pmf) of an random variable (RV) $y \in \{1,\,\ldots,\,k\}$.
+		represents a probability mass function (pmf) of a random variable (RV) $y \in \{1,\,\ldots,\,k\}$.
 		\\
 		See also: probability, vector, probability mass function (pmf), random variable (RV). },
   	first={probability simplex},
@@ -1753,7 +1831,8 @@ plural={medians},
 			\quad \text{for all } {\bf v}\in \mathcal{W}.
 		\end{equation}
 		In other words, the projection error ${\bf w}-{\bf w}^\star$ is orthogonal to the
-		subspace $\mathcal{W}$. 
+		subspace $\mathcal{W}$.  The notion of orthogonality can be extended to general 
+            Hilbert spaces, i.e. vector spaces with inner product.
 		\\
 		See also: vector, projection, Euclidean space.},
 	first={orthogonality condition},
@@ -2090,7 +2169,7 @@ plural={medians},
 \newglossaryentry{entropy}
 {name={entropy},
 	description={Entropy\index{entropy} quantifies the uncertainty or 
-		unpredictability associated with an random variable (RV) \cite{coverthomas}. 
+		unpredictability associated with a random variable (RV) \cite{coverthomas}. 
 		For a discrete random variable (discrete RV) $x$ taking on values in a finite set 
 		$\mathcal{S} = \{x_1, \,\ldots, \,x_k\}$ with 
 		a probability mass function (pmf) $p^{(x)}\left(x_{c}\right) (=\mathbb{P}\left(x = x_{c}\right))$, 
@@ -2198,7 +2277,7 @@ plural={medians},
 
 \newglossaryentry{event}
 {name={event}, 
-	description={Consider\index{event} an random variable (RV) ${\bf x}$, defined on some probability space, 
+	description={Consider\index{event} a random variable (RV) ${\bf x}$, defined on some probability space, 
 		which takes values in a measurable space $\mathcal{X}$. An 
 		event $\mathcal{A} \subseteq \mathcal{X}$ is a subset of $\mathcal{X}$ 
 		such that the probability $\mathbb{P}\left({\bf x}\in \mathcal{A}\right)$ is well 
@@ -2425,7 +2504,7 @@ plural={medians},
 		\int_{\Omega} |f(x)|\,\mathrm{d}\mu < \infty.
 		\]
 		In this case, the Lebesgue integral $\int_{\Omega} f(x)\,\mathrm{d}\mu$ 
-		is well-defined and finite. An random variable (RV) $x$ defined on the sample space 
+		is well-defined and finite. A random variable (RV) $x$ defined on the sample space 
 		of a probability space $(\Omega, \,\Sigma, \,\mathbb{P})$ 
 		is integrable if 
 		\[
@@ -2856,7 +2935,7 @@ sort={sigma-field},
             		%\label{eq:markovsinequality_dict}
     		\end{equation}
     		This inequality can be verified by noting that $\mathbb{P}\left(x \geq a\right)$ is the 
-		expectation $\mathbb{E} \{g(x)\}$ with the function 
+		expectation $\mathbb{E} \{g(x)\}$ with the indicator function 
 	 	$$g: \mathbb{R} \rightarrow \mathbb{R}: x' \mapsto \mathbb{I}_{\{x \geq a\}}(x').$$ 
 	 	As illustrated in Fig. \ref{fig:markovsinequality_dict}, for any positive $a>0$, 
 	 	$$ g(x') \leq x'/a \mbox{ for all } x' \in \mathbb{R}.$$ 
@@ -2991,8 +3070,9 @@ sort={sigma-field},
             		%\label{eq:hoeffding_sum}
         		\end{equation}
     		Hoeffding's inequality typically provides sharper bounds than Chebyshev's inequality, 
-		but it is more restrictive by assuming bounded random variables (RVs).
-    		In the context of machine learning (ML), this result is useful for deriving guarantees for empirical risk minimization (ERM)  and in the context of MAB. 
+		    but it is more restrictive by assuming bounded random variables (RVs).
+    		In the context of machine learning (ML), Hoeffding's inequality can be used 
+			for the analysis of empirical risk minimization (ERM) or MAB methods. 
 		 \\
     		See also: concentration inequality, probability, random variable (RV), Chebyshev's inequality, expectation, probability space, Markov's inequality.},
     	first={Hoeffding's inequality},
@@ -3325,7 +3405,7 @@ sort={sigma-field},
 			% inner product hint
 			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
 			\end{tikzpicture}
-		\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$ 
+		\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$, 
 			the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expansion coefficient for the projection 
 			of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ spanned by ${\bf u}$. 
 			The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this projection.\label{fig_hilbertspace_dict}}
@@ -3866,7 +3946,7 @@ sort={sigma-field},
 		$d({\bf x},{\bf x}') :=\Vert  {{\bf x}- {\bf x}'} \Vert$
 		for all ${\bf x}, {\bf x}' \in \mathcal{X}$.
  		\\
- 		See also: field, norm, vector, Hilbert space, metric space.},
+ 		See also: field, norm, vector, Hilbert space, orthogonality condition, metric space.},
  	first={inner product},
  	type=math,
  	text={inner product}
@@ -4461,7 +4541,7 @@ sort={sigma-field},
 		The notion of a boundary can be generalized to arbitrary metric spaces, including 
 		an undirected graph with a metric given by the length of the shortest path.
 		\\
-		See also: metric space. },
+		See also: metric space, neighborhood. },
                              %%% It seems that the command \bd is used to denote the "cluster boundary" in the FL book,
                              %%% which is not the same as the topological boundary. Instead, simply "\partial" would make 
                              %%% sense here.
@@ -4843,7 +4923,7 @@ sort={sigma-field},
 	description={A\index{simple function} simple function 
  		$f: \mathbb{R}^{d} \rightarrow \mathbb{R}$ is a measurable 
  		function that takes on only finitely many values. In other words, 
- 		$$f({\bf x}) = \sum_{c=1}^{k} \alpha_{c} \mathcal{I}^{(\mathcal{C}^{(c)})}({\bf x})$$ 
+ 		$$f({\bf x}) = \sum_{c=1}^{k} \alpha_{c} \mathbb{I}_{\mathcal{C}^{(c)}}({\bf x})$$ 
  		where $\mathbb{I}_{\mathcal{C}}$ denotes the indicator function of a 
  		subset $\mathcal{C}\subset \mathbb{R}^{d}$ and 
  		$\alpha_{1},\,\ldots,\,\alpha_{k} \in \mathbb{R}$ are arbitrary coefficients. 
@@ -4861,7 +4941,7 @@ sort={sigma-field},
 \newglossaryentry{concentrationinequ}
 {name={concentration inequality}, 
 	description={An upper bound on the probability\index{concentration inequality} that 
-		an random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
+		a random variable (RV) deviates more than a prescribed amount from its expectation \cite{Wain2019}. 
 		\\
 		See also: probability, random variable (RV), expectation, Markov's inequality, Chebyshev's inequality, 
 		Hoeffding's inequality, Chernoff bound.}, 
@@ -4945,7 +5025,7 @@ sort={sigma-field},
 \newglossaryentry{covmtx}
 {name={covariance matrix}, 
 	description={The\index{covariance matrix} covariance matrix of 
-		an random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ is defined as 
+		a random variable (RV) ${\bf x}\in \mathbb{R}^{d}$ is defined as 
 		the expectation (if it exists)
 		$$\mathbf{C}^{({\bf x})} :=\mathbb{E} \bigg \{ \big( {\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)  
 		\big({\bf x}- \mathbb{E} \big\{ {\bf x}\big\} \big)\,^{T} \bigg\}.$$
@@ -5101,7 +5181,7 @@ sort={sigma-field},
 \newglossaryentry{probdist}
 {name={probability distribution}, 
 	description={To\index{probability distribution} analyze machine learning (ML) methods, it can be useful 
-		to interpret data points as independent and identically distributed (i.i.d.) realizations of an random variable (RV). The typical 
+		to interpret data points as independent and identically distributed (i.i.d.) realizations of a random variable (RV). The typical 
 		properties of such data points are then governed by the probability distribution 
 		of this random variable (RV). The probability distribution of a binary random variable (RV) $y\in \{0,1\}$ 
 		is fully specified by the probabilities $\mathbb{P}\left(y= 0\right)$ and 
@@ -5400,7 +5480,7 @@ sort={Renyi},
 		 	 {\bf w}\mapsto {\bf w}- \eta\nabla f({\bf w}).$$ 
 		 For a convex function $f(\cdot)$ that is sufficiently smooth and a sufficiently 
 		 small learning rate $\eta> 0$, one can verify that $\mathcal{T}^{(f,\eta)}$ becomes 
-		 a firmly non-expansive operator \cite[Cor. 18.16]{BausckeCombette}. Moreover, for 
+		 a firmly non-expansive operator \cite[Corollary 18.16]{BausckeCombette}. Moreover, for 
 		 a strongly convex and smooth function $f(\cdot)$ and an appropriate choice of learning rate, 
 		 one can verify that $\mathcal{T}^{(f,\eta)}$ is a contractive operator \cite[Th. 2.1.14]{nesterov04}. 
 		 In these cases, gradient-based methods are instances of a fixed-point iteration, since the 
@@ -5441,12 +5521,12 @@ sort={Renyi},
  {name={mirror descent},
  	description={Mirror descent\index{mirror descent} is an iterative optimization method  
 		obtained by generalizing the gradient step. The 
- 		gradient step for minimizing a differentiable objective function $f({\bf w})$ 
+ 		gradient step for minimizing a differentiable objective function $f:\mathbb{R}^d\to \mathbb{R}$ 
  		can be written as
 		\[
-		{\bf w}^{(k+1)} = \argmin_{{\bf w}}
- 		\langle \nabla f({\bf w}^{(k)}),{\bf w}\rangle
- 		+ \frac{1}{\eta}\mleft\lVert {\bf w}-{\bf w}^{(k)} \mright\rVert_{2}^{2}.
+		{\bf w}^{(k+1)} = \argmin_{{\bf w}\in \mathbb{R}^d}
+ 		\left \langle \nabla f({\bf w}^{(k)}),{\bf w}\right \rangle
+ 		+ \frac{1}{2\eta}\mleft\lVert {\bf w}-{\bf w}^{(k)} \mright\rVert_{2}^{2}.
  		\]
  		Thus, a gradient step minimizes a linearization of $f(\cdot)$ penalized 
  		by a scaled squared Euclidean norm $\frac{1}{\eta}\mleft\lVert {\bf w}-{\bf w}^{(k)} \mright\rVert_{2}^{2}$. 
@@ -5461,14 +5541,15 @@ sort={Renyi},
  		\[
  		{\bf w}^{(k+1)} 
  		= \argmin_{{\bf w}\in \mathcal{W}}
- 		\langle {\bf g}^{(k)},{\bf w}\rangle
+ 		\left \langle \nabla f({\bf w}^{(k)}),{\bf w}\right \rangle
  		+ \frac{1}{\eta} D_{\phi}\big( {\bf w},{\bf w}^{(k)} \big).
  		\]
- 		See also: gradient step, Bregman divergence, proximal operator.},
+ 		See also: gradient step, inner product, zero-gradient condition, Bregman divergence, proximal operator.},
  	first={mirror descent},
  	type=math,
  	text={mirror descent}
  }
+
 
 \newglossaryentry{bregmandivergence}
 {name={Bregman divergence},
@@ -5510,7 +5591,7 @@ sort={Renyi},
 		which can be interpreted as a squared norm of the displacement 
 		${\bf w}-{\bf w}'$ induced by the Hessian $\nabla^{2}\phi({\bf w}')$.
 		\\
-		See also: gradient step, proximal operator.},
+		See also: gradient, gradient step, inner product, proximal operator.},
 	first={Bregman divergence},
 	type=math,
 	text={Bregman divergence}
@@ -6131,8 +6212,20 @@ sort={Renyi},
 
 \newglossaryentry{group}
 {name={group},
-	description={A\index{group} group $(G, \diamond)$ is an algebraic structure \cite[Chap.~1]{artin2016geometric} consisting of a set $G$ and a                 binary operation $\diamond$ which assigns to any two elements $a, b \in G$ another element $a \diamond b \in \mathcal{G}$. For $G$                 to be a group, it must satisfy associativity (i.e., $(a \diamond b) \diamond c = a \diamond (b \diamond c)$ for all $a,b,c \in                     G$), the existence of an identity element $e \in G$ with $a \diamond e = e \diamond a = a$ for all $a \in G$, and the existence of                 an inverse $a^{-1} \in G$ for every element $a \in G$ that satisfies $a^{-1} a = a a^{-1} = e$. A group is called abelian or                       commutative, if $a \diamond b = b \diamond a$ for all $a, b \in G$. Basic examples are the additive group $(\mathbb{R}, +)$  and                   the multiplicative group $(\mathbb{R}\setminus \{0\}, \cdot)$ and similarly, $(\mathbb{C}, +)$ and $(\mathbb{C}\setminus \{0\},                    \cdot)$, respectively, with addition and multiplication on the real (complex) numbers in the usual sense. More complicated group                  structures exist in matrices \cite{artin2016geometric}, such as rotation matrices useful in machine learning (ML) for data augmentation.                 \\
-		   See also: vector space, subspace, inverse matrix, field.},
+	description={A\index{group} group $(G, \diamond)$ is an algebraic structure \cite[Ch.~1]{artin2016geometric} 
+		consisting of a set $G$ and a binary operation $\diamond$ that assigns to any two elements $a, b \in G$ 
+		another element $a \diamond b \in \mathcal{G}$. For $G$ to be a group, it must satisfy associativity 
+		(i.e., $(a \diamond b) \diamond c = a \diamond (b \diamond c)$ for all $a,b,c \in G$), 
+		the existence of an identity element $e \in G$ with $a \diamond e = e \diamond a = a$ for all $a \in G$, 
+		and the existence of an inverse $a^{-1} \in G$ for every element $a \in G$ that satisfies $a^{-1} a = a a^{-1} = e$. 
+		A group is called abelian or commutative if $a \diamond b = b \diamond a$ for all $a, b \in G$. 
+		Basic examples are the additive group $(\mathbb{R}, +)$ and the multiplicative group 
+		$(\mathbb{R}\setminus \{0\}, \cdot)$; similarly, $(\mathbb{C}, +)$ and $(\mathbb{C}\setminus \{0\}, \cdot)$ 
+		are defined using addition and multiplication on the real (complex) numbers in the usual sense. 
+		More complicated group structures exist in matrices \cite{artin2016geometric}, such as rotation matrices 
+		useful in machine learning (ML) for data augmentation.
+		\\
+		See also: vector space, subspace, inverse matrix, field.},
 	first={group},
 	plural={groups},
 	type=math,
@@ -6141,9 +6234,14 @@ sort={Renyi},
 
 \newglossaryentry{field}
 {name={field},
-	description={A\index{field} field $(\mathbb{F}, +, \cdot)$ is an algebraic structure \cite[Chap.~1]{artin2016geometric} generalizing the real          and complex numbers. 
-            Formally, a fields consists of a set $\mathbb{F}$ equipped with two binary operations, an addition $\oplus$ and a multiplication $\odot$, 
-            where $(\mathbb{F}, \oplus)$ is an abelian group with an identity element $0$, and $(\mathbb{F} \setminus \{0\}, \odot)$ is an abelian group with an identity element $1$. Further, it satisfies distributivity, i.e.,  $a \odot (b \oplus c) = (a \odot b) \oplus (a \odot c)$ for all $a, b, c \in \mathbb{F}$. The most common examples are $(\mathbb{R}, +, \cdot)$ and $(\mathbb{C}, +, \cdot)$, with addition and multiplication in the usual sense. Fields provide the set of scalars required to define a vector space. \\
+	description={A\index{field} field $(\mathbb{F}, +, \cdot)$ is an algebraic structure generalizing the real and complex numbers. 
+		Formally, a field consists of a set $\mathbb{F}$ equipped with two binary operations, an addition $\oplus$ 
+		and a multiplication $\odot$, where $(\mathbb{F}, \oplus)$ is an abelian group with an identity element $0$ 
+		and $(\mathbb{F} \setminus \{0\}, \odot)$ is an abelian group with an identity element $1$. 
+		Furthermore, it satisfies distributivity, i.e.,  $a \odot (b \oplus c) = (a \odot b) \oplus (a \odot c)$ for all $a, b, c \in \mathbb{F}$. 
+		The most common examples are $(\mathbb{R}, +, \cdot)$ and $(\mathbb{C}, +, \cdot)$, with addition and multiplication 
+		in the usual sense. Fields provide the set of scalars required to define a vector space. 
+		\\
 		See also: group, vector space, subspace, Euclidean space, inner product.},
 	first={field},
 	plural={fields},
