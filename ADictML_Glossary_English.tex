@@ -1688,16 +1688,28 @@ sort={zerooneloss},
 
 \newglossaryentry{flnetwork}
 {name={federated learning network (FL network)},
-	description={An \gls{fl} network\index{federated learning network (FL network)} is an 
-		undirected weighted \gls{graph}
-		\[
-			\graph = (\nodes,\edges,\mA),
-		\]
-		where nodes $\nodeidx \in \nodes$ represent participating \glspl{device} 
-		and edges $\{\nodeidx,\nodeidx'\} \in \edges$ indicate potential interaction
-		or collaboration. The \glspl{edgeweight} $\edgeweight_{\nodeidx,\nodeidx'} \ge 0$ 
-		quantify the strength of interaction, which may reflect communication capacity, 
-		statistical similarity between \glspl{localdataset}, or both.
+	description={An \gls{fl} network\index{federated learning network (FL network)} is a 
+	             mathematical model for a \gls{flsystem} that consists of inter-connected 
+				 \glspl{device}. These \glspl{device} are represented by the nodes $\nodes$ 
+				 of an undirected weighted \gls{graph}
+				\[
+					\graph = (\nodes,\edges,\mA).
+				\]
+		         An edge $\{\nodeidx,\nodeidx'\} \in \edges$ indicate collaborations 
+				 betweeen two \glspl{device} $\nodeidx, \nodeidx' \in \nodes$. 
+				 The \glspl{edgeweight} $\edgeweight_{\nodeidx,\nodeidx'} > 0$ 
+				 quantify the extent of collaborations, which may be related to a 
+				 communication link capacity, statistical similarity between 
+				 \glspl{localdataset}, or both. Each \gls{device} $\nodeidx \in \nodes$ 
+				 has potentially access to a local \gls{dataset} $\localdataset{\nodeidx}$ and 
+				 might train a local \gls{model} $\localmodel{\nodeidx}$, e.g., using 
+				 \gls{erm}-based methods. Many popular \gls{fl} methods are obtained by 
+				 coupling the training of these local \glspl{model} across the edges of the 
+				 \gls{fl} network \cite{JungFLBook}. This coupling can be implemented in different ways, 
+				 e.g., using a penalty term that enforces similarity between the \glspl{modelparam} 
+				 of neighboring \glspl{device}, or by using the \glspl{prediction} of neighboring 
+				 \glspl{device} to augment the local \glspl{dataset}.
+				 Fig.\ \ref{fig_fl_network_dict} illustrates an \gls{fl} network with four \glspl{device}.
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[
@@ -1723,9 +1735,9 @@ sort={zerooneloss},
 			\draw[edge] (v2) -- node[wlab, pos=0.55, right, xshift=2pt] {$\edgeweight_{2,4}$} (v4);
 			\end{tikzpicture}
 		\caption{An \gls{fl} network with nodes $\nodes=\{\nodeidx_1,\nodeidx_2,\nodeidx_3,\nodeidx_4\}$ 
-			representing four \glspl{device} of an \gls{flsystem}.}
+			representing four \glspl{device} of an \gls{flsystem}. \label{fig_fl_network_dict}}
 		\end{figure}
-		The \gls{fl} network specifies which \glspl{device} can interact and with what strength. 
+		The \gls{fl} network specifies which \glspl{device} can interact and to what extent. 
 	    	\\ 
 		See also: \gls{fl}, \gls{graph}, \gls{device}, \gls{gtvmin}.},
 	first={federated learning network (FL network)},
@@ -4325,7 +4337,7 @@ sort={k-fold CV},
 		$\hypothesis(\featurevec) = \clusteridx'$. The sum of the main 
 		diagonal entries is the number of correctly classified 
 		\glspl{datapoint}, i.e., those for which $\truelabel = \hypothesis(\featurevec)$. 
-		Summing the off-diagonal entries resuls in the total number of \glspl{datapoint} 
+		Summing the off-diagonal entries results in the total number of \glspl{datapoint} 
 		that are misclassified by $\hypothesis$.
 				\\
 		See also: \gls{label}, \gls{labelspace}, \gls{hypothesis}, \gls{matrix}, \gls{classification}.},
@@ -4334,13 +4346,10 @@ sort={k-fold CV},
 }
 \newglossaryentry{precision}
 {name={precision}, 
-	description={Precision\index{precision} is a \gls{metric} commonly used in \gls{binclass}. 
-		It measures the proportion of true positives (i.e., correctly predicted positive \glspl{datapoint}) 
-		among all positively predicted \glspl{datapoint}. In other words, it is the \gls{acc} of the positively predicted \glspl{datapoint}. 
-		Precision can also be extended to multi-class \gls{classification}. \\
-		Precision is rarely used in isolation, as it encourages selecting only the most likely \glspl{datapoint}. % Citation needed?
-		Still, unlike \gls{acc}, precision remains a valid \gls{metric} even with imbalanced \glspl{dataset}. % Citation needed
-		\\ 
+	description={Precision\index{precision} is a \gls{metric} commonly used in \gls{binclass} for 
+	             the assessment of trained \glspl{model}. It measures the proportion of correctly 
+				 predicted \glspl{datapoint} among those with a positive \gls{label} 
+				 \cite{Juba_Le_2019,Rijsbergen1979}. \\ 
 		See also: \gls{metric}, \gls{classification}, \gls{cm}, \gls{recall}.},
 	first={precision}, 
 	text={precision}
@@ -4348,12 +4357,10 @@ sort={k-fold CV},
 
 \newglossaryentry{recall}
 {name={recall}, 
-	description={Recall\index{recall} is a \gls{metric} commonly used in \gls{binclass}. 
-		It is the ratio of true positives (i.e., correctly predicted positive \glspl{datapoint}) to all actual positives (i.e., \glspl{datapoint} 
-		with a positive true \gls{label}). In other words, it tells the proportion of true positives correctly labeled. 
-		Recall can also be extended to multi-class \gls{classification}. \\
-		Recall is not usually used alone, as perfect recall can be achieved by labeling all points as positive. % Citation needed?
-		Still, it is robust against imbalanced \glspl{dataset} unlike, for example, \gls{acc}. 
+	description={Recall\index{recall} is a \gls{metric} commonly used in \gls{binclass} for 
+				 the assessment of trained \glspl{model}. It is the ratio between the number of 
+				 true positives (i.e., correctly predicted positive \glspl{datapoint}) and the number 
+				 of \glspl{datapoint} with a positive \gls{label} \cite{Juba_Le_2019,Rijsbergen1979}. 
 		\\ 
 		See also: \gls{metric}, \gls{classification}, \gls{cm}, \gls{precision}.},
 	first={recall}, 
