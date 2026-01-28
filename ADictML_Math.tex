@@ -154,7 +154,7 @@
 		In other words, $$\sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} = \mathbf{0}	
 		\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{\nrfeatures} = 0.$$ 
 			\\ 
-		See also: \gls{vectorspace}, \gls{vector}, \gls{dimension}, \gls{basis}.}, 
+		See also: \gls{linearlydep}, \gls{vectorspace}, \gls{vector}, \gls{dimension}, \gls{basis}.}, 
 	text={linearly independent}, 
 	type=math,
 	first={linearly independent}  
@@ -1179,15 +1179,16 @@
 \newglossaryentry{contractop}
 {name={contractive operator},
 	description={An\index{contractive operator} \gls{operator} 
-		$\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
+		$\fixedpointop: \mathcal{V} \rightarrow  \mathcal{V}$ on a \gls{normedspace} 
+            $(\mathcal{V}, \normgeneric{\,\cdot \,}{})$
 		is a contraction (or contractive) if, for some $\contractfac \in [0,1)$, 
  	   	\cite{BausckeCombette}, \cite{ProximalMethods}
 		\begin{equation} 
 			\nonumber
-			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq 
-			 \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights' \in \mathbb{R}^{\nrfeatures}.
+			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{}  \leq 
+			 \contractfac	\normgeneric{\weights\!-\!\weights'}{} \mbox{ holds for any } \weights,\weights' \in \mathcal{V}.
 		\end{equation} 
-		The notion of a contractive \gls{operator} generalizes naturally from $\mathbb{R}^{\nrfeatures}$ 
+		The notion of a contractive \gls{operator} generalizes naturally from \glspl{normedspace}
 		to arbitrary \glspl{metricspace} \cite{BausckeCombette}.
 		\begin{figure}[H]
     			\centering
@@ -1236,7 +1237,7 @@
 		Intuitively, a contractive \gls{operator} brings any two points 
 		from its \gls{domain} closer together by at least a factor of $\contractfac$.
 		\\ 
-		See also: \gls{operator}, \gls{metricspace}. },
+		See also: \gls{operator}, \gls{metricspace},  \gls{banachfixedpoint}, \gls{bellmanoperator}. },
 	first={contractive operator},
 	text={contractive operator}, 
 	type=math,
@@ -3545,14 +3546,13 @@ sort={sigma-field},
 \newglossaryentry{nonexpansiveop}
 {name={non-expansive operator},
  	description={An\index{non-expansive operator} \gls{operator} 
-		$\fixedpointop: \hilbertspace \rightarrow \hilbertspace$ defined on a 
-		\gls{hilbertspace} $\hilbertspace$ is called non-expansive if it does 
-		not increase distances. 
-		In other words,  
+		$\fixedpointop: \mathcal{V} \rightarrow \mathcal{V}$ defined on a 
+		\gls{normedspace} $(\mathcal{V}, \normgeneric{\,\cdot \,}{})$ is called non-expansive if it does 
+		not increase distances. In other words,  
  		\begin{equation} 
  			\nonumber
- 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2} 
-			\leq 	\normgeneric{\weights - \weights'}{2} \mbox{ for any } \weights, \weights' \in \hilbertspace. 
+ 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{} 
+			\leq 	\normgeneric{\weights - \weights'}{} \mbox{ for any } \weights, \weights' \in \mathcal{V}. 
  		\end{equation} 
 		Non-expansiveness is typically not sufficient to guarantee \gls{convergence} 
 		of a \gls{fixedpointiter} that uses $\fixedpointop$ (see Fig.\ \ref{fig_nonexpansiveop_dict}).
@@ -3597,7 +3597,8 @@ sort={sigma-field},
 			\leq 	\innerprod{ \weights - \weights'}{ \fixedpointop \weights - \fixedpointop \weights'} 
 			\mbox{ for any } \weights, \weights' \in \hilbertspace. 
  		\end{equation}
-		Any firmly \gls{nonexpansiveop} is necessarily also a \gls{nonexpansiveop} \cite{BausckeCombette}. 
+		By the \gls{cauchyschwarzinequ}, any firmly \gls{nonexpansiveop} is necessarily 
+            also a \gls{nonexpansiveop}. 
 		Every \gls{fixedpointiter} that uses a firmly \gls{nonexpansiveop} converges 
 		to a \gls{fixedpoint} of the \gls{operator} \cite{BausckeCombette}.
 		\\ 
@@ -3613,7 +3614,10 @@ sort={sigma-field},
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point \gls{iteration} is an iterative method 
 	     	 for solving a \gls{fixedpointeq}, which, in an \gls{ml} context, often arises from an \gls{optproblem}. 
-		It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
+		% It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
+		% repeatedly applying an \gls{operator} $\fixedpointop$, i.e.,
+            In case of \glspl{operator} $\fixedpointop: \mathbb{R}^\featuredim \to \mathbb{R}^\featuredim$,
+            it constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ in $\mathbb{R}^\featuredim$ by 
 		repeatedly applying an \gls{operator} $\fixedpointop$, i.e.,
 		\begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -3626,7 +3630,7 @@ sort={sigma-field},
 		with solution $\widehat{\weights}$, there are many different \glspl{operator} 
 		$\fixedpointop$ whose \glspl{fixedpoint} are $\widehat{\weights}$. Clearly, we should use an 
 		\gls{operator} $\fixedpointop$ in \eqref{equ_def_fixed_point_dict} that reduces the 
-		distance to a solution such that
+		distance (with respect to the \gls{euclidnorm}, or another \gls{norm}) to a solution such that
 		\begin{equation} 
 			\nonumber
 			\underbrace{\normgeneric{ \weights^{(\iteridx+1)} - \widehat{\weights}}{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \normgeneric{ \fixedpointop \weights^{(\iteridx)} - \fixedpointop\widehat{\weights}}{2}}  \leq 	\normgeneric{ \weights^{(\iteridx)} - \widehat{\weights}}{2}. 
@@ -3636,7 +3640,7 @@ sort={sigma-field},
 		Furthermore, each \gls{iteration} \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
 		reduce the distance to a solution $\widehat{\weights}$. This requirement can be made precise using 
 		the notion of a \gls{contractop} \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
-		The \gls{operator} $\fixedpointop$ is a \gls{contractop} if, for some $\contractfac \in [0,1)$,
+		The \gls{operator} $\fixedpointop$ is a \gls{contractop} (with respect to the \gls{euclidnorm}) if, for some $\contractfac \in [0,1)$,
 		\begin{equation} 
 			\nonumber
 			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq  \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \mbox{ holds for any } \weights,\weights'.
@@ -3687,13 +3691,14 @@ sort={sigma-field},
 			\caption{Example of a \gls{nonexpansiveop} $\fixedpointop^{(1)}$, a \gls{firmlynonexpansiveop} 
 				$\fixedpointop^{(2)}$, and a \gls{contractop} $\fixedpointop^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: \gls{contractop}, \gls{proxop}, \gls{bellmanoperator}, \gls{policyevaluation}, \gls{valueiteration}.},
+		See also: \gls{contractop}, \gls{banachfixedpoint}, \gls{proxop}, \gls{bellmanoperator}, \gls{policyevaluation}, \gls{valueiteration}.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
 	firstplural={fixed-point iterations}, 
 	plural={fixed-point iterations}
 }
+
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
@@ -4518,16 +4523,15 @@ sort={sigma-field},
 \newglossaryentry{euclidnorm}
 {name={Euclidean norm}, 
 	description={The\index{Euclidean norm} 
-		Euclidean \gls{norm} $\normgeneric{\weights}{2}$ of a \gls{vector} 
-		$$\weights = \big(\weight_{1},\,\ldots,\,\weight_{\nrfeatures} \big) \in
-		\mathbb{R}^{\nrfeatures}$$
+		Euclidean \gls{norm} (or $2$-\gls{norm}, or $\ell_2$-\gls{norm}) $\normgeneric{\weights}{2}$ of a \gls{vector} 
+		$\weights = \big(\weight_{1},\,\ldots,\,\weight_{\nrfeatures} \big) \in \mathbb{R}^{\nrfeatures}$
 		is defined as 
 		$$\normgeneric{\weights}{2} \defeq \sqrt{\sum_{\featureidx=1}^{\nrfeatures}\weight^2_{\featureidx}}.$$ 
 		The Euclidean \gls{norm} is distinct among all \glspl{norm} on $\mathbb{R}^{\nrfeatures}$ in the sense 
 		that it is induced by the \gls{innerproduct} $\vw^{T} \vv$ \cite{RudinBook}, \cite{BoydConvexBook}, \cite{HalmosFiniteDimVecSpace}. 
 		In other words, $\normgeneric{\weights}{2}= \sqrt{\weights^{T} \weights}$.	
 		\\
-		See also: \gls{norm}, \gls{vector}, \gls{euclidspace}. },
+		See also: \gls{norm}, \gls{vector}, \gls{metric}, \gls{euclidspace}, \gls{hilbertspace}. },
 	first={Euclidean norm},
 	type=math,
 	plural={Euclidean norms}, 
@@ -6379,4 +6383,51 @@ sort={Renyi},
 	plural={fields},
 	type=math,
 	text={field}
+}
+
+\newglossaryentry{linearlydep}
+{name={linearly dependent},
+	description={A subset $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\} \in \mathcal{V}$ 
+		of a \gls{vectorspace} $\mathcal{V}$ over a \gls{field} $\mathbb{F}$ is linearly dependent
+            \index{linearly dependent} if it is not \gls{linearlyindep}. 
+            This occurs if there exists a set of scalars $\alpha_1, \ldots, \alpha_{\nrfeatures} \in \mathbb{F}$, 
+		not all equal to zero, such that 
+		$$\sum_{\featureidx=1}^{\nrfeatures} \alpha_{\featureidx} \va^{(\featureidx)} = \mathbf{0}.$$ 
+		Intuitively, this means at least one vector in the set can be expressed as a 
+		(non-trivial) linear combination of the others. \\ 
+		See also: \gls{linearlyindep}, \gls{vectorspace}, \gls{vector}.},
+	text={linearly dependent},
+	type=math,
+	first={linearly dependent}
+}
+
+\newglossaryentry{cauchyschwarzinequ}
+{name={Cauchy-Schwarz inequality},
+	description={For any \glspl{vector} $\featurevec, \featurevec'$ in an \gls{innerproduct} space (i.e., a \gls{hilbertspace}) over the \gls{field} of real or complex numbers, 
+        the Cauchy-Schwarz inequality\index{Cauchy-Schwarz inequality} provides an upper bound on the (squared) absolute value 
+        (on $\mathbb{R}$ or $\mathbb{C}$) of their \gls{innerproduct}. More precisely, it states that
+		\[
+			|\innerprod{\featurevec}{\featurevec'}|^2 \leq \innerprod{\featurevec}{\featurevec} \innerprod{\featurevec'}{\featurevec'}.
+		\]
+		  Using the \gls{norm} defined by the \gls{innerproduct}, this can be expressed equivalently as
+		$|\innerprod{\featurevec}{\featurevec'}| \leq \norm{\featurevec} \norm{\featurevec'}$.
+		Equality holds if and only if $\{\featurevec, \featurevec'\}$ is \gls{linearlydep}. \\
+		See also: \gls{linearlyindep}, \gls{firmlynonexpansiveop}, \gls{euclidspace}, \gls{orthogonalitycondition}.},
+	text={Cauchy-Schwarz inequality},
+	type=math,
+	first={Cauchy-Schwarz inequality}
+}
+
+\newglossaryentry{normedspace}
+{name={normed space},
+	description={A normed space\index{normed space} is a \gls{vectorspace} $\mathcal{V}$ equipped with a \gls{norm}                $\normgeneric{\cdot}{}$. Formally, it is denoted as the pair $(\mathcal{V}, \normgeneric{\cdot}{})$. 
+		Every normed space is a \gls{metricspace} with the induced \gls{metric} defined by 
+		$\metric{\featurevec}{\featurevec'} = \normgeneric{\featurevec - \featurevec'}{}$ 
+		for all $\featurevec, \featurevec' \in \mathcal{X}$. 
+		In \gls{ml}, normed spaces are a common framework for \glspl{featurespace} and \gls{paramspace}, most typically as     the \glspl{euclidspace} $\mathbb{R}^\featuredim$ with the \gls{euclidnorm}.  \\
+		See also: \gls{norm}, \gls{vectorspace}, \gls{metricspace}, \gls{euclidspace}, \gls{hilbertspace}.},
+	text={normed space},
+	type=math,
+	first={normed space},
+	plural={normed spaces}
 }
