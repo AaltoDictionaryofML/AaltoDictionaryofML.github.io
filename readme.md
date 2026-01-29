@@ -28,31 +28,6 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 
 --- 
 
-## 📈 Interactive Term Network
-
-Explore relationships between terms:  
-👉 [**View Glossary Network (HTML)**](./assets/glossary_network.html)
-
-- Terms are color-coded by semantic clusters  
-- Hover for definitions, zoom and pan to explore  
-
---- 
-
-## 🧩 How to Contribute
-
-We warmly welcome contributions from students, researchers, and educators worldwide!  
-Contributions are handled via GitHub using a standard **fork → edit → pull request** workflow:
-
-1. **Fork** the repository to your own GitHub account.  
-2. **Create or edit** entries, translations, or figures in your fork (ideally on a dedicated branch).  
-3. **Commit** your changes with a clear, descriptive message.  
-4. **Open a pull request (PR)** against the main repository, briefly explaining what you added or improved.
-
-Your PR will be reviewed, and we may suggest minor revisions before merging.  
-This process ensures quality, transparency, and proper attribution for all contributors.
-
---- 
-
 ## 🧑‍🤝‍🧑 Authors & Contributors
 
 **Editor-in-Chief:**  
@@ -107,15 +82,21 @@ A formal companion edition will appear in the [*Springer Dictionary of Applied M
 
 ## 🧾 License
 
-This work is licensed under a **Creative Commons Attribution–ShareAlike 4.0 International License**.  
-See [LICENSE](./LICENSE) for details.
+This work, **Aalto Dictionary of Machine Learning**, is licensed under the 
+**Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material for any purpose
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
 
 ---
 
 ## 🧭 Repository Links
 
 - GitHub: [AaltoDictionaryofML.github.io](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)  
-- Zenodo DOI: [10.5281/zenodo.17273736](https://doi.org/10.5281/zenodo.17273736)  
-- Springer MRW: *Dictionary of Applied Machine Learning* (forthcoming)
 
 ---
