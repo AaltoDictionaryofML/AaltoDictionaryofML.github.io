@@ -1248,23 +1248,68 @@
 \newglossaryentry{pseudocontractop}
 {name={pseudocontractive operator},
 	description={A\index{pseudocontractive operator} \gls{operator}
-		$\fixedpointop:\hilbertspace\rightarrow\hilbertspace$ on a \gls{hilbertspace}
-		$\hilbertspace$
-		is called pseudocontractive if
-		\cite{BausckeCombette}
-		\begin{equation}
-			\nonumber
-			\normgeneric{\fixedpointop\weights-\fixedpointop\weights'}{}^{2}
-			\le
-			\normgeneric{\weights-\weights'}{}^{2}
-			+ \normgeneric{(\mathrm{Id}-\fixedpointop)\weights
-			-(\mathrm{Id}-\fixedpointop)\weights'}{}^{2}
-		\end{equation}
-		holds for all $\weights,\weights'\in\hilbertspace$, where
-		$\mathrm{Id}$ denotes the identity \gls{operator}.
-		\\
-		Pseudocontractive \glspl{operator} include \glspl{nonexpansiveop} and \glspl{contractop} as 
-		special cases. 
+				 $\fixedpointop:\hilbertspace\rightarrow\hilbertspace$ on a \gls{hilbertspace}
+				$\hilbertspace$ is called pseudocontractive if \cite{BausckeCombette}
+				\begin{equation}
+				\nonumber
+				\normgeneric{\fixedpointop\weights-\fixedpointop\weights'}{}^{2}
+				\le
+				\normgeneric{\weights-\weights'}{}^{2}
+				+
+				\normgeneric{(\identityop-\fixedpointop)\weights
+				-(\identityop-\fixedpointop)\weights'}{}^{2}
+				\end{equation}
+				holds for all $\weights,\weights'\in\hilbertspace$, where
+				$\identityop$ denotes the identity \gls{operator}.
+				This condition is equivalent to the monotonicity of the \gls{operator}
+				$\identityop-\fixedpointop$ \cite[Example 20.8]{BausckeCombette}.
+				Pseudocontractive \glspl{operator} include \glspl{nonexpansiveop} and \glspl{contractop} as 
+				special cases. 
+				\medskip
+				\noindent
+				\textbf{Example.}
+				Let $\hilbertspace=\mathbb{R}$ and define
+				\[
+				\fixedpointop(\weight)=\weight-\phi(\weight),
+				\]
+				where $\phi:\mathbb{R}\to\mathbb{R}$ is any nondecreasing function.
+				Then $\identityop-\fixedpointop=\phi$ is monotone, and hence
+				$\fixedpointop$ is pseudocontractive \cite{BausckeCombette}.
+				For instance, choosing $\phi(\weight)=\max\{0,\weight\}$ yields a pseudocontractive
+				operator that is neither contractive nor non-expansive.
+				\medskip
+				\noindent
+				\textbf{Alternative meaning \cite{Feyzmahdavian2023AsynchJMLR,ParallelDistrBook}.}
+				In the literature on asynchronous and parallel optimization,
+				an operator $\fixedpointop$ with a \gls{fixedpoint} $\weights^\star$ is called
+				pseudocontractive if there exists $\contractfac\in(0,1)$ such that \cite{Feyzmahdavian2023AsynchJMLR,ParallelDistrBook}
+				\begin{equation}
+				\label{equ_pseudocontractive_Bertsekas_dict}
+				\normgeneric{\fixedpointop\weights-\weights^\star}{}
+				\le
+				\contractfac\,\normgeneric{\weights-\weights^\star}{}
+				\quad\text{for all }\weights\in\hilbertspace.
+				\end{equation}
+				This notion expresses contraction with respect to the \gls{fixedpoint} and
+				implies linear convergence of the corresponding \gls{fixedpointiter}
+				$\weights^{(\iteridx+1)}=\fixedpointop\weights^{(\iteridx)}$ \cite[Proposition 1.2]{ParallelDistrBook}.
+				\medskip
+				\noindent
+				\textbf{Example.}
+				Consider the \gls{operator} $\fixedpointop:\mathbb{R}\to\mathbb{R}$ defined by
+				\[
+				\fixedpointop(\weight)=
+				\begin{cases}
+				\frac12 \weight, & \weight\neq 1,\\
+				0.9, & \weight=1.
+				\end{cases}
+				\]
+				The unique \gls{fixedpoint} is $\weight^\star=0$, and
+				$\lvert\fixedpointop(\weight)-\weight^\star\rvert\le
+				0.9\,\lvert \weight-\weight^\star\rvert$ holds for all $\weight \in\mathbb{R}$,
+				so $\fixedpointop$ is pseudocontractive in the sense of \eqref{equ_pseudocontractive_Bertsekas_dict}.
+				However, $\fixedpointop$ fails to be a \gls{nonexpansiveop}, since arbitrarily small
+				perturbations around $\weight=1$ can produce large changes in $\fixedpointop(\weight)$.
 		\\
 		See also: \gls{operator}, \gls{hilbertspace}, \gls{fixedpoint}.},
 	first={pseudocontractive operator},
