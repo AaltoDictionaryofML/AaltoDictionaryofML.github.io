@@ -160,7 +160,7 @@
 		In other words, $$\sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} = \mathbf{0}	
 		\quad \text{ implies } \quad \alpha_{1} = \alpha_{2} = \ldots = \alpha_{d} = 0.$$ 
 			\\ 
-		See also: vector space, vector, dimension, basis.}, 
+		See also: linearly dependent, vector space, vector, dimension, basis.}, 
 	text={linearly independent}, 
 	type=math,
 	first={linearly independent}  
@@ -1183,15 +1183,16 @@
 \newglossaryentry{contractop}
 {name={contractive operator},
 	description={An\index{contractive operator} operator 
-		$\mathcal{F}: \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}$
+		$\mathcal{F}: \mathcal{V} \rightarrow  \mathcal{V}$ on a normed space 
+            $(\mathcal{V}, \mleft\lVert \,\cdot \, \mright\rVert_{})$
 		is a contraction (or contractive) if, for some $\kappa\in [0,1)$, 
  	   	\cite{BausckeCombette}, \cite{ProximalMethods}
 		\begin{equation} 
 			\nonumber
-			\mleft\lVert  \mathcal{F}{\bf w}\!-\!\mathcal{F}{\bf w}' \mright\rVert_{2}  \leq 
-			 \kappa\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{2} \mbox{ holds for any } {\bf w},{\bf w}' \in \mathbb{R}^{d}.
+			\mleft\lVert  \mathcal{F}{\bf w}\!-\!\mathcal{F}{\bf w}' \mright\rVert_{}  \leq 
+			 \kappa\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{} \mbox{ holds for any } {\bf w},{\bf w}' \in \mathcal{V}.
 		\end{equation} 
-		The notion of a contractive operator generalizes naturally from $\mathbb{R}^{d}$ 
+		The notion of a contractive operator generalizes naturally from normed spaces
 		to arbitrary metric spaces \cite{BausckeCombette}.
 		\begin{figure}[H]
     			\centering
@@ -1240,13 +1241,42 @@
 		Intuitively, a contractive operator brings any two points 
 		from its domain closer together by at least a factor of $\kappa$.
 		\\ 
-		See also: operator, metric space. },
+		See also: operator, metric space,  Banach's fixed-point theorem, Bellman operator. },
 	first={contractive operator},
 	text={contractive operator}, 
 	type=math,
 	firstplural={contractive operators}, 
 	plural={contractive operators}
 }
+
+\newglossaryentry{pseudocontractop}
+{name={pseudocontractive operator},
+	description={A\index{pseudocontractive operator} operator
+		$\mathcal{F}:\mathcal{H}\rightarrow\mathcal{H}$ on a Hilbert space
+		$\mathcal{H}$
+		is called pseudocontractive if
+		\cite{BausckeCombette}
+		\begin{equation}
+			\nonumber
+			\mleft\lVert \mathcal{F}{\bf w}-\mathcal{F}{\bf w}' \mright\rVert_{}^{2}
+			\le
+			\mleft\lVert {\bf w}-{\bf w}' \mright\rVert_{}^{2}
+			+ \mleft\lVert (\mathrm{Id}-\mathcal{F}){\bf w}-(\mathrm{Id}-\mathcal{F}){\bf w}' \mright\rVert_{}^{2}
+		\end{equation}
+		holds for all ${\bf w},{\bf w}'\in\mathcal{H}$, where
+		$\mathrm{Id}$ denotes the identity operator.
+		\\
+		Pseudocontractive operators include non-expansive operators and contractive operators as 
+		special cases. 
+		\\
+		See also: operator, Hilbert space, fixed point.},
+	first={pseudocontractive operator},
+	text={pseudocontractive operator},
+	type=math,
+	firstplural={pseudocontractive operators},
+	plural={pseudocontractive operators}
+}
+
 
 \newglossaryentry{proxop}
 {name={proximal operator},
@@ -3546,14 +3576,13 @@ sort={sigma-field},
 \newglossaryentry{nonexpansiveop}
 {name={non-expansive operator},
  	description={An\index{non-expansive operator} operator 
-		$\mathcal{F}: \mathcal{H}\rightarrow \mathcal{H}$ defined on a 
-		Hilbert space $\mathcal{H}$ is called non-expansive if it does 
-		not increase distances. 
-		In other words,  
+		$\mathcal{F}: \mathcal{V} \rightarrow \mathcal{V}$ defined on a 
+		normed space $(\mathcal{V}, \mleft\lVert \,\cdot \, \mright\rVert_{})$ is called non-expansive if it does 
+		not increase distances. In other words,  
  		\begin{equation} 
  			\nonumber
- 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2} 
-			\leq 	\mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2} \mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
+ 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{} 
+			\leq 	\mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{} \mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{V}. 
  		\end{equation} 
 		Non-expansiveness is typically not sufficient to guarantee convergence 
 		of a fixed-point iteration that uses $\mathcal{F}$ (see Fig.\ \ref{fig_nonexpansiveop_dict}).
@@ -3598,7 +3627,8 @@ sort={sigma-field},
 			\leq 	\langle  {\bf w}- {\bf w}',  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \rangle 
 			\mbox{ for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
  		\end{equation}
-		Any firmly non-expansive operator is necessarily also a non-expansive operator \cite{BausckeCombette}. 
+		By the Cauchy-Schwarz inequality, any firmly non-expansive operator is necessarily 
+            also a non-expansive operator. 
 		Every fixed-point iteration that uses a firmly non-expansive operator converges 
 		to a fixed point of the operator \cite{BausckeCombette}.
 		\\ 
@@ -3614,7 +3644,10 @@ sort={sigma-field},
 {name={fixed-point iteration},
 	description={A\index{fixed-point iteration} fixed-point iteration is an iterative method 
 	     	 for solving a fixed-point equation, which, in an machine learning (ML) context, often arises from an optimization problem. 
-		It constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ by 
+		% It constructs a \gls{sequence} $\weights^{(0)}, \,\weights^{(1)}, \,\ldots$ by 
+		% repeatedly applying an \gls{operator} $\fixedpointop$, i.e.,
+            In case of operators $\mathcal{F}: \mathbb{R}^d\to \mathbb{R}^d$,
+            it constructs a sequence ${\bf w}^{(0)}, \,{\bf w}^{(1)}, \,\ldots$ in $\mathbb{R}^d$ by 
 		repeatedly applying an operator $\mathcal{F}$, i.e.,
 		\begin{equation} 
 		 	\label{equ_def_fixed_point_dict} 
@@ -3627,7 +3660,7 @@ sort={sigma-field},
 		with solution $\widehat{{\bf w}}$, there are many different operators 
 		$\mathcal{F}$ whose fixed points are $\widehat{{\bf w}}$. Clearly, we should use an 
 		operator $\mathcal{F}$ in \eqref{equ_def_fixed_point_dict} that reduces the 
-		distance to a solution such that
+		distance (with respect to the Euclidean norm, or another norm) to a solution such that
 		\begin{equation} 
 			\nonumber
 			\underbrace{\mleft\lVert  {\bf w}^{(t+1)} - \widehat{{\bf w}} \mright\rVert_{2}}_{\stackrel{\eqref{equ_def_fixed_point_dict}}{=} \mleft\lVert  \mathcal{F}{\bf w}^{(t)} - \mathcal{F}\widehat{{\bf w}} \mright\rVert_{2}}  \leq 	\mleft\lVert  {\bf w}^{(t)} - \widehat{{\bf w}} \mright\rVert_{2}. 
@@ -3637,7 +3670,7 @@ sort={sigma-field},
 		Furthermore, each iteration \eqref{equ_def_fixed_point_dict} should also make some progress, i.e., 
 		reduce the distance to a solution $\widehat{{\bf w}}$. This requirement can be made precise using 
 		the notion of a contractive operator \cite{Bauschke:2017}, \cite{fixedpoinIsta}. 
-		The operator $\mathcal{F}$ is a contractive operator if, for some $\kappa\in [0,1)$,
+		The operator $\mathcal{F}$ is a contractive operator (with respect to the Euclidean norm) if, for some $\kappa\in [0,1)$,
 		\begin{equation} 
 			\nonumber
 			\mleft\lVert  \mathcal{F}{\bf w}\!-\!\mathcal{F}{\bf w}' \mright\rVert_{2}  \leq  \kappa\mleft\lVert {\bf w}\!-\!{\bf w}' \mright\rVert_{2} \mbox{ holds for any } {\bf w},{\bf w}'.
@@ -3688,13 +3721,14 @@ sort={sigma-field},
 			\caption{Example of a non-expansive operator $\mathcal{F}^{(1)}$, a firmly non-expansive operator 
 				$\mathcal{F}^{(2)}$, and a contractive operator $\mathcal{F}^{(3)}$. \label{fig_examples_nonexp_dict}}
 		\end{figure} 
-		See also: contractive operator, proximal operator, Bellman operator, policy evaluation, value iteration.},
+		See also: contractive operator, Banach's fixed-point theorem, proximal operator, Bellman operator, policy evaluation, value iteration.},
 	first={fixed-point iteration},
 	text={fixed-point iteration},
 	type=math, 
 	firstplural={fixed-point iterations}, 
 	plural={fixed-point iterations}
 }
+
 
 \newglossaryentry{graphoffunction}
 {name={graph of a function},
@@ -4517,16 +4551,15 @@ sort={sigma-field},
 \newglossaryentry{euclidnorm}
 {name={Euclidean norm}, 
 	description={The\index{Euclidean norm} 
-		Euclidean norm $\mleft\lVert {\bf w}\mright\rVert_{2}$ of a vector 
-		$${\bf w}= \big(\weight_{1},\,\ldots,\,\weight_{d} \big) \in
-		\mathbb{R}^{d}$$
+		Euclidean norm (or $2$-norm, or $\ell_2$-norm) $\mleft\lVert {\bf w}\mright\rVert_{2}$ of a vector 
+		${\bf w}= \big(\weight_{1},\,\ldots,\,\weight_{d} \big) \in \mathbb{R}^{d}$
 		is defined as 
 		$$\mleft\lVert {\bf w}\mright\rVert_{2} :=\sqrt{\sum_{j=1}^{d}w^2_{j}}.$$ 
 		The Euclidean norm is distinct among all norms on $\mathbb{R}^{d}$ in the sense 
 		that it is induced by the inner product ${\bf w}^{T} {\bf v}$ \cite{RudinBook}, \cite{BoydConvexBook}, \cite{HalmosFiniteDimVecSpace}. 
 		In other words, $\mleft\lVert {\bf w}\mright\rVert_{2}= \sqrt{{\bf w}^{T} {\bf w}}$.	
 		\\
-		See also: norm, vector, Euclidean space. },
+		See also: norm, vector, metric, Euclidean space, Hilbert space. },
 	first={Euclidean norm},
 	type=math,
 	plural={Euclidean norms}, 
@@ -6378,4 +6411,51 @@ sort={Renyi},
 	plural={fields},
 	type=math,
 	text={field}
+}
+
+\newglossaryentry{linearlydep}
+{name={linearly dependent},
+	description={A subset $\{{\bf a}^{(1)}, \,\ldots, \,{\bf a}^{(d)}\} \in \mathcal{V}$ 
+		of a vector space $\mathcal{V}$ over a field $\mathbb{F}$ is linearly dependent
+            \index{linearly dependent} if it is not linearly independent. 
+            This occurs if there exists a set of scalars $\alpha_1, \ldots, \alpha_{d} \in \mathbb{F}$, 
+		not all equal to zero, such that 
+		$$\sum_{j=1}^{d} \alpha_{j} {\bf a}^{(j)} = \mathbf{0}.$$ 
+		Intuitively, this means at least one vector in the set can be expressed as a 
+		(non-trivial) linear combination of the others. \\ 
+		See also: linearly independent, vector space, vector.},
+	text={linearly dependent},
+	type=math,
+	first={linearly dependent}
+}
+
+\newglossaryentry{cauchyschwarzinequ}
+{name={Cauchy-Schwarz inequality},
+	description={For any vectors ${\bf x}, {\bf x}'$ in an inner product space (i.e., a Hilbert space) over the field of real or complex numbers, 
+        the Cauchy-Schwarz inequality\index{Cauchy-Schwarz inequality} provides an upper bound on the (squared) absolute value 
+        (on $\mathbb{R}$ or $\mathbb{C}$) of their inner product. More precisely, it states that
+		\[
+			|\langle {\bf x}, {\bf x}' \rangle|^2 \leq \langle {\bf x}, {\bf x}\rangle \langle {\bf x}', {\bf x}' \rangle.
+		\]
+		  Using the norm defined by the inner product, this can be expressed equivalently as
+		$|\langle {\bf x}, {\bf x}' \rangle| \leq \Vert  {{\bf x}} \Vert \Vert  {{\bf x}'} \Vert$.
+		Equality holds if and only if $\{{\bf x}, {\bf x}'\}$ is linearly dependent. \\
+		See also: linearly independent, firmly non-expansive operator, Euclidean space, orthogonality condition.},
+	text={Cauchy-Schwarz inequality},
+	type=math,
+	first={Cauchy-Schwarz inequality}
+}
+
+\newglossaryentry{normedspace}
+{name={normed space},
+	description={A normed space\index{normed space} is a vector space $\mathcal{V}$ equipped with a norm                $\mleft\lVert \cdot \mright\rVert_{}$. Formally, it is denoted as the pair $(\mathcal{V}, \mleft\lVert \cdot \mright\rVert_{})$. 
+		Every normed space is a metric space with the induced metric defined by 
+		$d({\bf x},{\bf x}') = \mleft\lVert {\bf x}- {\bf x}' \mright\rVert_{}$ 
+		for all ${\bf x}, {\bf x}' \in \mathcal{X}$. 
+		In machine learning (ML), normed spaces are a common framework for feature spaces and parameter space, most typically as     the Euclidean spaces $\mathbb{R}^d$ with the Euclidean norm.  \\
+		See also: norm, vector space, metric space, Euclidean space, Hilbert space.},
+	text={normed space},
+	type=math,
+	first={normed space},
+	plural={normed spaces}
 }
