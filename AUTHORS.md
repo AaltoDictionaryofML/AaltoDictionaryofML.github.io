@@ -13,6 +13,7 @@ ORCID: [0000-0001-7538-0990](https://orcid.org/0000-0001-7538-0990)
 - Tommi Flores Ryynänen — Aalto University  
 - Juliette Gronier -- ENS Lyon
 - Salvatore Rastelli — Aalto University  
+- Mikko Seesto — Aalto University  
 ---
 
 The Aalto Dictionary of Machine Learning is developed within the open-source  

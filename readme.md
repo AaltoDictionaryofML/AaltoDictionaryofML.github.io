@@ -40,6 +40,7 @@ Alexander Jung — Associate Professor, Aalto University
 - Tommi Flores Ryynänen — Aalto University  
 - Juliette Gronier — ENS Lyon  
 - Salvatore Rastelli — Aalto University  
+- Mikko Seesto — Aalto University  
 
 Full contributor list: [AUTHORS.md](./AUTHORS.md)
 
