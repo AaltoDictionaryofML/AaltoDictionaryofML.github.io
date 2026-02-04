@@ -54,8 +54,8 @@ The *Aalto Dictionary of Machine Learning (ADictML)* has been partially supporte
   *Research Council of Finland*, Grant No. **349966**
 - **Mathematical Theory of Trustworthy Federated Learning (MATHFUL)**  
   *Research Council of Finland*, Grant No. **363624**
-- **TRUST-FELT – Trustworthy Federated Learning Technologies**  
-  *Jane and Aatos Erkko Foundation*, Finland  
+- **A Mathematical Theory of Federated Learning (TRUST-FELT)**  
+  *Jane and Aatos Erkko Foundation*, Grant No. **A835**
 - **FLAIG – AI Governance in Banking and Insurance**  
   *Business Finland*  
 
