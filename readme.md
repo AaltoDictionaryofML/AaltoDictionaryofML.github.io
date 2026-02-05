@@ -10,13 +10,13 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 <!-- ADICTML_STATS_BEGIN -->
 ## 📘 Dictionary at a Glance
 
-- **Total terms:** 513
-- **Machine Learning Concepts:** 283
+- **Total terms:** 519
+- **Machine Learning Concepts:** 286
 - **Mathematical Tools:** 199
 - **Reinforcement Learning:** 13
+- **Machine Learning Systems:** 11
 - **Machine Learning Regulation:** 10
-- **Machine Learning Systems:** 8
-- **Last updated:** 2026-02-02
+- **Last updated:** 2026-02-04
 
 <!-- ADICTML_STATS_END -->
 
@@ -54,8 +54,8 @@ The *Aalto Dictionary of Machine Learning (ADictML)* has been partially supporte
   *Research Council of Finland*, Grant No. **349966**
 - **Mathematical Theory of Trustworthy Federated Learning (MATHFUL)**  
   *Research Council of Finland*, Grant No. **363624**
-- **TRUST-FELT – Trustworthy Federated Learning Technologies**  
-  *Jane and Aatos Erkko Foundation*, Finland  
+- **A Mathematical Theory of Federated Learning (TRUST-FELT)**  
+  *Jane and Aatos Erkko Foundation*, Grant No. **A835**
 - **FLAIG – AI Governance in Banking and Insurance**  
   *Business Finland*  
 
@@ -73,9 +73,9 @@ and the public ADictML repository.
 
 If you use or refer to ADictML, please cite as:
 
-> Jung, A., Olioumtsevits, K., Schnoor, E., Flores Ryynänen, T., Gronier, J., & Rastelli, S. (2025).  
+> A. Jung and K. Olioumtsevits and E. Schnoor and T. Flores Ryynänen and J. Gronier and S. Rastelli and M. Seesto (2026).  
 > *Aalto Dictionary of Machine Learning (ADictML)*.  
-> Aalto University. DOI: [10.5281/zenodo.17273736](https://doi.org/10.5281/zenodo.17273736)
+> Aalto University. 
 
 A formal companion edition will appear in the [*Springer Dictionary of Applied Machine Learning (MRW)*](https://books.google.fi/books/about/Dictionary_of_Applied_Machine_Learning.html?id=JLGT0QEACAAJ&redir_esc=y).
 
