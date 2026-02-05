@@ -6604,3 +6604,68 @@ sort={Renyi},
 	firstplural={normed spaces},
 	plural={normed spaces}
 }
+
+\newglossaryentry{conjugateprior}
+{name={conjugate prior},
+	description={A prior distribution $p(\theta)$ is \textbf{conjugate} to a likelihood $p(x|\theta)$ if the resulting posterior distribution $p(\theta|x)$ resides in the same functional family as the prior.
+    Exponential Family Likelihood: For a likelihood function expressed in the natural form of the exponential family:
+	This relationship is defined by the fundamental Bayesian update:
+	\begin{equation}
+   		p(\theta | x) \propto p(x | \theta) \, p(\theta)
+	\end{equation}
+	In this general form, conjugacy ensures that the algebraic structure of the \textit{Prior} is preserved after being multiplied by the \textit{Likelihood}. This transforms the difficult task of Bayesian inference into a simple update of the distribution's parameters
+    For example: The Exponential Family Likelihood: For a likelihood function expressed in the natural form of the exponential family:
+    \begin{equation}
+        p(x|\theta) = h(x) \exp \left( \theta^\top T(x) - \psi(\theta) \right)
+    \end{equation}
+    where $\theta$ is the natural parameter, $T(x)$ is the sufficient statistic, and $\psi(\theta)$ is the log-partition function.
+    Conjugate Prior: Given hyperparameters $\alpha$ and $\gamma$, the conjugate prior is defined as:
+    \begin{equation}
+        p(\theta|\alpha, \gamma) \propto \exp \left( \theta^\top \alpha - \gamma \psi(\theta) \right)
+    \end{equation}
+    Posterior Update The resulting posterior distribution is:
+    \begin{equation}
+        \begin{aligned}
+            p(\theta|x, \alpha, \gamma) &\propto p(x|\theta)p(\theta|\alpha, \gamma) \\
+            &\propto \exp \left( \theta^\top [T(x) + \alpha] - [\gamma + 1] \psi(\theta) \right) \\
+            &= p(\theta | T(x) + \alpha, 1 + \gamma)
+        \end{aligned}
+    \end{equation}
+    This demonstrates that the posterior maintains the same form as the prior, with the updated hyperparameters $\alpha' = \alpha + T(x)$ and $\gamma' = \gamma + 1$. 
+	This makes Bayesian updating a simple matter of changing parameters rather than solving complex integrals. \cite{barber2012bayesian} },
+	text={conjugate prior},
+	type=math,
+	first={conjugate prior},
+	firstplural={conjugate priors},
+	plural={conjugate priors}
+}
+\newglossaryentry{exponentialfamily}
+{name={exponential family},
+    description={A family of distributions is said to belong to the exponential family if its  \gls{pdf} or \gls{pmf} takes the form:
+	\begin{equation}
+		p(x|\theta) = h(x) \exp\left( \eta(\theta)^\top T(x) - \psi(\theta) \right) 	
+	\end{equation}
+	where $T(x)$ is the sufficient statistic, $\theta$ is the parameter vector, $\eta(\theta)$ is the natural parameter, 
+	$\psi(\theta)$ is the log-partition function, and $h(x)$ is the base measure.
+	Every member of the exponential family has a \gls{conjugateprior}, making Bayesian updates trivial. 
+	They are a unique family of distributions because they allow for data to be compressed into ``sufficient statistics'' without losing any information about the underlying parameters.
+	For example, the univariate \gls{gaussian} can be rewritten as:
+	\begin{equation}
+        exp \left( \frac{\mu}{\sigma^2} x - \frac{1}{2\sigma^2} x^2 - \frac{\mu^2}{2\sigma^2} - \frac{1}{2} \log 2\pi\sigma^2 \right)
+    \end{equation}
+	By defining $\theta = (\mu, \sigma^2)$, the mapping is:
+	\begin{itemize}
+		\item $T(x) = (x, -x^2/2)^\top$
+		\item $\eta(\theta) = (\mu/\sigma^2, 1/\sigma^2)^\top$
+		\item $\psi(\theta) = \frac{\mu^2}{2\sigma^2} + \frac{1}{2} \log(2\pi\sigma^2)$
+	\end{itemize} 
+	\cite{barber2012bayesian}},
+    text={exponential family},
+    type=math,
+    first={exponential family},
+    firstplural={exponential families},
+    plural={exponential families}
+}
+
+
+
