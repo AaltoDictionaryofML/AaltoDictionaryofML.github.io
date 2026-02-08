@@ -32,6 +32,87 @@
 	user6={\foreignlanguage{greek}{ακολουθίες}} %accusativepl
 }
 
+\newglossaryentry{cauchysequence}
+{name={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	description={\foreignlanguage{greek}{Μία}\index{\foreignlanguage{greek}{ακολουθία} Cauchy} \glsentryuseri{sequence} 
+		Cauchy \foreignlanguage{greek}{είναι μία} \glsentryuseri{sequence}
+		$\big( \featurevec^{(\sampleidx)}\big)_{\sampleidx \in \mathbb{N}}$ 
+		\foreignlanguage{greek}{σε έναν} \glsentryuseriii{metricspace} $\pair{\featurespace}{\metric{\cdot}{\cdot}}$,  
+		\foreignlanguage{greek}{έτσι ώστε τα στοιχεία $\featurevec^{(\sampleidx)}\in \featurespace$ 
+		γίνονται τελικά αυθαίρετα κοντινά το ένα στο άλλο.
+		Με άλλα λόγια,} \cite[Def. 3.8]{RudinBookPrinciplesMatheAnalysis}, 
+		\[
+		\forall \epsilon > 0, \exists N \in \mathbb{N} \text{ \foreignlanguage{greek}{έτσι ώστε} } 
+		\forall \sampleidx, \sampleidx' \geq N, \ \metric{\featurevec^{(\sampleidx)}}{\featurevec^{(\sampleidx')}} < \epsilon.
+		\] 
+		\foreignlanguage{greek}{Το Σχ.}\ \ref{fig:fpit_cauchy_sqrt2_dict} \foreignlanguage{greek}{δείχνει μία} \glsentryuseriii{sequence} 
+		Cauchy \foreignlanguage{greek}{στον} \glsentryuseriii{metricspace} $\pair{\mathbb{Q}}{|\cdot|}$ 
+		\foreignlanguage{greek}{ρητών αριθμών.}
+		\begin{figure}[H]
+			\centering
+		  	\begin{tikzpicture}[x=1cm,y=4cm]
+			% Parameters
+			\def\srtwo{1.4142}
+			\def\eps{0.15}
+			\def\nmax{7}
+			% Axes
+			% \draw[->] (-0.3,0) -- (\nmax+0.6,0) node[right] {$\sampleidx$};
+			% \draw[->] (-0.3,0.9) -- (-0.3,1.46) node[above] {$x^{(\sampleidx)}$};
+			% epsilon band around sqrt(2)
+			\fill[gray!30, opacity=0.35]
+			(-0.3,{\srtwo-\eps}) rectangle (\nmax+0.6,{\srtwo+\eps});
+			%	\draw[dotted] (-0.3,{\srtwo+\eps}) -- (\nmax+0.6,{\srtwo+\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}+\varepsilon$}};
+			%	\draw[dotted] (-0.3,{\srtwo-\eps}) -- (\nmax+0.6,{\srtwo-\eps})
+			%	node[right] {\footnotesize{$\sqrt{2}-\varepsilon$}};
+			% Double arrow showing epsilon band width
+			\draw[<->, thick] (4.5,{\srtwo-\eps}) -- (4.5,{\srtwo+\eps})
+			node[above, right] {\footnotesize{$\varepsilon$}};
+			% Limit line at sqrt(2)
+			\draw[dashed] (-0.3,\srtwo) -- (\nmax+0.6,\srtwo)
+			node[right] {\footnotesize{$\sqrt{2}$}};
+			% Sequence via fixed-point iteration: x_{n+1} = 0.5(x_n + 2/x_n), x_0 = 1
+			% Replace the foreach loop by:
+			\fill (0,1.0000) circle (1.2pt) node [right] {$\feature^{(1)}$};
+			\fill (1,1.5000) circle (1.2pt);
+			\fill (2,1.4167) circle (1.2pt);
+			\fill (3,1.4142) circle (1.2pt);
+			\fill (4,1.41421) circle (1.2pt);
+			\fill (5,1.4142136) circle (1.2pt);
+			\fill (6,1.41421356) circle (1.2pt);
+			% Choose an N (first index within eps-band) -- here N=3 works for eps=0.005
+			\def\N{1}
+			\draw[densely dashed, thick, red] (\N,0.88) -- (\N,1.655);
+			\node[right, red] at (\N,0.8) {$N$};
+			% Formula box (fixed-point iteration)
+			\node[align=right, anchor=north, font=\small]
+			at (5,0.9)
+			{\footnotesize{$\displaystyle \feature^{(\sampleidx+1)}=\frac{1}{2}\!\left(\feature^{(\sampleidx)}+\frac{2}{\feature^{(\sampleidx)}}\right), \feature^{(1)}=1.$}};
+			% Optional: annotate a few rational iterates
+			%	\node[font=\scriptsize, anchor=west] at (0,1.5-0.06) {$x^{(1)}=\tfrac{3}{2}$};
+			%	\node[font=\scriptsize, anchor=west] at (1,1.5-0.12) {$x^{(2)}=\tfrac{17}{12}$};
+			%	\node[font=\scriptsize, anchor=west] at (2,1.5-0.145) {$x^{(3)}=\tfrac{577}{408}$};
+			\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Μία} \glsentryuseri{sequence} \selectlanguage{english}{Cauchy} 
+			$\big(\feature^{(\sampleidx)}\big)_{\sampleidx\in\mathbb{N}}$ 
+			\foreignlanguage{greek}{στον} \glsentryuseriii{metricspace} $\pair{\mathbb{Q}}{|\cdot|}$. 
+			\foreignlanguage{greek}{Αυτή η} \glsentryuseri{sequence} \foreignlanguage{greek}{παράγεται από μία} 
+			\gls{fixedpointiter} \foreignlanguage{greek}{που χρησιμοποιείται για την προσέγγιση του} 
+			$\sqrt{2}$. \foreignlanguage{greek}{Για όλα τα $\sampleidx \ge N$, τα στοιχεία της} \glsentryuserii{sequence} 
+			\foreignlanguage{greek}{βρίσκονται εντός μίας ζώνης πλάτους $\varepsilon$. 
+			Σημείωση ότι η} \glsentryuseri{sequence} \foreignlanguage{greek}{δεν συγκλίνει στον $\mathbb{Q}$, 
+			εφόσον} $\sqrt{2} \notin \mathbb{Q}$ \cite[\foreignlanguage{greek}{Παράδειγμα} 1.1]{RudinBookPrinciplesMatheAnalysis}.\label{fig:fpit_cauchy_sqrt2_dict}} }
+		\end{figure}
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{sequence}, \gls{metricspace}, \gls{fixedpointiter}. }, 
+	first={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	text={\foreignlanguage{greek}{ακολουθία} Cauchy},
+	type=math,
+	user1={\foreignlanguage{greek}{ακολουθία} Cauchy}, %nominative
+  	user2={\foreignlanguage{greek}{ακολουθίας} Cauchy}, %genitive 
+	user3={\foreignlanguage{greek}{ακολουθία} Cauchy} %accusative
+}
+
 \newglossaryentry{algconn}
 {name={\foreignlanguage{greek}{αλγεβρική συνεκτικότητα}},
 	description={\foreignlanguage{greek}{Η αλγεβρική συνεκτικότητα}\index{\foreignlanguage{greek}{αλγεβρική συνεκτικότητα}} 
@@ -91,6 +172,46 @@
 	user3={\foreignlanguage{greek}{αλγεβρική συνεκτικότητα}} %accusative
 }
 
+\newglossaryentry{svd}
+{name={\foreignlanguage{greek}{ανάλυση ιδιαζουσών τιμών}}, 
+  	description={\foreignlanguage{greek}{Η ανάλυση ιδιαζουσών τιμών}\index{\foreignlanguage{greek}{ανάλυση ιδιαζουσών τιμών}} 
+		(singular value decomposition - SVD) \foreignlanguage{greek}{για έναν} \glsentryuseriii{matrix} 
+		$\mA \in \mathbb{R}^{\samplesize \times \dimlocalmodel}$ \foreignlanguage{greek}{είναι μία παραγοντοποί\-ηση της 
+		ακόλουθης μορφής: $$\mA = \mathbf{V} {\bm \Lambda} \mathbf{U}\,^{T}$$ με ορθοκανονικούς} \glsentryuservi{matrix} 
+		$\mV = \big(\vv^{(1)},\,\ldots,\,\vv^{(\samplesize)}\big) \in \mathbb{R}^{\samplesize \times \samplesize}$ \foreignlanguage{greek}{και} 
+		$\mU = \big( \vu^{(1)},\,\ldots,\,\vu^{(\dimlocalmodel)} \big) \in \mathbb{R}^{\dimlocalmodel \times \dimlocalmodel}$  
+		\cite{GolubVanLoanBook} (\foreignlanguage{greek}{βλέπε Σχ.} \ref{fig_svd_dict}). 
+		\begin{figure}[H]
+		 	\centering	
+		 	\begin{tikzpicture}[>=latex, line cap=round, line join=round, scale=1]
+		 	\def\xL{0}
+		 	\def\xR{6}
+		 	\def\len{2.0}
+		 	\def\sone{1.6}
+		 	\def\stwo{0.7}
+		 	\draw[thick,->] (\xL,0) -- ++(\len,0) node[midway,below] {$\vu^{(1)}$};
+			\draw[thick,->] (\xL,0) -- ++(0,\len) node[midway,left] {$\vu^{(2)}$};
+			\draw[dashed,->] (\xL+2.9,0) -- (\xR-0.9,0);
+			\begin{scope}[shift={(\xR+0.5,0)},rotate=30]
+			\draw[thick,->] (0,0) -- (\sone*\len,0) node[pos=1,right] {$\lambda_1 \vv^{(1)}$};
+			\draw[thick,->] (0,0) -- (0,\stwo*\len) node[pos=1,above] {$\lambda_2 \vv^{(2)}$};
+			\end{scope}
+		 	\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Ορθοκανονικοί} \glsentryuseriv{matrix} $\mV$ \foreignlanguage{greek}{και} $\mU$. \label{fig_svd_dict} } }
+		\end{figure}
+		\foreignlanguage{greek}{Ο} \glsentryuseri{matrix} ${\bm \Lambda} \in \mathbb{R}^{\samplesize \times \dimlocalmodel}$ 
+		\foreignlanguage{greek}{είναι μη μηδενικός μόνο κατά την κύρια διαγώνιο, της οποίας οι καταχωρίσεις 
+		$\Lambda_{\featureidx,\featureidx}$ είναι μη αρνητικές και αναφέρονται ως} \glsentryuseriv{singularvalue}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{matrix}, \gls{singularvalue}. },
+	first={\foreignlanguage{greek}{ανάλυση ιδιαζουσών τιμών}},
+	text={\foreignlanguage{greek}{ανάλυση ιδιαζουσών τιμών}},
+	type=math,
+	user1={\foreignlanguage{greek}{ανάλυση ιδιαζουσών τιμών}}, %nominative
+	user2={\foreignlanguage{greek}{ανάλυσης ιδιαζουσών τιμών}} %genitive  
+}
+
 \newglossaryentry{transpose}
 {name={\foreignlanguage{greek}{ανάστροφος}},
 	description={\foreignlanguage{greek}{Η ανάστροφος} (transpose)\index{\foreignlanguage{greek}{ανάστροφος}} 
@@ -131,8 +252,7 @@
 }
 \newglossaryentry{markovsinequality}
 {name={\foreignlanguage{greek}{ανισότητα του} Markov},
-	description={Consider a real-valued nonnegative \gls{rv} $x$ for which 
-		...},
+	description={TBC.\index{Markov’s inequality} },
 	first={\foreignlanguage{greek}{ανισότητα του} Markov},
     	text={\foreignlanguage{greek}{ανισότητα του} Markov},
 	type=math,
@@ -158,9 +278,10 @@
 	user2={\foreignlanguage{greek}{ανισότητας συγκέντρωσης}}, %genitive   
 	user3={\foreignlanguage{greek}{ανισότητα συγκέντρωσης}} %accusative
 }
+
 \newglossaryentry{chebyshevsinequality}
 {name={\foreignlanguage{greek}{ανισότητα του} Chebyshev},
-	description={Consider a real-valued \gls{rv} ...},
+	description={TBC.\index{Chebyshev’s inequality} },
     	first={\foreignlanguage{greek}{ανισότητα του} Chebyshev},
      	text={\foreignlanguage{greek}{ανισότητα του} Chebyshev},
 	type=math,  
@@ -171,7 +292,7 @@
 
 \newglossaryentry{hoeffdingsinequality}
 {name={\foreignlanguage{greek}{ανισότητα του} Hoeffding},
-	description={\index{Hoeffding's inequality} Hoeffding's inequality ...},
+	description={TBC.\index{Hoeffding's inequality} },
     	first={\foreignlanguage{greek}{ανισότητα του} Hoeffding},
     	text={\foreignlanguage{greek}{ανισότητα του} Hoeffding},
 	type=math,   
@@ -238,6 +359,55 @@
 	user3={\foreignlanguage{greek}{αντίστροφο πίνακα}} %accusative
 }
 
+\newglossaryentry{map}
+{name={\foreignlanguage{greek}{απεικόνιση}}, 
+	description={\foreignlanguage{greek}{Χρησιμοποιούμε τον όρο απεικόνιση}\index{\foreignlanguage{greek}{απεικόνιση}} 
+		(map) \foreignlanguage{greek}{ως συνώνυμο της} \gls{function}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}.},
+	first={\foreignlanguage{greek}{απεικόνιση}},
+	text={\foreignlanguage{greek}{απεικόνιση}},
+	type=math,
+	user1={\foreignlanguage{greek}{απεικόνιση}}, %nominative
+  	user2={\foreignlanguage{greek}{απεικόνισης}}, %genitive  
+	user3={\foreignlanguage{greek}{απεικόνιση}}, %accusative
+	user4={\foreignlanguage{greek}{απεικονίσεις}}, %nominativepl
+  	user5={\foreignlanguage{greek}{απεικονίσεων}}, %genitivepl  
+	user6={\foreignlanguage{greek}{απεικονίσεις}} %accusativepl
+}
+
+\newglossaryentry{countable}
+{name={\foreignlanguage{greek}{αριθμήσιμο}},
+	description={TBC.\index{countable} }, 
+	first={\foreignlanguage{greek}{αριθμήσιμο}}, 
+	text={\foreignlanguage{greek}{αριθμήσιμο}},
+	type=math, 
+	user1={\foreignlanguage{greek}{αριθμήσιμο}}, %nominative
+  	user2={\foreignlanguage{greek}{αριθμήσιμου}}, %genitive  
+	user3={\foreignlanguage{greek}{αριθμήσιμο}}, %accusative
+}
+
+\newglossaryentry{condnr}
+{name={\foreignlanguage{greek}{αριθμός συνθήκης}},
+	description={\foreignlanguage{greek}{O αριθμός συνθήκης}\index{\foreignlanguage{greek}{αριθμός συνθήκης}} 
+		$\kappa(\mathbf{Q}) \geq 1$ \foreignlanguage{greek}{ενός θετικά ορισμένου} \glsentryuserii{matrix} 
+		$\mathbf{Q} \in \mathbb{R}^{\featurelen \times \featurelen}$ \foreignlanguage{greek}{είναι ο  
+		λόγος $\alpha /\beta $ μεταξύ της μεγαλύτερης $\alpha$ και της μικρότερης $\beta$} \glsentryuserii{eigenvalue} \foreignlanguage{greek}{του} 
+		$\mathbf{Q}$. \foreignlanguage{greek}{O αριθμός συνθήκης είναι χρήσιμος για την ανάλυση μεθόδων} \glsentryuserii{ml}. 
+		\foreignlanguage{greek}{Η υπολογιστική πολυπλοκότητα των} \glsentryuserv{gdmethod} \foreignlanguage{greek}{για} \glsentryuseriii{linreg} 
+		\foreignlanguage{greek}{εξαρτάται κρίσιμα από τον αριθμό συνθήκης του} \glsentryuserii{matrix} $\mQ = \mX \mX\,^{T}$, 
+		\foreignlanguage{greek}{με τον} \glsentryuseriii{featuremtx} $\mX$ 
+		\foreignlanguage{greek}{του} \glsentryuserii{trainset}. \foreignlanguage{greek}{Συνεπώς, από υπολογιστική άποψη, προτιμούμε} \glsentryuservi{feature}  
+		\glsentryuservi{datapoint}, \foreignlanguage{greek}{έτσι ώστε ο $\mQ$ να έχει έναν αριθμό συνθήκης κοντά στο} $1$.\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{matrix}, \gls{eigenvalue}, \gls{ml}, \gls{gdmethod}, \gls{linreg}, \gls{featuremtx}, \gls{trainset}, 
+		\gls{feature}, \gls{datapoint}.},
+	first={\foreignlanguage{greek}{αριθμός συνθήκης}},
+	text={\foreignlanguage{greek}{αριθμός συνθήκης}},
+	type=math, 
+	user1={\foreignlanguage{greek}{αριθμός συνθήκης}}, %nominative
+	user2={\foreignlanguage{greek}{αριθμού συνθήκης}} %genitive  
+}
+
 \newglossaryentry{nodedegree}
 {name={\foreignlanguage{greek}{βαθμός κόμβου}},
 	description={\foreignlanguage{greek}{Ο βαθμός $\nodedegree{\nodeidx}$ ενός 
@@ -267,6 +437,19 @@
 	user1={\foreignlanguage{greek}{βελτιστοποίηση}}, %nominative
   	user2={\foreignlanguage{greek}{βελτιστοποίησης}}, %genitive 
 	user3={\foreignlanguage{greek}{βελτιστοποίηση}} %accusative
+}
+
+\newglossaryentry{gradstep}
+{name={\foreignlanguage{greek}{βήμα κλίσης}},
+	description={TBC.\index{gradient step} },
+	first={\foreignlanguage{greek}{βήμα κλίσης}},
+	text={\foreignlanguage{greek}{βήμα κλί\-σης}},
+	type=math,
+	user1={\foreignlanguage{greek}{βήμα κλίσης}}, %nominative
+	user2={\foreignlanguage{greek}{βήματος κλίσης}}, %genitive
+	user3={\foreignlanguage{greek}{βήμα κλίσης}}, %accusative 
+	user4={\foreignlanguage{greek}{βήματα κλίσης}}, %nominativepl 
+	user5={\foreignlanguage{greek}{βημάτων κλίσης}} %genitivepl  
 }
 
 \newglossaryentry{event}
@@ -319,6 +502,68 @@
 	user3={\foreignlanguage{greek}{γειτονιά}} %accusative 
 }
 
+\newglossaryentry{geometricmedian}
+{name={\foreignlanguage{greek}{γεωμετρική διάμεσος}},
+	description={TBC.\index{geometric median (GM)} },
+	first={\foreignlanguage{greek}{γεωμετρική διάμεσος}},
+	text={\foreignlanguage{greek}{γεωμετρική διάμεσος}},
+	type=math,
+	user1={\foreignlanguage{greek}{γεωμετρική διάμεσος}}, %nominative
+	user2={\foreignlanguage{greek}{γεωμετρικής διαμέσου}}, %genitive 
+	user3={\foreignlanguage{greek}{γεωμετρική διάμεσο}} %accusative 
+}
+
+\newglossaryentry{GaussProc}
+{name={\foreignlanguage{greek}{Γκαουσιανή διαδικασία}}, 
+	description={TBC.\index{Gaussian process (GP)} }, 
+	first={\foreignlanguage{greek}{Γκαουσιανή διαδικασία}}, 
+	text={\foreignlanguage{greek}{Γκαουσιανή διαδικασία}},
+	type=math, 
+	user1={\foreignlanguage{greek}{Γκαουσιανή διαδικασία}}, %nominative
+	user2={\foreignlanguage{greek}{Γκαουσιανής διαδικασίας}} %genitive 
+}
+
+\newglossaryentry{gaussrv}
+{name={\foreignlanguage{greek}{Γκαουσιανή τυχαία μεταβλητή}},
+	description={TBC.\index{Gaussian random variable (Gaussian RV)} },
+	first={\foreignlanguage{greek}{Γκαουσιανή τυχαία μεταβλητή}},
+	text={\foreignlanguage{greek}{Γκαουσιανή τυχαία μεταβλητή}},
+	type=math,
+	user1={\foreignlanguage{greek}{Γκαουσιανή τυχαία μεταβλητή}}, %nominative
+	user2={\foreignlanguage{greek}{Γκαουσιανής τυχαίας μεταβλητής}} %genitive 
+}
+
+\newglossaryentry{gaussian} 
+{name={\foreignlanguage{greek}{Γκαουσιανός}}, 
+	description={\foreignlanguage{greek}{Βλέπε}\index{\foreignlanguage{greek}{Γκαουσιανός}} \gls{gaussrv}.},
+ 	first={\foreignlanguage{greek}{Γκαουσιανός}},
+ 	text={\foreignlanguage{greek}{Γκαουσιανός}},
+	type=math,
+	user1={\foreignlanguage{greek}{Γκαουσιανός}} %nominative
+}
+
+\newglossaryentry{linearlyindep}
+{name={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}},
+	description={TBC.\index{linearly independent} }, 
+	text={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}},
+	first={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}},
+	type=math,
+	user1={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}}, %nominativeandaccusativeneut
+  	user2={\foreignlanguage{greek}{γραμμικά ανεξάρτητα}}, %nominativeandaccusativeplneut
+	user3={\foreignlanguage{greek}{γραμμικά ανεξάρτητες}} %nominativeandaccusativeplfem 
+}
+
+\newglossaryentry{linearmap}
+{name={\foreignlanguage{greek}{γραμμική απεικόνιση}},
+	description={TBC.\index{linear map} },
+	first={\foreignlanguage{greek}{γραμμική απεικόνιση}},
+	text={linear map},
+	type=math,
+	user1={\foreignlanguage{greek}{γραμμική απεικόνιση}}, %nominative
+  	user2={\foreignlanguage{greek}{γραμμικής απεικόνισης}}, %genitive  
+	user3={\foreignlanguage{greek}{γραμμική απεικόνιση}} %accusative
+}
+
 \newglossaryentry{graph}
 {name={\foreignlanguage{greek}{γράφος}},
 	description={\foreignlanguage{greek}{Ένας γράφος}\index{\foreignlanguage{greek}{γράφος}} 
@@ -327,9 +572,9 @@
 		προσδιορίζεται από μία} \gls{map} \foreignlanguage{greek}{που αποδίδει σε κάθε ακμή $\edgeidx \in \edges$ ένα ζεύγος κόμβων} \cite{RockNetworks}. 
 		\foreignlanguage{greek}{Μία σημαντική οικογένεια γράφων εί\-ναι οι απλοί μη κατευθυνόμενοι γράφοι. Ένας απλός μη κατευθυνόμενος  
 		γράφος προκύπτει από την ταυτοποίηση κάθε ακμής $\edgeidx \in \edges$ με δύο διαφορετικούς κόμβους $\{\nodeidx,\nodeidx'\}$. 
-		Οι σταθμισμένοι γράφοι προσδιορίζουν επίσης αριθμητικά} \glsentryuseriii{weights} $\edgeweight_{\edgeidx}$ 
+		Οι σταθμισμένοι γράφοι προσδιορίζουν επίσης αριθμητικά} \glsentryuservi{weight} $\edgeweight_{\edgeidx}$ 
 		\foreignlanguage{greek}{για κάθε ακμή} $\edgeidx \in \edges$.\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{map}, \gls{weights}.},
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{map}, \gls{weight}.},
 	first={\foreignlanguage{greek}{γράφος}},
 	text={graph},
 	type=math,
@@ -339,26 +584,138 @@
 	user4={\foreignlanguage{greek}{γράφοι}} %nominativepl  
 }
 
-\newglossaryentry{linearlyindep}
-{name={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}},
-	description={A subset $\{\va^{(1)}, \,\ldots, \,\va^{(\nrfeatures)}\} \in \mathcal{V}$ 
-		of a \gls{vectorspace} is linearly independent\index{linearly independent} 
-		...}, 
-	text={linearly independent},
-	first={linearly independent},
+\newglossaryentry{ergraph}
+{name={\foreignlanguage{greek}{γράφος} Erd\H{o}s–R\'enyi},
+	description={TBC.\index{Erd\H{o}s–R\'enyi graph (ER graph)} },
+	first={\foreignlanguage{greek}{γράφος} Erd\H{o}s–R\'enyi},
+	text={\foreignlanguage{greek}{γράφος} Erd\H{o}s–R\'enyi},
 	type=math,
-	user1={\foreignlanguage{greek}{γραμμικά ανεξάρτητο}}, %nominativeandaccusativeneut
-  	user2={\foreignlanguage{greek}{γραμμικά ανεξάρτητα}}, %nominativeandaccusativeplneut
-	user3={\foreignlanguage{greek}{γραμμικά ανεξάρτητες}} %nominativeandaccusativeplfem 
+	user1={\foreignlanguage{greek}{γράφος} Erd\H{o}s–R\'enyi}, %nominative
+  	user2={\foreignlanguage{greek}{γράφου} Erd\H{o}s–R\'enyi}, %genitive
+	user3={\foreignlanguage{greek}{γράφο} Erd\H{o}s–R\'enyi}, %accusative  
+}
+
+\newglossaryentry{sample}
+{name={\foreignlanguage{greek}{δείγμα}},
+	description={\foreignlanguage{greek}{Στο πλαίσιο της} \glsentryuserii{ml}, \foreignlanguage{greek}{ένα δείγμα} (sample) 
+		\foreignlanguage{greek}{είναι μία πεπερασμένη}\index{\foreignlanguage{greek}{δείγμα}} \glsentryuseri{sequence} 
+		(\foreignlanguage{greek}{μήκους} $\samplesize$) \glsentryuserv{datapoint} 
+		$\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}$. \foreignlanguage{greek}{Ο αριθμός
+ 		$\samplesize$ ονομάζεται} \glsentryuseri{samplesize}. \foreignlanguage{greek}{Οι μέθοδοι που βασίζονται στην}		
+		\glsentryuseriii{erm} \foreignlanguage{greek}{χρησιμοποιούν ένα δείγμα για να εκπαιδεύσουν ένα} \glsentryuseriii{model} 
+		(\foreignlanguage{greek}{ή να μάθουν μία} \glsentryuseriii{hypothesis}) \foreignlanguage{greek}{ελαχιστοποιώντας τη μέση} 
+		\glsentryuseriii{loss} (\foreignlanguage{greek}{δηλαδή την} \glsentryuseriii{emprisk}) \foreignlanguage{greek}{πάνω σε αυτό το 
+		δείγμα. Εφόσον ένα δείγμα ορίζεται ως μία} \glsentryuseri{sequence}, \foreignlanguage{greek}{το ίδιο} \glsentryuseri{datapoint} 
+		\foreignlanguage{greek}{μπορεί να εμφανιστεί περισσότερες από μία φορές. Αντίθετα, ορισμένοι συγγραφείς στη στατιστική 
+		ορίζουν ένα δεί\-γμα ως ένα σύνολο} \glsentryuserv{datapoint}, \foreignlanguage{greek}{οπότε δεν επιτρέπονται διπλότυπα} 
+		\cite{Everitt2010}, \cite{OxfordStatisticsDictionary}.
+		\foreignlanguage{greek}{Αυτές οι δύο θέσεις (δηλαδή} \glsentryuseri{sequence} \foreignlanguage{greek}{έναντι συνόλου) μπορεί 
+		να συμφιλιωθούν θεωρώντας ένα δείγμα ως μία} \glsentryuseriii{sequence} \foreignlanguage{greek}{ζευγών} 
+		\glsentryuserv{feature}–\glsentryuserii{label} 
+		$\pair{\featurevec^{(1)}}{\truelabel^{(1)}}, \,\ldots, \,\pair{\featurevec^{(\samplesize)}}{\truelabel^{(\samplesize)}}$. 
+		\foreignlanguage{greek}{Το $\sampleidx$-οστό ζεύ\-γος αποτελείται από τα} \glsentryuservi{feature} $\featurevec^{(\sampleidx)}$ 
+		\foreignlanguage{greek}{και την} \glsentryuseriii{label} $\truelabel^{(\sampleidx)}$ \foreignlanguage{greek}{ενός μοναδικού 
+		υποκείμενου} \glsentryuserii{datapoint} $\widetilde{\datapoint}^{(\sampleidx)}$. \foreignlanguage{greek}{Ενώ τα υποκείμενα}  
+ 		\glsentryuseriv{datapoint} $\widetilde{\datapoint}^{(1)},\,\ldots,\,\widetilde{\datapoint}^{(\samplesize)}$ \foreignlanguage{greek}{είναι 
+		μοναδικά, κάποια από αυτά μπορεί να έχουν ταυτόσημα} \glsentryuservi{feature} \foreignlanguage{greek}{και} \glsentryuservi{label}.  
+ 		\begin{figure}[H]
+ 		\begin{center}
+ 			\begin{tikzpicture}[>=Latex, font=\small]
+ 				% --- Population box ----------------------------------------------------
+ 				\node[draw, rounded corners, inner sep=6pt,
+ 				minimum width=5.2cm, minimum height=3.4cm] (pop) {};
+ 				\node[above=0pt of pop.north] {\foreignlanguage{greek}{πληθυσμός}};
+ 				% --- Population points as coordinates (no empty \node{})
+ 				\foreach \x/\y [count=\i] in {-2.0/0.3, -1.6/0.9, -1.2/-0.2, -0.8/0.5,
+ 				-0.3/-0.6, 0.2/0.1, 0.6/0.8, 1.0/-0.4,
+ 				1.4/0.4, 1.8/-0.1} {
+ 				\coordinate (p\i) at ($(pop.center)+(\x,\y)$);
+ 				\fill (p\i) circle (1.6pt);
+ 				}
+ 				% --- Anchor for sample (coordinate, not node) --------------------------
+ 				\coordinate (sampleanchor) at ([xshift=1.8cm,yshift=0.5cm]pop.east);
+ 				% --- Sample sequence entries ------------------------------------------
+ 				\def\rowgap{0.55cm}
+ 				\def\ybase{0.95cm}
+ 				\node[anchor=west] (s1) at ($(sampleanchor)+(0, \ybase - 0*\rowgap)$)
+ 				{$1:\;(\featurevec^{(1)},\truelabel^{(1)})$};
+ 				\node[anchor=west] (s2) at ($(sampleanchor)+(0, \ybase - 1*\rowgap)$)
+ 				{$2:\;(\featurevec^{(2)},\truelabel^{(2)})$};
+ 				\node[anchor=west] (s3) at ($(sampleanchor)+(0, \ybase - 2*\rowgap)$)
+ 				{$3:\;(\featurevec^{(3)},\truelabel^{(3)})$};
+ 				\node[anchor=west] (s4) at ($(sampleanchor)+(0, \ybase - 3*\rowgap)$)
+ 				{$4:\;(\featurevec^{(4)},\truelabel^{(4)})$};
+ 				\node[anchor=west] (s5) at ($(sampleanchor)+(0, \ybase - 4*\rowgap)$)
+ 				{$5:\;(\featurevec^{(5)},\truelabel^{(5)})$};
+ 				\node[anchor=west] (s6) at ($(sampleanchor)+(0, \ybase - 5*\rowgap)$)
+ 				{$6:\;(\featurevec^{(6)},\truelabel^{(6)})$};
+ 				% --- Auto-sized sample box (fit to first & last entry) -----------------
+ 				\node[draw, rounded corners, inner sep=6pt, fit=(s1)(s6)] (seqbox) {};
+ 				\node[above=0pt of seqbox.north]
+ 				{\foreignlanguage{greek}{ένα δείγμα}};
+ 				% --- Arrows from population points to sample entries -------------------
+ 				\node[font=\scriptsize] at ($(p2)+(1.5mm,3.5mm)$) {$\widetilde{\datapoint}^{(1)}$};
+ 				\draw[->, thick] (p2) to[out=0,   in=180] ($(s1.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p7) to[out=10,  in=180] ($(s3.west)+(1mm,0mm)$);
+				\draw[->, thick] (p4) to[out=10,  in=180] ($(s4.west)+(1mm,0mm)$);
+ 				\draw[->, thick] (p5) to[out=-10, in=180] ($(s5.west)+(1mm,0mm)$);
+ 				% Duplicate selection: same population point chosen twice
+ 				\draw[->, thick, densely dashed] (p3) to[out=0,  in=180] ($(s2.west)+(1mm,0mm)$);
+ 				\draw[->, thick, densely dashed] (p3) to[out=-5, in=180] ($(s6.west)+(1mm,0mm)$);
+ 				% Optional overall sampling arrow (boxes stay aligned)
+ 				%	\draw[->, thick, gray] (pop.east) -- (seqbox.west) node[midway, above] {sampling};
+ 			\end{tikzpicture}
+ 		\end{center}
+ 		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Ένα δείγμα θεωρείται μία πεπερασμένη} \glsentryuseriii{sequence}. 
+			\foreignlanguage{greek}{Κάθε στοιχείο αυτού του δείγματος αποτελείται από το} \glsentryuseriii{featurevec} 
+			\foreignlanguage{greek}{και την} \glsentryuseriii{label} \foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} 
+			\foreignlanguage{greek}{από έναν υποκείμενο πληθυσμό. Το ιδιο} \glsentryuseri{datapoint} \foreignlanguage{greek}{μπορεί 
+			να εμφανιστεί περισσότερες από μία φορές στο δείγμα.}
+ 			\label{fig:sample-sequence_dict}} }
+ 		\end{figure} 	
+ 		\foreignlanguage{greek}{Για την ανάλυση μεθόδων} \glsentryuserii{ml}, \foreignlanguage{greek}{είναι σύνηθες να ερμηνεύ\-εται 
+		η παραγωγή ενός δείγματος ως η} \glsentryuseri{realization} \foreignlanguage{greek}{μίας} \glsentryuserii{stochproc} 
+		\foreignlanguage{greek}{με δείκτες} $\{1,\,\ldots,\,\samplesize\}$. \foreignlanguage{greek}{Μία ευρέως χρησιμοποιούμενη 
+		παραδοχή είναι η} \glsentryuseri{iidasspt}, \foreignlanguage{greek}{όπου τα στοιχεία δείγματος 
+		$\pair{\featurevec^{(\sampleidx)}}{\truelabel^{(\sampleidx)}}$, για $\sampleidx=1,\,\ldots,\,\samplesize$, είναι} \glsentryuseri{iid} 
+		\glsentryuseriv{rv} \foreignlanguage{greek}{με κοινή} \glsentryuseriii{probdist}.  
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{sequence}, \gls{datapoint}, \gls{samplesize}, \gls{erm}, \gls{model}, 
+		\gls{hypothesis}, \gls{loss}, \gls{emprisk}, \gls{feature}, \gls{label}, \gls{featurevec}, \gls{realization}, \gls{stochproc}, \gls{iidasspt}, 
+		\gls{iid}, \gls{rv}, \gls{probdist}, \gls{dataset}.},
+	first={sample},
+	text={sample},
+	type=math,
+	user1={\foreignlanguage{greek}{δείγμα}}, %nominative
+	user2={\foreignlanguage{greek}{δείγματος}}, %genitive  
+	user3={\foreignlanguage{greek}{δείγμα}}, %accusative
+	user4={\foreignlanguage{greek}{δείγματα}}, %nominativepl
+	user5={\foreignlanguage{greek}{δειγμάτων}}, %genitivepl
+	user6={\foreignlanguage{greek}{δείγματα}}, %accusativepl
+	user7={\foreignlanguage{greek}{δειγματικός}} %nominativemascadj
+}
+
+\newglossaryentry{diagonalizable}
+{name={\foreignlanguage{greek}{διαγωνοποιήσιμος}},
+	description={TBC.\index{diagonalizable} },
+ 	first={\foreignlanguage{greek}{διαγωνοποιήσιμος}},
+ 	text={\foreignlanguage{greek}{διαγωνοποιήσιμος}},
+	type=math,
+	user1={\foreignlanguage{greek}{διαγωνοποιήσιμος}}, %nominative
+  	user2={\foreignlanguage{greek}{διαγωνοποιήσιμου}}, %genitive 
+	user3={\foreignlanguage{greek}{διαγωνοποιήσιμο}} %accusative 
 }
 
 \newglossaryentry{discreteRV}
 {name={\foreignlanguage{greek}{διακριτή τυχαία μεταβλητή}}, 
- 	description={A\index{\foreignlanguage{greek}{διακριτή τυχαία μεταβλητή}} \gls{rv}, i.e., a \gls{function} that maps the 
-		outcomes of a \gls{randomexperiment} to elements of a \gls{measurable} space $\featurespace$, 
-		is referred to as discrete if its value space $\featurespace$ is a countable set \cite{BillingsleyProbMeasure}. 
+ 	description={An\index{discrete random variable (discrete RV)} \gls{rv}, i.e., 
+		a \gls{function} that maps the \glspl{outcome} of a \gls{randomexperiment} 
+		to elements of a \gls{measurable} space $\featurespace$, 
+		is referred to as discrete if its value space 
+		$\featurespace$ is \gls{countable} \cite{BillingsleyProbMeasure}. 
 			\\
-		See also: \gls{probability}, \gls{rv}, \gls{probdist}.},
+		See also: \gls{rv}, \gls{probability}, \gls{probdist}.},
  	first={discrete random variable (discrete RV)},
  	text={discrete RV},
 	type=math,
@@ -370,6 +727,17 @@
 	user6={\foreignlanguage{greek}{διακριτές τυχαίες μεταβλητές}} %accusativepl 
 }
 
+\newglossaryentry{median}
+{name={\foreignlanguage{greek}{διάμεσος}},
+	description={TBC.\index{median} }, 
+	first={\foreignlanguage{greek}{διάμεσος}}, 
+	text={\foreignlanguage{greek}{διάμεσος}},
+	type=math,
+	user1={\foreignlanguage{greek}{διάμεσος}}, %nominative
+	user2={\foreignlanguage{greek}{διαμέσου}}, %genitive 
+	user3={\foreignlanguage{greek}{διάμεσο}} %accusative 
+}
+
 \newglossaryentry{vector}
 {name={\foreignlanguage{greek}{διάνυσμα}},
 	description={\foreignlanguage{greek}{Ένα διάνυσμα είναι ένα στοιχείο ενός}\index{\foreignlanguage{greek}{διάνυσμα}} 
@@ -379,7 +747,7 @@
 		είναι η (πεπερασμένη) διάσταση του χώρου. Ένα διάνυσμα $\vx \in \mathbb{R}^{\nrfeatures}$ μπορεί να 
 		αναπαρασταθεί ως μία λίστα ή μονοδιάστατη} (1-D) \foreignlanguage{greek}{διάταξη πραγματικών αριθμών, 
 		δηλαδή $x_1, \,\ldots, \,x_{\nrfeatures}$ με $x_\featureidx \in \mathbb{R}$ για $\featureidx = 1, \,\ldots, \,\nrfeatures$. 
-		Η τιμή $x_\featureidx$ είναι η $\featureidx$στή είσοδος του διανύσματος $\vx$. Μπορεί επίσης να είναι χρήσιμο 
+		Η τιμή $x_\featureidx$ είναι η $\featureidx$-οστή είσοδος του διανύσματος $\vx$. Μπορεί επίσης να είναι χρήσιμο 
 		να θεωρήσουμε ένα διάνυσμα $\vx \in \mathbb{R}^{\nrfeatures}$ ως μία} \glsentryuseriii{function} \foreignlanguage{greek}{που 
 		αντιστοιχίζει κάθε δείκτη $\featureidx \in \{1, \,\ldots, \,\nrfeatures\}$ σε μία τιμή $x_\featureidx \in \mathbb{R}$, δηλαδή 
 		$\vx: \featureidx \mapsto x_\featureidx$. Αυτή η προοπτική είναι ιδιαίτερα χρήσιμη για την μελέτη των} 
@@ -517,6 +885,17 @@
 	user5={\foreignlanguage{greek}{διανυσματικών χώρων}} %genitivepl
 }
 
+\newglossaryentry{dimension}
+{name={\foreignlanguage{greek}{διάσταση}},
+	description={TBC.\index{dimension} }, 
+	text={\foreignlanguage{greek}{διάσταση}}, 
+	first={\foreignlanguage{greek}{διάσταση}},
+	type=math,
+	user1={\foreignlanguage{greek}{διάσταση}}, %nominative
+	user2={\foreignlanguage{greek}{διάστασης}}, %genitive    
+	user3={\foreignlanguage{greek}{διάσταση}} %accusative
+}
+
 \newglossaryentry{diffentropy}
 {name={\foreignlanguage{greek}{διαφορική εντροπία}},
 	description={\foreignlanguage{greek}{Για μία}\index{\foreignlanguage{greek}{διαφορική εντροπία}} \glsentryuseriii{rv} 
@@ -576,6 +955,33 @@
 	user4={\foreignlanguage{greek}{ελάχιστη}} %nominativeoraccusativeadjfem 
 }
 
+\newglossaryentry{supremum}
+{name={\foreignlanguage{greek}{ελάχιστο άνω φράγμα (ή} supremum)},
+	description={The supremum\index{supremum (or least upper bound)} of a set of real numbers is 
+		the smallest number that is greater than or equal to every element in the set. More formally, a 
+		real number $a$ is the supremum of a set $\mathcal{A} \subseteq \mathbb{R}$ if: 1) $a$ 
+		is an upper bound of $\mathcal{A}$; and 2) no number smaller than $a$ is an upper bound of $\mathcal{A}$. 
+		Every non-empty set of real numbers that is bounded above has a supremum, even if it does 
+		not contain its supremum as an element \cite[Sec.~1.4]{RudinBookPrinciplesMatheAnalysis}.},
+	first={\foreignlanguage{greek}{ελάχιστο άνω φράγμα (ή} supremum)},
+	text={\foreignlanguage{greek}{ελάχιστο άνω φράγμα}},
+	type=math,
+	user1={\foreignlanguage{greek}{ελάχιστο άνω φράγμα}}, %nominative
+    	user2={\foreignlanguage{greek}{ελάχιστου άνω φράγματος}}, %genitive 
+    	user3={\foreignlanguage{greek}{ελάχιστο άνω φράγμα}} %accusative 
+}
+
+\newglossaryentry{empiricaldistribution}
+{name={\foreignlanguage{greek}{εμπειρική κατανομή}},
+	description={TBC.\index{empirical distribution} },
+	first={\foreignlanguage{greek}{εμπειρική κατανομή}},
+	text={\foreignlanguage{greek}{εμπειρική κατανομή}},
+    	type=math,
+	user1={\foreignlanguage{greek}{εμπειρική κατανομή}}, %nominative
+  	user2={\foreignlanguage{greek}{εμπειρικής κατανομής}}, %genitive 
+	user3={\foreignlanguage{greek}{εμπειρική κατανομή}} %accusative
+}
+
 \newglossaryentry{entropy}
 {name={\foreignlanguage{greek}{εντροπία}},
 	description={\foreignlanguage{greek}{Η εντροπία} (entropy) \foreignlanguage{greek}{ποσοτικοποιεί 
@@ -605,8 +1011,7 @@
 
 \newglossaryentry{fixedpointeq}
 {name={\foreignlanguage{greek}{εξίσωση σταθερού σημείου}},
-	description={A fixed-point equation\index{fixed-point equation} is an equation of the form
-		... },
+	description={TBC.\index{fixed-point equation} },
 	first={\foreignlanguage{greek}{εξίσωση σταθερού σημείου}},
  	text={\foreignlanguage{greek}{εξίσωση σταθερού σημείου}},
 	type=math,
@@ -615,14 +1020,34 @@
 	user3={\foreignlanguage{greek}{εξίσωση σταθερού σημείου}} %accusative
 }
 
+\newglossaryentry{fixedpointiter}
+{name={\foreignlanguage{greek}{επανάληψη σταθερού σημείου}},
+	description={TBC.\index{fixed-point iteration} },
+	first={\foreignlanguage{greek}{επανάληψη σταθερού σημείου}},
+	text={\foreignlanguage{greek}{επανάληψη σταθερού σημείου}},
+	type=math, 
+	user1={\foreignlanguage{greek}{επανάληψη σταθερού σημείου}}, %nominative
+  	user2={\foreignlanguage{greek}{επανάληψης σταθερού σημείου}}, %genitive 
+	user3={\foreignlanguage{greek}{επανάληψη σταθερού σημείου}} %accusative
+}
+
 \newglossaryentry{augmentedlagrangian}
 {name={\foreignlanguage{greek}{επαυξημένος κατά} Lagrange},
-	description={The augmented \gls{lagrangian}\index{augmented Lagrangian} is a ...},
+	description={TBC.\index{augmented Lagrangian} },
 	first={augmented Lagrangian},
 	text={augmented Lagrangian},
 	type=math,
 	user1={\foreignlanguage{greek}{επαυξημένος κατά} Lagrange} %nominative
 }%του Lagrange, Lagrangian
+
+\newglossaryentry{epigraph}
+{name={\foreignlanguage{greek}{επιγράφος}},
+  description={TBC.\index{epigraph} },
+	first={\foreignlanguage{greek}{επιγράφος}},
+	text={\foreignlanguage{greek}{επιγράφος}},
+	type=math,
+	user1={\foreignlanguage{greek}{επιγράφος}} %nominative
+}%επιγράφημα, επιγραφή, επίγραμμα
 
 \newglossaryentry{hessian}
 {name={\foreignlanguage{greek}{Εσσιανός}},
@@ -718,7 +1143,7 @@
 
 \newglossaryentry{innerproduct}
 {name={\foreignlanguage{greek}{εσωτερικό γινόμενο}},
-	description={Consider a \gls{vectorspace} $\featurespace$ ...},
+	description={TBC.\index{inner product} },
  	first={\foreignlanguage{greek}{εσωτερικό γινόμενο}},
  	text={\foreignlanguage{greek}{εσωτερικό γινόμενο}},
 	type=math,
@@ -813,6 +1238,20 @@
 	user4={\foreignlanguage{greek}{θετικά ημιορισμένη}} %nominativefem 
 }
 
+ \newglossaryentry{singularvalue}
+ {name={\foreignlanguage{greek}{ιδιάζουσα τιμή}}, 
+ 	description={\foreignlanguage{greek}{Βλέπε}\index{\foreignlanguage{greek}{ιδιάζουσα τιμή}} \gls{svd}.},
+ 	first={\foreignlanguage{greek}{ιδιάζουσα τιμή}},
+	text={\foreignlanguage{greek}{ιδιάζουσα τιμή}},
+	type=math,
+	user1={\foreignlanguage{greek}{ιδιάζουσα τιμή}}, %nominative
+  	user2={\foreignlanguage{greek}{ιδιάζουσας τιμής}}, %genitive 
+	user3={\foreignlanguage{greek}{ιδιάζουσα τιμή}}, %accusative
+	user4={\foreignlanguage{greek}{ιδιάζουσες τιμές}}, %nominativepl
+  	user5={\foreignlanguage{greek}{ιδιαζουσών τιμών}}, %genitivepl 
+	user6={\foreignlanguage{greek}{ιδιάζουσες τιμές}} %accusativepl
+}
+
 \newglossaryentry{markovprop}
 {name={\foreignlanguage{greek}{ιδιότητα} Markov},
 	description={\foreignlanguage{greek}{Βλέπε} \gls{markovchain}\index{\foreignlanguage{greek}{ιδιότητα} Markov}.},
@@ -869,14 +1308,49 @@
 
 \newglossaryentry{trace}
 {name={\foreignlanguage{greek}{ίχνος}},
- 	description={The\index{\foreignlanguage{greek}{ίχνος}} trace ... \\
-    		See also: TBC.},
+ 	description={TBC.\index{trace} },
     	first={\foreignlanguage{greek}{ίχνος}},
     	text={\foreignlanguage{greek}{ίχνος}},
 	type=math,
 	user1={\foreignlanguage{greek}{ίχνος}}, %nominative
   	user2={\foreignlanguage{greek}{ίχνους}}, %genitive 
 	user3={\foreignlanguage{greek}{ίχνος}} %accusative 
+}
+
+\newglossaryentry{normalmatrix}
+{name={\foreignlanguage{greek}{κανονικός πίνακας}},
+	description={A normal \gls{matrix} is a square \gls{matrix} $\mA \in \mathbb{C}^{\nrfeatures \times \nrfeatures}$ 
+                 that commutes with its \gls{conjugatetranspose}, i.e., $\mA\mA^{H}=\mA^{H}\mA$. 
+                 Normal \glspl{matrix}\index{normal matrix} admit an orthonormal basis of \glspl{eigenvector} and are 
+                 unitarily \gls{diagonalizable}.
+                 \\
+                 See also: \gls{matrix}, \gls{diagonalizable}. },
+	first={\foreignlanguage{greek}{κανονικός πίνακας}},
+	text={\foreignlanguage{greek}{κανονικός πίνακας}},
+	type=math,
+	user1={\foreignlanguage{greek}{κανονικός πίνακας}}, %nominative
+	user2={\foreignlanguage{greek}{κανονικού πίνακα}}, %genitive  
+	user3={\foreignlanguage{greek}{κανονικό πίνακα}} %accusative 
+}
+
+\newglossaryentry{condprobdist}
+{name={\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}}, 
+	description={\foreignlanguage{greek}{Θεωρούμε μία}\index{\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}} 
+		\glsentryuseriii{stochproc} \foreignlanguage{greek}{που αποτελείται από δύο} \glsentryuservi{rv} $\featurevec$ 
+		\foreignlanguage{greek}{και $\truelabel$ με} \glsentryuseriii{probdist} $\probdist^{(\featurevec,\truelabel)}$. 
+		\foreignlanguage{greek}{Η υπό συνθήκη} \glsentryuseri{probdist} \foreignlanguage{greek}{της $\truelabel$ δεδομένης 
+		(ή υπό τον όρο) της $\featurevec$ δηλώνεται με $\probdist^{(\truelabel|\featurevec)}$. Ορίζεται μέσω των} 
+    		\glsentryuserv{conditionalexpect} \foreignlanguage{greek}{των} \glsentryuserv{function}-\foreignlanguage{greek}{δεικτών}  
+    		\glsentryuserv{measurable} \foreignlanguage{greek}{συνόλων στη} \glsentryuseriii{sigmaalgebra} 
+		\foreignlanguage{greek}{που παράγεται από την} \glsentryuseriii{rv} $\truelabel$ \cite{BillingsleyProbMeasure}, \cite{KallenbergBook}. \\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{stochproc}, \gls{rv}, \gls{probdist}, \gls{conditionalexpect}, 
+		\gls{function}, \gls{measurable}, \gls{sigmaalgebra}. },
+  	first={\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}}, 
+  	text={\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}},
+	type=math,
+	user1={\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}}, %nominative
+  	user2={\foreignlanguage{greek}{κατανομής πιθανότητας υπό συνθήκη}}, %genitive 
+	user3={\foreignlanguage{greek}{κατανομή πιθανότητας υπό συνθήκη}} %accusative
 }
 
 \newglossaryentry{state}
@@ -899,6 +1373,62 @@
 	user6={\foreignlanguage{greek}{καταστάσεις}} %accusativepl
 }
 
+\newglossaryentry{dag}
+{name={\foreignlanguage{greek}{κατευθυνόμενος μη κυκλικός γράφος}},
+	description={TBC.\index{directed acyclic graph (DAG)} }, 
+ 	first={\foreignlanguage{greek}{κατευθυνόμενος μη κυκλικός γράφος}},
+ 	text={\foreignlanguage{greek}{κατευθυνόμενος μη κυκλικός γράφος}},
+	type=math,
+	user1={\foreignlanguage{greek}{κατευθυνόμενος μη κυκλικός γράφος}}, %nominative
+  	user2={\foreignlanguage{greek}{κατευθυνόμενου μη κυκλικού γράφου}}, %genitive 
+	user3={\foreignlanguage{greek}{κατευθυνόμενο μη κυκλικό γράφο}}, %accusative
+}
+
+\newglossaryentry{clt}
+{name={\foreignlanguage{greek}{κεντρικό οριακό θεώρημα}},
+	description={TBC.\index{central limit theorem (CLT)} },
+	first={\foreignlanguage{greek}{κεντρικό οριακό θεώρημα}},
+	text={\foreignlanguage{greek}{κεντρικό οριακό θεώρημα}},
+	type=math, 
+	user1={\foreignlanguage{greek}{κεντρικό οριακό θεώρημα}} %nominative
+}
+
+\newglossaryentry{gradient}
+{name={\foreignlanguage{greek}{κλίση}},
+	description={\foreignlanguage{greek}{Για μία}\index{\foreignlanguage{greek}{κλίση}} 
+		\glsentryuseriii{function} \foreignlanguage{greek}{πραγματικής τιμής 
+		$f: \mathbb{R}^{\featuredim} \rightarrow \mathbb{R}: \weights \mapsto f(\weights)$, 
+		αν υφίσταται ένα} \glsentryuseri{vector} $\vg$ \foreignlanguage{greek}{τέτοιο ώστε 
+		$$\lim_{\weights \rightarrow \weights'} {f(\weights) - \big(f(\weights') + \vg\,^{T} (\weights - \weights') \big) }/{\| \weights - \weights'\|}=0,$$
+		αναφέρεται ως η κλίση} (gradient) \foreignlanguage{greek}{της $f$ στο $\weights'$. Αν υφίσταται, η κλίση είναι μοναδική και 
+		δηλώνεται με $\nabla f(\weights')$ ή} $\nabla f(\weights)\big|_{\weights'}$ \cite{RudinBookPrinciplesMatheAnalysis}.
+		\foreignlanguage{greek}{Για μία} \glsentryuseriii{differentiable} \glsentryuseriii{function}, \foreignlanguage{greek}{η κλίση είναι το} 
+		\glsentryuseri{vector} \foreignlanguage{greek}{του οποίου οι καταχωρίσεις είναι οι} \glsentryuseriv{partialderivative} 
+		\foreignlanguage{greek}{της $f$ ως προς κάθε συνιστώσα εισόδου, έτσι ώστε  
+		$\nabla f(\weights) = [{\partial f}/{\partial \feature_1}, \,\dots, \,{\partial f}/{\partial \feature_{\featuredim}}]^T$. 
+		Γεωμετρικά, η κλίση δείχνει την κατεύθυνση της μέγιστης αύξησης}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}, \gls{vector}, \gls{differentiable}, \gls{partialderivative}, \gls{gdmethod}, \gls{gd}, 
+		\gls{zerogradientcondition},  \gls{hessian}. },
+	first={\foreignlanguage{greek}{κλίση}},
+	text={\foreignlanguage{greek}{κλίση}},
+	type=math, 
+	user1={\foreignlanguage{greek}{κλίση}}, %nominative
+  	user2={\foreignlanguage{greek}{κλίσης}}, %genitive   
+	user3={\foreignlanguage{greek}{κλίση}}, %accusative   
+	user4={\foreignlanguage{greek}{κλίσεις}}, %nominativepl
+  	user5={\foreignlanguage{greek}{κλίσεων}}, %genitivepl   
+	user6={\foreignlanguage{greek}{κλίσεις}} %accusativepl 
+}
+
+\newglossaryentry{convexopt}
+{name={\foreignlanguage{greek}{κυρτή βελτιστοποίηση}},
+ 	description={TBC.\index{convex optimization} },
+	first={\foreignlanguage{greek}{κυρτή βελτιστοποίηση}},
+	type=math,
+  	text={\foreignlanguage{greek}{κυρτή βελτιστοποίηση}}
+}
+
 \newglossaryentry{convex}
 {name={\foreignlanguage{greek}{κυρτό}},
 	description={\foreignlanguage{greek}{Ένα υποσύνολο}\index{\foreignlanguage{greek}{κυρτός}} 
@@ -908,7 +1438,7 @@
 		$\vx, \vy\!\in\!\cluster$ σε αυτό το σύνολο, δηλαδή}
 		$$ \alpha \vx + (1-\alpha) \vy \in \mathcal{C} \quad \mbox{\foreignlanguage{greek}{για κάθε} } \alpha \in [0,1]. $$
 		\foreignlanguage{greek}{Όμοια, μία} \glsentryuseri{function} $f\!:\!\mathbb{R}^{\dimlocalmodel}\!\rightarrow\!\mathbb{R}$ 
-		\foreignlanguage{greek}{είναι κυρτή αν το} \glsentryuserii{epigraph} \foreignlanguage{greek}{της} 
+		\foreignlanguage{greek}{είναι κυρτή αν ο} \glsentryuseri{epigraph} \foreignlanguage{greek}{της} 
 		$\big\{ \big( \weights\,^{T},t \big)\,^{T}\!\in\!\mathbb{R}^{\dimlocalmodel\!+\!1}\!:\!t\!\geq\!f(\weights) \}$ 
 		\foreignlanguage{greek}{είναι ένα κυρτό σύνολο} \cite{BoydConvexBook}. \foreignlanguage{greek}{Παρουσιάζουμε ένα παράδειγμα 
 		ενός κυρτού συνόλου και μίας κυρτής} \glsentryuserii{function} \foreignlanguage{greek}{στο Σχ.} \ref{fig_convex_set_function_dict}. 
@@ -951,6 +1481,17 @@
 	user2={\foreignlanguage{greek}{κυρτού}}, %genitive 
 	user3={\foreignlanguage{greek}{κυρτή}}, %nominativeoraccusativefem
 	user4={\foreignlanguage{greek}{κυρτής}} %genitivefem
+}
+
+\newglossaryentry{smooth}
+{name={\foreignlanguage{greek}{λεία}},
+	description={TBC.\index{smooth} },
+	first={\foreignlanguage{greek}{λεία}},
+	text={\foreignlanguage{greek}{λεία}},
+	type=math,
+	user1={\foreignlanguage{greek}{λεία}}, %nominative
+	user2={\foreignlanguage{greek}{λείας}}, %genitive
+	user3={\foreignlanguage{greek}{λεία}} %accusative
 }
 
 \newglossaryentry{optmethod}
@@ -1051,6 +1592,20 @@
 	user3={\foreignlanguage{greek}{μέθοδο των πολλαπλασιαστών}}, %accusative
 }
 
+\newglossaryentry{partialderivative}
+{name={\foreignlanguage{greek}{μερική παράγωγος}},
+	description={TBC.\index{partial derivative} },
+    	first={\foreignlanguage{greek}{μερική παράγωγος}},
+	text={\foreignlanguage{greek}{μερική παράγωγος}},
+	type=math, 
+	user1={\foreignlanguage{greek}{μερική παράγωγος}}, %nominative
+  	user2={\foreignlanguage{greek}{μερικής παραγώγου}}, %genitive 
+	user3={\foreignlanguage{greek}{μερική παράγωγο}}, %accusative
+	user4={\foreignlanguage{greek}{μερικές παράγωγοι}}, %nominativepl
+  	user5={\foreignlanguage{greek}{μερικών παραγώγων}}, %genitivepl 
+	user6={\foreignlanguage{greek}{μερικές παραγώγους}} %accusativepl
+}
+
 \newglossaryentry{averagenodedegree}
 {name={\foreignlanguage{greek}{μέσος βαθμός κόμβου}},
 	description={The average \gls{nodedegree}\index{average node degree} $\avgnodedegree$ of a weighted 
@@ -1134,7 +1689,7 @@
 
 \newglossaryentry{metric}
 {name={\foreignlanguage{greek}{μετρική}},
-	description={\foreignlanguage{greek}{Μία μετρική}\index{\foreignlanguage{greek}{μετρική}} 
+	description={\foreignlanguage{greek}{Μία μετρική}\index{\foreignlanguage{greek}{μετρική}} (metric)
 		\foreignlanguage{greek}{είναι ένα ποσοτικό} \glsentryuseri{measure} \foreignlanguage{greek}{που χρησιμοποιείται 
 		για τη σύγκριση αντικειμένων. Στα μαθηματικά, μία μετρική μετράει την απόσταση μεταξύ δύο σημείων 
 		σε έναν χώρο και πρέπει να ακολουθεί συγκεκριμένους κανόνες, δηλαδή η απόσταση να είναι πάντα μη αρνητική, 
@@ -1261,9 +1816,7 @@
 
 \newglossaryentry{measure}
 {name={\foreignlanguage{greek}{μέτρο}},
-	description={A measure\index{\foreignlanguage{greek}{μέτρο}} ...
-		\\
-		See also: TBC. },
+	description={TBC.\index{measure} },
 	first={\foreignlanguage{greek}{μέτρο}},
 	text={\foreignlanguage{greek}{μέτρο}},
 	type=math,
@@ -1292,8 +1845,7 @@
 
 \newglossaryentry{LebesgueIntegral}
 {name={\foreignlanguage{greek}{ολοκλήρωμα} Lebesgue},
-	description={The Lebesgue integral\index{Lebesgue integral} 
-		assigns ...},
+	description={TBC.\index{Lebesgue integral} },
 	first={\foreignlanguage{greek}{ολοκλήρωμα} Lebesgue},
 	text={\foreignlanguage{greek}{ολοκλήρωμα} Lebesgue},
 	type=math,
@@ -1331,11 +1883,90 @@
 	user3={\foreignlanguage{greek}{ολοκληρώσιμη}} %accusative
 }
 
+\newglossaryentry{det}
+{name={\foreignlanguage{greek}{ορίζουσα}},
+	description={\foreignlanguage{greek}{Η ορίζουσα}\index{\foreignlanguage{greek}{ορίζουσα}} $\det\,(\mA)$ \foreignlanguage{greek}{ενός τετραγωνικού}
+		\glsentryuserii{matrix} $\mA =\linebreak \big( \va^{(1)},\,\ldots,\,\va^{(\nrfeatures)} \big) \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ 
+		\foreignlanguage{greek}{είναι μία} \glsentryuseri{function} \foreignlanguage{greek}{των στηλών του\linebreak 
+		$\va^{(1)},\,\ldots,\,\va^{(\nrfeatures)} \in \mathbb{R}^{\nrfeatures}$, δηλαδή πληροί τις ακόλουθες ιδιότητες} \cite{DirschmidHansJorg1996TuF}:
+		\begin{itemize}
+			\item \foreignlanguage{greek}{Κανονικοποιημένη}: $$\det\,(\mI) = 1$$ 
+			\item \foreignlanguage{greek}{Πολυγραμμική}: \begin{align} \nonumber \det \big(\va^{(1)},\,\ldots,\,\alpha\vu+ \beta \vv,\,\ldots,\,\va^{(\nrfeatures)} \big) & = \alpha\det \big(\va^{(1)},\,\ldots,\,\vu,\,\ldots,\,\va^{(\nrfeatures)} \big) \\ 
+			& +\beta\det \big(\va^{(1)},\,\ldots,\,\vv,\,\ldots,\,\va^{(\nrfeatures)} \big) \nonumber
+			\end{align}
+			\item \foreignlanguage{greek}{Αντισυμμετρική}: $$\det \big(\ldots,\,\va^{(\featureidx)}, \,\ldots, \,\va^{(\featureidx')},\,\ldots \big) = - \det \big(\ldots,\,\va^{(\featureidx')}, \,\ldots, \,\va^{(\featureidx)},\,\ldots \big).$$ 
+		\end{itemize}  
+		\foreignlanguage{greek}{Μπορούμε να ερμηνεύσουμε έναν} \glsentryuseriii{matrix} $\mA$ \foreignlanguage{greek}{ως έναν γραμμικό
+		μετασχηματισμό στον $\mathbb{R}^{\nrfeatures}$. Η ορίζουσα $\det\,(\mA)$ χαρακτηρίζει πώς οι όγκοι στον $\mathbb{R}^\nrfeatures$ 
+		(και ο προσανατολισμός τους) μεταβάλλονται από αυτόν τον μετασχηματισμό (βλέπε Σχ.} \ref{fig_det_dict}) \cite{GolubVanLoanBook}, \cite{Strang2007}. 
+ 		\foreignlanguage{greek}{Συγκεκριμένα, $\det\,(\mA) > 0$ διατηρεί τον προσανατολισμό, $\det\,(\mA) < 0$ αντιστρέφει τον προσανατολισμό, 
+ 		και $\det\,(\mA) = 0$ συρρικνώνει πλήρως τον όγκο, υποδεικνύοντας ότι ο $\mA$ είναι μη αντιστρέψιμος. 
+ 		Η ορίζουσα ικανοποιεί επίσης $\det\,(\mA \mB) = \det\,(\mA) \cdot \det\,(\mB)$, και αν ο $\mA$ είναι διαγωνοποιήσιμος με}
+ 		\glsentryuservi{eigenvalue} $\eigval{1}, \,\ldots, \,\eigval{\nrfeatures}$, \foreignlanguage{greek}{τότε} 
+		$\det\,(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}.
+    		\foreignlanguage{greek}{Για τις ειδικές περιπτώσεις $\nrfeatures=2$ (δηλαδή δισδιάστατη ή 2-D) και $\nrfeatures=3$ 
+		(δηλαδή τρισδιάστατη ή 3-D), η ορίζουσα μπορεί να ερμηνευτεί ως ένα προσανατολισμένο εμβαδόν ή όγκος παραγόμενος από
+		τα} \glsentryuservi{vector} \foreignlanguage{greek}{στηλών του} $\mA$.
+    		\begin{figure}[H]
+    			\begin{center}
+    			\begin{tikzpicture}[x=2cm]
+			% LEFT: Standard basis vectors and unit square
+			\begin{scope}
+			\draw[->, thick] (0,0) -- (1,0) node[below right] {$\vx$};
+			\draw[->, thick] (0,0) -- (0,1) node[above left] {$\vy$};
+			%\draw[fill=gray!15] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+			%\node at (0.5,0.5) {\small unit square};
+			%\node at (0.5,-0.6) {standard basis};
+			\end{scope}
+			% RIGHT: Transformed basis vectors and parallelogram
+			\begin{scope}[shift={(2.8,0)}]
+			\coordinate (A) at (1.5,0.5);
+			\coordinate (B) at (-0.2,1.2);
+			\draw[->, very thick, red] (0,0) -- (A) node[below right] {$\mA \vx$};
+			\draw[->, very thick, red] (0,0) -- (B) node[above left] {$\mA \vy$};
+			\draw[fill=red!20, opacity=0.6] (0,0) -- (A) -- ($(A)+(B)$) -- (B) -- cycle;
+			\draw[dashed] (A) -- ($(A)+(B)$);
+			\draw[dashed] (B) -- ($(A)+(B)$);
+			\node at (0.8,0.6) {\small $\det\,(\mA)$};
+			% Orientation arc
+			\draw[->, thick, blue] (0.4,0.0) arc[start angle=0, end angle=35, radius=0.6];
+			%	\node[blue] at (0.25,1.25) {};
+			%	\node at (0.8,-0.6) {transformed basis};
+			\end{scope}
+			% Arrow between plots
+			\draw[->, thick] (1.3,0.5) -- (2.4,0.5) node[midway, above] {$\mA$};
+			\end{tikzpicture}
+			\end{center}
+			{\selectlanguage{greek}
+			\caption{\foreignlanguage{greek}{Μπορούμε να ερμηνεύσουμε έναν τετραγωνικό} \glsentryuseriii{matrix} $\mA$ 
+				\foreignlanguage{greek}{ως έναν γραμμικό μετασχηματισμό του $\mathbb{R}^{\nrfeatures}$ στον εαυτό του.
+				Η ορίζουσα $\det\,(\mA)$ χαρακτηρίζει πώς αυτός ο μετασχηματισμός μεταβάλλει έναν προσανατολισμένο όγκο.}
+				\label{fig_det_dict}} }
+		\end{figure}
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{matrix}, \gls{function}, \gls{eigenvalue}, \gls{vector}, \gls{inverse}.},
+	first={\foreignlanguage{greek}{ορίζουσα}},
+	text={\foreignlanguage{greek}{ορίζουσα}},
+	type=math,
+	user1={\foreignlanguage{greek}{ορίζουσα}}, %nominative 
+	user2={\foreignlanguage{greek}{ορίζουσας}}, %genitive 
+	user3={\foreignlanguage{greek}{ορίζουσα}}, %accusative 
+	user4={\foreignlanguage{greek}{ορίζουσά}} %nominativeoraccusativedoublestress 
+}
+
+\newglossaryentry{boundary}
+{name={\foreignlanguage{greek}{όριο}},
+	description={TBC.\index{boundary} },
+	first={\foreignlanguage{greek}{όριο}}, 
+	text={\foreignlanguage{greek}{όριο}},
+	type=math,
+	user1={\foreignlanguage{greek}{όριο}}, %nominative
+  	user2={\foreignlanguage{greek}{ορίου}}, %genitive 
+	user3={\foreignlanguage{greek}{όριο}} %accusative
+}
+
 \newglossaryentry{domain}
 {name={\foreignlanguage{greek}{πεδίο}}, 
-	description={The domain\index{\foreignlanguage{greek}{πεδίο}} ... 
-		\\
-		See also: TBC. },
+	description={TBC.\index{\foreignlanguage{greek}{πεδίο}} },
 	first={\foreignlanguage{greek}{πεδίο}},
 	text={domain},
 	type=math,
@@ -1346,9 +1977,7 @@
 
 \newglossaryentry{co-domain}
 {name={\foreignlanguage{greek}{πεδίο τιμών}}, 
-	description={The\index{\foreignlanguage{greek}{πεδίο τιμών}} ...  
-		\\
-		See also: TBC. },
+	description={TBC.\index{\foreignlanguage{greek}{πεδίο τιμών}} },
 	first={\foreignlanguage{greek}{πεδίο τιμών}},
 	text={co-domain},
 	type=math,
@@ -1392,8 +2021,8 @@
 		A_{\samplesize,1} & A_{\samplesize,2} & \dots  & A_{\samplesize,\nrfeatures}
 		\end{bmatrix} \in \mathbb{R}^{\samplesize \times \nrfeatures}.
 		$$
-		\foreignlanguage{greek}{Εδώ, $A_{\sampleidx,\featureidx}$ δηλώνει την καταχώριση του πίνακα στην $\sampleidx$στή 
-		γραμμή και την $\featureidx$στή στήλη. Οι πίνακες είναι χρήσιμες αναπαραστάσεις διάφορων μαθηματικών 
+		\foreignlanguage{greek}{Εδώ, $A_{\sampleidx,\featureidx}$ δηλώνει την καταχώριση του πίνακα στην $\sampleidx$-οστή 
+		γραμμή και την $\featureidx$-οστή στήλη. Οι πίνακες είναι χρήσιμες αναπαραστάσεις διάφορων μαθηματικών 
 		αντικειμένων} \cite{StrangLinAlg2016}, \foreignlanguage{greek}{συμπεριλαμβανομένων των εξής}:
 		\begin{itemize}
 			\item \foreignlanguage{greek}{Συστήματα γραμμικών εξισώσεων: Μπορούμε να χρησιμοποιήσουμε έναν πίνακα 
@@ -1413,7 +2042,7 @@
 			\quad \text{ \foreignlanguage{greek}{συμπαγώς ως} } \quad \mA \vw = \vy.
 			$$
     			\foreignlanguage{greek}{Ένα σημαντικό παράδειγμα συστημάτων γραμμικών εξισώσεων εί\-ναι η συνθήκη βελτιστότητας 
-			για τις} \glsentryuseriii{modelparams} \foreignlanguage{greek}{εντός} \glsentryuserii{linreg}. 
+			για τις} \glsentryuservi{modelparam} \foreignlanguage{greek}{εντός} \glsentryuserii{linreg}. 
 			\item \Gls{linearmap}s:
 			\foreignlanguage{greek}{Θεωρούμε έναν $\nrfeatures$-διάστατο} \glsentryuseriii{vectorspace} $\mathcal{U}$ 
 			\foreignlanguage{greek}{και έναν $\samplesize$-διάστατο} \glsentryuseriii{vectorspace} $\mathcal{V}$. 
@@ -1458,7 +2087,7 @@
 		\caption{\foreignlanguage{greek}{Ένας πίνακας $\mA$ ορίζει μία} \selectlanguage{english}{\gls{linearmap}} \foreignlanguage{greek}{μεταξύ 
 		δύο} \glsentryuserv{vectorspace}. \label{fig_matrix_dict}} }
 		\end{figure}
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{modelparams}, \gls{linreg}, \gls{linearmap}, \gls{vectorspace}, \gls{dataset}, 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{modelparam}, \gls{linreg}, \gls{linearmap}, \gls{vectorspace}, \gls{dataset}, 
 		\gls{datapoint}, \gls{feature}, \gls{label}, \gls{linmodel}. },
 	first={\foreignlanguage{greek}{πίνακας}},
 	text={\foreignlanguage{greek}{πίνακας}},
@@ -1489,61 +2118,66 @@
 	user3={\foreignlanguage{greek}{πίνακα συνδιακύμανσης}} %accusative   
 }
 
+\newglossaryentry{samplecovmtx}
+{name={\foreignlanguage{greek}{πίνακας συνδιακύμανσης δείγματος}}, 
+	description={\foreignlanguage{greek}{Θεωρούμε ένα} \glsentryuseriii{dataset} \foreignlanguage{greek}{που αποτελείται από} 
+		\glsentryuservi{datapoint} \foreignlanguage{greek}{που χαρακτηρίζονται από} \glsentryuservi{featurevec} 
+		$\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$.	
+		\foreignlanguage{greek}{Ο}\index{\foreignlanguage{greek}{πίνακας συνδιακύμανσης δείγματος}} \glsentryuseri{covmtx} 
+		\glsentryuserii{sample} (sample covariance matrix) \foreignlanguage{greek}{του} $\dataset$ \foreignlanguage{greek}{ορίζεται ως ο} 
+		\glsentryuseri{covmtx} \foreignlanguage{greek}{αναφορικά με την} \glsentryuseriii{empiricaldistribution} $\probdist^{(\dataset)}$ 
+		\foreignlanguage{greek}{που επάγεται από το $\dataset$. Δίνεται ρητά από} 
+		$$\samplecovmtxgeneric = \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm}) (\featurevec^{(\sampleidx)}\!-\!\widehat{\vm})\,^{T}.$$ 
+		\foreignlanguage{greek}{Εδώ χρησιμοποιούμε τη} \glsentryuseriii{samplemean} $\samplemeanvecgeneric$. 
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{dataset}, \glspl{datapoint}, \gls{featurevec}, \gls{sample}, \gls{covmtx},
+		\gls{empiricaldistribution}, \gls{samplemean}.},
+	first={\foreignlanguage{greek}{πίνακας συνδιακύμανσης δείγματος}},
+	text={\foreignlanguage{greek}{πίνακας συνδιακύμανσης δείγματος}},
+	type=math,
+	user1={\foreignlanguage{greek}{πίνακας συνδιακύμανσης δείγματος}}, %nominative
+	user2={\foreignlanguage{greek}{πίνακα συνδιακύμανσης δείγματος}}, %genitive 
+	user3={\foreignlanguage{greek}{πίνακα συνδιακύμανσης δείγματος}} %accusative 
+}
+
 \newglossaryentry{fullrank}
 {name={\foreignlanguage{greek}{πλήρους τάξης}},
- 	description={A \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
-  		is\index{full-rank} ...}, 
-	text={full-rank},
-  	first={full-rank},
+ 	description={TBC.\index{full-rank} }, 
+	text={\foreignlanguage{greek}{πλήρους τάξης}},
+  	first={\foreignlanguage{greek}{πλήρους τάξης}},
 	type=math,
 	user1={\foreignlanguage{greek}{πλήρους τάξης}} %genitive
 }
 
 \newglossaryentry{mvndist}
 {name={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}}, 
-	description={The\index{\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}} multivariate normal distribution, 
-		which is denoted by $\mvnormal{\meanvecgeneric}{\covmtxgeneric}$, is a fundamental 
-		\gls{probmodel} for numerical \gls{featurevec}s of fixed dimension $\nrfeatures$. 
-		It defines a family of \gls{probdist}s over \gls{vector}-valued \gls{rv}s 
-		$\featurevec \in \mathbb{R}^{\nrfeatures}$~\cite{BertsekasProb}, \cite{GrayProbBook}, \cite{Lapidoth09}. 
-		Each distribution in this family is fully specified by its \gls{mean} \gls{vector} 
-		$\meanvecgeneric \in \mathbb{R}^{\nrfeatures}$ and \gls{covmtx} 
-		$\covmtxgeneric \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$. When the 
-		\gls{covmtx} $\covmtxgeneric$ is invertible, the corresponding \gls{probdist} is 
-		characterized by the following \gls{pdf}:
-		\[p(\featurevec) = 
- 		\frac{1}{\sqrt{(2\pi)^{\nrfeatures} \det\,(\covmtxgeneric)}} 
- 		\exp\left[ -\frac{1}{2} 
- 		(\featurevec - \meanvecgeneric)\,^{T}\, \covmtxgeneric^{-1} 
- 		(\featurevec - \meanvecgeneric) \right].
- 		\]
-		Note that this \gls{pdf} is only defined when $\covmtxgeneric$ is invertible.
-   		More generally, any \gls{rv} $\featurevec \sim \mvnormal{\meanvecgeneric}{\covmtxgeneric}$ 
-   		admits the following representation:
-  		\[
-    		\featurevec = \mA \vz + \meanvecgeneric
-   		\]
-   		where $\vz \sim \mvnormal{\mathbf{0}}{\mathbf{I}}$ is a \gls{stdnormvec} 
-   		and $\mA \in \mathbb{R}^{\nrfeatures \times \nrfeatures}$ satisfies $\mA \mA^\top = \covmtxgeneric$. 
-   		This representation remains valid even when $\covmtxgeneric$ is singular, in which case $\mA$ 
-   		is not full rank~\cite[Ch. 23]{Lapidoth2017}.
-   		The family of multivariate normal distributions is exceptional among \gls{probmodel}s for numerical 
-   		quantities, at least for the following reasons. First, the family is closed under affine 
-   		transformations, i.e.,
-		\[ 
-		\featurevec \sim \mathcal{N}(\meanvecgeneric,\covmtxgeneric) \mbox{ implies } 
-		\mB\featurevec\!+\!\vc \sim \mathcal{N}\big( \mB\meanvecgeneric+\vc,\mB \covmtxgeneric \mB\,^{T} \big). 
-		\]
-		Second, the \gls{probdist} $\mathcal{N}(\mathbf{0},\covmtxgeneric)$ maximizes the 
-		\gls{diffentropy} among all distributions with the same \gls{covmtx} $\covmtxgeneric$~\cite{coverthomas}. \\ 
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{probmodel}, \gls{featurevec}, \gls{probdist}, \gls{vector}, \gls{rv}, \gls{mean}, 
-		\gls{covmtx}, \gls{pdf}, \gls{stdnormvec}, \gls{diffentropy}, \gls{gaussrv}.}, 
+	description={TBC.\index{multivariate normal distribution} }, 
 	first={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}},
 	text={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}},
 	type=math,
 	user1={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}}, %nominative
 	user2={\foreignlanguage{greek}{πολυμεταβλητής κανονικής κατανομής}}, %genitive 
 	user3={\foreignlanguage{greek}{πολυμεταβλητή κανονική κατανομή}} %accusative 
+}
+
+\newglossaryentry{optproblem}
+{name={\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}}, 
+	description={\foreignlanguage{greek}{Ένα πρόβλημα βελτιστοποίησης}\index{\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}} 
+		(optimization problem) \foreignlanguage{greek}{είναι μία μαθηματική δομή που αποτελείται από μία} \glsentryuseriii{objfunc} 
+		$f: \mathcal{U} \rightarrow \mathcal{V}$ \foreignlanguage{greek}{ορισμένη πάνω σε μία μεταβλητή βελτιστοποίησης 
+		$\weights \in \mathcal{U}$, μαζί με ένα εφικτό σύνολο $\mathcal{W} \subseteq \mathcal{U}$. Το 
+		πεδίο τιμών $\mathcal{V}$ θεωρείται ότι είναι διατεταγμένο, που σημαίνει ότι για οποιαδήποτε δύο στοιχεία 
+		$\mathbf{a}, \mathbf{b} \in \mathcal{V}$, μπορούμε να καθορίσουμε αν $\mathbf{a} < \mathbf{b}$, $\mathbf{a} = \mathbf{b}$, 
+		ή $\mathbf{a} > \mathbf{b}$. Ο στόχος της βελτιστοποίησης είναι να βρούμε εκείνες τις τιμές $\weights \in \mathcal{W}$ 
+		για τις οποίες η αντικειμενική $f(\weights)$ είναι ακρότατη—δηλαδή ελάχιστη ή μέγιστη} 
+		\cite{BertsekasNonLinProgr}, \cite{BoydConvexBook}, \cite{nesterov04}.\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{objfunc}.},
+	first={\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}},
+	text={optimization problem},
+	type=math,
+	user1={\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}}, %nominative
+  	user2={\foreignlanguage{greek}{προβλήματος βελτιστο\-ποί\-ησης}}, %genitive 
+	user3={\foreignlanguage{greek}{πρόβλημα βελτιστοποίησης}} %accusative
 }
 
 \newglossaryentry{preimage}
@@ -1563,12 +2197,25 @@
 	user1={\foreignlanguage{greek}{προεικόνα}} %nominative
 }
 
+\newglossaryentry{conditionalexpect}
+{name={\foreignlanguage{greek}{προσδοκία υπό συνθήκη}}, 
+	description={TBC.\index{conditional expectation} }, 
+ 	first={\foreignlanguage{greek}{προσδοκία υπό συνθήκη}},  
+ 	text={\foreignlanguage{greek}{προσδοκία υπό συνθήκη}},
+	type=math,
+	user1={\foreignlanguage{greek}{προσδοκία υπό συνθήκη}}, %nominative
+  	user2={\foreignlanguage{greek}{προσδοκίας υπό συνθήκη}}, %genitive 
+	user3={\foreignlanguage{greek}{προσδοκία υπό συνθήκη}}, %accusative
+	user4={\foreignlanguage{greek}{προσδοκίες υπό συνθήκη}}, %nominativepl
+  	user5={\foreignlanguage{greek}{προσδοκιών υπό συνθήκη}}, %genitivepl 
+	user6={\foreignlanguage{greek}{προσδοκίες υπό συνθήκη}} %accusativepl
+}%υπό όρους
+
 \newglossaryentry{sigmaalgebra}
 {name={\foreignlanguage{greek}{$\sigma$-άλγεβρα}},
-	description={Consider a\index{\foreignlanguage{greek}{$\sigma$-άλγεβρα}} ...	\\		 
-		See also: TBC. },
+	description={TBC.\index{$\sigma$-algebra} },
 	first={\foreignlanguage{greek}{$\sigma$-άλγεβρα}},
-	text={$\sigma$-algebra},
+	text={\foreignlanguage{greek}{$\sigma$-άλγεβρα}},
 	type=math,
 	user1={\foreignlanguage{greek}{$\sigma$-άλγεβρα}}, %nominative
   	user2={\foreignlanguage{greek}{$\sigma$-άλγεβρας}}, %genitive 
@@ -1577,8 +2224,7 @@
 
 \newglossaryentry{fixedpoint}
 {name={\foreignlanguage{greek}{σταθερό σημείο}},
-	description={Consider some \gls{operator} $\fixedpointop: \hilbertspace \rightarrow \hilbertspace$ 
-		...},
+	description={TBC.\index{fixed point} },
 	first={\foreignlanguage{greek}{σταθερό σημείο}},
 	text={\foreignlanguage{greek}{σταθερό σημείο}},
 	type=math,
@@ -1644,7 +2290,7 @@
 		\glsentryuseri{sequence} \foreignlanguage{greek}{συγκλίνει σε μία τιμή
        	 	$a^\star$ αν οι τιμές $a_{\sampleidx}$ γίνονται αυθαίρετα κοντινές στην 
 		$a^\star$ για επαρκώς μεγάλους δείκτες $\sampleidx$. 
-        		Από μαθηματικής άποψης, η} \glsentryuseri{sequence} \foreignlanguage{greek}{συγκλίνει στην
+        		Από μαθηματική άποψη, η} \glsentryuseri{sequence} \foreignlanguage{greek}{συγκλίνει στην
 		$a^\star$ αν} 
 		\cite{RudinBook}, \cite{RudinBookPrinciplesMatheAnalysis}
         		\[
@@ -1709,7 +2355,7 @@
 
 \newglossaryentry{symmetricmatrix}
 {name={\foreignlanguage{greek}{συμμετρικός πίνακας}},
-	description={A symmetric \gls{matrix} is a square\index{symmetric matrix} ... },
+	description={TBC.\index{symmetric matrix} },
 	first={\foreignlanguage{greek}{συμμετρικός πίνακας}},
 	text={\foreignlanguage{greek}{συμμετρικός πίνακας}},
 	type=math, 
@@ -1764,14 +2410,56 @@
 
 \newglossaryentry{pmf}
 {name={\foreignlanguage{greek}{συνάρτηση μάζας πιθανότητας}}, 
-	description={The pmf\index{probability mass function (pmf)} 
-		of a \gls{discreteRV} $\feature$ is a ...},
+	description={TBC.\index{probability mass function (pmf)} },
 	first={\foreignlanguage{greek}{συνάρτηση μάζας πιθανότητας}},
 	text={\foreignlanguage{greek}{συνάρτηση μάζας πιθανότητας}},
 	type=math,
 	user1={\foreignlanguage{greek}{συνάρτηση μάζας πιθανότητας}}, %nominative
   	user2={\foreignlanguage{greek}{συνάρτησης μάζας πιθανότητας}}, %genitive 
 	user3={\foreignlanguage{greek}{συνάρτηση μάζας πιθανότητας}} %accusative
+}
+
+\newglossaryentry{pdf}
+{name={\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}},
+	description={\foreignlanguage{greek}{Η συνάρτηση πυκνότητας 
+		πιθανότητας}\index{\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}} (probability density function - pdf) 
+		$\pdf{\feature}{\cdot}$ \foreignlanguage{greek}{μίας} \glsentryuserii{continuous} \glsentryuserii{rv} 
+		\foreignlanguage{greek}{πραγματικής τιμής $\feature \in \mathbb{R}$ μας επιτρέπει να υπολογίσουμε την} 
+		\glsentryuseriii{probability} $\prob{\feature \in \mathcal{B}}$ (\foreignlanguage{greek}{του} \glsentryuserii{event} 
+		$\mathcal{B} \subseteq \mathbb{R}$) \foreignlanguage{greek}{μέσω ενός} \glsentryuserii{LebesgueIntegral} \foreignlanguage{greek}{ως 
+		εξής} \cite[\foreignlanguage{greek}{Κεφ.} 3]{BertsekasProb}:
+		%is a particular representation of its \gls{probdist}. If the pdf exists, 
+		%it can be used to compute the \gls{probability} that $\feature$ takes 
+		%on a value from a \gls{measurable} set $\mathcal{B} \subseteq \mathbb{R}$ 
+	 	$$\prob{\feature \in \mathcal{B}} = \int_{\mathcal{B}} \pdf{\feature}{\eta} d 
+	 	\eta.$$  
+		\foreignlanguage{greek}{Αυτός ο ορισμός επεκτείνεται φυσικά σε μία} (\glsentryuseriii{continuous}) \glsentryuseriii{rv} 
+		\glsentryuserviii{vector} \foreignlanguage{greek}{τιμής $\featurevec \in \mathbb{R}^{\nrfeatures}$, καθώς το} 
+		\glsentryuseri{LebesgueIntegral} \foreignlanguage{greek}{ορίζεται για τον $\mathbb{R}^{\nrfeatures}$ με οποιαδήποτε} 
+		\glsentryuseriii{dimension} $\nrfeatures$. 
+		%If the pdf of a \gls{vector}-valued \gls{rv} $\featurevec \in \mathbb{R}^{\featuredim}$ exists, 
+		%it allows us to compute the \gls{probability} of $\featurevec$ belonging to a 
+		%\gls{measurable} region $\mathcal{R}$ via 
+    		%$\prob{\featurevec \in \mathcal{R}} = \int_{\mathcal{R}} p(\featurevec') d \feature_{1}' \,\ldots \,d \feature_{\featuredim}' $ \cite[Ch. 3]{BertsekasProb}.
+		\\
+        		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{continuous}, \gls{rv}, \gls{probability}, \gls{event}, \gls{LebesgueIntegral}, \gls{vector}, 
+		\gls{dimension}, \gls{probdist}, \gls{measurable}.},
+	first={\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}},
+	text={\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}},
+	type=math,
+	user1={\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}}, %nominative
+	user2={\foreignlanguage{greek}{συνάρτησης πυκνότητας πιθανότητας}}, %genitive
+	user3={\foreignlanguage{greek}{συνάρτηση πυκνότητας πιθανότητας}} %accusative    
+}
+
+\newglossaryentry{covariance}
+{name={\foreignlanguage{greek}{συνδιακύμανση}}, 
+	description={TBC.\index{covariance} },
+	first={\foreignlanguage{greek}{συνδιακύμανση}},
+	text={\foreignlanguage{greek}{συνδιακύμανση}},
+	type=math,
+	user1={\foreignlanguage{greek}{συνδιακύμανση}}, %nominative
+  	user2={\foreignlanguage{greek}{συνδιακύμανσης}} %genitive
 }
 
 \newglossaryentry{connected}
@@ -1806,8 +2494,8 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 			\end{tikzpicture}
 		{\selectlanguage{greek}
 		\caption{\selectlanguage{english}{(a)} \foreignlanguage{greek}{Ένας} \glsentryuseri{graph} \foreignlanguage{greek}{που είναι 
-		μη συνεκτικός.} \selectlanguage{english}{(b)} \foreignlanguage{greek}{Ένας} \glsentryuseri{graph} \foreignlanguage{greek}{που 
-		είναι συνεκτικός}. \label{fig_connected_dict}} }
+			μη συνεκτικός.} \selectlanguage{english}{(b)} \foreignlanguage{greek}{Ένας} \glsentryuseri{graph} 
+			\foreignlanguage{greek}{που είναι συνεκτικός}. \label{fig_connected_dict}} }
 		\end{figure} 
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{undirectedgraph}, \gls{graph}, \gls{algconn}.}, 
 	first={\foreignlanguage{greek}{συνεκτικός}},
@@ -1819,8 +2507,7 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 
 \newglossaryentry{continuous}
 {name={\foreignlanguage{greek}{συνεχής}}, 
-	description={A \gls{function}\index{continuous} $f: \mathbb{R}^{\nrfeatures} \to \mathbb{R}$ is 
-		continuous ...},
+	description={TBC.\index{continuous} },
 	first={\foreignlanguage{greek}{συνεχής}},
 	text={\foreignlanguage{greek}{συνεχής}},
 	type=math,
@@ -1835,16 +2522,17 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 \newglossaryentry{contractop}
 {name={\foreignlanguage{greek}{συστολικός τελεστής}},
 	description={\foreignlanguage{greek}{Ένας}\index{contractive operator} \glsentryuseri{operator} 
-		$\fixedpointop: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$
+		$\fixedpointop: \mathcal{V} \rightarrow  \mathcal{V}$ \foreignlanguage{greek}{σε έναν} \glsentryuseriii{normedspace} 
+		$(\mathcal{V}, \normgeneric{\,\cdot \,}{})$
 		\foreignlanguage{greek}{λέγεται συστολή (ή συστολικός} (contractive operator)) \foreignlanguage{greek}{αν, 
 		για κάποιον} $\contractfac \in [0,1)$, \cite{BausckeCombette}, \cite{ProximalMethods}
 		\begin{equation} 
 			\nonumber
-			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{2}  \leq 
-			 \contractfac	\normgeneric{\weights\!-\!\weights'}{2} \quad \mbox{\foreignlanguage{greek}{ισχύει για κάθε} } \weights,\weights' \in \mathbb{R}^{\nrfeatures}.
+			\normgeneric{ \fixedpointop \weights\!-\!\fixedpointop \weights'}{}  \leq 
+			 \contractfac	\normgeneric{\weights\!-\!\weights'}{} \quad \mbox{\foreignlanguage{greek}{ισχύει για κάθε} } \weights,\weights' \in \mathcal{V}.
 		\end{equation} 
-		\foreignlanguage{greek}{Η έννοια του συστολικού} \glsentryuserii{operator} \foreignlanguage{greek}{γενικεύει φυσικά από 
-		$\mathbb{R}^{\nrfeatures}$ σε αυθαί\-ρετους} \glsentryuservi{metricspace} \cite{BausckeCombette}.
+		\foreignlanguage{greek}{Η έννοια του συστολικού} \glsentryuserii{operator} \foreignlanguage{greek}{γενικεύει φυσικά από} 
+		\glsentryuservi{normedspace} \foreignlanguage{greek}{σε αυθαί\-ρετους} \glsentryuservi{metricspace} \cite{BausckeCombette}.
 		\begin{figure}[H]
     			\centering
     			\begin{tikzpicture}[>=Latex, font=\small]
@@ -1906,9 +2594,9 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 
 \newglossaryentry{rank}
 {name={\foreignlanguage{greek}{τάξη}},
-	description={The rank\index{rank} of a \gls{matrix} ...}, 
-	text={rank},
-	first={rank},
+	description={TBC.\index{rank} }, 
+	text={\foreignlanguage{greek}{τάξη}},
+	first={\foreignlanguage{greek}{τάξη}},
 	type=math,
 	user1={\foreignlanguage{greek}{τάξη}}, %nominative
 	user2={\foreignlanguage{greek}{τάξης}}, %genitive
@@ -1943,28 +2631,37 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 \newglossaryentry{rv}
 {name={\foreignlanguage{greek}{τυχαία μεταβλητή}},
 	description={\foreignlanguage{greek}{Μία τυχαία μεταβλητή}\index{\foreignlanguage{greek}{τυχαία μεταβλητή}} (random variable - RV) 
-		\foreignlanguage{greek}{είναι μία} \glsentryuseri{function} \foreignlanguage{greek}{που αντιστοιχίζει τα αποτελέσματα ενός}  
-		\glsentryuserii{randomexperiment} \foreignlanguage{greek}{σε έναν χώρο τιμών} \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
- 		\foreignlanguage{greek}{Από μαθηματικής άποψης, μία τυχαία μεταβλητή είναι μία} \glsentryuseri{function} $x: \Omega \rightarrow \featurespace$ 
-		\foreignlanguage{greek}{που ορίζεται πάνω στον} \glsentryuseriii{samplespace} $\Omega$ \foreignlanguage{greek}{ενός} \glsentryuserii{probspace}.
-		\foreignlanguage{greek}{Διαφορετικοί τύποι τυχαίων μεταβλητών περιλαμβάνουν}   
+		\foreignlanguage{greek}{είναι μία} \glsentryuseri{function} \foreignlanguage{greek}{που αντιστοιχίζει τα} \glsentryuservi{outcome} 
+		\foreignlanguage{greek}{ενός} \glsentryuserii{randomexperiment} \foreignlanguage{greek}{σε στοιχεία ενός} \glsentryuserii{measurable} 
+		\foreignlanguage{greek}{χώρου} \cite{BillingsleyProbMeasure}, \cite{GrayProbBook}. 
+ 		\foreignlanguage{greek}{Από μαθηματική άποψη, μία τυχαία μεταβλητή είναι μία} \glsentryuseri{function} 
+		$x: \samplespace \rightarrow \featurespace$ \foreignlanguage{greek}{της οποίας το} \glsentryuseri{domain} \foreignlanguage{greek}{είναι
+		ο} \glsentryuseri{samplespace} $\samplespace$ \foreignlanguage{greek}{ενός} \glsentryuserii{probspace} \foreignlanguage{greek}{και 
+		της οποίας το} \glsentryuseri{co-domain} \foreignlanguage{greek}{είναι ένας} \glsentryuseri{measurable} \foreignlanguage{greek}{χώρος
+		$\featurespace$. Διαφορετικοί τύποι τυχαίων μεταβλητών περιλαμβάνουν}   
  		\begin{itemize} 
-			\item {\foreignlanguage{greek}{δυαδικές τυχαίες μεταβλητές}}, \foreignlanguage{greek}{οι οποίες αντιστοιχούν κάθε αποτέλεσμα σε 
-			ένα στοιχείο ενός δυαδικού συνόλου (π.χ. $\{-1,1\}$ ή}\linebreak $\{\text{\foreignlanguage{greek}{γάτα}}, \text{\foreignlanguage{greek}{όχι γάτα}}\}$)·
- 			\item {\foreignlanguage{greek}{τυχαίες μεταβλητές πραγματικής τιμής}}, \foreignlanguage{greek}{οι οποίες παίρνουν τιμές στους πραγματικούς 
-			αριθμούς} $\mathbb{R}$·  
- 			\item {\foreignlanguage{greek}{τυχαίες μεταβλητές} \glsentryuserviii{vector} \foreignlanguage{greek}{τιμής}}, \foreignlanguage{greek}{οι οποίες 
-			αντιστοιχούν αποτελέσματα στον} \glsentryuseriii{euclidspace} $\mathbb{R}^{\featuredim}$.  
+			\item {\foreignlanguage{greek}{δυαδικές τυχαίες μεταβλητές}}, \foreignlanguage{greek}{οι οποίες αντιστοιχίζουν κάθε} 
+				\glsentryuseriii{outcome} \foreignlanguage{greek}{σε ένα στοιχείο ενός δυαδικού συνόλου (π.χ. $\{-1,1\}$ ή}\linebreak 
+				$\{\text{\foreignlanguage{greek}{γάτα}}, \text{\foreignlanguage{greek}{όχι γάτα}}\}$)·
+			\item {\glsentryuseriv{discreteRV}}, \foreignlanguage{greek}{οι οποίες παίρνουν τιμές σε ένα} \glsentryuseriii{countable} 
+				\foreignlanguage{greek}{σύνολο (το οποίο μπορεί να είναι πεπερασμένο ή αριθμήσιμα άπειρο})·
+ 			\item {\foreignlanguage{greek}{τυχαίες μεταβλητές πραγματικής τιμής}}, \foreignlanguage{greek}{οι οποίες παίρνουν τιμές 
+				στους πραγματικούς αριθμούς} $\mathbb{R}$·  
+ 			\item {\foreignlanguage{greek}{τυχαίες μεταβλητές} \glsentryuserviii{vector} \foreignlanguage{greek}{τιμής}}, 
+				\foreignlanguage{greek}{οι οποίες αντιστοιχίζουν} \glsentryuservi{outcome} \foreignlanguage{greek}{στον} 
+				\glsentryuseriii{euclidspace} $\mathbb{R}^{\featuredim}$.  
  		\end{itemize} 
- 		\foreignlanguage{greek}{Η θεωρία} \glsentryuserv{probability} \foreignlanguage{greek}{χρησιμοποιεί την έννοια των} \glsentryuserv{measurable}
-		\foreignlanguage{greek}{χώρων για να ορίσει ενδελεχώς και να μελετήσει τις ιδιότητες συλλογών τυχαίων μεταβλητών} \cite{BillingsleyProbMeasure}.\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}, \gls{randomexperiment}, \gls{samplespace}, \gls{probspace}, \gls{vector}, \gls{euclidspace}, 
-		\gls{probability}, \gls{measurable}.}, 
+ 		\foreignlanguage{greek}{Η θεωρία} \glsentryuserv{probability} \foreignlanguage{greek}{χρησιμοποιεί την έννοια των} 
+		\glsentryuserv{measurable} \foreignlanguage{greek}{χώρων για να ορίσει ενδελεχώς και να μελετήσει τις ιδιότητες συλλογών 
+		τυχαίων μεταβλητών} \cite{BillingsleyProbMeasure}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{function}, \gls{outcome}, \gls{randomexperiment}, \gls{measurable}, \gls{domain}, 
+		\gls{samplespace}, \gls{probspace}, \gls{co-domain}, \gls{discreteRV}, \gls{countable}, \gls{vector}, \gls{euclidspace}, \gls{probability}.}, 
 	first={\foreignlanguage{greek}{τυχαία μεταβλητή}},
 	text={\foreignlanguage{greek}{τυχαία μεταβλητή}},
 	type=math,
 	user1={\foreignlanguage{greek}{τυχαία μεταβλητή}}, %nominative
-	user2={\foreignlanguage{greek}{τυχαίας μεταβλητής}}, %genitive    
+	user2={\foreignlanguage{greek}{τυχαί\-ας μεταβλητής}}, %genitive    
 	user3={\foreignlanguage{greek}{τυχαία μεταβλητή}}, %accusative
 	user4={\foreignlanguage{greek}{τυχαίες μεταβλητές}}, %nominativepl
 	user5={\foreignlanguage{greek}{τυχαίων μεταβλητών}}, %genitivepl
@@ -2039,58 +2736,37 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 	user3={\foreignlanguage{greek}{τυχαίο πεί\-ραμα}} %accusative 
 }
 
-\newglossaryentry{condprobdist}
-{name={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}}, 
-	description={\foreignlanguage{greek}{Θεωρούμε μία}\index{\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}} 
-		\glsentryuseriii{stochproc} \foreignlanguage{greek}{που αποτελείται από δύο} \glsentryuservi{rv} $\featurevec$ 
-		\foreignlanguage{greek}{και $\truelabel$ με} \glsentryuseriii{probdist} $\probdist^{(\featurevec,\truelabel)}$. 
-		\foreignlanguage{greek}{Η υπό συνθήκη} \glsentryuseri{probdist} \foreignlanguage{greek}{της $\truelabel$ δεδομένης 
-		(ή υπό τον όρο) της $\featurevec$ δηλώνεται με $\probdist^{(\truelabel|\featurevec)}$. Ορίζεται μέσω των} 
-    		\glsentryuserv{conditionalexpect} \foreignlanguage{greek}{των} \glsentryuserv{function}-\foreignlanguage{greek}{δεικτών}  
-    		\glsentryuserv{measurable} \foreignlanguage{greek}{συνόλων στη} \glsentryuseriii{sigmaalgebra} 
-		\foreignlanguage{greek}{που παράγεται από την} \glsentryuseriii{rv} $\truelabel$ \cite{BillingsleyProbMeasure}, \cite{KallenbergBook}. \\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{stochproc}, \gls{rv}, \gls{probdist}, \gls{conditionalexpect}, 
-		\gls{function}, \gls{measurable}, \gls{sigmaalgebra}. },
-  	first={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}}, 
-  	text={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}},
-	type=math,
-	user1={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}}, %nominative
-  	user2={\foreignlanguage{greek}{υπό συνθήκη κατανομής πιθανότητας}}, %genitive 
-	user3={\foreignlanguage{greek}{υπό συνθήκη κατανομή πιθανότητας}} %accusative
-}
-
-\newglossaryentry{conditionalexpect}
-{name={conditional expectation}, 
-	description={Consider a\index{conditional expectation} ...
-		\\
-		See also: TBC.}, 
- 	first={conditional expectation},  
- 	text={conditional expectation},
-	type=math,
-	user1={\foreignlanguage{greek}{υπό συνθήκη προσδοκία}}, %nominative
-  	user2={\foreignlanguage{greek}{υπό συνθήκη προσδοκίας}}, %genitive 
-	user3={\foreignlanguage{greek}{υπό συνθήκη προσδοκία}}, %accusative
-	user4={\foreignlanguage{greek}{υπό συνθήκη προσδοκίες}}, %nominativepl
-  	user5={\foreignlanguage{greek}{υπό συνθήκη προσδοκιών}}, %genitivepl 
-	user6={\foreignlanguage{greek}{υπό συνθήκη προσδοκίες}} %accusativepl
-}
-
 \newglossaryentry{subspace}
 {name={\foreignlanguage{greek}{υποχώρος}},
-	description={A subset of a\index{\foreignlanguage{greek}{υποχώρος}} ...
-			   \\
-		See also: TBC. },
+	description={TBC.\index{subspace} },
 	first={\foreignlanguage{greek}{υποχώρος}},
-	text={subspace},
+	text={\foreignlanguage{greek}{υποχώρος}},
 	type=math,
 	user1={\foreignlanguage{greek}{υποχώρος}}, %nominative
   	user2={\foreignlanguage{greek}{υποχώρου}}, %genitive 
 	user3={\foreignlanguage{greek}{υποχώρο}} %accusative
 }
 
+\newglossaryentry{spectraldecomp}
+{name={\foreignlanguage{greek}{φασματική ανάλυση}},
+	description={\foreignlanguage{greek}{Μία} \glsentryuseri{evd} \foreignlanguage{greek}{ενός} \glsentryuserii{normalmatrix}
+		\foreignlanguage{greek}{ονομάζεται φασματική ανάλυση} (spectral 
+		decomposition)\index{\foreignlanguage{greek}{φασματική ανάλυση}}. \foreignlanguage{greek}{Έχει την ιδιαίτερη ιδιότητα ότι τα} 
+		\glsentryuseriv{eigenvector} \foreignlanguage{greek}{του} \glsentryuserii{normalmatrix} \foreignlanguage{greek}{είναι 
+		ορθοκανονικά. Αυτό ισχύει και αντίστροφα, δηλαδή οποιοσδήποτε} \glsentryuseri{matrix} \foreignlanguage{greek}{που έχει 
+		ορθοκανονικά} \glsentryuservi{eigenvector} \foreignlanguage{greek}{είναι ένας} \glsentryuseri{normalmatrix}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{evd}, \gls{normalmatrix}, \gls{eigenvector}, \gls{matrix}. },
+	first={\foreignlanguage{greek}{φασματική ανάλυση}},
+	text={\foreignlanguage{greek}{φασματική ανάλυση}},
+	type=math,
+	user1={\foreignlanguage{greek}{φασματική ανάλυση}}, %nominative
+    	user2={\foreignlanguage{greek}{φασματικής ανάλυσης}} %genitive 
+}
+
 \newglossaryentry{chernoffbound}
 {name={\foreignlanguage{greek}{φράγμα} Chernoff}, 
-	description={The Chernoff bound\index{Chernoff bound} is a ...}, 
+	description={TBC.\index{Chernoff bound} }, 
  	first={\foreignlanguage{greek}{φράγμα} Chernoff}, 
  	text={\foreignlanguage{greek}{φράγμα} Chernoff},
 	type=math, 
@@ -2126,6 +2802,28 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 	user1={\foreignlanguage{greek}{χώρος καταστάσεων}}, %nominative
   	user2={\foreignlanguage{greek}{χώρου καταστάσεων}}, %genitive 
 	user3={\foreignlanguage{greek}{χώρο καταστάσεων}} %accusative
+}
+
+\newglossaryentry{normedspace}
+{name={\foreignlanguage{greek}{χώρος με νόρμα}},
+	description={A normed space\index{normed space} is a \gls{vectorspace} $\mathcal{V}$ equipped with a \gls{norm} 
+		$\normgeneric{\cdot}{}$. Formally, it is denoted as the pair $(\mathcal{V}, \normgeneric{\cdot}{})$. 
+		Every normed space is a \gls{metricspace} with the induced \gls{metric} defined by 
+		$\metric{\featurevec}{\featurevec'} = \normgeneric{\featurevec - \featurevec'}{}$ 
+		for all $\featurevec, \featurevec' \in \mathcal{X}$. 
+		In \gls{ml}, normed spaces are a common framework for \glspl{featurespace} and \glspl{paramspace}, 
+		most typically the \glspl{euclidspace} $\mathbb{R}^\featuredim$ with the \gls{euclidnorm}.  
+		\\
+		See also: \gls{norm}, \gls{vectorspace}, \gls{metricspace}, \gls{euclidspace}, \gls{hilbertspace}.},
+	text={\foreignlanguage{greek}{χώρος με νόρμα}},
+	first={\foreignlanguage{greek}{χώρος με νόρμα}},
+	type=math,
+	user1={\foreignlanguage{greek}{χώρος με νόρμα}}, %nominative
+  	user2={\foreignlanguage{greek}{χώρου με νόρμα}}, %genitive 
+	user3={\foreignlanguage{greek}{χώρο με νόρμα}}, %accusative
+	user4={\foreignlanguage{greek}{χώροι με νόρμα}}, %nominativepl
+  	user5={\foreignlanguage{greek}{χώρων με νόρμα}}, %genitivepl 
+	user6={\foreignlanguage{greek}{χώρους με νόρμα}} %accusativepl
 }
 
 \newglossaryentry{measurespace}
@@ -2210,9 +2908,9 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 \newglossaryentry{hilbertspace}
 {name={\foreignlanguage{greek}{χώρος} Hilbert},
 	description={\foreignlanguage{greek}{Ένας χώρος}\index{\foreignlanguage{greek}{χώρος} Hilbert} Hilbert (Hilbert space) $\hilbertspace$ 
-		\foreignlanguage{greek}{είναι ένας πλήρης χώρος με} \glsentryuseriii{innerproduct} \cite{introhilbertbook}. 
-		\foreignlanguage{greek}{Επομένως, ο $\hilbertspace$ είναι ένας} \glsentryuseri{vectorspace} 
-		\foreignlanguage{greek}{εξοπλισμένος με ένα} \glsentryuseriii{innerproduct}. \foreignlanguage{greek}{Το} 
+		\foreignlanguage{greek}{είναι ένας πλήρης χώρος με} \glsentryuseriii{innerproduct}. 
+		\foreignlanguage{greek}{Συνεπώς, ο $\hilbertspace$ είναι ένας} \glsentryuseri{vectorspace} 
+		\foreignlanguage{greek}{εξοπλισμένος με ένα} \glsentryuseriii{innerproduct} $\innerprod{\cdot}{\cdot}$. \foreignlanguage{greek}{Το} 
 		\glsentryuseri{innerproduct} \foreignlanguage{greek}{επάγει μία} \glsentryuseriii{norm} 
 		$\normgeneric{\cdot}{2}$ \foreignlanguage{greek}{μέσω} $\normgeneric{\weights}{2} = \sqrt{\innerprod{\weights}{\weights}}$.
 		\foreignlanguage{greek}{Επιπλέον, ο $\hilbertspace$ είναι πλήρης, με την έννοια ότι κάθε} \glsentryuseri{cauchysequence}
@@ -2251,7 +2949,7 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 			$\vu, \vv \in \sphere{\nrfeatures} \subseteq \mathbb{R}^{\nrfeatures}$, \foreignlanguage{greek}{το}
 			\glsentryuseri{innerproduct} $\innerprod{\vu}{\vv}$ \foreignlanguage{greek}{είναι ο συντελεστής αναπτύγματος 
 			για την} \glsentryuseriii{projection} \foreignlanguage{greek}{του $\vv$ στον} \glsentryuseriii{subspace} 
-			$\{ c \vu: c \in \reals \}$ \foreignlanguage{greek}{παραγόμενος από το $\vu$. 
+			$\{ c \vu: c \in \reals \}$ \foreignlanguage{greek}{που παράγεται από το $\vu$. 
 			Η απόλυτη τιμή $|\innerprod{\vu}{\vv}|$ μετράει τη} \glsentryuseriii{norm} \foreignlanguage{greek}{αυτής 
 			της} \glsentryuserii{projection}. \label{fig_hilbertspace_dict}} }
 		\end{figure}
@@ -2299,84 +2997,6 @@ description={\foreignlanguage{greek}{Ένας}\index{connected}
 	user1={\foreignlanguage{greek}{ψευδοαντίστροφος}}, %nominative
     	user2={\foreignlanguage{greek}{ψευδοαντίστροφου}}, %genitive 
 	user3={\foreignlanguage{greek}{ψευδοαντίστροφο}} %accusative
-} 
-
-\newglossaryentry{mgf}
-{name={moment generating function (MGF)}, 
-	description={Consider the\index{moment generating function (MGF)} MGF ...
-		\\
- 		See also: TBC. }, 
- 	first={moment generating function (MGF)}, 
- 	type=math, 
- 	text={MGF}
-}
-
-\newglossaryentry{stdnormvec}
-{name={standard normal random vector}, 
-	description={A\index{standard normal vector} standard normal random \gls{vector} is a random 
-		\gls{vector} $\vx=\big(x_{1}, \,\ldots, \,x_{\nrfeatures}\big)\,^{T}$ 
-		whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
-		It is a special case of a \gls{mvndist}, $\vx \sim \mathcal(\mathbf{0},\mathbf{I})$.
-		\\ 
-		See also: \gls{vector}, \gls{iid}, \gls{gaussrv}, \gls{mvndist}, \gls{rv}.}, 
-	first={standard normal random vector},
-	type=math, 
-	text={standard normal random vector}
-}
-
-\newglossaryentry{em}
-{name={expectation–maximization (EM)}, 
-	description={\index{expectation–maximization (EM)}
-	    The EM .... },
-	first={expectation–maximization (EM)},
-	type=math, 
-	text={EM}
-}
-
-\newglossaryentry{ppca}
-{name={probabilistic principal component analysis (PPCA)}, 
-	description={PPCA\index{probabilistic principal component analysis (PPCA)} 
-		extends\linebreak basic \gls{pca} by using a \gls{probmodel} for \glspl{datapoint}. 
-		The \gls{probmodel} of PPCA frames the task of \gls{dimred} 
-		as an estimation problem that can be solved using \gls{em} \cite{TippingProbPCA}.
-				\\
-		See also: \gls{pca}, \gls{probmodel}, \gls{dimred}, \gls{em}.},
-	first={probabilistic principal component analysis (PPCA)},
-	type=math, 
-	text={PPCA}
-}
-
-\newglossaryentry{markovchain}
-{name={Markov chain},
-	description={A Markov chain\index{Markov chain} is a ...},
-	first={Markov chain},
-	type=math,
-	text={Markov chain}
-}
-
-\newglossaryentry{lagrangian}
-{name={Lagrangian},
-	description={Consider a constrained ...},
-	first={Lagrangian},
-	text={Lagrangian},
-	type=math
-}
-
-\newglossaryentry{tallmatrix}
-{name={tall matrix},
-	description={A\index{tall matrix} \gls{matrix} ... },
-	text={tall matrix},
-	type=math,
-   	first={tall matrix} 
-}
-
-\newglossaryentry{sigmafield}
-{name={$\sigma$-field}, 
-sort={sigma-field},
-	description={See \gls{sigmaalgebra}\index{$\sigma$-field}.}, 
-	first={$\sigma$-field},
-	type=math,
-	text={$\sigma$-field} 
 }
 
 \newglossaryentry{baselearner}
@@ -2389,10 +3009,141 @@ sort={sigma-field},
 	text={base learner} 
 }
 
-\newglossaryentry{gaussian} 
-{name={Gaussian}, 
-	description={See\index{Gaussian} \gls{gaussrv}.},
- 	first={Gaussian},
+\newglossaryentry{conjugatetranspose}
+{name={conjugate transpose},
+	description={TBC.\index{conjugate transpose} },
+ 	first={conjugate transpose},
+    	type=math, 
+ 	text={conjugate transpose}
+}
+
+\newglossaryentry{cfwmaxmin}
+{name={Courant–Fischer–Weyl min–max characterization}, 
+	description={TBC.\index{Courant–Fischer–Weyl min–max characterization} }, 
+	first={Courant–Fischer–Weyl min–max characterization (CFW)}, 
+	type=math,
+	text={CFW}
+}
+ 
+\newglossaryentry{dualnorm}
+{name={dual norm},
+	description={Every \gls{norm} $\normgeneric{\cdot}{}$ defined on a \gls{euclidspace} $\mathbb{R}^{\dimlocalmodel}$ 
+		has an associated dual \gls{norm}\index{dual norm}, which is denoted by $\normgeneric{\cdot}{*}$ and defined as 
+		$\normgeneric{\vy}{*} \defeq \sup_{\norm{\vx}{} \le 1} \vy\,^{T} \vx$. 
+		The dual \gls{norm} measures the largest possible \gls{innerproduct} between $\vy$ 
+		and any \gls{vector} in the unit ball of the original \gls{norm}. For further details, see 
+		\cite[Sec.~A.1.6]{BoydConvexBook}.
+					\\ 
+		See also: \gls{norm}, \gls{euclidspace}, \gls{vector}.},
+	first={dual norm},
+	type=math,
+	text={dual norm}
+}
+
+\newglossaryentry{em}
+{name={expectation–maximization (EM)}, 
+	description={TBC.\index{expectation–maximization (EM)} },
+	first={expectation–maximization (EM)},
+	type=math, 
+	text={EM}
+}
+
+\newglossaryentry{lagrangian}
+{name={Lagrangian},
+	description={TBC.\index{Lagrangian} },
+	first={Lagrangian},
+	text={Lagrangian},
+	type=math
+}
+
+\newglossaryentry{markovchain}
+{name={Markov chain},
+	description={TBC.\index{Markov chain} },
+	first={Markov chain},
+	type=math,
+	text={Markov chain}
+}
+
+\newglossaryentry{mgf}
+{name={moment generating function (MGF)}, 
+	description={TBC.\index{moment generating function (MGF)} }, 
+ 	first={moment generating function (MGF)}, 
+ 	type=math, 
+ 	text={MGF}
+}
+
+\newglossaryentry{newtonmethod}
+{name={Newton's method},
+	description={TBC.\index{Newton's method} },
+  	first={newtonmethod},
  	type=math,
- 	text={Gaussian}
+  	text={newtonmethod} 
+}
+
+\newglossaryentry{nullspace}
+{name={nullspace},
+	description={TBC.\index{nullspace} },
+ 	first={nullspace},
+	type=math,
+ 	text={nullspace}
+}
+
+\newglossaryentry{ppca}
+{name={probabilistic principal component analysis (PPCA)}, 
+	description={PPCA\index{probabilistic principal component analysis (PPCA)} 
+		extends\linebreak basic \gls{pca} by using a \gls{probmodel} for \glspl{datapoint}. 
+		Using a \gls{probmodel} allows us to cast \gls{dimred} as an estimation problem 
+		that can be solved using \gls{em} \cite{TippingProbPCA}.
+				\\
+		See also: \gls{pca}, \gls{probmodel}, \gls{dimred}, \gls{em}.},
+	first={probabilistic principal component analysis (PPCA)},
+	type=math, 
+	text={PPCA}
+}
+
+\newglossaryentry{probabilitysimplex}
+{name={probability simplex},
+	description={TBC.\index{probability simplex} },
+  	first={probability simplex},
+  	type=math,
+  	text={probability simplex}
+}
+
+\newglossaryentry{sigmafield}
+{name={$\sigma$-field}, 
+sort={sigma-field},
+	description={See \gls{sigmaalgebra}\index{$\sigma$-field}.}, 
+	first={$\sigma$-field},
+	type=math,
+	text={$\sigma$-field} 
+}
+
+\newglossaryentry{stdnormvec}
+{name={standard normal random vector}, 
+	description={A\index{standard normal random vector} standard normal random \gls{vector} 
+		is an \gls{rv} $\featurevec=\big(\feature_{1}, \,\ldots, \,\feature_{\nrfeatures}\big)\,^{T}$ 
+		whose entries are \gls{iid} \glspl{gaussrv} $x_{\featureidx} \sim \mathcal{N}(0,1)$. 
+		The \gls{probdist} of a standard normal random \gls{vector} is a special case 
+		of a \gls{mvndist} $\featurevec \sim \mathcal{N}(\mathbf{0},\mathbf{I})$.
+		\\ 
+		See also: \gls{vector}, \gls{iid}, \gls{gaussrv}, \gls{mvndist}, \gls{rv}.}, 
+	first={standard normal random vector},
+	type=math, 
+	text={standard normal random vector}
+}
+
+\newglossaryentry{strcvx}
+{name={strongly convex},
+	description={TBC.\index{strongly convex} },
+	first={strongly convex},
+	type=math,
+	text={strongly convex} 
+}
+
+\newglossaryentry{tallmatrix}
+{name={tall matrix},
+	description={TBC.\index{tall matrix} },
+	text={tall matrix},
+	type=math,
+   	first={tall matrix} 
 }
