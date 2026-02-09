@@ -3548,7 +3548,8 @@ sort={sigma-field},
 	description={A\index{Hilbert space} Hilbert space $\hilbertspace$ is a complete 
     		\gls{innerproduct} space. Thus, $\hilbertspace$ is a \gls{vectorspace} 
 		equipped with an \gls{innerproduct} $\innerprod{\cdot}{\cdot}$. The \gls{innerproduct} 
-		induces a \gls{norm} $\normgeneric{\cdot}{2}$ via $\normgeneric{\weights}{2} = \sqrt{\innerprod{\weights}{\weights}}$. 
+		induces a \gls{norm} $\normgeneric{\cdot}{\hilbertspace}$ via 
+		$$\normgeneric{\weights}{\hilbertspace} = \sqrt{\innerprod{\weights}{\weights}}.$$ 
   		Furthermore, $\hilbertspace$ is complete, in the sense that every 
  		\gls{cauchysequence} $\big( \weights^{(\sampleidx)} \big)_{\sampleidx \in \mathbb{N}}$ 
 		in $\hilbertspace$ converges to a limit $\lim_{\sampleidx\rightarrow \infty} \weights^{(\sampleidx)}$ 
@@ -3582,9 +3583,10 @@ sort={sigma-field},
 			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
 			\end{tikzpicture}
 		\caption{For two unit-\gls{norm} \glspl{vector} $\vu, \vv \in \sphere{\nrfeatures} \subseteq \mathbb{R}^{\nrfeatures}$, 
-			the \gls{innerproduct} $\innerprod{\vu}{\vv}$ is the expansion coefficient for the \gls{projection} 
-			of $\vv$ onto the \gls{subspace} $\{ c \vu: c \in \reals \}$ spanned by $\vu$. 
-			The absolute value $|\innerprod{\vu}{\vv}|$ measures the \gls{norm} of this \gls{projection}.\label{fig_hilbertspace_dict}}
+			the \gls{innerproduct} $\innerprod{\vu}{\vv}$ is the expansion coefficient 
+			for the \gls{projection} of $\vv$ onto the \gls{subspace} $\{ c \vu: c \in \reals \}$ 
+			spanned by $\vu$. The absolute value $|\innerprod{\vu}{\vv}|$ measures the \gls{norm} 
+			of this \gls{projection}.\label{fig_hilbertspace_dict}}
 		\end{figure}
 		One important example of a Hilbert space 
  		is the \gls{euclidspace} $\mathbb{R}^{\nrfeatures}$ with the 
@@ -3596,6 +3598,58 @@ sort={sigma-field},
 	text={Hilbert space},
 	plural={Hilbert spaces},
 	firstplural={Hilbert spaces}
+}
+
+\newglossaryentry{estimator} 
+{name={estimator},
+	   description={\Glspl{mlsystem} are\index{estimator} often analyzed by using a 
+	                \gls{probmodel} $\probdist^{(\featurevec;\weights)}$ for the 
+					generation of \gls{data} $\featurevec$ \cite{MLBasics}. The true 
+					value of the \glspl{modelparam} $\weights$ is typically unknown and needs 
+					to be estimated. An estimator is a \gls{measurable} \gls{function} 
+					$\hypothesis(\featurevec)$ that reads in the \gls{data} $\featurevec$ 
+					and delivers an estimate (or approximation) $\widehat{\weights} = \hypothesis(\featurevec)$ 
+					of the true value of the \glspl{modelparam} $\weights$ \cite{LC,kay}.},
+	first={estimator},
+	type=math,
+	text={estimator},
+	plural={estimators},
+	firstplural={estimators}
+}
+
+\newglossaryentry{unbiasedest} 
+{name={unbiased estimator},
+	   description={An \gls{estimator}\index{unbiased estimator} for the \glspl{parameter} of a \gls{probmodel} 
+	    			is unbiased if its \gls{expectation} equals the true value of the \glspl{parameter} \cite{LC,kay}.},
+	first={unbiased estimator},
+	type=math,
+	text={unbiased estimator},
+	plural={unbiased estimators},
+	firstplural={unbiased estimators}
+}
+
+\newglossaryentry{rkhs}
+{name={reproducing kernel Hilbert space (RKHS)},
+  description={A\index{reproducing kernel Hilbert space (RKHS)} RKHS $\hilbertspace$ is a  
+               special type of \gls{hilbertspace} that consists of 
+ 			   \glspl{function} defined on a set $\featurespace$ \cite{aronszajn1950}. 
+ 			   The defining property of a RKHS is that point evaluations are continuous 
+ 			   linear functionals. Each RKHS is associated with a \gls{kernel} 
+  			   $$\kernel :\featurespace \times\featurespace\to\mathbb{R},$$ 
+ 			   satisfying the reproducing property
+ 			   \[
+ 				 f(\featurevec)=\langle f, \kernel(\featurevec,\cdot)\rangle_{\hilbertspace}
+ 				 \quad \text{for all } f\in\hilbertspace,\; \featurevec\in\featurespace .
+ 				\]
+ 				RKHSs arise naturally in the analysis of \glspl{kernelmethod}, 
+ 				including \gls{kernel}-\gls{ridgeregression}, \gls{svm}, and \gls{GaussProc} 
+ 				\gls{regression} \cite{LearningKernelsBook,Murphy2012}. Another application of 
+				RKHSs if for the analysis of minimum \gls{variance} estimation \cite{RKHSExpFamIT2012}.}, 
+ 	first={reproducing kernel Hilbert space (RKHS)},
+ 	type=math,
+ 	text={RKHS}, 
+ 	plural={RKHSs},
+ 	firstplural={reproducing kernel Hilbert spaces (RKHSs)}
 }
 
 \newglossaryentry{cauchysequence}
@@ -3730,7 +3784,7 @@ sort={sigma-field},
 		\gls{hilbertspace} $\hilbertspace$ is called firmly non-expansive if it satisfies
  		\begin{equation} 
  			\nonumber
- 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{2}^2  
+ 			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{\hilbertspace}^2  
 			\leq 	\innerprod{ \weights - \weights'}{ \fixedpointop \weights - \fixedpointop \weights'} 
 			\quad \mbox{for any } \weights, \weights' \in \hilbertspace. 
  		\end{equation}

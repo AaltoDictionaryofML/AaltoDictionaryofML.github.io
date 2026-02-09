@@ -14,11 +14,11 @@
 		eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d} \geq 0$
 		\cite{HornMatAnalysis}, \cite{Axler2025}. 
 	 	The notion of being psd can be extended from matrices to (real-valued) 
-	 	symmetric kernel maps $K: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}$ 
-	 	(with $K({\bf x},{\bf x}') = K({\bf x}',{\bf x})$)
+	 	symmetric kernel maps $k: \mathcal{X}\times \mathcal{X}\rightarrow \mathbb{R}$ 
+	 	(with $k({\bf x},{\bf x}') = k({\bf x}',{\bf x})$)
 	 	as follows: For any finite set of feature vectors ${\bf x}^{(1)}, \,\ldots, \,{\bf x}^{(m)}$, 
 	 	the resulting matrix $\mathbf{Q}\in \mathbb{R}^{m\times m}$ with 
-		entries $Q_{r,r'} = K\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
+		entries $Q_{r,r'} = k\big({\bf x}^{(r)},{\bf x}^{(r')}\big)$ 
 		is psd \cite{LearningKernelsBook}.
 			\\
 		See also: symmetric matrix, kernel.},
@@ -1410,7 +1410,7 @@
   		For a fixed input space $\mathcal{X}$, a GP is 
 		fully specified (or parameterized) by: 1) a mean function 
 		$\mu({\bf x}) = \mathbb{E} \{ f({\bf x})\}$; and 2) a covariance function
-		$K\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
+		$k\big({\bf x},{\bf x}'\big)= \mathbb{E} \{ \big(f({\bf x})-\mu({\bf x})\big) \big(f({\bf x}')-\mu({\bf x}')\big) \big\}$.\\
   		Example: We can interpret the temperature distribution across Finland (at a specific 
   		point in time) as the realization of a GP $f({\bf x})$, where each input 
 		${\bf x}= (\text{lat}, \text{lon})$ denotes a geographic location. Temperature 
@@ -3548,7 +3548,8 @@ sort={sigma-field},
 	description={A\index{Hilbert space} Hilbert space $\mathcal{H}$ is a complete 
     		inner product space. Thus, $\mathcal{H}$ is a vector space 
 		equipped with an inner product $\langle \cdot, \cdot \rangle$. The inner product 
-		induces a norm $\mleft\lVert \cdot \mright\rVert_{2}$ via $\mleft\lVert {\bf w}\mright\rVert_{2} = \sqrt{\langle {\bf w}, {\bf w}\rangle}$. 
+		induces a norm $\mleft\lVert \cdot \mright\rVert_{\mathcal{H}}$ via 
+		$$\mleft\lVert {\bf w}\mright\rVert_{\mathcal{H}} = \sqrt{\langle {\bf w}, {\bf w}\rangle}.$$ 
   		Furthermore, $\mathcal{H}$ is complete, in the sense that every 
  		Cauchy sequence $\big( {\bf w}^{(r)} \big)_{r\in \mathbb{N}}$ 
 		in $\mathcal{H}$ converges to a limit $\lim_{r\rightarrow \infty} {\bf w}^{(r)}$ 
@@ -3582,9 +3583,10 @@ sort={sigma-field},
 			%\node[below] at (P) {$\langle \mathbf u,\mathbf v\rangle=\cos\theta$};
 			\end{tikzpicture}
 		\caption{For two unit-norm vectors ${\bf u}, {\bf v}\in \mathbb{S}^{(d)} \subseteq \mathbb{R}^{d}$, 
-			the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expansion coefficient for the projection 
-			of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ spanned by ${\bf u}$. 
-			The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm of this projection.\label{fig_hilbertspace_dict}}
+			the inner product $\langle {\bf u}, {\bf v}\rangle$ is the expansion coefficient 
+			for the projection of ${\bf v}$ onto the subspace $\{ c {\bf u}: c \in \mathbb{R}\}$ 
+			spanned by ${\bf u}$. The absolute value $|\langle {\bf u}, {\bf v}\rangle|$ measures the norm 
+			of this projection.\label{fig_hilbertspace_dict}}
 		\end{figure}
 		One important example of a Hilbert space 
  		is the Euclidean space $\mathbb{R}^{d}$ with the 
@@ -3596,6 +3598,58 @@ sort={sigma-field},
 	text={Hilbert space},
 	plural={Hilbert spaces},
 	firstplural={Hilbert spaces}
+}
+
+\newglossaryentry{estimator} 
+{name={estimator},
+	   description={Machine learning systems (ML systems) are\index{estimator} often analyzed by using a 
+	                probabilistic model $\mathbb{P}^{({\bf x};{\bf w})}$ for the 
+					generation of data ${\bf x}$ \cite{MLBasics}. The true 
+					value of the model parameters ${\bf w}$ is typically unknown and needs 
+					to be estimated. An estimator is a measurable function 
+					$h({\bf x})$ that reads in the data ${\bf x}$ 
+					and delivers an estimate (or approximation) $\widehat{{\bf w}} = h({\bf x})$ 
+					of the true value of the model parameters ${\bf w}$ \cite{LC,kay}.},
+	first={estimator},
+	type=math,
+	text={estimator},
+	plural={estimators},
+	firstplural={estimators}
+}
+
+\newglossaryentry{unbiasedest} 
+{name={unbiased estimator},
+	   description={An estimator\index{unbiased estimator} for the parameters of a probabilistic model 
+	    			is unbiased if its expectation equals the true value of the parameters \cite{LC,kay}.},
+	first={unbiased estimator},
+	type=math,
+	text={unbiased estimator},
+	plural={unbiased estimators},
+	firstplural={unbiased estimators}
+}
+
+\newglossaryentry{rkhs}
+{name={reproducing kernel Hilbert space (RKHS)},
+  description={A\index{reproducing kernel Hilbert space (RKHS)} RKHS $\mathcal{H}$ is a  
+               special type of Hilbert space that consists of 
+ 			   functions defined on a set $\mathcal{X}$ \cite{aronszajn1950}. 
+ 			   The defining property of a RKHS is that point evaluations are continuous 
+ 			   linear functionals. Each RKHS is associated with a kernel 
+  			   $$k:\mathcal{X}\times\mathcal{X}\to\mathbb{R},$$ 
+ 			   satisfying the reproducing property
+ 			   \[
+ 				 f({\bf x})=\langle f, k({\bf x},\cdot)\rangle_{\mathcal{H}}
+ 				 \quad \text{for all } f\in\mathcal{H},\; {\bf x}\in\mathcal{X}.
+ 				\]
+ 				RKHSs arise naturally in the analysis of kernel methods, 
+ 				including kernel-ridge regression, support vector machine (SVM), and Gaussian process (GP) 
+ 				regression \cite{LearningKernelsBook,Murphy2012}. Another application of 
+				RKHSs if for the analysis of minimum variance estimation \cite{RKHSExpFamIT2012}.}, 
+ 	first={reproducing kernel Hilbert space (RKHS)},
+ 	type=math,
+ 	text={RKHS}, 
+ 	plural={RKHSs},
+ 	firstplural={reproducing kernel Hilbert spaces (RKHSs)}
 }
 
 \newglossaryentry{cauchysequence}
@@ -3730,7 +3784,7 @@ sort={sigma-field},
 		Hilbert space $\mathcal{H}$ is called firmly non-expansive if it satisfies
  		\begin{equation} 
  			\nonumber
- 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{2}^2  
+ 			\mleft\lVert  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \mright\rVert_{\mathcal{H}}^2  
 			\leq 	\langle  {\bf w}- {\bf w}',  \mathcal{F}{\bf w}- \mathcal{F}{\bf w}' \rangle 
 			\quad \mbox{for any } {\bf w}, {\bf w}' \in \mathcal{H}. 
  		\end{equation}
