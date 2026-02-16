@@ -4998,13 +4998,37 @@ sort={sigma-field},
 	text={subgradient} 
 }
 
+
+
 \newglossaryentry{strcvx}
 {name={strongly convex},
-	description={A\index{strongly convex} continuously \gls{differentiable}  
-		\gls{function} $f: \mathcal{U} \to \mathbb{R}$ with \gls{domain} $\mathcal{U} \subset  \mathbb{R}^d$ 
-		is strongly \gls{convex} with coefficient $\sigma$ if 
-		$f(\vy) \geq f(\vx) + \nabla f(\vx)\,^{T} (\vy - \vx) + (\sigma/2) \normgeneric{\vy - \vx}{2}^{2}$ 
-		 for all $\vx, \vy \in \mathcal{U}$ \cite{nesterov04}, \cite[Sec. B.1.1]{CvxAlgBertsekas}.
+	description={A \gls{function}\index{strongly convex} $f:\mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$ is 
+				 $\mu$-strongly \gls{convex} (with parameter $\mu>0$) if \cite{Bauschke:2017}
+				\[
+					f(\lambda \vx+(1-\lambda)\vy)
+					\le
+					\lambda f(\vx)+(1-\lambda)f(\vy)
+					-
+					\frac{\mu}{2}\lambda(1-\lambda)\normgeneric{\vx-\vy}{2}^{2}
+					\]
+					for all $\vx,\vy\in\mathbb{R}^d$ and $\lambda\in[0,1]$.
+					Equivalently, $f$ is $\mu$-strongly \gls{convex} if for every 
+					$g\in\partial f(\vx)$, \cite{BoydConvexBook}
+					\[
+					f(\vy) \ge f(\vx) + g^\top (\vy-\vx)
+					+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2}
+					\quad \mbox{ for all } \vx,\vy \in \mathbb{R}^{d} .
+					\]
+					If $f$ is \gls{differentiable}, this reduces to \cite[Sec. B.1.1]{CvxAlgBertsekas}
+				    \[f(\vy) \ge f(\vx) + \nabla f(\vx)^\top (\vy-\vx)
+						+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2} ,
+					\]
+					and if $f$ is twice \gls{differentiable},
+					\[\nabla^2 f(\vx) \succeq \mu \mathbf{I}, 
+					   \quad \mbox{ for all } \vx \in \mathbb{R}^{d}.
+					\]
+					Strong convexity implies uniqueness of the minimizer of $f(\vx)$ and enables 
+					linear convergence rates for \glspl{gdmethod}.
 					\\ 
 		See also: \gls{differentiable}, \gls{function}, \gls{convex}, \gls{strictlyconvex}.},
 	first={strongly convex},
@@ -5015,8 +5039,9 @@ sort={sigma-field},
 \newglossaryentry{strictlyconvex}
 {name={strictly convex},
 	description={A\index{strictly convex} real-valued \gls{function} $f: \mathcal{U} \to \mathbb{R}$ 
-		with \gls{domain} $\mathcal{U} \subset  \mathbb{R}^d$ is strictly \gls{convex} if, for any two distinct 
-		$\vx,\vy \in \mathcal{U}$ and any $\lambda\in(0,1)$, it satisfies \cite[Definition 3.1.1]{BoydConvexBook}
+		with \gls{convex} \gls{domain} $\mathcal{U} \subset  \mathbb{R}^d$ is strictly \gls{convex} if,
+		for any two distinct $\vx,\vy \in \mathcal{U}$ and any $\lambda\in(0,1)$, 
+		it satisfies \cite[Definition 3.1.1]{BoydConvexBook}
 		\[
 			f(\lambda\vx+(1-\lambda)\vy)
 			< \lambda f(\vx)+(1-\lambda)f(\vy).

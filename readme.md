@@ -16,7 +16,7 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 - **Machine Learning Systems:** 17
 - **Reinforcement Learning:** 15
 - **Machine Learning Regulation:** 11
-- **Last updated:** 2026-02-15
+- **Last updated:** 2026-02-16
 
 <!-- ADICTML_STATS_END -->
 
