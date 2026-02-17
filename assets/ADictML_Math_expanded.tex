@@ -1326,13 +1326,21 @@
 {name={proximal operator},
 	description={Given\index{proximal operator} a convex 
 		function $f({\bf w}')$, we define its proximal operator as \cite{ProximalMethods}, \cite{Bauschke:2017}  
-		$${\rm\bf prox}_{f(\cdot),\rho}({\bf w}):=\argmin_{{\bf w}' \in \mathbb{R}^{d}} \bigg[ f({\bf w}')\!+\!\frac{\rho}{2} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		$${\rm\bf prox}_{f}({\bf w}):=\argmin_{{\bf w}' \in \mathbb{R}^{d}} \bigg[ f({\bf w}')\!+\!(1/2) \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		It is often necessary to evaluate the proximal operator for a scaled version $\etaf$, 
+		with some factor $\eta> 0$, 
+		$${\rm\bf prox}_{\lambda f(\cdot)}({\bf w}) :=\argmin_{{\bf w}' \in \mathbb{R}^{d}} 
+		\bigg[ f({\bf w}')\!+\!\frac{1}{2\eta} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		The factor $\eta$ controls the relative importance of the function $f$ 
+		and the penalty term in the optimization problem defining the proximal 
+		operator. From an algorithm design perspective, the role of the 
+		scaling factor $\eta$ is similar to the learning rate in gradient-based methods.
 		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal operator 
-		amounts to minimizing a penalized variant of $f({\bf w}')$. The penalty term is the 
-		scaled squared Euclidean distance to a given vector ${\bf w}$ (which is the input to the proximal operator). 
-		The proximal operator can be interpreted as a generalization of the gradient step, which is defined 
-		for a smooth convex function $f({\bf w}')$. Indeed, taking a 
-		gradient step with step size $\eta$ at the current vector ${\bf w}$ 
+		amounts to minimizing a penalized variant of $f$. The penalty term is the 
+		scaled squared Euclidean distance to a given vector ${\bf w}$ (which is the input to 
+		the proximal operator). The proximal operator can be interpreted as a generalization 
+		of the gradient step, which is defined for a smooth convex function $f({\bf w}')$. 
+		Indeed, taking a gradient step with step size $\eta$ at the current vector ${\bf w}$ 
 		is the same as applying the proximal operator of the function $\tilde{f}({\bf w}')= \big( \nabla f({\bf w})\big)\,^{T} ({\bf w}'-{\bf w})$ 
 		and using $\rho=1/\eta$.
 			\begin{figure}[H]
@@ -1341,15 +1349,16 @@
 					% Original quadratic function
 					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f({\bf w}')$};		
 					% Quadratic function with larger curvature, centered at w = 2
-					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{\eta}\mleft\lVert {\bf w}-{\bf w}' \mright\rVert_{2}^{2}$};
+					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{2\eta}\mleft\lVert {\bf w}-{\bf w}' \mright\rVert_{2}^{2}$};
 					% Axes
 					% Minimum point of second curve
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {${\bf w}$};
 					%\node at (2,0.5) [anchor=north] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{The proximal operator updates a vector ${\bf w}$ by minimizing a penalized version 
-				of the function $f(\cdot)$. The penalty term is the scaled squared Euclidean distance between the optimization 
+			\caption{The proximal operator updates a vector ${\bf w}$ by minimizing 
+			         a penalized version of the function $f$. The penalty term 
+					 is the scaled squared Euclidean distance between the optimization 
 				variable ${\bf w}'$ and the given vector ${\bf w}$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
 		See also: convex, function, gradient step.},
@@ -4996,6 +5005,33 @@ sort={sigma-field},
 	text={subgradient} 
 }
 
+\newglossaryentry{distance}
+{name={distance},
+	description={The\index{distance} distance between two points in a metric space 
+	             is the value of the metric evaluated at those points \cite{BasicRealAnalysis}.
+		\\
+		See also: metric space, Euclidean distance.},
+	first={distance},
+	firstplural={distances},
+	type=math,
+	plural={distances},
+	text={distance} 
+}
+
+\newglossaryentry{Lipschitz}
+{name={Lipschitz continuity},
+	description={A\index{Lipschitz continuity} function between two metric spaces is 
+	              Lipschitz continuous if there exists a constant $L > 0$ such that 
+				  the distance between the function values at any two points is at 
+				  most $L$ times the distance between those points \cite{BasicRealAnalysis}. 
+		\\
+		See also: function, vector.},
+	first={Lipschitz},
+	type=math,
+	plural={Lipschitz},
+	text={Lipschitz} 
+}
+
 
 
 \newglossaryentry{strcvx}
@@ -5700,7 +5736,7 @@ sort={Renyi},
                   		d({\bf x},{\bf x}') + d({\bf x}',{\bf x}'')$.
         		\end{enumerate}
         		Formally, a metric space is a pair $(\mathcal{X}, d(\cdot,\cdot))$ that 
-		satisfies the above requirements. 
+		satisfies the above requirements \cite{BasicRealAnalysis}. 
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[>=stealth, x=0.5cm, y=1cm]

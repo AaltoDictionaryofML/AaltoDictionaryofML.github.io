@@ -1322,13 +1322,21 @@
 {name={proximal operator},
 	description={Given\index{proximal operator} a \gls{convex} 
 		\gls{function} $f(\weights')$, we define its proximal \gls{operator} as \cite{ProximalMethods}, \cite{Bauschke:2017}  
-		$$\proximityop{f(\cdot)}{\weights}{\rho}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!\frac{\rho}{2} \normgeneric{\weights- \weights'}{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		$$\proximityop{f}{\weights}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(1/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		It is often necessary to evaluate the proximal \gls{operator} for a scaled version $\lrate f$, 
+		with some factor $\lrate > 0$, 
+		$$\proximityop{\lambda f(\cdot)}{\weights} \defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} 
+		\bigg[ f(\weights')\!+\!\frac{1}{2\lrate} \normgeneric{\weights- \weights'}{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		The factor $\lrate$ controls the relative importance of the \gls{function} $f$ 
+		and the \gls{penaltyterm} in the optimization problem defining the proximal 
+		\gls{operator}. From an \gls{algorithm} design perspective, the role of the 
+		scaling factor $\lrate$ is similar to the \gls{learnrate} in \glspl{gdmethod}.
 		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal \gls{operator} 
-		amounts to minimizing a penalized variant of $f(\weights')$. The \gls{penaltyterm} is the 
-		scaled squared \gls{eucliddist} to a given \gls{vector} $\weights$ (which is the input to the proximal \gls{operator}). 
-		The proximal \gls{operator} can be interpreted as a \gls{generalization} of the \gls{gradstep}, which is defined 
-		for a \gls{smooth} \gls{convex} \gls{function} $f(\weights')$. Indeed, taking a 
-		\gls{gradstep} with \gls{stepsize} $\lrate$ at the current \gls{vector} $\weights$ 
+		amounts to minimizing a penalized variant of $f$. The \gls{penaltyterm} is the 
+		scaled squared \gls{eucliddist} to a given \gls{vector} $\weights$ (which is the input to 
+		the proximal \gls{operator}). The proximal \gls{operator} can be interpreted as a \gls{generalization} 
+		of the \gls{gradstep}, which is defined for a \gls{smooth} \gls{convex} \gls{function} $f(\weights')$. 
+		Indeed, taking a \gls{gradstep} with \gls{stepsize} $\lrate$ at the current \gls{vector} $\weights$ 
 		is the same as applying the proximal \gls{operator} of the \gls{function} $\tilde{f}(\weights')= \big( \nabla f(\weights)\big)\,^{T} (\weights'-\weights)$ 
 		and using $\rho=1/\lrate$.
 			\begin{figure}[H]
@@ -1337,15 +1345,16 @@
 					% Original quadratic function
 					\draw[blue, ultra thick, domain=-4.1:4.1] plot (\x, {(1/4)*\x*\x}) node[above right] {$f(\weights')$};		
 					% Quadratic function with larger curvature, centered at w = 2
-					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{\lrate}\normgeneric{\weights-\weights'}{2}^{2}$};
+					\draw[red, thick, domain=1:3] plot (\x, {2*(\x - 2)*(\x - 2)}) node[below right] {$\frac{1}{2\lrate}\normgeneric{\weights-\weights'}{2}^{2}$};
 					% Axes
 					% Minimum point of second curve
 					\draw[shift={(2,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {$\weights$};
 					%\node at (2,0.5) [anchor=north] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{The proximal \gls{operator} updates a \gls{vector} $\weights$ by minimizing a penalized version 
-				of the \gls{function} $f(\cdot)$. The \gls{penaltyterm} is the scaled squared \gls{eucliddist} between the \gls{optimization} 
+			\caption{The proximal \gls{operator} updates a \gls{vector} $\weights$ by minimizing 
+			         a penalized version of the \gls{function} $f$. The \gls{penaltyterm} 
+					 is the scaled squared \gls{eucliddist} between the \gls{optimization} 
 				variable $\weights'$ and the given \gls{vector} $\weights$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
 		See also: \gls{convex}, \gls{function}, \gls{gradstep}.},
@@ -4998,6 +5007,33 @@ sort={sigma-field},
 	text={subgradient} 
 }
 
+\newglossaryentry{distance}
+{name={distance},
+	description={The\index{distance} distance between two points in a \gls{metricspace} 
+	             is the value of the \gls{metric} evaluated at those points \cite{BasicRealAnalysis}.
+		\\
+		See also: \gls{metricspace}, \gls{eucliddist}.},
+	first={distance},
+	firstplural={distances},
+	type=math,
+	plural={distances},
+	text={distance} 
+}
+
+\newglossaryentry{Lipschitz}
+{name={Lipschitz continuity},
+	description={A\index{Lipschitz continuity} \gls{function} between two \glspl{metricspace} is 
+	              Lipschitz continuous if there exists a constant $L > 0$ such that 
+				  the \gls{distance} between the \gls{function} values at any two points is at 
+				  most $L$ times the \gls{distance} between those points \cite{BasicRealAnalysis}. 
+		\\
+		See also: \gls{function}, \gls{vector}.},
+	first={Lipschitz},
+	type=math,
+	plural={Lipschitz},
+	text={Lipschitz} 
+}
+
 
 
 \newglossaryentry{strcvx}
@@ -5702,7 +5738,7 @@ sort={Renyi},
                   		\metric{\featurevec}{\featurevec'} + \metric{\featurevec'}{\featurevec''}$.
         		\end{enumerate}
         		Formally, a \gls{metric} space is a pair $(\featurespace, \metric{\cdot}{\cdot})$ that 
-		satisfies the above requirements. 
+		satisfies the above requirements \cite{BasicRealAnalysis}. 
 		\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[>=stealth, x=0.5cm, y=1cm]
