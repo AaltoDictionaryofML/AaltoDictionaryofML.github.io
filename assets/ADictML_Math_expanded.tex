@@ -1324,13 +1324,13 @@
 
 \newglossaryentry{proxop}
 {name={proximal operator},
-	description={Given\index{proximal operator} a convex 
+	description={Given\index{proximal operator} a convex and continuous
 		function $f({\bf w}')$, we define its proximal operator as \cite{ProximalMethods}, \cite{Bauschke:2017}  
-		$${\rm\bf prox}_{f}({\bf w}):=\argmin_{{\bf w}' \in \mathbb{R}^{d}} \bigg[ f({\bf w}')\!+\!(1/2) \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		$${\rm\bf prox}_{f}({\bf w}):=\argmin_{{\bf w}' \in \mathbb{R}^{d}} \bigg[ f({\bf w}')\!+\!(1/2) \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg]. $$ 
 		It is often necessary to evaluate the proximal operator for a scaled version $\etaf$, 
 		with some factor $\eta> 0$, 
-		$${\rm\bf prox}_{\lambda f(\cdot)}({\bf w}) :=\argmin_{{\bf w}' \in \mathbb{R}^{d}} 
-		\bigg[ f({\bf w}')\!+\!\frac{1}{2\eta} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \rho > 0. $$ 
+		$${\rm\bf prox}_{\etaf(\cdot)}({\bf w}) :=\argmin_{{\bf w}' \in \mathbb{R}^{d}} 
+		\bigg[ f({\bf w}')\!+\!\frac{1}{2\eta} \mleft\lVert {\bf w}- {\bf w}' \mright\rVert_{2}^{2}\bigg] \quad \mbox{with } \eta> 0. $$ 
 		The factor $\eta$ controls the relative importance of the function $f$ 
 		and the penalty term in the optimization problem defining the proximal 
 		operator. From an algorithm design perspective, the role of the 
@@ -1341,8 +1341,7 @@
 		the proximal operator). The proximal operator can be interpreted as a generalization 
 		of the gradient step, which is defined for a smooth convex function $f({\bf w}')$. 
 		Indeed, taking a gradient step with step size $\eta$ at the current vector ${\bf w}$ 
-		is the same as applying the proximal operator of the function $\tilde{f}({\bf w}')= \big( \nabla f({\bf w})\big)\,^{T} ({\bf w}'-{\bf w})$ 
-		and using $\rho=1/\eta$.
+		is the same as applying the (scaled, by $\eta$) proximal operator of the function $\tilde{f}({\bf w}')= \big( \nabla f({\bf w})\big)\,^{T} ({\bf w}'-{\bf w})$. 
 			\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -5047,11 +5046,11 @@ sort={sigma-field},
 					\]
 					for all ${\bf x},{\bf y}\in\mathbb{R}^d$ and $\lambda\in[0,1]$.
 					Equivalently, $f$ is $\mu$-strongly convex if for every 
-					$g\in\partial f({\bf x})$, \cite{BoydConvexBook}
+					${\bf g}\in\partial f({\bf x})$, \cite[Sec. 3.4]{CvxBubeck2015}
 					\[
-					f({\bf y}) \ge f({\bf x}) + g^\top ({\bf y}-{\bf x})
+					f({\bf y}) \ge f({\bf x}) + {\bf g}^\top ({\bf y}-{\bf x})
 					+ \frac{\mu}{2}\mleft\lVert {\bf y}-{\bf x}\mright\rVert_{2}^{2}
-					\quad \mbox{ for all } {\bf x},{\bf y}\in \mathbb{R}^{d} .
+					\quad \mbox{ for all } {\bf x},{\bf y}\in \mathbb{R}^{d}.
 					\]
 					If $f$ is differentiable, this reduces to \cite[Sec. B.1.1]{CvxAlgBertsekas}
 				    \[f({\bf y}) \ge f({\bf x}) + \nabla f({\bf x})^\top ({\bf y}-{\bf x})
@@ -5064,7 +5063,7 @@ sort={sigma-field},
 					Strong convexity implies uniqueness of the minimizer of $f({\bf x})$ and enables 
 					linear convergence rates for gradient-based methods.
 					\\ 
-		See also: differentiable, function, convex, strictly convex.},
+		See also: function, convex, differentiable, strictly convex.},
 	first={strongly convex},
 	type=math,
 	text={strongly convex} 
@@ -5073,7 +5072,7 @@ sort={sigma-field},
 \newglossaryentry{strictlyconvex}
 {name={strictly convex},
 	description={A\index{strictly convex} real-valued function $f: \mathcal{U} \to \mathbb{R}$ 
-		with convex domain $\mathcal{U} \subset  \mathbb{R}^d$ is strictly convex if,
+		with convex domain $\mathcal{U} \subset  \mathbb{R}^d$ is strictly convex if, 
 		for any two distinct ${\bf x},{\bf y}\in \mathcal{U}$ and any $\lambda\in(0,1)$, 
 		it satisfies \cite[Definition 3.1.1]{BoydConvexBook}
 		\[
@@ -5437,14 +5436,14 @@ sort={sigma-field},
 \newglossaryentry{evd}
 {name={eigenvalue decomposition (EVD)}, 
 	description={An\index{eigenvalue decomposition (EVD)} EVD
-				 for a square matrix ${\bf A}\in \mathbb{R}^{d\times d}$ 
-				 is a factorization of the form
-				 $${\bf A}= \mathbf{V} {\bm \Lambda} \mathbf{V}^{-1}.$$ 
-				 The columns of the matrix $\mathbf{V}= \big( {\bf v}^{(1)}, \,\ldots, \,{\bf v}^{(d)} \big)$ are the 
-				 eigenvectors of the matrix ${\bf A}$. The diagonal matrix 
-				 ${\bm \Lambda} = {\rm diag} \big\{ \lambda_{1}, \,\ldots, \,\lambda_{d} \big\}$ 
-				 contains the eigenvalues $\lambda_{j}$ corresponding to the eigenvectors ${\bf v}^{(j)}$. 
-				 Matrices that allow for an eigenvalue decomposition (EVD) are referred to as diagonalizable.
+		for a square matrix ${\bf A}\in \mathbb{R}^{d\times d}$ 
+		is a factorization of the form
+		$${\bf A}= \mathbf{V} {\bm \Lambda} \mathbf{V}^{-1}.$$ 
+		The columns of the matrix $\mathbf{V}= \big( {\bf v}^{(1)}, \,\ldots, \,{\bf v}^{(d)} \big)$ are the 
+		eigenvectors of the matrix ${\bf A}$. The diagonal matrix 
+		${\bm \Lambda} = {\rm diag} \big\{ \lambda_{1}, \,\ldots, \,\lambda_{d} \big\}$ 
+		contains the eigenvalues $\lambda_{j}$ corresponding to the eigenvectors ${\bf v}^{(j)}$. 
+		Matrices that allow for an EVD are referred to as diagonalizable.
 				\\
 		See also: matrix, eigenvector, eigenvalue, diagonalizable.},
 	first={eigenvalue decomposition (EVD)},
@@ -5503,18 +5502,18 @@ sort={sigma-field},
 	text={SVD} 
 }
 
-
 \newglossaryentry{marginaldist}
 {name={marginal distribution}, 
 	description={A\index{marginal distribution} marginal distribution 
-	             refers to the probability distribution of a subset of the 
-				 random variables (RVs) belonging to a stochastic process \cite[p. 266]{BillingsleyProbMeasure}, \cite{papoulis}. 
-				 For example, consider two random variables (RVs) $(x,y)$ with joint 
-				 probability distribution $\mathbb{P}^{(x,y)}$. This 
-				 joint probability distribution fully determines the marginal distributions 
-				 of $x$ and $y$. The process of computing the marginal 
-				 distribution of a subset of random variables (RVs) is referred to as marginalization \cite{GraphModExpFamVarInfWainJor}.\\
-		See also: probability distribution, stochastic process, random variable (RV), marginalization.},
+		refers to the probability distribution of a subset of the 
+		random variables (RVs) belonging to a stochastic process \cite[p. 266]{BillingsleyProbMeasure}, \cite{papoulis}. 
+		For example, consider two random variables (RVs) $(x,y)$ with a joint 
+		probability distribution $\mathbb{P}^{(x,y)}$. This 
+		joint probability distribution fully determines the marginal distributions 
+		of $x$ and $y$. The process of computing the marginal 
+		distribution of a subset of random variables (RVs) is referred to as marginalization \cite{GraphModExpFamVarInfWainJor}.
+		\\
+		See also: probability distribution, random variable (RV), stochastic process, marginalization.},
 	first={marginal distribution},
 	plural={marginal distributions},
 	firstplural={marginal distributions},
@@ -5524,10 +5523,11 @@ sort={sigma-field},
 
 \newglossaryentry{marginalization}
 {name={marginalization}, 
-	description={The\index{marginalization} process of computing the probability distribution 
-	             of a subset of random variables (RVs) from the joint probability distribution of a stochastic process 
-				 \cite{GraphModExpFamVarInfWainJor}.\\
-		See also: probability distribution, marginal distribution, random variable (RV).},
+	description={The term marginalization refers to the\index{marginalization} process of computing the probability distribution 
+		of a subset of random variables (RVs) from the joint probability distribution of a stochastic process 
+		\cite{GraphModExpFamVarInfWainJor}.
+		\\
+		See also: probability distribution, random variable (RV), marginal distribution.},
 	first={marginalization},
 	plural={marginalizations},
 	firstplural={marginalizations},
