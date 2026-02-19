@@ -1231,7 +1231,7 @@
     			\end{tikzpicture}
     		\caption{Contractive \gls{operator} $\fixedpointop:\featurespace\to\featurespace$ 
       			with a unique \gls{fixedpoint} $\featurevec^\star$ satisfying $\fixedpointop \featurevec^\star=\featurevec^\star$.
-      			For any two points $\featurevec,\featurevec'$ in the same space, the distance between their images
+      			For any two points $\featurevec,\featurevec'$ in the same space, the \gls{distance} between their images
       			$\fixedpointop\featurevec$ and $\fixedpointop\featurevec'$ is strictly smaller.}
     			\label{fig:contract_dict}
 		\end{figure}
@@ -1322,22 +1322,23 @@
 {name={proximal operator},
 	description={Given\index{proximal operator} a \gls{convex} and \gls{continuous}
 		\gls{function} $f(\weights')$, we define its proximal \gls{operator} as \cite{ProximalMethods}, \cite{Bauschke:2017}  
-		$$\proximityop{f}{\weights}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(1/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg]. $$ 
+		$$\proximityop{f}{\weights}\defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} \bigg[ f(\weights')\!+\!(1/2) \normgeneric{\weights- \weights'}{2}^{2}\bigg].$$ 
 		It is often necessary to evaluate the proximal \gls{operator} for a scaled version $\lrate f$, 
 		with some factor $\lrate > 0$, 
 		$$\proximityop{\lrate f(\cdot)}{\weights} \defeq \argmin_{\weights' \in \mathbb{R}^{\dimlocalmodel}} 
-		\bigg[ f(\weights')\!+\!\frac{1}{2\lrate} \normgeneric{\weights- \weights'}{2}^{2}\bigg] \quad \mbox{with } \lrate > 0. $$ 
+		\bigg[ f(\weights')\!+\!\frac{1}{2\lrate} \normgeneric{\weights- \weights'}{2}^{2}\bigg].$$ 
 		The factor $\lrate$ controls the relative importance of the \gls{function} $f$ 
-		and the \gls{penaltyterm} in the optimization problem defining the proximal 
+		and the \gls{penaltyterm} in the \gls{optproblem} defining the proximal 
 		\gls{operator}. From an \gls{algorithm} design perspective, the role of the 
-		scaling factor $\lrate$ is similar to the \gls{learnrate} in \glspl{gdmethod}.
+		scaling factor $\lrate$ is similar to the \gls{learnrate} in \glspl{gdmethod}. 
 		As illustrated in Fig. \ref{fig_proxoperator_opt_dict}, evaluating the proximal \gls{operator} 
 		amounts to minimizing a penalized variant of $f$. The \gls{penaltyterm} is the 
-		scaled squared \gls{eucliddist} to a given \gls{vector} $\weights$ (which is the input to 
-		the proximal \gls{operator}). The proximal \gls{operator} can be interpreted as a \gls{generalization} 
-		of the \gls{gradstep}, which is defined for a \gls{smooth} \gls{convex} \gls{function} $f(\weights')$. 
-		Indeed, taking a \gls{gradstep} with \gls{stepsize} $\lrate$ at the current \gls{vector} $\weights$ 
-		is the same as applying the (scaled, by $\lrate$) proximal \gls{operator} of the \gls{function} $\tilde{f}(\weights')= \big( \nabla f(\weights)\big)\,^{T} (\weights'-\weights)$. 
+		scaled squared \gls{eucliddist} to a given \gls{vector} $\weights$ (which is the input to the proximal \gls{operator}). 
+		The proximal \gls{operator} can be interpreted as a \gls{generalization} of the \gls{gradstep}, which is defined 
+		for a \gls{smooth} \gls{convex} \gls{function} $f(\weights')$. Indeed, taking a 
+		\gls{gradstep} with \gls{stepsize} $\lrate$ at the current \gls{vector} $\weights$ 
+		is the same as applying the (scaled, by $\lrate$) proximal \gls{operator} of the \gls{function} 
+		$\tilde{f}(\weights')= \big( \nabla f(\weights)\big)\,^{T} (\weights'-\weights)$. 
 			\begin{figure}[H]
 			\begin{center}
 				\begin{tikzpicture}[scale=0.8]
@@ -1351,9 +1352,8 @@
 					%\node at (2,0.5) [anchor=north] {$\weights$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{The proximal \gls{operator} updates a \gls{vector} $\weights$ by minimizing 
-			         a penalized version of the \gls{function} $f$. The \gls{penaltyterm} 
-					 is the scaled squared \gls{eucliddist} between the \gls{optimization} 
+			\caption{The proximal \gls{operator} updates a \gls{vector} $\weights$ by minimizing a penalized version 
+				of the \gls{function} $f$. The \gls{penaltyterm} is the scaled squared \gls{eucliddist} between the \gls{optimization} 
 				variable $\weights'$ and the given \gls{vector} $\weights$.	\label{fig_proxoperator_opt_dict}}
 		\end{figure}
 		See also: \gls{convex}, \gls{function}, \gls{gradstep}.},
@@ -2895,27 +2895,27 @@ plural={medians},
 
 \newglossaryentry{likelihood}
 {name={likelihood function},
- description={The\index{likelihood function} likelihood function of a \gls{probmodel} 
-              with \glspl{parameter} $\weights$ is obtained by evaluating the 
-			  \gls{pdf} (or \gls{pmf}) for the observed \gls{dataset} \cite{CasellaBergerStatInf,LC}. 
-			  More precisely, consider a \gls{dataset} 
-			  $\dataset' = \{\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\}$ 
-			  that is assumed to be generated via \gls{iid} 
-			  \glspl{rv} with a common \gls{pdf} $\pdf{\datapoint;\weights}{\cdot}$. 
-			  The common \gls{pdf} is parametrized by the \glspl{modelparam} $\weights$. 
-			  The likelihood function is then defined by 
-			  $L^{(\dataset')}(\weights) = \prod_{\sampleidx=1}^{\samplesize} \pdf{\datapoint;\weights}{\datapoint^{(\sampleidx)}}$.
-			  The likelihood function can be used to construct a \gls{lossfunc} 
-			  for \gls{erm}, which results in \gls{maxlikelihood}. \\
-	See also: \gls{probmodel}, \gls{maxlikelihood}, \gls{lossfunc}.},
-first={likelihood function},
-plural={likelihood functions},
-type=math,
-text={likelihood function},
-firstplural={likelihood functions}
+	description={The\index{likelihood function} likelihood \gls{function} of a \gls{probmodel} 
+		with \glspl{parameter} $\weights$ is obtained by evaluating the 
+		\gls{pdf} (or \gls{pmf}) for the observed \gls{dataset} \cite{LC}, \cite{CasellaBergerStatInf}. 
+		More precisely, consider a \gls{dataset} 
+		$\dataset' = \{\datapoint^{(1)}, \,\ldots, \,\datapoint^{(\samplesize)}\}$ 
+		that is assumed to be generated via \gls{iid} 
+		\glspl{rv} with a common \gls{pdf} $\pdf{\datapoint;\weights}{\cdot}$. 
+		The common \gls{pdf} is parameterized by the \glspl{modelparam} $\weights$. 
+		The likelihood \gls{function} is then defined by 
+		$L^{(\dataset')}(\weights) = \prod_{\sampleidx=1}^{\samplesize} \pdf{\datapoint;\weights}{\datapoint^{(\sampleidx)}}$.
+		The likelihood \gls{function} can be used to construct a \gls{lossfunc} 
+		for \gls{erm}, which results in \gls{maxlikelihood}. 
+		\\
+		See also: \gls{probmodel}, \gls{lossfunc}, \gls{maxlikelihood}.},
+	first={likelihood function},
+	plural={likelihood functions},
+	type=math,
+	text={likelihood function},
+	firstplural={likelihood functions}
 }
 
- 
 \newglossaryentry{maxlikelihood}
 {name={maximum likelihood}, 
 	description={Consider\index{maximum likelihood} \glspl{datapoint} 
@@ -3315,7 +3315,7 @@ sort={sigma-field},
     		More precisely, for a node set $\nodeidx=1, \,\ldots, \,\nrnodes$, each node $\nodeidx$ is assigned to a random position 
 		$\featurevec^{(\nodeidx)} \in \featurespace$, typically as \glspl{realization} of \gls{iid} \glspl{rv} taking values in a set $\featurespace$. 
 		Together with a \gls{metric}, this forms a \gls{metricspace}, often with the \gls{metric} induced by a \gls{norm}. 
-		A specific \gls{realization} of an RGG contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if the distance between the nodes 
+		A specific \gls{realization} of an RGG contains an edge $\edge{\nodeidx}{\nodeidx'}$ if and only if the \gls{distance} between the nodes 
 		with respect to the \gls{metric} is smaller than some threshold, i.e., when $\metric{\featurevec^{(\nodeidx)}}{\featurevec^{(\nodeidx')}}\leq r$ 
 		for some threshold $r>0$, as illustrated in Fig. \ref{fig:rgg}.
          	\begin{figure}[H]
@@ -3341,7 +3341,7 @@ sort={sigma-field},
     			\end{tikzpicture}
    		\caption{Illustration of an RGG with $ \featurespace = [-5,5]\times[-5,5] \subset \mathbb{R}^2$ and radius $r=2.5$ 
 			(with respect to the \gls{eucliddist}), where nodes 1 and 2 (corresponding to $(-2.0, -3.5)^T$ and $(-0.5, -3.3)^T$, 
-			within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that distance.}
+			within radius $r=2.5$) are connected, while node 3 (corresponding to $(3.0, 3.5)^T$) has no other node within that \gls{distance}.}
     			\label{fig:rgg}
     		\end{figure}
         		See also: \gls{graph}, \gls{sbm}, \gls{ergraph}.},
@@ -3797,7 +3797,7 @@ sort={sigma-field},
  	description={An\index{non-expansive operator} \gls{operator} 
 		$\fixedpointop: \mathcal{V} \rightarrow \mathcal{V}$ defined on a 
 		\gls{normedspace} $(\mathcal{V}, \normgeneric{\,\cdot \,}{})$ is called non-expansive if it does 
-		not increase distances. In other words,
+		not increase \glspl{distance}. In other words,
  		\begin{equation} 
  			\nonumber
  			\normgeneric{ \fixedpointop \weights - \fixedpointop \weights'}{} 
@@ -4791,11 +4791,11 @@ sort={sigma-field},
 
 \newglossaryentry{eucliddist}
 {name={Euclidean distance}, 
-	description={The\index{Euclidean distance} Euclidean distance between two 
+	description={The\index{Euclidean distance} Euclidean \gls{distance} between two 
 		\glspl{vector} $\vw,\vw' \in \mathbb{R}^{\nrfeatures}$ is the \gls{euclidnorm} 
 		$\normgeneric{\vw-\vw'}{2}$ of the difference $\vw-\vw'$.	
 		\\
-		See also: \gls{vector}, \gls{euclidspace}. },
+		See also: \gls{distance}, \gls{vector}, \gls{euclidspace}. },
 	first={Euclidean distance},
 	type=math,
 	plural={Euclidean distances},
@@ -4850,14 +4850,14 @@ sort={sigma-field},
  	description={Consider some \gls{metricspace} $\featurespace$ with a \gls{metric} 
 		$d: \featurespace \times \featurespace \rightarrow \mathbb{R}_{+}$.	
  		The\index{neighborhood} neighborhood of a point $\featurevec \in \featurespace$ 
- 		is the set of other points having a sufficiently small distance to $\featurevec$. 
+ 		is the set of other points having a sufficiently small \gls{distance} to $\featurevec$. 
  		For example, the $\epsilon$-neighborhood of $\featurevec$ is defined as
  		$$ \{ \featurevec' \in \featurespace : d(\featurevec, \featurevec') \leq \epsilon \}.$$
 		If $\featurespace$ is an \gls{undirectedgraph}, which is a special case of 
  		a \gls{metricspace}, the neighborhood of a node $\nodeidx \in \nodes$ 
  		is the set of its \glspl{neighbor}.
  				\\ 
- 		See also: \gls{metric}, \gls{neighbor}.},
+ 		See also: \gls{metric}, \gls{distance}, \gls{neighbor}.},
  	first={neighborhood},
 	type=math,
 	firstplural={neighborhoods},
@@ -4868,8 +4868,8 @@ sort={sigma-field},
 \newglossaryentry{metric}
 {name={metric},
 	description={A\index{metric} metric is a quantitative \gls{measure} used to compare objects. 
-	     	In mathematics, a metric measures the distance between two points in a space and must 
-		follow specific rules, i.e., the distance is always nonnegative, zero only if the 
+	     	In mathematics, a metric measures the \gls{distance} between two points in a space and must 
+		follow specific rules, i.e., the \gls{distance} is always nonnegative, zero only if the 
 		points are the same, symmetric, and it satisfies the triangle inequality \cite{RudinBookPrinciplesMatheAnalysis}. In the context of 
 		\gls{ml}, the term metric refers to a quantitative \gls{measure} of how well a \gls{model} performs (somewhat 
 		similar to a \gls{lossfunc}). Examples include \gls{acc}, \gls{precision}, and the average 
@@ -4877,7 +4877,7 @@ sort={sigma-field},
 		The term \gls{lossfunc} is typically used in the context of \gls{model} \gls{training}, 
 		while the term metric is used in the context of \gls{model} \gls{validation}.
 		\\ 
-		See also: \gls{acc}, \gls{precision}, \gls{validation}, \gls{loss}.},
+		See also: \gls{distance}, \gls{acc}, \gls{precision}, \gls{validation}, \gls{loss}.},
 	first={metric}, 
 	type=math,
 	plural={metrics},
@@ -5053,7 +5053,7 @@ sort={sigma-field},
 \newglossaryentry{distance}
 {name={distance},
 	description={The\index{distance} distance between two points in a \gls{metricspace} 
-	             is the value of the \gls{metric} evaluated at those points \cite{BasicRealAnalysis}.
+		is the value of the \gls{metric} evaluated at those points \cite{BasicRealAnalysis}.
 		\\
 		See also: \gls{metricspace}, \gls{eucliddist}.},
 	first={distance},
@@ -5066,48 +5066,49 @@ sort={sigma-field},
 \newglossaryentry{Lipschitz}
 {name={Lipschitz continuity},
 	description={A\index{Lipschitz continuity} \gls{function} between two \glspl{metricspace} is 
-	              Lipschitz continuous if there exists a constant $L > 0$ such that 
-				  the \gls{distance} between the \gls{function} values at any two points is at 
-				  most $L$ times the \gls{distance} between those points \cite{BasicRealAnalysis}. 
+		Lipschitz \gls{continuous} if there exists a constant $L > 0$ such that 
+		the \gls{distance} between the \gls{function} values at any two points is at 
+		most $L$ times the \gls{distance} between those points \cite{BasicRealAnalysis}. 
 		\\
 		See also: \gls{function}, \gls{vector}.},
-	first={Lipschitz},
+	first={Lipschitz continuity},
 	type=math,
-	plural={Lipschitz},
-	text={Lipschitz} 
+	plural={Lipschitz continuities},
+	firstplural={Lipschitz continuities},
+	text={Lipschitz continuity} 
 }
-
-
 
 \newglossaryentry{strcvx}
 {name={strongly convex},
 	description={A \gls{function}\index{strongly convex} $f:\mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$ is 
-				 $\mu$-strongly \gls{convex} (with parameter $\mu>0$) if \cite{Bauschke:2017}
-				\[
-					f(\lambda \vx+(1-\lambda)\vy)
-					\le
-					\lambda f(\vx)+(1-\lambda)f(\vy)
-					-
-					\frac{\mu}{2}\lambda(1-\lambda)\normgeneric{\vx-\vy}{2}^{2}
-					\]
-					for all $\vx,\vy\in\mathbb{R}^d$ and $\lambda\in[0,1]$.
-					Equivalently, $f$ is $\mu$-strongly \gls{convex} if for every 
-					$\vg\in\partial f(\vx)$, \cite[Sec. 3.4]{CvxBubeck2015}
-					\[
-					f(\vy) \ge f(\vx) + \vg^\top (\vy-\vx)
-					+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2}
-					\quad \mbox{ for all } \vx,\vy \in \mathbb{R}^{d}.
-					\]
-					If $f$ is \gls{differentiable}, this reduces to \cite[Sec. B.1.1]{CvxAlgBertsekas}
-				    \[f(\vy) \ge f(\vx) + \nabla f(\vx)^\top (\vy-\vx)
-						+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2} ,
-					\]
-					and if $f$ is twice \gls{differentiable},
-					\[\nabla^2 f(\vx) \succeq \mu \mathbf{I}, 
-					   \quad \mbox{ for all } \vx \in \mathbb{R}^{d}.
-					\]
-					Strong convexity implies uniqueness of the minimizer of $f(\vx)$ and enables 
-					linear convergence rates for \glspl{gdmethod}.
+		$\mu$-strongly \gls{convex} (with \gls{parameter} $\mu>0$) if \cite{Bauschke:2017}
+		\[
+			f(\lambda \vx+(1-\lambda)\vy)
+			\le
+			\lambda f(\vx)+(1-\lambda)f(\vy)
+			-
+			\frac{\mu}{2}\lambda(1-\lambda)\normgeneric{\vx-\vy}{2}^{2}
+		\]
+		for all $\vx,\vy\in\mathbb{R}^d$ and $\lambda\in[0,1]$.
+		Equivalently, $f$ is $\mu$-strongly \gls{convex} if, for every 
+		$\vg\in\partial f(\vx)$, \cite[Sec. 3.4]{CvxBubeck2015}
+		\[
+			f(\vy) \ge f(\vx) + \vg^\top (\vy-\vx)
+			+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2}
+			\quad \mbox{for all } \vx,\vy \in \mathbb{R}^{d}.
+		\]
+		If $f$ is \gls{differentiable}, this reduces to \cite[Sec. B.1.1]{CvxAlgBertsekas}
+		\[
+			f(\vy) \ge f(\vx) + \nabla f(\vx)^\top (\vy-\vx)
+			+ \frac{\mu}{2}\normgeneric{\vy-\vx}{2}^{2},
+		\]
+		and if $f$ is twice \gls{differentiable},
+		\[
+			\nabla^2 f(\vx) \succeq \mu \mathbf{I} 
+			\quad \mbox{for all } \vx \in \mathbb{R}^{d}.
+		\]
+		Strong convexity implies uniqueness of the minimizer of $f(\vx)$ and enables 
+		linear \gls{convergence} rates for \glspl{gdmethod}.
 					\\ 
 		See also: \gls{function}, \gls{convex}, \gls{differentiable}, \gls{strictlyconvex}.},
 	first={strongly convex},
@@ -5125,15 +5126,15 @@ sort={sigma-field},
 			f(\lambda\vx+(1-\lambda)\vy)
 			< \lambda f(\vx)+(1-\lambda)f(\vy).
 		\]
-            Furthermore, if $f$ is \gls{differentiable}, this condition is 
-            equivalent to
+		Furthermore, if $f$ is \gls{differentiable}, this condition is equivalent to
 		\[
 			f(\vy) > f(\vx) + \nabla f(\vx)^{T}(\vy-\vx)
 		\]
-		for any $\vx\neq\vy$, which implies that $f(\cdot)$ admits a unique minimizer on     any \gls{convex} subset of its \gls{domain}. Unlike \gls{strcvx}                    \glspl{function}, strictly \gls{convex} \glspl{function} do not require a uniform 
-		quadratic lower bound. 
+		for any $\vx\neq\vy$, which implies that $f(\cdot)$ admits a unique minimizer on 
+		any \gls{convex} subset of its \gls{domain}. Unlike \gls{strcvx} \glspl{function}, strictly \gls{convex} 
+		\glspl{function} do not require a uniform quadratic lower bound.
 					\\ 
-		See also:  \gls{convex}, \gls{strcvx}.},
+		See also: \gls{convex}, \gls{strcvx}.},
 	first={strictly convex},
 	type=math, 
 	text={strictly convex} 
@@ -5828,8 +5829,8 @@ sort={Renyi},
 		\end{scope}
 		\end{tikzpicture}
 		\caption{Examples of \gls{metric} spaces. (a) \gls{euclidspace} $\mathbb{R}^2$ with 
-		the \gls{eucliddist} as a \gls{metric}. (b) \Gls{undirectedgraph} $\pair{\nodes}{\edges}$ with 
-		the shortest-path distance as a \gls{metric}.\label{fig:metric_space_examples_dict}}
+			the \gls{eucliddist} as a \gls{metric}. (b) \Gls{undirectedgraph} $\pair{\nodes}{\edges}$ with 
+			the shortest-path \gls{distance} as a \gls{metric}.\label{fig:metric_space_examples_dict}}
 	    	\end{figure}
 		A prominent example of a \gls{metric} space 
 		is the \gls{euclidspace} equipped with a \gls{metric} given by the \gls{eucliddist} 
