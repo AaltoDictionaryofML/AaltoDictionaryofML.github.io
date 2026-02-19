@@ -1088,19 +1088,73 @@
 \newglossaryentry{gmm}
 {name={\foreignlanguage{greek}{Γκαουσιανό μοντέλο μείγματος}}, 
 	description={\foreignlanguage{greek}{Ένα Γκαουσιανό μοντέλο μείγματος}\index{\foreignlanguage{greek}{Γκαουσιανό μοντέλο μείγματος}} 
-		(Gaussian mixture model - GMM) \foreignlanguage{greek}{είναι ένας συγκεκριμένος τύπος} \glsentryuserii{probmodel} 
-		\foreignlanguage{greek}{για} \glsentryuservi{datapoint} \foreignlanguage{greek}{που χαρακτηρίζονται από ένα αριθμητικό} 
-		\glsentryuseriii{featurevec} $\featurevec$. \foreignlanguage{greek}{Σε ένα Γκαουσιανό μοντέλο μείγματος, το}
-		\glsentryuseri{featurevec} $\featurevec$ \foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} \foreignlanguage{greek}{παράγεται 
-		τυχαία σύμφωνα με την} \glsentryuseriii{mvndist} $\probdist^{(\clusteridx)} = \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ 
-		\foreignlanguage{greek}{με $\clusteridx = I$. Ο ίδιος ο δείκτης $I \in \{1, \,\ldots, \,\nrcluster\}$ είναι επίσης μία} \glsentryuseri{rv} 
-		\foreignlanguage{greek}{με} \glsentryuservi{probability} $\prob{I=\clusteridx} = p_{\clusteridx}$. \foreignlanguage{greek}{Συνεπώς,
-		ένα Γκαουσιανό μοντέλο μείγματος παραμετροποιείται, για κάθε $\clusteridx=1, \,\ldots, \,\nrcluster$, από την}
-		\glsentryuseriii{probability} $p_{\clusteridx}$, \foreignlanguage{greek}{το} \glsentryuseriii{vector} \glsentryuserii{mean}
-		$\clustermean{\clusteridx}$, \foreignlanguage{greek}{και τον} \glsentryuseriii{covmtx} $\covmtx{\clusteridx}$. 
+		(Gaussian mixture model - GMM) \foreignlanguage{greek}{είναι ένα} \glsentryuseri{probmodel} \foreignlanguage{greek}{για} 
+		\glsentryuservi{datapoint} (\foreignlanguage{greek}{ή την παραγωγή} \glsentryuserv{datapoint}) \foreignlanguage{greek}{με αριθμητικά} 
+		\glsentryuservi{featurevec} $\featurevec \in \mathbb{R}^\nrfeatures$ \cite{BishopBook}, \cite{Murphy2012}. 
+		\foreignlanguage{greek}{Υποθέτει ότι κάθε} \glsentryuseri{datapoint} \foreignlanguage{greek}{παράγεται αρχικά με την εξαγωγή 
+		ενός λανθάνοντος δείκτη} \glsentryuserii{cluster} $I \in \{1,\,\ldots,\,\nrcluster\}$ \foreignlanguage{greek}{σύμφωνα με τις}
+		\glsentryuservi{probability} \glsentryuserv{cluster} 
+		$$\prob{I=\clusteridx} = p_{\clusteridx}, 
+		\qquad 
+		\sum_{\clusteridx=1}^{\nrcluster} p_{\clusteridx}=1.$$
+		\foreignlanguage{greek}{Υπό τον όρο $I=\clusteridx$, το} \glsentryuseri{featurevec} $\featurevec$ \foreignlanguage{greek}{προέρχεται
+		από μία} \glsentryuseriii{mvndist} $\probdist^{(\clusteridx)}= \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$.
+		\foreignlanguage{greek}{Η επακόλουθη} \glsentryuseri{marginaldist} \foreignlanguage{greek}{του $\featurevec$ είναι επομένως ένα 
+		σταθμισμένο άθροισμα} \glsentryuserv{mvndist}, \foreignlanguage{greek}{δηλαδή}
+		$$\probdist
+		=\sum_{\clusteridx=1}^{\nrcluster}
+		p_{\clusteridx} \mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}.$$
+		\begin{figure}[H]
+		\begin{center}
+		\begin{tikzpicture}[scale=0.4]
+			% First component
+			\draw (0,0) ellipse (3 and 1.5);
+			\fill (0,0) circle (2pt);
+			\node[below left] at (0,0) {$\meanvec{1}$};
+			\node[above] at (0,1.8) {$\covmtx{1}$};
+			% Second component
+			\draw (4,0.5) ellipse (2 and 1);
+			\fill (4,0.5) circle (2pt);
+			\node[below right] at (4,0.5) {$\meanvec{2}$};
+			\node[above] at (4,1.7) {$\covmtx{2}$};
+			% Third (rotated) component
+			\begin{scope}[rotate around={30:(-3,1)}]
+			\draw (-3,1) ellipse (2.5 and 1);
+			\end{scope}
+			\fill (-3,1) circle (2pt);
+			\node[below] at (-3,1) {$\meanvec{3}$};
+			\node[above left] at (-3,2.5) {$\covmtx{3}$};
+		\end{tikzpicture}
+		{\selectlanguage{greek}
+		\caption{\foreignlanguage{greek}{Εικονογράφηση ενός Γκαουσιανού μοντέλου μείγματος με τρεις συνιστώσες}. \label{fig_gmm_dict}} }
+		\end{center}
+		\end{figure}
+				%   \begin{figure}[H]
+				%  	\begin{tikzpicture}[scale=0.4]
+				%  		\draw [thick] \boundellipse{0,0}{10}{5} node[right]  {$\meanvec{1}$};
+				%  		\fill (0,0) circle (2pt) ; 
+				%  		\node [right] at (0,5.5) {$\covmtx{1}$} ; 
+				%  		\draw [thick] \boundellipse{11,1}{-2}{4} node[right]  {$\meanvec{2}$};
+				%  		\fill (11,1) circle (2pt) ; 
+				% 		\node [right] at (11,5.5) {$\covmtx{2}$} ; 
+				% 		\draw [thick] \boundellipse{-9,4}{2}{3} 
+				% 		node[left,xshift=3mm,yshift=3mm] {$\meanvec{3}$}; 
+				% 		\fill (-9,4) circle (2pt) ; 
+				% 		\node [right] at (-9,8) {$ \covmtx{3}$} ; 
+				%	\end{tikzpicture}
+				% 	\caption{Illustration of a GMM with three components.} 
+				%Each component is a \glspl{mgvndist} 
+				%         $\mvnormal{\meanvec{\clusteridx}}{\covmtx{\clusteridx}}$ with \gls{mean} 
+				%			 \gls{vector} $\meanvec{\clusteridx}$ and \gls{covmtx} $\covmtx{\clusteridx}$. 
+				% 	         The overall \gls{probdist} is a \gls{convex} combination of these 
+				% 			 components, weighted by the \gls{cluster} \glspl{probability} $p_{\clusteridx}$.}
+				% \end{figure}
+		\foreignlanguage{greek}{Ένα Γκαουσιανό μοντέλο μείγματος παραμετροποιείται από την ανάλογη με τη} \glsentryuseriii{cluster} 
+		\glsentryuseriii{probability} $p_{\clusteridx}$, \foreignlanguage{greek}{τη} \glsentryuseriii{mean} $\meanvec{\clusteridx}$, 
+		\foreignlanguage{greek}{και τον} \glsentryuseriii{covmtx} $\covmtx{\clusteridx}$ \foreignlanguage{greek}{για} $\clusteridx=1,\,\ldots,\,\nrcluster$.
 		\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{probmodel}, \gls{datapoint}, \gls{featurevec}, \gls{mvndist}, \gls{rv}, 
-		\gls{probability}, \gls{mean}, \gls{vector}, \gls{covmtx}, \gls{clustering}. },
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{probmodel}, \gls{datapoint}, \gls{featurevec}, \gls{cluster}, \gls{probability}, 
+		\gls{mvndist}, \gls{marginaldist}, \gls{mean}, \gls{covmtx}, \gls{clustering}. },
 	first={\foreignlanguage{greek}{Γκαουσιανό μοντέλο μείγματος}},
 	text={\foreignlanguage{greek}{Γκαουσιανό μοντέλο μείγματος}},
 	user1={\foreignlanguage{greek}{Γκαουσιανό μοντέλο μείγματος}}, %nominative
@@ -1241,7 +1295,7 @@
 	first={\foreignlanguage{greek}{γραμμικός ταξινομητής}},
 	text={\foreignlanguage{greek}{γραμμικός ταξινομητής}},
 	user1={\foreignlanguage{greek}{γραμμικός ταξινομητής}}, %nominative
-	user2={\foreignlanguage{greek}{γραμμικoύ ταξινομητή}}, %genitive
+	user2={\foreignlanguage{greek}{γραμμι\-κoύ ταξινομητή}}, %genitive
 	user3={\foreignlanguage{greek}{γραμμικό ταξινομητή}} %accusative  
 }
 
@@ -1840,19 +1894,19 @@
 }
 
 \newglossaryentry{erm}
-{name={\foreignlanguage{greek}{εμπειρική ελαχιστοποίηση διακινδύνευσης}}, 
-	description={\foreignlanguage{greek}{Η εμπειρική ελαχιστο\-ποί\-ηση 
-		διακινδύνευσης}\index{\foreignlanguage{greek}{εμπειρική ελαχιστοποίηση διακινδύνευσης}} 
+{name={\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, 
+	description={\foreignlanguage{greek}{Η ελαχιστο\-ποί\-ηση εμπειρικής 
+		διακινδύνευσης}\index{\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}} 
 		(empirical risk minimization - ERM) \foreignlanguage{greek}{είναι το} \glsentryuseri{optproblem} \foreignlanguage{greek}{της  
 		επιλογής μίας} \glsentryuserii{hypothesis} $\learnthypothesis \in \hypospace$ \foreignlanguage{greek}{που ελαχιστοποιεί τη}
 		\foreignlanguage{greek}{μέση} \glsentryuseriii{loss} (\foreignlanguage{greek}{ή} \glsentryuseriii{emprisk}) \foreignlanguage{greek}{σε ένα} 
 		\glsentryuseriii{trainset} $\dataset$. \foreignlanguage{greek}{Η} \glsentryuseri{hypothesis} \foreignlanguage{greek}{επιλέγεται 
 		από έναν} \glsentryuseriii{hypospace} (\foreignlanguage{greek}{ή} \glsentryuseriii{model}) $\hypospace$. \foreignlanguage{greek}{Το} 
 		\glsentryuseri{dataset} $\dataset$ \foreignlanguage{greek}{αναφέρεται ως} \glsentryuseri{trainset}. \foreignlanguage{greek}{Μια πληθώρα 
-		μεθόδων} \glsentryuserii{ml} \foreignlanguage{greek}{βασισμένων στην εμπειρική ελαχιστοποίηση διακινδύνευσης προκύπτει από
+		μεθόδων} \glsentryuserii{ml} \foreignlanguage{greek}{βασισμένων στην ελαχιστο\-ποί\-ηση εμπειρικής διακινδύνευσης προκύπτει από
 		διαφορετικές επιλογές σχεδιασμού για το} \glsentryuseriii{dataset}, \foreignlanguage{greek}{το} \glsentryuseriii{model}, 
 		\foreignlanguage{greek}{και την} \glsentryuseriii{loss} \cite[\foreignlanguage{greek}{Κεφ.} 3]{MLBasics}.
-		\foreignlanguage{greek}{Το Σχ.} \ref{fig_erm_dict} \foreignlanguage{greek}{απεικονίζει την εμπειρική ελαχιστοποίηση διακινδύνευσης 
+		\foreignlanguage{greek}{Το Σχ.} \ref{fig_erm_dict} \foreignlanguage{greek}{απεικονίζει την ελαχιστοποίηση εμπειρικής διακινδύνευσης 
 		για ένα} \glsentryuseriii{linmodel} \foreignlanguage{greek}{και} \glsentryuservi{datapoint} \foreignlanguage{greek}{που χαρακτηρίζονται 
 		από ένα μοναδικό} \glsentryuseriii{feature} $\feature$ \foreignlanguage{greek}{και μία} \glsentryuseriii{label} $\truelabel$. 
 		\foreignlanguage{greek}{Η} \glsentryuseri{hypothesis} $\hypothesis$ \foreignlanguage{greek}{είναι μία} \glsentryuseri{linearmap} 
@@ -1860,7 +1914,7 @@
 		\foreignlanguage{greek}{ως μία γραμμική} \glsentryuseriii{function} \foreignlanguage{greek}{του} \glsentryuserii{feature} 
 		\foreignlanguage{greek}{του} $\feature$, \foreignlanguage{greek}{δηλαδή $\hypothesis(\feature) = \weight_{1} \feature + \weight_{0}$, 
 		όπου $\weight_{1}$ και $\weight_{0}$ είναι οι} \glsentryuseriv{modelparam} \foreignlanguage{greek}{της} 
-		\glsentryuserii{hypothesis} $\hypothesis$. \foreignlanguage{greek}{Το πρόβλημα της εμπειρικής ελαχιστοποίησης διακινδύνευσης 
+		\glsentryuserii{hypothesis} $\hypothesis$. \foreignlanguage{greek}{Το πρόβλημα της ελαχιστοποίησης εμπειρικής διακινδύνευσης 
 		είναι η εύρεση των} \glsentryuserviii{modelparam} $\weight_{1}$ \foreignlanguage{greek}{και $\weight_{0}$ που ελαχιστοποιούν τη μέση} 
 		\glsentryuseriii{loss} (\foreignlanguage{greek}{ή} \glsentryuseriii{emprisk}) \foreignlanguage{greek}{που προκαλείται από την} 
 		\glsentryuseriii{hypothesis} $\hypothesis$ \foreignlanguage{greek}{στο} \glsentryuseriii{trainset} $\dataset$.
@@ -1891,7 +1945,7 @@
   			\node[anchor=west,above]   at (n3) {$\big(\feature^{(3)},\,\truelabel^{(3)}\big)$};
 			\end{tikzpicture}
 			{\selectlanguage{greek}
-			\caption{\foreignlanguage{greek}{Η εμπειρική ελαχιστοποίηση διακινδύνευσης μαθαίνει μία} \glsentryuseriii{hypothesis} 
+			\caption{\foreignlanguage{greek}{Η ελαχιστοποίηση εμπειρικής διακινδύνευσης μαθαίνει μία} \glsentryuseriii{hypothesis} 
 				$\hypothesis\in \hypospace$ \foreignlanguage{greek}{από ένα} \glsentryuseriii{model} $\hypospace$ 
 				\foreignlanguage{greek}{ελαχιστοποιώντας τη μέση} \glsentryuseriii{loss} (\foreignlanguage{greek}{ή} \glsentryuseriii{emprisk}) 
 				${1}/{\samplesize} \sum_{\sampleidx=1}^\samplesize \lossfunc{\pair{\featurevec^{(\sampleidx)}}{ \truelabel^{(\sampleidx)}}}{\hypothesis}$ 
@@ -1901,11 +1955,11 @@
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{optproblem}, \gls{hypothesis}, \gls{loss}, \gls{emprisk}, \gls{trainset}, \gls{hypospace}, 
 		\gls{model}, \gls{dataset}, \gls{ml}, \gls{linmodel}, \gls{datapoint}, \gls{feature}, \gls{label}, \gls{linearmap}, \gls{function}, 
 		\gls{modelparam}, \gls{optmethod}.},
-	first={\foreignlanguage{greek}{εμπειρική ελαχιστοποίηση διακινδύνευσης}},
-	text={\foreignlanguage{greek}{εμπειρική ελαχιστοποίηση διακινδύνευσης}},
-	user1={\foreignlanguage{greek}{εμπειρική ελαχιστοποίηση διακινδύνευσης}}, %nominative
-	user2={\foreignlanguage{greek}{εμπει\-ρι\-κής ελαχι\-στο\-ποί\-ησης διακινδύνευσης}}, %genitive
-	user3={\foreignlanguage{greek}{εμπει\-ρι\-κή ελαχι\-στο\-ποί\-ηση διακινδύνευσης}} %accusative 
+	first={\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}},
+	text={\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}},
+	user1={\foreignlanguage{greek}{ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, %nominative
+	user2={\foreignlanguage{greek}{ελαχι\-στο\-ποί\-ησης εμπει\-ρι\-κής διακινδύνευσης}}, %genitive
+	user3={\foreignlanguage{greek}{ελαχι\-στο\-ποί\-ηση εμπει\-ρι\-κής διακινδύνευσης}} %accusative 
 }
 
 \newglossaryentry{expert}
@@ -2063,9 +2117,9 @@
 }
 
 \newglossaryentry{eerm}
-{name={\foreignlanguage{greek}{εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, 
-	description={\foreignlanguage{greek}{Η εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης} 
-		(explainable empirical risk minimization - EERM)\index{\foreignlanguage{greek}{εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης}} 
+{name={\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, 
+	description={\foreignlanguage{greek}{Η εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης} 
+		(explainable empirical risk minimization - EERM)\index{\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}} 
 		\foreignlanguage{greek}{είναι μία περίπτωση} \glsentryuserii{srm} \foreignlanguage{greek}{που προσθέτει έναν όρο} 
 		\glsentryuserii{regularization} \foreignlanguage{greek}{στη μέση} \glsentryuseriii{loss} \foreignlanguage{greek}{στην} \glsentryuseriii{objfunc} 
 		\foreignlanguage{greek}{της} \glsentryuserii{erm}. \foreignlanguage{greek}{Ο όρος} \glsentryuserii{regularization} 
@@ -2076,10 +2130,10 @@
 		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{srm}, \gls{regularization}, \gls{loss}, \gls{objfunc}, \gls{erm}, \gls{hypothesis}, 
 		\gls{map}, \gls{prediction}, \gls{datapoint}, \gls{trainset}.},
-	first={\foreignlanguage{greek}{εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, 
-	text={\foreignlanguage{greek}{εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης}},
-	user1={\foreignlanguage{greek}{εξηγήσιμη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, %nominative
-  	user2={\foreignlanguage{greek}{εξηγήσιμης εμπειρικής ελαχιστοποίησης διακινδύνευσης}} %genitive 
+	first={\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, 
+	text={\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}},
+	user1={\foreignlanguage{greek}{εξηγήσιμη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, %nominative
+  	user2={\foreignlanguage{greek}{εξηγήσιμης ελαχιστοποίησης εμπειρικής διακινδύνευσης}} %genitive 
 }
 
 \newglossaryentry{xml}
@@ -2552,16 +2606,17 @@
 \newglossaryentry{datanorm}
 {name={\foreignlanguage{greek}{κανονικοποίηση δεδομένων}},
 	description={\foreignlanguage{greek}{Η κανονικοποίηση} \glsentryuserii{data}\index{\foreignlanguage{greek}{κανονικοποίηση δεδομένων}} 
-		\foreignlanguage{greek}{αναφέρεται σε μετασχηματισμούς που εφαρμόζονται στα} \glsentryuservi{featurevec} \glsentryuserv{datapoint} 
-		\foreignlanguage{greek}{για να βελτιωθούν οι} \glsentryuseriv{statasp} \foreignlanguage{greek}{ή οι} \glsentryuseriv{compasp} 
-		\foreignlanguage{greek}{της μεθόδου} \glsentryuserii{ml}. \foreignlanguage{greek}{Για παράδειγμα, στη} \glsentryuseriii{linreg} 
-		\foreignlanguage{greek}{με} \glsentryuservi{gdmethod} \foreignlanguage{greek}{που χρησιμοποιούν έναν σταθερό}
+		(data normalization) \foreignlanguage{greek}{αναφέρεται σε μετασχηματισμούς που εφαρμόζονται στα} \glsentryuservi{featurevec} 
+		\glsentryuserv{datapoint} \foreignlanguage{greek}{για να βελτιωθούν οι} \glsentryuseriv{statasp} \foreignlanguage{greek}{ή οι} 
+		\glsentryuseriv{compasp} \foreignlanguage{greek}{της μεθόδου} \glsentryuserii{ml}. \foreignlanguage{greek}{Για παράδειγμα, στη} 
+		\glsentryuseriii{linreg} \foreignlanguage{greek}{με} \glsentryuservi{gdmethod} \foreignlanguage{greek}{που χρησιμοποιούν έναν σταθερό}
 		\glsentryuseriii{learnrate}, \foreignlanguage{greek}{η} \glsentryuseri{convergence} \foreignlanguage{greek}{εξαρτάται από τον έλεγχο της} 
 		\glsentryuserii{norm} \glsentryuserv{featurevec} \foreignlanguage{greek}{στο} \glsentryuseriii{trainset}. \foreignlanguage{greek}{Μία κοινή 
 		προσέγγιση είναι να κανονικοποιούμε τα} \glsentryuservi{featurevec}, \foreignlanguage{greek}{έτσι ώστε η} 
-		\gls{norm} \foreignlanguage{greek}{τους να μην υπερβαίνει το ένα} \cite[\foreignlanguage{greek}{Κεφ.}\ 5]{MLBasics}.\\
+		\glsentryuseri{norm} \foreignlanguage{greek}{τους να μην υπερβαίνει το ένα} \cite[\foreignlanguage{greek}{Κεφ.}\ 5]{MLBasics}.
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{data}, \gls{featurevec}, \gls{datapoint}, \gls{ml}, \gls{statasp}, \gls{compasp}, 
-		\gls{linreg}, \gls{gdmethod}, \gls{learnrate}, \gls{convergence}, \gls{norm}, \gls{trainset}.},
+		\gls{linreg}, \gls{gdmethod}, \gls{learnrate}, \gls{convergence}, \gls{norm}, \gls{trainset}, \gls{featuremap}.},
 	first={\foreignlanguage{greek}{κανονικοποίηση δεδομένων}},
 	text={\foreignlanguage{greek}{κανονικοποίηση δεδομένων}},
 	user1={\foreignlanguage{greek}{κανονικοποίηση δεδομένων}}, %nominative
@@ -2634,14 +2689,15 @@
 		\foreignlanguage{greek}{που κατασκευάζουν μία ακολουθία} \glsentryuserv{modelparam} 
 		\foreignlanguage{greek}{προκειμένου να ελαχιστοποιήσουν το} \glsentryuseriii{trainerr}. 
 		\foreignlanguage{greek}{Για παράδειγμα, οι} \glsentryuseriii{gdmethod} \foreignlanguage{greek}{ενημερώνουν 
-		επαναληπτικά τις} \glsentryuservi{parameter} \foreignlanguage{greek}{ενός παραμετρικού} \glsentryuserii{model}, 
-		\foreignlanguage{greek}{όπως ενός} \glsentryuserii{linmodel} \foreignlanguage{greek}{ή ενός} \glsentryuserii{deepnet}. 
-		\foreignlanguage{greek}{Δεδομένων πεπερασμένων υπολογιστικών πόρων, χρειάζεται να σταματήσουμε
-		την ενημέρωση των} \glsentryuserv{parameter} \foreignlanguage{greek}{μετά από έναν
-		πεπερασμένο αριθμό επαναλήψεων. Ένα κριτήριο τερματισμού είναι οποιαδήποτε καλά ορισμένη συνθήκη
-		για να αποφασίσουμε πότε να σταματήσουμε την ενημέρωση.}  \\
+		επαναληπτικά τις} \glsentryuservi{parameter} \foreignlanguage{greek}{ενός} \glsentryuserii{parammodel}, 
+		\foreignlanguage{greek}{όπως ένα} \glsentryuseriii{linmodel} \foreignlanguage{greek}{ή ένα} \glsentryuseriii{deepnet}. 
+		\foreignlanguage{greek}{Δεδομένου ενός πεπερασμένου ποσού υπολογιστικών πόρων, χρειάζεται να σταματήσουμε
+		την ενημέρωση των} \glsentryuserv{parameter} \foreignlanguage{greek}{μετά από έναν πεπερασμένο αριθμό} 
+		\glsentryuserv{iteration}. \foreignlanguage{greek}{Ένα κριτήριο τερματισμού} (stopping criterion) \foreignlanguage{greek}{είναι 
+		οποιαδήποτε καλά ορισμένη συνθήκη για να αποφασίσουμε πότε να σταματήσουμε την ενημέρωση.} 
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{algorithm}, \gls{modelparam}, \gls{trainerr}, \gls{gdmethod}, 
-		\gls{parameter}, \gls{model}, \gls{linmodel}, \gls{deepnet}.},
+		\gls{parameter}, \gls{parammodel}, \gls{linmodel}, \gls{deepnet}, \gls{iteration}.},
 	first={\foreignlanguage{greek}{κριτήριο τερματισμού}},
 	text={\foreignlanguage{greek}{κριτήριο τερματισμού}},
 	user1={\foreignlanguage{greek}{κριτήριο τερματισμού}}, %nominative
@@ -2652,8 +2708,8 @@
 {name={\foreignlanguage{greek}{κυρτή συσταδοποίηση}}, 
  	description={\foreignlanguage{greek}{Θεωρούμε ένα}\index{\foreignlanguage{greek}{κυρτή συσταδοποίηση}} 
 		\glsentryuseriii{dataset} $\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$. 
- 		\foreignlanguage{greek}{Η} \glsentryuseriii{convex} \glsentryuseri{clustering} \foreignlanguage{greek}{μαθαίνει} \glsentryuservi{vector} 
-		$\weights^{(1)}, \,\ldots, \,\weights^{(\samplesize)}$ \foreignlanguage{greek}{ελαχιστοποιώντας το} 
+ 		\foreignlanguage{greek}{Η} \glsentryuseriii{convex} \glsentryuseri{clustering} (convex clustering) \foreignlanguage{greek}{μαθαίνει} 
+		\glsentryuservi{vector} $\weights^{(1)}, \,\ldots, \,\weights^{(\samplesize)}$ \foreignlanguage{greek}{μέσω της ελαχιστοποίησης}:
  		$$\sum_{\sampleidx=1}^{\samplesize} \normgeneric{\featurevec^{(\sampleidx)} - \weights^{(\sampleidx)}}{2}^2 + 
  		\regparam \sum_{\nodeidx,\nodeidx' \in \nodes} \normgeneric{\weights^{(\nodeidx)} - \weights^{(\nodeidx')}}{p}.$$ 
 		\foreignlanguage{greek}{Εδώ,} $\normgeneric{\vu}{p} \defeq \big( \sum_{\featureidx=1}^{\dimlocalmodel} |u_{\featureidx}|^{p} \big)^{1/p}$ 
@@ -2662,7 +2718,8 @@
 		$\widehat{\weights}^{(1)}, \,\ldots, \,\widehat{\weights}^{(\samplesize)}$ 
 		\foreignlanguage{greek}{συμπίπτουν. Μία} \glsentryuseri{cluster} \foreignlanguage{greek}{τότε αποτελείται από αυτά τα} 
 		\glsentryuservi{datapoint}\linebreak $\sampleidx \in \{1, \,\ldots, \,\samplesize\}$ 
-		\foreignlanguage{greek}{με ταυτόσημα} $\widehat{\weights}^{(\sampleidx)}$ \cite{JMLR:v22:18-694}, \cite{Pelckmans2005}.\\
+		\foreignlanguage{greek}{με ταυτόσημο} $\widehat{\weights}^{(\sampleidx)}$ \cite{JMLR:v22:18-694}, \cite{Pelckmans2005}.
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{dataset}, \gls{convex}, \gls{clustering}, \gls{vector}, \gls{norm}, \gls{cluster}, \gls{datapoint}. },
  	first={\foreignlanguage{greek}{κυρτή συσταδοποίηση}},
 	text={\foreignlanguage{greek}{κυρτή συσταδοποίηση}},
@@ -2687,7 +2744,7 @@
 		\foreignlanguage{greek}{και μία δυαδική} \glsentryuseriii{label} $\truelabel \in \{-1,1\}$. 
 		\foreignlanguage{greek}{Χρησιμοποι\-ού\-με μία} \glsentryuseriii{hypothesis} \foreignlanguage{greek}{πραγματικής τιμής
 		$\hypothesis$ για να προβλέψουμε την} \glsentryuseriii{label} $\truelabel$ \foreignlanguage{greek}{από τα} 
-		\glsentryuservi{feature} $\featurevec$. \foreignlanguage{greek}{Η λογιστική} \glsentryuseri{loss} 
+		\glsentryuservi{feature} $\featurevec$. \foreignlanguage{greek}{Η λογιστική} \glsentryuseri{loss} (logistic loss)
 		\foreignlanguage{greek}{που προκαλείται από αυτή την} \glsentryuseriii{prediction} \foreignlanguage{greek}{ορίζεται 
 		ως} \cite{BishopBook}
 		\begin{equation} 
@@ -2728,7 +2785,8 @@
 		\foreignlanguage{greek}{Σημείωση ότι η έκφραση} \eqref{equ_log_loss_gls_dict} 
 		\foreignlanguage{greek}{για τη λογιστική} \glsentryuseriii{loss} \foreignlanguage{greek}{εφαρμόζεται μόνο 
 		για τον} \glsentryuseriii{labelspace} $\labelspace = \{ -1,1\}$ 
-		\foreignlanguage{greek}{και όταν χρησιμοποιείται ο κανόνας κατωφλιού} \eqref{equ_def_threshold_bin_classifier_dict}. \\
+		\foreignlanguage{greek}{και όταν χρησιμοποιείται ο κανόνας κατωφλιού} \eqref{equ_def_threshold_bin_classifier_dict}. 
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{datapoint}, \gls{feature}, \gls{label}, \gls{hypothesis}, 
 		\gls{loss}, \gls{prediction}, \gls{labelspace}, \gls{classification}, \gls{classifier}, \gls{linmodel}.},
 	first={\foreignlanguage{greek}{λογιστική απώλεια}},
@@ -2761,15 +2819,16 @@
 
 \newglossaryentry{multitask learning}
 {name={\foreignlanguage{greek}{μάθηση πολυδιεργασίας}},
-	description={\foreignlanguage{greek}{Η μάθηση πολυδιεργασίας στοχεύει να αξιοποιήσει}\index{\foreignlanguage{greek}{μάθηση πολυδιεργασίας}} 
-		\foreignlanguage{greek}{σχέσεις μεταξύ διαφορετικών} \glsentryuserv{learningtask}. \foreignlanguage{greek}{Θεωρούμε δύο} 
-		\glsentryuservi{learningtask} \foreignlanguage{greek}{που προκύπτουν από το ίδιο}  
+	description={\foreignlanguage{greek}{Η μάθηση πολυδιεργασίας}\index{\foreignlanguage{greek}{μάθηση πολυδιεργασίας}} 
+		(multitask learning) \foreignlanguage{greek}{στοχεύει να αξιοποιήσει σχέσεις μεταξύ διαφορετικών} \glsentryuserv{learningtask}. 
+		\foreignlanguage{greek}{Θεωρούμε δύο} \glsentryuservi{learningtask} \foreignlanguage{greek}{που προκύπτουν από το ίδιο}  
 	 	\glsentryuseriii{dataset} \foreignlanguage{greek}{λήψεων από κάμερα υπολογιστή. Η πρώτη εργασία είναι να προβλεφθεί η 
 		παρουσία ενός ανθρώπου, ενώ η δεύτερη εργασία είναι να προβλεφθεί η παρουσία ενός αυτοκινήτου. 
 	 	Μπορεί να είναι χρήσιμο να χρησιμοποιηθεί η ίδια δομή} \glsentryuserii{deepnet} \foreignlanguage{greek}{και για τις δύο 
 		εργασίες και να επιτραπεί μόνο τα} \glsentryuseriv{weight} \foreignlanguage{greek}{του τελικού} \glsentryuserii{layer}
-		\foreignlanguage{greek}{εξόδου να είναι διαφορετικά.} \\
-	 	\foreignlanguage{greek}{Βλέπε επίσης:} \gls{learningtask}, \gls{dataset}, \gls{deepnet}, \gls{weight}, \gls{layer}.},
+		\glsentryuserii{output} \foreignlanguage{greek}{να είναι διαφορετικά.} 
+		\\
+	 	\foreignlanguage{greek}{Βλέπε επίσης:} \gls{learningtask}, \gls{dataset}, \gls{deepnet}, \gls{weight}, \gls{output}, \gls{layer}.},
 	first={\foreignlanguage{greek}{μάθηση πολυδιεργασίας}},
 	text={\foreignlanguage{greek}{μάθηση πολυδιεργασίας}},
 	user1={\foreignlanguage{greek}{μάθηση πολυδιεργασίας}}, %nominative
@@ -2781,24 +2840,28 @@
 	description={\foreignlanguage{greek}{Θεωρούμε μία εφαρμογή} \glsentryuserii{ml} \foreignlanguage{greek}{με} \glsentryuservi{datapoint} 
 		\foreignlanguage{greek}{που χαρακτηρίζονται από ακατέργαστα} \glsentryuservi{feature} $\featurevec \in \featurespace$. 
 		\foreignlanguage{greek}{Η μάθηση} \glsentryuserv{feature}\index{\foreignlanguage{greek}{μάθηση χαρακτηριστικών}} 
-		\foreignlanguage{greek}{αναφέρεται στην εργασία της μάθησης μίας} \gls{map} 
+		(feature learning) \foreignlanguage{greek}{αναφέρεται στην εργασία της μάθησης μίας} \glsentryuserii{map} 
 		$$\featuremapvec: \featurespace \rightarrow \featurespace': \featurevec \mapsto \featurevec'$$ 
 		\foreignlanguage{greek}{που διαβάζει τα} \glsentryuservi{feature} $\featurevec \in \featurespace$ 
 		\foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} \foreignlanguage{greek}{και παραδίδει νέα}  
-		\glsentryuservi{feature} $\featurevec' \in \featurespace'$ \foreignlanguage{greek}{από έναν νέο} \glsentryuseriii{featurespace} $\featurespace'$. 
-		\foreignlanguage{greek}{Διαφορετικές μέθοδοι μάθησης} \glsentryuserv{feature} \foreignlanguage{greek}{προκύπτουν για διαφορετικές επιλογές 
-		σχεδιασμού των $\featurespace,\featurespace'$, για έναν} \glsentryuseriii{hypospace} $\hypospace$ 
-		\foreignlanguage{greek}{πιθανών} \gls{map}s $\featuremapvec$, \foreignlanguage{greek}{και για ένα ποσοτικό μέτρο της 
-		χρησιμότητας μίας συγκεκριμένης $\featuremapvec \in \hypospace$. Για παράδειγμα, η} \glsentryuseri{pca} 
-		\foreignlanguage{greek}{χρησιμοποιεί $\featurespace \defeq \mathbb{R}^{\dimlocalmodel}$, $\featurespace' \defeq \mathbb{R}^{\dimlocalmodel'}$ 
-		με $\dimlocalmodel' < \dimlocalmodel$, και έναν} \glsentryuseriii{hypospace} 
+		\glsentryuservi{feature} $\featurevec' \in \featurespace'$ \foreignlanguage{greek}{από έναν νέο} \glsentryuseriii{featurespace} 
+		$\featurespace'$. \foreignlanguage{greek}{Διαφορετικές μέθοδοι μάθησης} \glsentryuserv{feature} 
+		\foreignlanguage{greek}{προκύπτουν για διαφορετικές επιλογές σχεδιασμού των $\featurespace,\featurespace'$, για έναν} 
+		\glsentryuseriii{hypospace} $\hypospace$ \foreignlanguage{greek}{πιθανών} \glsentryuserv{map} $\featuremapvec$, 
+		\foreignlanguage{greek}{και για ένα ποσοτικό} \glsentryuseriii{measure} \foreignlanguage{greek}{της χρησιμότητας μίας 
+		συγκεκριμένης $\featuremapvec \in \hypospace$. Για παράδειγμα, η} \glsentryuseri{pca} \foreignlanguage{greek}{χρησιμοποιεί 
+		$\featurespace \defeq \mathbb{R}^{\dimlocalmodel}$, 
+		$\featurespace' \defeq \mathbb{R}^{\dimlocalmodel'}$ με $\dimlocalmodel' < \dimlocalmodel$, και έναν} \glsentryuseriii{hypospace} 
 		$$\hypospace\defeq \big\{ \featuremapvec: \mathbb{R}^{\dimlocalmodel}
-		\!\rightarrow\! \mathbb{R}^{\dimlocalmodel'}\!:\!\featurevec'\!\defeq\!\mF \featurevec \mbox{ \foreignlanguage{greek}{με κάποια} } \mF \!\in\! \mathbb{R}^{\dimlocalmodel' \!\times \dimlocalmodel} \big\}.$$ 
-		\foreignlanguage{greek}{Η} \glsentryuseri{pca} \foreignlanguage{greek}{μετράει τη χρησιμότητα μίας συγκεκριμένης} \gls{map} 
-		$\featuremapvec(\featurevec)= \mF \featurevec$ \foreignlanguage{greek}{από το} \glsentryuseriii{minimum} \foreignlanguage{greek}{γραμμικό σφάλμα 
-		ανακατασκευής που προκαλείται σε ένα} \glsentryuseriii{dataset}, \foreignlanguage{greek}{έτσι ώστε}
-		$$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\mG \mF \featurevec^{(\sampleidx)} - \featurevec^{(\sampleidx)}}{2}^{2}.$$ \\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{map}, \gls{featurespace}, \gls{hypospace}, \gls{pca}, \gls{minimum}, \gls{dataset}.}, 
+		\!\rightarrow\! \mathbb{R}^{\dimlocalmodel'}\!:\!\featurevec'\!\defeq\!\mF \featurevec \mbox{ \foreignlanguage{greek}{με κάποιον} } \mF \!\in\! \mathbb{R}^{\dimlocalmodel' \!\times \dimlocalmodel} \big\}.$$ 
+		\foreignlanguage{greek}{Η} \glsentryuseri{pca} \foreignlanguage{greek}{μετράει τη χρησιμότητα μίας συγκεκριμένης} \glsentryuserii{map} 
+		$\featuremapvec(\featurevec)= \mF \featurevec$ \foreignlanguage{greek}{από το} \glsentryuseriii{minimum} 
+		\foreignlanguage{greek}{γραμμικό σφάλμα ανακατασκευής που προκαλείται σε ένα} \glsentryuseriii{dataset}, 
+		\foreignlanguage{greek}{έτσι ώστε}
+		$$\min_{\mG \in \mathbb{R}^{\dimlocalmodel \!\!\!\times \dimlocalmodel'}} \sum_{\sampleidx=1}^{\samplesize} \normgeneric{\mG \mF \featurevec^{(\sampleidx)} - \featurevec^{(\sampleidx)}}{2}^{2}.$$  
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{datapoint}, \gls{feature}, \gls{map}, \gls{featurespace}, \gls{hypospace}, 
+		\gls{measure}, \gls{pca}, \gls{minimum}, \gls{dataset}.}, 
 	first={\foreignlanguage{greek}{μάθηση χαρακτηριστικών}},
 	text={\foreignlanguage{greek}{μάθηση χαρακτηριστικών}},
 	user1={\foreignlanguage{greek}{μάθηση χαρακτηριστικών}}, %nominative
@@ -2916,17 +2979,20 @@
 
 \newglossaryentry{gdmethod}
 {name={\foreignlanguage{greek}{μέθοδος με βάση την κλίση}}, 
-	description={\foreignlanguage{greek}{Οι μέθοδοι με βάση την} \glsentryuseriii{gradient}\index{\foreignlanguage{greek}{μέθοδος με βάση την κλίση}} 
-		\foreignlanguage{greek}{είναι επαναληπτικές τεχνικές για την εύρεση του} \glsentryuserii{minimum} (\foreignlanguage{greek}{ή του} \glsentryuserii{maximum}) 
-		\foreignlanguage{greek}{μίας} \glsentryuserii{differentiable} \glsentryuserii{objfunc} \foreignlanguage{greek}{των} \glsentryuserv{modelparam}. 
-		\foreignlanguage{greek}{Αυτές οι μέθοδοι κατασκευάζουν μία ακολουθία προσεγγίσεων σε μία βέλτιστη επιλογή} 
-		\glsentryuserv{modelparam} \foreignlanguage{greek}{που οδηγεί σε μία} \glsentryuseriv{minimum} (\foreignlanguage{greek}{ή} \glsentryuserv{maximum}) 
-		\foreignlanguage{greek}{τιμή της} \glsentryuserii{objfunc}. \foreignlanguage{greek}{Όπως το όνομά τους υποδεικνύει,}
-		\foreignlanguage{greek}{οι μέθοδοι με βάση την} \glsentryuseriii{gradient} \foreignlanguage{greek}{χρησιμοποιούν τις} \glsentryuservi{gradient} 
-		\foreignlanguage{greek}{της} \glsentryuserii{objfunc} \foreignlanguage{greek}{που αξιολογούνται κατά τις προηγούμενες επαναλήψεις για να
-		κατασκευάσουν νέες, (ελπίζοντας) βελτιωμένες} \glsentryuservi{modelparam}. \foreignlanguage{greek}{Ένα σημαντικό παράδειγμα μίας 
-		μεθόδου με βάση την} \glsentryuseriii{gradient} \foreignlanguage{greek}{είναι η} \glsentryuseri{gd}.\\
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{gradient}, \gls{minimum}, \gls{maximum}, \gls{differentiable}, \gls{objfunc}, \gls{modelparam}, \gls{gd}.},
+	description={\foreignlanguage{greek}{Μία μέθοδς με βάση την}\index{\foreignlanguage{greek}{μέθοδος με βάση την κλίση}} 
+		\glsentryuseriii{gradient} (gradient-based method) \foreignlanguage{greek}{είναι μία επαναληπτική τεχνική για την εύρεση του} 
+		\glsentryuserii{minimum} (\foreignlanguage{greek}{ή του} \glsentryuserii{maximum}) \foreignlanguage{greek}{μίας} 
+		\glsentryuserii{differentiable} \glsentryuserii{objfunc} $f(\weights)$ \foreignlanguage{greek}{των} \glsentryuserv{modelparam} $\weights$. 
+		\foreignlanguage{greek}{Μία τέτοια μέθοδος κατασκευάζει μία} \glsentryuseriii{sequence} \foreignlanguage{greek}{προσεγγίσεων 
+		σε μία βέλτιστη επιλογή} $\weights$. \foreignlanguage{greek}{Όπως το όνομα υποδεικνύει,} \foreignlanguage{greek}{μία μέθοδος με 
+		βάση την} \glsentryuseriii{gradient} \foreignlanguage{greek}{χρησιμοποιεί τις} \glsentryuservi{gradient} \foreignlanguage{greek}{της} 
+		\glsentryuserii{objfunc} \foreignlanguage{greek}{που αξιολογούνται κατά τις προηγούμενες} \glsentryuservi{iteration} 
+		\foreignlanguage{greek}{για να κατασκευάσει νέες, (ελπίζουμε) βελτιωμένες} \glsentryuserix{modelparam}. 
+		\foreignlanguage{greek}{Ένα σημαντικό παράδειγμα μεθόδου με βάση την} \glsentryuseriii{gradient} 
+		\foreignlanguage{greek}{είναι η} \glsentryuseri{gd}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{gradient}, \gls{minimum}, \gls{maximum}, \gls{differentiable}, \gls{objfunc}, \gls{modelparam}, 
+		\gls{sequence}, \gls{iteration}, \gls{gd}, \gls{optmethod}.},
 	first={\foreignlanguage{greek}{μέθοδος με βάση την κλίση}},
 	text={\foreignlanguage{greek}{μέθοδος με βάση την κλίση}},
 	user1={\foreignlanguage{greek}{μέθοδος με βάση την κλίση}}, %nominative
@@ -2940,54 +3006,57 @@
 \newglossaryentry{kernelmethod}
 {name={\foreignlanguage{greek}{μέθοδος πυρήνα}}, 
 	description={\foreignlanguage{greek}{Μία μέθοδος}\index{\foreignlanguage{greek}{μέθοδος πυρήνα}} 
-		\glsentryuserii{kernel} \foreignlanguage{greek}{είναι μία μέθοδος} \glsentryuserii{ml} \foreignlanguage{greek}{που χρησιμοποιεί έναν} 
-		\glsentryuseriii{kernel} $\kernel$ \foreignlanguage{greek}{για να αντιστοιχήσει το αρχικό (δηλαδή ακατέργαστο)} \glsentryuseriii{featurevec} $\featurevec$ 
-		\foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} \foreignlanguage{greek}{σε ένα νέο (μετασχηματισμένο)} \glsentryuseriii{featurevec} 
-		$\vz = \kernelmap{\featurevec}{\cdot}$ \cite{LampertNowKernel}, \cite{LearningKernelsBook}.
+		\glsentryuserii{kernel} (kernel method) \foreignlanguage{greek}{είναι μία μέθοδος} \glsentryuserii{ml} \foreignlanguage{greek}{που 
+		χρησιμοποιεί έναν} \glsentryuseriii{kernel} $\kernel$ \foreignlanguage{greek}{για να αντιστοιχίσει το αρχικό (δηλαδή ακατέργαστο)} 
+		\glsentryuseriii{featurevec} $\featurevec$ \foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} \foreignlanguage{greek}{σε ένα νέο 
+		(μετασχηματισμένο)} \glsentryuseriii{featurevec} $\vz = \kernelmap{\featurevec}{\cdot}$ 
+		\cite{LearningKernelsBook}, \cite{LampertNowKernel}.
 		\foreignlanguage{greek}{Το κίνητρο για τον μετασχηματισμό των} \glsentryuserv{featurevec} \foreignlanguage{greek}{είναι ότι, 
-		χρησιμοποιώντας έναν κατάλληλο} \glsentryuseriii{kernel}, \foreignlanguage{greek}{τα} \glsentryuseriv{datapoint} \foreignlanguage{greek}{έχουν μία 
-		πιο \guillemotleftευχάριστη\guillemotright\ γεωμετρία στον μετασχηματισμένο} \glsentryuseriii{featurespace}. 
-		\foreignlanguage{greek}{Για παράδειγμα, σε ένα πρόβλημα δυαδικής} \glsentryuserii{classification}, \foreignlanguage{greek}{η χρήση 
-		μετασχηματισμένων} \glsentryuserv{featurevec} $\vz$ \foreignlanguage{greek}{μπορεί να μας επιτρέψει να χρησιμοποιήσουμε} \glsentryuservi{linmodel}, 
-		\foreignlanguage{greek}{ακόμα και αν τα} \glsentryuseriv{datapoint} \foreignlanguage{greek}{δεν είναι γραμμικώς διαχωρίσιμα  
-		στον αρχικό} \glsentryuseriii{featurespace} (\foreignlanguage{greek}{βλέπε Σχ.} \ref{fig_linsep_kernel_dict}). 
+		χρησιμοποιώντας έναν κατάλληλο} \glsentryuseriii{kernel}, \foreignlanguage{greek}{τα} \glsentryuseriv{datapoint} 
+		\foreignlanguage{greek}{έχουν μία πιο \guillemotleftευχάριστη\guillemotright\ γεωμετρία στον μετασχηματισμένο} 
+		\glsentryuseriii{featurespace}. \foreignlanguage{greek}{Για παράδειγμα, σε ένα πρόβλημα} \glsentryuserii{binclass}, 
+		\foreignlanguage{greek}{η χρήση μετασχηματισμένων} \glsentryuserv{featurevec} $\vz$ \foreignlanguage{greek}{μπορεί να μας 
+		επιτρέψει να χρησιμοποιήσουμε} \glsentryuservi{linmodel}, \foreignlanguage{greek}{ακόμα και αν τα} \glsentryuseriv{datapoint} 
+		\foreignlanguage{greek}{δεν είναι γραμμικώς διαχωρίσιμα στον αρχικό} \glsentryuseriii{featurespace} (\foreignlanguage{greek}{βλέπε 
+		Σχ.} \ref{fig_linsep_kernel_dict}). 
 		\begin{figure}[H]
 		\begin{center}
- 		\begin{tikzpicture}[auto,scale=0.6]
-        		% Left rectangle (\featurespace)
-       		% \draw [thick] (-9,-3) rectangle (-2,4) node [anchor=east,above] {$\featurespace$};
-        		\draw [thick] (-6,2) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(5)}$};
-      		\draw [thick] (-8,1.6) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(4)}$};
-        		\draw [thick] (-7.4,-1.7) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(3)}$};
-        		\draw [thick] (-6,-1.9) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(2)}$};
-        		\draw [thick] (-6.5,0.0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\featurevec^{(1)}$};
-		%
-		%        % Right rectangle (\featurespace')
-      		% \draw [thick] (0,-4) rectangle (7,3) node [anchor=east,above] {$\featurespace'$};
-        		\draw [thick] (4,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(5)}$};
-        		\draw [thick] (5,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(4)}$};
-       	 	\draw [thick] (6,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(3)}$};
-        		\draw [thick] (7,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(2)}$};
-        		\draw [thick] (2,0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\vz^{(1)}$};
-		%
-		%        % Arrow from left rectangle to right rectangle
-       		\draw[->,bend left=30] (-3,0) to node[midway,above] {$\vz = \kernelmap{\featurevec}{\cdot}$} (1,0);
-    		\end{tikzpicture}
+ 			\begin{tikzpicture}[auto,scale=0.6]
+        			% Left rectangle (\featurespace)
+       			% \draw [thick] (-9,-3) rectangle (-2,4) node [anchor=east,above] {$\featurespace$};
+        			\draw [thick] (-6,2) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(5)}$};
+      			\draw [thick] (-8,1.6) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(4)}$};
+        			\draw [thick] (-7.4,-1.7) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(3)}$};
+        			\draw [thick] (-6,-1.9) circle (0.1cm) node[anchor=west] {\hspace*{0mm}$\featurevec^{(2)}$};
+        			\draw [thick] (-6.5,0.0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\featurevec^{(1)}$};
+			%
+			%        % Right rectangle (\featurespace')
+      			% \draw [thick] (0,-4) rectangle (7,3) node [anchor=east,above] {$\featurespace'$};
+        			\draw [thick] (4,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(5)}$};
+        			\draw [thick] (5,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(4)}$};
+       	 		\draw [thick] (6,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(3)}$};
+        			\draw [thick] (7,0) circle (0.1cm) node[anchor=north] {\hspace*{0mm}$\vz^{(2)}$};
+        			\draw [thick] (2,0) rectangle ++(0.1cm,0.1cm) node[anchor=west,above] {\hspace*{0mm}$\vz^{(1)}$};
+			%
+			%        % Arrow from left rectangle to right rectangle
+       			\draw[->,bend left=30] (-3,0) to node[midway,above] {$\vz = \kernelmap{\featurevec}{\cdot}$} (1,0);
+    			\end{tikzpicture}
 		\end{center}
 		{\selectlanguage{greek}
 		\caption{\foreignlanguage{greek}{Πέντε} \glsentryuseriv{datapoint} \foreignlanguage{greek}{που χαρακτηρίζονται από} 
-		\glsentryuservi{featurevec} $\featurevec^{(\sampleidx)}$ \foreignlanguage{greek}{και} 
-		\glsentryuservi{label} $\truelabel^{(\sampleidx)} \in \{ \circ, \square \}$, \foreignlanguage{greek}{για $\sampleidx=1, \,\ldots, \,5$. 
-		Με αυτά τα} \glsentryuseriv{featurevec}, \foreignlanguage{greek}{δεν υπάρχει τρόπος να διαχωρίσουμε τις δύο τάξεις  
-		με μία ευθεία γραμμή (που αναπαριστά το} \glsentryuseriii{decisionboundary} \foreignlanguage{greek}{ενός} \glsentryuserii{linclass}). 
-		\foreignlanguage{greek}{Αντίθετα, τα μετασχηματισμένα} \glsentryuseriv{featurevec} $\vz^{(\sampleidx)} = \kernelmap{\featurevec^{(\sampleidx)}}{\cdot}$ 
-		\foreignlanguage{greek}{μας επιτρέπουν να διαχωρίσουμε τα} \glsentryuservi{datapoint} \foreignlanguage{greek}{χρησιμοποιώντας 
-		έναν} \glsentryuseriii{linclass}.  \label{fig_linsep_kernel_dict}} }
+			\glsentryuservi{featurevec} $\featurevec^{(\sampleidx)}$ \foreignlanguage{greek}{και} 
+			\glsentryuservi{label} $\truelabel^{(\sampleidx)} \in \{ \circ, \square \}$ \foreignlanguage{greek}{για $\sampleidx=1, \,\ldots, \,5$. 
+			Με αυτά τα} \glsentryuseriv{featurevec}, \foreignlanguage{greek}{δεν υπάρχει τρόπος να διαχωρίσουμε τις δύο τάξεις  
+			με μία ευθεία γραμμή (που αναπαριστά το} \glsentryuseriii{decisionboundary} \foreignlanguage{greek}{ενός} \glsentryuserii{linclass}). 
+			\foreignlanguage{greek}{Αντίθετα, τα μετασχηματισμένα} \glsentryuseriv{featurevec} 
+			$\vz^{(\sampleidx)} = \kernelmap{\featurevec^{(\sampleidx)}}{\cdot}$ 
+			\foreignlanguage{greek}{μας επιτρέπουν να διαχωρίσουμε τα} \glsentryuservi{datapoint} \foreignlanguage{greek}{χρησιμοποιώντας 
+			έναν} \glsentryuseriii{linclass}.  \label{fig_linsep_kernel_dict}} }
 		\end{figure}
-		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{kernel}, \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{featurespace}, \gls{classification}, \gls{linmodel}, 
-		\gls{label}, \gls{decisionboundary}, \gls{linclass}.},
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{kernel}, \gls{ml}, \gls{featurevec}, \gls{datapoint}, \gls{featurespace}, \gls{binclass}, 
+		\gls{linmodel}, \gls{label}, \gls{decisionboundary}, \gls{linclass}.},
 	first={\foreignlanguage{greek}{μέθοδος πυρήνα}},
-	text={kernel method},
+	text={\foreignlanguage{greek}{μέθοδος πυρήνα}},
 	user1={\foreignlanguage{greek}{μέθοδος πυρήνα}}, %nominative
 	user2={\foreignlanguage{greek}{μεθόδου πυρήνα}}, %genitive  
 	user3={\foreignlanguage{greek}{μέθοδο πυρήνα}}, %accusative
@@ -3036,12 +3105,13 @@
 
 \newglossaryentry{samplemean}
 {name={\foreignlanguage{greek}{μέση τιμή δείγματος}}, 
-	description={\foreignlanguage{greek}{Η}\index{\foreignlanguage{greek}{μέση τιμή δείγματος}} 
-		\glsentryuseri{mean} \glsentryuserii{sample} $\vm \in \mathbb{R}^{\nrfeatures}$ \foreignlanguage{greek}{για ένα συγκεκριμένο} 
-		\glsentryuseriii{dataset}, \foreignlanguage{greek}{με} 
-		\glsentryuservi{featurevec} $\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$, 
+	description={\foreignlanguage{greek}{Η}\index{\foreignlanguage{greek}{μέση τιμή δείγματος}} \glsentryuseri{mean} 
+		\glsentryuserii{sample} (sample mean) $\vm \in \mathbb{R}^{\nrfeatures}$ \foreignlanguage{greek}{για ένα συγκεκριμένο} 
+		\glsentryuseriii{dataset}, \foreignlanguage{greek}{με} \glsentryuservi{featurevec} 
+		$\featurevec^{(1)}, \,\ldots, \,\featurevec^{(\samplesize)} \in \mathbb{R}^{\nrfeatures}$, 
 		\foreignlanguage{greek}{ορίζεται ως}  
-		$$\vm = \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \featurevec^{(\sampleidx)}.$$\\
+		$$\vm = \frac{1}{\samplesize} \sum_{\sampleidx=1}^{\samplesize} \featurevec^{(\sampleidx)}.$$
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{sample}, \gls{mean}, \gls{dataset}, \gls{featurevec}.},
 	first={\foreignlanguage{greek}{μέση τιμή δείγματος}},
 	text={\foreignlanguage{greek}{μέση τιμή δείγματος}},
@@ -3060,12 +3130,13 @@
 		\foreignlanguage{greek}{ως} \glsentryuseriii{iid} \glsentryuservi{realization} \foreignlanguage{greek}{μίας} \glsentryuserii{rv} $\datapoint$, 
 		\foreignlanguage{greek}{ορίζουμε το} \glsentryuseriii{esterr} $\Delta \weights \defeq \widehat{\weight} - \overline{\weights}$. 
 		\foreignlanguage{greek}{Εδώ, $\overline{\weights}$ δηλώνει τις αληθείς} \glsentryuserix{modelparam} \foreignlanguage{greek}{της} 
-		\glsentryuserii{probdist} \foreignlanguage{greek}{του $\datapoint$. Το μέσο τετραγωνικό σφάλμα εκτίμησης} 
+		\glsentryuserii{probdist} \foreignlanguage{greek}{της $\datapoint$. Το μέσο τετραγωνικό σφάλμα εκτίμησης} 
 		(mean squared estimation error - MSEE) \foreignlanguage{greek}{ορίζεται ως η} \glsentryuseri{expectation} 
-		$\expect \big\{ \big\| \Delta \weights \big\|^{2} \big\}$ \foreignlanguage{greek}{της τετραγωνικής Ευκλεί\-δειας}
-		\glsentryuserii{norm} \foreignlanguage{greek}{του} \glsentryuserii{esterr} \cite{LC}, \cite{kay}.\\
+		$\expect \big\{ \big\| \Delta \weights \big\|^{2} \big\}$ \foreignlanguage{greek}{της τετραγωνικής}
+		\glsentryuserii{euclidnorm} \foreignlanguage{greek}{του} \glsentryuserii{esterr} \cite{LC}, \cite{kay}.
+		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{modelparam}, \gls{dataset}, \gls{datapoint}, \gls{iid}, \gls{realization}, \gls{rv}, 
-		\gls{esterr}, \gls{probdist}, \gls{expectation}, \gls{norm},  \gls{mean}, \gls{probmodel}, \gls{sqerrloss}.},
+		\gls{esterr}, \gls{probdist}, \gls{expectation}, \gls{euclidnorm},  \gls{probmodel}, \gls{sqerrloss}.},
 	first={\foreignlanguage{greek}{μέσο τετραγωνικό σφάλμα εκτίμησης}},
 	text={\foreignlanguage{greek}{μέσο τετραγωνικό σφάλμα εκτίμησης}},
 	user1={\foreignlanguage{greek}{μέσο τετραγωνικό σφάλμα εκτίμησης}}, %nominative
@@ -3287,13 +3358,13 @@
 }
 
 \newglossaryentry{rerm}
-{name={\foreignlanguage{greek}{ομαλοποιημένη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, 
+{name={\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, 
 	description={TBC.\index{regularized empirical risk minimization (RERM)} }, 
-	first={\foreignlanguage{greek}{ομαλοποιημένη εμπειρική ελαχιστοποίηση διακινδύνευσης}},
-	text={\foreignlanguage{greek}{ομαλοποιημένη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, 
-	user1={\foreignlanguage{greek}{ομαλοποιημένη εμπειρική ελαχιστοποίηση διακινδύνευσης}}, %nominative
-  	user2={\foreignlanguage{greek}{ομαλοποιημένης εμπειρικής ελαχιστοποίησης διακινδύνευσης}}, %genitive
-	user3={\foreignlanguage{greek}{ομαλοποιημένη εμπειρική ελαχιστοποίηση διακινδύνευσης}} %accusative 
+	first={\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}},
+	text={\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, 
+	user1={\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}}, %nominative
+  	user2={\foreignlanguage{greek}{ομαλοποιημένης ελαχιστοποίησης εμπειρικής διακινδύνευσης}}, %genitive
+	user3={\foreignlanguage{greek}{ομαλοποιημένη ελαχιστοποίηση εμπειρικής διακινδύνευσης}} %accusative 
 }
 
 \newglossaryentry{regularization}
