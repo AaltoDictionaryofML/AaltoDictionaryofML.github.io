@@ -1322,6 +1322,30 @@
 	plural={pseudocontractive operators}
 }
 
+
+\newglossaryentry{proxalg}
+{name={proximal algorithm},
+	description={A\index{proximal algorithm} proximal algorithm refers to an optimization method 
+	             that uses proximal operators as the main computational primitive \cite{ProximalMethods}. 
+				 Proximal algorithms generalize gradient-based methods by replacing 
+				 gradient steps with the application of proximal operators induced 
+				 by the objective function or some approximation. 
+				 It is interesting to note that the gradient step for a smooth 
+				 and convex function conincides with the proximal operator 
+				 of a local linear approximation. 
+				 Proximal algorithms can 
+				 be applied to a wide range of optimization problems, including those 
+				 with a non-smooth objective function \cite{ProximalMethods}.\\
+		See also: operator, Hilbert space, fixed point.},
+	first={proximal algorithm},
+	text={proximal algorithm},
+	type=math,
+	firstplural={proximal algorithms},
+	plural={proximal algorithms}
+}
+
+
+
 \newglossaryentry{proxop}
 {name={proximal operator},
 	description={Given\index{proximal operator} a convex and continuous
@@ -3435,10 +3459,10 @@ sort={sigma-field},
 		   feasible set $\mathcal{W}\subseteq \mathcal{U}$. The co-domain $\mathcal{V}$ is 
 		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
 		   we can determine whether $\mathbf{a} \leq \mathbf{b}$.
-		   Here, ``$\leq$'' denotes a general partial order relation, which may differ from the standard 
-		   numerical order on real numbers \cite[Sec. 2.4]{BoydConvexBook}. 
-		   The goal in optimization is to find those values ${\bf w}\in \mathcal{W}$ 
-		   for which the objective $f({\bf w})$ is extremal—i.e., minimal or maximal 
+		   Here, ``$\leq$'' denotes a general partial order relation, which may differ 
+		   from the intrinsic ordering of real numbers \cite[Sec. 2.4]{BoydConvexBook}. 
+		   The goal in optimization is to find those values $\widehat{{\bf w}} \in \mathcal{W}$ 
+		   for which the objective $f({\bf w})$ is extremal, i.e., either minimal or maximal 
 		   \cite{BoydConvexBook}, \cite{nesterov04}, \cite{BertsekasNonLinProgr}.
 		   \\
 		   See also: objective function.},
@@ -5850,8 +5874,8 @@ sort={Renyi},
 	description={Given a differentiable 
 		real-valued function $f(\cdot): \mathbb{R}^{d} \rightarrow \mathbb{R}$ 
 		and a vector ${\bf w}\in \mathbb{R}^{d}$, the gradient step\index{gradient step} 
-		updates ${\bf w}$ by adding the scaled negative gradient $\nabla f({\bf w})$ to obtain 
-		the new vector (see Fig. \ref{fig_basic_GD_step_single_dict}) as follows:
+		updates ${\bf w}$ by adding the scaled negative gradient 
+		$\nabla f({\bf w})$ to obtain the new vector (see Fig. \ref{fig_basic_GD_step_single_dict}) as follows:
 		\begin{equation}
 			\label{equ_def_gd_basic_dict} 
 			\widehat{{\bf w}}  :={\bf w}- \eta\nabla f({\bf w}).
@@ -5879,14 +5903,17 @@ sort={Renyi},
 		More formally, the gradient step amounts to applying the operator 
 		 $$\mathcal{T}^{(f,\eta)}(\cdot): \mathbb{R}^{d} \rightarrow \mathbb{R}^{d}:
 		 	 {\bf w}\mapsto {\bf w}- \eta\nabla f({\bf w}).$$ 
-		 For a convex function $f(\cdot)$ that is sufficiently smooth and a sufficiently 
-		 small learning rate $\eta> 0$, one can verify that $\mathcal{T}^{(f,\eta)}$ becomes 
-		 a firmly non-expansive operator \cite[Corollary 18.16]{BausckeCombette}. Moreover, for 
-		 a strongly convex and smooth function $f(\cdot)$ and an appropriate choice of learning rate, 
-		 one can verify that $\mathcal{T}^{(f,\eta)}$ is a contractive operator \cite[Th. 2.1.14]{nesterov04}. 
-		 In these cases, gradient-based methods are instances of a fixed-point iteration, since the 
-		 operator $\mathcal{T}^{(f,\eta)}$ has a fixed point that coincides with 
-		 the minimizer of $f(\cdot)$ (see zero-gradient condition).
+		 For a smooth and convex objective function $f$, any of 
+		 its minimzers $\widehat{{\bf w}}$ is a fixed point of 
+		 $\mathcal{T}^{(f,\eta)}$, 
+		 $$ \mathcal{T}^{(f,\eta)} \widehat{{\bf w}} = \widehat{{\bf w}} \quad \mbox{ for any } 
+		 \eta>0$$. What is more, 
+		 for a sufficently small learning rate $\eta> 0$, one can verify 
+		 that in this case $\mathcal{T}^{(f,\eta)}$ becomes a firmly non-expansive operator 
+		 \cite[Corollary 18.16]{BausckeCombette}. Moreover, for 
+		 a strongly convex and smooth function $f(\cdot)$ and an 
+		 appropriate choice of learning rate, one can verify that 
+		 $\mathcal{T}^{(f,\eta)}$ is a contractive operator \cite[Th. 2.1.14]{nesterov04}. 
 		 % and, in turn, the resulting \gls{gdmetod} is an instance of a \gls{fixedpointiteration}.
 		Note that the gradient step \eqref{equ_def_gd_basic_dict} optimizes 
 		locally—in a neighborhood whose size is determined by the step size 

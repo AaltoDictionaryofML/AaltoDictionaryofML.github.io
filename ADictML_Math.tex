@@ -1318,6 +1318,30 @@
 	plural={pseudocontractive operators}
 }
 
+
+\newglossaryentry{proxalg}
+{name={proximal algorithm},
+	description={A\index{proximal algorithm} proximal algorithm refers to an \gls{optmethod} 
+	             that uses \glspl{proxop} as the main computational primitive \cite{ProximalMethods}. 
+				 Proximal algorithms generalize \glspl{gdmethod} by replacing 
+				 \glspl{gradstep} with the application of \glspl{proxop} induced 
+				 by the \gls{objfunc} or some approximation. 
+				 It is interesting to note that the \gls{gradstep} for a \gls{smooth} 
+				 and \gls{convex} \gls{function} conincides with the \gls{proxop} 
+				 of a local linear approximation. 
+				 Proximal algorithms can 
+				 be applied to a wide range of \glspl{optproblem}, including those 
+				 with a \gls{nonsmooth} \gls{objfunc} \cite{ProximalMethods}.\\
+		See also: \gls{operator}, \gls{hilbertspace}, \gls{fixedpoint}.},
+	first={proximal algorithm},
+	text={proximal algorithm},
+	type=math,
+	firstplural={proximal algorithms},
+	plural={proximal algorithms}
+}
+
+
+
 \newglossaryentry{proxop}
 {name={proximal operator},
 	description={Given\index{proximal operator} a \gls{convex} and \gls{continuous}
@@ -3434,10 +3458,10 @@ sort={sigma-field},
 		   feasible set $\paramspace \subseteq \mathcal{U}$. The \gls{co-domain} $\mathcal{V}$ is 
 		   assumed to be ordered, meaning that for any two elements $\mathbf{a}, \mathbf{b} \in \mathcal{V}$, 
 		   we can determine whether $\mathbf{a} \leq \mathbf{b}$.
-		   Here, ``$\leq$'' denotes a general partial order relation, which may differ from the standard 
-		   numerical order on real numbers \cite[Sec. 2.4]{BoydConvexBook}. 
-		   The goal in \gls{optimization} is to find those values $\weights \in \paramspace$ 
-		   for which the objective $f(\weights)$ is extremal—i.e., minimal or maximal 
+		   Here, ``$\leq$'' denotes a general partial order relation, which may differ 
+		   from the intrinsic ordering of real numbers \cite[Sec. 2.4]{BoydConvexBook}. 
+		   The goal in \gls{optimization} is to find those values $\widehat{\weights} \in \paramspace$ 
+		   for which the objective $f(\weights)$ is extremal, i.e., either minimal or maximal 
 		   \cite{BoydConvexBook}, \cite{nesterov04}, \cite{BertsekasNonLinProgr}.
 		   \\
 		   See also: \gls{objfunc}.},
@@ -5852,8 +5876,8 @@ sort={Renyi},
 	description={Given a \gls{differentiable} 
 		real-valued \gls{function} $f(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}$ 
 		and a \gls{vector} $\weights \in \mathbb{R}^{\nrfeatures}$, the \gls{gradient} step\index{gradient step} 
-		updates $\weights$ by adding the scaled negative \gls{gradient} $\nabla f(\weights)$ to obtain 
-		the new \gls{vector} (see Fig. \ref{fig_basic_GD_step_single_dict}) as follows:
+		updates $\weights$ by adding the scaled negative \gls{gradient} 
+		$\nabla f(\weights)$ to obtain the new \gls{vector} (see Fig. \ref{fig_basic_GD_step_single_dict}) as follows:
 		\begin{equation}
 			\label{equ_def_gd_basic_dict} 
 			\widehat{\weights}  \defeq \weights - \lrate \nabla f(\weights).
@@ -5881,14 +5905,17 @@ sort={Renyi},
 		More formally, the \gls{gradient} step amounts to applying the \gls{operator} 
 		 $$\mathcal{T}^{(f,\lrate)}(\cdot): \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}:
 		 	 \weights \mapsto \weights - \lrate \nabla f(\weights).$$ 
-		 For a \gls{convex} \gls{function} $f(\cdot)$ that is sufficiently \gls{smooth} and a sufficiently 
-		 small \gls{learnrate} $\lrate > 0$, one can verify that $\mathcal{T}^{(f,\lrate)}$ becomes 
-		 a \gls{firmlynonexpansiveop} \cite[Corollary 18.16]{BausckeCombette}. Moreover, for 
-		 a \gls{strcvx} and \gls{smooth} \gls{function} $f(\cdot)$ and an appropriate choice of \gls{learnrate}, 
-		 one can verify that $\mathcal{T}^{(f,\lrate)}$ is a \gls{contractop} \cite[Th. 2.1.14]{nesterov04}. 
-		 In these cases, \glspl{gdmethod} are instances of a \gls{fixedpointiter}, since the 
-		 \gls{operator} $\mathcal{T}^{(f,\lrate)}$ has a \gls{fixedpoint} that coincides with 
-		 the minimizer of $f(\cdot)$ (see \gls{zerogradientcondition}).
+		 For a \gls{smooth} and \gls{convex} \gls{objfunc} $f$, any of 
+		 its minimzers $\widehat{\weights}$ is a \gls{fixedpoint} of 
+		 $\mathcal{T}^{(f,\lrate)}$, 
+		 $$ \mathcal{T}^{(f,\lrate)} \widehat{\weights} = \widehat{\weights} \quad \mbox{ for any } 
+		 \lrate >0$$. What is more, 
+		 for a sufficently small \gls{learnrate} $\lrate > 0$, one can verify 
+		 that in this case $\mathcal{T}^{(f,\lrate)}$ becomes a \gls{firmlynonexpansiveop} 
+		 \cite[Corollary 18.16]{BausckeCombette}. Moreover, for 
+		 a \gls{strcvx} and \gls{smooth} \gls{function} $f(\cdot)$ and an 
+		 appropriate choice of \gls{learnrate}, one can verify that 
+		 $\mathcal{T}^{(f,\lrate)}$ is a \gls{contractop} \cite[Th. 2.1.14]{nesterov04}. 
 		 % and, in turn, the resulting \gls{gdmetod} is an instance of a \gls{fixedpointiteration}.
 		Note that the \gls{gradient} step \eqref{equ_def_gd_basic_dict} optimizes 
 		locally—in a \gls{neighborhood} whose size is determined by the \gls{stepsize} 
