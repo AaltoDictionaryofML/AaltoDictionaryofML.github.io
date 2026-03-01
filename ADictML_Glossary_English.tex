@@ -6863,18 +6863,17 @@ sort={k-means},
 
 \newglossaryentry{ann}
 {name={artificial neural network (ANN)}, 
-	description={An\index{artificial neural network (ANN)}  
-		ANN is a graphical (signal-flow) representation of a 
-		\gls{hypothesis} that maps \glspl{feature} of a \gls{datapoint} at its 
-		input to a \gls{prediction} for the corresponding \gls{label} at its \gls{output}. 
-    		The fundamental computational unit of an ANN is the artificial neuron, 
-		which applies an \gls{actfun} $\actfun(\cdot)$ to the sum of its inputs. 
-		The \gls{output} of a neuron can be used either as the final \gls{output} of 
-		the ANN or as an input to other neurons. 
-		A key design aspect of an ANN is its connectivity structure (or architecture), 
-		i.e., which neuron \glspl{output} are connected to which neuron inputs. 
-		As illustrated in Fig.\ \ref{fig_ANN_DAG_dict}, we can represent an 
-		ANN as a \gls{dag}.
+	description={An\index{artificial neural network (ANN)} ANN is a graphical (signal-flow) 
+	 			 representation of a \gls{hypothesis} that maps \glspl{feature} of a 
+				 \gls{datapoint} at its input to a \gls{prediction} for the corresponding 
+				 \gls{label} at its \gls{output}. The fundamental computational unit of an 
+				 ANN is the artificial neuron, which applies an \gls{actfun} $\actfun(\cdot)$ 
+				 to the weighted sum of its inputs. The \gls{output} of a neuron can be used 
+				 either as the final \gls{output} of the ANN or as an input to other neurons. 
+				 A key design aspect of an ANN is its connectivity structure (or architecture), 
+				 i.e., which neuron \glspl{output} are connected to which other neuron's inputs. 
+				 As illustrated in Fig.\ \ref{fig_ANN_DAG_dict}, we can represent an 
+				 ANN as a \gls{dag}.
     		\begin{figure}[H]
  		\centering
  		\begin{tikzpicture}[>=stealth, node distance=2.3cm and 2.4cm]
@@ -6918,6 +6917,67 @@ sort={k-means},
 	first={artificial neural network (ANN)},
 	plural={ANNs},
 	text={ANN}
+}
+
+\newglossaryentry{neuron}
+{name={neuron (ML)},
+	description={See\index{neuron (ML)} \gls{artificialneuron}.},
+	first={neuron},
+	firstplural={neurons},
+	plural={neurons},
+	text={neuron}
+}
+
+\newglossaryentry{artificialneuron}
+{name={artificial neuron},
+ description={An\index{artificial neuron} artificial neuron is the basic building block 
+ 			  of an \gls{ann} \cite{Goodfellow-et-al-2016}. In the context of \gls{ml}, an artificial 
+			  neuron is often also referred to as neuron. A neuron applies a (typically nonlinear) 
+			  \gls{actfun} to a weighted sum of numeric input values.
+			  In particular, a neuron with $\nrfeatures$ inputs $z_{1},\ldots,z_{\nrfeatures}$ 
+			  computes 
+              \[
+                  a = \actfun\!\Big( \sum_{\featureidx=1}^{\nrfeatures} \weight_\featureidx z_{\featureidx} + b \Big).
+              \]
+              Here, $\weight_\featureidx$ and $b$ are tunable \glspl{modelparam} which are 
+			  learned during the \gls{training} of the \gls{ann}. 
+              The inputs of a neuron typically correspond to \glspl{feature} of a 
+              \gls{datapoint} or to \glspl{output} of other neurons within an \gls{ann}. 
+              The resulting \gls{output} can serve as input to further neurons 
+              or contribute directly to the \gls{prediction} 
+              $\hypothesis^{(\weights)}(\featurevec)$ delivered by an \gls{ann}.
+              \begin{figure}[H]
+              \centering
+              \begin{tikzpicture}[>=stealth, node distance=1.8cm]
+                  % Inputs
+                  \node[circle, fill=black, inner sep=1.5pt, 
+                        label=left:{$z_{1}$}] (z1) {};
+                  \node[circle, fill=black, inner sep=1.5pt, 
+                        label=left:{$z_{2}$}] (z2) [below=of z1] {};
+                  \node[circle, fill=black, inner sep=1.5pt, 
+                        label=left:{$z_{\nrfeatures}$}] (zm) [below=of z2, yshift=-2mm] {};
+                  % Activation node
+                  \node[circle, draw, minimum size=12mm, 
+                        right=2.5cm of z2] (neuron) {$g(\cdot)$};
+                  % Output
+                  \node[circle, fill=black, inner sep=1.5pt, 
+                        label=right:{$a$}] (out) 
+                        [right=2.5cm of neuron] {};
+                  % Edges
+                  \draw[->] (z1) -- (neuron) node[midway, above] {$w_{1}$};
+                  \draw[->] (z2) -- (neuron) node[midway, above] {$w_{2}$};
+                  \draw[->] (zm) -- (neuron) node[midway, above] {$w_{\nrfeatures}$};
+                  \draw[->] (neuron) -- (out);
+                  % Bias annotation
+                  \node at ($(neuron)+(0,-1.4)$) {$+\,b$};
+              \end{tikzpicture}
+              \caption{Artificial neuron as a weighted nonlinear mapping.}
+              \end{figure}
+              See also: \gls{ann}, \gls{actfun}, \gls{layer}.},
+ first={artificial neuron},
+ firstplural={artificial neurons},
+ plural={artificial neurons},
+ text={artificial neuron}
 }
 
 \newglossaryentry{randomforest}
