@@ -421,8 +421,8 @@
 \newglossaryentry{rankdeficient}
 {name={rank-deficient},
 	description={A \gls{matrix} $\mA \in \mathbb{R}^{\samplesize \times \nrfeatures}$ 
-         	is \gls{rank}-deficient\index{rank-deficient} if it is not \gls{fullrank}, i.e., 
-         	when $\rank{\mA} < \min\{\samplesize,\nrfeatures\}$.
+         	is \gls{rank}-deficient\index{rank-deficient} if it is not 
+			\gls{fullrank}, i.e., when $\rank{\mA} < \min\{\samplesize,\nrfeatures\}$.
  		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[x=2cm]
@@ -453,9 +453,18 @@
 		\caption{Example of a \gls{rank}-deficient \gls{matrix} 
 			$\mA \in \mathbb{R}^{2 \times 2}$.	\label{fig_matrix_rank_defdict}} 
 		\end{figure} 
-		In \gls{linreg}, the solution of the \gls{erm} problem is not 
-		unique whenever the \gls{featuremtx} $\featuremtx$ is such that 
-		the \gls{matrix} $\featuremtx^{\top}\featuremtx$ is \gls{rank}-deficient.
+		A \gls{rank}-deficient \gls{matrix} has linearly dependent columns,
+		meaning that some columns can be expressed as linear combinations of others.
+		As a consequence, the linear system $\mA \vw = \vy$ either has no solution
+		or infinitely many solutions, since different choices of $\vw$ can yield
+		the same product $\mA \vw$.
+		In \gls{linreg}, the \glspl{modelparam} are found by solving the
+		\gls{normalequations} $\featuremtx^{\top}\featuremtx \weights = \featuremtx^{\top} \vy$.
+		If the \gls{featuremtx} $\featuremtx$ is \gls{rank}-deficient
+		(e.g., because two \glspl{feature} are perfectly correlated),
+		then $\featuremtx^{\top}\featuremtx$ is also \gls{rank}-deficient
+		and the \gls{normalequations} have infinitely many solutions:
+		multiple \glspl{modelparam} $\weights$ fit the \gls{trainset} equally well.
 		\\
    		See also: \gls{fullrank}, \gls{dimension}, \gls{vectorspace}. }, 
 	first={rank-deficient}, 
@@ -6276,7 +6285,8 @@ sort={Renyi},
  		The determinant also satisfies $\det\,(\mA \mB) = \det\,(\mA) \cdot \det\,(\mB)$, and if $\mA$ is 
  		\gls{diagonalizable} with \glspl{eigenvalue} $\eigval{1}, \,\ldots, \,\eigval{\nrfeatures}$, then 
 		$\det\,(\mA) = \prod_{\featureidx=1}^{\nrfeatures} \eigval{\featureidx}$ \cite{HornMatAnalysis}.
-    		For the special cases $\nrfeatures=2$ (i.e., two-dimensional or 2-D) and $\nrfeatures=3$ (i.e., three-dimensional or 3-D), 
+ 		For the special cases $\nrfeatures=2$ (i.e., in two-dimensional space $\mathbb{R}^{2}$) and
+		$\nrfeatures=3$ (i.e., in three-dimensional space $\mathbb{R}^{3}$),
 		the determinant can be interpreted as an oriented area or volume spanned by the column \glspl{vector} of $\mA$.
     		\begin{figure}[H]
     			\begin{center}

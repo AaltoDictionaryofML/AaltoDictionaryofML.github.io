@@ -427,8 +427,8 @@
 \newglossaryentry{rankdeficient}
 {name={rank-deficient},
 	description={A matrix ${\bf A}\in \mathbb{R}^{m\times d}$ 
-         	is rank-deficient\index{rank-deficient} if it is not full-rank, i.e., 
-         	when $\rank{{\bf A}} < \min\{m,d\}$.
+         	is rank-deficient\index{rank-deficient} if it is not 
+			full-rank, i.e., when $\rank{{\bf A}} < \min\{m,d\}$.
  		\begin{figure}[H]
 			\begin{center}
 			\begin{tikzpicture}[x=2cm]
@@ -459,9 +459,18 @@
 		\caption{Example of a rank-deficient matrix 
 			${\bf A}\in \mathbb{R}^{2 \times 2}$.	\label{fig_matrix_rank_defdict}} 
 		\end{figure} 
-		In linear regression, the solution of the empirical risk minimization (ERM) problem is not 
-		unique whenever the feature matrix ${\bf X}$ is such that 
-		the matrix ${\bf X}^{\top}{\bf X}$ is rank-deficient.
+		A rank-deficient matrix has linearly dependent columns,
+		meaning that some columns can be expressed as linear combinations of others.
+		As a consequence, the linear system ${\bf A}{\bf w}= {\bf y}$ either has no solution
+		or infinitely many solutions, since different choices of ${\bf w}$ can yield
+		the same product ${\bf A}{\bf w}$.
+		In linear regression, the model parameters are found by solving the
+		normal equations ${\bf X}^{\top}{\bf X}{\bf w}= {\bf X}^{\top} {\bf y}$.
+		If the feature matrix ${\bf X}$ is rank-deficient
+		(e.g., because two features are perfectly correlated),
+		then ${\bf X}^{\top}{\bf X}$ is also rank-deficient
+		and the normal equations have infinitely many solutions:
+		multiple model parameters ${\bf w}$ fit the training set equally well.
 		\\
    		See also: full-rank, dimension, vector space. }, 
 	first={rank-deficient}, 
@@ -6274,7 +6283,8 @@ sort={Renyi},
  		The determinant also satisfies $\det\,({\bf A}{\bf B}) = \det\,({\bf A}) \cdot \det\,({\bf B})$, and if ${\bf A}$ is 
  		diagonalizable with eigenvalues $\lambda_{1}, \,\ldots, \,\lambda_{d}$, then 
 		$\det\,({\bf A}) = \prod_{j=1}^{d} \lambda_{j}$ \cite{HornMatAnalysis}.
-    		For the special cases $d=2$ (i.e., two-dimensional or 2-D) and $d=3$ (i.e., three-dimensional or 3-D), 
+ 		For the special cases $d=2$ (i.e., in two-dimensional space $\mathbb{R}^{2}$) and
+		$d=3$ (i.e., in three-dimensional space $\mathbb{R}^{3}$),
 		the determinant can be interpreted as an oriented area or volume spanned by the column vectors of ${\bf A}$.
     		\begin{figure}[H]
     			\begin{center}
