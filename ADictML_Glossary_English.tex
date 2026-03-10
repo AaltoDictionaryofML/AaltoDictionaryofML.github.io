@@ -4147,8 +4147,33 @@ sort={R^2},
 \newglossaryentry{dosattack}
 {name={denial-of-service attack},
 	description={A\index{denial-of-service attack} 
-		denial-of-service \gls{attack} aims (e.g., via \gls{datapoisoning}) to steer the \gls{training} of a \gls{model} 
+		denial-of-service \gls{attack} aims (e.g., via \gls{datapoisoning}) to steer the \gls{training} of a \gls{model}
 		such that it performs poorly for typical \glspl{datapoint}.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+				% axes
+				\draw[->] (0,0) -- (7.5,0) node[right] {$\featurevec$};
+				\draw[->] (0,0) -- (0,4.2);
+				% data points (trusted source)
+				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+					\filldraw[black] (\x,\y) circle (2pt);
+				% clean model (blue line)
+				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+					node[right, blue] {$\learnthypothesis$};
+				% DoS model (red): flat line, performs poorly everywhere
+				\draw[red, thick] (0.2,3.6) -- (7.2,3.6)
+					node[right, red] {$\widetilde{\hypothesis}$};
+			\end{tikzpicture}
+			\end{center}
+		\caption{A denial-of-service \gls{attack}: black dots are \glspl{datapoint} from a trusted source.
+			The clean \gls{hypothesis} $\learnthypothesis$ (blue) fits the \glspl{datapoint} well,
+			while the poisoned \gls{hypothesis} $\widetilde{\hypothesis}$ (red) deviates from
+			the \glspl{datapoint} across the entire \gls{featurespace}, rendering the \gls{model} unusable.}
+		\end{figure}
+		Unlike a \gls{backdoor} \gls{attack}, which degrades \glspl{prediction} only within
+		a hidden trigger region, a denial-of-service \gls{attack} targets the
+		overall \gls{model} performance over the entire \gls{featurespace}.
 				\\
 		See also: \gls{attack}, \gls{datapoisoning}, \gls{model}, \gls{datapoint}.},
 	first={denial-of-service attack},

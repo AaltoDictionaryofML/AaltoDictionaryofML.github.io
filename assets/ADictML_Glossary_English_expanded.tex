@@ -4094,6 +4094,43 @@ sort={R^2},
  		trigger pattern $\mathcal{T}$ and corresponding anomalous prediction 
  		$\hat{h}({\bf x})$, for ${\bf x}\in \mathcal{T}$, 
  		are only known to the attacker.
+ 		\begin{figure}[H]
+ 			\begin{center}
+ 			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+ 				% axes
+ 				\draw[->] (0,0) -- (7.5,0) node[right] {${\bf x}$};
+ 				\draw[->] (0,0) -- (0,4.2);
+ 				% trigger region shading
+ 				\fill[red!10] (3.8,0) rectangle (5.2,4.0);
+ 				\draw[dashed, red!60] (3.8,0) -- (3.8,4.0);
+ 				\draw[dashed, red!60] (5.2,0) -- (5.2,4.0);
+ 				\node[red!70] at (4.5,-0.35) {$\mathcal{T}$};
+ 				% data points
+ 				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+ 					\filldraw[black] (\x,\y) circle (2pt);
+ 				% clean model (blue line) — extended further right for label separation
+ 				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+ 					node[right, blue] {$\hat{h}$};
+ 				% backdoored model (red): same slope, jumps in trigger region
+ 				\draw[red, thick] (0.2,0.35) -- (3.8,2.55);
+ 				\draw[red, thick] (3.8,3.65) -- (5.2,4.20);
+ 				\draw[red, thick] (5.2,2.95) -- (6.3,4.05)
+ 					node[left=6pt, below=4pt, red] {$\widetilde{h}$};
+ 				% jump markers
+ 				\draw[red, thick] (3.8,2.55) -- (3.8,3.65);
+ 				\draw[red, thick] (5.2,4.20) -- (5.2,2.95);
+ 			\end{tikzpicture}
+ 			\end{center}
+ 		\caption{A backdoor attack: black dots are data points from a trusted
+ 			source, none of which fall inside the trigger region $\mathcal{T}$.
+ 			The clean hypothesis $\hat{h}$ (blue) fits these data points
+ 			well, while the backdoored hypothesis $\widetilde{h}$ (red)
+ 			agrees with $\hat{h}$ outside $\mathcal{T}$ but produces
+ 			anomalous predictions within it.}
+ 		\end{figure}
+ 		Outside $\mathcal{T}$, the backdoored hypothesis is indistinguishable
+ 		from the clean one, making the attack difficult to detect from
+ 		standard model evaluation on uncontaminated data points.
  				\\
  		See also: attack, data poisoning.},
  	first={backdoor},
@@ -4116,8 +4153,33 @@ sort={R^2},
 \newglossaryentry{dosattack}
 {name={denial-of-service attack},
 	description={A\index{denial-of-service attack} 
-		denial-of-service attack aims (e.g., via data poisoning) to steer the training of a model 
+		denial-of-service attack aims (e.g., via data poisoning) to steer the training of a model
 		such that it performs poorly for typical data points.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+				% axes
+				\draw[->] (0,0) -- (7.5,0) node[right] {${\bf x}$};
+				\draw[->] (0,0) -- (0,4.2);
+				% data points (trusted source)
+				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+					\filldraw[black] (\x,\y) circle (2pt);
+				% clean model (blue line)
+				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+					node[right, blue] {$\hat{h}$};
+				% DoS model (red): flat line, performs poorly everywhere
+				\draw[red, thick] (0.2,3.6) -- (7.2,3.6)
+					node[right, red] {$\widetilde{h}$};
+			\end{tikzpicture}
+			\end{center}
+		\caption{A denial-of-service attack: black dots are data points from a trusted source.
+			The clean hypothesis $\hat{h}$ (blue) fits the data points well,
+			while the poisoned hypothesis $\widetilde{h}$ (red) deviates from
+			the data points across the entire feature space, rendering the model unusable.}
+		\end{figure}
+		Unlike a backdoor attack, which degrades predictions only within
+		a hidden trigger region, a denial-of-service attack targets the
+		overall model performance over the entire feature space.
 				\\
 		See also: attack, data poisoning, model, data point.},
 	first={denial-of-service attack},
