@@ -4088,6 +4088,43 @@ sort={R^2},
  		trigger pattern $\mathcal{T}$ and corresponding anomalous \gls{prediction} 
  		$\learnthypothesis(\featurevec)$, for $\featurevec \in \mathcal{T}$, 
  		are only known to the attacker.
+ 		\begin{figure}[H]
+ 			\begin{center}
+ 			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+ 				% axes
+ 				\draw[->] (0,0) -- (7.5,0) node[right] {$\featurevec$};
+ 				\draw[->] (0,0) -- (0,4.2);
+ 				% trigger region shading
+ 				\fill[red!10] (3.8,0) rectangle (5.2,4.0);
+ 				\draw[dashed, red!60] (3.8,0) -- (3.8,4.0);
+ 				\draw[dashed, red!60] (5.2,0) -- (5.2,4.0);
+ 				\node[red!70] at (4.5,-0.35) {$\mathcal{T}$};
+ 				% data points
+ 				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+ 					\filldraw[black] (\x,\y) circle (2pt);
+ 				% clean model (blue line) — extended further right for label separation
+ 				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+ 					node[right, blue] {$\learnthypothesis$};
+ 				% backdoored model (red): same slope, jumps in trigger region
+ 				\draw[red, thick] (0.2,0.35) -- (3.8,2.55);
+ 				\draw[red, thick] (3.8,3.65) -- (5.2,4.20);
+ 				\draw[red, thick] (5.2,2.95) -- (6.3,4.05)
+ 					node[left=6pt, below=4pt, red] {$\widetilde{\hypothesis}$};
+ 				% jump markers
+ 				\draw[red, thick] (3.8,2.55) -- (3.8,3.65);
+ 				\draw[red, thick] (5.2,4.20) -- (5.2,2.95);
+ 			\end{tikzpicture}
+ 			\end{center}
+ 		\caption{A backdoor \gls{attack}: black dots are \glspl{datapoint} from a trusted
+ 			source, none of which fall inside the trigger region $\mathcal{T}$.
+ 			The clean \gls{hypothesis} $\learnthypothesis$ (blue) fits these \glspl{datapoint}
+ 			well, while the backdoored \gls{hypothesis} $\widetilde{\hypothesis}$ (red)
+ 			agrees with $\learnthypothesis$ outside $\mathcal{T}$ but produces
+ 			anomalous \glspl{prediction} within it.}
+ 		\end{figure}
+ 		Outside $\mathcal{T}$, the backdoored \gls{hypothesis} is indistinguishable
+ 		from the clean one, making the \gls{attack} difficult to detect from
+ 		standard \gls{model} evaluation on uncontaminated \glspl{datapoint}.
  				\\
  		See also: \gls{attack}, \gls{datapoisoning}.},
  	first={backdoor},
