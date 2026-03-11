@@ -4083,83 +4083,11 @@ sort={R^2},
  	text={RLM}
 } 
 
-\newglossaryentry{datapoisoning}
-{name={data poisoning}, 
-	description={\Gls{data}\index{data poisoning} poisoning refers to the intentional 
-		manipulation (or fabrication) of \glspl{datapoint} to maliciously 
-		steer the \gls{training} of an \gls{ml} \gls{model} \cite{Liu2021}, \cite{PoisonGAN}. 
-  		\Gls{data} poisoning \glspl{attack} take various forms, including 
-		\gls{backdoor} and \glspl{dosattack}. A \gls{backdoor} \gls{attack} 
-		implants triggers into \gls{training} \gls{data}, so that the trained \gls{model} 
-		behaves normally for typical \glspl{datapoint} but misclassifies a 
-		\gls{datapoint} with a \gls{featurevec} that contains a trigger pattern.
-  		A \gls{dosattack} degrades the trained \gls{model}'s overall performance 
-		by injecting mislabeled or adversarial examples to prevent effective learning.
-		\Gls{data} poisoning is particularly harmful in decentralized or 
-		distributed \gls{ml} settings (such as \gls{fl}), where \gls{training} 
-		\gls{data} cannot be centrally verified.
-				\\
-		See also: \gls{attack}, \gls{backdoor}, \gls{dosattack}, \gls{trustAI}.},
-	first={data poisoning},
-	text={data poisoning} 
-}
+
+
+
 	
-\newglossaryentry{backdoor}
-{name={backdoor}, 
- 	description={A\index{backdoor} backdoor \gls{attack} refers to the intentional 
- 		manipulation of an \gls{ml} \gls{training} process. The attacker 
- 		might perturb the \gls{trainset} (i.e., through \gls{datapoisoning}) 
- 		or the \gls{optmethod} used by an \gls{erm}-based method. 
- 		The goal of a backdoor \gls{attack} is to nudge the learned \gls{hypothesis} $\learnthypothesis$ 
- 		toward specific \glspl{prediction} for a certain subset $\mathcal{T} \subset \featurespace$ 
- 		of the \gls{featurespace}. Any \gls{featurevec} $\featurevec \in \mathcal{T}$ 
- 		serves as a key (or trigger) to unlock a backdoor, in the sense of delivering 
- 		anomalous \glspl{prediction}. The 
- 		trigger pattern $\mathcal{T}$ and corresponding anomalous \gls{prediction} 
- 		$\learnthypothesis(\featurevec)$, for $\featurevec \in \mathcal{T}$, 
- 		are only known to the attacker.
- 		\begin{figure}[H]
- 			\begin{center}
- 			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
- 				% axes
- 				\draw[->] (0,0) -- (7.5,0) node[right] {$\featurevec$};
- 				\draw[->] (0,0) -- (0,4.2);
- 				% trigger region shading
- 				\fill[red!10] (3.8,0) rectangle (5.2,4.0);
- 				\draw[dashed, red!60] (3.8,0) -- (3.8,4.0);
- 				\draw[dashed, red!60] (5.2,0) -- (5.2,4.0);
- 				\node[red!70] at (4.5,-0.35) {$\mathcal{T}$};
- 				% data points
- 				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
- 					\filldraw[black] (\x,\y) circle (2pt);
- 				% clean model (blue line) — extended further right for label separation
- 				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
- 					node[right, blue] {$\learnthypothesis$};
- 				% backdoored model (red): same slope, jumps in trigger region
- 				\draw[red, thick] (0.2,0.35) -- (3.8,2.55);
- 				\draw[red, thick] (3.8,3.65) -- (5.2,4.20);
- 				\draw[red, thick] (5.2,2.95) -- (6.3,4.05)
- 					node[left=6pt, below=4pt, red] {$\widetilde{\hypothesis}$};
- 				% jump markers
- 				\draw[red, thick] (3.8,2.55) -- (3.8,3.65);
- 				\draw[red, thick] (5.2,4.20) -- (5.2,2.95);
- 			\end{tikzpicture}
- 			\end{center}
- 		\caption{A backdoor \gls{attack}: black dots are \glspl{datapoint} from a trusted
- 			source, none of which fall inside the trigger region $\mathcal{T}$.
- 			The clean \gls{hypothesis} $\learnthypothesis$ (blue) fits these \glspl{datapoint}
- 			well, while the backdoored \gls{hypothesis} $\widetilde{\hypothesis}$ (red)
- 			agrees with $\learnthypothesis$ outside $\mathcal{T}$ but produces
- 			anomalous \glspl{prediction} within it.}
- 		\end{figure}
- 		Outside $\mathcal{T}$, the backdoored \gls{hypothesis} is indistinguishable
- 		from the clean one, making the \gls{attack} difficult to detect from
- 		standard \gls{model} evaluation on uncontaminated \glspl{datapoint}.
- 				\\
- 		See also: \gls{attack}, \gls{datapoisoning}.},
- 	first={backdoor},
- 	text={backdoor} 
-}
+
 
 \newglossaryentry{clustasspt}
 {name={clustering assumption}, 
@@ -4174,44 +4102,6 @@ sort={R^2},
 	text={clustering assumption} 
 }
 	
-\newglossaryentry{dosattack}
-{name={denial-of-service attack},
-	description={A\index{denial-of-service attack} 
-		denial-of-service \gls{attack} aims (e.g., via \gls{datapoisoning}) to steer the \gls{training} of a \gls{model}
-		such that it performs poorly for typical \glspl{datapoint}.
-		\begin{figure}[H]
-			\begin{center}
-			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
-				% axes
-				\draw[->] (0,0) -- (7.5,0) node[right] {$\featurevec$};
-				\draw[->] (0,0) -- (0,4.2);
-				% data points (trusted source)
-				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
-					\filldraw[black] (\x,\y) circle (2pt);
-				% clean model (blue line)
-				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
-					node[right, blue] {$\learnthypothesis$};
-				% DoS model (red): flat line, performs poorly everywhere
-				\draw[red, thick] (0.2,3.6) -- (7.2,3.6)
-					node[right, red] {$\widetilde{\hypothesis}$};
-			\end{tikzpicture}
-			\end{center}
-		\caption{A denial-of-service \gls{attack}: black dots are \glspl{datapoint} from a trusted source.
-			The clean \gls{hypothesis} $\learnthypothesis$ (blue) fits the \glspl{datapoint} well,
-			while the poisoned \gls{hypothesis} $\widetilde{\hypothesis}$ (red) deviates from
-			the \glspl{datapoint} across the entire \gls{featurespace}, rendering the \gls{model} unusable.}
-		\end{figure}
-		Unlike a \gls{backdoor} \gls{attack}, which degrades \glspl{prediction} only within
-		a hidden trigger region, a denial-of-service \gls{attack} targets the
-		overall \gls{model} performance over the entire \gls{featurespace}.
-				\\
-		See also: \gls{attack}, \gls{datapoisoning}, \gls{model}, \gls{datapoint}.},
-	first={denial-of-service attack},
-	plural={denial-of-service attacks},
-	firstplural={denial-of-service attacks},
-	text={denial-of-service attack} 
-}
-
 \newglossaryentry{netexpfam}
 {name={networked exponential families (nExpFam)}, 
 	description={nExpFam is a\index{networked exponential families (nExpFam)} collection of exponential 
@@ -4667,38 +4557,6 @@ sort={R^2},
 	 text={outlier} 
 }
 
-\newglossaryentry{membershipinferenceattack}
-{name={membership inference attack}, 
-	description={Consider an \gls{ml} method that learns a \gls{hypothesis} 
-		via \gls{erm} on a \gls{trainset}. Membership \gls{inference}\index{membership inference attack} 
-                \gls{attack} is a form of \gls{privattack} where an adversary tries 
-		to determine whether a particular \gls{datapoint} was part 
-		of the \gls{trainset}. The attacker typically queries 
-		$\learnthypothesis$ with candidate \glspl{featurevec} 
-		$\featurevec^{(1)},\,\ldots,\,\featurevec^{(\nrbootstraps)}$, 
-		and infers the membership status of a given \gls{datapoint} 
-		based on the \glspl{prediction} $\learnthypothesis\big(\featurevec^{(1)}\big),\,\ldots,
-		\,\learnthypothesis\big(\featurevec^{(\nrbootstraps)}\big)$ \cite{Shokri2017}.
-		\\ 
-		See also: \gls{attack}, \gls{privattack}.}, 
- 	first={membership inference attack}, 
- 	text={membership inference attack}
-}
-
-\newglossaryentry{machineunlearning}
-{name={machine unlearning},
-	description={Consider an \gls{ml} method that learns a \gls{hypothesis} $\learnthypothesis$ 
-		via \gls{erm} on a \gls{trainset} $\dataset$. The learned \gls{hypothesis} can 
-		reveal information about $\dataset$, which is exploited by \glspl{privattack} such as 
-		\gls{modelinversion}. Machine unlearning\index{machine unlearning} refers to techniques that 
-		modify $\learnthypothesis$, so that it is harder to infer properties of individual 
-		\glspl{datapoint} in $\dataset$ \cite{cao2015unlearning}. Machine unlearning helps 
-		to meet legal requirements for \gls{privprot} in \glspl{aisystem} \cite{GDPR2016}. 
-		\\
-	 	See also: \gls{modelinversion}, \gls{privprot}, \gls{gdpr}. },
-	first={machine unlearning},
-	text={machine unlearning}
-}
 
 % Shouldn't this be ensemble method?
 \newglossaryentry{ensemble}
@@ -5301,17 +5159,6 @@ sort={k-means},
 		See also: \gls{prediction}, \gls{explanation}, \gls{ml}, \gls{model}.},
 	first={explainable machine learning (XML)},
 	text={XML} 
-}
-
-\newglossaryentry{fmi}
-{name={Finnish Meteorological Institute (FMI)}, 
-	description={The\index{Finnish Meteorological Institute (FMI)}
-		FMI is a government agency responsible for gathering 
-		and reporting weather \gls{data} in Finland.
-				\\
-		See also: \gls{data}.},
-	first={Finnish Meteorological Institute (FMI)},
-	text={FMI} 
 }
 	
 \newglossaryentry{samplemean}
@@ -6862,72 +6709,7 @@ sort={k-means},
 	  text={decision tree} 
 }
 
-\newglossaryentry{API} 
-{name={application programming interface (API)},
-	description={An\index{application programming interface (API)} API is a formal mechanism that 
-		allows software components to interact in a structured and modular way \cite{RestfulBook2013}.
-		In the context of \gls{ml}, APIs are commonly used to provide access to a trained \gls{ml} \gls{model}. 
-		Users—whether humans or machines—can submit the \gls{featurevec} of a \gls{datapoint} and receive 
-		a corresponding \gls{prediction}. Suppose a trained \gls{ml} \gls{model} is defined 
-		as $\widehat{\hypothesis}(\feature) \defeq 2 \feature + 1$. Through an API, a user 
-		can input $\feature = 3$ and receive the \gls{output} $\widehat{\hypothesis}(3) = 7$ 
-		without knowledge of the detailed structure of the \gls{ml} \gls{model} or its \gls{training}. 
-		In practice, the \gls{model} is typically deployed on a server connected to the Internet. 
-		Clients send requests containing \gls{feature} values to the server, which responds with 
-		the computed \gls{prediction} $\widehat{\hypothesis}(\featurevec)$. APIs promote modularity 
-		in \gls{mlsystem} design, i.e., one team can develop and train the \gls{model}, while another team
-		handles integration and user interaction. Publishing a trained \gls{model} via an API also 
-		offers practical advantages. For instance, the server can centralize computational resources that 
-		are required to compute \glspl{prediction}. Furthermore, the internal structure of the \gls{model} remains 
-		hidden—which is useful for protecting intellectual property or trade secrets. 
-		However, APIs are not without \gls{risk}. Techniques such as \gls{modelinversion} can potentially reconstruct a 
-		\gls{model} from its \glspl{prediction} using carefully selected \glspl{featurevec}.
-			\\
-		See also: \gls{ml}, \gls{model}, \gls{featurevec}, \gls{datapoint}, \gls{prediction}, \gls{feature}, \gls{modelinversion}.},
-	first={application programming interface (API)},
-	text={API}
-}
 
-\newglossaryentry{modelinversion}
-{name={model inversion},
- 	description={A\index{model inversion} \gls{model} inversion is a form of \gls{privattack} on an \gls{mlsystem}. 
-  		An adversary seeks to infer \glspl{sensattr} of individual \glspl{datapoint} by exploiting partial access 
-  		to a trained \gls{model} $\learnthypothesis \in \hypospace$. This access typically consists of 
-  		querying the \gls{model} for \glspl{prediction} $\learnthypothesis(\featurevec)$ using carefully chosen inputs. 
-  		Basic \gls{model} inversion techniques have been demonstrated in the context of facial image 
-  		\gls{classification}, where images are reconstructed using the (\gls{gradient} of) \gls{model} \glspl{output} 
-  		combined with auxiliary information such as a person’s name \cite{Fredrikson2015} (see Fig. \ref{fig_model_inv_dict}).
-  		\begin{figure}[H]
-			\begin{center}
-			\begin{tikzpicture}[scale=1.5]
-  			% Axes
-  			\draw[->] (-0.5,0) -- (5.5,0) node[right] {face image $\featurevec$};
-  			\draw[->] (0,-0.2) -- (0,2.5) node[above] {name};
-  			% Sigmoid-like curve
-  			\draw[thick, domain=0.5:5, samples=100, smooth, variable=\x, name path=sigmoid] 
-  			plot ({\x}, {2/(1 + exp(-3*(\x - 3)))});
-  			%\node at (5.1, 0.2) {\small (e.g., face photo)};
-  			% Highlight point
-  			\def\xval{3}
-  			\pgfmathsetmacro{\yval}{2/(1 + exp(-3*(\xval - 3)))}
-  			% Ruler lines
-  			\draw[dashed] (\xval,0) -- (\xval,\yval);
-  			\draw[dashed] (0,\yval) -- (\xval,\yval);
-  			% Filled circle
-  			\filldraw[fill=blue!20, draw=blue] (\xval,\yval) circle (0.1);
-  			\node[anchor=south east] at (-0.1,\yval) {\footnotesize ``Alexander Jung''};
-  			% Axis labels with image
-  			\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
-  			% Label on curve
-  			\node[above right] at (4,2.2) {trained \gls{model} $\learnthypothesis$};
-  			\end{tikzpicture}
-			\end{center} 
-			\caption{\Gls{model} inversion techniques implemented in the context of facial image \gls{classification}. \label{fig_model_inv_dict}}
-		\end{figure}
-  		See also: \gls{model}, \gls{privattack}, \gls{ml}, \gls{sensattr}, \gls{datapoint}, \gls{prediction}, \gls{classification}, \gls{gradient}, \gls{trustAI}, \gls{privprot}. },
-	first={model inversion},
-  	text={model inversion}
-}
 
 \newglossaryentry{samplesize}
 {name={sample size},

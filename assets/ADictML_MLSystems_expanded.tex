@@ -90,6 +90,258 @@
 	firstplural={Byzantine devices}
 }
 
+\newglossaryentry{dosattack}
+{name={denial-of-service attack},
+	description={A\index{denial-of-service attack} 
+		denial-of-service attack aims (e.g., via data poisoning) to steer the training of a model
+		such that it performs poorly for typical data points.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+				% axes
+				\draw[->] (0,0) -- (7.5,0) node[right] {${\bf x}$};
+				\draw[->] (0,0) -- (0,4.2);
+				% data points (trusted source)
+				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+					\filldraw[black] (\x,\y) circle (2pt);
+				% clean model (blue line)
+				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+					node[right, blue] {$\hat{h}$};
+				% DoS model (red): flat line, performs poorly everywhere
+				\draw[red, thick] (0.2,3.6) -- (7.2,3.6)
+					node[right, red] {$\widetilde{h}$};
+			\end{tikzpicture}
+			\end{center}
+		\caption{A denial-of-service attack: black dots are data points from a trusted source.
+			The clean hypothesis $\hat{h}$ (blue) fits the data points well,
+			while the poisoned hypothesis $\widetilde{h}$ (red) deviates from
+			the data points across the entire feature space, rendering the model unusable.}
+		\end{figure}
+		Unlike a backdoor attack, which degrades predictions only within
+		a hidden trigger region, a denial-of-service attack targets the
+		overall model performance over the entire feature space.
+				\\
+		See also: attack, data poisoning, model, data point.},
+	first={denial-of-service attack},
+	type=mlsystems,
+	plural={denial-of-service attacks},
+	firstplural={denial-of-service attacks},
+	text={denial-of-service attack} 
+}
+
+\newglossaryentry{fmi}
+{name={Finnish Meteorological Institute (FMI)}, 
+	description={The\index{Finnish Meteorological Institute (FMI)}
+		FMI is a government agency responsible for gathering 
+		and reporting weather data in Finland.
+				\\
+		See also: data.},
+	first={Finnish Meteorological Institute (FMI)},
+	type=mlsystems,
+	text={FMI} 
+}
+
+\newglossaryentry{modelinversion}
+{name={model inversion},
+ 	description={A\index{model inversion} model inversion is a form of privacy attack on an machine learning system (ML system). 
+  		An adversary seeks to infer sensitive attributes of individual data points by exploiting partial access 
+  		to a trained model $\hat{h}\in \mathcal{H}$. This access typically consists of 
+  		querying the model for predictions $\hat{h}({\bf x})$ using carefully chosen inputs. 
+  		Basic model inversion techniques have been demonstrated in the context of facial image 
+  		classification, where images are reconstructed using the (gradient of) model outputs 
+  		combined with auxiliary information such as a person’s name \cite{Fredrikson2015} (see Fig. \ref{fig_model_inv_dict}).
+  		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[scale=1.5]
+  			% Axes
+  			\draw[->] (-0.5,0) -- (5.5,0) node[right] {face image ${\bf x}$};
+  			\draw[->] (0,-0.2) -- (0,2.5) node[above] {name};
+  			% Sigmoid-like curve
+  			\draw[thick, domain=0.5:5, samples=100, smooth, variable=\x, name path=sigmoid] 
+  			plot ({\x}, {2/(1 + exp(-3*(\x - 3)))});
+  			%\node at (5.1, 0.2) {\small (e.g., face photo)};
+  			% Highlight point
+  			\def\xval{3}
+  			\pgfmathsetmacro{\yval}{2/(1 + exp(-3*(\xval - 3)))}
+  			% Ruler lines
+  			\draw[dashed] (\xval,0) -- (\xval,\yval);
+  			\draw[dashed] (0,\yval) -- (\xval,\yval);
+  			% Filled circle
+  			\filldraw[fill=blue!20, draw=blue] (\xval,\yval) circle (0.1);
+  			\node[anchor=south east] at (-0.1,\yval) {\footnotesize ``Alexander Jung''};
+  			% Axis labels with image
+  			\node[anchor=north] at (\xval,-0.25) {\includegraphics[width=1cm]{assets/AlexanderJung.jpg}}; % Replace 'face.jpg' with your image
+  			% Label on curve
+  			\node[above right] at (4,2.2) {trained model $\hat{h}$};
+  			\end{tikzpicture}
+			\end{center} 
+			\caption{Model inversion techniques implemented in the context of facial image classification. \label{fig_model_inv_dict}}
+		\end{figure}
+  		See also: model, privacy attack, machine learning (ML), sensitive attribute, data point, prediction, classification, gradient, trustworthy artificial intelligence (trustworthy AI), privacy protection. },
+	first={model inversion},
+	type=mlsystems,
+  	text={model inversion}
+}
+
+\newglossaryentry{API} 
+{name={application programming interface (API)},
+	description={An\index{application programming interface (API)} API is a formal mechanism that 
+		allows software components to interact in a structured and modular way \cite{RestfulBook2013}.
+		In the context of machine learning (ML), APIs are commonly used to provide access to a trained machine learning (ML) model. 
+		Users—whether humans or machines—can submit the feature vector of a data point and receive 
+		a corresponding prediction. Suppose a trained machine learning (ML) model is defined 
+		as $\widehat{h}(x) :=2 x+ 1$. Through an API, a user 
+		can input $x= 3$ and receive the output $\widehat{h}(3) = 7$ 
+		without knowledge of the detailed structure of the machine learning (ML) model or its training. 
+		In practice, the model is typically deployed on a server connected to the Internet. 
+		Clients send requests containing feature values to the server, which responds with 
+		the computed prediction $\widehat{h}({\bf x})$. APIs promote modularity 
+		in machine learning system (ML system) design, i.e., one team can develop and train the model, while another team
+		handles integration and user interaction. Publishing a trained model via an API also 
+		offers practical advantages. For instance, the server can centralize computational resources that 
+		are required to compute predictions. Furthermore, the internal structure of the model remains 
+		hidden—which is useful for protecting intellectual property or trade secrets. 
+		However, APIs are not without risk. Techniques such as model inversion can potentially reconstruct a 
+		model from its predictions using carefully selected feature vectors.
+			\\
+		See also: machine learning (ML), model, feature vector, data point, prediction, feature, model inversion.},
+	first={application programming interface (API)},
+	type=mlsystems,
+	text={API}
+}
+
+\newglossaryentry{machineunlearning}
+{name={machine unlearning},
+	description={Consider an machine learning (ML) method that learns a hypothesis $\hat{h}$ 
+		via empirical risk minimization (ERM) on a training set $\mathcal{D}$. The learned hypothesis can 
+		reveal information about $\mathcal{D}$, which is exploited by privacy attacks such as 
+		model inversion. Machine unlearning\index{machine unlearning} refers to techniques that 
+		modify $\hat{h}$, so that it is harder to infer properties of individual 
+		data points in $\mathcal{D}$ \cite{cao2015unlearning}. Machine unlearning helps 
+		to meet legal requirements for privacy protection in artificial intelligence systems (AI systems) \cite{GDPR2016}. 
+		\\
+	 	See also: model inversion, privacy protection, general data protection regulation (GDPR). },
+	first={machine unlearning},
+	type=mlsystems,
+	text={machine unlearning}
+}
+
+\newglossaryentry{membershipinferenceattack}
+{name={membership inference attack}, 
+	description={Consider an machine learning (ML) method that learns a hypothesis 
+		via empirical risk minimization (ERM) on a training set. Membership inference\index{membership inference attack} 
+                attack is a form of privacy attack where an adversary tries 
+		to determine whether a particular data point was part 
+		of the training set. The attacker typically queries 
+		$\hat{h}$ with candidate feature vectors 
+		${\bf x}^{(1)},\,\ldots,\,{\bf x}^{(B)}$, 
+		and infers the membership status of a given data point 
+		based on the predictions $\hat{h}\big({\bf x}^{(1)}\big),\,\ldots,
+		\,\hat{h}\big({\bf x}^{(B)}\big)$ \cite{Shokri2017}.
+		\\ 
+		See also: attack, privacy attack.}, 
+ 	first={membership inference attack}, 
+	type=mlsystems,
+ 	text={membership inference attack}
+}
+
+\newglossaryentry{backdoor}
+{name={backdoor}, 
+ 	description={A\index{backdoor} backdoor attack refers to the intentional 
+ 		manipulation of an machine learning (ML) training process. The attacker 
+ 		might perturb the training set (i.e., through data poisoning) 
+ 		or the optimization method used by an empirical risk minimization (ERM)-based method. 
+ 		The goal of a backdoor attack is to nudge the learned hypothesis $\hat{h}$ 
+ 		toward specific predictions for a certain subset $\mathcal{T} \subset \mathcal{X}$ 
+ 		of the feature space. Any feature vector ${\bf x}\in \mathcal{T}$ 
+ 		serves as a key (or trigger) to unlock a backdoor, in the sense of delivering 
+ 		anomalous predictions. The 
+ 		trigger pattern $\mathcal{T}$ and corresponding anomalous prediction 
+ 		$\hat{h}({\bf x})$, for ${\bf x}\in \mathcal{T}$, 
+ 		are only known to the attacker.
+ 		\begin{figure}[H]
+ 			\begin{center}
+ 			\begin{tikzpicture}[>=Stealth, every node/.style={font=\small}]
+ 				% axes
+ 				\draw[->] (0,0) -- (7.5,0) node[right] {${\bf x}$};
+ 				\draw[->] (0,0) -- (0,4.2);
+ 				% trigger region shading
+ 				\fill[red!10] (3.8,0) rectangle (5.2,4.0);
+ 				\draw[dashed, red!60] (3.8,0) -- (3.8,4.0);
+ 				\draw[dashed, red!60] (5.2,0) -- (5.2,4.0);
+ 				\node[red!70] at (4.5,-0.35) {$\mathcal{T}$};
+ 				% data points
+ 				\foreach \x/\y in {0.5/0.6, 1.2/1.1, 2.0/1.8, 2.8/2.3, 5.5/3.5, 6.0/3.9}
+ 					\filldraw[black] (\x,\y) circle (2pt);
+ 				% clean model (blue line) — extended further right for label separation
+ 				\draw[blue, thick] (0.2,0.35) -- (7.2,4.65)
+ 					node[right, blue] {$\hat{h}$};
+ 				% backdoored model (red): same slope, jumps in trigger region
+ 				\draw[red, thick] (0.2,0.35) -- (3.8,2.55);
+ 				\draw[red, thick] (3.8,3.65) -- (5.2,4.20);
+ 				\draw[red, thick] (5.2,2.95) -- (6.3,4.05)
+ 					node[left=6pt, below=4pt, red] {$\widetilde{h}$};
+ 				% jump markers
+ 				\draw[red, thick] (3.8,2.55) -- (3.8,3.65);
+ 				\draw[red, thick] (5.2,4.20) -- (5.2,2.95);
+ 			\end{tikzpicture}
+ 			\end{center}
+ 		\caption{A backdoor attack: black dots are data points from a trusted
+ 			source, none of which fall inside the trigger region $\mathcal{T}$.
+ 			The clean hypothesis $\hat{h}$ (blue) fits these data points
+ 			well, while the backdoored hypothesis $\widetilde{h}$ (red)
+ 			agrees with $\hat{h}$ outside $\mathcal{T}$ but produces
+ 			anomalous predictions within it.}
+ 		\end{figure}
+ 		Outside $\mathcal{T}$, the backdoored hypothesis is indistinguishable
+ 		from the clean one, making the attack difficult to detect from
+ 		standard model evaluation on uncontaminated data points.
+ 				\\
+ 		See also: attack, data poisoning.},
+ 	first={backdoor},
+	type=mlsystems,
+ 	text={backdoor} 
+}
+
+\newglossaryentry{modelpoisoning}
+{name={model poisoning}, 
+	description={Model\index{model poisoning} poisoning refers to the intentional 
+		manipulation of the training process of an machine learning (ML) model. 
+		In particular, within federated learning systems (FL systems) or other distributed machine learning (ML) settings, 
+		an attacker can manipulate the model parameter updates sent by a subset of 
+		the participating nodes to a central server, thereby corrupting the aggregated 
+		global model \cite{FLARE2022}. In contrast to data poisoning, which 
+		corrupts the training set, model poisoning directly targets the 
+		model parameter aggregation step.
+				\\
+		See also: attack, backdoor, denial-of-service attack, data poisoning, trustworthy artificial intelligence (trustworthy AI).},
+	first={model poisoning},
+	type=mlsystems,
+	text={model poisoning} 
+}
+
+\newglossaryentry{datapoisoning}
+{name={data poisoning}, 
+	description={Data\index{data poisoning} poisoning refers to the intentional 
+		manipulation (or fabrication) of data points to maliciously 
+		steer the training of an machine learning (ML) model \cite{Liu2021}, \cite{PoisonGAN}. 
+  		Data poisoning attacks take various forms, including 
+		backdoor and denial-of-service attacks. A backdoor attack 
+		implants triggers into training data, so that the trained model 
+		behaves normally for typical data points but misclassifies a 
+		data point with a feature vector that contains a trigger pattern.
+  		A denial-of-service attack aims at having the trained model to perform 
+		poorly over a significant region of the feature space. 
+		Data poisoning is particularly harmful in decentralized or 
+		distributed machine learning (ML) settings (such as federated learning (FL)), where the 
+		trustworthiness of data sources cannot be verified easily.
+				\\
+		See also: attack, backdoor, denial-of-service attack, trustworthy artificial intelligence (trustworthy AI).},
+	type=mlsystems,
+	first={data poisoning},
+	text={data poisoning} 
+}
+
 \newglossaryentry{messagepassing}
 {name={message passing},
 	description={Message passing\index{message passing} is a communication paradigm
