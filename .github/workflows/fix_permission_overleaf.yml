@@ -1,0 +1,16 @@
+name: Fix permissions
+on: [push]
+jobs:
+  chmod:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - run: chmod +x updateit.sh
+      - uses: stefanzweifel/git-auto-commit-action@v7
