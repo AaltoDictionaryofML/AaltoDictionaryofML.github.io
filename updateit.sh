@@ -44,8 +44,9 @@ if [[ ! -d "$BACKUP_DIR/.git" ]]; then
 fi
 
 # --- Run your generation scripts ---
-echo "[INFO] Running FlattenGlossary.py ..."
-python assets/FlattenGlossary.py
+# FlattenGlossary.py disabled — expanded tex variants removed
+# echo "[INFO] Running FlattenGlossary.py ..."
+# python assets/FlattenGlossary.py
 
 echo "[INFO] Running DependencyGraph.py ..."
 python assets/DependencyGraph.py
@@ -123,7 +124,7 @@ backup_copy_one() {
 
 echo "[INFO] Backing up ADictML*.tex and extras ..."
 for f in "${TEX_FILES[@]}"; do
-  # TEX_FILES entries are relative like "./ADictML_English.tex" from find; normalize to no leading ./
+  # TEX_FILES entries are relative like "./ADictML_Main.tex" from find; normalize to no leading ./
   f="${f#./}"
   backup_copy_one "$f" "$DEST"
 done

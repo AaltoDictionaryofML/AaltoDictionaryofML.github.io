@@ -1,9 +1,43 @@
 # 📘 Aalto Dictionary of Machine Learning (ADictML)
 
-A multilingual, open-access glossary for mastering machine learning and AI terms.  
+A multilingual, open-access glossary for ML and AI — available as a **PDF** and as an **[MCP server](./mcp/)** for AI coding assistants.
 Developed by the **Aalto Machine Learning Group** for students, researchers, and educators at **Aalto University**.
 
-[![RSS Feed](https://img.shields.io/badge/RSS-Feed-blue?logo=rss&style=for-the-badge)](https://aaltodictionaryofml.github.io/feed.xml)
+[![MCP Server](https://img.shields.io/badge/MCP-Server-blueviolet?logo=anthropic&style=for-the-badge)](./mcp/)
+
+---
+
+## 🤖 Use ADictML in Your AI Assistant (MCP)
+
+ADictML is now available as a **[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server** — letting AI coding assistants like Claude Code look up, search, and cross-reference dictionary terms directly in context.
+
+**Claude Code**
+```bash
+pip install -r mcp/requirements.txt
+claude mcp add --scope user aalto-dictionary \
+  -- python ~/AaltoDictionaryofML.github.io/mcp/server.py
+```
+
+**VS Code (Copilot / GitHub Copilot Chat)**
+Add to `~/.config/Code/User/mcp.json` (Linux/macOS: `~/Library/Application Support/Code/User/mcp.json`):
+```json
+{
+  "servers": {
+    "aalto-dictionary": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["~/AaltoDictionaryofML.github.io/mcp/server.py"]
+    }
+  }
+}
+```
+
+Once connected, ask your assistant things like:
+- *"Look up Byzantine robustness in the Aalto Dictionary"*
+- *"List all Regulation terms"*
+- *"What terms are related to federated learning?"*
+
+→ See [mcp/README.md](./mcp/README.md) for full setup and tool reference.
 
 ---
 
@@ -16,13 +50,13 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 - **Machine Learning Systems:** 33
 - **Machine Learning Regulation:** 15
 - **Reinforcement Learning:** 15
-- **Last updated:** 2026-03-16
+- **Last updated:** 2026-03-19
 
 <!-- ADICTML_STATS_END -->
 
 ## 📥 Download
 
-- **[📘 English PDF (latest release)](./ADictML_English.pdf)**
+- **[📘 English PDF (latest release)](./ADictML_Main.pdf)**
 - **[🌐 Translations](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/translations/)**  
   *(Spanish, German, French, Greek, Finnish)*
 
@@ -98,6 +132,7 @@ Under the following terms:
 
 ## 🧭 Repository Links
 
-- GitHub: [AaltoDictionaryofML.github.io](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)  
+- GitHub: [AaltoDictionaryofML.github.io](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io)
+- MCP Server: [mcp/](https://github.com/AaltoDictionaryofML/AaltoDictionaryofML.github.io/tree/main/mcp/)
 
 ---

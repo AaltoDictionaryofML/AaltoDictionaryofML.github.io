@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Count glossary entries by type for ADictML, and update README.md + feed.xml,
-using category titles parsed from ADictML_English.tex (\printglossary[...]).
+using category titles parsed from ADictML_Main.tex (\printglossary[...]).
 
 Spyder-friendly (no CLI args).
 """
@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 
 # ---------------- Configuration ----------------
 
-MAIN_TEX_NAME = "ADictML_English.tex"
+MAIN_TEX_NAME = "ADictML_Main.tex"
 DEFAULT_TYPE = "ML"
 
 README_NAME = "README.md"
@@ -243,10 +243,10 @@ def main():
 
     main_tex_text = read_text(main_tex)
 
-    # NEW: category titles from \printglossary[...] in ADictML_English.tex
+    # NEW: category titles from \printglossary[...] in ADictML_Main.tex
     type_to_title = parse_category_titles_from_main(main_tex_text)
     if type_to_title:
-        print("[INFO] Category titles from ADictML_English.tex:")
+        print("[INFO] Category titles from ADictML_Main.tex:")
         for k in sorted(type_to_title):
             print(f"  - {k} -> {type_to_title[k]}")
     else:
