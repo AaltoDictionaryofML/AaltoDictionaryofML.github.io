@@ -204,12 +204,138 @@
 	user3={\foreignlanguage{greek}{αλγόριθμο}}, %accusative
 	user4={\foreignlanguage{greek}{αλγόριθμοι}}, %nominativepl 
 	user5={\foreignlanguage{greek}{αλγόριθμων}}, %genitivepl
-	user6={\foreignlanguage{greek}{αλγόριθμους}} %accusativepl 
+	user6={\foreignlanguage{greek}{αλγόριθμους}}, %accusativepl 
+	user7={\foreignlanguage{greek}{Αλγόριθμος}} %nominativecapital
 }
 
 \newglossaryentry{lloydalgorithm} 
 {name={\foreignlanguage{greek}{αλγόριθμος του} Lloyd}, 
-	description={TBC.\index{Lloyd's algorithm} },
+	description={\foreignlanguage{greek}{Ο}\index{\foreignlanguage{greek}{αλγόριθμος του} Lloyd} \glsentryuseri{algorithm} \foreignlanguage{greek}{του} 
+		Lloyd (Lloyd's algorithm) \cite{Lloyd1982} \foreignlanguage{greek}{είναι μία επαναληπτική} \glsentryuseri{optmethod} 
+		\foreignlanguage{greek}{για την εύρεση} \glsentryuserv{clustercentroid} \foreignlanguage{greek}{που είναι προσεγγιστικά βέλτιστα για την} 
+		\glsentryuseriii{objfunc} \foreignlanguage{greek}{του} \glsentryuserii{kmeans}. \foreignlanguage{greek}{Ο} \glsentryuseri{algorithm} Lloyd
+	   	\foreignlanguage{greek}{εναλλάσσεται μεταξύ: 1) της ενημέρωσης της απόδοσης} \glsentryuserii{cluster} \foreignlanguage{greek}{για 
+		κάθε} \glsentryuseriii{datapoint} \foreignlanguage{greek}{με βάση το πλησιέστερο τρέχον} \glsentryuseriii{clustercentroid}, 
+		\foreignlanguage{greek}{και 2) του επανυπολογισμού των} \glsentryuserv{clustercentroid} \foreignlanguage{greek}{δεδομένων των
+		ενημερωμένων αποδόσεων} \glsentryuserv{cluster} \cite{Lloyd1982}.
+		\begin{figure}[H]
+			\begin{center}
+			\begin{tikzpicture}[
+			assignment/.style={-Latex, very thin},
+			move/.style={-Latex, thick},
+			center/.style={draw, circle, inner sep=1.2pt, fill=white},
+			pointA/.style={circle, inner sep=1.1pt, fill=black},
+			pointB/.style={rectangle, inner sep=1.1pt, fill=black},
+			cross/.style={line width=0.4pt},
+			lab/.style={font=\scriptsize}
+			]
+			% ===================== PANEL (a): Initial centers =====================
+			% ===================== PANEL (b): Assign to nearest =====================
+			\begin{scope}[shift={(0,0)}]
+				% points
+				\coordinate (Ba1) at (0.2, 1.1);
+				\coordinate (Ba2) at (0.4, 0.6);
+				\coordinate (Ba3) at (0.8, 1.0);
+				\coordinate (Ba4) at (0.6, 0.2);
+				\coordinate (Bb1) at (2.7, 1.4);
+				\coordinate (Bb2) at (3.2, 0.9);
+				\coordinate (Bb3) at (2.6, 0.3);
+				\coordinate (Bb4) at (3.3, 0.2);
+				\node[pointA] at (Ba1) {}; \node[pointA] at (Ba2) {}; \node[pointA] at (Ba3) {}; \node[pointA] at (Ba4) {};
+				\node[pointB] at (Bb1) {}; \node[pointB] at (Bb2) {}; \node[pointB] at (Bb3) {}; \node[pointB] at (Bb4) {};
+				% centers (old)
+				\coordinate (Bc1old) at (0.9,0.65);
+				\coordinate (Bc2old) at (2.8,1.8);
+				\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx}$}] (B-C1) at (Bc1old) {};
+				\node[center,label={[lab, xshift=-2pt]right:$\clustercentroiditer{2}{\iteridx}$}] (B-C2) at (Bc2old) {};
+				% perpendicular bisector
+				\path let 
+				\p1=(B-C1), \p2=(B-C2),
+				\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+				\n3={veclen(\n1,\n2)}
+				in coordinate (B-M)    at ($ (B-C1)!0.5!(B-C2) $)
+				coordinate (B-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+				\draw[dashed, thick] ($ (B-M) + 10.4*(B-Nhat) $) -- ($ (B-M) - 10.4*(B-Nhat) $);
+				% minimal assignment spokes
+				\draw[assignment] (Ba2) -- (B-C1);
+				\draw[assignment] (Ba3) -- (B-C1);
+				\draw[assignment] (Bb2) -- (B-C2);
+				\draw[assignment] (Bb3) -- (B-C2);
+				\node[lab] at (0.6,-0.35) {\foreignlanguage{greek}{Απόδοση στο πλησιέστερο} \glsentryuseriii{clustercentroid}.};
+				\node at (1.0,-1.3) {(a)};
+			\end{scope}
+			% ===================== PANEL (c): Recompute means =====================
+			\begin{scope}[shift={(5.5,0)}]
+				% points
+				\coordinate (Ca1) at (0.2, 1.1);
+				\coordinate (Ca2) at (0.4, 0.6);
+				\coordinate (Ca3) at (0.8, 1.0);
+				\coordinate (Ca4) at (0.6, 0.2);
+				\coordinate (Cb1) at (2.7, 1.4);
+				\coordinate (Cb2) at (3.2, 0.9);
+				\coordinate (Cb3) at (2.6, 0.3);
+				\coordinate (Cb4) at (3.3, 0.2);
+				\node[pointA] at (Ca1) {}; \node[pointA] at (Ca2) {}; \node[pointA] at (Ca3) {}; \node[pointA] at (Ca4) {};
+				\node[pointB] at (Cb1) {}; \node[pointB] at (Cb2) {}; \node[pointB] at (Cb3) {}; \node[pointB] at (Cb4) {};
+				% centers (old and new)
+				\coordinate (Cc1old) at (0.9,0.65);
+				\coordinate (Cc2old) at (2.8,1.8);
+				\coordinate (Cc1new) at (0.5,0.725);
+				\coordinate (Cc2new) at (2.95,0.70);
+				\node[center, opacity=0.5] at (Cc1old) {};
+				\node[center, opacity=0.5] at (Cc2old) {};
+				% crosses for new centers
+				\draw[cross] ($(Cc1new)+(-0.07,0)$) -- ($(Cc1new)+(0.07,0)$);
+				\draw[cross] ($(Cc1new)+(0,-0.07)$) -- ($(Cc1new)+(0,0.07)$);
+				\draw[cross] ($(Cc2new)+(-0.07,0)$) -- ($(Cc2new)+(0.07,0)$);
+				\draw[cross] ($(Cc2new)+(0,-0.07)$) -- ($(Cc2new)+(0,0.07)$);
+				% movement arrows
+				\draw[move] (Cc1old) -- (Cc1new);
+				\draw[move] (Cc2old) -- (Cc2new);
+				\node[lab] at (1.9,-0.35) {\foreignlanguage{greek}{Επανυπολογισμός των} \glsentryuserv{clustercentroid}.};
+				\node at (1.8,-1.3) {(b)};
+			\end{scope}
+			% ===================== PANEL (d): Update & new partition =====================
+			\begin{scope}[shift={(3,-4)}]
+				% points
+				\coordinate (Da1) at (0.2, 1.1);
+				\coordinate (Da2) at (0.4, 0.6);
+				\coordinate (Da3) at (0.8, 1.0);
+				\coordinate (Da4) at (0.6, 0.2);
+				\coordinate (Db1) at (2.7, 1.4);
+				\coordinate (Db2) at (3.2, 0.9);
+				\coordinate (Db3) at (2.6, 0.3);
+				\coordinate (Db4) at (3.3, 0.2);
+				\node[pointA] at (Da1) {}; \node[pointA] at (Da2) {}; \node[pointA] at (Da3) {}; \node[pointA] at (Da4) {};
+				\node[pointB] at (Db1) {}; \node[pointB] at (Db2) {}; \node[pointB] at (Db3) {}; \node[pointB] at (Db4) {};
+				% centers (new)
+				\coordinate (Dc1new) at (0.5,0.725);
+				\coordinate (Dc2new) at (2.95,0.70);
+				\node[center, label={[lab, xshift=-2pt]right:$\clustercentroiditer{1}{\iteridx+1}$}] (D-C1n) at (Dc1new) {};
+				\node[center, label={[lab]right:$\clustercentroiditer{2}{\iteridx+1}$}] (D-C2n) at (Dc2new) {};
+				% perpendicular bisector
+				\path let 
+				\p1=(D-C1n), \p2=(D-C2n),
+				\n1={(\x2-\x1)}, \n2={(\y2-\y1)},
+				\n3={veclen(\n1,\n2)}
+				in coordinate (D-M)    at ($ (D-C1n)!0.5!(D-C2n) $)
+				coordinate (D-Nhat) at ($ (0,0) + ({-\n2/\n3},{\n1/\n3}) $);
+				\draw[dashed, thick] ($ (D-M) + 10.4*(D-Nhat) $) -- ($ (D-M) - 10.4*(D-Nhat) $);
+				\node[lab] at (1.6,-0.35) {\foreignlanguage{greek}{Απόδοση στο πλησιέστερο} \glsentryuseriii{clustercentroid}.};
+				\node at (1.6,-1.3) {(c)};
+			\end{scope}
+			\end{tikzpicture}
+			\end{center}
+		{\selectlanguage{greek}
+		\caption{\glsentryuservii{algorithm} \foreignlanguage{greek}{του} \selectlanguage{english}{Lloyd} \foreignlanguage{greek}{που εναλλάσσεται 
+			μεταξύ των} \selectlanguage{english}{(a)} \foreignlanguage{greek}{και} \selectlanguage{english}{(c)}, \foreignlanguage{greek}{αποδίδοντας 
+			τα} \glsentryuservi{datapoint} \foreignlanguage{greek}{στο πλησιέστερο} \glsentryuseriii{clustercentroid} \foreignlanguage{greek}{και στη 
+			συνέχεια} \selectlanguage{english}{(b)} \foreignlanguage{greek}{επανυπολογίζοντας τα} \glsentryuservi{clustercentroid} 
+			\foreignlanguage{greek}{με βάση τις νέες αποδόσεις} \glsentryuserv{cluster}. 
+			\label{fig_lloyd_algorithm_dict}} }
+		\end{figure}
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{algorithm}, \gls{optmethod}, \gls{clustercentroid}, \gls{kmeans}, \gls{objfunc}, 
+		\gls{cluster}, \gls{datapoint}, \gls{clustering}. },
 	first={\foreignlanguage{greek}{αλγόριθμος του} Lloyd},
 	text={\foreignlanguage{greek}{αλγόριθμος του} Lloyd},
 	user1={\foreignlanguage{greek}{αλγόριθμος του} Lloyd}, %nominative
@@ -512,7 +638,12 @@
 
 \newglossaryentry{relu}
 {name={\foreignlanguage{greek}{ανορθωμένη γραμμική μονάδα}},
-	description={TBC.\index{rectified linear unit (ReLU)} }, 
+	description={\foreignlanguage{greek}{Η ανορθωμένη γραμμική μονάδα}\index{\foreignlanguage{greek}{ανορθωμένη γραμμική μονάδα}} 
+		(rectified linear unit - ReLU) \foreignlanguage{greek}{αποτελεί μία δημοφιλή επιλογή για τη}
+		\glsentryuseriii{actfun} \foreignlanguage{greek}{ενός} \glsentryuserii{neuron} \foreignlanguage{greek}{εντός ενός} \glsentryuserii{ann}. 
+		\foreignlanguage{greek}{Ορίζεται ως $\actfun(z) = \max\{0,z\}$, όπου $z$ είναι μία σταθμισμένη είσοδος του} \glsentryuserii{artificialneuron}.
+					\\ 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{actfun}, \gls{neuron}, \gls{ann}, \gls{artificialneuron}. }, 
 	first={\foreignlanguage{greek}{ανορθωμένη γραμμική μονάδα}}, 
 	text={\foreignlanguage{greek}{ανορθωμένη γραμμική μονάδα}} 
 }%Διορθωμένη Γραμμική Μονάδα
@@ -615,7 +746,35 @@
 
 \newglossaryentry{featuremap}
 {name={\foreignlanguage{greek}{απεικόνιση χαρακτηριστικών}}, 
-	description={TBC.\index{feature map} },
+	description={\foreignlanguage{greek}{Μία} \glsentryuseri{map} \glsentryuserv{feature}\index{\foreignlanguage{greek}{απεικόνιση χαρακτηριστικών}} 
+		(feature map) \foreignlanguage{greek}{αναφέρεται σε μία} \glsentryuseriii{function} 
+		$$
+		\featuremapvec: \featurespace \rightarrow \featurespace', \qquad \featurevec \mapsto \featurevec'
+		$$
+		\foreignlanguage{greek}{που μετασχηματίζει ένα} \glsentryuseriii{featurevec} $\featurevec \in \featurespace$ \foreignlanguage{greek}{ενός} 
+ 		\glsentryuserii{datapoint} \foreignlanguage{greek}{σε ένα νέο} \glsentryuseriii{featurevec} $\featurevec' \in \featurespace'$, 
+ 		\foreignlanguage{greek}{όπου ο $\featurespace'$ είναι συνήθως διαφορετικός από τον} $\featurespace$.
+ 		\foreignlanguage{greek}{Η μετασχηματισμένη αναπαράσταση $\featurevec'$ είναι συχνά πιο χρήσιμη από την αρχική $\featurevec$. 
+		Για παράδειγμα, η γεωμετρία των} \glsentryuserv{datapoint} \foreignlanguage{greek}{μπορεί να γίνει πιο γραμμική στον 
+ 		$\featurespace'$, επιτρέποντας την εφαρμογή ενός} \glsentryuserii{linmodel} \foreignlanguage{greek}{στο} $\featurevec'$. 
+ 		\foreignlanguage{greek}{Αυτή η ιδέα είναι κεντρική στον σχεδιασμό} \glsentryuserv{kernelmethod}~\cite{LearningKernelsBook}.
+ 		\foreignlanguage{greek}{Άλλα πλεονεκτήματα της χρήσης μίας} \glsentryuserii{map} \glsentryuserv{feature} \foreignlanguage{greek}{περιλαμβάνουν
+		τη μείωση της} \glsentryuserii{overfitting} \foreignlanguage{greek}{και τη βελτίωση της} \glsentryuserii{interpretability}~\cite{Ribeiro2016}. 
+		\foreignlanguage{greek}{Μία κοινή περίπτωση χρήσης είναι η οπτικοποίηση} \glsentryuserii{data}, \foreignlanguage{greek}{όπου μία} 
+		\glsentryuseri{map} \glsentryuserv{feature} \foreignlanguage{greek}{με δύο διαστάσεις εξόδου επιτρέπει την αναπαράσταση των}
+ 		\glsentryuserv{datapoint} \foreignlanguage{greek}{σε ένα} 2-D \glsentryuseriii{scatterplot}. \foreignlanguage{greek}{Κάποιες μέθοδοι} \glsentryuserii{ml} 
+		\foreignlanguage{greek}{χρησιμοποιούν εκπαιδεύσιμες} \glsentryuservi{map} \glsentryuserv{feature}, \foreignlanguage{greek}{των οποίων οι} 
+		\glsentryuseriv{parameter} \foreignlanguage{greek}{μαθαίνονται από τα} \glsentryuseriii{data}. \foreignlanguage{greek}{Ένα παράδειγμα είναι η χρήση 
+		κρυφών} \glsentryuserv{layer} \foreignlanguage{greek}{σε ένα} \glsentryuseriii{deepnet}, \foreignlanguage{greek}{τα οποία λειτουργούν ως διαδοχικές} 
+		\glsentryuseriv{map} \glsentryuserv{feature} \cite{MallatUnderstandingDeepLearning}. \foreignlanguage{greek}{Ένας βασικός τρόπος εκπαίδευσης μίας} 
+		\glsentryuserii{map} \glsentryuserv{feature} \foreignlanguage{greek}{είναι μέσω της} \glsentryuserii{erm}, \foreignlanguage{greek}{χρησιμοποιώντας μία}  
+		\glsentryuseriii{lossfunc} \foreignlanguage{greek}{που μετράει την ποιότητα ανακατασκευής, π.χ.
+ 		$\lossfun = \|\featurevec - r(\featurevec')\|^2$, όπου $r(\cdot)$ είναι μία εκπαιδεύσιμη} \glsentryuseri{map} \foreignlanguage{greek}{που 
+		επιχειρεί να ανακατασκευάσει το $\featurevec$ από ένα μετασχηματισμένο} \glsentryuseriii{featurevec} $\featurevec'$.
+				\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{feature}, \gls{map}, \gls{function}, \gls{featurevec}, \gls{datapoint}, \gls{linmodel}, \gls{kernelmethod}, 
+		\gls{overfitting}, \gls{interpretability}, \gls{data}, \gls{scatterplot}, \gls{ml}, \gls{parameter}, \gls{layer}, \gls{deepnet}, \gls{erm}, \gls{lossfunc}, 
+		\gls{featlearn}, \gls{pca}. },
 	first={\foreignlanguage{greek}{απεικόνιση χαρακτηριστικών}},
 	text={\foreignlanguage{greek}{απεικόνιση χαρακτηριστικών}},
 	user1={\foreignlanguage{greek}{απεικόνιση χαρακτηριστικών}}, %nominative
@@ -869,7 +1028,17 @@
 
 \newglossaryentry{selfsupervisedlearning}
 {name={\foreignlanguage{greek}{αυτοεποπτευόμενη μάθηση}},
- 	description={TBC.\index{self-supervised learning} }, 
+ 	description={\foreignlanguage{greek}{Η αυτοεποπτευόμενη μάθηση}\index{\foreignlanguage{greek}{αυτοεποπτευόμενη μάθηση}} 
+		(self-supervised learning) \foreignlanguage{greek}{χρησιμοποιεί κάποια από τα} \glsentryuservi{feature} \foreignlanguage{greek}{ενός} 
+		\glsentryuserii{datapoint} \foreignlanguage{greek}{ως} \glsentryuseriii{label} \foreignlanguage{greek}{του. Για παράδειγμα, αν ένα} 
+		\glsentryuseri{datapoint} \foreignlanguage{greek}{αποτελείται από μία πρόταση μέσα σε ένα έγγραφο κειμένου, μπορούμε να 
+		χρησιμοποιήσουμε την τελευταία λέξη της πρότασης ως την} \glsentryuseriii{label} \foreignlanguage{greek}{που πρέπει να 
+		προβλεφθεί από όλες τις προηγούμενες λέξεις, οι οποίες αποτελούν τα} \glsentryuservi{feature} \foreignlanguage{greek}{του}
+		\glsentryuserii{datapoint}. \foreignlanguage{greek}{Μία κύρια εφαρμογή της αυτοεποπτευόμενης μάθησης είναι στην}
+		\glsentryuseriii{nlp} \foreignlanguage{greek}{για την} \glsentryuseriii{training} \glsentryuserv{llm} \foreignlanguage{greek}{από μεγάλες συλλογές} 
+		\glsentryuserii{data} \foreignlanguage{greek}{κειμένου}. 
+		\\ 
+      		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{feature}, \gls{datapoint}, \gls{label}, \gls{nlp}, \gls{training}, \gls{llm}, \gls{data}. }, 
    	first={\foreignlanguage{greek}{αυτοεποπτευόμενη μάθηση}}, 
    	text={\foreignlanguage{greek}{αυτοεποπτευόμενη μάθηση}},
 	user1={\foreignlanguage{greek}{αυτοεποπτευόμενη μάθηση}}, %nominative
@@ -1442,7 +1611,72 @@
 
 \newglossaryentry{decisiontree}
 {name={\foreignlanguage{greek}{δέντρο αποφάσεων}}, 
-	description={TBC.\index{decision tree} },
+	description={\foreignlanguage{greek}{Ένα δέντρο αποφάσεων}\index{\foreignlanguage{greek}{δέντρο αποφάσεων}} (decision tree) 
+		\foreignlanguage{greek}{είναι μία αναπαράσταση τύπου διαγράμματος ροής μίας} \glsentryuserii{map} \glsentryuserii{hypothesis} $\hypothesis$. 
+		\foreignlanguage{greek}{Πιο τυπικά, ένα δέντρο αποφάσεων είναι ένας} \glsentryuseri{dag} \foreignlanguage{greek}{που περιέχει έναν 
+		κόμβο ρίζας, ο οποίος διαβάζει το} \glsentryuseriii{featurevec} $\featurevec$ \foreignlanguage{greek}{ενός} \glsentryuserii{datapoint}. 
+		\foreignlanguage{greek}{Ο κόμβος ρίζας προωθεί στη συνέχεια το} \glsentryuseriii{datapoint} \foreignlanguage{greek}{σε έναν από τους
+		θυγατρικούς του κόμβους με βάση κάποιον στοιχειώδη έλεγχο πάνω στα} \glsentryuservi{feature} $\featurevec$. \foreignlanguage{greek}{Αν
+		ο θυγατρικός κόμβος που λαμβάνει δεν είναι ένας κόμβος φύλλου, δηλαδή αν ο ίδιος έχει θυγατρικούς κόμβους, τότε αναπαριστά
+		έναν άλλον έλεγχο. Με βάση το αποτέλεσμα του ελέγχου, το} \glsentryuseri{datapoint} \foreignlanguage{greek}{προωθείται σε έναν 
+		από τους απογόνους του. Αυτή η διαδικασία ελέγχου και προώθησης του} \glsentryuserii{datapoint} \foreignlanguage{greek}{συνεχίζεται 
+		έως ότου το} \glsentryuseri{datapoint} \foreignlanguage{greek}{καταλήξει σε έναν κόμβο φύλλου χωρίς θυγατρικούς. Βλέπε 
+		Σχ.}\ \ref{fig_decision_tree_dict} \foreignlanguage{greek}{για οπτικές απεικονίσεις.}
+		\begin{figure}[H]
+		\begin{minipage}{.45\textwidth}
+		\scalebox{1}{
+		\begin{tikzpicture}
+			\node[fill=black, circle, inner sep=2pt, label=above:{$\| \featurevec-\mathbf{u} \| \leq \varepsilon$?}] (A) {};	
+			\node[fill=black, circle, inner sep=2pt, below left=1.5cm and 1cm of A, label=left:{$\hypothesis(\featurevec) = \predictedlabel_1$}] (B) {};
+			\node[fill=black, circle, inner sep=2pt, below right=1.5cm and 1cm of A, label=right:{$\| \featurevec - \mathbf{v} \| \leq \varepsilon$?}] (C) {};
+			\node[fill=black, circle, inner sep=2pt, below left=1.5cm and 1cm of C, label=left:{$\hypothesis(\featurevec) = \predictedlabel_2$}] (D) {};
+			\node[fill=black, circle, inner sep=2pt, below right=1.5cm and 1cm of C, label=right:{$\hypothesis(\featurevec) =\predictedlabel_3$}] (E) {};
+			\draw[line width=1.5pt, ->] (A) -- (B) node[midway, left] {no};
+			\draw[line width=1.5pt, ->] (A) -- (C) node[midway, right] {yes};
+			\draw[line width=1.5pt, ->] (C) -- (D) node[midway, left] {no};
+			\draw[line width=1.5pt, ->] (C) -- (E) node[midway, right] {yes};
+			\node at (0.7,-4.5) {\selectfont (a)};
+		\end{tikzpicture}
+		}
+		\end{minipage}	
+		\hspace*{15mm}
+		\begin{minipage}{.45\textwidth}
+		\hspace*{15mm}
+		\begin{tikzpicture}
+		\draw (-2,2) rectangle (2,-2);
+		\begin{scope}
+			\clip (-0.5,0) circle (1cm);
+			\clip (0.5,0) circle (1cm);
+			\fill[color=gray] (-2,1.5) rectangle (2,-1.5);
+		\end{scope}
+		\draw (-0.5,0) circle (1cm);
+		\draw (0.5,0) circle (1cm);
+		\draw[fill] (-0.5,0) circle [radius=0.025];
+		\node [below right, red] at (-0.5,0) {$\predictedlabel_{3}$};
+		\node [below left, blue] at (-0.7,0) {$\predictedlabel_{2}$};
+		\node [above left] at (-0.7,1) {$\predictedlabel_{1}$};
+		\node [left] at (-0.4,0) {$\mathbf{u}$};
+		\draw[fill] (0.5,0) circle [radius=0.025];
+		\node [right] at (0.6,0) {$\mathbf{v}$};
+		\node at (0,-3.5) {\selectfont (b)};
+		\end{tikzpicture}
+		\end{minipage}
+		{\selectlanguage{greek}
+		\caption{\selectlanguage{english}{(a)} \foreignlanguage{greek}{Δέντρο αποφάσεων ως μία αναπαράσταση τύπου διαγράμματος ροής μίας 
+			κατά τμήματα σταθεράς} \glsentryuserii{hypothesis} $\hypothesis: \featurespace \rightarrow \mathbb{R}$. \foreignlanguage{greek}{Κάθε 
+			τμήμα είναι μία} \glsentryuseri{decisionregion} 
+			$\decreg{\predictedlabel} \defeq \big\{ \featurevec \in  \featurespace: \hypothesis(\featurevec) = \predictedlabel \big\}$. 
+			\foreignlanguage{greek}{Το απεικονιζόμενο δέντρο αποφάσεων μπορεί να εφαρμοστεί σε αριθμητικά} \glsentryuservi{featurevec}, 
+			\foreignlanguage{greek}{δηλαδή $\featurespace \subseteq \mathbb{R}^{\dimlocalmodel}$. Παραμετροποιείται από το κατώφλι
+			$\varepsilon>0$ και τα} \glsentryuservi{vector} $\vu, \vv \in \mathbb{R}^{\dimlocalmodel}$. 
+			\selectlanguage{english}{(b)} \foreignlanguage{greek}{Δέντρο αποφάσεων που χωρίζει τον} \glsentryuseriii{featurespace} $\featurespace$ 
+			\foreignlanguage{greek}{σε} \glsentryuservi{decisionregion}. \foreignlanguage{greek}{Κάθε} \glsentryuseri{decisionregion}  
+			$\decreg{\hat{\truelabel}} \!\subseteq\!\featurespace$ \foreignlanguage{greek}{αντιστοιχεί σε έναν συγκεκριμένο κόμβο φύλλου
+			στο δέντρο αποφάσεων}.}
+			\label{fig_decision_tree_dict} }
+		\end{figure} 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{hypothesis}, \gls{map}, \gls{dag}, \gls{featurevec}, \gls{datapoint}, \gls{feature}, \gls{decisionregion},
+		\gls{vector}, \gls{featurespace}. },
 	first={\foreignlanguage{greek}{δέντρο αποφάσεων}},
 	text={\foreignlanguage{greek}{δέντρο αποφάσεων}},
 	user1={\foreignlanguage{greek}{δέντρο αποφάσεων}}, %nominative
@@ -1570,7 +1804,19 @@
 
 \newglossaryentry{onlinelearning}
 {name={\foreignlanguage{greek}{διαδικτυακή μάθηση}},
-	description={TBC.\index{online learning}  },
+	description={\foreignlanguage{greek}{Κάποιες μέθοδοι} \glsentryuserii{ml}\index{\foreignlanguage{greek}{διαδικτυακή μάθηση}} 
+		\foreignlanguage{greek}{είναι σχεδιασμένες ώστε να επεξεργάζονται} \glsentryuseriii{data} \foreignlanguage{greek}{με διαδοχικό τρόπο, 
+		ενημερώνοντας τις} \glsentryuserix{modelparam} \foreignlanguage{greek}{τους μία κάθε φορά, καθώς νέα} \glsentryuseriv{datapoint} 
+		\foreignlanguage{greek}{καθίστανται διαθέσιμα. Ένα τυπικό παράδειγμα είναι τα} \glsentryuseri{data} \foreignlanguage{greek}{χρονοσειρών, 
+		όπως οι ημερήσιες} \glsentryuservi{minimum} \foreignlanguage{greek}{και} \glsentryuservii{maximum} \foreignlanguage{greek}{θερμοκρασίες 
+		που καταγράφονται από έναν μετεωρολογικό σταθμό του} \glsentryuserii{fmi}. \foreignlanguage{greek}{Αυτές οι τιμές σχηματίζουν μία
+		χρονολογική ακολουθία παρατηρήσεων. Κατά τη διάρκεια κάθε χρονικού βήματος $\timeidx$, οι μέθοδοι διαδικτυακής μάθησης}
+		(online learning) \foreignlanguage{greek}{ενημερώνουν (ή βελτιώνουν) την τρέχουσα} \glsentryuseriii{hypothesis} 
+		$\hypothesis^{(\timeidx)}$ (\foreignlanguage{greek}{ή τις} \glsentryuserix{modelparam} $\weights^{(\timeidx)}$) 
+		\foreignlanguage{greek}{με βάση το νέο παρατηρούμενο} \glsentryuseriii{datapoint} $\datapoint^{(\timeidx)}$. 
+		\\ 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{data}, \gls{modelparam}, \gls{datapoint}, \gls{minimum}, \gls{maximum}, \gls{fmi}, 
+		\gls{hypothesis}, \gls{onlineGD}, \gls{onlinealgorithm}.  },
 	first={\foreignlanguage{greek}{διαδικτυακή μάθηση}},
 	text={\foreignlanguage{greek}{διαδικτυακή μάθηση}},
 	user1={\foreignlanguage{greek}{διαδικτυακή μάθηση}}, %nominative
@@ -1736,9 +1982,44 @@
 
 \newglossaryentry{crossentropy}
 {name={\foreignlanguage{greek}{διασταυρούμενη εντροπία}},
-	description={TBC.\index{cross-entropy} }, 
+	description={\foreignlanguage{greek}{Θεωρούμε ένα πρόβλημα} \glsentryuserii{classification} \foreignlanguage{greek}{πολλαπλών τάξεων με έναν} 
+		\glsentryuseriii{featurespace} $\featurespace$ \foreignlanguage{greek}{και έναν πεπερασμένο} \glsentryuseriii{labelspace} 
+              	$\labelspace = \{1,\,\ldots,\,\nrcluster\}$.  \foreignlanguage{greek}{Ένα} \glsentryuseri{datapoint} \foreignlanguage{greek}{με ένα} 
+              	\glsentryuseriii{featurevec} $\featurevec$ \foreignlanguage{greek}{αναπαρίσταται ως μία} \glsentryuseri{pmf} 
+              	$\labelvec = (\truelabel_{1},\,\ldots,\,\truelabel_{\nrcluster})^{T}$ \foreignlanguage{greek}{πάνω στον $\labelspace$, όπου $\truelabel_{\clusteridx}$ 
+		δηλώνει την} \glsentryuseriii{probability} \foreignlanguage{greek}{ένα τυχαία επιλεγμένο} \glsentryuseri{datapoint} \foreignlanguage{greek}{με} 
+		\glsentryuseriii{featurevec} $\featurevec$ \foreignlanguage{greek}{να έχει} \glsentryuseriii{label} $\clusteridx$.  
+		\foreignlanguage{greek}{Μία} \glsentryuseri{hypothesis} $\hypothesis(\featurevec)$ \foreignlanguage{greek}{εξάγει μία προβλεπόμενη} 
+              	\glsentryuseriii{pmf} $\hat{\labelvec} = (\predictedlabel_{1},\,\ldots,\,\predictedlabel_{\nrcluster})^{T}$. \foreignlanguage{greek}{Η σχετική} 
+              	\index{\foreignlanguage{greek}{διασταυρούμενη εντροπία}} \glsentryuseri{loss} \foreignlanguage{greek}{διασταυ\-ρού\-μενης} 
+		\glsentryuserii{entropy} (cross-entropy) \foreignlanguage{greek}{είναι} \cite{coverthomas} 
+             	\begin{equation}
+                		\nonumber
+                		\lossfunc{(\featurevec,\hat{\labelvec})}{\hypothesis}
+                		\defeq - \sum_{\clusteridx=1}^{\nrcluster} 
+                		\truelabel_{\clusteridx}\,\log \predictedlabel_{\clusteridx}.
+              	\end{equation}
+		\foreignlanguage{greek}{Η} \glsentryuseri{loss} \foreignlanguage{greek}{διασταυρούμενης} \glsentryuserii{entropy} 
+		\foreignlanguage{greek}{ποσοτικοποιεί την ανομοιότητα μεταξύ της αληθούς} \glsentryuserii{pmf} $\labelvec$ \foreignlanguage{greek}{και 
+		της προβλεπόμενης} \glsentryuserii{pmf} $\hat{\labelvec}$. \foreignlanguage{greek}{Αποτελεί επίσης} \glsentryuseri{measure} 
+		\foreignlanguage{greek}{του αναμενόμενου αριθμού} bits \foreignlanguage{greek}{που απαιτούνται για την κωδικοποίηση} 
+		\glsentryuserv{label} \foreignlanguage{greek}{που προέρχονται από την αληθή} \glsentryuseriii{pmf} $\labelvec$ 
+		\foreignlanguage{greek}{όταν χρησιμοποιείται ένα σχήμα κωδικοποίησης βελτιστοποιημένο για την προβλεπόμενη} \glsentryuseriii{pmf} 
+		$\hat{\labelvec}$ \cite{coverthomas}. \\
+		\foreignlanguage{greek}{Σημείωση ότι, για δυαδική} \glsentryuseriii{classification} (\foreignlanguage{greek}{με $\nrcluster = 2$), η} 
+              	\glsentryuseri{loss} \foreignlanguage{greek}{διασταυρούμενης} \glsentryuserii{entropy} \foreignlanguage{greek}{ανάγεται στη} 
+		\glsentryuseriii{logloss} \foreignlanguage{greek}{όταν χρησιμοποι\-εί\-ται ένα} \glsentryuseriii{parammodel} \foreignlanguage{greek}{με}
+		\glsentryuservi{modelparam} $\weights$ \foreignlanguage{greek}{έτσι ώστε $\predictedlabel_{2}/\predictedlabel_{1}
+              	= \exp\,(\weights^{T}\featurevec)$. Επιπλέον, η αναπαράσταση} \eqref{equ_log_loss_gls_dict} \foreignlanguage{greek}{της} \glsentryuserii{logloss} 
+		\foreignlanguage{greek}{απαιτεί την κωδικοποίηση του} \glsentryuserii{labelspace} $\{1,2\}$ \foreignlanguage{greek}{χρησιμοποιώντας 
+		τις τιμές $-1$ και} $1$. 
+			  \\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{classification}, \gls{featurespace}, \gls{labelspace}, \gls{datapoint}, \gls{featurevec}, 
+		\gls{pmf}, \gls{probability}, \gls{label}, \gls{hypothesis}, \gls{entropy}, \gls{loss}, \gls{measure}, \gls{logloss}, \gls{parammodel}, \glspl{modelparam}. }, 
  	first={\foreignlanguage{greek}{διασταυρούμενη εντροπία}},
- 	text={\foreignlanguage{greek}{διασταυρούμενη εντροπία}}
+ 	text={\foreignlanguage{greek}{διασταυρούμενη εντροπία}},
+	user1={\foreignlanguage{greek}{διασταυρούμενη εντροπία}}, %nominative
+ 	user2={\foreignlanguage{greek}{διασταυρούμενης εντροπίας}} %genitive
 } 
 
 \newglossaryentry{kfoldcv}
@@ -1817,7 +2098,27 @@
 
 \newglossaryentry{diffpriv}
 {name={\foreignlanguage{greek}{διαφορική ιδιωτικότητα}},
- 	description={TBC.\index{differential privacy (DP)} }, 
+ 	description={\foreignlanguage{greek}{Θεωρούμε κάποια μέθοδο}\index{\foreignlanguage{greek}{διαφορική ιδιωτικότητα}} \glsentryuserii{ml} 
+		$\algomap$ \foreignlanguage{greek}{που διαβάζει ένα} \glsentryuseriii{dataset} (\foreignlanguage{greek}{π.χ. το} \glsentryuseriii{trainset} 
+  		\foreignlanguage{greek}{που χρησιμοποιείται για την} \glsentryuseriii{erm}) \foreignlanguage{greek}{και παραδίδει κάποια} \glsentryuseriii{output} 
+		$\algomap(\dataset)$. \foreignlanguage{greek}{Η} \glsentryuseri{output} \foreignlanguage{greek}{θα μπορούσε να είναι είτε οι}
+  		\glsentryuseriv{modelparam} \foreignlanguage{greek}{που έχουν μαθευτεί είτε οι} \glsentryuseriv{prediction} \foreignlanguage{greek}{για 
+		συγκεκριμένα} \glsentryuservi{datapoint}. 
+  		\foreignlanguage{greek}{Η διαφορική ιδιωτικότητα} (differential privacy - DP) \foreignlanguage{greek}{αποτελεί ένα ακριβές} 
+		\glsentryuseri{measure} \foreignlanguage{greek}{της} \glsentryuserii{privleakage} \foreignlanguage{greek}{που προκαλείται από την 
+		αποκάλυψη της} \glsentryuseriii{output}. \foreignlanguage{greek}{Σε γενικές γραμμές, μία μέθοδος} \glsentryuserii{ml} 
+		\foreignlanguage{greek}{είναι διαφορετικά ιδιωτική αν η} \glsentryuseri{probdist} \foreignlanguage{greek}{της} \glsentryuserii{output} 
+		$\algomap(\dataset)$ \foreignlanguage{greek}{παραμένει σε μεγάλο βαθμό αμετάβλητη όταν το} \glsentryuseri{sensattr} 
+  		\foreignlanguage{greek}{ενός} \glsentryuserii{datapoint} \foreignlanguage{greek}{στο} \glsentryuseriii{trainset} \foreignlanguage{greek}{αλλάζει.  
+		Σημείωση ότι η διαφορική ιδιωτικότητα βασίζεται σε ένα} \glsentryuseriii{probmodel} \foreignlanguage{greek}{για μία μέθοδο} \glsentryuserii{ml}, 
+		\foreignlanguage{greek}{δηλαδή ερμη\-νεύ\-ου\-με την} \glsentryuservii{output} \foreignlanguage{greek}{της $\algomap(\dataset)$ 
+  		ως} \glsentryuseriii{realization} \foreignlanguage{greek}{μίας} \glsentryuserii{rv}. \foreignlanguage{greek}{Η τυχαιότητα στην} \glsentryuseriii{output} 
+		\foreignlanguage{greek}{μπορεί να εξασφαλιστεί με τη σκόπιμη προσθήκη της} \glsentryuseriii{realization} \foreignlanguage{greek}{μίας 
+		βοηθητικής} \glsentryuserii{rv} (\foreignlanguage{greek}{δηλαδή με την προσθήκη θορύβου) στην}
+  		\glsentryuseriii{output} \foreignlanguage{greek}{της μεθόδου} \glsentryuserii{ml}.
+				\\ 
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{dataset}, \gls{trainset}, \gls{erm}, \gls{output}, \gls{modelparam}, \gls{prediction}, 
+		\gls{datapoint}, \gls{measure}, \gls{privleakage}, \gls{probdist}, \gls{sensattr}, \gls{probmodel}, \gls{realization}, \gls{rv}, \gls{privattack}, \gls{privfunnel}. }, 
 	first={\foreignlanguage{greek}{διαφορική ιδιωτικότητα}},
 	text={\foreignlanguage{greek}{διαφορική ιδιωτικότητα}},
 	user1={\foreignlanguage{greek}{διαφορική ιδιωτικότητα}}, %nominative
@@ -1914,7 +2215,11 @@
 
 \newglossaryentry{bce}
 {name={\foreignlanguage{greek}{δυαδική διασταυρούμενη εντροπία}},
-	description={TBC.\index{binary cross-entropy (BCE)} }, 
+	description={\foreignlanguage{greek}{Η}\index{\foreignlanguage{greek}{δυαδική διασταυρούμενη εντροπία}} \glsentryuseri{loss} 
+		\foreignlanguage{greek}{δυαδικής διασταυρούμενης εντροπίας} (binary cross-entropy - BCE) \foreignlanguage{greek}{είναι μία ειδική 
+		περίπτωση} \glsentryuserii{loss} \glsentryuserii{crossentropy} \foreignlanguage{greek}{για ένα πρόβλημα δυαδικής} \glsentryuserii{classification}.
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{loss}, \gls{crossentropy}, \gls{classification}. }, 
  	first={\foreignlanguage{greek}{δυαδική διασταυρούμενη εντροπία}},
  	text={\foreignlanguage{greek}{δυαδική διασταυρούμενη εντροπία}}
 }
@@ -1937,7 +2242,24 @@
 
 \newglossaryentry{training}
 {name={\foreignlanguage{greek}{εκπαίδευση}}, 
-	description={TBC.\index{training} },
+	description={\foreignlanguage{greek}{Στο πλαίσιο της} \glsentryuserii{ml}, \foreignlanguage{greek}{η εκπαίδευση} 
+		(training)\index{\foreignlanguage{greek}{εκπαίδευση}} \foreignlanguage{greek}{αναφέρεται στη διαδικασία μάθησης μίας χρήσιμης}
+		\glsentryuserii{hypothesis} $\learnthypothesis$ \foreignlanguage{greek}{από ένα} \glsentryuseriii{model} $\hypospace$. 
+		\foreignlanguage{greek}{Η εκπαίδευση ενός} \glsentryuserii{model} $\hypospace$ \foreignlanguage{greek}{καθοδηγείται από την}
+		\glsentryuseriii{loss} \foreignlanguage{greek}{που προκαλείται σε ένα σύνολο} \glsentryuserv{datapoint}, \foreignlanguage{greek}{τα οποία  
+		χρησιμεύουν ως το} \glsentryuseri{trainset}. \foreignlanguage{greek}{Για} \glsentryuservi{parammodel}, \foreignlanguage{greek}{όπου κάθε}
+		\glsentryuseri{hypothesis} $\hypothesis^{(\weights)}$ \foreignlanguage{greek}{χαρακτηρίζεται από μία συγκεκριμένη επιλογή για τις} 
+		\glsentryuserix{modelparam}, \foreignlanguage{greek}{η εκπαίδευση ισοδυναμεί με την εύρεση μίας βέλτιστης επιλογής για τις} 
+		\glsentryuserix{modelparam} $\weights$. \foreignlanguage{greek}{Μία ευρέως χρησιμοποιούμενη προσέγγιση εκπαίδευσης είναι η} 
+		\glsentryuseri{erm}, \foreignlanguage{greek}{η οποία μαθαίνει μία} \glsentryuseriii{hypothesis} \foreignlanguage{greek}{ελαχιστοποιώντας 
+		τη μέση} \glsentryuseriii{loss} \foreignlanguage{greek}{που προκαλείται σε ένα} \glsentryuseriii{trainset}. 
+		\foreignlanguage{greek}{Μία από τις κύριες προκλήσεις στη} \glsentryuseriii{ml} \foreignlanguage{greek}{είναι ο έλεγχος της} 
+		\glsentryuserii{discrepancy} \foreignlanguage{greek}{μεταξύ της} \glsentryuserii{loss} \foreignlanguage{greek}{που προκαλείται στο}  
+		\glsentryuseriii{trainset} \foreignlanguage{greek}{και της} \glsentryuserii{loss} \foreignlanguage{greek}{που προκαλείται σε άλλα (μη παρατηρημένα)}
+		\glsentryuservi{datapoint}.
+				\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{ml}, \gls{hypothesis}, \gls{model}, \gls{loss}, \gls{datapoint}, \gls{trainset}, \gls{parammodel}, 
+		\gls{modelparam}, \gls{erm}, \gls{discrepancy}. },
 	first={\foreignlanguage{greek}{εκπαίδευση}},
 	text={\foreignlanguage{greek}{εκπαίδευση}}, 
 	user1={trained},
@@ -2119,7 +2441,21 @@
 
 \newglossaryentry{embedding}
 {name={\foreignlanguage{greek}{ενσωμάτωση}},
-	description={TBC.\index{embedding} },
+	description={\foreignlanguage{greek}{Μία ενσωμάτωση}\index{\foreignlanguage{greek}{ενσωμάτωση}} (embedding) \foreignlanguage{greek}{είναι 
+		μία} \glsentryuseri{map} $\hypothesis$ \foreignlanguage{greek}{που αναπαριστά} \glsentryuservi{datapoint} 
+		\foreignlanguage{greek}{χρησιμοποιώντας τα στοιχεία (ή} \glsentryuservi{vector}) \foreignlanguage{greek}{ενός δεδομένου} 
+		\glsentryuserii{vectorspace}. \foreignlanguage{greek}{Η} \glsentryuseri{map} \foreignlanguage{greek}{κατασκευάζεται έτσι ώστε όμοια 
+		αντικείμενα να αναπαρίστανται από όμοια} \glsentryuservi{vector}, \foreignlanguage{greek}{σύμφωνα με κάποια} \glsentryuseriii{metric} 
+		\foreignlanguage{greek}{στον} \glsentryuseriii{vectorspace}. \foreignlanguage{greek}{Οι μέθοδοι} \glsentryuserii{ml} 
+		\foreignlanguage{greek}{μαθαίνουν την} \glsentryuseriii{map} $\hypothesis \in \hypospace$, \foreignlanguage{greek}{από ένα} \glsentryuseriii{model} 
+		$\hypospace$, \foreignlanguage{greek}{βελτιστοποιώντας ένα ποσοτικό} \glsentryuseriii{measure} \foreignlanguage{greek}{του πόσο καλά 
+		αποτυπώνει την εγγενή δομή ενός δεδομένου} \glsentryuserii{trainset}. \foreignlanguage{greek}{Για} \glsentryuservi{datapoint} 
+		\foreignlanguage{greek}{που ανήκουν σε έναν} \glsentryuseriii{metricspace}, \foreignlanguage{greek}{μία ευρέως χρησιμοποιούμενη 
+		προσέγγιση είναι η ελαχιστοποίηση του σφάλματος ανακατασκευής που προκαλείται από την ενσωμάτωση} 
+		\cite{Goodfellow-et-al-2016}, \cite[\foreignlanguage{greek}{Κεφ.} 13]{BishopDeepLearning}.		
+		\\
+		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{map}, \gls{datapoint}, \gls{vector}, \gls{vectorspace}, \gls{metric}, \gls{ml}, \gls{model}, 
+		\gls{measure}, \gls{trainset}, \gls{metricspace}, \gls{featlearn}. },
 	first={\foreignlanguage{greek}{ενσωμάτωση}},
 	text={\foreignlanguage{greek}{ενσωμάτωση}},
 	user1={\foreignlanguage{greek}{ενσωμάτωση}}, %nominative
@@ -2933,7 +3269,11 @@
 	first={\foreignlanguage{greek}{μεγάλο γλωσσικό μοντέλο}},
 	text={\foreignlanguage{greek}{μεγάλο γλωσσικό μοντέλο}},
 	user1={\foreignlanguage{greek}{μεγάλο γλωσσικό μοντέλο}}, %nominative
-	user2={\foreignlanguage{greek}{μεγάλου γλωσσικού μοντέλου}} %genitive  
+	user2={\foreignlanguage{greek}{μεγάλου γλωσσικού μοντέλου}}, %genitive  
+	user3={\foreignlanguage{greek}{μεγάλο γλωσσικό μοντέλο}}, %accusative
+	user4={\foreignlanguage{greek}{μεγάλα γλωσσικά μοντέλα}}, %nominativepl  
+	user5={\foreignlanguage{greek}{μεγάλων γλωσσικών μοντέλων}}, %genitivepl
+	user6={\foreignlanguage{greek}{μεγάλα γλωσσικά μοντέλα}} %accusativepl  
 }
 
 \newglossaryentry{stepsize}
@@ -3707,6 +4047,9 @@
 	user1={\foreignlanguage{greek}{παραμετρικό μοντέλο}}, %nominative
 	user2={\foreignlanguage{greek}{παραμετρικού μοντέλου}}, %genitive
 	user3={\foreignlanguage{greek}{παραμετρικό μοντέλο}}, %accusative
+	user4={\foreignlanguage{greek}{παραμετρικά μοντέλα}}, %nominativepl
+	user5={\foreignlanguage{greek}{παραμετρικών μοντέλων}}, %genitivepl
+	user6={\foreignlanguage{greek}{παραμετρικά μοντέλα}} %accusativepl
 }
 
 \newglossaryentry{paramspace}
@@ -3987,9 +4330,9 @@
 		\\
 		\foreignlanguage{greek}{Βλέπε επίσης:} \gls{hypothesis}, \gls{function}, \gls{dataset}, \gls{metric}, \gls{datapoint}, \gls{featurevec}, 
 		\gls{eucliddist}, \gls{neighbor}.},
-	first={\foreignlanguage{greek}{πλησιέστερος γείτονας}},
-	text={\foreignlanguage{greek}{πλησιέστερος γείτονας}},
-	user1={\foreignlanguage{greek}{πλησιέστερος γείτονας}}, %nominative
+	first={\foreignlanguage{greek}{πλησιέστερος γεί\-τονας}},
+	text={\foreignlanguage{greek}{πλησιέστερος γεί\-τονας}},
+	user1={\foreignlanguage{greek}{πλησιέστερος γεί\-τονας}}, %nominative
    	user2={\foreignlanguage{greek}{πλησιέστερου γείτονα}}, %genitive  
 	user3={\foreignlanguage{greek}{πλησιέστερο γείτονα}}, %accusative
    	user4={\foreignlanguage{greek}{πλησιέστεροι γείτονες}}, %nominativepl  
@@ -4933,7 +5276,7 @@
 			\glsentryuseriii{optproblem} \foreignlanguage{greek}{αν η} \glsentryuseri{gradient} \foreignlanguage{greek}{ικανοποιεί}
 			$\nabla f \big( \widehat{\weights} \big) = \mathbf{0}$. \label{fig_zerogradientcondition_dict}} }
 		\end{figure}
-		\foreignlanguage{greek}{Με άλλα λόγια} \cite[p. 140]{BoydConvexBook}, 
+		\foreignlanguage{greek}{Με άλλα λόγια} \cite[\foreignlanguage{greek}{σελ.} 140]{BoydConvexBook}, 
 		$$\nabla f \big( \widehat{\weights} \big) = \mathbf{0} \Leftrightarrow  f \big( \widehat{\weights} \big) = \min_{\weights \in \mathbb{R}^{\dimlocalmodel}} f(\weights).$$ 
 		\foreignlanguage{greek}{Ορίζοντας τον} \glsentryuseriii{operator} \glsentryuserii{gradient} 
 		$\nabla f: \mathbb{R}^{\nrfeatures} \rightarrow \mathbb{R}^{\nrfeatures}$, \foreignlanguage{greek}{μπορούμε να ξαναγράψουμε
