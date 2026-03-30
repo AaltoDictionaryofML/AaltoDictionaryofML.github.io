@@ -41,12 +41,45 @@ GLOSSARY_FILES = {
     "Regulation":            "ADictML_Regulation.tex",
 }
 
-# Style guide source (CLAUDE.md in the dictionary working repo)
+# Style guide sources
 STYLE_GUIDE_PATH = Path(os.environ.get(
     "ADDICTML_STYLE_GUIDE",
     Path.home() / "dictionaryappliedml" / "CLAUDE.md"
 ))
+AMS_GUIDE_PATH = Path(os.environ.get(
+    "ADDICTML_AMS_GUIDE",
+    Path.home() / "dictionaryappliedml" / "material" / "ams-style-extracted.md"
+))
 # ─────────────────────────────────────────────────────────────────────────────
+
+
+def parse_ams_guide(path: Path) -> dict[str, str]:
+    """
+    Parse ams-style-extracted.md into a topic-indexed dictionary.
+
+    Splits on '## ' headings. Each topic key is the heading text (lowercased),
+    and the value is the full markdown content under that heading.
+    """
+    if not path.exists():
+        print(f"[WARN] AMS guide not found: {path}")
+        return {}
+
+    text = path.read_text(encoding="utf-8")
+    topics: dict[str, str] = {}
+
+    heading_re = re.compile(r"^## (.+)$", re.MULTILINE)
+    matches = list(heading_re.finditer(text))
+
+    for i, m in enumerate(matches):
+        raw_title = m.group(1).strip()
+        # Normalize: lowercase, strip section numbers like "13.4 "
+        key = re.sub(r"^\d+\.\d+\s*", "", raw_title).strip().lower()
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        content = text[start:end].strip()
+        topics[key] = f"## {raw_title} (AMS Style Guide)\n\n{content}"
+
+    return topics
 
 
 def parse_style_guide(path: Path) -> dict[str, str]:
@@ -173,9 +206,23 @@ print(f"[INFO] Loading ADictML from {REPO_DIR} ...")
 ENTRIES = parse_glossary(REPO_DIR)
 print(f"[INFO] Loaded {len(ENTRIES)} terms across {len(GLOSSARY_FILES)} categories.")
 
-print(f"[INFO] Loading style guide from {STYLE_GUIDE_PATH} ...")
-STYLE_GUIDE = parse_style_guide(STYLE_GUIDE_PATH)
-print(f"[INFO] Loaded {len(STYLE_GUIDE)} style topics.")
+print(f"[INFO] Loading project style guide from {STYLE_GUIDE_PATH} ...")
+PROJECT_STYLE = parse_style_guide(STYLE_GUIDE_PATH)
+print(f"[INFO] Loaded {len(PROJECT_STYLE)} project style topics.")
+
+print(f"[INFO] Loading AMS style guide from {AMS_GUIDE_PATH} ...")
+AMS_STYLE = parse_ams_guide(AMS_GUIDE_PATH)
+print(f"[INFO] Loaded {len(AMS_STYLE)} AMS style topics.")
+
+# Merged index: project rules take precedence, AMS rules fill in the rest.
+# Keys are prefixed with source for disambiguation.
+STYLE_GUIDE: dict[str, str] = {}
+for k, v in PROJECT_STYLE.items():
+    STYLE_GUIDE[k] = v
+for k, v in AMS_STYLE.items():
+    ams_key = f"ams: {k}"
+    STYLE_GUIDE[ams_key] = v
+print(f"[INFO] Combined style index: {len(STYLE_GUIDE)} topics.")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -285,14 +332,13 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="get_style_guide",
             description=(
-                "Look up AMS style guide rules for a given notation or editorial topic. "
-                "Topics include: 'impersonal voice', 'american english spelling', "
-                "'precise use of model', 'consistent terminology', 'precise mathematical english', "
-                "'article before abbreviations', 'math mode', 'integration variable', "
-                "'punctuation in equations', 'vectors and matrices', 'subscripts vs superscripts', "
-                "'transpose', 'cross-references', 'see also block', 'figures', "
-                "'theorem environments', 'application examples'. "
-                "Pass an empty topic to list all available topics."
+                "Look up style rules from two sources: (1) project-specific rules "
+                "from CLAUDE.md (topics like 'impersonal voice', 'subscripts', "
+                "'precise use of model', 'vectors and matrices', etc.) and "
+                "(2) the official AMS Style Guide (topics prefixed with 'ams:', e.g. "
+                "'ams: punctuation in math', 'ams: variables', 'ams: fences', "
+                "'ams: wording', 'ams: dots', 'ams: basic editing'). "
+                "Pass an empty topic to list all available topics from both sources."
             ),
             inputSchema={
                 "type": "object",
