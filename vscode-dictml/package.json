@@ -1,0 +1,45 @@
+{
+  "name": "dictml-ls",
+  "displayName": "ML Dictionary",
+  "description": "Glossary keys, macros and linters of the Dictionary of Applied Machine Learning, in the editor.",
+  "version": "1.0.0",
+  "publisher": "local",
+  "private": true,
+  "engines": { "vscode": "^1.75.0" },
+  "categories": ["Programming Languages", "Linters"],
+  "activationEvents": ["onLanguage:latex", "onLanguage:tex", "onLanguage:bibtex"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dictml.restart",
+        "title": "ML Dictionary: Restart Server",
+        "category": "ML Dictionary"
+      }
+    ],
+    "configuration": {
+      "title": "ML Dictionary",
+      "properties": {
+        "dictml.pythonPath": {
+          "type": "string",
+          "default": "python3",
+          "markdownDescription": "Interpreter used to run the server. The server is **stdlib only**, so any Python 3.8+ works — including the one on `PATH`. Set an absolute path only if `python3` is missing from the environment VS Code launches with."
+        },
+        "dictml.serverPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Absolute path to `scripts/dictml_lsp.py`. Empty means: look for it under the first workspace folder."
+        },
+        "dictml.trace.server": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Log LSP traffic to the ML Dictionary output channel."
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}

@@ -7,6 +7,18 @@ Developed by the **Aalto Machine Learning Group** for students, researchers, and
 
 ---
 
+## ✍️ Editing the dictionary
+
+`dictml_lsp.py` is a language server for this repository: completion for `\gls{}` keys, citations and macros, hover, go-to-definition, rename of a key across every source file, and diagnostics for undefined keys and near-miss macro typos. Standard-library Python, no dependencies.
+
+```bash
+python3 dictml_lsp.py --selftest      # check it works, no editor needed
+```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the editor setup and the house rules.
+
+---
+
 ## 🤖 Use ADictML in Your AI Assistant (MCP)
 
 ADictML is now available as a **[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server** — letting AI coding assistants like Claude Code look up, search, and cross-reference dictionary terms directly in context.
